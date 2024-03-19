@@ -1,0 +1,129 @@
+"neutral_items"
+{
+	"1"
+	{
+		"drop_rates"
+		{
+			"0:00"
+			{
+				"0" "14"
+				"1" "14"
+				"2" "14"
+
+			}
+		}
+		"items"
+		{
+			"item_gauntlets"				  "1"
+			"item_mantle"				  "1"
+			"item_slippers"				  "1"
+			"item_quelling_blade"				  "1"
+			"item_ring_of_protection"				  "1"
+			"item_orb_of_venom"				  "1"
+			"item_blight_stone"				  "1"
+			"item_ring_of_regen"				  "1"
+			"item_sobi_mask"				  "1"
+			"item_magic_stick"				  "1"
+			"item_fluffy_hat"				  "1"
+			"item_wind_lace"				  "1"
+		}
+	}
+	"2"
+	{
+		"drop_rates"
+		{
+			"5:00"
+			{
+				"0" "14"
+				"1" "14"
+				"2" "14"
+
+			}
+		}
+		"items"
+		{
+			"item_boots_of_elves"				  "1"
+			"item_belt_of_strength"				  "1"
+			"item_crown"				  "1"
+			"item_robe"				  "1"
+			"item_blades_of_attack"				  "1"
+			"item_gloves"				  "1"
+			"item_chainmail"				  "1"
+			"item_voodoo_mask"				  "1"
+			"item_cloak"				  "1"
+			"item_boots"				  "1"
+		}
+	}
+	"3"
+	{
+		"drop_rates"
+		{
+			"10:00"
+			{
+				"0" "14"
+				"1" "14"
+				"2" "14"
+
+			}
+		}
+		"items"
+		{
+			"item_blade_of_alacrity"			  "1"
+			"item_ogre_axe"				  "1"
+			"item_staff_of_wizardry"				  "1"
+			"item_helm_of_iron_will"			  "1"
+			"item_blitz_knuckles"		  "1"
+			"item_broadsword"				  "1"
+			"item_lifesteal"				  "1"
+			"item_energy_booster"				  "1"
+			"item_ring_of_health"				  	"1"
+			"item_void_stone"				"1"
+			"item_vitality_booster"				"1"
+			"item_shadow_amulet"				"1"
+		}
+	}
+	"4"
+	{	
+		"drop_rates"
+		{
+			"15:00"
+			{
+				"0" "14"
+				"1" "14"
+				"2" "14"
+			}
+		}
+		"items"
+		{
+			"item_javelin"			  "1"
+			"item_claymore"				  "1"
+			"item_mithril_hammer"				  "1"
+			"item_point_booster"				  "1"
+			"item_talisman_of_evasion"			  "1"
+			"item_platemail"				  "1"
+			"item_hyperstone"		  "1"
+			"item_ghost"			  "1"
+		}
+	}
+	"5"
+	{
+		"drop_rates"
+		{
+			"20:00"
+			{
+				"0" "14"
+				"1" "14"
+				"2" "14"
+			}
+		}
+		"items"
+		{
+			"item_ultimate_orb"			  "1"
+			"item_demon_edge"				  "1"
+			"item_eagle"				  "1"
+			"item_mystic_staff"			  	  "1"
+			"item_reaver"					"1"
+			"item_relic"					"1"
+		}
+	}
+}
