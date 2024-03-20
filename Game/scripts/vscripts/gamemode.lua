@@ -16,7 +16,6 @@ GameMode.wave_list = {
 }
 
 function GameMode:InitGameMode()
-	print("vse ok - ?")
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 --	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
@@ -44,37 +43,7 @@ function GameMode:LineBossSpawner()
 end
 
 function GameMode:SpawnLineUnits(index)
-	local current_wave = self.wave_list[index]
-	if current_wave == nil then
-		return
-	end
-
-	local point = Entities:FindByName( nil, "line_spawner"):GetAbsOrigin() 
-	local waypoint = Entities:FindByName( nil, "line_path_1") 
-
-	local units = current_wave.units
-
---	GameRules:SendCustomMessage("#Game_notification_boss_spawn_"..boss_name,0,0)
-
-	for key, value in pairs (units) do
-		local unit_name
-		if type(key) == "string" then
-			unit_count = value
-			unit_name = key
-		else
-			unit_count =1
-			unit_name = value
-		end
-
-		for i=1, unit_count do
-			local unit = CreateUnitByName( unit_name , point + RandomVector( RandomFloat( 0, 200 ) ), true, nil, nil, DOTA_TEAM_BADGUYS ) 
-			unit:SetInitialGoalEntity( waypoint )
-			unit.reward = true
-			local ent_index = unit:entindex()
---			table.insert(self.current_units, ent_index, unit)
-			self.current_units[ent_index]= unit
-		end
-	end 
+	-- TODO: Fix
 end
 
 function GameMode:OnEntityKilled(keys)

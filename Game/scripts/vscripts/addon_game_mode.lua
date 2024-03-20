@@ -2,6 +2,7 @@ require ("timers")
 require ("game_settings")
 require ("gamemode")
 require ("item_drop")
+require ("npc_spawn/npc_spawn_manager")
 
 function Precache( context )
 	--[[
@@ -18,13 +19,5 @@ end
 
 -- Create the game mode when we activate
 function Activate()
-
---[[	
-	local GM = GameRules:GetGameModeEntity()
-	GM:SetCustomGameForceHero("npc_dota_hero_axe")
-	GameRules:SetHeroSelectionTime(0)
-	GameRules:SetStrategyTime(0)
-	GameRules:SetShowcaseTime(0)
-	GameRules:SetCustomGameSetupAutoLaunchDelay(0)
-]]
+	NPCSpawnManager()
 end
