@@ -3,13 +3,15 @@
 {
     "ability_coup_de_foudre" {
         "BaseClass"						"ability_lua"
-        "ScriptFile"					"npc_spawn/phantom_assassin/ability_coup_de_foudre"
-        "AbilityTextureName"			"coup_de_foudre"
-        "AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
-        "RequiredLevel"					"-1"
-        "FightRecapLevel"				"2"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
-        "MaxLevel"                      "1"
+        "ScriptFile"                    "phantom_assassin/ability_coup_de_foudre"
+        "AbilityTextureName"            "coup_de_foudre"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+
+		"AbilityValues"
+		{
+			"crit_bonus"				"200 300 400"
+		}
     }
 }
