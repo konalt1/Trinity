@@ -2,7 +2,6 @@ require ("timers")
 require ("game_settings")
 require ("gamemode")
 require ("item_drop")
-require ("npc_spawn/npc_spawn_manager")
 
 function Precache( context )
 	--[[
@@ -19,5 +18,4 @@ end
 
 -- Create the game mode when we activate
 function Activate()
-	NPCSpawnManager()
 end
