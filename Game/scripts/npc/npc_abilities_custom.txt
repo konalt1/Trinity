@@ -12,6 +12,8 @@
 		"AbilityValues"
 		{
 			"crit_bonus"				"200 300 400"
+			"activation_delay"          "0.5"
+			"dagger_buff_time"          "1.0"
 		}
     }
 }
