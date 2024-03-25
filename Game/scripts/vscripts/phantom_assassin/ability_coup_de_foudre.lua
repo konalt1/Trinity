@@ -79,6 +79,7 @@ function modifier_coup_de_foudre_buff:GetModifierPreAttack_CriticalStrike(params
     end
 
     local pa = params.attacker
+
     if pa ~= self:GetParent() then
         return
     end
@@ -94,11 +95,13 @@ end
 
 function modifier_coup_de_foudre_buff:OnAttackLanded(params)
     if self:GetParent() == params.attacker and self.is_crit then
+
         EmitSoundOnLocationWithCaster(
                 params.target:GetAbsOrigin(),
                 "Hero_PhantomAssassin.CoupDeGrace",
                 self:GetCaster()
         )
+
         self.is_crit = false
     end
 end
