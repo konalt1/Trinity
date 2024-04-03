@@ -5,13 +5,15 @@
         "BaseClass"						"ability_lua"
         "ScriptFile"                    "phantom_assassin/ability_coup_de_foudre"
         "AbilityTextureName"            "coup_de_foudre"
-		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
-		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 
-		"AbilityValues"
-		{
-			"crit_bonus"				"200 300 400"
-		}
+        "AbilityValues"
+        {
+          "crit_bonus"				"200 300 400"
+          "activation_delay"          "0.5"
+          "dagger_buff_time"          "1.0"
+        }
     }
 }
