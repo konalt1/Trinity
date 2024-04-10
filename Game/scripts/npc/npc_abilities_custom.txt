@@ -1,7 +1,8 @@
 // Dota Heroes File
 "DOTAAbilities"
 {
-    "ability_coup_de_foudre" {
+    "ability_coup_de_foudre" 
+    	{
         "BaseClass"						"ability_lua"
         "ScriptFile"                    "phantom_assassin/ability_coup_de_foudre"
         "AbilityTextureName"            "coup_de_foudre"
@@ -10,8 +11,29 @@
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 
 		"AbilityValues"
-		{
-			"crit_bonus"				"200 300 400"
-		}
-    }
+			{
+				"crit_bonus"				"200 300 400"
+			}
+    	}
+     "ability_thirsty_blade"
+     	{
+     	"BaseClass"						"ability_lua"
+        "ScriptFile"                    "Juggernaut/ability_thirsty_blade"
+        "AbilityTextureName"            "coup_de_foudre"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilitySpecial"
+			{
+			"01"
+				{
+					"var_type"				"FIELD_INTEGER"
+					"max_stacks"			"7"
+				}
+			"02"
+				{
+					"var_type"				"FIELD_INTEGER"
+					"attack_damage"			"15 20 25 30"
+				}
+			}
+    	} 
 }

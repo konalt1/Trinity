@@ -1,3 +1,4 @@
+
 if Roshan == nil then
 	Roshan = class({})
 	Roshan.isRoshanDead = true
