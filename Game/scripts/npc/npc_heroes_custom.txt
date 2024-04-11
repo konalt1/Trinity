@@ -7,6 +7,12 @@
 		"Ability6"		                                "ability_coup_de_foudre"
 	}
 
+    "npc_dota_hero_techies"
+    {
+        "override_hero"                                 "npc_dota_hero_techies"
+        "Ability2"		                                "ability_fireworks"
+        "Ability6"		                                "ability_chain_bomb"
+    }
 	"npc_dota_hero_juggernaut"
 	{
 		"override_hero"                                 "npc_dota_hero_juggernaut"
