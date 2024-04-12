@@ -1,0 +1,32 @@
+"lang"
+{
+	"Language" 	"English"
+	"Tokens"
+	{
+		"addon_game_name" "Trinity"
+		//Phantom Assassin
+
+		"DOTA_Tooltip_ability_ability_coup_de_foudre"	"Coup de Foudre"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_description" "Пока враги вас не видят, вы наносите критический урон по противникам"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"		"%CRIT:"
+		"DOTA_Tooltip_modifier_ability_coup_de_foudre" "Вас не видят"
+		
+		//Techies
+		
+		"DOTA_Tooltip_ability_ability_fireworks"	"Fireworks"
+		"DOTA_Tooltip_ability_ability_fireworks_description"	"Ваши атаки наносят урон по площади" 
+		"DOTA_Tooltip_ability_ability_fireworks_splash_radius" "РАДИУС УРОНА"
+
+		"DOTA_Tooltip_ability_ability_chain_bomb" "TACTICAL NUKE"
+		"DOTA_Tooltip_ability_ability_chain_bomb_description"	"Герой закладывает взрывчатку, которую можно атаковать уничтожать способностями. Взрывчатка наносит урон при уничтожении."
+		"DOTA_Tooltip_ability_ability_chain_bomb_damage"	"УРОН"
+
+		//Juggernaut
+		"DOTA_Tooltip_ability_ability_thirsty_blade"			 	 "BLADE MASTERY"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_description"	 "Каждая последующая атака по игроку противника увеличивает ваш урон на определённое время"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_attack_damage"			 "ДОП УРОН"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_max_stacks" "МАКС СТАКОВ"
+		
+	}
+
+}
