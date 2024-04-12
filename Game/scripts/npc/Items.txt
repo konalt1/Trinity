@@ -1332,6 +1332,8 @@
 		//"SideShop"						"1"
 		"ShouldBeSuggested"	"1"
 		"ShouldBeInitiallySuggested"	"1"
+		"ItemPurchasable"				"1"
+		"ItemSellable"				"1"
 
 
 		// Special	
@@ -6735,7 +6737,7 @@
 		"ItemResult"					"item_meteor_hammer"
 		"ItemRequirements"
 		{
-			"01"						"item_crown;item_kaya"
+			"01"						"item_crown;item_diadem"
 		}
 	}
 	
@@ -6777,12 +6779,12 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_strength"		"6"
-				"bonus_agility"		"6"
-				"bonus_intellect"			"24"
-				"spell_amp"			"10"
-				"mana_regen_multiplier"		"75"
-				"spell_lifesteal_amp"	"24"
+				"bonus_strength"		"10"
+				"bonus_agility"		"10"
+				"bonus_intellect"			"10"
+				"spell_amp"			"0"
+				"mana_regen_multiplier"		"0"
+				"spell_lifesteal_amp"	"0"
 
 				"burn_dps_buildings"		"50"
 				"burn_dps_units"		"50"
@@ -7849,7 +7851,7 @@
 		"ItemResult"					"item_bfury"
 		"ItemRequirements"
 		{
-			"01"						"item_broadsword;item_claymore;item_cornucopia;item_quelling_blade"
+			"01"						"item_broadsword;item_claymore;item_quelling_blade"
 		}
 	}	
 	
@@ -7872,7 +7874,7 @@
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"4100"
-		"ItemShopTags"					"damage;health_regen;mana_regen;hard_to_tag"
+		"ItemShopTags"					"damage;farm"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bf;battle fury"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
@@ -7882,9 +7884,9 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_damage"			"65"
-				"bonus_health_regen"	"7.5"
-				"bonus_mana_regen"		"2.75"
+				"bonus_damage"			"45"
+				"bonus_health_regen"	"0"
+				"bonus_mana_regen"		"0"
 				"cleave_damage_percent"	"70"
 				"cleave_damage_percent_creep"	"40"
 				"quelling_bonus"			"10"
@@ -8554,7 +8556,7 @@
 		"AbilityValues"
 		{
 			"bonus_damage"			"25"
-			"bonus_attack_speed"	"90"
+			"bonus_attack_speed"	"70"
 			"static_duration"		"15.0"
 			"static_chance"			"20"
 			"static_strikes"		"4"
@@ -8846,7 +8848,7 @@
 		"ItemResult"					"item_maelstrom"
 		"ItemRequirements"
 		{
-			"01"						"item_mithril_hammer;item_javelin;item_gloves"
+			"01"						"item_mithril_hammer;item_javelin"
 		}
 	}
 	
@@ -8861,8 +8863,8 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"2950"
-		"ItemShopTags"					"damage;attack_speed;unique"
+		"ItemCost"						"2500"
+		"ItemShopTags"					"damage;attack_speed;farm"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"maelstrom"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
@@ -8873,7 +8875,7 @@
 		"AbilityValues"
 		{
 				"bonus_damage"			"25"
-				"bonus_attack_speed"	"25"
+				"bonus_attack_speed"	"0"
 				"chain_chance"			"25"
 				"chain_damage"			"120"
 				"chain_strikes"			"4"
@@ -8944,7 +8946,7 @@
 		"AbilityValues"
 		{
 				"bonus_damage"			"30"
-				"bonus_attack_speed"	"30"
+				"bonus_attack_speed"	"0"
 				"chain_chance"			"25"
 				"chain_damage"			"160"
 				"chain_strikes"			"4"
@@ -13386,10 +13388,10 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"bonus_strength"		"25"
+			"bonus_strength"		"15"
 			"bonus_intellect"		"15"
-			"bonus_health_regen"		"15.0"
-			"bonus_mana_regen"		"10.0"
+			"bonus_health_regen"		"0"
+			"bonus_mana_regen"		"0"
 			"burn_dps_buildings"		"60"
 			"burn_dps_units"		"60"
 			"burn_duration"		"6"

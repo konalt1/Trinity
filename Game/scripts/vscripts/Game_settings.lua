@@ -92,6 +92,8 @@ function GameSettings:InitGameSettings()
 	GameRules:SetCreepMinimapIconScale( MINIMAP_CREEP_ICON_SIZE )
 	GameRules:SetRuneMinimapIconScale( MINIMAP_RUNE_ICON_SIZE )
 	GameRules:SetStartingGold(STARTING_GOLD)
+	GameRules:GetGameModeEntity():SetRespawnTimeScale(0.5)
+	
 	print('[BAREBONES] GameRules set')
 
 
@@ -606,27 +608,6 @@ function GameSettings:OnNPCSpawned(keys)
 		end
 	end
 end
--- An entity died
-function GameSettings:OnEntityKilled( keys )
---	print( '[BAREBONES] OnEntityKilled Called' )
---	DeepPrintTable( keys )
 
-	-- The Unit that was Killed
-	local killedUnit = EntIndexToHScript( keys.entindex_killed )
-	-- The Killing entity
-	local killerEntity = nil
-	local team= killedUnit:GetTeam()
-	
-	if killedUnit:IsRealHero() and killedUnit:IsReincarnating() == false then
-		killedUnit:SetTimeUntilRespawn( HERO_RESPAWN_TIME )
---		PlayerResource:SetCustomBuybackCost(killedUnit:GetPlayerID(), CUSTOM_BUYBACK_COST)
-	end
-	
-	if keys.entindex_attacker ~= nil then
-		killerEntity = EntIndexToHScript( keys.entindex_attacker )
-	end
-
-	-- Put code here to handle when an entity gets killed
-end
 
 GameSettings:InitGameSettings()
