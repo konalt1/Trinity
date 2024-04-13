@@ -92,7 +92,7 @@ function GameSettings:InitGameSettings()
 	GameRules:SetCreepMinimapIconScale( MINIMAP_CREEP_ICON_SIZE )
 	GameRules:SetRuneMinimapIconScale( MINIMAP_RUNE_ICON_SIZE )
 	GameRules:SetStartingGold(STARTING_GOLD)
-	GameRules:GetGameModeEntity():SetRespawnTimeScale(0.5)
+	
 	
 	print('[BAREBONES] GameRules set')
 
