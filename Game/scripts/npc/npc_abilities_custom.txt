@@ -16,30 +16,31 @@
           "activation_delay"          "0.5"
           "dagger_buff_time"          "1.0"
         }
-    	}
-     "ability_thirsty_blade"
-     	{
+    }
+
+    "ability_thirsty_blade"
+    {
      	"BaseClass"						"ability_lua"
         "ScriptFile"                    "Juggernaut/ability_thirsty_blade"
         "AbilityTextureName"            "blade"
 		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilitySpecial"
-			{
+		{
 			"01"
-				{
-					"var_type"				"FIELD_INTEGER"
-					"max_stacks"			"7"
-				}
+            {
+                "var_type"				"FIELD_INTEGER"
+                "max_stacks"			"7"
+            }
 			"02"
-				{
-					"var_type"				"FIELD_INTEGER"
-					"attack_damage"			"15 20 25 30"
-				}
-			}
-    	}
+            {
+                "var_type"				"FIELD_INTEGER"
+                "attack_damage"			"15 20 25 30"
+            }
+		}
+    }
       
-       "ability_fireworks" {
+    "ability_fireworks" {
         "BaseClass"						"ability_lua"
         "ScriptFile"                    "techies/ability_fireworks"
         "AbilityTextureName"            "fireworks"
