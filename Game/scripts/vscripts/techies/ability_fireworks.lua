@@ -53,7 +53,6 @@ function modifier_fireworks:OnAttackLanded(event)
         )
 
         local damage = event.original_damage * self.splash_percent / 100
-        print(damage)
         for _, unit in pairs(enemies) do
             if unit ~= event.target then
                 ApplyDamage({
