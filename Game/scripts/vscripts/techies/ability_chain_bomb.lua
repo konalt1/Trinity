@@ -71,7 +71,7 @@ function modifier_unit_chain_bomb:OnDeath(event)
         )
         local pos = self:GetParent():GetOrigin()
         local fx = ParticleManager:CreateParticle(
-                "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf",
+                "particles/units/heroes/hero_techies/techies_blast_off.vpcf",
                 PATTACH_CUSTOMORIGIN,
                 self:GetParent()
         )
@@ -96,6 +96,7 @@ function modifier_unit_chain_bomb:CheckState()
         [MODIFIER_STATE_LOW_ATTACK_PRIORITY] = true,
         [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
         [MODIFIER_STATE_SPECIALLY_DENIABLE] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
     }
 end
 
