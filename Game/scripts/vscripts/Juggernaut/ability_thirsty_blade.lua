@@ -67,4 +67,3 @@ function modifier_ability_thirsty_blade_buff:OnRefresh( kv )
 		self:IncrementStackCount()
 	end
 end
-
