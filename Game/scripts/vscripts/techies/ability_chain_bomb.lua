@@ -124,7 +124,6 @@ function modifier_unit_damage_listener:DeclareFunctions()
 end
 
 function modifier_unit_damage_listener:GetModifierIncomingDamage_Percentage(event)
-    local caster = self:GetAbility():GetCaster()
     if (
             not IsServer() or
             event.target ~= self:GetParent()
