@@ -23,10 +23,9 @@ end
 function ability_chain_bomb:OnBombCreated(bomb)
     local duration = 300
 
-    local listener = CreateUnitByName("npc_dota_damage_listener", bomb:GetOrigin(), true, nil, nil, DOTA_TEAM_NOTEAM)
+    local listener = CreateUnitByName("npc_dota_damage_listener", bomb:GetOrigin(), true, nil, nil, DOTA_TEAM_CUSTOM_MAX)
     listener:AddNewModifier(listener, self, "modifier_kill", { duration = duration })
     listener:AddNewModifier(listener, self, "modifier_unit_damage_listener", nil)
-    bomb.listener = listener;
 
     bomb:AddNewModifier(bomb, self, "modifier_kill", { duration = duration })
     bomb:AddNewModifier(bomb, self, "modifier_unit_chain_bomb", nil)
@@ -94,7 +93,7 @@ function modifier_unit_chain_bomb:CheckState()
     return {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_LOW_ATTACK_PRIORITY] = true,
-        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
+        [MODIFIER_STATE_NOT_ON_MINIMAP_FOR_ENEMIES] = true,
         [MODIFIER_STATE_SPECIALLY_DENIABLE] = true,
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
     }
@@ -133,7 +132,7 @@ function modifier_unit_damage_listener:GetModifierIncomingDamage_Percentage(even
 
     -- damage blocked
     if (
-            event.attacker ~= caster
+            event.attacker ~= self:GetAbility():GetCaster()
     ) then
         return -100
     end
@@ -160,13 +159,7 @@ function modifier_unit_damage_listener:OnDeath(event)
 
         for _, unit in ipairs(units) do
             if unit:GetUnitName() == "npc_dota3_chainbomb" then
-                ApplyDamage({
-                    victim = unit,
-                    attacker = self:GetParent(),
-                    damage = 1,
-                    damage_type = DAMAGE_TYPE_MAGICAL,
-                    ability = self:GetAbility()
-                })
+                unit:Kill(self:GetAbility(), self:GetAbility():GetCaster())
             end
         end
     end

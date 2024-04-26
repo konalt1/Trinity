@@ -21,6 +21,15 @@ function ability_vampiric_ward:OnWardCreated(ward)
     ward:AddNewModifier(self:GetCaster(), self, "modifier_ward_vampiric_aura", {})
     ward:AddNewModifier(self:GetCaster(), self, "modifier_kill", { duration = self:GetSpecialValueFor("vampiric_ward_duration") })
     ward:SetControllableByPlayer(self:GetCaster():GetPlayerID(), false)
+
+    local radius = self:GetSpecialValueFor("aura_radius")
+    local particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_juggernaut/juggernaut_healing_ward_base.vpcf", 
+        PATTACH_ABSORIGIN_FOLLOW, 
+        ward
+    )
+    ParticleManager:SetParticleControl(particle, 1, Vector(radius, 0, 0))
+    ParticleManager:ReleaseParticleIndex(particle)
 end
 
 

@@ -13,10 +13,17 @@
         "Ability2"		                                "ability_fireworks"
         "Ability6"		                                "ability_chain_bomb"
     }
+
 	"npc_dota_hero_juggernaut"
 	{
 		"override_hero"                                 "npc_dota_hero_juggernaut"
 		"Ability3"		                                "ability_thirsty_blade"
 		"Ability2"		                                "ability_vampiric_ward"
 	}
+
+	"npc_dota_hero_lich"
+	{
+		"override_hero"                                 "npc_dota_hero_lich"
+	}
+
 }

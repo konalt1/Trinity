@@ -10,8 +10,8 @@
 		"SoundSet"                  "0"			// Name of sound set.
 		"Level"                     "1"
 		"ModelScale"                "1.0"
-		"SelectionGroup"            "Techies_RemoteMines"
-		"UnitLabel"                 "techies_remotemines"
+        "MinimapIcon"               "minimap_death"		
+        "MinimapIconSize"           "450"
 
 		// Abilities
 		//----------------------------------------------------------------
