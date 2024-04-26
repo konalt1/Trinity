@@ -1,0 +1,8 @@
+"DOTAAbilities"
+{
+    "item_aghanims_shard"
+    {
+    	"ItemStockTime"					"0"
+    	"ItemStockInitial"				"1"
+    }
+}
