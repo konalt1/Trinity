@@ -138,5 +138,37 @@
                 }
         }
         "AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
+
+        "precache"
+        {
+            "particle"  "particles/generic_gameplay/generic_lifesteal.vpcf"
+            "particle"  "particles/units/heroes/hero_juggernaut/juggernaut_healing_ward_base.vpcf"
+        }
     }
+
+    "ability_ice_phylactery"
+	{
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "lich/ability_ice_phylactery.lua"
+        "AbilityTextureName"            "vampiric_ward"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+        "AbilitySound"					"Ability.FrostNova"
+        "MaxLevel"						"3"
+
+        "AbilityCastRange"				"750"
+        "AbilityCastPoint"				"0.3"
+        "AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_5"
+
+        "AbilityCooldown"				"45 35 25"
+
+        "AbilityManaCost"				"150"
+
+        "AbilityValues"
+        {				
+        }
+	}
 }
