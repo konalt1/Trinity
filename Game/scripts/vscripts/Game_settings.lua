@@ -40,12 +40,12 @@ DISABLE_FOG_OF_WAR_ENTIRELY = false     -- Should we disable fog of war entirely
 USE_UNSEEN_FOG_OF_WAR = false           -- Should we make unseen and fogged areas of the map completely black until uncovered by each team? 
                                             -- Note: DISABLE_FOG_OF_WAR_ENTIRELY must be false for USE_UNSEEN_FOG_OF_WAR to work
 USE_STANDARD_DOTA_BOT_THINKING = true  -- Should we have bots act like they would in Dota? (This requires 3 lanes, normal items, etc)
-USE_STANDARD_HERO_GOLD_BOUNTY = true    -- Should we give gold for hero kills the same as in Dota, or allow those values to be changed?
+USE_STANDARD_HERO_GOLD_BOUNTY = false    -- Should we give gold for hero kills the same as in Dota, or allow those values to be changed?
 MAXIMUM_ATTACK_SPEED = 1200
 MINIMUM_ATTACK_SPEED = 50
 Max_level=30
 
-ENABLE_TOWER_BACKDOOR_PROTECTION = false-- Should we enable backdoor protection for our towers?
+ENABLE_TOWER_BACKDOOR_PROTECTION = True-- Should we enable backdoor protection for our towers?
 REMOVE_ILLUSIONS_ON_DEATH = false       -- Should we remove all illusions if the main hero dies?
 DISABLE_GOLD_SOUNDS = false             -- Should we disable the gold sound when players get gold?
 USE_CUSTOM_TOP_BAR_VALUES = false
