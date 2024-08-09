@@ -1,6 +1,20 @@
 // Dota Heroes File
 "DOTAAbilities"
 {
+    "gold_lama"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/gold_lama"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+        "AbilityValues"
+        {
+            "gold"              "3000"
+            "radius"            "700"
+            "bonus_damage_pct"  "100"
+        }
+    }
+
     "ability_coup_de_foudre" 
     	{
         "BaseClass"						"ability_lua"

@@ -103,7 +103,7 @@ function GameSettings:InitGameSettings()
 	ListenToGameEvent('dota_player_gained_level', Dynamic_Wrap(GameSettings, 'OnPlayerLevelUp'), self)
 	ListenToGameEvent('dota_ability_channel_finished', Dynamic_Wrap(GameSettings, 'OnAbilityChannelFinished'), self)
 	ListenToGameEvent('dota_player_learned_ability', Dynamic_Wrap(GameSettings, 'OnPlayerLearnedAbility'), self)
-	ListenToGameEvent('entity_killed', Dynamic_Wrap(GameSettings, 'OnEntityKilled'), self)
+
 	ListenToGameEvent('player_connect_full', Dynamic_Wrap(GameSettings, 'OnConnectFull'), self)
 --	ListenToGameEvent('player_disconnect', Dynamic_Wrap(GameSettings, 'OnDisconnect'), self)
 	ListenToGameEvent("player_reconnected", Dynamic_Wrap(GameSettings, 'OnPlayerReconnect'), self)

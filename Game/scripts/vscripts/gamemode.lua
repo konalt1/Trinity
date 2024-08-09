@@ -19,6 +19,8 @@ function GameMode:InitGameMode()
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 --	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
+ 
+    GameRules:SetCustomGameTeamMaxPlayers(1, 2)
 end
 
 function GameMode:OnGameRulesStateChange()
@@ -50,7 +52,11 @@ function GameMode:OnEntityKilled(keys)
 
 	local unit = EntIndexToHScript(keys.entindex_killed)
 	local unit_name = unit:GetUnitName()
-	
+
+	if unit_name == "npc_dota_badguys_tower4" or unit_name == "npc_dota_goodguys_tower3_top" or unit_name == "npc_dota_goodguys_tower3_bot" then 
+		self:OnTowerKill(unit:GetName(), unit:GetTeamNumber())
+	end
+
 	if unit_name == "npc_goodguys_fort" then
 		GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)		
 	end
@@ -76,25 +82,38 @@ function GameMode:OnEntityKilled(keys)
 	end
 end
 
-function GiveGoldPlayers( gold )
-	for index=0 ,4 do
-		if PlayerResource:HasSelectedHero(index) then
-			local player = PlayerResource:GetPlayer(index)
-			local hero = PlayerResource:GetSelectedHeroEntity(index)
-			hero:ModifyGold(gold, false, 0)
-			SendOverheadEventMessage( player, OVERHEAD_ALERT_GOLD, hero, gold, nil )
-		end
+function GameMode:OnTowerKill(name, teamnumber)
+	local towers = {}
+
+	if teamnumber == DOTA_TEAM_BADGUYS then 
+		towers = Entities:FindAllByName("dota_badguys_tower4_bot") 
+		table.insert(towers, Entities:FindByName(nil, "dota_badguys_tower4_top"))
+	else 
+		towers = Entities:FindAllByName("dota_goodguys_tower3_top")  
+		table.insert(towers, Entities:FindByName(nil, "dota_goodguys_tower3_bot"))
 	end
+ 
+	local isAllDead = true
+	for _,tower in ipairs(towers) do
+		if tower:IsAlive() then isAllDead = false end
+	end
+
+	if isAllDead then 
+		for i=1,2 do
+			local spawner = Vector(0,0,0)
+			local way = nil
+			if teamnumber == DOTA_TEAM_BADGUYS then 
+				spawner = Entities:FindByName(nil, i == 1 and "bottom_spawner" or "top_spawner"):GetAbsOrigin()
+				way = Entities:FindByName(nil, i == 1 and "lane_bot_pathcorner_goodguys_1" or "lane_bot_pathcorner_goodguys_1_top")
+			else 
+				spawner = Entities:FindAllByName("Spawner_good_bot")[i]:GetAbsOrigin()
+				way = Entities:FindByName(nil, i == 1 and "lane_top_pathcorner_badguys_3_top" or "lane_bot_pathcorner_badguys_3a")
+			end
+			local unit = CreateUnitByName("npc_gold_lama",  spawner, true, nil, nil, teamnumber)
+			unit:SetInitialGoalEntity(way)
+		end
+ 	end
 end
 
-function GiveExperiencePlayers( experience )
-	for index=0 ,4 do
-		if PlayerResource:HasSelectedHero(index) then
-			local player = PlayerResource:GetPlayer(index)
-			local hero = PlayerResource:GetSelectedHeroEntity(index)
-			hero:AddExperience(experience, 0, false, true )
-		end
-	end
-end
-
+ 
 GameMode:InitGameMode()

@@ -169,4 +169,77 @@
         "AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
     }
 
+    "npc_gold_lama"   
+    {
+        // General
+        //----------------------------------------------------------------
+        "Model"                     "models/items/hex/sheep_hex/sheep_hex_gold.vmdl"
+        "BaseClass"                 "npc_dota_creature"
+        "SoundSet"                  "n_creep_Melee"
+        "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
+        "Level"                     "1"
+        "ModelScale"                "1"
+        "UseNeutralCreepBehavior"   "0"
+
+        // Abilities
+        //----------------------------------------------------------------
+        "Ability1"                  "gold_lama"
+        "Ability2"                  ""
+        "Ability3"                  ""  
+        "Ability4"                  ""
+
+        // Armor
+        //----------------------------------------------------------------
+        "ArmorPhysical"             "12"
+        "MagicalResistance"         "10"
+
+        // Attack
+        //----------------------------------------------------------------
+        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackDamageMin"           "9"
+        "AttackDamageMax"           "12"
+        "AttackRate"                "0.5"
+        "AttackAnimationPoint"      "0.4"
+        "AttackAcquisitionRange"    "300"
+        "AttackRange"               "90"
+         
+
+        // Bounds
+        //----------------------------------------------------------------
+        "RingRadius"                "40"
+        "HealthBarOffset"           "170"
+
+        // Bounty
+        //----------------------------------------------------------------
+        "BountyXP"                  "4"
+        "BountyGoldMin"             "6" 
+        "BountyGoldMax"             "9" 
+
+        // Movement
+        //----------------------------------------------------------------
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "320"   
+        
+
+        // Status
+        //----------------------------------------------------------------
+        "StatusHealth"              "12000"
+        "StatusHealthRegen"         "5.0"
+        "StatusMana"                "0" 
+        "StatusManaRegen"           "0.0"        
+        
+        // Vision
+        //----------------------------------------------------------------
+        "VisionDaytimeRange"        "500"
+        "VisionNighttimeRange"      "300"
+
+
+        // Team
+        //----------------------------------------------------------------
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
 }

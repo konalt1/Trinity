@@ -1,5 +1,6 @@
 require ("timers")
 require ("game_settings")
+require ("utils/util")
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
