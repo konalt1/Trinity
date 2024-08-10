@@ -42,7 +42,9 @@ function modifier_gold_lama:OnTakeDamage(event)
 
 	if stack <= 0 then return end
 
-	attacker:ModifyGold(math.min(damage, stack), false, DOTA_ModifyGold_CreepKill)
+	local gold = math.min(damage, stack)
+	SendOverheadEventMessage(attacker:GetPlayerOwner(), OVERHEAD_ALERT_GOLD, attacker, gold, nil)
+	attacker:ModifyGold(gold, false, DOTA_ModifyGold_CreepKill)
 	self:SetStackCount(math.max(stack - damage, 0))
 end
 

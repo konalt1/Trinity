@@ -102,16 +102,17 @@ function GameMode:OnTowerKill(name, teamnumber)
 		for i=1,2 do
 			local spawner = Vector(0,0,0)
 			local way = nil
-			if teamnumber == DOTA_TEAM_BADGUYS then 
+			if teamnumber == DOTA_TEAM_GOODGUYS then 
 				spawner = Entities:FindByName(nil, i == 1 and "bottom_spawner" or "top_spawner"):GetAbsOrigin()
 				way = Entities:FindByName(nil, i == 1 and "lane_bot_pathcorner_goodguys_1" or "lane_bot_pathcorner_goodguys_1_top")
 			else 
 				spawner = Entities:FindAllByName("Spawner_good_bot")[i]:GetAbsOrigin()
 				way = Entities:FindByName(nil, i == 1 and "lane_top_pathcorner_badguys_3_top" or "lane_bot_pathcorner_badguys_3a")
 			end
-			local unit = CreateUnitByName("npc_gold_lama",  spawner, true, nil, nil, teamnumber)
+			local unit = CreateUnitByName("npc_gold_lama",  spawner, true, nil, nil, teamnumber == DOTA_TEAM_GOODGUYS and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS)
 			unit:SetInitialGoalEntity(way)
 		end
+		EmitGlobalSound("MegaCreeps.Radiant")
  	end
 end
 
