@@ -39,18 +39,11 @@
         "AbilityTextureName"            "blade"
 		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilitySpecial"
+
+		"AbilityValues"
 		{
-			"01"
-            {
-                "var_type"				"FIELD_INTEGER"
-                "max_stacks"			"7"
-            }
-			"02"
-            {
-                "var_type"				"FIELD_INTEGER"
-                "attack_damage"			"15 20 25 30"
-            }
+            "max_stacks"			"7"
+            "attack_damage"			"15 20 25 30"
 		}
     }
       
@@ -93,13 +86,9 @@
 
         // Special
         //-------------------------------------------------------------------------------------------------------------
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"                  "FIELD_INTEGER"
-                "damage"                    "350 500 650"
-            }
+            "damage"                    "350 500 650"
         }
 
         "precache"

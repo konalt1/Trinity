@@ -2,7 +2,6 @@
 {
     "item_aghanims_shard"
     {
-    	"ItemStockTime"					"0"
-    	"ItemStockInitial"				"1"
+    	"ItemInitialStockTime"					"0"
     }
 }
