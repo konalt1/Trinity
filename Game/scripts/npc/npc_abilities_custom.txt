@@ -58,6 +58,7 @@
         {
           "splash_radius"				"140 180 220 260"
           "splash_percent"              "100 100 100 100"
+          "bonus_attack_range"          "100 200 300 400"
         }
     }
 
@@ -89,6 +90,7 @@
         "AbilityValues"
         {
             "damage"                    "350 500 650"
+            "radius_visible"                    "300"
         }
 
         "precache"
@@ -174,4 +176,182 @@
         {				
         }
 	}
+
+    "tinker_rearm_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tinker/tinker_rearm_custom"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
+        "AbilityTextureName"            "tinker_rearm"
+        "AbilityCooldown"               "50 40 30"
+
+        "AbilityValues"
+        {         
+            "duration"          "10"      
+            "cooldown"          "5 4 3"
+        }
+    }
+
+    "lich_chain_frost"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "FightRecapLevel"               "2"
+        "AbilitySound"                  "Hero_Lich.ChainFrost"
+
+
+
+        "MaxLevel"                      "1"
+                "IsGrantedByShard"              "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "750"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_6"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "100.0 80.0 60.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "180 300 420"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.0"   // Primarily about the damage
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "damage"
+            {
+                "value"     "250 400 550"
+            }
+            "bonus_jump_damage"     
+            {
+                "value"         "15 20 25"
+                "CalculateSpellDamageTooltip" "1"
+            }
+            "jumps"                 "10 10 10"
+            "jump_range"            
+            {
+                "value"         "600"
+                "affected_by_aoe_increase"  "1"
+            }
+            "slow_movement_speed"   "-65"
+            "slow_attack_speed"     "-65"
+            "slow_duration"         "2.5"
+            "initial_projectile_speed"      "1050"
+            "projectile_speed"      "850"
+            "vision_radius"         
+            {
+                "value"             "800"
+                "affected_by_aoe_increase"      "1"
+            }
+            "has_unlimited_jumps"
+            {
+                "special_bonus_unique_lich_5"   "+1"
+            }
+            "should_fire_chain_frost_on_death"
+            {
+                "special_bonus_unique_lich_7" "+1"
+            }
+            "bonus_jumps_per_hero_killed"
+            {
+                "value"                 "0"
+                "special_bonus_facet_lich_growing_cold"         "+3"                
+            }
+            "bonus_jumps_per_creep_killed"
+            {
+                "value"                                         "0"
+                "special_bonus_facet_lich_growing_cold"         "+1"                
+            }
+            "frostbound_duration"                       
+            {
+                "value"                         "0"
+                "special_bonus_facet_lich_frostbound"           "=2 =3 =4"              
+            }
+        }           
+    }
+
+    "techies_sticky_bomb"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_6"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "1000"
+        "AbilityCastPoint"              "0.1"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "16 13 10 7"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "100 115 130 145"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.25"  // generally used for damage only
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+                "duration"              "1.2"
+                "countdown"             "2"
+                "radius"                
+                {
+                    "value"         "300"
+                    "special_bonus_unique_techies_2"    "+125"
+                    "affected_by_aoe_increase"  "1" 
+                }
+                "damage"                
+                {
+                    "value" "80 160 240 320"
+                }
+                "slow"                  "25 35 45 55"
+                "secondary_slow"        "15 25 35 45"
+                "secondary_slow_duration"       "3"
+                "explosion_radius"      
+                {
+                    "value"             "350"
+                    "special_bonus_unique_techies_2"    "+125"
+                    "affected_by_aoe_increase"  "1" 
+                }
+                "speed"                 "500.0"
+                "acceleration"          "2000"
+                "pre_chase_time"        "0.1"
+                "max_chase_time"        "4"
+                "bonus_damage_creep_pct"       "200"
+        }
+    }
+ 
+    "techies_sticky_bomb_bonus"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/techies/techies_sticky_bomb_bonus"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    }
 }
