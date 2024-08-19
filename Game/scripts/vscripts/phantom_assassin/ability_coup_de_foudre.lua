@@ -1,6 +1,5 @@
 LinkLuaModifier("modifier_coup_de_foudre", "phantom_assassin/ability_coup_de_foudre", 0)
 LinkLuaModifier("modifier_coup_de_foudre_buff", "phantom_assassin/ability_coup_de_foudre", 0)
-LinkLuaModifier("modifier_coup_de_foudre_buff2", "phantom_assassin/ability_coup_de_foudre", 0)
 
 ability_coup_de_foudre = ability_coup_de_foudre or class({})
 
@@ -18,37 +17,53 @@ function modifier_coup_de_foudre:OnCreated(_)
     self.activation_delay = self:GetAbility():GetSpecialValueFor("activation_delay")
     self.dagger_buff_time = self:GetAbility():GetSpecialValueFor("dagger_buff_time")
 
-    GameRules:GetGameModeEntity():SetThink(
-            "OnThink",
-            self,
-            self:GetCaster():GetUnitName() .. "$" .. self:GetName(),
-            0
-    )
+
+    self:StartIntervalThink(0.1)
 end
 
 function modifier_coup_de_foudre:IsPurgable()
-    return false
+    return false  
 end
 
 function modifier_coup_de_foudre:IsHidden()
-    return true
+    return true 
 end
 
-function modifier_coup_de_foudre:OnThink()
+function modifier_coup_de_foudre:OnIntervalThink()
     local unit = self:GetCaster()
-
-    if unit:CanBeSeenByAnyOpposingTeam() then
-        unit:RemoveModifierByName("modifier_coup_de_foudre_buff")
-    else
-        unit:AddNewModifier(
-                unit,
-                self:GetAbility(),
-                "modifier_coup_de_foudre_buff",
-                { duration = -1 }
-        )
+    if unit:HasModifier("modifier_phantom_assassin_blur_active") then 
+        self:AddBuff(unit)
+        return
     end
 
-    return self.activation_delay
+    if not unit:CanBeSeenByAnyOpposingTeam() then
+        self:AddBuff(unit)
+    else 
+        if not self.timer then 
+            self.timer = Timers:CreateTimer(self.activation_delay, function()
+                if self.modifier then 
+                    self.modifier:Destroy()
+                    self.modifier = nil
+                end
+                self.timer = nil
+            end)
+        end
+    end
+end
+
+function modifier_coup_de_foudre:AddBuff(unit)
+    if not self.modifier then 
+        self.modifier = unit:AddNewModifier(
+            unit,
+            self:GetAbility(),
+            "modifier_coup_de_foudre_buff",
+            {}
+        )
+    end
+    if self.timer then 
+        Timers:RemoveTimer(self.timer)
+        self.timer = nil
+    end 
 end
 
 modifier_coup_de_foudre_buff = modifier_coup_de_foudre_buff or class({})
@@ -69,7 +84,6 @@ function modifier_coup_de_foudre_buff:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST
     }
 end
 
@@ -105,21 +119,3 @@ function modifier_coup_de_foudre_buff:OnAttackLanded(params)
         self.is_crit = false
     end
 end
-
-function modifier_coup_de_foudre_buff:OnAbilityFullyCast(event)
-    if (
-            IsServer() and
-            event.ability:GetAbilityName() == "phantom_assassin_stifling_dagger" and
-            event.target ~= nil and
-            event.target:IsHero()
-    ) then
-        self:GetParent():AddNewModifier(
-                self:GetParent(),
-                self:GetAbility(),
-                "modifier_coup_de_foudre_buff2",
-                { duration = self:GetAbility():GetSpecialValueFor("dagger_buff_time") }
-        )
-    end
-end
-
-modifier_coup_de_foudre_buff2 = modifier_coup_de_foudre_buff2 or modifier_coup_de_foudre_buff
