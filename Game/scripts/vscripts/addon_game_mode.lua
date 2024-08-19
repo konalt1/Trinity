@@ -28,6 +28,9 @@ CAddonTemplateGameMode = CAddonTemplateGameMode or class({})
 
 function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
+	GameRules:GetGameModeEntity():SetRespawnTimeScale(0.5)
+ 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
+
 	GameRules:SetGoldTickTime(1)
 	GameRules:SetGoldPerTick(2)
 	InitGameManagers()

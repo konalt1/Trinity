@@ -32,6 +32,13 @@ function GameMode:OnGameRulesStateChange()
 end
 
 
+function GameMode:ModifyGoldFilter(data)
+	if data.reason_const == DOTA_ModifyGold_HeroKill  then data.gold = data.gold * 2 end
+	print(data.reason_const)
+	return true
+end
+
+
 function GameMode:LineBossSpawner()
 	 self.wave_number = self.wave_number + 1	
 	local current_boss = self.wave_list[self.wave_number]

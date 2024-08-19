@@ -30,8 +30,21 @@ end
 
 function modifier_fireworks:DeclareFunctions()
     return {
-        MODIFIER_EVENT_ON_ATTACK_LANDED
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
     }
+end
+
+function modifier_fireworks:OnCreated()
+    self.bonusAttackRange = self:GetAbility():GetSpecialValueFor("bonus_attack_range")
+end
+
+function modifier_fireworks:OnRefresh()
+    self:OnCreated()
+end
+
+function modifier_fireworks:GetModifierAttackRangeBonus()
+    return self.bonusAttackRange
 end
 
 function modifier_fireworks:OnAttackLanded(event)
