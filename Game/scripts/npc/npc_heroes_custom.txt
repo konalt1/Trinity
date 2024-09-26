@@ -13,6 +13,10 @@
         "Ability2"		                                "ability_fireworks"
         "Ability6"		                                "ability_chain_bomb"
         "Ability7"										"techies_sticky_bomb_bonus"
+
+        "Ability11"										"special_bonus_unique_techies_fireworks_radius"
+        "Ability17"										"special_bonus_unique_techies_chain_bomb_movespeed"
+
     }
 
 	"npc_dota_hero_juggernaut"
@@ -45,6 +49,6 @@
 	"npc_dota_hero_lich"
 	{	
 		"Ability4"				"lich_chain_frost"
-		"Ability6"				""
+		"Ability6"				"ability_ice_phylactery"
 	}
 }

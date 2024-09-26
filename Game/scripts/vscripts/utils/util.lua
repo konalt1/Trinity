@@ -18,3 +18,8 @@ function GiveExperiencePlayers( experience )
 		end
 	end
 end
+
+function GetReductionFromArmor(armor)
+	local m = 0.06 * armor
+	return 100 * (1 - m/(1+math.abs(m)))
+end

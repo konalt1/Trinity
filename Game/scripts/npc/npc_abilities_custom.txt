@@ -56,7 +56,11 @@
 
         "AbilityValues"
         {
-          "splash_radius"				"140 180 220 260"
+          "splash_radius"
+          {
+            "value"                               "140 180 220 260"
+            "special_bonus_unique_techies_fireworks_radius"        "+100"
+          }			 
           "splash_percent"              "100 100 100 100"
           "bonus_attack_range"          "100 200 300 400"
         }
@@ -90,6 +94,11 @@
         "AbilityValues"
         {
             "damage"                    "350 500 650"
+            "can_movespeed"
+            {
+                "value"         "0"
+                "special_bonus_unique_techies_chain_bomb_movespeed"            "+1"
+            }
             "radius_visible"                    "300"
         }
 
@@ -155,7 +164,7 @@
 	{
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "lich/ability_ice_phylactery.lua"
-        "AbilityTextureName"            "vampiric_ward"
+        "AbilityTextureName"            "lich_ice_spire"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
 
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
@@ -173,7 +182,19 @@
         "AbilityManaCost"				"150"
 
         "AbilityValues"
-        {				
+        {	
+            "bonus_movespeed"           "-25"
+            "cooldown_reduction"           "25"
+            "spell_lifesteal"           "25"
+            "aura_radius"               
+            {
+                "value"     "750"
+                "affected_by_aoe_increase"  "1"
+            }
+            "max_hero_attacks"          "5"
+            "max_creep_attacks"         "10"
+            "duration"                  "15.0"
+            "slow_duration"             "0.5"               	
         }
 	}
 
@@ -353,5 +374,24 @@
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/techies/techies_sticky_bomb_bonus"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    }
+
+
+    "special_bonus_unique_techies_fireworks_radius"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_techies_chain_bomb_movespeed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     }
 }

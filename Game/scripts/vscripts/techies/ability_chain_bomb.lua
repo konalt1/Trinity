@@ -23,12 +23,21 @@ end
 function ability_chain_bomb:OnBombCreated(bomb)
     local duration = 300
 
+    bomb:SetOwner(self:GetCaster())
+    bomb:SetControllableByPlayer( self:GetCaster():GetPlayerID(), true )
+
     local listener = CreateUnitByName("npc_dota_damage_listener", bomb:GetOrigin(), true, nil, nil, DOTA_TEAM_CUSTOM_MAX)
     listener:AddNewModifier(listener, self, "modifier_kill", { duration = duration })
     listener:AddNewModifier(listener, self, "modifier_unit_damage_listener", nil)
 
     bomb:AddNewModifier(bomb, self, "modifier_kill", { duration = duration })
     bomb:AddNewModifier(bomb, self, "modifier_unit_chain_bomb", {})
+
+    if self:GetSpecialValueFor("can_movespeed") ~= 1 then 
+            print(self:GetSpecialValueFor("can_movespeed"))
+
+        bomb:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE  )
+    end
 end
 
 modifier_unit_chain_bomb = modifier_unit_chain_bomb or class({
@@ -133,7 +142,6 @@ modifier_unit_damage_listener = modifier_unit_damage_listener or class({
 function modifier_unit_damage_listener:CheckState()
     return {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_UNTARGETABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,

@@ -5,7 +5,7 @@
 
 	"npc_dota3_chainbomb"
     {
-        "Model"						"models\heroes\techies\fx_techies_remotebomb_underhollow.vmdl"// Model.
+        "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"// Model.
 		"BaseClass"                 "npc_dota_creature"
 		"SoundSet"                  "0"			// Name of sound set.
 		"Level"                     "1"
