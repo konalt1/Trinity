@@ -17,7 +17,7 @@ GameMode.wave_list = {
 
 function GameMode:InitGameMode()
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
---	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
+	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
  
     GameRules:SetCustomGameTeamMaxPlayers(1, 2)
@@ -31,6 +31,18 @@ function GameMode:OnGameRulesStateChange()
 	end
 end
 
+
+function GameMode:OnNPCSpawned(data)
+ 	local npc = EntIndexToHScript(data.entindex)
+ 
+     if npc:IsRealHero() and npc.FirstSpawned == nil then
+        npc.FirstSpawned = true
+ 
+ 		-- DebugCreateHeroWithVariant( npc:GetPlayerOwner(), npc:GetUnitName(), 1, npc:GetTeamNumber(), false,
+		-- 	function(   )
+ 		-- 	end )
+    end
+end
 
 function GameMode:ModifyGoldFilter(data)
 	if data.reason_const == DOTA_ModifyGold_HeroKill  then data.gold = data.gold * 2 end
