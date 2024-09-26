@@ -181,15 +181,15 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/tinker/tinker_rearm_custom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-
         "AbilityTextureName"            "tinker_rearm"
         "AbilityCooldown"               "50 40 30"
 
         "AbilityValues"
         {         
             "duration"          "10"      
-            "cooldown"          "5 4 3"
+            "cooldown"          "4 3 2"
         }
     }
 
