@@ -21,6 +21,13 @@ function modifier_coup_de_foudre:OnCreated(_)
     self:StartIntervalThink(0.1)
 end
 
+function modifier_coup_de_foudre:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
+        MODIFIER_EVENT_ON_DEATH,
+    }  
+end
+
 function modifier_coup_de_foudre:IsPurgable()
     return false  
 end
@@ -29,6 +36,58 @@ function modifier_coup_de_foudre:IsHidden()
     return true 
 end
 
+function modifier_coup_de_foudre:OnDeath(event)
+    local parent = self:GetParent()
+    local unit = event.unit
+
+    if event.attacker ~= parent then return end
+    if not unit:IsRealHero() then return end
+    if self:GetAbility():GetSpecialValueFor("refresh_items") == 0 then return end
+
+    parent:EmitSound("DOTA_Item.Refresher.Activate")
+    ParticleManager:SetParticleControlEnt(ParticleManager:CreateParticle("particles/items2_fx/refresher.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent), 0, parent, PATTACH_POINT_FOLLOW, "attach_hitloc", parent:GetAbsOrigin(), true)
+    
+    for i = 0, 8 do
+        if parent:GetItemInSlot(i) and parent:GetItemInSlot(i):IsRefreshable() then 
+            parent:GetItemInSlot(i):EndCooldown()
+        end
+    end    
+end
+
+
+function modifier_coup_de_foudre:GetModifierPreAttack_CriticalStrike(params)
+    if not IsServer() or self:GetParent():PassivesDisabled() then
+        return
+    end
+
+    local ability = self:GetAbility()
+
+    if ability:GetSpecialValueFor("attack_for_activate") == 0 then return end
+    local pa = params.attacker
+
+    if pa ~= self:GetParent() then
+        return
+    end
+
+    local target = params.target
+    if not target:IsHero() or target:GetTeam() == pa:GetTeam() then
+        return
+    end
+    local crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus")
+    self:IncrementStackCount()
+
+    if self:GetStackCount() >= ability:GetSpecialValueFor("attack_for_activate") then 
+        self:SetStackCount(0)
+        EmitSoundOnLocationWithCaster(
+            target:GetAbsOrigin(),
+            "Hero_PhantomAssassin.CoupDeGrace",
+            self:GetCaster()
+        )
+
+        return crit_bonus
+    end
+end
+ 
 function modifier_coup_de_foudre:OnIntervalThink()
     local unit = self:GetCaster()
     if unit:HasModifier("modifier_phantom_assassin_blur_active") then 

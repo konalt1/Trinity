@@ -29,6 +29,16 @@
           "crit_bonus"				"300 425 550"
           "activation_delay"          "0.5"
           "dagger_buff_time"          "2.0"
+          "attack_for_activate"
+          {
+              "value"             "0"
+              "special_bonus_unique_coup_de_foudre_attacks"            "+4"
+          }  
+          "refresh_items"
+          {
+              "value"             "0"
+              "special_bonus_unique_coup_de_foudre_refresh"            "+1"
+          }       
         }
     }
 
@@ -44,6 +54,13 @@
 		{
             "max_stacks"			"7"
             "attack_damage"			"15 20 25 30"
+            "stack_per_slow"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_slow"           "+3"
+            }       
+            "slow_move_speed"       "-20"
+            "duration_debuff"       "2"
 		}
     }
       
@@ -98,6 +115,11 @@
             {
                 "value"         "0"
                 "special_bonus_unique_techies_chain_bomb_movespeed"            "+1"
+            }
+            "distance_for_create"
+            {
+                "value"                 "0"
+                "special_bonus_unique_techies_chain_bomb_create_move"       "+800"
             }
             "radius_visible"                    "300"
         }
@@ -202,8 +224,9 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/tinker/tinker_rearm_custom"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"       
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
         "AbilityTextureName"            "tinker_rearm"
         "AbilityCooldown"               "50 40 30"
 
@@ -387,6 +410,42 @@
     }
 
     "special_bonus_unique_techies_chain_bomb_movespeed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_techies_chain_bomb_create_move"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_coup_de_foudre_attacks"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_coup_de_foudre_refresh"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_slow"
     {
         // General
         //-------------------------------------------------------------------------------------------------------------
