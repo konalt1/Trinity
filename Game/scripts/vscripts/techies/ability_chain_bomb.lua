@@ -1,9 +1,11 @@
 LinkLuaModifier("modifier_unit_chain_bomb", "techies/ability_chain_bomb", 0)
 LinkLuaModifier("modifier_unit_damage_listener", "techies/ability_chain_bomb", 0)
-
+LinkLuaModifier("modifier_ability_chain_bomb", "techies/ability_chain_bomb", 0)
+ 
 ability_chain_bomb = ability_chain_bomb or class({})
 
-function ability_chain_bomb:OnCreated()
+function ability_chain_bomb:GetIntrinsicModifierName()
+    return "modifier_ability_chain_bomb"
 end
 
 function ability_chain_bomb:OnSpellStart()
@@ -39,6 +41,56 @@ function ability_chain_bomb:OnBombCreated(bomb)
         bomb:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE  )
     end
 end
+
+modifier_ability_chain_bomb = class({
+    IsHidden                 = function(self) return true end,
+})
+
+function modifier_ability_chain_bomb:OnCreated()
+    self.travelDistance = 0
+    self:StartIntervalThink(0.1)
+end
+
+ 
+
+function modifier_ability_chain_bomb:OnIntervalThink()
+    if IsClient() then return end
+    local ability = self:GetAbility()
+    local distanceForCreate = ability:GetSpecialValueFor("distance_for_create")
+    if distanceForCreate == 0 then return end
+    local caster = self:GetCaster()
+    local target = self:GetParent()
+        
+    local newPos = target:GetAbsOrigin()
+    if self.oldPos == nil then
+        self.oldPos = newPos
+    end
+
+   
+    local distance = (newPos - self.oldPos):Length2D()
+    if distance > 0 and distance < 2000 then
+        local  heal = distance / 100 * self:GetAbility():GetSpecialValueFor("movement_damage_pct")
+        self.travelDistance = self.travelDistance + distance
+    end
+
+    if self.travelDistance > distanceForCreate then 
+        CreateUnitByNameAsync(
+            "npc_dota3_chainbomb",
+            newPos,
+            true,
+            nil,
+            nil,
+            self:GetCaster():GetTeam(),
+            function (bomb)
+                self:GetAbility():OnBombCreated(bomb)
+            end
+        )
+        self.travelDistance = 0
+    end
+
+    self.oldPos = newPos
+end
+
 
 modifier_unit_chain_bomb = modifier_unit_chain_bomb or class({
     IsHidden                = function(self) return true end,

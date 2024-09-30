@@ -1,5 +1,7 @@
 LinkLuaModifier("modifier_ability_thirsty_blade_buff", "Juggernaut/ability_thirsty_blade", 0)
 LinkLuaModifier("modifier_ability_thirsty_blade", "Juggernaut/ability_thirsty_blade", 0)
+LinkLuaModifier("modifier_ability_thirsty_blade_debuff", "Juggernaut/ability_thirsty_blade", 0)
+
 ability_thirsty_blade = class({})
 
 --------------------------------------------------------------------------------
@@ -28,16 +30,24 @@ modifier_ability_thirsty_blade = class({})
 
 function modifier_ability_thirsty_blade:DeclareFunctions()
 	return{
-		MODIFIER_EVENT_ON_ATTACK
+		MODIFIER_EVENT_ON_ATTACK_LANDED
 	}
 end
 
-function modifier_ability_thirsty_blade:OnAttack( params )
+function modifier_ability_thirsty_blade:OnAttackLanded( params )
 	if IsServer() then
-		-- filter
 		local pass = false
 		if params.attacker==self:GetParent() and params.target:IsHero() then
 			self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(),"modifier_ability_thirsty_blade_buff" , {duration = 5})
+			local stackPerSlow = self:GetAbility():GetSpecialValueFor("stack_per_slow")
+
+			if stackPerSlow ~= 0 then 
+				local modifier = self:GetParent():FindModifierByName("modifier_ability_thirsty_blade_buff")
+
+				if modifier:GetStackCount() >= self:GetAbility():GetSpecialValueFor("stack_per_slow") then 
+					params.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_ability_thirsty_blade_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff")})
+				end
+			end
 		end
 	end
 end
@@ -66,4 +76,22 @@ function modifier_ability_thirsty_blade_buff:OnRefresh( kv )
 	if self:GetStackCount() < self.max_stacks then
 		self:IncrementStackCount()
 	end
+end
+
+modifier_ability_thirsty_blade_debuff = class({
+	IsHidden 				= function(self) return false end,
+	IsPurgable 				= function(self) return true end,
+	IsDebuff 				= function(self) return true end,
+    DeclareFunctions        = function(self) return 
+    {
+    	MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    } end,
+})
+
+function modifier_ability_thirsty_blade_debuff:OnCreated()
+	self.slowMoveSpeed = self:GetAbility():GetSpecialValueFor("slow_move_speed")
+end
+
+function modifier_ability_thirsty_blade_debuff:GetModifierMoveSpeedBonus_Percentage()
+	return self.slowMoveSpeed
 end
