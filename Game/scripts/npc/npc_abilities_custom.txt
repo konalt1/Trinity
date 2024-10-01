@@ -206,16 +206,16 @@
         "AbilityValues"
         {	
             "bonus_movespeed"           "-25"
-            "cooldown_reduction"           "25"
-            "spell_lifesteal"           "25"
+            "cooldown_reduction"           "75"
+            "spell_lifesteal"           "75"
             "aura_radius"               
             {
                 "value"     "750"
                 "affected_by_aoe_increase"  "1"
             }
-            "max_hero_attacks"          "5"
-            "max_creep_attacks"         "10"
-            "duration"                  "15.0"
+            "max_hero_attacks"          "3"
+            "max_creep_attacks"         "6"
+            "duration"                  "20.0"
             "slow_duration"             "0.5"               	
         }
 	}
