@@ -10,6 +10,7 @@
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_description" "Пока враги вас не видят, вы наносите критический урон по противникам"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"		"%CRIT:"
 		"DOTA_Tooltip_modifier_ability_coup_de_foudre" "Вас не видят"
+		"DOTA_Tooltip_modifier_special_bonus_unique_coup_de_foudre_attacks" "Каждая четвёртая атака по герою наносит критический урон"
 		
 		//Techies
 		
@@ -26,6 +27,24 @@
 		"DOTA_Tooltip_ability_ability_thirsty_blade_description"	 "Каждая последующая атака по игроку противника увеличивает ваш урон на определённое время"
 		"DOTA_Tooltip_ability_ability_thirsty_blade_attack_damage"			 "ДОП УРОН"
 		"DOTA_Tooltip_ability_ability_thirsty_blade_max_stacks" "МАКС СТАКОВ"
+		
+		//Lich
+		"DOTA_Tooltip_ability_ability_ice_phylactery" "Ледяной филактерий"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_description" "Лич призывает ледяной филактерий в указанной области, который создаёт магическое поле,  снижающее время перезарядки его способностей и увеличиваещее вампиризм заклинаниями Лича на 75%. Вражеские герои, попавшие в радиус действия замедляются."
+		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction" "% уменьшения перезарядки способностей"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal" "% Вампиризм от заклинаний"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_duration" "Время жизни филактерия"
+		"DOTA_Tooltip_ability_ability_ice_max_hero_attacks" "Атак для уничтожения филактерия"
+
+
+		//Tinker
+
+		"DOTA_Tooltip_ability_tinker_rearm_custom" "Перегрев"
+
+		"DOTA_Tooltip_ability_tinker_rearm_custom_description" "Тинкер перегружает собственные системы, на время входя особую форму, в которой время перезарядки его способностей и предметов снижается на 10 секунд"
+		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown" "Время перезарядки способностей"
+		"DOTA_Tooltip_ability_tinker_rearm_custom_duration" "Длительность перегрева"
+
 		
 	}
 
