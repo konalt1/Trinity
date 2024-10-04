@@ -23,3 +23,24 @@ function GetReductionFromArmor(armor)
 	local m = 0.06 * armor
 	return 100 * (1 - m/(1+math.abs(m)))
 end
+
+function AddModifierLifesteal(parent, stack)
+	local modifier = parent:FindModifierByName("modifier_lifesteal_custom")
+
+	if modifier then
+		modifier:SetStackCount(modifier:GetStackCount() + stack)
+	else
+ 		local modif = parent:AddNewModifier(parent, nil, "modifier_lifesteal_custom", {})
+		modif:SetStackCount(modif:GetStackCount() + stack)
+ 	end
+end
+ 
+
+function RemoveModifierLifesteal(parent, stack)
+	local modifier = parent:FindModifierByName("modifier_lifesteal_custom")
+	modifier:SetStackCount(modifier:GetStackCount() - stack)
+
+	if modifier:GetStackCount() <= 0 then
+ 		modifier:Destroy()
+ 	end
+end

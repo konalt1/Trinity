@@ -40,7 +40,7 @@ modifier_ward_vampiric_aura = modifier_ward_vampiric_aura or class({
     GetModifierAura =       function(_) return "modifier_ward_vampiric_aura_buff" end,
     GetAuraRadius =         function(self) return self:GetAbility():GetSpecialValueFor("aura_radius") end,
     GetAuraDuration =       function(_) return 2.0 end,
-    GetAuraSearchTeam =     function(_) return DOTA_UNIT_TARGET_TEAM_FRIENDLY end,
+    GetAuraSearchTeam =     function(_) return DOTA_UNIT_TARGET_TEAM_BOTH end,
     GetAuraSearchType =     function(_) return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP end,
     IsAuraActiveOnDeath =   function(_) return false end,
     GetAuraSearchFlags =    function() return DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS end,
@@ -69,33 +69,41 @@ function modifier_ward_vampiric_aura:GetModifierIncomingPhysicalDamageConstant(e
 end
 
 modifier_ward_vampiric_aura_buff = class({
-    IsDebuff =         function() return false end,
+    IsBuff =         function() return self.isBuff end,
     IsHidden =         function() return false end,
-    DeclareFunctions = function() return { MODIFIER_EVENT_ON_TAKEDAMAGE } end,
+    DeclareFunctions = function() return {
+     MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, 
+     MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+    } end,
 })
 
-function modifier_ward_vampiric_aura_buff:OnTakeDamage(event)
-    if (
-            not IsServer() or
-            event.attacker ~= self:GetParent() or
-            event.damage_category ~= DOTA_DAMAGE_CATEGORY_ATTACK
-    ) then
-        return
-    end
+function modifier_ward_vampiric_aura_buff:OnCreated()
+    local parent = self:GetParent()
 
-    local fx = ParticleManager:CreateParticle(
-            "particles/generic_gameplay/generic_lifesteal.vpcf",
-            PATTACH_ABSORIGIN_FOLLOW,
-            self:GetParent()
-    )
-    ParticleManager:SetParticleControl(fx, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:ReleaseParticleIndex(fx)
-    self:GetParent():HealWithParams(
-            event.damage * self:GetAbility():GetSpecialValueFor("lifesteal_percent") / 100,
-            self:GetAbility(),
-            true,
-            true,
-            self:GetParent(),
-            false
-    )
+    self.isBuff = self:GetCaster():GetTeamNumber() == self:GetParent():GetTeamNumber()
+
+    if self.isBuff then 
+        AddModifierLifesteal(parent, self:GetAbility():GetSpecialValueFor("lifesteal_percent"))
+    end
 end
+
+function modifier_ward_vampiric_aura_buff:OnDestroy()
+    local parent = self:GetParent()
+
+    if self.isBuff then 
+        RemoveModifierLifesteal(parent, self:GetAbility():GetSpecialValueFor("lifesteal_percent"))
+    end
+end
+
+function modifier_ward_vampiric_aura_buff:GetModifierMoveSpeedBonus_Percentage()
+    if not self.isBuff then 
+        return self:GetAbility():GetSpecialValueFor("slow_move_speed")
+    end
+end
+
+function modifier_ward_vampiric_aura_buff:GetModifierAttackSpeedBonus_Constant()
+    if self.isBuff then 
+        return self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
+    end
+end
+ 

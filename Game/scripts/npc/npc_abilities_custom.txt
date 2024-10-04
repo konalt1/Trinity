@@ -61,6 +61,16 @@
             }       
             "slow_move_speed"       "-20"
             "duration_debuff"       "2"
+            "bonus_lifesteal"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_lifesteal_up"           "+15"
+            }  
+            "reduce_cooldown_omni"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_cooldown_omni"           "+1"
+            }    
 		}
     }
       
@@ -172,6 +182,16 @@
                     "value"                              "60"
                     "special_bonus_unique_juggernaut_5" "-20"
                 }
+                "slow_move_speed"
+                {
+                    "value"                              "0"
+                    "special_bonus_unique_vampiric_ward_slow" "-15"
+                }
+                "bonus_attack_speed"
+                {
+                    "value"                              "0"
+                    "special_bonus_unique_vampiric_ward_attack_speed" "+60"
+                }
         }
         "AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
 
@@ -233,7 +253,21 @@
         "AbilityValues"
         {         
             "duration"          "10"      
-            "cooldown"          "4 3 2"
+            "spell_amp"
+            {
+                "value"                 "0"
+                "special_bonus_unique_tinker_rearm_spell_amp"             "+40"
+            }
+            "cooldown"
+            {
+                "value"                 "4 3 2"
+                "special_bonus_unique_tinker_rearm_cooldown"     "-0.5"
+            }     
+            "avatar"
+            {
+                "value"                 "0"
+                "special_bonus_unique_tinker_rearm_avatar"     "+1"
+            }        
         }
     }
 
@@ -453,4 +487,67 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     }
+
+    "special_bonus_unique_thirsty_blade_lifesteal_up"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_cooldown_omni"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_vampiric_ward_slow"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_vampiric_ward_attack_speed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_tinker_rearm_cooldown"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_tinker_rearm_spell_amp"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    } 
+
+    "special_bonus_unique_tinker_rearm_avatar"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }      
 }
