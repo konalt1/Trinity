@@ -1,11 +1,20 @@
 LinkLuaModifier('modifier_tinker_rearm_custom', 'abilities/tinker/tinker_rearm_custom', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_tinker_rearm_custom_passive', 'abilities/tinker/tinker_rearm_custom', LUA_MODIFIER_MOTION_NONE)
 
 tinker_rearm_custom = class({})
+
+function tinker_rearm_custom:GetIntrinsicModifierName()
+	return "modifier_tinker_rearm_custom_passive"
+end
 
 function tinker_rearm_custom:OnSpellStart()
 	local caster = self:GetCaster()
 
 	caster:AddNewModifier(caster, self, "modifier_tinker_rearm_custom", {duration = self:GetSpecialValueFor("duration")})
+
+	if self:GetSpecialValueFor("avatar") ~= 0 then 
+	    target:Purge(false, true, false, true, false)
+	end
 end
 
 modifier_tinker_rearm_custom = class({
@@ -17,11 +26,18 @@ modifier_tinker_rearm_custom = class({
     {
     	MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
 		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
+		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
+    } end,
+    CheckState 				= function(self) return 
+    {
+    	[MODIFIER_STATE_DEBUFF_IMMUNE] = self.hasAvatar,
     } end,
 })
 
 function modifier_tinker_rearm_custom:OnCreated()
-	self.cooldown = self:GetAbility():GetSpecialValueFor("cooldown")
+	local ability = self:GetAbility()
+	self.cooldown = ability:GetSpecialValueFor("cooldown")
+	self.hasAvatar = ability:GetSpecialValueFor("avatar") ~= 0
 
 	self:OnIntervalThink()
 	self:StartIntervalThink(1.7)
@@ -53,3 +69,24 @@ function modifier_tinker_rearm_custom:OnIntervalThink()
 end
 
  
+ modifier_tinker_rearm_custom_passive = class({
+	IsHidden 				= function(self) return true end,
+    DeclareFunctions        = function(self) return 
+    {
+    	MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
+    } end,
+})
+
+function modifier_tinker_rearm_custom_passive:OnCreated()
+	self.bonusSpellAmp = self:GetAbility():GetSpecialValueFor("spell_amp")
+end
+
+function modifier_tinker_rearm_custom_passive:OnRefresh()
+	self:OnCreated()
+end
+
+function modifier_tinker_rearm_custom_passive:GetModifierSpellAmplify_Percentage()
+	if not self:GetParent():HasModifier("modifier_tinker_rearm_custom") then 
+		return self.bonusSpellAmp
+	end
+end
