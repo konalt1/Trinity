@@ -31,10 +31,11 @@
 		//Lich
 		"DOTA_Tooltip_ability_ability_ice_phylactery" "Ледяной филактерий"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_description" "Лич призывает ледяной филактерий в указанной области, который создаёт магическое поле,  снижающее время перезарядки его способностей и увеличиваещее вампиризм заклинаниями Лича на 75%. Вражеские герои, попавшие в радиус действия замедляются."
-		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction" "% уменьшения перезарядки способностей"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction" "% Уменьшение перезарядки способностей"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal" "% Вампиризм от заклинаний"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_duration" "Время жизни филактерия"
 		"DOTA_Tooltip_ability_ability_ice_max_hero_attacks" "Атак для уничтожения филактерия"
+		"DOTA_Tooltip_ability_ability_ice_max_aura_radius_value" "Радиус Ауры"
 
 
 		//Tinker
