@@ -61,4 +61,18 @@
 		"Ability4"				"lich_chain_frost"
 		"Ability6"				"ability_ice_phylactery"
 	}
+
+	"npc_dota_hero_ogre_magi"
+	{	
+		"Ability2"				"ogre_magi_bonk"
+		"Ability5"				"ogre_magi_multicast"
+		"Ability6"				"ogre_magi_reroll"
+	}
+
+	"npc_dota_hero_lycan"
+	{	
+		"Ability1"				"lycan_summon_wolves_custom"
+	}
+
+	 
 }

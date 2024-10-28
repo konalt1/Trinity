@@ -44,3 +44,7 @@ function RemoveModifierLifesteal(parent, stack)
  		modifier:Destroy()
  	end
 end
+
+function HasShard(parent)
+    return parent:HasModifier("modifier_item_aghanims_shard")
+end

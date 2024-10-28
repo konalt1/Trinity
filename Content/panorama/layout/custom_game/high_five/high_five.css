@@ -1,0 +1,65 @@
+#SecondAbilitiesContainer {
+  horizontal-align: right;
+  vertical-align: bottom;
+  margin-right: 230px;
+  margin-bottom: 145px;
+  flow-children: right;
+  padding-left: -6px;
+
+  transition-duration: 0.2s;
+  transition-property: opacity, transform;
+
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+#center_block > #SecondAbilitiesContainer.ShowSecondAbilities {
+  opacity: 1;
+  transform: none;
+}
+
+.SecondAbility {
+  width: 60px;
+  height: 60px;
+  vertical-align: bottom;
+  margin-left: 6px;
+
+  tooltip-position: top;
+
+  brightness: 1;
+}
+
+.SecondAbility:hover {
+  brightness: 2;
+}
+
+.SecondAbility:active {
+  brightness: 1.5;
+}
+
+#SecondAbilityImage {
+  width: 100%;
+  height: 100%;
+}
+
+#CooldownContainer {
+  width: 100%;
+  height: 100%;
+  vertical-align: bottom;
+}
+
+#CooldownBackground_ {
+  width: 100%;
+  height: 100%;
+  background-color: #000000d9;
+}
+
+#CooldownLabel {
+  vertical-align: bottom;
+  padding: 0px 3px;
+  text-overflow: shrink;
+  text-shadow: 2px 2px 4px 2 black;
+  transform: translateY(2px);
+  font-size: 16px;
+  color: #999;
+}
