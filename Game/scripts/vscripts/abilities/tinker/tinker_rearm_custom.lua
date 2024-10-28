@@ -13,7 +13,7 @@ function tinker_rearm_custom:OnSpellStart()
 	caster:AddNewModifier(caster, self, "modifier_tinker_rearm_custom", {duration = self:GetSpecialValueFor("duration")})
 
 	if self:GetSpecialValueFor("avatar") ~= 0 then 
-	    target:Purge(false, true, false, true, false)
+	    caster:Purge(false, true, false, true, false)
 	end
 end
 
@@ -38,9 +38,34 @@ function modifier_tinker_rearm_custom:OnCreated()
 	local ability = self:GetAbility()
 	self.cooldown = ability:GetSpecialValueFor("cooldown")
 	self.hasAvatar = ability:GetSpecialValueFor("avatar") ~= 0
+	self.magicResist = ability:GetSpecialValueFor("magic_resist")
 
 	self:OnIntervalThink()
 	self:StartIntervalThink(1.7)
+end
+
+function modifier_tinker_rearm_custom:GetEffectName()
+	if self.hasAvatar then 
+		return "particles/items_fx/black_king_bar_avatar.vpcf"
+	end
+end
+ 
+function modifier_tinker_rearm_custom:GetStatusEffectName()
+	if self.hasAvatar then 
+		return "particles/status_fx/status_effect_avatar.vpcf"
+	end
+end
+
+function modifier_tinker_rearm_custom:StatusEffectPriority()
+	if self.hasAvatar then 
+    	return 99999
+	end
+end
+
+function modifier_tinker_rearm_custom:GetModifierMagicalResistanceBonus()
+	if self.hasAvatar then 
+		return self.magicResist
+	end
 end
 
 function modifier_tinker_rearm_custom:OnAbilityFullyCast(event)

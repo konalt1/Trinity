@@ -72,7 +72,7 @@ function modifier_ability_ice_phylactery:OnCreated()
     if IsServer() then 
         parent:SetMaxHealth(self.AttacksToDestroy)
     end
-    
+
     self.HeroesAttacksMult = 2
     self.HealthPerPips = self:GetParent():GetMaxHealth() / self.AttacksToDestroy
 end
@@ -92,7 +92,7 @@ function modifier_ability_ice_phylactery:OnAttacked(keys)
     local parent = self:GetParent()
     if target and attacker and target == parent then
         local HealthsDiff = math.floor(parent:GetHealth() - (self.HealthPerPips * (attacker:IsRealHero() and self.HeroesAttacksMult or 1)))
-        print(HealthsDiff,  self.HealthPerPips, self.HealthPerPips * (attacker:IsRealHero() and self.HeroesAttacksMult or 1))
+
         if HealthsDiff <= 0 then
             parent:Kill(nil, attacker)
             self:Destroy()

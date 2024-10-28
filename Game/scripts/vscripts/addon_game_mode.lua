@@ -15,7 +15,7 @@ function Precache( context )
 	]]
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts", context )
 	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_troll_warlord.vsndevts", context )
-
+	PrecacheResource( "particle", "particles/econ/events/plus/high_five/high_five_impact.vpcf", context )
 end
 
 -- Create the game mode when we activate

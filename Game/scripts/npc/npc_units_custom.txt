@@ -3,6 +3,28 @@
 {
 	"Version"	"1"
 
+    "npc_dummy_unit"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/development/invisiblebox.vmdl"
+        "Level"                         "0"
+        "ArmorPhysical"                 "0"
+        "MagicalResistance"             "0"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "BoundsHullName"                "DOTA_HULL_SIZE_SMALL"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "StatusHealth"                  "1"
+        "TeamName"                      "DOTA_TEAM_GOODGUYS"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+        "CustomData"
+        {
+            "BlockNeutralCamps"         "0"
+        }
+    }
+    
 	"npc_dota3_chainbomb"
     {
         "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"// Model.

@@ -19,7 +19,9 @@ function GameMode:InitGameMode()
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
+ 	ListenToGameEvent('dota_inventory_item_added', Dynamic_Wrap(self, 'OnInventoryUpdate'), self)	
  
+
     GameRules:SetCustomGameTeamMaxPlayers(1, 2)
 end
 
@@ -37,11 +39,32 @@ function GameMode:OnNPCSpawned(data)
  
      if npc:IsRealHero() and npc.FirstSpawned == nil then
         npc.FirstSpawned = true
- 
+        npc:AddAbility("high_five_custom")
+
  		-- DebugCreateHeroWithVariant( npc:GetPlayerOwner(), npc:GetUnitName(), 1, npc:GetTeamNumber(), false,
 		-- 	function(   )
  		-- 	end )
     end
+end
+
+function GameMode:OnInventoryUpdate(data)
+	local item = EntIndexToHScript(data.item_entindex)
+
+ 	if item:GetItemSlot() == 16 and string.sub(item:GetName(), 0,9) ~= "item_tier" then 
+ 		local freeSlot 
+ 		for i=0,8 do
+ 			local freeSlotItem =  item:GetCaster():GetItemInSlot(i)
+
+ 			if not freeSlotItem then 
+ 				freeSlot = i
+ 				break
+ 			end
+ 		end
+
+ 		if freeSlot ~= nil then 
+ 			item:GetCaster():SwapItems(freeSlot, 16)
+ 		end
+ 	end
 end
 
 function GameMode:ModifyGoldFilter(data)
