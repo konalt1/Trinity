@@ -5,6 +5,8 @@ require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
 
+
+require ("abilities/ogre_magi/ogre_magi_reroll")
 function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
@@ -16,6 +18,15 @@ function Precache( context )
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts", context )
 	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_troll_warlord.vsndevts", context )
 	PrecacheResource( "particle", "particles/econ/events/plus/high_five/high_five_impact.vpcf", context )
+
+	-- for _, ability in pairs(abilities) do
+	-- 	local hero_name = string.gsub(ability, "_.*", "")
+	-- 	print(hero_name)
+	-- 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_" .. hero_name .. ".vsndevts", context)
+	-- 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_" .. hero_name .. ".vsndevts", context)
+	-- 	PrecacheResource("particle_folder", "particles/units/heroes/hero_" .. hero_name, context)
+	-- end
+	
 end
 
 -- Create the game mode when we activate
