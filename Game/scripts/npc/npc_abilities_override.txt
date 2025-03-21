@@ -1,6 +1,0 @@
-"DOTAAbilities"
-{
-	"Version"		"1"
-
- 
-}
