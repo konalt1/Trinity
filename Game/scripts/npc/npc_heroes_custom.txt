@@ -66,6 +66,7 @@
 
 	"npc_dota_hero_ogre_magi"
 	{	
+		"Ability1"				"ogre_magi_fire_blast"
 		"Ability2"				"ogre_magi_bonk"
 		"Ability5"				"ogre_magi_multicast"
 		"Ability6"				"ogre_magi_reroll"
