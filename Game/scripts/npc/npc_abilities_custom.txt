@@ -1,0 +1,841 @@
+// Dota Heroes File
+"DOTAAbilities"
+{
+    "gold_lama"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/gold_lama"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+        "AbilityValues"
+        {
+            "gold"              "3000"
+            "radius"            "700"
+            "bonus_damage_pct"  "100"
+        }
+    }
+
+    "ability_coup_de_foudre" 
+    	{
+        "BaseClass"						"ability_lua"
+        "ScriptFile"                    "phantom_assassin/ability_coup_de_foudre"
+        "AbilityTextureName"            "coup_de_foudre"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "4"
+        "LevelsBetweenUpgrades"         "4"
+
+		"AbilityValues"
+        {
+          "crit_bonus"				"300 425 550"
+          "activation_delay"          "0.5"
+          "dagger_buff_time"          "2.0"
+          "attack_for_activate"
+          {
+              "value"             "0"
+              "special_bonus_unique_coup_de_foudre_attacks"            "+4"
+          }  
+          "refresh_items"
+          {
+              "value"             "0"
+              "special_bonus_unique_coup_de_foudre_refresh"            "+1"
+          }       
+        }
+    }
+
+    "ability_thirsty_blade"
+    {
+     	"BaseClass"						"ability_lua"
+        "ScriptFile"                    "Juggernaut/ability_thirsty_blade"
+        "AbilityTextureName"            "blade"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+
+		"AbilityValues"
+		{
+            "max_stacks"			"7"
+            "attack_damage"			"15 20 25 30"
+            "stack_per_slow"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_slow"           "+3"
+            }       
+            "slow_move_speed"       "-20"
+            "duration_debuff"       "2"
+            "bonus_lifesteal"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_lifesteal_up"           "+15"
+            }  
+            "reduce_cooldown_omni"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_cooldown_omni"           "+1"
+            }    
+		}
+    }
+      
+    "ability_fireworks" {
+        "BaseClass"						"ability_lua"
+        "ScriptFile"                    "techies/ability_fireworks"
+        "AbilityTextureName"            "fireworks"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+
+        "AbilityValues"
+        {
+          "splash_radius"
+          {
+            "value"                               "140 180 220 260"
+            "special_bonus_unique_techies_fireworks_radius"        "+100"
+          }			 
+          "splash_percent"              "100 100 100 100"
+          "bonus_attack_range"          "100 200 300 400"
+        }
+    }
+
+    "ability_chain_bomb" {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "techies/ability_chain_bomb.lua"
+        "AbilityTextureName"            "chain_bomb"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "4"
+        "LevelsBetweenUpgrades"         "4"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "300 400 500"
+        "AbilityCastPoint"              "0.45 0.45 0.45"
+
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "4.0"
+        "AbilityDuration"               "0.6875 0.6875 0.6875"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "120 180 240"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "damage"                    "350 500 650"
+            "can_movespeed"
+            {
+                "value"         "0"
+                "special_bonus_unique_techies_chain_bomb_movespeed"            "+1"
+            }
+            "distance_for_create"
+            {
+                "value"                 "0"
+                "special_bonus_unique_techies_chain_bomb_create_move"       "+800"
+            }
+            "radius_visible"                    "300"
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+        }
+
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_2"
+    }
+
+    "ability_vampiric_ward"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "Juggernaut/ability_vampiric_ward.lua"
+        "AbilityTextureName"            "vampiric_ward"
+        "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+
+        "AbilityCastRange"				"350"
+        "AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+
+        "AbilityManaCost"				"140 130 120 110"
+
+        "AbilityValues"
+        {
+                "lifesteal_percent"
+                {
+                    "value"     "15 30 45 60"
+                }
+                "vampiric_ward_duration"
+                {
+                    "value"    "25"
+                }
+                "aura_radius"
+                {
+                    "value"		"400"
+                    "affected_by_aoe_increase"	"1"
+                    "special_bonus_unique_juggernaut_3"		"+150"
+                }
+                "healing_ward_bonus_health"
+                {
+                    "value"	"0"
+                    "special_bonus_unique_juggernaut_2"	"+2"
+                }
+                "AbilityCooldown"
+                {
+                    "value"                              "60"
+                    "special_bonus_unique_juggernaut_5" "-20"
+                }
+                "slow_move_speed"
+                {
+                    "value"                              "0"
+                    "special_bonus_unique_vampiric_ward_slow" "-15"
+                }
+                "bonus_attack_speed"
+                {
+                    "value"                              "0"
+                    "special_bonus_unique_vampiric_ward_attack_speed" "+60"
+                }
+        }
+        "AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
+
+        "precache"
+        {
+            "particle"  "particles/generic_gameplay/generic_lifesteal.vpcf"
+            "particle"  "particles/units/heroes/hero_juggernaut/juggernaut_healing_ward_base.vpcf"
+        }
+    }
+
+    "ability_ice_phylactery"
+	{
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "lich/ability_ice_phylactery.lua"
+        "AbilityTextureName"            "lich_ice_spire"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+        "AbilitySound"					"Ability.FrostNova"
+        "MaxLevel"						"4"
+        "RequiredLevel"                 "4"
+
+        "AbilityCastRange"				"750"
+        "AbilityCastPoint"				"0.3"
+        "AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_5"
+
+        "AbilityCooldown"				"60 50 40 30"
+
+        "AbilityManaCost"				"150"
+
+        "AbilityValues"
+        {	
+            "bonus_movespeed"           "-25"
+            "cooldown_reduction"           "60"
+            "spell_lifesteal"           "60"
+            "aura_radius"               
+            {
+                "value"     "500 600 700 800"
+                "affected_by_aoe_increase"  "1"
+            }
+            "max_hero_attacks"          "3"
+            "max_creep_attacks"         "6"
+            "duration"                  "20.0"
+            "slow_duration"             "0.5"               	
+        }
+	}
+
+    "tinker_rearm_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tinker/tinker_rearm_custom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"       
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "4"
+        "LevelsBetweenUpgrades"         "4"
+        
+        "AbilityTextureName"            "tinker_rearm"
+        "AbilityCooldown"               "50 45 40 30"
+
+        "AbilityValues"
+        {         
+            "duration"          "15"      
+            "spell_amp"
+            {
+                "value"                 "0"
+                "special_bonus_unique_tinker_rearm_spell_amp"             "+40"
+            }
+            "cooldown"
+            {
+                "value"                 "4 3 2"
+                "special_bonus_unique_tinker_rearm_cooldown"     "-0.5"
+            }     
+            "avatar"
+            {
+                "value"                 "0"
+                "special_bonus_unique_tinker_rearm_avatar"     "+1"
+            }   
+            "magic_resist"
+            {
+                "value"                 "50"
+            }        
+        }
+    }
+
+    "lich_chain_frost"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "FightRecapLevel"               "2"
+        "AbilitySound"                  "Hero_Lich.ChainFrost"
+
+
+
+        "MaxLevel"                      "1"
+                "IsGrantedByShard"              "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "750"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_6"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "100.0 80.0 60.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "180 300 420"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.0"   // Primarily about the damage
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "damage"
+            {
+                "value"     "250 400 550"
+            }
+            "bonus_jump_damage"     
+            {
+                "value"         "15 20 25"
+                "CalculateSpellDamageTooltip" "1"
+            }
+            "jumps"                 "10 10 10"
+            "jump_range"            
+            {
+                "value"         "600"
+                "affected_by_aoe_increase"  "1"
+            }
+            "slow_movement_speed"   "-65"
+            "slow_attack_speed"     "-65"
+            "slow_duration"         "2.5"
+            "initial_projectile_speed"      "1050"
+            "projectile_speed"      "850"
+            "vision_radius"         
+            {
+                "value"             "800"
+                "affected_by_aoe_increase"      "1"
+            }
+            "has_unlimited_jumps"
+            {
+                "special_bonus_unique_lich_5"   "+1"
+            }
+            "should_fire_chain_frost_on_death"
+            {
+                "special_bonus_unique_lich_7" "+1"
+            }
+            "bonus_jumps_per_hero_killed"
+            {
+                "value"                 "0"
+                "special_bonus_facet_lich_growing_cold"         "+3"                
+            }
+            "bonus_jumps_per_creep_killed"
+            {
+                "value"                                         "0"
+                "special_bonus_facet_lich_growing_cold"         "+1"                
+            }
+            "frostbound_duration"                       
+            {
+                "value"                         "0"
+                "special_bonus_facet_lich_frostbound"           "=2 =3 =4"              
+            }
+        }           
+    }
+
+    "techies_sticky_bomb"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_6"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "1000"
+        "AbilityCastPoint"              "0.1"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "16 13 10 7"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "100 115 130 145"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.25"  // generally used for damage only
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+                "duration"              "1.2"
+                "countdown"             "2"
+                "radius"                
+                {
+                    "value"         "300"
+                    "special_bonus_unique_techies_2"    "+125"
+                    "affected_by_aoe_increase"  "1" 
+                }
+                "damage"                
+                {
+                    "value" "80 160 240 320"
+                }
+                "slow"                  "25 35 45 55"
+                "secondary_slow"        "15 25 35 45"
+                "secondary_slow_duration"       "3"
+                "explosion_radius"      
+                {
+                    "value"             "350"
+                    "special_bonus_unique_techies_2"    "+125"
+                    "affected_by_aoe_increase"  "1" 
+                }
+                "speed"                 "500.0"
+                "acceleration"          "2000"
+                "pre_chase_time"        "0.1"
+                "max_chase_time"        "4"
+                "bonus_damage_creep_pct"       "200"
+        }
+    }
+ 
+    "techies_sticky_bomb_bonus"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/techies/techies_sticky_bomb_bonus"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    }
+
+
+    "special_bonus_unique_techies_fireworks_radius"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_techies_chain_bomb_movespeed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_techies_chain_bomb_create_move"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_coup_de_foudre_attacks"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_coup_de_foudre_refresh"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_slow"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_lifesteal_up"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_cooldown_omni"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_vampiric_ward_slow"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_vampiric_ward_attack_speed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_tinker_rearm_cooldown"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_tinker_rearm_spell_amp"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    } 
+
+    "special_bonus_unique_tinker_rearm_avatar"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }     
+
+    "high_five_custom"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/high_five_custom"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE"
+        "AbilityCastAnimation"          "ACT_INVALID"
+        "MaxLevel"                      "1"
+        "AbilityTextureName"            "consumables/high_five"
+        "IsOnCastBar"                   "0"
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "60"
+
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityDamage"                 "0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+        "AbilityValues"
+        {
+            "think_interval"
+            {
+                "value" "0.2"
+            }
+            "acknowledge_range"
+            {
+                "value" "900"
+            }
+            "request_duration"
+            {
+                "value" "10"
+            }
+            "high_five_speed"
+            {
+                "value" "700"
+            }
+            "acknowledged_cooldown"
+            {
+                "value" "1"
+            }
+        }
+    } 
+
+    "ogre_magi_multicast"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityCastAnimation"          "ACT_INVALID"
+        "IsBreakable"                   "1"
+        "IsGrantedByShard"              "1"
+        "MaxLevel"                      "1"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "multicast_2_times"
+            {
+                "value"     "75"
+                // Have the bonus listed here so the value shows as modified, actual modification is done by strenght_mult
+                "special_bonus_facet_ogre_magi_fat_chance" "+0"
+                "dynamic_value"     "true"
+            }
+
+            "multicast_3_times"
+            {
+                "value"     "30"
+                // Have the bonus listed here so the value shows as modified, actual modification is done by strenght_mult
+                "special_bonus_facet_ogre_magi_fat_chance" "+0"
+                "dynamic_value"     "true"
+            }
+
+            "multicast_4_times"
+            {
+                "value"     "15"
+                // Have the bonus listed here so the value shows as modified, actual modification is done by strenght_mult
+                "special_bonus_facet_ogre_magi_fat_chance" "+0"
+                "dynamic_value"     "true"
+            }
+
+            "strength_mult"
+            {
+                "value"                     "0"
+                "special_bonus_facet_ogre_magi_fat_chance"  "=0.06"
+            }
+
+            "required_level"
+            {
+                "value"                     "6"
+                "special_bonus_facet_ogre_magi_learning_curve"  "-1"
+            }
+        }
+    }
+
+
+    "ogre_magi_bonk" 
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_bonk"
+        "AbilityTextureName"            "fireworks"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+
+        "AbilityValues"
+        {     
+          "reduce_cooldown"              "0.5 0.7 0.9 1.1"
+        }
+    }
+
+    "ogre_magi_reroll" 
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_reroll"
+        "AbilityTextureName"            "fireworks"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "4"
+        "LevelsBetweenUpgrades"         "4"
+        
+        "AbilityManaCost"               "120"
+
+        "AbilityValues"
+        {     
+          "ability_duration"              "10"
+          "manacost_reduction"              "100"
+        }
+    }
+
+	"lycan_summon_wolves_custom"
+	{
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lycan/lycan_summon_wolves_custom"
+        "AbilityTextureName"            "lycan_summon_wolves"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilitySound"					"Hero_Lycan.SummonWolves"
+
+        "HasShardUpgrade"               "1"
+        "RestrictValuesToMaxLevel"		"1"
+
+ 		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+
+ 		"AbilityCooldown"				"30.0 30.0 30.0 30.0"
+
+ 		"AbilityValues"
+		{
+			"creep_attack_second"				
+			{
+				"value"			"3"
+                "RequiresShard" "1"
+			}			
+            "hero_attack_second_shard"				
+			{
+				"value"			"5"
+                "RequiresShard" "1"
+			}			
+            "AbilityManaCost"				
+			{
+				"value"			"115 120 125 130 130 130"
+				"special_bonus_facet_lycan_spirit_wolves" "-50"				
+			}
+			
+			"wolf_index"				"1 2 3 4 5 6"
+			"wolf_duration"				
+			{
+				"value"					"50"
+				"special_bonus_facet_lycan_spirit_wolves"		"=25"
+			}
+
+			"wolf_bat"					
+			{
+				"value"					"1.2 1.1 1.0 0.9 0.9 0.9"
+				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0 =0 =0 =0"				
+			}
+			"wolf_damage"
+			{
+				"value"							"23 29 35 41 47 53"
+				"special_bonus_unique_lycan_3"	"+10"
+				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0 =0 =0 =0"				
+			}
+			"wolf_hp"					
+			{
+				"value"	"325 375 425 475 525 575"
+				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0 =0 =0 =0"
+				"special_bonus_unique_lycan_7"	"+350"				
+			}
+			"bonus_health"
+			{
+				"value"			"0"
+				"special_bonus_unique_lycan_7"	"+350"
+			}
+			"bonus_damage"
+			{
+				"value"			"0"
+				"special_bonus_unique_lycan_3"	"+10"
+			}
+			"bonus_armor"
+			{
+				"value"			"0 0 0 0 5 10"				
+			}
+			"bash_chance"				"15"
+			"bash_duration"				"1.0"
+			"wolf_count"			
+			{
+				"value"			"2"
+				"special_bonus_unique_lycan_2" "+2"
+			}
+
+			"is_lone_wolf"	
+			{
+				"value"					"0"
+				"special_bonus_facet_lycan_spirit_wolves"					"+1"
+			}
+			"back_distance"
+			{
+				"value"						"0"
+				"special_bonus_facet_lycan_spirit_wolves"					"+150"
+			}
+			"side_distance"
+			{
+				"value"						"0"
+				"special_bonus_facet_lycan_spirit_wolves"					"+75"
+			}
+			"model_scale"
+			{
+				"value"						"0"
+				"special_bonus_facet_lycan_spirit_wolves"					"-15"
+			}
+			"invis_level"				
+			{
+				"value"						"0"
+				"special_bonus_facet_lycan_spirit_wolves"					"0.05"
+			}
+			"health_per_wolf"				
+			{
+				"value"							"50 100 150 200"	
+				"special_bonus_unique_lycan_7"	"+250"
+				"RequiresFacet"					"lycan_spirit_wolves"
+			}
+			"damage_per_wolf"				
+			{
+				"value"					"6 12 18 24"	
+				"special_bonus_unique_lycan_3"	"+6"
+				"RequiresFacet"					"lycan_spirit_wolves"
+			}
+			"death_fx_time"
+			{
+				"special_bonus_facet_lycan_spirit_wolves"					"1.0"
+			}
+
+			"max_level"
+			{
+				"value"					"4"
+				"special_bonus_facet_lycan_alpha_wolves" "+2"
+			}
+		}
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
+	}
+
+}

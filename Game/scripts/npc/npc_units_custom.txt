@@ -162,7 +162,6 @@
         // Status
         //----------------------------------------------------------------
         "StatusHealth"              "575"       // Base health.
-    }
 
     "npc_dota_damage_listener"
     {
