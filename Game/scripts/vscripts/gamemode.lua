@@ -23,12 +23,17 @@ function GameMode:InitGameMode()
  
 
     GameRules:SetCustomGameTeamMaxPlayers(1, 2)
+
+    -- Set neutral creep spawn time to 0:00
+    GameRules:GetGameModeEntity():SetNeutralCreepSpawnTime(0.0)
 end
 
 function GameMode:OnGameRulesStateChange()
 	local newState = GameRules:State_Get()
 
 	if newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		-- Spawn neutral creeps immediately
+		GameRules:SpawnNeutralCreeps()
 		GameMode:LineBossSpawner()
 	end
 end
