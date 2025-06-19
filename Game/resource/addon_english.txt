@@ -42,6 +42,13 @@
 		"DOTA_Tooltip_ability_ability_ice_max_hero_attacks" "Атак для уничтожения филактерия"
 		"DOTA_Tooltip_ability_ability_ice_max_aura_radius_value" "Радиус Ауры"
 
+		"DOTA_Tooltip_ability_lich_frost_blast_lua" "Frost Blast"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_description" "Blasts an enemy unit with damaging frost, dealing 50/100/150/200 damage to the target and 75/100/125/150 damage to nearby enemy units in a 200 radius. All affected units are slowed for 4 seconds. Damage is increased by a percentage of your mind power."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius" "RADIUS:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed" "MOVEMENT SPEED SLOW:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed" "ATTACK SPEED SLOW:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage" "AOE DAMAGE:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier" "MIND POWER DAMAGE MULTIPLIER:"
 
 		//Tinker
 
