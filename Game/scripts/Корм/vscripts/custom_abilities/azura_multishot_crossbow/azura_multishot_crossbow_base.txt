@@ -1,0 +1,59 @@
+"DOTAAbilities"
+{
+	//=================================================================================================================
+	// Azura: Multishot Crossbow
+	//=================================================================================================================
+	"azura_multishot_crossbow"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/azura_multishot_crossbow/azura_multishot_crossbow"
+		"AbilityTextureName"			"custom/azura_multishot_crossbow"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+		//"precache"
+		//{
+		//	"soundfile"	"soundevents/game_sounds_heroes/game_sounds_<hero>.vsndevts"
+		//	"particle"	"particles/units/heroes/hero_<hero>/<hero>_<ability>.vpcf"
+		//}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"bat_override"			"0.5"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"max_charge"			"2 3 4 5"
+				"LinkedSpecialBonus"	"special_bonus_unique_azura_d"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"charge_restore"		"1.9 2.0 2.1 2.2"
+			}
+		}
+	}
+}

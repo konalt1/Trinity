@@ -1,0 +1,89 @@
+"DOTAAbilities"
+{
+	//=================================================================================================================
+	// Sona: Crescendo
+	//=================================================================================================================
+	"sona_crescendo"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/sona_crescendo/sona_crescendo"
+		"AbilityTextureName"			"custom/sona_crescendo"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"3"
+//		"precache"
+//		{
+//			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_<hero>.vsndevts"
+//			"particle"	"particles/units/heroes/hero_<hero>/<hero>_<ability>.vpcf"
+//		}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1200"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"1200"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"valor_aura"			"5 10 15"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"valor_attack"			"5 10 15"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"valor_duration"		"2"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"perseverance_armor"	"5 10 15"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"perseverance_magic"	"15 20 25"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"perseverance_duration"	"1 2 3"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"celerity_slow"			"-10 -15 -20"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"celerity_duration"		"2 3 4"
+			}
+		}
+	}
+}
