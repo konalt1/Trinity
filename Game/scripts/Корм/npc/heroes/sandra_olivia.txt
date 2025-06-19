@@ -1,0 +1,58 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Sandra Olivia (PA)
+	//=================================================================================================================
+	"npc_dota_hero_sandra"
+	{
+		// Base Hero Override
+		"override_hero"			"npc_dota_hero_phantom_assassin"			// Hero to override
+		
+		// General Override
+		//-------------------------------------------------------------------------------------------------------------
+		"Portrait"		"portrait_sandra"
+		"Role"			"Support,Carry,Durable,Nuker,Initiator"
+		"Rolelevels"	"2,1,3,1,1"
+
+		// Attributes
+		//-------------------------------------------------------------------------------------------------------------
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"26"
+		"AttributeStrengthGain"		"2.990000"
+		"AttributeBaseAgility"		"24"
+		"AttributeAgilityGain"		"1.660000"
+		"AttributeBaseIntelligence"		"13"
+		"AttributeIntelligenceGain"		"1.330000"
+
+		// Base Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"ArmorPhysical"			"2.82"
+		"MagicalResistance"		"29"
+		"MovementSpeed"			"283"
+		"VisionDaytimeRange"		"1673"
+		"VisionNighttimeRange"		"942"
+
+		// Attack
+		//-------------------------------------------------------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"60"
+		"AttackDamageMax"		"70"
+		"AttackRate"		"1.860000"
+		"AttackRange"		"79"
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Ability Override
+		"Ability1"				"sandra_undeniable_torture"						// Ability 1
+		"Ability2"				"sandra_ironical_healing"						// Ability 2
+		"Ability3"				"sandra_will_to_live"						// Ability 3
+		"Ability6"				"sandra_sacrifice"							// Ability 6
+		"Ability10"				"special_bonus_unique_sandra_1"							// Ability 6
+		"Ability11"				"special_bonus_unique_sandra_2"							// Ability 6
+		"Ability12"				"special_bonus_unique_sandra_3"							// Ability 6
+		"Ability13"				"special_bonus_unique_sandra_4"							// Ability 6
+		"Ability14"				"special_bonus_unique_sandra_spellblock"							// Ability 6
+		"Ability15"				"special_bonus_unique_ironical_healing_duration"							// Ability 6
+		"Ability16"				"special_bonus_unique_will_to_live_tick"							// Ability 6
+		"Ability17"				"special_bonus_unique_undeniable_torture_lifeshare"							// Ability 6
+	}
+}

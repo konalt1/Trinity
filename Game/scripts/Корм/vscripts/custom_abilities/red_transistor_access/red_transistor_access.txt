@@ -1,0 +1,118 @@
+"DOTAAbilities"
+{
+	//=================================================================================================================
+	// Red Transistor: Access
+	//=================================================================================================================
+	"red_transistor_access"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_access"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"1"
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"60"
+		"AbilityManaCost"				"0"
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+	}
+
+	//=================================================================================================================
+	// Red Transistor: Empty and Locked slots
+	//=================================================================================================================
+	"red_transistor_empty_1"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_empty"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_empty_2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_empty"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_empty_3"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_empty"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_empty_4"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_empty"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_locked_1"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_locked"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_locked_2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_locked"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_locked_3"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_locked"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	"red_transistor_locked_4"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"custom_abilities/red_transistor_access/red_transistor_access"
+		"AbilityTextureName"			"custom/red_transistor_locked"
+		"MaxLevel"						"3"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+}

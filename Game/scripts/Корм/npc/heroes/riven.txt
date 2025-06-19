@@ -1,0 +1,50 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Riven (Juggernaut)
+	//=================================================================================================================
+	"npc_dota_hero_riven"
+	{
+		// Base Hero Override
+		"override_hero"			"npc_dota_hero_juggernaut"			// Hero to override
+		
+		// General Override
+		//-------------------------------------------------------------------------------------------------------------
+		"Portrait"		"portrait_riven"
+		"Role"			"Carry,Nuker,Disabler,Pusher,Escape"
+		"Rolelevels"	"2,2,1,1,1"
+
+		// Attributes
+		//-------------------------------------------------------------------------------------------------------------
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"1.80000"
+		"AttributeBaseAgility"		"24"
+		"AttributeAgilityGain"		"2.500000"
+		"AttributeBaseIntelligence"		"26"
+		"AttributeIntelligenceGain"		"3.10000"
+
+		// Base Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"ArmorPhysical"			"7.32"
+		"MagicalResistance"		"25"
+		"MovementSpeed"			"300"
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"800"
+
+		// Attack
+		//-------------------------------------------------------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"45"
+		"AttackDamageMax"		"55"
+		"AttackRate"		"1.700000"
+		"AttackRange"		"150"
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Ability Override
+		"Ability1"				"riven_ki_burst"						// Ability 1
+		"Ability2"				"riven_broken_wings"					// Ability 2
+		"Ability3"				"riven_runic_blade"						// Ability 3
+		"Ability6"				"riven_blade_of_the_exile"				// Ability 6
+	}
+}
