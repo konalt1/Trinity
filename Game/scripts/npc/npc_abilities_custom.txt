@@ -871,4 +871,25 @@
         }
     }
 
+    "empty_buff_ability"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/empty_buff_ability"
+        "AbilityTextureName"            "phantom_assassin_coup_de_grace"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityValues"
+        {
+            "activation_delay"          "2.0"
+            "bonus_damage"              "25 50 75 100"
+            "bonus_armor"               "3 5 7 10"
+        }
+    }
+
 }
