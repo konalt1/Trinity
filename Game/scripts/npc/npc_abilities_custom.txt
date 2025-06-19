@@ -883,13 +883,6 @@
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
-
-        "AbilityValues"
-        {
-            "activation_delay"          "2.0"
-            "bonus_damage"              "25 50 75 100"
-            "bonus_armor"               "3 5 7 10"
-        }
     }
 
 }
