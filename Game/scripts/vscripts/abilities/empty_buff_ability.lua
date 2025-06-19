@@ -29,8 +29,8 @@ end
 function modifier_empty_buff_ability:OnIntervalThink()
     local unit = self:GetCaster()
     
-    -- Получаем интеллект героя
-    local intelligence = unit:GetIntellect()
+    -- Получаем интеллект героя с бонусами от предметов
+    local intelligence = unit:GetIntellect(false)
     
     -- Ограничиваем значение для корректного отображения (максимум 999)
     local display_value = math.min(intelligence, 999)
