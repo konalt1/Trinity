@@ -8,6 +8,7 @@
         "Ability13"										"special_bonus_unique_coup_de_foudre_attacks"
         "Ability17"										"special_bonus_unique_coup_de_foudre_refresh"
 		"RequiredLevel"          						"4"
+		"Ability8"				"mind_power"
 	}
 
     "npc_dota_hero_techies"
@@ -16,7 +17,7 @@
         "Ability2"		                                "ability_fireworks"
         "Ability6"		                                "ability_chain_bomb"
         "Ability7"										"techies_sticky_bomb_bonus"
-
+        "Ability8"				"mind_power"
 
         "Ability11"										"special_bonus_unique_techies_fireworks_radius"
         "Ability13"										"special_bonus_unique_techies_chain_bomb_create_move"
@@ -29,6 +30,7 @@
 		"override_hero"                                 "npc_dota_hero_juggernaut"
 		"Ability3"		                                "ability_thirsty_blade"
 		"Ability2"		                                "ability_vampiric_ward"
+		"Ability8"				"mind_power"
 
 		"Ability10"										"special_bonus_unique_vampiric_ward_slow"
 		"Ability11"										"special_bonus_unique_thirsty_blade_slow"
@@ -43,7 +45,7 @@
 		"override_hero"                                 "npc_dota_hero_lich"
 		"Ability4"				"lich_chain_frost"
 		"Ability6"				"ability_ice_phylactery"
-		"Ability7"				"empty_buff_ability"
+		"Ability8"				"mind_power"
 	}
 
 	"npc_dota_hero_tinker"
@@ -51,6 +53,7 @@
 		"Ability3"				"tinker_heat_seeking_missile"
 		"Ability5"				""
 		"Ability6"				"tinker_rearm_custom"
+		"Ability8"				"mind_power"
 
 		"Ability10"				"special_bonus_unique_tinker_rearm_spell_amp"
 		"Ability11"				"special_bonus_unique_tinker_rearm_cooldown"
@@ -66,11 +69,13 @@
 		"Ability2"				"ogre_magi_bonk"
 		"Ability5"				"ogre_magi_multicast"
 		"Ability6"				"ogre_magi_reroll"
+		"Ability8"				"mind_power"
 	}
 
 	"npc_dota_hero_lycan"
 	{	
 		"Ability1"				"lycan_summon_wolves_custom"
+		"Ability8"				"mind_power"
 	}
 
 	 

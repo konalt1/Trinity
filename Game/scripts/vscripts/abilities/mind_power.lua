@@ -1,32 +1,32 @@
-LinkLuaModifier("modifier_empty_buff_ability", "abilities/empty_buff_ability", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_mind_power", "abilities/mind_power", LUA_MODIFIER_MOTION_NONE)
 
-empty_buff_ability = class({})
+mind_power = class({})
 
-function empty_buff_ability:GetIntrinsicModifierName()
-    return "modifier_empty_buff_ability"
+function mind_power:GetIntrinsicModifierName()
+    return "modifier_mind_power"
 end
 
 -- Постоянный бафф модификатор (видимый в окошке модификаторов)
-modifier_empty_buff_ability = class({
+modifier_mind_power = class({
     IsHidden = function(self) return false end,
     IsPurgable = function(self) return false end,
     IsBuff = function(self) return true end,
     RemoveOnDeath = function(self) return false end,
 })
 
-function modifier_empty_buff_ability:OnCreated()
+function modifier_mind_power:OnCreated()
     if not IsServer() then
         return
     end
     
-    -- Запускаем проверку каждые 1 секунду для обновления значения
-    self:StartIntervalThink(1.0)
+    -- Запускаем проверку каждые 0.1 секунды для обновления значения
+    self:StartIntervalThink(0.1)
     
     -- Воспроизводим эффект при создании баффа
     self:PlayEffects()
 end
 
-function modifier_empty_buff_ability:OnIntervalThink()
+function modifier_mind_power:OnIntervalThink()
     local unit = self:GetCaster()
     
     -- Получаем интеллект героя с бонусами от предметов
@@ -42,7 +42,7 @@ function modifier_empty_buff_ability:OnIntervalThink()
     print("Intelligence: " .. intelligence .. ", Display value: " .. display_value)
 end
 
-function modifier_empty_buff_ability:PlayEffects()
+function modifier_mind_power:PlayEffects()
     local particle_cast = "particles/generic_gameplay/generic_buff.vpcf"
     local sound_cast = "Hero_Omniknight.Purification"
     
@@ -55,6 +55,6 @@ function modifier_empty_buff_ability:PlayEffects()
     EmitSoundOn(self:GetParent(), sound_cast)
 end
 
-function modifier_empty_buff_ability:GetTexture()
+function modifier_mind_power:GetTexture()
     return "phantom_assassin_coup_de_grace"
 end 
