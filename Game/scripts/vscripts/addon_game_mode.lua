@@ -5,8 +5,9 @@ require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
 
-
 require ("abilities/ogre_magi/ogre_magi_reroll")
+require ("lich/frost_blast/lich_frost_blast_lua")
+
 function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):

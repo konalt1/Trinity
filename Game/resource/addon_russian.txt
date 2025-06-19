@@ -1,0 +1,17 @@
+"lang"
+{
+	"Language" 	"Russian"
+	"Tokens"
+	{
+		"addon_game_name" "Trinity"
+		
+		//Lich
+		"DOTA_Tooltip_ability_lich_frost_blast_lua" "Ледяной взрыв"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_description" "Взрывает вражескую цель ледяным уроном, нанося 50/100/150/200 урона по цели и 75/100/125/150 урона ближайшим вражеским юнитам в радиусе 200. Все пораженные юниты замедляются на 4 секунды. Урон увеличивается на процент от силы разума."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius" "РАДИУС:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed" "ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed" "ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage" "УРОН ПО ПЛОЩАДИ:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier" "МНОЖИТЕЛЬ УРОНА ОТ СИЛЫ РАЗУМА:"
+	}
+}
