@@ -871,18 +871,20 @@
         }
     }
 
-    "empty_buff_ability"
+    "mind_power"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/empty_buff_ability"
+        "ScriptFile"                    "abilities/mind_power"
         "AbilityTextureName"            "phantom_assassin_coup_de_grace"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "Innate"                        "1"
 
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
+        "AbilityLevel"                  "1"
     }
 
 }
