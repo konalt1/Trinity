@@ -19,11 +19,27 @@ function modifier_empty_buff_ability:OnCreated()
         return
     end
     
-    -- Устанавливаем стек модификатора в 1 (отображается как цифра на баффе)
-    self:SetStackCount(1)
+    -- Запускаем проверку каждые 1 секунду для обновления значения
+    self:StartIntervalThink(1.0)
     
     -- Воспроизводим эффект при создании баффа
     self:PlayEffects()
+end
+
+function modifier_empty_buff_ability:OnIntervalThink()
+    local unit = self:GetCaster()
+    
+    -- Получаем интеллект героя
+    local intelligence = unit:GetIntellect()
+    
+    -- Ограничиваем значение для корректного отображения (максимум 999)
+    local display_value = math.min(intelligence, 999)
+    
+    -- Устанавливаем стек модификатора
+    self:SetStackCount(display_value)
+    
+    -- Отладочная информация в консоль
+    print("Intelligence: " .. intelligence .. ", Display value: " .. display_value)
 end
 
 function modifier_empty_buff_ability:PlayEffects()
