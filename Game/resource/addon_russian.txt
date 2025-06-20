@@ -13,5 +13,21 @@
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed" "ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage" "УРОН ПО ПЛОЩАДИ:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier" "МНОЖИТЕЛЬ УРОНА ОТ СИЛЫ РАЗУМА:"
+
+		"DOTA_Tooltip_ability_lich_frost_shield_lua" "Ледяной щит"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_description" "Накладывает на цель магический ледяной щит, уменьшая урон от атак по ней. Пока щит действует, он раз в секунду наносит 20/30/40/50 магического урона вражеским существам вокруг и замедляет их."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction" "УМЕНЬШЕНИЕ УРОНА:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius" "РАДИУС:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_interval" "ИНТЕРВАЛ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage" "УРОН:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_duration" "ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed" "ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_health_regen" "РЕГЕНЕРАЦИЯ ЗДОРОВЬЯ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration" "ДЛИТЕЛЬНОСТЬ:"
+
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff" "Ледяной щит"
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff_description" "Защищен магическим ледяным щитом, который уменьшает входящий урон и наносит периодический урон ближайшим врагам."
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff" "Замедление ледяного щита"
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff_description" "Скорость передвижения снижена ледяным щитом."
 	}
 }
