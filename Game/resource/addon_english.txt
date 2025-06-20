@@ -50,6 +50,22 @@
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage" "AOE DAMAGE:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier" "MIND POWER DAMAGE MULTIPLIER:"
 
+		"DOTA_Tooltip_ability_lich_frost_shield_lua" "Frost Shield"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_description" "Applies a magical frost shield to the target, reducing damage from attacks. While the shield is active, it deals 20/30/40/50 magical damage to enemy units around it every second and slows them."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction" "DAMAGE REDUCTION:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius" "RADIUS:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_interval" "INTERVAL:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage" "DAMAGE:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_duration" "SLOW DURATION:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed" "MOVEMENT SPEED SLOW:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_health_regen" "HEALTH REGENERATION:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration" "DURATION:"
+
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff" "Frost Shield"
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff_description" "Protected by a magical frost shield that reduces incoming damage and deals periodic damage to nearby enemies."
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff" "Frost Shield Slow"
+		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff_description" "Movement speed is reduced by the frost shield."
+
 		//Tinker
 
 		"DOTA_Tooltip_ability_tinker_rearm_custom" "Перегрев"
