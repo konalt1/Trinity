@@ -29,17 +29,17 @@ end
 function modifier_mind_power:OnIntervalThink()
     local unit = self:GetCaster()
     
-    -- Получаем интеллект героя с бонусами от предметов
-    local intelligence = unit:GetIntellect(false)
+    -- Используем вспомогательную функцию для получения mind power
+    local total_mind_power = GetHeroMindPower(unit)
     
     -- Ограничиваем значение для корректного отображения (максимум 999)
-    local display_value = math.min(intelligence, 999)
+    local display_value = math.min(total_mind_power, 999)
     
     -- Устанавливаем стек модификатора
     self:SetStackCount(display_value)
     
     -- Отладочная информация в консоль
-    print("Intelligence: " .. intelligence .. ", Display value: " .. display_value)
+ 
 end
 
 function modifier_mind_power:PlayEffects()
