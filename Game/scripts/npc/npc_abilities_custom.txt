@@ -902,6 +902,7 @@
             "slow_movespeed"            "-20 -25 -30 -35"
             "health_regen"              "0 0 0 0"
             "duration"                  "6.0"
+            "intelligence_damage_multiplier" "0.5"
         }
 
         "AbilitySpecial"
@@ -945,6 +946,11 @@
             {
                 "var_type"              "FIELD_FLOAT"
                 "duration"              "6.0"
+            }
+            "09"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "intelligence_damage_multiplier" "0.5"
             }
         }
     }

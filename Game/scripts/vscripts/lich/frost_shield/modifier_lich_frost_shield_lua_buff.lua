@@ -29,6 +29,7 @@ function modifier_lich_frost_shield_lua_buff:OnCreated( kv )
 	self.slow_movespeed = self:GetAbility():GetSpecialValueFor( "slow_movespeed" )
 	self.interval = self:GetAbility():GetSpecialValueFor( "interval" )
 	self.health_regen = self:GetAbility():GetSpecialValueFor( "health_regen" )
+	self.intelligence_multiplier = self:GetAbility():GetSpecialValueFor( "intelligence_damage_multiplier" )
 
 	-- Apply talent bonuses
 	local caster = self:GetCaster()
@@ -60,6 +61,7 @@ function modifier_lich_frost_shield_lua_buff:OnRefresh( kv )
 	self.slow_movespeed = self:GetAbility():GetSpecialValueFor( "slow_movespeed" )
 	self.interval = self:GetAbility():GetSpecialValueFor( "interval" )
 	self.health_regen = self:GetAbility():GetSpecialValueFor( "health_regen" )
+	self.intelligence_multiplier = self:GetAbility():GetSpecialValueFor( "intelligence_damage_multiplier" )
 
 	-- Apply talent bonuses
 	local caster = self:GetCaster()
@@ -101,11 +103,21 @@ function modifier_lich_frost_shield_lua_buff:OnIntervalThink()
 
 		-- Damage and slow enemies
 		for _, enemy in pairs(enemies) do
+			-- Calculate damage with intelligence scaling
+			local base_damage = self.damage
+			local caster = self:GetCaster()
+			
+			-- Получаем значение mind power используя вспомогательную функцию
+			local mind_power = GetHeroMindPower(caster)
+			
+			local intelligence_bonus = mind_power * self.intelligence_multiplier
+			local total_damage = base_damage + intelligence_bonus
+			
 			-- Deal damage
 			local damage_table = {
 				victim = enemy,
-				attacker = self:GetCaster(),
-				damage = self.damage,
+				attacker = caster,
+				damage = total_damage,
 				damage_type = DAMAGE_TYPE_MAGICAL,
 				ability = self:GetAbility(),
 			}
@@ -113,7 +125,7 @@ function modifier_lich_frost_shield_lua_buff:OnIntervalThink()
 
 			-- Apply slow
 			enemy:AddNewModifier(
-				self:GetCaster(),
+				caster,
 				self:GetAbility(),
 				"modifier_lich_frost_shield_lua_debuff",
 				{

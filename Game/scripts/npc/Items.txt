@@ -6,7 +6,7 @@
 	//
 	// "ability_type":
 	//	DOTA_ABILITY_TYPE_BASIC = 0 : 
-	//  DOTA_ABILITY_TYPE_ULTIMATE = 1 :
+	//  DOTA_ABILITY_TYPE_ULTIMATE = 1 : 
 	//  DOTA_ABILITY_TYPE_ATTRIBUTES = 2 : 
 	//
 	// "ability_behavior":
@@ -5330,7 +5330,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
-	
+
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"2275"
@@ -6159,7 +6159,7 @@
 		"ItemShopTags"					"int;str;agi;mana_pool;health_pool;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"ags;ultimate;aghanim\'s scepter;ags"
-	
+		
 		//"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"		// heroes for whom this is a problem solve it in their code - ogre magi, meepo
 	}
 	
@@ -7037,6 +7037,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ScriptFile"					"items/item_kaya_mind_power"
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -7052,7 +7053,7 @@
 		"AbilityValues"
 		{
 				"bonus_intellect"			"16"
-				"spell_amp"			"10"
+				"mind_power_bonus"			"100"
 				"mana_regen_multiplier"		"50"
 				"spell_lifesteal_amp"	"20"
 
@@ -14927,7 +14928,7 @@
 		"ItemCost"						"0"
 		"ItemIsNeutralActiveDrop"		"1"
 		"ItemPurchasable"				"0"
-		"ItemSellable"					"0"
+		"ItemSellable"				"0"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------

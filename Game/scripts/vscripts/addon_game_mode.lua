@@ -1,9 +1,18 @@
 require ("timers")
 require ("game_settings")
 require ("utils/util")
+require ("test_mind_power") -- Тестовый файл для проверки функции
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
+
+-- Загружаем способности
+require ("abilities/mind_power")
+require ("abilities/mind_power_buff")
+require ("items/item_kaya_mind_power")
+
+-- Загружаем способности Лича
+require ("lich/frost_shield/lich_frost_shield_lua")
 
 require ("abilities/ogre_magi/ogre_magi_reroll")
 require ("lich/frost_blast/lich_frost_blast_lua")
