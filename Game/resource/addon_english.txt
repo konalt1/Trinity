@@ -75,7 +75,64 @@
 		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown" "Время перезарядки способностей"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration" "Длительность перегрева"
 
- 
+		// Custom Talents Descriptions
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"           "Fireworks Radius +100"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius_Description"           "Increases Fireworks splash radius by 100."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"       "Chain Bomb Movement"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed_Description"       "Chain Bomb can now move."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"     "Chain Bomb Create Distance +800"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move_Description"     "Increases Chain Bomb creation distance by 800."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_attacks"             "Coup de Foudre Attacks +4"
+		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_attacks_Description"             "Increases required attacks to activate Coup de Foudre by 4."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_refresh"             "Coup de Foudre Refresh +1"
+		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_refresh_Description"             "Increases item refresh chance by 1."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_slow"                 "Thirsty Blade Slow +3"
+		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_slow_Description"                 "Increases slow per stack by 3%."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_lifesteal_up"         "Thirsty Blade Lifesteal +15%"
+		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_lifesteal_up_Description"         "Increases lifesteal bonus by 15%."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_cooldown_omni"        "Thirsty Blade Omnislash CD +1"
+		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_cooldown_omni_Description"        "Reduces Omnislash cooldown by 1 second."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_slow"                 "Vampiric Ward Slow -15%"
+		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_slow_Description"                 "Vampiric Ward now slows enemies by 15%."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_attack_speed"         "Vampiric Ward Attack Speed +60"
+		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_attack_speed_Description"         "Vampiric Ward grants 60 attack speed to allies."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_cooldown"              "Tinker Rearm CD -0.5s"
+		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_cooldown_Description"              "Reduces Rearm cooldown by 0.5 seconds."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_spell_amp"             "Tinker Rearm Spell Amp +40%"
+		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_spell_amp_Description"             "Increases spell amplification during Rearm by 40%."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_avatar"                "Tinker Rearm Avatar +1"
+		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_avatar_Description"                "Rearm now grants magic immunity."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_damage_reduction" "Frost Shield Damage Reduction +10%"
+		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_damage_reduction_Description" "Increases Frost Shield damage reduction by 10%."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_duration"         "Frost Shield Duration +4s"
+		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_duration_Description"         "Increases Frost Shield duration by 4 seconds."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_health_regen"     "Frost Shield Health Regen +50"
+		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_health_regen_Description"     "Frost Shield now grants 50 health regeneration."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_2"                 "Blur Evasion +15%"
+		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_2_Description"                 "Increases Blur evasion chance by 15%."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_3"                 "Blur Duration +4s"
+		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_3_Description"                 "Increases Blur active duration by 4 seconds."
+
+		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4"                 "Blur Active Evasion +20%"
+		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Increases Blur active evasion chance by 20%."
+
 	}
 
 }
