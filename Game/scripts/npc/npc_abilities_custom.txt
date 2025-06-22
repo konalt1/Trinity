@@ -824,10 +824,13 @@
 
         "precache"
         {
-            "soundfile"	"soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
-            "particle"	"particles/units/heroes/hero_lich/lich_frost_sheild.vpcf"
-            "particle"	"particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
-            "particle"	"particles/status_fx/status_effect_frost_lich.vpcf"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+            "soundfile"     "sounds/weapons/hero/lich/ice_age_target.vsnd_c"
+            "soundfile"     "sounds/weapons/hero/lich/ice_spire_destroy.vsnd_c"
+            "particle"      "particles/lich/lich_ice_age_dmg.vpcf"
+            "particle"      "particles/lich/lich_ice_age.vpcf"
+            "particle"      "particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
+            "particle"      "particles/status_fx/status_effect_frost_lich.vpcf"
         }
 
         "AbilitySpecial"
@@ -855,7 +858,7 @@
             "05"
             {
                 "var_type"				"FIELD_FLOAT"
-                "mind_power_multiplier"	"0.5"
+                "mind_power_damage_multiplier"	"0.5"
             }
         }
     }
@@ -887,7 +890,10 @@
         "precache"
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
-            "particle"      "particles/units/heroes/hero_lich/lich_frost_shield.vpcf"
+            "soundfile"     "sounds/weapons/hero/lich/ice_age_target.vsnd_c"
+            "soundfile"     "sounds/weapons/hero/lich/ice_spire_destroy.vsnd_c"
+            "particle"      "particles/lich/lich_ice_age_dmg.vpcf"
+            "particle"      "particles/lich/lich_ice_age.vpcf"
             "particle"      "particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
             "particle"      "particles/status_fx/status_effect_frost_lich.vpcf"
         }
@@ -902,7 +908,7 @@
             "slow_movespeed"            "-20 -25 -30 -35"
             "health_regen"              "0 0 0 0"
             "duration"                  "6.0"
-            "intelligence_damage_multiplier" "0.5"
+            "mind_power_damage_multiplier" "0.5"
         }
 
         "AbilitySpecial"
@@ -950,7 +956,7 @@
             "09"
             {
                 "var_type"              "FIELD_FLOAT"
-                "intelligence_damage_multiplier" "0.5"
+                "mind_power_damage_multiplier" "0.5"
             }
         }
     }
@@ -1064,5 +1070,21 @@
         "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "agility_weakness"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/agility_weakness"
+        "AbilityTextureName"            "phantom_assassin_blur"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "Innate"                        "1"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityLevel"                  "1"
     }
 }

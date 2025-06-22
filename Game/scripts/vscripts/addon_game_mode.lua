@@ -1,4 +1,4 @@
-require ("timers")
+require ("Timers")
 require ("game_settings")
 require ("utils/util")
 require ("test_mind_power") -- Тестовый файл для проверки функции

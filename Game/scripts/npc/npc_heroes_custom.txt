@@ -61,9 +61,9 @@
 		"Ability6"				"ability_ice_phylactery"
 		"Ability8"				"mind_power"
 		
-		"Ability9"				"special_bonus_unique_lich_frost_shield_damage_reduction"
-		"Ability10"				"special_bonus_unique_lich_frost_shield_duration"
-		"Ability11"				"special_bonus_unique_lich_frost_shield_health_regen"
+		"Ability10"				"special_bonus_unique_lich_frost_shield_damage_reduction"
+		"Ability11"				"special_bonus_unique_lich_frost_shield_duration"
+		"Ability12"				"special_bonus_unique_lich_frost_shield_health_regen"
 	}
 
 	"npc_dota_hero_tinker"
