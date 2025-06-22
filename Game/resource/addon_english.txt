@@ -133,6 +133,9 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4"                 "Blur Active Evasion +20%"
 		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Increases Blur active evasion chance by 20%."
 
+		"DOTA_Tooltip_modifier_mind_power" "Mind Power"
+		"DOTA_Tooltip_modifier_mind_power_description" "Shows your current Mind Power value. Increases with intelligence and special items."
+
 	}
 
 }
