@@ -1,5 +1,7 @@
 modifier_lich_frost_shield_lua_buff = class({})
 
+print("=== MODIFIER LICH FROST SHIELD BUFF LOADED ===")
+
 --------------------------------------------------------------------------------
 -- Classifications
 function modifier_lich_frost_shield_lua_buff:IsHidden()
@@ -29,7 +31,7 @@ function modifier_lich_frost_shield_lua_buff:OnCreated( kv )
 	self.slow_movespeed = self:GetAbility():GetSpecialValueFor( "slow_movespeed" )
 	self.interval = self:GetAbility():GetSpecialValueFor( "interval" )
 	self.health_regen = self:GetAbility():GetSpecialValueFor( "health_regen" )
-	self.intelligence_multiplier = self:GetAbility():GetSpecialValueFor( "intelligence_damage_multiplier" )
+	self.mind_power_multiplier = self:GetAbility():GetSpecialValueFor( "mind_power_damage_multiplier" )
 
 	-- Apply talent bonuses
 	local caster = self:GetCaster()
@@ -48,8 +50,32 @@ function modifier_lich_frost_shield_lua_buff:OnCreated( kv )
 		self:StartIntervalThink( self.interval )
 	end
 
-	-- Play effects
-	self:PlayEffects()
+	-- Create particle effect
+	self.effect_cast = ParticleManager:CreateParticle("particles/lich/lich_ice_age_dmg.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+	ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(self.effect_cast, 1, self:GetParent():GetAbsOrigin())
+	
+	-- Debug: Check if particle was created
+	if self.effect_cast == -1 then
+		print("Failed to create modifier particle: lich_ice_age_dmg.vpcf")
+	else
+		print("Successfully created modifier particle: lich_ice_age_dmg.vpcf with index: " .. self.effect_cast)
+	end
+
+	-- Debug: Check if particle was created
+	print("=== LICH FROST SHIELD MODIFIER CREATED ===")
+
+	-- Play sound effect
+	if IsServer() then
+		local sound_cast = "Hero_Lich.FrostShield"
+		EmitSoundOn(sound_cast, self:GetParent())
+		print("Playing buff sound: " .. sound_cast)
+	end
+
+	-- Start thinking for particle updates
+	if IsServer() then
+		self:StartIntervalThink(1.0) -- Update particles every 1.0 seconds
+	end
 end
 
 function modifier_lich_frost_shield_lua_buff:OnRefresh( kv )
@@ -61,7 +87,7 @@ function modifier_lich_frost_shield_lua_buff:OnRefresh( kv )
 	self.slow_movespeed = self:GetAbility():GetSpecialValueFor( "slow_movespeed" )
 	self.interval = self:GetAbility():GetSpecialValueFor( "interval" )
 	self.health_regen = self:GetAbility():GetSpecialValueFor( "health_regen" )
-	self.intelligence_multiplier = self:GetAbility():GetSpecialValueFor( "intelligence_damage_multiplier" )
+	self.mind_power_multiplier = self:GetAbility():GetSpecialValueFor( "mind_power_damage_multiplier" )
 
 	-- Apply talent bonuses
 	local caster = self:GetCaster()
@@ -82,11 +108,19 @@ function modifier_lich_frost_shield_lua_buff:OnDestroy( kv )
 		local sound_cast = "Hero_Lich.FrostArmorDamage"
 		EmitSoundOn( sound_cast, self:GetParent() )
 	end
+	
+	-- Destroy particle effect
+	if self.effect_cast then
+		ParticleManager:DestroyParticle(self.effect_cast, false)
+		ParticleManager:ReleaseParticleIndex(self.effect_cast)
+	end
 end
 
 --------------------------------------------------------------------------------
 -- Interval Effects
 function modifier_lich_frost_shield_lua_buff:OnIntervalThink()
+	print("=== LICH FROST SHIELD INTERVAL THINK ===")
+	
 	if IsServer() then
 		-- Find enemies in radius
 		local enemies = FindUnitsInRadius(
@@ -110,8 +144,8 @@ function modifier_lich_frost_shield_lua_buff:OnIntervalThink()
 			-- Получаем значение mind power используя вспомогательную функцию
 			local mind_power = GetHeroMindPower(caster)
 			
-			local intelligence_bonus = mind_power * self.intelligence_multiplier
-			local total_damage = base_damage + intelligence_bonus
+			local mind_power_bonus = mind_power * self.mind_power_multiplier
+			local total_damage = base_damage + mind_power_bonus
 			
 			-- Deal damage
 			local damage_table = {
@@ -161,41 +195,26 @@ end
 
 --------------------------------------------------------------------------------
 -- Graphics & Animations
-function modifier_lich_frost_shield_lua_buff:GetEffectName()
-	return "particles/units/heroes/hero_lich/lich_frost_shield.vpcf"
-end
-
-function modifier_lich_frost_shield_lua_buff:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
 function modifier_lich_frost_shield_lua_buff:GetStatusEffectName()
 	return "particles/status_fx/status_effect_frost_lich.vpcf"
 end
 
-function modifier_lich_frost_shield_lua_buff:PlayEffects()
-	-- Get Resources
-	local particle_cast = "particles/units/heroes/hero_lich/lich_frost_shield.vpcf"
-	local sound_cast = "Hero_Lich.FrostArmor"
-
-	-- Create Particle
-	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-	ParticleManager:ReleaseParticleIndex( effect_cast )
-
-	-- Create Sound
-	EmitSoundOn( sound_cast, self:GetParent() )
-end
-
 function modifier_lich_frost_shield_lua_buff:PlayPeriodicEffect()
+	print("=== LICH FROST SHIELD PLAY PERIODIC EFFECT ===")
+	
 	-- Get Resources
-	local particle_cast = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
+	local particle_cast = "particles/lich/lich_ice_age_dmg.vpcf"
 	local sound_cast = "Hero_Lich.FrostNova"
 
 	-- Create Particle
-	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-	ParticleManager:SetParticleControl(effect_cast, 1, Vector(self.radius, 0, 0))
-	ParticleManager:ReleaseParticleIndex( effect_cast )
-
-	-- Create Sound
-	EmitSoundOn( sound_cast, self:GetParent() )
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+	ParticleManager:SetParticleControl(effect_cast, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(effect_cast, 1, self:GetParent():GetAbsOrigin())
+	ParticleManager:ReleaseParticleIndex(effect_cast)
+	
+	-- Play sound effect
+	if IsServer() then
+		EmitSoundOn(sound_cast, self:GetParent())
+		print("Playing periodic sound: " .. sound_cast)
+	end
 end 

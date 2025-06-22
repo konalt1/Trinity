@@ -33,20 +33,15 @@ end
 -- Effects
 function lich_frost_shield_lua:PlayEffects( caster, target )
 	-- Get Resources
-	local particle_cast = "particles/units/heroes/hero_lich/lich_frost_shield.vpcf"
+	local particle_cast = "particles/lich/lich_ice_age_dmg.vpcf"
 	local sound_cast = "Hero_Lich.FrostArmor"
 
 	-- Create Particle
 	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, target )
-	ParticleManager:SetParticleControlEnt(
-		effect_cast,
-		1,
-		caster,
-		PATTACH_POINT_FOLLOW,
-		"attach_attack1",
-		target:GetOrigin(),
-		true
-	)
+	-- Set particle to repeat and fix orientation
+	ParticleManager:SetParticleControl(effect_cast, 0, target:GetAbsOrigin())
+	ParticleManager:SetParticleControl(effect_cast, 2, Vector(1, 1, 1)) -- Scale
+	ParticleManager:SetParticleControl(effect_cast, 3, Vector(0, 0, 0)) -- Rotation
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 
 	-- Create Sound
