@@ -5,8 +5,8 @@
 	{
 		"override_hero"                                 "npc_dota_hero_phantom_assassin"
 		"Facets" ""
-		"Ability3"				"0"
-		"Ability5" 										"phantom_assassin_blur"
+		"Ability3"				"phantom_assassin_blur"
+		"Ability5" 										"0"
 		"Ability6"		                                "ability_coup_de_foudre"
         "Ability13"										"special_bonus_unique_coup_de_foudre_attacks"
         "Ability17"										"special_bonus_unique_coup_de_foudre_refresh"
