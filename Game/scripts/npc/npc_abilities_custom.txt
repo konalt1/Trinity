@@ -999,4 +999,70 @@
             }
         }
     }
+
+    "phantom_assassin_blur"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/phantom_assassin/phantom_assassin_blur"
+        "AbilityTextureName"            "phantom_assassin_blur"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "Innate"                        "0"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "60 50 40 30"
+        "AbilityManaCost"               "50"
+
+        "AbilityValues"
+        {
+            "evasion_chance"
+            {
+                "value"                 "20 25 30 35"
+                "special_bonus_unique_phantom_assassin_2"    "+15"
+            }
+            "radius"                    "1600"
+            "active_duration"
+            {
+                "value"                 "8"
+                "special_bonus_unique_phantom_assassin_3"    "+4"
+            }
+            "active_evasion_chance"
+            {
+                "value"                 "50 60 70 80"
+                "special_bonus_unique_phantom_assassin_4"    "+20"
+            }
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+            "particle"      "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur.vpcf"
+            "particle"      "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur_active.vpcf"
+        }
+    }
+
+    "special_bonus_unique_phantom_assassin_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_phantom_assassin_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_phantom_assassin_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
 }

@@ -1,0 +1,69 @@
+"DOTAAbilities"
+{
+	//=================================================================================================================
+	// Phantom Assassin: Blur
+	//=================================================================================================================
+	"phantom_assassin_blur"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/phantom_assassin/phantom_assassin_blur"
+		"AbilityTextureName"			"phantom_assassin_blur"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.0"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"60 50 40 30"
+		"AbilityManaCost"				"50"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+			// Passive values
+			"evasion_chance"
+			{
+				"value"							"20 25 30 35"
+				"special_bonus_unique_phantom_assassin_2"	"+15"
+			}
+			"radius"						"1600"
+
+			// Active values
+			"active_duration"
+			{
+				"value"							"8"
+				"special_bonus_unique_phantom_assassin_3"	"+4"
+			}
+			"active_evasion_chance"
+			{
+				"value"							"50 60 70 80"
+				"special_bonus_unique_phantom_assassin_4"	"+20"
+			}
+		}
+
+		// Precache
+		//-------------------------------------------------------------------------------------------------------------
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+			"particle"	"particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur.vpcf"
+			"particle"	"particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur_active.vpcf"
+		}
+	}
+} 
