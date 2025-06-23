@@ -9,6 +9,7 @@ require ("game_managers/config")
 -- Загружаем способности
 require ("abilities/mind_power")
 require ("abilities/mind_power_buff")
+require ("abilities/empty_ability")
 require ("items/item_kaya_mind_power")
 
 -- Загружаем способности Лича
