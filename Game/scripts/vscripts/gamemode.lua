@@ -46,6 +46,19 @@ function GameMode:OnNPCSpawned(data)
         npc.FirstSpawned = true
         npc:AddAbility("high_five_custom")
 
+        -- Выдаем способности mind_power и empty_ability
+        -- local abilities_to_give = {
+        --     "mind_power",  // Временно отключено
+        --     "empty_ability"  // Временно отключено
+        -- }
+        
+        -- for _, ability_name in pairs(abilities_to_give) do
+        --     if not npc:HasAbility(ability_name) then
+        --         npc:AddAbility(ability_name)
+        --         print("=== Gave ability " .. ability_name .. " to " .. npc:GetUnitName() .. " ===")
+        --     end
+        -- end
+
  		-- DebugCreateHeroWithVariant( npc:GetPlayerOwner(), npc:GetUnitName(), 1, npc:GetTeamNumber(), false,
 		-- 	function(   )
  		-- 	end )

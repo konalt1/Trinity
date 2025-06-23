@@ -1087,4 +1087,56 @@
         "LevelsBetweenUpgrades"         "2"
         "AbilityLevel"                  "1"
     }
+
+    "empty_ability"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/empty_ability"
+        "AbilityTextureName"            "phantom_assassin_coup_de_grace"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+        "Innate"                        "1"
+    }
+
+    "lich_chain_frost_shard"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "lich/chain_frost/lich_chain_frost_lua"
+        "AbilityTextureName"            "lich_chain_frost"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "IsGrantedByShard"              "1"
+
+        "AbilityCastRange"              "750"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "100 80 60"
+        "AbilityManaCost"               "200 325 500"
+
+        "AbilityValues"
+        {
+            "damage"                    "300 400 500"
+            "jumps"                     "10 10 10"
+            "jump_range"                "600"
+            "slow_movement_speed"       "-65"
+            "slow_attack_speed"         "-65"
+            "slow_duration"             "2.5"
+            "projectile_speed"          "850"
+            "vision_radius"             "800"
+        }
+
+        "precache"
+        {
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+            "particle"  "particles/units/heroes/hero_lich/lich_chain_frost.vpcf"
+        }
+    }
 }
