@@ -11,7 +11,7 @@ function xp_think:constructor()
     self.xp_table = {}
     self.xp_table[1] = 10
     local diff = 10
-    for i = 2, 29 do
+    for i = 2, 19 do
         self.xp_table[i] = self.xp_table[i - 1] + diff
         diff = diff + 3
     end
