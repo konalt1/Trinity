@@ -45,7 +45,7 @@ USE_STANDARD_DOTA_BOT_THINKING = true  -- Should we have bots act like they woul
 USE_STANDARD_HERO_GOLD_BOUNTY = false    -- Should we give gold for hero kills the same as in Dota, or allow those values to be changed?
 MAXIMUM_ATTACK_SPEED = 1200
 MINIMUM_ATTACK_SPEED = 50
-Max_level=30
+Max_level=20
 
 ENABLE_TOWER_BACKDOOR_PROTECTION = True-- Should we enable backdoor protection for our towers?
 REMOVE_ILLUSIONS_ON_DEATH = false       -- Should we remove all illusions if the main hero dies?
@@ -204,7 +204,7 @@ function GameSettings:CaptureGameMode()
 		mode:SetTopBarTeamValuesOverride ( USE_CUSTOM_TOP_BAR_VALUES )
 		mode:SetTopBarTeamValuesVisible( TOP_BAR_VISIBLE )
 		mode:SetUseCustomHeroLevels ( USE_CUSTOM_HERO_LEVELS )
-		mode:SetCustomHeroMaxLevel ( MAX_LEVEL )
+		mode:SetCustomHeroMaxLevel ( Max_level )
 		mode:SetCustomXPRequiredToReachNextLevel( XP_PER_LEVEL_TABLE )
 
 		--mode:SetBotThinkingEnabled( USE_STANDARD_DOTA_BOT_THINKING )
@@ -505,7 +505,7 @@ function GameSettings:OnPlayerLevelUp(keys)
 		}
 
 
-		if no_points_levels[level] or level >= 30 then
+		if no_points_levels[level] or level >= 20 then
 			hero:SetAbilityPoints(ability_point + 1)
 		end
 	end

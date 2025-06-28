@@ -10,6 +10,7 @@ require ("game_managers/config")
 require ("abilities/mind_power")
 require ("abilities/mind_power_buff")
 require ("abilities/empty_ability")
+require ("abilities/xp_shrine_gold")
 require ("items/item_kaya_mind_power")
 
 -- Загружаем способности Лича
