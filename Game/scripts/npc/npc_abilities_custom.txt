@@ -24,9 +24,9 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "4"
-        "LevelsBetweenUpgrades"         "4"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
 
 		"AbilityValues"
         {
@@ -106,9 +106,9 @@
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
 
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "4"
-        "LevelsBetweenUpgrades"         "4"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -226,14 +226,15 @@
         "SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
         "AbilitySound"					"Ability.FrostNova"
-        "MaxLevel"						"4"
-        "RequiredLevel"                 "4"
+        "MaxLevel"						"3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
 
         "AbilityCastRange"				"750"
         "AbilityCastPoint"				"0.3"
         "AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_5"
 
-        "AbilityCooldown"				"60 50 40 30"
+        "AbilityCooldown"				"60 50 40"
 
         "AbilityManaCost"				"150"
 
@@ -244,7 +245,7 @@
             "spell_lifesteal"           "60"
             "aura_radius"               
             {
-                "value"     "500 600 700 800"
+                "value"     "500 600 700"
                 "affected_by_aoe_increase"  "1"
             }
             "max_hero_attacks"          "3"
@@ -261,12 +262,12 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"       
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "4"
-        "LevelsBetweenUpgrades"         "4"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
         
         "AbilityTextureName"            "tinker_rearm"
-        "AbilityCooldown"               "50 45 40 30"
+        "AbilityCooldown"               "50 45 40"
 
         "AbilityValues"
         {         
@@ -541,8 +542,9 @@
         "AbilityCastAnimation"          "ACT_INVALID"
         "IsBreakable"                   "1"
         "IsGrantedByShard"              "1"
-        "MaxLevel"                      "1"
-        "RequiredLevel"                 "4"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
 
         // Special
         //-------------------------------------------------------------------------------------------------------------
@@ -609,9 +611,9 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "4"
-        "LevelsBetweenUpgrades"         "4"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
         
         "AbilityManaCost"               "120"
 
@@ -629,13 +631,18 @@
         "AbilityTextureName"            "lycan_summon_wolves"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilitySound"					"Hero_Lycan.SummonWolves"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
 
         "HasShardUpgrade"               "1"
         "RestrictValuesToMaxLevel"		"1"
 
- 		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+ 		"AbilityCastPoint"				"0.3 0.3 0.3"
 
- 		"AbilityCooldown"				"30.0 30.0 30.0 30.0"
+ 		"AbilityCooldown"				"30.0 30.0 30.0"
 
  		"AbilityValues"
 		{
@@ -651,11 +658,11 @@
 			}			
             "AbilityManaCost"				
 			{
-				"value"			"115 120 125 130 130 130"
+				"value"			"115 120 125"
 				"special_bonus_facet_lycan_spirit_wolves" "-50"				
 			}
 			
-			"wolf_index"				"1 2 3 4 5 6"
+			"wolf_index"				"1 2 3"
 			"wolf_duration"				
 			{
 				"value"					"50"
@@ -664,19 +671,19 @@
 
 			"wolf_bat"					
 			{
-				"value"					"1.2 1.1 1.0 0.9 0.9 0.9"
-				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0 =0 =0 =0"				
+				"value"					"1.2 1.1 1.0"
+				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0"				
 			}
 			"wolf_damage"
 			{
-				"value"							"23 29 35 41 47 53"
+				"value"							"23 29 35"
 				"special_bonus_unique_lycan_3"	"+10"
-				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0 =0 =0 =0"				
+				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0"				
 			}
 			"wolf_hp"					
 			{
-				"value"	"325 375 425 475 525 575"
-				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0 =0 =0 =0"
+				"value"	"325 375 425"
+				"special_bonus_facet_lycan_spirit_wolves" "=0 =0 =0"
 				"special_bonus_unique_lycan_7"	"+350"				
 			}
 			"bonus_health"
@@ -691,7 +698,7 @@
 			}
 			"bonus_armor"
 			{
-				"value"			"0 0 0 0 5 10"				
+				"value"			"0 0 0"				
 			}
 			"bash_chance"				"15"
 			"bash_duration"				"1.0"
@@ -728,13 +735,13 @@
 			}
 			"health_per_wolf"				
 			{
-				"value"							"50 100 150 200"	
+				"value"							"50 100 150"	
 				"special_bonus_unique_lycan_7"	"+250"
 				"RequiresFacet"					"lycan_spirit_wolves"
 			}
 			"damage_per_wolf"				
 			{
-				"value"					"6 12 18 24"	
+				"value"					"6 12 18"	
 				"special_bonus_unique_lycan_3"	"+6"
 				"RequiresFacet"					"lycan_spirit_wolves"
 			}
@@ -745,7 +752,7 @@
 
 			"max_level"
 			{
-				"value"					"4"
+				"value"					"3"
 				"special_bonus_facet_lycan_alpha_wolves" "+2"
 			}
 		}
@@ -1121,7 +1128,9 @@
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "IsGrantedByShard"              "1"
-        "RequiredLevel"                 "4"
+        "RequiredLevel"                 "6"
+        "MaxLevel"                      "3"
+        "LevelsBetweenUpgrades"         "6"
 
         "AbilityCastRange"              "750"
         "AbilityCastPoint"              "0.3"
