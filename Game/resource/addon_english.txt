@@ -134,7 +134,7 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Increases Blur active evasion chance by 20%."
 
 		"DOTA_Tooltip_modifier_mind_power" "Mind Power"
-"DOTA_Tooltip_modifier_mind_power_description" "Shows your current Mind Power value. Consists of: Base Mind Power + Intelligence Bonus + Item Bonuses + Local Bonuses from abilities."
+"DOTA_Tooltip_ability_mind_power_description" "Shows your current Mind Power. Consists of: Base Mind Power + Intelligence Bonus + Item Bonuses + Local Bonuses from abilities."
 
 		// Doom Soul Devour
 		"DOTA_Tooltip_ability_doom_soul_devour" "Soul Devour"
