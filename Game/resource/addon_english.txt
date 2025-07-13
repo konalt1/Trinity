@@ -134,7 +134,16 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Increases Blur active evasion chance by 20%."
 
 		"DOTA_Tooltip_modifier_mind_power" "Mind Power"
-		"DOTA_Tooltip_modifier_mind_power_description" "Shows your current Mind Power value. Increases with intelligence and special items."
+"DOTA_Tooltip_modifier_mind_power_description" "Shows your current Mind Power value. Consists of: Base Mind Power + Intelligence Bonus + Item Bonuses + Local Bonuses from abilities."
+
+		// Doom Soul Devour
+		"DOTA_Tooltip_ability_doom_soul_devour" "Soul Devour"
+		"DOTA_Tooltip_ability_doom_soul_devour_description" "Devours a creep's soul, permanently gaining soul power and healing Doom. Soul power is a separate parameter that can be used by other abilities."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description" "SCEPTER UPGRADE: Can now target heroes with less than 666 HP, instantly killing them and gaining soul power."
+		"DOTA_Tooltip_ability_doom_soul_devour_soul_power" "SOUL POWER GAINED:"
+		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount" "HEAL AMOUNT:"
+		"DOTA_Tooltip_ability_doom_soul_devour_cast_range" "CAST RANGE:"
+		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold" "AGHANIM HP THRESHOLD:"
 
 	}
 

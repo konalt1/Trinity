@@ -90,6 +90,15 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Увеличивает шанс активного уклонения Blur на 20%."
 
 		"DOTA_Tooltip_modifier_mind_power" "Сила разума"
-		"DOTA_Tooltip_modifier_mind_power_description" "Показывает вашу текущую Силу разума. Увеличивается с интеллектом и специальными предметами."
+"DOTA_Tooltip_modifier_mind_power_description" "Показывает вашу текущую Силу разума. Состоит из: Базовая Сила разума + Бонус от интеллекта + Бонусы от предметов + Локальные бонусы от способностей."
+
+		// Doom Soul Devour
+		"DOTA_Tooltip_ability_doom_soul_devour" "Поглощение души"
+		"DOTA_Tooltip_ability_doom_soul_devour_description" "Поглощает душу крипа, навсегда получая силу душ и исцеляя Doom. Сила душ - это отдельный параметр, который может использоваться другими способностями."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description" "УЛУЧШЕНИЕ АГАНИМА: Теперь может нацеливаться на героев с менее чем 666 HP, мгновенно убивая их и получая силу душ."
+		"DOTA_Tooltip_ability_doom_soul_devour_soul_power" "ПОЛУЧАЕМАЯ СИЛА ДУШ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount" "КОЛИЧЕСТВО ИСЦЕЛЕНИЯ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_cast_range" "ДИСТАНЦИЯ ПРИМЕНЕНИЯ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold" "ПОРОГ HP ДЛЯ АГАНИМА:"
 	}
 }
