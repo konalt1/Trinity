@@ -1221,6 +1221,7 @@
             "heal_amount"               "100 150 200 250"
             "cast_range"                "300"
             "aghanim_hp_threshold"      "666"
+            "hero_soul_multiplier"      "3"
         }
 
         "AbilitySpecial"
@@ -1244,6 +1245,11 @@
             {
                 "var_type"              "FIELD_INTEGER"
                 "aghanim_hp_threshold" "666"
+            }
+            "05"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "hero_soul_multiplier"  "3"
             }
         }
 
