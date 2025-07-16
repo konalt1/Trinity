@@ -145,6 +145,18 @@
 		"DOTA_Tooltip_ability_doom_soul_devour_cast_range" "CAST RANGE:"
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold" "AGHANIM HP THRESHOLD:"
 
+		// Doom Scorched Earth Lua
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua" "Scorched Earth"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_description" "Doom scorches the earth around him, dealing magical damage per second to enemies and granting movement speed to allies in the area. Damage scales with your Mind Power."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second" "DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius" "RADIUS:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct" "MOVEMENT SPEED BONUS:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration" "DURATION:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier" "MIND POWER DAMAGE MULTIPLIER:"
+
+		"DOTA_Tooltip_modifier_doom_scorched_earth_lua" "Scorched Earth"
+		"DOTA_Tooltip_modifier_doom_scorched_earth_lua_description" "Moving faster and dealing damage to nearby enemies. Damage scales with Mind Power."
+
 	}
 
 }

@@ -100,5 +100,17 @@
 		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount" "КОЛИЧЕСТВО ИСЦЕЛЕНИЯ:"
 		"DOTA_Tooltip_ability_doom_soul_devour_cast_range" "ДИСТАНЦИЯ ПРИМЕНЕНИЯ:"
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold" "ПОРОГ HP ДЛЯ АГАНИМА:"
+
+		// Doom Scorched Earth Lua
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua" "Выжженная земля"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_description" "Doom выжигает землю вокруг себя, нанося магический урон в секунду врагам и давая скорость передвижения союзникам в области. Урон масштабируется от Силы разума."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second" "УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius" "РАДИУС:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct" "БОНУС СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration" "ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier" "МНОЖИТЕЛЬ УРОНА ОТ СИЛЫ РАЗУМА:"
+
+		"DOTA_Tooltip_modifier_doom_scorched_earth_lua" "Выжженная земля"
+		"DOTA_Tooltip_modifier_doom_scorched_earth_lua_description" "Двигаетесь быстрее и наносите урон ближайшим врагам. Урон масштабируется от Силы разума."
 	}
 }
