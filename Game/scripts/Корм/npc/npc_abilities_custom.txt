@@ -1005,7 +1005,6 @@
 #base "../vscripts/lua_abilities/disruptor_static_storm_lua/disruptor_static_storm_lua.txt"
 
 #base "../vscripts/lua_abilities/doom_devour_lua/doom_devour_lua.txt"
-#base "../vscripts/lua_abilities/doom_scorched_earth_lua/doom_scorched_earth_lua.txt"
 #base "../vscripts/lua_abilities/doom_infernal_blade_lua/doom_infernal_blade_lua.txt"
 #base "../vscripts/lua_abilities/doom_doom_lua/doom_doom_lua.txt"
 

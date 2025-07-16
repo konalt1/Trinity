@@ -19618,7 +19618,7 @@
 		"HeroSelectSoundEffect"		"Hero_DoomBringer.Pick"
 		"GibType"		"default"
 		"Ability1"		"doom_bringer_devour"
-		"Ability2"		"doom_bringer_scorched_earth"
+		"Ability2"		"doom_scorched_earth_lua"
 		"Ability3"		"doom_bringer_infernal_blade"
 		"Ability4"		"doom_bringer_empty1"
 		"Ability5"		"doom_bringer_empty2"
@@ -19667,7 +19667,7 @@
 		"AbilityDraftAbilities"
 		{
 			"Ability1"		"doom_bringer_devour"
-			"Ability2"		"doom_bringer_scorched_earth"
+			"Ability2"		"doom_scorched_earth_lua"
 			"Ability3"		"doom_bringer_infernal_blade"
 			"Ability4"		"doom_bringer_doom"
 		}
