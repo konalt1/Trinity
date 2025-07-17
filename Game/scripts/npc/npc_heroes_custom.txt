@@ -93,7 +93,11 @@
 		"Facets" ""
 		"Ability1"				"doom_soul_devour"
 		"Ability2"				"doom_scorched_earth_lua"
+		"Ability4" 				"0"
 		"Ability5" 				"0"
+		"Ability7" 				"0"
+		"Ability6"               "doom_ultimate_aura"
+
 	}
 
 	 

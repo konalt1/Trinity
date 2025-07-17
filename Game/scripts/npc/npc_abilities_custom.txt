@@ -1302,5 +1302,96 @@
         }
     }
 
+    "doom_ultimate_aura"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "DOOM/doom_ultimate_aura"
+        "AbilityTextureName"            "doom_bringer_doom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "AbilityCooldown"               "140 120 100"
+        "AbilityManaCost"               "150 200 250"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityDuration"               "16.0"
+        "AbilityValues"
+        {
+            "aura_radius"               "600"
+            "damage_per_second"         "40 60 80"
+            "duration"                  "16.0"
+            "mind_power_multiplier"     "0.5"
+        }
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_doombringer.vsndevts"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf"
+        }
+    }
+
+    "doom_infernal_chain"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/doom_infernal_chain.lua"
+        "AbilityTextureName"            "doom_bringer_scorched_earth"
+        
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        
+        "AbilityCastRange"              "800"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "12"
+        "AbilityManaCost"               "100"
+        
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "cast_range"            "800"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "chain_duration"        "4.0"
+            }
+            "03"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "damage_per_second"     "50"
+            }
+            "04"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "mind_power_multiplier" "2.0"
+            }
+            "05"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "chain_radius"          "600"
+            }
+            "06"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "max_chains"            "3"
+            }
+        }
+        
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_doom_bringer/doom_bringer_scorched_earth.vpcf"
+            "particle"  "particles/units/heroes/hero_doom_bringer/doom_bringer_scorched_earth_debuff.vpcf"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_doom_bringer.vsndevts"
+        }
+    }
+
 
 }

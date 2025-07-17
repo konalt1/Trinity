@@ -157,6 +157,10 @@
 		"DOTA_Tooltip_modifier_doom_scorched_earth_lua" "Scorched Earth"
 		"DOTA_Tooltip_modifier_doom_scorched_earth_lua_description" "Moving faster and dealing damage to nearby enemies. Damage scales with Mind Power."
 
+		// Doom Ultimate Aura
+		"DOTA_Tooltip_ability_doom_ultimate_aura" "Destructive Aura"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_description" "Doom unleashes a wave of destructive energy, dealing damage to all enemies in the area and applying silence and passive disable. Damage increases based on Doom's Mind Power."
+
 	}
 
 }

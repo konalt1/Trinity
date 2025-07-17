@@ -112,5 +112,9 @@
 
 		"DOTA_Tooltip_modifier_doom_scorched_earth_lua" "Выжженная земля"
 		"DOTA_Tooltip_modifier_doom_scorched_earth_lua_description" "Двигаетесь быстрее и наносите урон ближайшим врагам. Урон масштабируется от Силы разума."
+
+		// Doom Ultimate Aura
+		"DOTA_Tooltip_ability_doom_ultimate_aura" "Разрушительная аура"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_description" "Doom выпускает волну разрушительной энергии, нанося урон всем врагам в области и накладывая эффект немоты и блокировки пассивных способностей. Урон увеличивается в зависимости от Силы разума Doom."
 	}
 }
