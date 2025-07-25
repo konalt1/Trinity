@@ -8,7 +8,7 @@ end
 
 -- Модификатор с цифрой "1"
 modifier_empty_ability = class({
-    IsHidden = function(self) return false end,
+    IsHidden = function(self) return true end,
     IsPurgable = function(self) return false end,
     IsBuff = function(self) return true end,
     RemoveOnDeath = function(self) return false end,
