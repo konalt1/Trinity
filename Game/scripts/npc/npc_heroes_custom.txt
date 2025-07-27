@@ -32,6 +32,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_juggernaut"
 		"Facets" ""
+		"Ability1"		                                "juggernaut_blade_fury_lua"
 		"Ability2"		                                "ability_vampiric_ward"
 		"Ability3"		                                "ability_thirsty_blade"
 		
