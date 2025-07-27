@@ -33,6 +33,14 @@
 		"DOTA_Tooltip_ability_ability_vampiric_ward_aura_radius"			 "РАДИУС:"
 		"DOTA_Tooltip_ability_ability_vampiric_ward_vampiric_ward_duration"			 "ДЛИТЕЛЬНОСТЬ:"
 		
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"			 	 "Blade Fury"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_description"	 "Juggernaut spins his blade, becoming immune to magic and dealing damage to nearby enemy units."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"			 "DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"			 "RADIUS:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			 "DURATION:"
+		"DOTA_Tooltip_modifier_juggernaut_blade_fury_lua" "Blade Fury"
+		"DOTA_Tooltip_modifier_juggernaut_blade_fury_lua_description" "Spinning blades deal magical damage to nearby enemies and provide magic immunity."
+		
  		//Lich
 		"DOTA_Tooltip_ability_ability_ice_phylactery" "Ледяной филактерий"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_description" "Лич призывает ледяной филактерий в указанной области, который создаёт магическое поле,  снижающее время перезарядки его способностей и увеличиваещее вампиризм заклинаниями Лича на 75%. Вражеские герои, попавшие в радиус действия замедляются."

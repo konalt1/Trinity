@@ -19,11 +19,7 @@ function modifier_mind_power:OnCreated()
         return
     end
     
-    print("=== Mind Power Modifier Created ===")
-    print("Hero: " .. self:GetParent():GetUnitName())
-    print("Hero Level: " .. self:GetParent():GetLevel())
-    print("Intelligence: " .. self:GetParent():GetIntellect(false))
-    print("==================================")
+
     
     -- Запускаем проверку каждые 0.1 секунды для обновления значения
     self:StartIntervalThink(0.1)
@@ -87,23 +83,7 @@ function modifier_mind_power:OnIntervalThink()
     -- Устанавливаем значение в стек для отображения в интерфейсе
     self:SetStackCount(display_value)
     
-    -- Отладочная информация только при наличии бонусов
-    if base_mind_power > 0 or item_bonus > 0 or local_bonus > 0 then
-        print("Mind Power for " .. unit:GetUnitName() .. ": Base=" .. base_mind_power .. 
-              ", Int=" .. intelligence_bonus .. 
-              ", Items=" .. item_bonus .. 
-              ", Local=" .. local_bonus .. 
-              ", Total=" .. total_mind_power .. 
-              ", Display=" .. display_value)
-    else
-        -- Показываем базовую информацию даже без бонусов
-        print("Mind Power for " .. unit:GetUnitName() .. ": Base=" .. base_mind_power .. 
-              ", Int=" .. intelligence_bonus .. 
-              ", Items=" .. item_bonus .. 
-              ", Local=" .. local_bonus .. 
-              ", Total=" .. total_mind_power .. 
-              ", Display=" .. display_value)
-    end
+
 end
 
 function modifier_mind_power:PlayEffects()
@@ -133,6 +113,4 @@ function modifier_mind_power:OnDestroy()
     if not IsServer() then
         return
     end
-    
-    print("Mind Power: Modifier destroyed for " .. self:GetParent():GetUnitName() .. " with stack: " .. self:GetStackCount())
 end 
