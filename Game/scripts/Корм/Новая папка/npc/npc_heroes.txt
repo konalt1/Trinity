@@ -2614,16 +2614,16 @@
 		"Ability1"		"juggernaut_blade_fury"
 		"Ability2"		"juggernaut_healing_ward"
 		"Ability3"		"juggernaut_blade_dance"
-		"Ability4"		"juggernaut_swift_slash"
+		"Ability4"		"juggernaut_omni_slash"
 		"Ability5"		"juggernaut_duelist"
-		"Ability6"		"juggernaut_omni_slash"
+		"Ability6"		"juggernaut_swift_slash"
 
 		"AbilityDraftAbilities"
 		{
 			"Ability1"	"juggernaut_blade_fury"
 			"Ability2"	"juggernaut_healing_ward"
 			"Ability3"	"juggernaut_blade_dance"
-			"Ability4"	"juggernaut_omni_slash"
+			"Ability4"	"juggernaut_swift_slash"
 		}
 
 		"Ability10"		"special_bonus_unique_juggernaut_5"

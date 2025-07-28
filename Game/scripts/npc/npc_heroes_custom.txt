@@ -35,6 +35,8 @@
 		"Ability1"		                                "juggernaut_blade_fury_lua"
 		"Ability2"		                                "ability_vampiric_ward"
 		"Ability3"		                                "ability_thirsty_blade"
+		"Ability4"		                                "juggernaut_omni_slash"
+		"Ability6"		                                "juggernaut_swift_slash_lua"
 		
 
 		"Ability10"										"special_bonus_unique_vampiric_ward_slow"
