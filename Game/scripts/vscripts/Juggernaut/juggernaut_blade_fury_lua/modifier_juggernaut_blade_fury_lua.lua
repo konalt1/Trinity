@@ -24,14 +24,20 @@ function modifier_juggernaut_blade_fury_lua:OnRefresh( kv )
 	self.tick = self:GetAbility():GetSpecialValueFor( "blade_fury_damage_tick" ) -- special value
 	self.radius = self:GetAbility():GetSpecialValueFor( "blade_fury_radius" ) -- special value
 	self.dps = self:GetAbility():GetSpecialValueFor( "blade_fury_damage" ) -- special value
+	self.mind_power_multiplier = self:GetAbility():GetSpecialValueFor( "mind_power_multiplier" ) or 0.5 -- special value with fallback
 	self.count = 0
 
+	-- Note: Damage is calculated dynamically in OnIntervalThink, no need to pre-calculate here
 	if IsServer() then
-		self.damageTable.damage = self.dps * self.tick
+		print("Blade Fury: OnRefresh called - values updated for dynamic calculation")
 	end
 end
 
 function modifier_juggernaut_blade_fury_lua:OnDestroy( kv )
+	if IsServer() then
+		print("Blade Fury: OnDestroy called - stopping sounds and animation")
+	end
+	
 	-- Stop effects
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"
 	StopSoundOn( sound_cast, self:GetParent() )
@@ -46,6 +52,13 @@ function modifier_juggernaut_blade_fury_lua:OnDestroy( kv )
 		StopSoundOn("Hero_Juggernaut.BladeFuryStart", self:GetParent())
 		StopSoundOn("Hero_Juggernaut.BladeFury", self:GetParent())
 		StopSoundOn("Hero_Juggernaut.BladeFuryEnd", self:GetParent())
+		
+		-- Also try stopping with different approaches
+		local parent = self:GetParent()
+		if parent then
+			EmitSoundOnLocationForPlayer("Hero_Juggernaut.BladeFuryEnd", parent:GetAbsOrigin(), parent:GetPlayerID())
+		end
+		print("Blade Fury: All sounds should be stopped now")
 	end
 end
 
@@ -80,21 +93,23 @@ function modifier_juggernaut_blade_fury_lua:OnCreated( kv )
 	self.tick = self:GetAbility():GetSpecialValueFor( "blade_fury_damage_tick" ) -- special value
 	self.radius = self:GetAbility():GetSpecialValueFor( "blade_fury_radius" ) -- special value
 	self.dps = self:GetAbility():GetSpecialValueFor( "blade_fury_damage" ) -- special value
+	self.mind_power_multiplier = self:GetAbility():GetSpecialValueFor( "mind_power_multiplier" ) or 0.5 -- special value with fallback
 	
 	self.max_count = kv.duration/self.tick
 	self.count = 0
 	
 	if IsServer() then
 		print("Blade Fury: Duration=" .. kv.duration .. ", Tick=" .. self.tick .. ", MaxCount=" .. self.max_count)
+		print("Blade Fury: Base DPS=" .. self.dps .. ", Mind Power Multiplier=" .. self.mind_power_multiplier)
 	end
 
 	-- Start interval
 	if IsServer() then
-		-- precache damagetable
+		-- Initialize damage table without damage value (will be calculated in OnIntervalThink)
 		self.damageTable = {
 			-- victim = target,
 			attacker = self:GetParent(),
-			damage = self.dps * self.tick,
+			damage = 0, -- Will be calculated in OnIntervalThink
 			damage_type = DAMAGE_TYPE_MAGICAL,
 			ability = self:GetAbility(), --Optional.
 		}
@@ -114,6 +129,36 @@ end
 --------------------------------------------------------------------------------
 -- Interval Effects
 function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
+	print("Blade Fury: OnIntervalThink called, tick: " .. (self.count + 1) .. "/" .. self.max_count)
+	
+	-- Calculate mind power bonus damage with error handling (every tick for dynamic scaling)
+	local caster = self:GetParent()
+	local mind_power = 0
+	
+	-- Safe call to GetHeroMindPower
+	if GetHeroMindPower then
+		mind_power = GetHeroMindPower(caster) or 0
+	else
+		mind_power = caster:GetIntellect(false) or 0
+	end
+	
+	local mind_power_bonus = mind_power * self.mind_power_multiplier
+	local total_damage = self.dps + mind_power_bonus
+	local damage_per_tick = total_damage * self.tick
+	
+	-- Update damage table with current calculated damage
+	self.damageTable.damage = damage_per_tick
+	
+	-- Debug output (every 5th tick to avoid spam)
+	if self.count % 5 == 0 then
+		print("Blade Fury Mind Power Update (Tick " .. (self.count + 1) .. "):")
+		print("  Base damage: " .. self.dps)
+		print("  Mind power: " .. mind_power)
+		print("  Mind power bonus: " .. mind_power_bonus)
+		print("  Total DPS: " .. total_damage)
+		print("  Damage this tick: " .. damage_per_tick)
+	end
+	
 	-- Find enemies in radius
 	local enemies = FindUnitsInRadius(
 		self:GetCaster():GetTeamNumber(),	-- int, your team number
@@ -127,10 +172,13 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 		false	-- bool, can grow cache
 	)
 
+	print("Blade Fury: Found " .. #enemies .. " enemies in radius " .. self.radius)
+
 	-- damage enemies
 	for _,enemy in pairs(enemies) do
 		self.damageTable.victim = enemy
 		ApplyDamage( self.damageTable )
+		print("Blade Fury: Applied " .. self.damageTable.damage .. " damage to " .. enemy:GetUnitName())
 
 		-- Play effects
 		self:PlayEffects2( enemy )
@@ -138,6 +186,8 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 
 	-- counter
 	self.count = self.count+1
+	print("Blade Fury: Tick counter: " .. self.count .. "/" .. self.max_count)
+	
 	if self.count>= self.max_count then
 		if IsServer() then
 			print("Blade Fury: Destroying modifier after " .. self.count .. " ticks (max: " .. self.max_count .. ")")
@@ -149,7 +199,9 @@ end
 --------------------------------------------------------------------------------
 -- Graphics & Animations
 function modifier_juggernaut_blade_fury_lua:PlayEffects()
-		-- Get Resources
+	print("Blade Fury: PlayEffects called")
+	
+	-- Get Resources
 	local particle_cast = "particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf"
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"
 
@@ -167,8 +219,10 @@ function modifier_juggernaut_blade_fury_lua:PlayEffects()
 		false
 	)
 
-	-- Emit sound
+	-- Emit sound with debug
+	print("Blade Fury: Emitting sound: " .. sound_cast)
 	EmitSoundOn( sound_cast, self:GetParent() )
+	print("Blade Fury: Sound emission complete")
 end
 
 function modifier_juggernaut_blade_fury_lua:PlayEffects2( target )
