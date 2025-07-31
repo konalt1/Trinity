@@ -40,6 +40,15 @@
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			 "DURATION:"
 		"DOTA_Tooltip_modifier_juggernaut_blade_fury_lua" "Blade Fury"
 		"DOTA_Tooltip_modifier_juggernaut_blade_fury_lua_description" "Spinning blades deal magical damage to nearby enemies and provide magic immunity."
+
+		"DOTA_Tooltip_ability_juggernaut_bloodlust"			 	 "Bloodlust"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_description"	 "Juggernaut enters a bloodthirsty frenzy, greatly increasing his attack speed and healing himself with each attack. Healing is enhanced by Mind Power."
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"			 "ATTACK SPEED BONUS:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			 "HEAL PER ATTACK:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"			 "DURATION:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_mind_power_heal_multiplier"			 "MIND POWER HEAL BONUS:"
+		"DOTA_Tooltip_modifier_juggernaut_bloodlust" "Bloodlust"
+		"DOTA_Tooltip_modifier_juggernaut_bloodlust_description" "Increased attack speed and healing per attack. Enhanced by Mind Power."
 		
  		//Lich
 		"DOTA_Tooltip_ability_ability_ice_phylactery" "Ледяной филактерий"
