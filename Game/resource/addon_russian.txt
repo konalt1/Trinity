@@ -5,6 +5,16 @@
 	{
 		"addon_game_name" "Trinity"
 		
+		//Juggernaut
+		"DOTA_Tooltip_ability_juggernaut_bloodlust"			 	 "Жажда крови"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_description"	 "Джаггернаут впадает в кровожадное безумие, значительно увеличивая скорость атаки и исцеляя себя с каждой атакой. Исцеление усиливается Силой Разума."
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"			 "БОНУС СКОРОСТИ АТАКИ:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			 "ИСЦЕЛЕНИЕ ЗА АТАКУ:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"			 "ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_mind_power_heal_multiplier"			 "БОНУС ИСЦЕЛЕНИЯ ОТ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_modifier_juggernaut_bloodlust" "Жажда крови"
+		"DOTA_Tooltip_modifier_juggernaut_bloodlust_description" "Увеличенная скорость атаки и исцеление за атаку. Усиливается Силой Разума."
+		
 		//Lich
 		"DOTA_Tooltip_ability_lich_frost_blast_lua" "Ледяной взрыв"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_description" "Взрывает вражескую цель ледяным уроном, нанося 50/100/150/200 урона по цели и 75/100/125/150 урона ближайшим вражеским юнитам в радиусе 200. Все пораженные юниты замедляются на 4 секунды. Урон увеличивается на процент от силы разума."

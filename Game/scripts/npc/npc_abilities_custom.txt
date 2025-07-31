@@ -1506,4 +1506,55 @@
             "HasScepterUpgrade"             "1"
         }
 
+        "juggernaut_bloodlust"
+        {
+            // Ability Technical Aspect
+            //-------------------------------------------------------------------------------------------------------------
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "Juggernaut/juggernaut_bloodlust"
+            "AbilityTextureName"            "juggernaut_blade_dance"
+            
+            // Ability General
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+            "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+            "FightRecapLevel"               "1"
+            "MaxLevel"                      "4"
+            "RequiredLevel"                 "1"
+            "LevelsBetweenUpgrades"         "2"
+
+            // Casting
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityCastPoint"              "0.2"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+
+            // Time
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityCooldown"               "30 25 20 15"
+
+            // Cost
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityManaCost"               "80 90 100 110"
+            
+            // Special
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityValues"
+            {
+                "attack_speed_bonus"        "30 60 90 120"
+                "heal_per_attack"           "30 60 90 120"
+                "duration"                  "5.0"
+                "mind_power_heal_multiplier" "0.5"
+            }
+
+                    "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+            "particle"      "particles/generic_gameplay/generic_lifesteal.vpcf"
+            "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_blade_dance.vpcf"
+            "particle"      "particles/units/heroes/hero_mars/mars_arena_of_blood_heal_flame.vpcf"
+        }
+        }
+
 }
