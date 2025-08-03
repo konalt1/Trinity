@@ -1557,4 +1557,94 @@
         }
         }
 
+    "tusk_ice"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "Tusk/tusk_ice"
+        "AbilityTextureName"            "tusk_ice_shards"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "4"
+
+        "AbilityCastRange"              "1200"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "19 16 13 10"
+        "AbilityManaCost"               "100 110 120 130"
+
+        "AbilityValues"
+        {
+            "damage"                    "70 140 210 280"
+            "width"                     "200"
+            "speed"                     "900"
+            "duration"                  "7.0"
+            "radius"                    "200"
+            "angle"                     "20"
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards.vpcf"
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts"
+        }
+    }
+
+    "tusk_ice_shards_lua"
+    {
+        // Ability Technical Aspect
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tusk_ice_shards_lua"
+        "AbilityTextureName"            "tusk_ice_shards"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                     "4"
+        
+        // Ability General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "1400"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "19 16 13 10"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "110 120 130 140"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "shard_width"               "200"
+            "shard_damage"              "70 140 210 280"
+            "shard_slow"                "40"
+            "shard_count"               "6 7 8 9"
+            "shard_speed"               "900"
+            "shard_duration"            "7.0"
+            "shard_slow_duration"       "2.0"
+            "mind_power_multiplier"     "1.0"
+        }
+        
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards.vpcf"
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_ground.vpcf"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts"
+        }
+    }
+
 }

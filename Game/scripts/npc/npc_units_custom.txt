@@ -337,4 +337,30 @@
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
+
+    "npc_dota_tusk_ice_shard_blocker"
+    {
+        "BaseClass"                     "npc_dota_base_additive"
+        "Model"                         "models/development/invisiblebox.vmdl"
+        "ModelScale"                    "1.0"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "StatusHealth"                  "1"
+        "BoundsHullName"               "DOTA_HULL_SIZE_SMALL"
+        "CollisionSize"                 "50"
+        "RingRadius"                    "50"
+        "HealthBarOffset"              "0"
+        "StatusMana"                    "0"
+        "StatusManaRegen"              "0"
+        "MovementSpeed"                 "0"
+        "MovementTurnRate"             "0"
+        "HasInventory"                  "0"
+        "VisionDaytimeRange"           "0"
+        "VisionNighttimeRange"         "0"
+        "UnitRelationshipClass"        "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+        "Creature"
+        {
+            "DisableClumpingBehavior"   "1"
+            "AttachWearables"           []
+        }
+    }
 }

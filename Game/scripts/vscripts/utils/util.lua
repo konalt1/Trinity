@@ -80,3 +80,13 @@ function GetHeroMindPower(hero)
     -- Итоговое значение mind power
     return base_intelligence + mind_power_bonus
 end
+
+function CalculateDirection(point1, point2)
+    local direction = (point1 - point2):Normalized()
+    return direction
+end
+
+function CalculateDistance(point1, point2)
+    local distance = (point1 - point2):Length2D()
+    return distance
+end
