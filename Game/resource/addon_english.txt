@@ -1,183 +1,33 @@
 "lang"
 {
-	"Language" 	"English"
+	"Language"		"english"
 	"Tokens"
 	{
-		"addon_game_name" "Trinity"
-		//Phantom Assassin
-
-		"DOTA_Tooltip_ability_ability_coup_de_foudre"	"Coup de Foudre"
-		"DOTA_Tooltip_ability_ability_coup_de_foudre_description" "Пока враги вас не видят, вы наносите критический урон по противникам"
-		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"		"%CRIT:"
-		"DOTA_Tooltip_modifier_ability_coup_de_foudre" "Вас не видят"
+		// Tusk Ice Shards
+		"DOTA_Tooltip_ability_tusk_ice"							"Ice Shards"
+		"DOTA_Tooltip_ability_tusk_ice_Description"				"Tusk launches a projectile of ice shards that creates a curved wall of ice at the target location. The ice wall blocks enemy movement and deals magical damage to all enemies in the area. The damage scales with Tusk's mind power."
+		"DOTA_Tooltip_ability_tusk_ice_Lore"					"The frozen tundra responds to Tusk's call, forming a barrier of crystalline ice."
+		"DOTA_Tooltip_ability_tusk_ice_damage"					"DAMAGE:"
+		"DOTA_Tooltip_ability_tusk_ice_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_tusk_ice_speed"					"PROJECTILE SPEED:"
+		"DOTA_Tooltip_ability_tusk_ice_width"					"PROJECTILE WIDTH:"
+		"DOTA_Tooltip_ability_tusk_ice_radius"					"FORMATION RADIUS:"
+		"DOTA_Tooltip_ability_tusk_ice_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_tusk_ice_Note0"					"The ice shards form a semicircular wall that extends away from Tusk."
+		"DOTA_Tooltip_ability_tusk_ice_Note1"					"Total damage = Base damage + (Mind Power × Mind Power multiplier)"
 		
-		//Techies
-		
-		"DOTA_Tooltip_ability_ability_fireworks"	"Fireworks"
-		"DOTA_Tooltip_ability_ability_fireworks_description"	"Ваши атаки наносят урон по площади" 
-		"DOTA_Tooltip_ability_ability_fireworks_splash_radius" "РАДИУС УРОНА"
-
-		"DOTA_Tooltip_ability_ability_chain_bomb" "TACTICAL NUKE"
-		"DOTA_Tooltip_ability_ability_chain_bomb_description"	"Герой закладывает взрывчатку, которую можно атаковать уничтожать способностями. Взрывчатка наносит урон при уничтожении."
-		"DOTA_Tooltip_ability_ability_chain_bomb_damage"	"УРОН"
-
-		//Juggernaut
-		"DOTA_Tooltip_ability_ability_thirsty_blade"			 	 "BLADE MASTERY"
-		"DOTA_Tooltip_ability_ability_thirsty_blade_description"	 "Каждая последующая атака по игроку противника увеличивает ваш урон на определённое время"
-		"DOTA_Tooltip_ability_ability_thirsty_blade_attack_damage"			 "ДОП УРОН"
-		"DOTA_Tooltip_ability_ability_thirsty_blade_max_stacks" "МАКС СТАКОВ"
-
-		"DOTA_Tooltip_ability_ability_vampiric_ward"			 	 "Vampiric ward"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_description"	 "Создает Vampiric ward, который дает вампиризм в радиусе."
-		"DOTA_Tooltip_ability_ability_vampiric_ward_lifesteal_percent"			 "ВАМПИРИЗМ:"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_aura_radius"			 "РАДИУС:"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_vampiric_ward_duration"			 "ДЛИТЕЛЬНОСТЬ:"
-		
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"			 	 "Blade Fury"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_description"	 "Juggernaut spins his blade, becoming immune to magic and dealing damage to nearby enemy units."
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"			 "DAMAGE PER SECOND:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"			 "RADIUS:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			 "DURATION:"
-		"DOTA_Tooltip_modifier_juggernaut_blade_fury_lua" "Blade Fury"
-		"DOTA_Tooltip_modifier_juggernaut_blade_fury_lua_description" "Spinning blades deal magical damage to nearby enemies and provide magic immunity."
-
-		"DOTA_Tooltip_ability_juggernaut_bloodlust"			 	 "Bloodlust"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_description"	 "Juggernaut enters a bloodthirsty frenzy, greatly increasing his attack speed and healing himself with each attack. Healing is enhanced by Mind Power."
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"			 "ATTACK SPEED BONUS:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			 "HEAL PER ATTACK:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"			 "DURATION:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_mind_power_heal_multiplier"			 "MIND POWER HEAL BONUS:"
-		"DOTA_Tooltip_modifier_juggernaut_bloodlust" "Bloodlust"
-		"DOTA_Tooltip_modifier_juggernaut_bloodlust_description" "Increased attack speed and healing per attack. Enhanced by Mind Power."
-		
- 		//Lich
-		"DOTA_Tooltip_ability_ability_ice_phylactery" "Ледяной филактерий"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_description" "Лич призывает ледяной филактерий в указанной области, который создаёт магическое поле,  снижающее время перезарядки его способностей и увеличиваещее вампиризм заклинаниями Лича на 75%. Вражеские герои, попавшие в радиус действия замедляются."
-		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction" "% Уменьшение перезарядки способностей"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal" "% Вампиризм от заклинаний"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_duration" "Время жизни филактерия"
-		"DOTA_Tooltip_ability_ability_ice_max_hero_attacks" "Атак для уничтожения филактерия"
-		"DOTA_Tooltip_ability_ability_ice_max_aura_radius_value" "Радиус Ауры"
-
-		"DOTA_Tooltip_ability_lich_frost_blast_lua" "Frost Blast"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_description" "Blasts an enemy unit with damaging frost, dealing 50/100/150/200 damage to the target and 75/100/125/150 damage to nearby enemy units in a 200 radius. All affected units are slowed for 4 seconds. Damage is increased by a percentage of your mind power."
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius" "RADIUS:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed" "MOVEMENT SPEED SLOW:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed" "ATTACK SPEED SLOW:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage" "AOE DAMAGE:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier" "MIND POWER DAMAGE MULTIPLIER:"
-
-		"DOTA_Tooltip_ability_lich_frost_shield_lua" "Frost Shield"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_description" "Applies a magical frost shield to the target, reducing damage from attacks. While the shield is active, it deals 20/30/40/50 magical damage to enemy units around it every second and slows them. Damage is increased by 50% of your mind power value."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction" "DAMAGE REDUCTION:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius" "RADIUS:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_interval" "INTERVAL:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage" "DAMAGE:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_duration" "SLOW DURATION:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed" "MOVEMENT SPEED SLOW:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_health_regen" "HEALTH REGENERATION:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration" "DURATION:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_intelligence_damage_multiplier" "MIND POWER DAMAGE MULTIPLIER:"
-
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff" "Frost Shield"
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff_description" "Protected by a magical frost shield that reduces incoming damage and deals periodic damage to nearby enemies."
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff" "Frost Shield Slow"
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff_description" "Movement speed is reduced by the frost shield."
-
-		//Tinker
-
-		"DOTA_Tooltip_ability_tinker_rearm_custom" "Перегрев"
-
-		"DOTA_Tooltip_ability_tinker_rearm_custom_description" "Тинкер перегружает собственные системы, на время входя особую форму, в которой время перезарядки его способностей и предметов снижается на 10 секунд"
-		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown" "Время перезарядки способностей"
-		"DOTA_Tooltip_ability_tinker_rearm_custom_duration" "Длительность перегрева"
-
-		// Custom Talents Descriptions
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"           "Fireworks Radius +100"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius_Description"           "Increases Fireworks splash radius by 100."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"       "Chain Bomb Movement"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed_Description"       "Chain Bomb can now move."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"     "Chain Bomb Create Distance +800"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move_Description"     "Increases Chain Bomb creation distance by 800."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_attacks"             "Coup de Foudre Attacks +4"
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_attacks_Description"             "Increases required attacks to activate Coup de Foudre by 4."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_refresh"             "Coup de Foudre Refresh +1"
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_refresh_Description"             "Increases item refresh chance by 1."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_slow"                 "Thirsty Blade Slow +3"
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_slow_Description"                 "Increases slow per stack by 3%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_lifesteal_up"         "Thirsty Blade Lifesteal +15%"
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_lifesteal_up_Description"         "Increases lifesteal bonus by 15%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_cooldown_omni"        "Thirsty Blade Omnislash CD +1"
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_cooldown_omni_Description"        "Reduces Omnislash cooldown by 1 second."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_slow"                 "Vampiric Ward Slow -15%"
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_slow_Description"                 "Vampiric Ward now slows enemies by 15%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_attack_speed"         "Vampiric Ward Attack Speed +60"
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_attack_speed_Description"         "Vampiric Ward grants 60 attack speed to allies."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_cooldown"              "Tinker Rearm CD -0.5s"
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_cooldown_Description"              "Reduces Rearm cooldown by 0.5 seconds."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_spell_amp"             "Tinker Rearm Spell Amp +40%"
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_spell_amp_Description"             "Increases spell amplification during Rearm by 40%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_avatar"                "Tinker Rearm Avatar +1"
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_avatar_Description"                "Rearm now grants magic immunity."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_damage_reduction" "Frost Shield Damage Reduction +10%"
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_damage_reduction_Description" "Increases Frost Shield damage reduction by 10%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_duration"         "Frost Shield Duration +4s"
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_duration_Description"         "Increases Frost Shield duration by 4 seconds."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_health_regen"     "Frost Shield Health Regen +50"
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_health_regen_Description"     "Frost Shield now grants 50 health regeneration."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_2"                 "Blur Evasion +15%"
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_2_Description"                 "Increases Blur evasion chance by 15%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_3"                 "Blur Duration +4s"
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_3_Description"                 "Increases Blur active duration by 4 seconds."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4"                 "Blur Active Evasion +20%"
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Increases Blur active evasion chance by 20%."
-
-		"DOTA_Tooltip_modifier_mind_power" "Mind Power"
-"DOTA_Tooltip_ability_mind_power_description" "Shows your current Mind Power. Consists of: Base Mind Power + Intelligence Bonus + Item Bonuses + Local Bonuses from abilities."
-
-		// Doom Soul Devour
-		"DOTA_Tooltip_ability_doom_soul_devour" "Soul Devour"
-		"DOTA_Tooltip_ability_doom_soul_devour_description" "Devours a creep's soul, permanently gaining soul power and healing Doom. Soul power is a separate parameter that can be used by other abilities."
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description" "SCEPTER UPGRADE: Can now target heroes with less than 666 HP, instantly killing them and gaining soul power."
-		"DOTA_Tooltip_ability_doom_soul_devour_soul_power" "SOUL POWER GAINED:"
-		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount" "HEAL AMOUNT:"
-		"DOTA_Tooltip_ability_doom_soul_devour_cast_range" "CAST RANGE:"
-		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold" "AGHANIM HP THRESHOLD:"
-
-		// Doom Scorched Earth Lua
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua" "Scorched Earth"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_description" "Doom scorches the earth around him, dealing magical damage per second to enemies and granting movement speed to allies in the area. Damage scales with your Mind Power."
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second" "DAMAGE PER SECOND:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius" "RADIUS:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct" "MOVEMENT SPEED BONUS:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration" "DURATION:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier" "MIND POWER DAMAGE MULTIPLIER:"
-
-		"DOTA_Tooltip_modifier_doom_scorched_earth_lua" "Scorched Earth"
-		"DOTA_Tooltip_modifier_doom_scorched_earth_lua_description" "Moving faster and dealing damage to nearby enemies. Damage scales with Mind Power."
-
-		// Doom Ultimate Aura
-		"DOTA_Tooltip_ability_doom_ultimate_aura" "Destructive Aura"
-		"DOTA_Tooltip_ability_doom_ultimate_aura_description" "Doom unleashes a wave of destructive energy, dealing damage to all enemies in the area and applying silence and passive disable. Damage increases based on Doom's Mind Power."
-
+		// Tusk Channeled Snowball Ultimate
+		"DOTA_Tooltip_ability_tusk_channeled_snowball"			"Channeled Snowball"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Description"	"Tusk begins channeling to prepare a massive snowball. The longer the channel, the less damage it deals. The first 0.5 seconds are free, then damage decreases over time. You can adjust the direction while channeling. When released, Tusk throws a snowball in the target direction that deals damage and stuns the first enemy hit."
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Lore"		"Through sheer force of will, Tusk compacts the very essence of winter into a devastating projectile."
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_max_damage"		"MAXIMUM DAMAGE:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_min_damage"		"MINIMUM DAMAGE:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_free_channel_time"	"FREE CHANNEL TIME:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_damage_reduction_per_sec"	"DAMAGE REDUCTION PER SECOND:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_projectile_speed"		"PROJECTILE SPEED:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_stun_duration"		"STUN DURATION:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note0"		"Channel time affects damage: first 0.5 seconds are free, then damage decreases by the reduction amount per second."
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note1"		"The direction can be adjusted during channeling by moving the cursor."
 	}
-
 }

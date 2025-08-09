@@ -1,130 +1,33 @@
 "lang"
 {
-	"Language" 	"Russian"
+	"Language"		"russian"
 	"Tokens"
 	{
-		"addon_game_name" "Trinity"
+		// Tusk Ice Shards
+		"DOTA_Tooltip_ability_tusk_ice"							"Ледяные Осколки"
+		"DOTA_Tooltip_ability_tusk_ice_Description"				"Таск запускает снаряд из ледяных осколков, который создаёт изогнутую стену льда в указанном месте. Ледяная стена блокирует передвижение противников и наносит магический урон всем врагам в области поражения. Урон увеличивается в зависимости от силы разума Таска."
+		"DOTA_Tooltip_ability_tusk_ice_Lore"					"Замёрзшая тундра отвечает на зов Таска, формируя барьер из кристального льда."
+		"DOTA_Tooltip_ability_tusk_ice_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_tusk_ice_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_tusk_ice_speed"					"СКОРОСТЬ СНАРЯДА:"
+		"DOTA_Tooltip_ability_tusk_ice_width"					"ШИРИНА СНАРЯДА:"
+		"DOTA_Tooltip_ability_tusk_ice_radius"					"РАДИУС ФОРМИРОВАНИЯ:"
+		"DOTA_Tooltip_ability_tusk_ice_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_tusk_ice_Note0"					"Ледяные осколки формируют полукруглую стену, которая простирается от Таска."
+		"DOTA_Tooltip_ability_tusk_ice_Note1"					"Общий урон = Базовый урон + (Сила разума × Множитель силы разума)"
 		
-		//Juggernaut
-		"DOTA_Tooltip_ability_juggernaut_bloodlust"			 	 "Жажда крови"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_description"	 "Джаггернаут впадает в кровожадное безумие, значительно увеличивая скорость атаки и исцеляя себя с каждой атакой. Исцеление усиливается Силой Разума."
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"			 "БОНУС СКОРОСТИ АТАКИ:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			 "ИСЦЕЛЕНИЕ ЗА АТАКУ:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"			 "ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_mind_power_heal_multiplier"			 "БОНУС ИСЦЕЛЕНИЯ ОТ СИЛЫ РАЗУМА:"
-		"DOTA_Tooltip_modifier_juggernaut_bloodlust" "Жажда крови"
-		"DOTA_Tooltip_modifier_juggernaut_bloodlust_description" "Увеличенная скорость атаки и исцеление за атаку. Усиливается Силой Разума."
-		
-		//Lich
-		"DOTA_Tooltip_ability_lich_frost_blast_lua" "Ледяной взрыв"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_description" "Взрывает вражескую цель ледяным уроном, нанося 50/100/150/200 урона по цели и 75/100/125/150 урона ближайшим вражеским юнитам в радиусе 200. Все пораженные юниты замедляются на 4 секунды. Урон увеличивается на процент от силы разума."
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius" "РАДИУС:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed" "ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed" "ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage" "УРОН ПО ПЛОЩАДИ:"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier" "МНОЖИТЕЛЬ УРОНА ОТ СИЛЫ РАЗУМА:"
-
-		"DOTA_Tooltip_ability_lich_frost_shield_lua" "Ледяной щит"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_description" "Накладывает на цель магический ледяной щит, уменьшая урон от атак по ней. Пока щит действует, он раз в секунду наносит 20/30/40/50 магического урона вражеским существам вокруг и замедляет их. Урон увеличивается на 50% от значения mind power."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction" "УМЕНЬШЕНИЕ УРОНА:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius" "РАДИУС:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_interval" "ИНТЕРВАЛ:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage" "УРОН:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_duration" "ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed" "ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_health_regen" "РЕГЕНЕРАЦИЯ ЗДОРОВЬЯ:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration" "ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_intelligence_damage_multiplier" "МНОЖИТЕЛЬ УРОНА ОТ MIND POWER:"
-
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff" "Ледяной щит"
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_buff_description" "Защищен магическим ледяным щитом, который уменьшает входящий урон и наносит периодический урон ближайшим врагам."
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff" "Замедление ледяного щита"
-		"DOTA_Tooltip_modifier_lich_frost_shield_lua_debuff_description" "Скорость передвижения снижена ледяным щитом."
-
-		// Custom Talents Descriptions
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"           "Fireworks Radius +100"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius_Description"           "Увеличивает радиус разброса фейерверков на 100."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"       "Chain Bomb Movement"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed_Description"       "Цепная бомба теперь может двигаться."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"     "Chain Bomb Create Distance +800"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move_Description"     "Увеличивает дистанцию создания цепной бомбы на 800."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_attacks"             "Coup de Foudre Attacks +4"
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_attacks_Description"             "Увеличивает требуемое количество ударов для активации Coup de Foudre на 4."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_refresh"             "Coup de Foudre Refresh +1"
-		"DOTA_Tooltip_ability_special_bonus_unique_coup_de_foudre_refresh_Description"             "Увеличивает шанс обновления предметов на 1."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_slow"                 "Thirsty Blade Slow +3%"
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_slow_Description"                 "Увеличивает замедление за стак на 3%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_lifesteal_up"         "Thirsty Blade Lifesteal +15%"
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_lifesteal_up_Description"         "Увеличивает бонус кражи жизни на 15%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_cooldown_omni"        "Thirsty Blade Omnislash CD -1s"
-		"DOTA_Tooltip_ability_special_bonus_unique_thirsty_blade_cooldown_omni_Description"        "Уменьшает перезарядку Omnislash на 1 секунду."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_slow"                 "Vampiric Ward Slow -15%"
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_slow_Description"                 "Vampiric Ward теперь замедляет врагов на 15%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_attack_speed"         "Vampiric Ward Attack Speed +60"
-		"DOTA_Tooltip_ability_special_bonus_unique_vampiric_ward_attack_speed_Description"         "Vampiric Ward даёт союзникам 60 скорости атаки."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_cooldown"              "Tinker Rearm CD -0.5s"
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_cooldown_Description"              "Уменьшает перезарядку Rearm на 0.5 секунды."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_spell_amp"             "Tinker Rearm Spell Amp +40%"
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_spell_amp_Description"             "Увеличивает усиление заклинаний во время Rearm на 40%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_avatar"                "Tinker Rearm Avatar +1"
-		"DOTA_Tooltip_ability_special_bonus_unique_tinker_rearm_avatar_Description"                "Rearm теперь даёт иммунитет к магии."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_damage_reduction" "Frost Shield Damage Reduction +10%"
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_damage_reduction_Description" "Увеличивает снижение урона Frost Shield на 10%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_duration"         "Frost Shield Duration +4s"
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_duration_Description"         "Увеличивает длительность Frost Shield на 4 секунды."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_health_regen"     "Frost Shield Health Regen +50"
-		"DOTA_Tooltip_ability_special_bonus_unique_lich_frost_shield_health_regen_Description"     "Frost Shield теперь даёт 50 регенерации здоровья."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_2"                 "Blur Evasion +15%"
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_2_Description"                 "Увеличивает шанс уклонения Blur на 15%."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_3"                 "Blur Duration +4s"
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_3_Description"                 "Увеличивает активную длительность Blur на 4 секунды."
-
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4"                 "Blur Active Evasion +20%"
-		"DOTA_Tooltip_ability_special_bonus_unique_phantom_assassin_4_Description"                 "Увеличивает шанс активного уклонения Blur на 20%."
-
-		"DOTA_Tooltip_modifier_mind_power" "Сила разума"
-"DOTA_Tooltip_modifier_mind_power_description" "Показывает вашу текущую Силу разума. Состоит из: Базовая Сила разума + Бонус от интеллекта + Бонусы от предметов + Локальные бонусы от способностей."
-
-		// Doom Soul Devour
-		"DOTA_Tooltip_ability_doom_soul_devour" "Поглощение души"
-		"DOTA_Tooltip_ability_doom_soul_devour_description" "Поглощает душу крипа, навсегда получая силу душ и исцеляя Doom. Сила душ - это отдельный параметр, который может использоваться другими способностями."
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description" "УЛУЧШЕНИЕ АГАНИМА: Теперь может нацеливаться на героев с менее чем 666 HP, мгновенно убивая их и получая силу душ."
-		"DOTA_Tooltip_ability_doom_soul_devour_soul_power" "ПОЛУЧАЕМАЯ СИЛА ДУШ:"
-		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount" "КОЛИЧЕСТВО ИСЦЕЛЕНИЯ:"
-		"DOTA_Tooltip_ability_doom_soul_devour_cast_range" "ДИСТАНЦИЯ ПРИМЕНЕНИЯ:"
-		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold" "ПОРОГ HP ДЛЯ АГАНИМА:"
-
-		// Doom Scorched Earth Lua
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua" "Выжженная земля"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_description" "Doom выжигает землю вокруг себя, нанося магический урон в секунду врагам и давая скорость передвижения союзникам в области. Урон масштабируется от Силы разума."
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second" "УРОН В СЕКУНДУ:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius" "РАДИУС:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct" "БОНУС СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration" "ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier" "МНОЖИТЕЛЬ УРОНА ОТ СИЛЫ РАЗУМА:"
-
-		"DOTA_Tooltip_modifier_doom_scorched_earth_lua" "Выжженная земля"
-		"DOTA_Tooltip_modifier_doom_scorched_earth_lua_description" "Двигаетесь быстрее и наносите урон ближайшим врагам. Урон масштабируется от Силы разума."
-
-		// Doom Ultimate Aura
-		"DOTA_Tooltip_ability_doom_ultimate_aura" "Разрушительная аура"
-		"DOTA_Tooltip_ability_doom_ultimate_aura_description" "Doom выпускает волну разрушительной энергии, нанося урон всем врагам в области и накладывая эффект немоты и блокировки пассивных способностей. Урон увеличивается в зависимости от Силы разума Doom."
+		// Tusk Channeled Snowball Ultimate
+		"DOTA_Tooltip_ability_tusk_channeled_snowball"			"Направленный Снежок"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Description"	"Таск начинает каналировать, чтобы подготовить массивный снежок. Чем дольше каналирование, тем меньше урона наносит способность. Первые 0.5 секунды бесплатны, затем урон уменьшается со временем. Вы можете настроить направление во время каналирования. При отпускании Таск бросает снежок в выбранном направлении, который наносит урон и оглушает первого поражённого врага."
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Lore"		"Силой воли Таск сжимает саму сущность зимы в разрушительный снаряд."
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_max_damage"		"МАКСИМАЛЬНЫЙ УРОН:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_min_damage"		"МИНИМАЛЬНЫЙ УРОН:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_free_channel_time"	"БЕСПЛАТНОЕ ВРЕМЯ КАНАЛИРОВАНИЯ:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_damage_reduction_per_sec"	"СНИЖЕНИЕ УРОНА В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_projectile_speed"		"СКОРОСТЬ СНАРЯДА:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_stun_duration"		"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note0"		"Время каналирования влияет на урон: первые 0.5 секунды бесплатны, затем урон уменьшается на указанную величину в секунду."
+		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note1"		"Направление можно корректировать во время каналирования, перемещая курсор."
 	}
 }
