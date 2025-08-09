@@ -108,6 +108,10 @@
 		"override_hero"                                 "npc_dota_hero_tusk"
 		"Facets" ""
 		"Ability1"				"tusk_ice"
+		"Ability2"				"tusk_mp_snowball"
+		"Ability3"				"tusk_tag_team"
+		"Ability4"				"tusk_channeled_snowball"
+
 	}
 
 	 

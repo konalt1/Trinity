@@ -1,3 +1,5 @@
+print("=== ADDON GAME MODE LOADING ===")
+
 require ("Timers")
 require ("game_settings")
 require ("utils/util")
@@ -20,6 +22,12 @@ require ("lich/frost_shield/lich_frost_shield_lua")
 
 require ("abilities/ogre_magi/ogre_magi_reroll")
 require ("lich/frost_blast/lich_frost_blast_lua")
+
+-- Загружаем способности Tusk
+print("=== LOADING TUSK ABILITIES ===")
+require ("Tusk/test_tusk")
+require ("Tusk/tusk_channeled_snowball")
+print("=== TUSK ABILITIES LOADED ===")
 
 function Precache( context )
 	--[[
