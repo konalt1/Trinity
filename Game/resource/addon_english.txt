@@ -42,5 +42,29 @@
 		// Omniknight Hammer of Purity Modifier
 		"DOTA_Tooltip_modifier_omniknight_innate_damage"			"Hammer of Purity"
 		"DOTA_Tooltip_modifier_omniknight_innate_damage_Description"	"Provides bonus attack damage from healing allies."
+		
+		// Custom Purification
+		"DOTA_Tooltip_ability_custom_purification"					"Divine Purification"
+		"DOTA_Tooltip_ability_custom_purification_Description"		"Omniknight instantly heals a target ally and damages all nearby enemies with holy energy. The healing and damage scales with Omniknight's mind power, making this ability more powerful as his magical knowledge grows."
+		"DOTA_Tooltip_ability_custom_purification_Lore"			"The divine light flows through Omniknight, purifying allies and scorching the wicked."
+		"DOTA_Tooltip_ability_custom_purification_heal"			"HEAL/DAMAGE:"
+		"DOTA_Tooltip_ability_custom_purification_radius"			"DAMAGE RADIUS:"
+		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_custom_purification_Note0"			"Heals the target ally and damages all enemies within the radius around the target."
+		"DOTA_Tooltip_ability_custom_purification_Note1"			"Total heal/damage = Base value + (Mind Power × Mind Power multiplier)"
+
+		// Holy Ground
+		"DOTA_Tooltip_ability_holy_ground"							"Holy Ground"
+		"DOTA_Tooltip_ability_holy_ground_Description"				"Omniknight consecrates a target area, creating a circular zone of divine power. All enemies within the zone are slowed by 30%/40%/50%. Every 2 seconds, a bell tolls and all allied units in the zone are healed for 200/300/400 health plus Mind Power bonus. The holy ground lasts for 10 seconds."
+		"DOTA_Tooltip_ability_holy_ground_Lore"					"Where the faithful tread, the very earth becomes sacred, blessing allies and hindering the unholy."
+		"DOTA_Tooltip_ability_holy_ground_radius"					"RADIUS:"
+		"DOTA_Tooltip_ability_holy_ground_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_holy_ground_slow_percent"			"ENEMY SLOW:"
+		"DOTA_Tooltip_ability_holy_ground_heal_amount"				"HEAL AMOUNT:"
+		"DOTA_Tooltip_ability_holy_ground_heal_interval"			"HEAL INTERVAL:"
+		"DOTA_Tooltip_ability_holy_ground_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_holy_ground_Note0"					"The holy ground affects all units within the area for its entire duration."
+		"DOTA_Tooltip_ability_holy_ground_Note1"					"Total heal = Base heal + (Mind Power × Mind Power multiplier)"
+		"DOTA_Tooltip_ability_holy_ground_Note2"					"Bell tolls every 2 seconds, healing allies and refreshing enemy slow debuffs."
 	}
 }

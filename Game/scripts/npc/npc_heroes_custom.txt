@@ -94,7 +94,11 @@
 	{
 		"override_hero"                                 "npc_dota_hero_omniknight"
 		"Facets" ""
+		"Ability1"				"custom_purification"
+		"Ability2"				"omniknight_repel"
 		"Ability3"				"omniknight_innate_oaa"
+		"Ability4"				"holy_ground"
+		"Ability6"				"omniknight_guardian_angel"
 	}
 
 	"npc_dota_hero_doom_bringer"

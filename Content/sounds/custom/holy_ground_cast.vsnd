@@ -1,0 +1,8 @@
+"holy_ground_cast.vsnd"
+{
+	"type"		"dota_src1_3d"
+	"volume"	"0.7"
+	"pitch"		"1.0"
+	"soundlevel"	"80"
+	"wave"		"sounds/custom/holy_cast.wav"
+}
