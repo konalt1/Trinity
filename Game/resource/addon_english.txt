@@ -29,5 +29,18 @@
 		"DOTA_Tooltip_ability_tusk_channeled_snowball_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note0"		"Channel time affects damage: first 0.5 seconds are free, then damage decreases by the reduction amount per second."
 		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note1"		"The direction can be adjusted during channeling by moving the cursor."
+		
+		// Omniknight Hammer of Purity
+		"DOTA_Tooltip_ability_omniknight_innate_oaa"				"Hammer of Purity"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"	"Each time Omniknight heals an ally, he accumulates the power of purity. For every HP healed, Omniknight gains bonus attack damage. Each damage stack lasts 10 seconds."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Lore"			"The Hammer of Purity transforms every act of healing into a source of righteous power."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"	"DAMAGE PER HP HEALED:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"STACK DURATION:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note0"			"Only actual healing counts - overhealing and blocked healing do not grant damage."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note1"			"Each damage stack expires independently after 10 seconds."
+		
+		// Omniknight Hammer of Purity Modifier
+		"DOTA_Tooltip_modifier_omniknight_innate_damage"			"Hammer of Purity"
+		"DOTA_Tooltip_modifier_omniknight_innate_damage_Description"	"Provides bonus attack damage from healing allies."
 	}
 }

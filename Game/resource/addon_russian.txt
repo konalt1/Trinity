@@ -29,5 +29,19 @@
 		"DOTA_Tooltip_ability_tusk_channeled_snowball_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
 		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note0"		"Время каналирования влияет на урон: первые 0.5 секунды бесплатны, затем урон уменьшается на указанную величину в секунду."
 		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note1"		"Направление можно корректировать во время каналирования, перемещая курсор."
+		
+		// Omniknight Hammer of Purity
+		"DOTA_Tooltip_ability_omniknight_innate_oaa"				"Молот Чистоты"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"	"Пассивная способность. Каждый раз, когда Омникнайт исцеляет союзного героя или крипа, он накапливает силу чистоты, получая бонусный урон к атакам. Количество урона зависит от реально восстановленного здоровья. Каждый стак урона имеет независимое время действия 10 секунд."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Lore"			"Молот Чистоты освящает каждый акт милосердия, превращая исцеление в праведную мощь для сокрушения врагов."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"	"УРОН ЗА ЕДИНИЦУ HP:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"ВРЕМЯ ДЕЙСТВИЯ СТАКА:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note0"			"Учитывается только фактически восстановленное здоровье. Переисцеление и заблокированное исцеление не дают бонус."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note1"			"Стаки урона накапливаются и истекают независимо друг от друга."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note2"			"Работает с любыми источниками исцеления: способностями, предметами и зельями."
+		
+		// Omniknight Hammer of Purity Modifier
+		"DOTA_Tooltip_modifier_omniknight_innate_damage"			"Молот Чистоты"
+		"DOTA_Tooltip_modifier_omniknight_innate_damage_Description"	"Предоставляет бонусный урон от атак за исцеление союзников."
 	}
 }

@@ -90,6 +90,13 @@
 		"Ability1"				"lycan_summon_wolves_custom"
 	}
 
+	"npc_dota_hero_omniknight"
+	{
+		"override_hero"                                 "npc_dota_hero_omniknight"
+		"Facets" ""
+		"Ability3"				"omniknight_innate_oaa"
+	}
+
 	"npc_dota_hero_doom_bringer"
 	{
 		"override_hero"                                 "npc_dota_hero_doom_bringer"

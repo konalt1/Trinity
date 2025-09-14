@@ -96,6 +96,31 @@
         }
     }
 
+    "omniknight_innate_oaa"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/oaa_oracle_innate"
+        "AbilityTextureName"            "omniknight_hammer_of_purity"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "MaxLevel"                      "4"
+        
+
+        "AbilityValues"
+        {
+            "damage_per_heal"           
+            {
+                "value"                 "0.3 0.4 0.5 0.6"
+                "special_bonus_tooltip" "Урон за HP исцеления:"
+            }
+            "stack_duration"            
+            {
+                "value"                 "10.0"
+                "special_bonus_tooltip" "Длительность стака:"
+            }
+        }
+    }
+
     "ability_thirsty_blade"
     {
      	"BaseClass"						"ability_lua"
