@@ -1,0 +1,83 @@
+"CustomGameSounds"
+{
+	"Holy_Ground.Bell"
+	{
+		"operator_stacks" 
+		{
+			"update_stack"
+			{
+				"reference_operator"
+				{
+					"operator"		"sos_reference_stack"
+					"reference_stack"		"dota_src1_3d"
+					"operator_variables"
+					{
+						"vsnd_files"
+						{
+							"value"
+							{
+								"value0"		"sounds/custom/holy_ground_bell.vsnd"
+							}
+						}
+						"volume"		{ "value"	"0.8" }
+						"pitch"			{ "value"	"1.0" }
+					}
+				}
+			}
+		}
+	}
+
+	"Holy_Ground.Cast"
+	{
+		"operator_stacks" 
+		{
+			"update_stack"
+			{
+				"reference_operator"
+				{
+					"operator"		"sos_reference_stack"
+					"reference_stack"		"dota_src1_3d"
+					"operator_variables"
+					{
+						"vsnd_files"
+						{
+							"value"
+							{
+								"value0"		"sounds/custom/holy_ground_cast.vsnd"
+							}
+						}
+						"volume"		{ "value"	"0.7" }
+						"pitch"			{ "value"	"1.0" }
+					}
+				}
+			}
+		}
+	}
+
+	"Holy_Ground.Ambient"
+	{
+		"operator_stacks" 
+		{
+			"update_stack"
+			{
+				"reference_operator"
+				{
+					"operator"		"sos_reference_stack"
+					"reference_stack"		"dota_src1_3d"
+					"operator_variables"
+					{
+						"vsnd_files"
+						{
+							"value"
+							{
+								"value0"		"sounds/custom/holy_ground_ambient.vsnd"
+							}
+						}
+						"volume"		{ "value"	"0.5" }
+						"pitch"			{ "value"	"1.0" }
+					}
+				}
+			}
+		}
+	}
+}
