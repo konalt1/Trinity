@@ -66,5 +66,98 @@
 		"DOTA_Tooltip_ability_holy_ground_Note0"					"The holy ground affects all units within the area for its entire duration."
 		"DOTA_Tooltip_ability_holy_ground_Note1"					"Total heal = Base heal + (Mind Power × Mind Power multiplier)"
 		"DOTA_Tooltip_ability_holy_ground_Note2"					"Bell tolls every 2 seconds, healing allies and refreshing enemy slow debuffs."
+		
+		// Ogre Magi Fire Blast
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"Fire Blast"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Ogre marks an area on the ground, after 1 second a powerful explosion occurs at that location, dealing magical damage and stunning all enemies in a 300 unit radius for 1.5 seconds. Perfect ability for initiation and crowd control."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"The ancient magic of the ogre ignites the very earth, turning it into a deadly trap."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"				"DAMAGE:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"		"STUN DURATION:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"				"RADIUS:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_delay"				"DELAY:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note0"				"The blast area is marked for 1 second, giving enemies time to retreat."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note1"				"Effective for zoning and territorial control in team fights."
+
+		// Ogre Magi Bonk
+		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Stunning Strike"
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Description"				"Passive ability. Every time Ogre successfully attacks an enemy hero, the cooldown of all his abilities is reduced by 0.5/0.7/0.9/1.1 seconds. This ability encourages aggressive play and frequent spell usage."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Lore"						"The ogre's heavy fists not only deal damage but also awaken magical energy, accelerating spell recovery."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_reduce_cooldown"			"COOLDOWN REDUCTION:"
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Note0"						"Only works when attacking enemy heroes."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Note1"						"Affects all of Ogre's abilities, including ultimates."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Note2"						"Stacks with other sources of cooldown reduction."
+
+		// Ogre Magi Reroll
+		"DOTA_Tooltip_ability_ogre_magi_reroll"							"Reroll Dice"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"				"Ogre temporarily forgets his ultimate ability and gains a random ultimate ability from another hero for 10 seconds. During the effect, the mana cost of the new ability is reduced by 100%. After the effect ends, Ogre returns his original ultimate ability."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Lore"					"The chaotic mind of the two-headed ogre sometimes connects to the magical abilities of other beings, copying their power."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"		"ABILITY DURATION:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_manacost_reduction"		"MANA COST REDUCTION:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note0"					"Gains a random ultimate ability from a list of more than 80 different spells."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note1"					"The level of the gained ability equals the level of Reroll Dice."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note2"					"The new ability has 100% mana cost reduction, allowing free usage."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note3"					"Cannot be used while the previous effect is active."
+
+		// Ogre Magi Reroll Modifier
+		"DOTA_Tooltip_modifier_ogre_magi_reroll"						"Reroll Dice"
+		"DOTA_Tooltip_modifier_ogre_magi_reroll_Description"			"Temporarily replaced his ultimate ability with a random one. The new ability requires no mana."
+
+		// Ogre Magi Berserker Rage
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"					"Berserker Rage"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"		"Passive ultimate ability. After every 10 successful attacks against enemies (heroes, creeps, neutrals), Ogre Magi enters berserker rage, gaining a random powerful buff for 10-15 seconds. During the ability effect and cooldown, the attack counter does not accumulate. Buff list includes: increased attack speed, damage, protective shield (like Aphotic Shield), health regeneration, movement speed, magic resistance, lifesteal, cooldown reduction and armor increase."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Lore"			"The ancient fury of the two-headed ogre awakens in battle, granting him unpredictable power of ancestral spirits."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_attacks_needed"	"ATTACKS TO ACTIVATE:"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_buff_duration"	"BUFF DURATION:"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note0"			"Works against all enemies: heroes, creeps and neutrals. Attacks on allies and buildings don't count."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note1"			"During ability cooldown (20/15/10 seconds) the attack counter is frozen."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note2"			"Random buffs include: +20% attack speed, +25% damage, 200 HP shield with explosion, 5% regeneration, +15% speed, +30% magic resistance, 20% lifesteal, -20% cooldowns, +10 armor."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note3"			"Protective shield works like Aphotic Shield - absorbs damage and explodes when destroyed."
+		
+		// Main Berserker Rage Modifier
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage"					"Berserker Rage"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_Description"		"Tracks attacks against enemy heroes. Shows current progress towards berserker rage activation."
+		
+		// Modifiers for Ogre Berserker Rage
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_attack_speed"		"Rage: Attack Speed"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_attack_speed_Description"	"Increases attack speed by 20%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_damage"				"Rage: Strike Power"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_damage_Description"	"Increases attack damage by 25%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_shield"				"Rage: Protective Shield"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_shield_Description"	"Absorbs up to 200 damage. Explodes when destroyed, dealing 100 damage to enemies in 675 radius."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_regen"				"Rage: Regeneration"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_regen_Description"	"Restores 5% of maximum health every second."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_speed"				"Rage: Swiftness"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_speed_Description"	"Increases movement speed by 15%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_magic_resist"		"Rage: Magic Protection"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_magic_resist_Description"	"Increases magic damage resistance by 30%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_lifesteal"			"Rage: Vampirism"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_lifesteal_Description"	"Attacks restore 20% of dealt damage as health."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_cooldown"			"Rage: Quick Reload"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_cooldown_Description"	"Reduces cooldown of all abilities by 20%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor"				"Rage: Tough Skin"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor_Description"	"Increases armor by 10."
+		
+		// Ogre Magi Strength Boost
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Strength Boost"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Ogre Magi channels his inner power, dramatically increasing his strength for a short duration. The ability grants base strength bonus plus additional strength based on his Mind Power, making him significantly stronger in combat."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"The two-headed ogre taps into primal forces, his muscles swelling with ancient power."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"BASE STRENGTH BONUS:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"DURATION:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Total strength bonus = Base strength + (Mind Power × Multiplier)"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Mind Power is calculated from intelligence and item bonuses"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Higher Mind Power significantly increases the effectiveness of this ability"
+		
+		// Ogre Magi Strength Boost Modifier
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Strength Boost"
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Dramatically increased strength from inner power and Mind Power bonus."
 	}
 }
