@@ -5,11 +5,18 @@
 	{
 		"override_hero"                                 "npc_dota_hero_phantom_assassin"
 		"Facets" ""
-		"Ability3"				"phantom_assassin_blur"
-		"Ability6"		                                "ability_coup_de_foudre"
-        "Ability13"										"special_bonus_unique_coup_de_foudre_attacks"
-        "Ability17"										"special_bonus_unique_coup_de_foudre_refresh"
-		"RequiredLevel"          						"4"
+        "Ability3"				"phantom_assassin_blur"
+		"Ability5"                                      "0"
+        "Ability6"		                                "ability_coup_de_foudre"
+		
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 	
 	}
 
@@ -21,10 +28,14 @@
 		"Ability6"		                                "ability_chain_bomb"
         "Ability7"										"techies_sticky_bomb_bonus"
 		
-
-        "Ability11"										"special_bonus_unique_techies_fireworks_radius"
-        "Ability13"										"special_bonus_unique_techies_chain_bomb_create_move"
-        "Ability17"										"special_bonus_unique_techies_chain_bomb_movespeed"
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 
     }
 
@@ -38,12 +49,14 @@
 		"Ability4"		                                "juggernaut_omni_slash"
 		"Ability6"		                                "juggernaut_swift_slash_lua"
 		
-
-		"Ability10"										"special_bonus_unique_vampiric_ward_slow"
-		"Ability11"										"special_bonus_unique_thirsty_blade_slow"
-		"Ability12"										"special_bonus_unique_vampiric_ward_attack_speed"
-		"Ability14"										"special_bonus_unique_thirsty_blade_lifesteal_up"
-		"Ability17"										"special_bonus_unique_thirsty_blade_cooldown_omni"
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 		 
 	}
 
@@ -57,9 +70,14 @@
 		"Ability7"				"lich_chain_frost_shard"
 		// "Ability9"				"empty_ability"  // Временно отключено
 		
-		"Ability10"				"special_bonus_unique_lich_frost_shield_damage_reduction"
-		"Ability11"				"special_bonus_unique_lich_frost_shield_duration"
-		"Ability12"				"special_bonus_unique_lich_frost_shield_health_regen"
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 	}
 
 	"npc_dota_hero_tinker"
@@ -68,10 +86,14 @@
 		"Facets" ""
 		"Ability6"				"tinker_rearm_custom"
 
-		"Ability10"				"special_bonus_unique_tinker_rearm_spell_amp"
-		"Ability11"				"special_bonus_unique_tinker_rearm_cooldown"
-		"Ability13"				"special_bonus_spell_lifesteal_40"
-		"Ability17"				"special_bonus_unique_tinker_rearm_avatar"
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 
 		
 	}
@@ -80,25 +102,53 @@
 	{	
 		"Facets" ""
 		"Ability1"				"ogre_magi_fire_blast"
-		"Ability2"				"ogre_magi_bonk"
+		"Ability2"				"ogre_magi_strength_boost"
+		"Ability4"				"ogre_magi_berserker_rage"
 		"Ability6"				"ogre_magi_reroll"
+		
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 	}
 
 	"npc_dota_hero_lycan"
 	{	
 	"Facets" ""
 		"Ability1"				"lycan_summon_wolves_custom"
+		
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 	}
 
 	"npc_dota_hero_omniknight"
 	{
 		"override_hero"                                 "npc_dota_hero_omniknight"
 		"Facets" ""
-		"Ability1"				"custom_purification"
-		"Ability2"				"omniknight_repel"
+		"Ability1"				"omniknight_purification"
+		"Ability2"				"custom_purification"
 		"Ability3"				"omniknight_innate_oaa"
 		"Ability4"				"holy_ground"
 		"Ability6"				"omniknight_guardian_angel"
+		
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 	}
 
 	"npc_dota_hero_doom_bringer"
@@ -112,6 +162,15 @@
 		"Ability7" 				"0"
 		"Ability6"               "doom_ultimate_aura"
 
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
+
 	}
 
 	"npc_dota_hero_tusk"
@@ -122,6 +181,15 @@
 		"Ability2"				"tusk_mp_snowball"
 		"Ability3"				"tusk_tag_team"
 		"Ability4"				"tusk_channeled_snowball"
+
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 
 	}
 

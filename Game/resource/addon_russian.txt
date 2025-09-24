@@ -43,5 +43,137 @@
 		// Omniknight Hammer of Purity Modifier
 		"DOTA_Tooltip_modifier_omniknight_innate_damage"			"Молот Чистоты"
 		"DOTA_Tooltip_modifier_omniknight_innate_damage_Description"	"Предоставляет бонусный урон от атак за исцеление союзников."
+		
+		// Custom Purification
+		"DOTA_Tooltip_ability_custom_purification"					"Божественное Очищение"
+		"DOTA_Tooltip_ability_custom_purification_Description"		"Омнинайт мгновенно исцеляет выбранного союзника и наносит урон всем ближайшим врагам святой энергией. Лечение и урон увеличиваются в зависимости от силы разума Омнинайта, делая эту способность сильнее по мере роста его магических знаний."
+		"DOTA_Tooltip_ability_custom_purification_Lore"			"Божественный свет течёт через Омнинайта, очищая союзников и опаляя нечестивых."
+		"DOTA_Tooltip_ability_custom_purification_heal"			"ЛЕЧЕНИЕ/УРОН:"
+		"DOTA_Tooltip_ability_custom_purification_radius"			"РАДИУС УРОНА:"
+		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_custom_purification_Note0"			"Исцеляет выбранного союзника и наносит урон всем врагам в радиусе вокруг цели."
+		"DOTA_Tooltip_ability_custom_purification_Note1"			"Общее лечение/урон = Базовое значение + (Сила разума × Множитель силы разума)"
+
+		// Holy Ground
+		"DOTA_Tooltip_ability_holy_ground"							"Святая Земля"
+		"DOTA_Tooltip_ability_holy_ground_Description"				"Омнинайт освящает выбранную область, создавая круглую зону божественной силы. Все враги в зоне замедляются на 30%/40%/50%. Каждые 2 секунды раздаётся звон колокола, и все союзные юниты в зоне исцеляются на 200/300/400 здоровья плюс бонус от Силы разума. Святая земля длится 10 секунд."
+		"DOTA_Tooltip_ability_holy_ground_Lore"					"Там, где ступают верные, сама земля становится священной, благословляя союзников и препятствуя нечестивым."
+		"DOTA_Tooltip_ability_holy_ground_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_holy_ground_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_holy_ground_slow_percent"			"ЗАМЕДЛЕНИЕ ВРАГОВ:"
+		"DOTA_Tooltip_ability_holy_ground_heal_amount"				"КОЛИЧЕСТВО ЛЕЧЕНИЯ:"
+		"DOTA_Tooltip_ability_holy_ground_heal_interval"			"ИНТЕРВАЛ ЛЕЧЕНИЯ:"
+		"DOTA_Tooltip_ability_holy_ground_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_holy_ground_Note0"					"Святая земля воздействует на всех юнитов в области на всё время действия."
+		"DOTA_Tooltip_ability_holy_ground_Note1"					"Общее лечение = Базовое лечение + (Сила разума × Множитель силы разума)"
+		"DOTA_Tooltip_ability_holy_ground_Note2"					"Колокол звонит каждые 2 секунды, исцеляя союзников и обновляя дебафф замедления на врагах."
+		
+		// Phantom Assassin Coup de Foudre
+		"DOTA_Tooltip_ability_ability_coup_de_foudre"				"Покров Убийцы"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"	"Когда Phantom Assassin не видна врагам или использует Blur, все её атаки становятся критическими."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Lore"			"Мастерство убийцы достигает совершенства в тенях - каждый удар из невидимости смертелен."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"	"КРИТИЧЕСКИЙ УРОН:"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_activation_delay"		"ЗАДЕРЖКА СНЯТИЯ:"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note0"			"Работает только против вражеских героев."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note1"			"Бафф снимается через 0.5 секунды после обнаружения."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note2"			"Синергирует с уменьшенным радиусом обнаружения Blur."
+		
+		
+		// Ogre Magi Fire Blast
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"Огненный Взрыв"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Огр отмечает область на земле, через 1 секунду на этом месте происходит мощный взрыв, наносящий магический урон и оглушающий всех врагов в радиусе 300 единиц на 1.5 секунды. Способность идеально подходит для инициации и контроля толпы."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"Древняя магия огра воспламеняет саму землю, превращая её в смертоносную ловушку."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"				"УРОН:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"		"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_delay"				"ЗАДЕРЖКА:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note0"				"Область взрыва отмечается на 1 секунду, давая врагам время для отступления."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note1"				"Эффективна для зонирования и контроля территории в командных боях."
+
+		// Ogre Magi Bonk
+		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Оглушающий Удар"
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Description"				"Пассивная способность. Каждый раз, когда Огр успешно атакует вражеского героя, время перезарядки всех его способностей сокращается на 0.5/0.7/0.9/1.1 секунды. Эта способность поощряет агрессивную игру и частое использование заклинаний."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Lore"						"Тяжёлые кулаки огра не только наносят урон, но и пробуждают магическую энергию, ускоряя восстановление заклинаний."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_reduce_cooldown"			"СОКРАЩЕНИЕ КУЛДАУНА:"
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Note0"						"Работает только при атаках по вражеским героям."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Note1"						"Затрагивает все способности Огра, включая ультимативные."
+		"DOTA_Tooltip_ability_ogre_magi_bonk_Note2"						"Стакается с другими источниками сокращения времени перезарядки."
+
+		// Ogre Magi Reroll
+		"DOTA_Tooltip_ability_ogre_magi_reroll"							"Перебросить Кости"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"				"Огр временно забывает свою ультимативную способность и получает случайную ультимативную способность другого героя на 10 секунд. Во время действия эффекта стоимость маны новой способности снижается на 100%. После окончания эффекта Огр возвращает свою оригинальную ультимативную способность."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Lore"					"Хаотичный разум двуглавого огра иногда подключается к магическим способностям других существ, копируя их силу."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"		"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТИ:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_manacost_reduction"		"СНИЖЕНИЕ СТОИМОСТИ МАНЫ:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note0"					"Получает случайную ультимативную способность из списка более чем 80 различных заклинаний."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note1"					"Уровень полученной способности равен уровню Перебросить Кости."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note2"					"Новая способность имеет 100% снижение стоимости маны, что позволяет использовать её бесплатно."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Note3"					"Нельзя использовать во время действия предыдущего эффекта."
+
+		// Ogre Magi Reroll Modifier
+		"DOTA_Tooltip_modifier_ogre_magi_reroll"						"Перебросить Кости"
+		"DOTA_Tooltip_modifier_ogre_magi_reroll_Description"			"Временно заменил свою ультимативную способность на случайную. Новая способность не требует маны."
+
+		// Ogre Magi Berserker Rage
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"					"Берсеркерская Ярость"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"		"Пассивная ультимативная способность. После каждых 10 успешных атак по врагам (героям, крипам, нейтралам) Огр входит в берсеркерскую ярость, получая случайный мощный бафф на 10-15 секунд. Во время действия способности и её перезарядки счётчик атак не накапливается. Список баффов включает: увеличение скорости атаки, урона, защитный щит (как Aphotic Shield), регенерацию здоровья, скорость передвижения, сопротивление магии, вампиризм, сокращение перезарядки способностей и увеличение брони."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Lore"			"Древняя ярость двуглавого огра пробуждается в бою, даруя ему непредсказуемую силу духов предков."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_attacks_needed"	"АТАК ДО АКТИВАЦИИ:"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_buff_duration"	"ДЛИТЕЛЬНОСТЬ БАФФА:"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note0"			"Работает против всех врагов: героев, крипов и нейтралов. Атаки по союзникам и зданиям не засчитываются."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note1"			"Во время кулдауна способности (20/15/10 секунд) счётчик атак заморожен."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note2"			"Случайные баффы включают: +20% скорости атаки, +25% урона, щит на 200 HP с взрывом, 5% регенерации, +15% скорости, +30% магической защиты, 20% вампиризма, -20% кулдаунов, +10 брони."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note3"			"Защитный щит работает как Aphotic Shield - поглощает урон и взрывается при разрушении."
+		
+		// Main Berserker Rage Modifier
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage"					"Берсеркерская Ярость"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_Description"		"Отслеживает атаки по вражеским героям. Показывает текущий прогресс до активации берсеркерской ярости."
+		
+		// Modifiers for Ogre Berserker Rage
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_attack_speed"		"Ярость: Скорость Атаки"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_attack_speed_Description"	"Увеличивает скорость атаки на 20%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_damage"				"Ярость: Сила Удара"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_damage_Description"	"Увеличивает урон от атак на 25%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_shield"				"Ярость: Защитный Щит"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_shield_Description"	"Поглощает до 200 урона. При разрушении взрывается, нанося 100 урона врагам в радиусе 675 единиц."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_regen"				"Ярость: Регенерация"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_regen_Description"	"Восстанавливает 5% от максимального здоровья каждую секунду."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_speed"				"Ярость: Быстрота"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_speed_Description"	"Увеличивает скорость передвижения на 15%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_magic_resist"		"Ярость: Магическая Защита"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_magic_resist_Description"	"Увеличивает сопротивление магическому урону на 30%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_lifesteal"			"Ярость: Вампиризм"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_lifesteal_Description"	"Атаки восстанавливают 20% нанесённого урона в виде здоровья."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_cooldown"			"Ярость: Быстрая Перезарядка"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_cooldown_Description"	"Сокращает время перезарядки всех способностей на 20%."
+		
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor"				"Ярость: Твёрдая Кожа"
+		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor_Description"	"Увеличивает броню на 10 единиц."
+
+		// Ogre Magi Strength Boost
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Усиление Силы"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Огр направляет свою внутреннюю мощь, значительно увеличивая свою силу на короткое время. Способность даёт базовый бонус к силе плюс дополнительную силу, основанную на его Силе Разума, делая его значительно сильнее в бою."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"Двуглавый огр черпает из первобытных сил, его мышцы набухают от древней мощи."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"БАЗОВЫЙ БОНУС СИЛЫ:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Общий бонус силы = Базовая сила + (Сила Разума × Множитель)"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Сила Разума рассчитывается из интеллекта и бонусов от предметов"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Высокая Сила Разума значительно увеличивает эффективность этой способности"
+		
+		// Ogre Magi Strength Boost Modifier
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Усиление Силы"
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Значительно увеличенная сила от внутренней мощи и бонуса Силы Разума."
+
+		// Universal Gold Talent
+		"DOTA_Tooltip_ability_special_bonus_gold_200"				"+200 золота"
+		"DOTA_Tooltip_ability_special_bonus_gold_200_Description"	"Мгновенно получить 200 золота при изучении этого таланта."
 	}
 }
