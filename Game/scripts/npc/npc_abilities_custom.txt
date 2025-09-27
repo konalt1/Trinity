@@ -831,12 +831,14 @@
         "RequiredLevel"                 "6"
         "LevelsBetweenUpgrades"         "6"
         
-        "AbilityManaCost"               "120"
+        "AbilityManaCost"               "0"
+        "AbilityCooldown"               "100"
 
         "AbilityValues"
         {     
           "ability_duration"              "10"
           "manacost_reduction"              "100"
+          "cooldown_reduction_per_attack"    "3 4 5"
         }
     }
 
