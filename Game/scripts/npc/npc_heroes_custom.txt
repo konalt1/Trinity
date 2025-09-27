@@ -100,10 +100,16 @@
 
 	"npc_dota_hero_ogre_magi"
 	{	
+		"override_hero"			"npc_dota_hero_ogre_magi"
 		"Facets" ""
+		
+		// Измененные характеристики интеллекта
+		"AttributeBaseIntelligence"		"10"		// Базовый интеллект (было 0)
+		"AttributeIntelligenceGain"		"0.5"		// Прирост интеллекта за уровень (было 0)
+		
 		"Ability1"				"ogre_magi_fire_blast"
 		"Ability2"				"ogre_magi_strength_boost"
-		"Ability4"				"ogre_magi_berserker_rage"
+	
 		"Ability6"				"ogre_magi_reroll"
 		
         "Ability10"										"special_bonus_gold_200"
