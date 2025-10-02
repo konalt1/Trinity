@@ -12,25 +12,51 @@ LinkLuaModifier('modifier_ogre_magi_berserker_rage_armor', 'abilities/ogre_magi/
 ogre_magi_berserker_rage = class({})
 
 function ogre_magi_berserker_rage:Precache(context)
-	-- Звуки для разных эффектов
+	-- Звуки для Ogre Magi
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_abaddon.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_alchemist.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_bloodseeker.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_items/game_sounds_items.vsndevts", context)
 	
-	-- Частицы для эффектов баффов
+	-- Звуки для героев из списка способностей
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ancient_apparition.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_bane.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_crystal_maiden.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_dark_willow.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_dazzle.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_grimstroke.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_kunkka.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_oracle.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts", context)
+	
+	-- Частицы для эффектов способностей
 	PrecacheResource("particle", "particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_abaddon/abaddon_aphotic_shield_explosion.vpcf", context)
-	PrecacheResource("particle", "particles/generic_gameplay/generic_lifesteal.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_alchemist/alchemist_chemical_rage.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_bloodseeker/bloodseeker_thirst.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_antimage/antimage_spell_shield.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_blood.vpcf", context)
-	PrecacheResource("particle", "particles/items_fx/refresher_orb.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_ancient_apparition/ancient_apparition_cold_feet.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_battle_hunger.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_bane/bane_nightmare.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_chaos_knight/chaos_knight_chaos_bolt.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_chen/chen_penitence.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_crystal_maiden/maiden_frostbite.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_dark_willow/dark_willow_cursed_crown.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_death_prophet/death_prophet_spirit_siphon.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_disruptor/disruptor_glimpse.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_grimstroke/grimstroke_phantom_embrace.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_gyrocopter/gyro_homing_missile.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_kunkka/kunkka_x_marks_the_spot.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_medusa/medusa_mystic_snake.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_furion/furion_sprout.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_oracle/oracle_fortunes_end.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_astral_imprisonment.vpcf", context)
 end
 
 function ogre_magi_berserker_rage:GetIntrinsicModifierName()
@@ -46,61 +72,110 @@ function ogre_magi_berserker_rage:IsHidden()
 end
 
 function ogre_magi_berserker_rage:GetCooldown(level)
-	local cooldowns = {20, 15, 10}
-	return cooldowns[level] or 20
+	return 0
 end
 
--- Список возможных баффов
+-- Список возможных способностей для применения на врагов
 function ogre_magi_berserker_rage:GetRandomBuff()
-	local buffs = {
+	local abilities = {
 		{
-			name = "attack_speed",
-			modifier = "modifier_ogre_magi_berserker_rage_attack_speed",
+			name = "Cold Feet",
+			ability = "ancient_apparition_cold_feet",
+			duration = 4
+		},
+		{
+			name = "Battle Hunger",
+			ability = "axe_battle_hunger",
 			duration = 10
 		},
 		{
-			name = "damage",
-			modifier = "modifier_ogre_magi_berserker_rage_damage",
-			duration = 10
+			name = "Nightmare",
+			ability = "bane_nightmare",
+			duration = 7
 		},
 		{
-			name = "shield",
-			modifier = "modifier_ogre_magi_berserker_rage_shield",
-			duration = 15
+			name = "Double Edge",
+			ability = "centaur_double_edge",
+			duration = 0
 		},
 		{
-			name = "regen",
-			modifier = "modifier_ogre_magi_berserker_rage_regen",
-			duration = 10
+			name = "Chaos Bolt",
+			ability = "chaos_knight_chaos_bolt",
+			duration = 0
 		},
 		{
-			name = "speed",
-			modifier = "modifier_ogre_magi_berserker_rage_speed",
-			duration = 10
+			name = "Penitence",
+			ability = "chen_penitence",
+			duration = 8
 		},
 		{
-			name = "magic_resist",
-			modifier = "modifier_ogre_magi_berserker_rage_magic_resist",
-			duration = 10
+			name = "Frostbite",
+			ability = "crystal_maiden_frostbite",
+			duration = 3
 		},
 		{
-			name = "lifesteal",
-			modifier = "modifier_ogre_magi_berserker_rage_lifesteal",
-			duration = 10
+			name = "Cursed Crown",
+			ability = "dark_willow_cursed_crown",
+			duration = 4
 		},
 		{
-			name = "cooldown",
-			modifier = "modifier_ogre_magi_berserker_rage_cooldown",
-			duration = 10
+			name = "Shallow Grave",
+			ability = "dazzle_shallow_grave",
+			duration = 5
 		},
 		{
-			name = "armor",
-			modifier = "modifier_ogre_magi_berserker_rage_armor",
-			duration = 10
+			name = "Spirit Siphon",
+			ability = "death_prophet_spirit_siphon",
+			duration = 6
+		},
+		{
+			name = "Glimpse",
+			ability = "disruptor_glimpse",
+			duration = 0
+		},
+		{
+			name = "Phantom Embrace",
+			ability = "grimstroke_phantom_embrace",
+			duration = 5
+		},
+		{
+			name = "Homing Missile",
+			ability = "gyrocopter_homing_missile",
+			duration = 0
+		},
+		{
+			name = "X Marks the Spot",
+			ability = "kunkka_x_marks_the_spot",
+			duration = 8
+		},
+		{
+			name = "Hex",
+			ability = "lion_hex",
+			duration = 4
+		},
+		{
+			name = "Mystic Snake",
+			ability = "medusa_mystic_snake",
+			duration = 0
+		},
+		{
+			name = "Sprout",
+			ability = "furion_sprout",
+			duration = 6
+		},
+		{
+			name = "Fortune's End",
+			ability = "oracle_fortunes_end",
+			duration = 0
+		},
+		{
+			name = "Astral Imprisonment",
+			ability = "obsidian_destroyer_astral_imprisonment",
+			duration = 4
 		}
 	}
 	
-	return buffs[RandomInt(1, #buffs)]
+	return abilities[RandomInt(1, #abilities)]
 end
 
 --------------------------------------------------------------------------------
@@ -120,7 +195,8 @@ function modifier_ogre_magi_berserker_rage:OnCreated()
 	if IsServer() then
 		self.attack_count = 0
 		self.attacks_needed = 10
-		self.is_on_cooldown = false
+		self.next_attack_charged = false
+		self.charged_buff = nil
 		
 		-- Устанавливаем начальный стек для отображения
 		self:SetStackCount(self.attack_count)
@@ -172,8 +248,12 @@ function modifier_ogre_magi_berserker_rage:OnAttackLanded(event)
 		return
 	end
 	
-	-- Если способность на кулдауне, не накапливаем атаки
-	if self.is_on_cooldown then
+	-- Проверяем, заряжена ли следующая атака
+	if self.next_attack_charged and self.charged_buff then
+		-- Применяем заряженный эффект на цель
+		self:ApplyChargedEffectToTarget(target)
+		self.next_attack_charged = false
+		self.charged_buff = nil
 		return
 	end
 	
@@ -223,23 +303,12 @@ function modifier_ogre_magi_berserker_rage:TriggerBerserkerRage()
 	self.attack_count = 0
 	self:SetStackCount(self.attack_count)
 	
-	-- Активируем кулдаун
-	self.is_on_cooldown = true
-	local cooldown_duration = ability:GetCooldown(ability:GetLevel())
-	ability:StartCooldown(cooldown_duration)
-	
-	-- Получаем случайный бафф
+	-- Получаем случайный бафф и заряжаем следующую атаку
 	local random_buff = ability:GetRandomBuff()
+	self.next_attack_charged = true
+	self.charged_buff = random_buff
 	
-	-- Применяем бафф
-	parent:AddNewModifier(
-		parent,
-		ability,
-		random_buff.modifier,
-		{ duration = random_buff.duration }
-	)
-	
-	-- Большой эффект активации
+	-- Большой эффект активации на огре
 	EmitSoundOn("Hero_OgreMagi.Fireblast.Target", parent)
 	EmitSoundOn("Hero_OgreMagi.Multicast.x3", parent)
 	
@@ -268,24 +337,69 @@ function modifier_ogre_magi_berserker_rage:TriggerBerserkerRage()
 	)
 	ParticleManager:ReleaseParticleIndex(explosion_particle)
 	
-	-- Снимаем кулдаун через заданное время
-	Timers:CreateTimer(cooldown_duration, function()
-		if self and not self:IsNull() then
-			self.is_on_cooldown = false
-		end
-	end)
+	print("Ogre Berserker Rage charged! Next attack will apply: " .. random_buff.name)
+end
+
+function modifier_ogre_magi_berserker_rage:ApplyChargedEffectToTarget(target)
+	if not IsServer() then return end
 	
-	print("Ogre Berserker Rage activated! Buff: " .. random_buff.name)
+	local parent = self:GetParent()
+	local ability = self:GetAbility()
+	local selected_ability = self.charged_buff
+	
+	-- Создаем временную способность для применения
+	local temp_ability = parent:AddAbility(selected_ability.ability)
+	if temp_ability then
+		temp_ability:SetLevel(1)
+		
+		-- Применяем способность на цель
+		if temp_ability:CanAbilityBeUpgraded() then
+			temp_ability:CastAbility()
+		else
+			-- Для таргетных способностей
+			parent:SetCursorCastTarget(target)
+			temp_ability:OnSpellStart()
+		end
+		
+		-- Удаляем временную способность
+		Timers:CreateTimer(0.1, function()
+			if temp_ability and IsValidEntity(temp_ability) then
+				parent:RemoveAbility(selected_ability.ability)
+			end
+		end)
+	end
+	
+	-- Эффекты применения на цель
+	EmitSoundOn("Hero_OgreMagi.Fireblast.Target", target)
+	
+	-- Визуальный эффект на цели
+	local particle = ParticleManager:CreateParticle(
+		"particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
+		PATTACH_ABSORIGIN_FOLLOW,
+		target
+	)
+	ParticleManager:SetParticleControlEnt(
+		particle,
+		0,
+		target,
+		PATTACH_POINT_FOLLOW,
+		"attach_hitloc",
+		target:GetOrigin(),
+		true
+	)
+	ParticleManager:ReleaseParticleIndex(particle)
+	
+	print("Applied charged ability '" .. selected_ability.name .. "' to " .. target:GetUnitName())
 end
 
 --------------------------------------------------------------------------------
 -- Модификаторы баффов
 
--- Увеличение скорости атаки
+-- Замедление скорости атаки
 modifier_ogre_magi_berserker_rage_attack_speed = class({
 	IsHidden 				= function(self) return false end,
 	IsPurgable 				= function(self) return true end,
-	IsBuff                  = function(self) return true end,
+	IsBuff                  = function(self) return false end,
 	RemoveOnDeath 			= function(self) return true end,
 	DeclareFunctions        = function(self) return 
     {
@@ -294,22 +408,22 @@ modifier_ogre_magi_berserker_rage_attack_speed = class({
 })
 
 function modifier_ogre_magi_berserker_rage_attack_speed:OnCreated()
-	self.attack_speed_bonus = 20
+	self.attack_speed_reduction = -30
 end
 
 function modifier_ogre_magi_berserker_rage_attack_speed:GetModifierAttackSpeedBonus_Constant()
-	return self.attack_speed_bonus
+	return self.attack_speed_reduction
 end
 
 function modifier_ogre_magi_berserker_rage_attack_speed:GetTexture()
 	return "ogre_magi_bloodlust"
 end
 
--- Увеличение урона
+-- Уменьшение урона
 modifier_ogre_magi_berserker_rage_damage = class({
 	IsHidden 				= function(self) return false end,
 	IsPurgable 				= function(self) return true end,
-	IsBuff                  = function(self) return true end,
+	IsBuff                  = function(self) return false end,
 	RemoveOnDeath 			= function(self) return true end,
 	DeclareFunctions        = function(self) return 
     {
@@ -318,110 +432,60 @@ modifier_ogre_magi_berserker_rage_damage = class({
 })
 
 function modifier_ogre_magi_berserker_rage_damage:OnCreated()
-	self.damage_bonus = 25
+	self.damage_reduction = -40
 end
 
 function modifier_ogre_magi_berserker_rage_damage:GetModifierPreAttack_BonusDamage()
-	return self.damage_bonus
+	return self.damage_reduction
 end
 
 function modifier_ogre_magi_berserker_rage_damage:GetTexture()
 	return "ogre_magi_multicast"
 end
 
--- Щит (аналог Aphotic Shield)
+-- Периодический урон (DOT)
 modifier_ogre_magi_berserker_rage_shield = class({
 	IsHidden 				= function(self) return false end,
 	IsPurgable 				= function(self) return true end,
-	IsBuff                  = function(self) return true end,
+	IsBuff                  = function(self) return false end,
 	RemoveOnDeath 			= function(self) return true end,
-	DeclareFunctions        = function(self) return 
-    {
-    	MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
-    } end,
+	DeclareFunctions        = function(self) return {} end,
 })
 
 function modifier_ogre_magi_berserker_rage_shield:OnCreated()
 	if not IsServer() then return end
-	self.damage_absorbed = 0
-	self.max_absorb = 200
-	self.explosion_radius = 675
-	self.explosion_damage = 100
+	self.dot_damage = 25
+	self.tick_interval = 1.0
+	
+	-- Начинаем периодический урон
+	self:StartIntervalThink(self.tick_interval)
 end
 
-function modifier_ogre_magi_berserker_rage_shield:GetModifierIncomingDamageConstant(params)
-	if not IsServer() then return 0 end
-	
-	local damage = params.damage
-	local remaining_absorb = self.max_absorb - self.damage_absorbed
-	
-	if remaining_absorb <= 0 then
-		return 0
-	end
-	
-	local absorbed = math.min(damage, remaining_absorb)
-	self.damage_absorbed = self.damage_absorbed + absorbed
-	
-	-- Если щит полностью поглотил урон, взрываем его
-	if self.damage_absorbed >= self.max_absorb then
-		self:ExplodeShield()
-		self:Destroy()
-	end
-	
-	return absorbed
-end
-
-function modifier_ogre_magi_berserker_rage_shield:ExplodeShield()
+function modifier_ogre_magi_berserker_rage_shield:OnIntervalThink()
 	if not IsServer() then return end
 	
 	local parent = self:GetParent()
 	local ability = self:GetAbility()
-	
-	-- Находим врагов в радиусе
-	local enemies = FindUnitsInRadius(
-		parent:GetTeamNumber(),
-		parent:GetOrigin(),
-		nil,
-		self.explosion_radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_ANY_ORDER,
-		false
-	)
+	local caster = ability:GetCaster()
 	
 	-- Наносим урон
-	for _, enemy in pairs(enemies) do
-		local damageTable = {
-			victim = enemy,
-			attacker = parent,
-			damage = self.explosion_damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = ability,
-			damage_flags = DOTA_DAMAGE_FLAG_NONE
-		}
-		ApplyDamage(damageTable)
-	end
+	local damageTable = {
+		victim = parent,
+		attacker = caster,
+		damage = self.dot_damage,
+		damage_type = DAMAGE_TYPE_MAGICAL,
+		ability = ability,
+		damage_flags = DOTA_DAMAGE_FLAG_NONE
+	}
+	ApplyDamage(damageTable)
 	
-	-- Эффекты взрыва
+	-- Эффект при каждом тике
 	local particle = ParticleManager:CreateParticle(
-		"particles/units/heroes/hero_abaddon/abaddon_aphotic_shield_explosion.vpcf",
-		PATTACH_WORLDORIGIN,
-		nil
+		"particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
+		PATTACH_OVERHEAD_FOLLOW,
+		parent
 	)
-	ParticleManager:SetParticleControl(particle, 0, parent:GetOrigin())
-	ParticleManager:SetParticleControl(particle, 1, Vector(self.explosion_radius, 0, 0))
 	ParticleManager:ReleaseParticleIndex(particle)
-	
-	EmitSoundOn("Hero_Abaddon.AphoticShield.Destroy", parent)
-end
-
-function modifier_ogre_magi_berserker_rage_shield:OnDestroy()
-	if not IsServer() then return end
-	-- Если щит истёк естественным образом, тоже взрываем
-	if self.damage_absorbed < self.max_absorb then
-		self:ExplodeShield()
-	end
 end
 
 function modifier_ogre_magi_berserker_rage_shield:GetTexture()
@@ -452,11 +516,11 @@ function modifier_ogre_magi_berserker_rage_regen:GetTexture()
 	return "alchemist_chemical_rage"
 end
 
--- Увеличение скорости передвижения
+-- Замедление скорости передвижения
 modifier_ogre_magi_berserker_rage_speed = class({
 	IsHidden 				= function(self) return false end,
 	IsPurgable 				= function(self) return true end,
-	IsBuff                  = function(self) return true end,
+	IsBuff                  = function(self) return false end,
 	RemoveOnDeath 			= function(self) return true end,
 	DeclareFunctions        = function(self) return 
     {
@@ -465,22 +529,22 @@ modifier_ogre_magi_berserker_rage_speed = class({
 })
 
 function modifier_ogre_magi_berserker_rage_speed:OnCreated()
-	self.move_speed_bonus = 15
+	self.move_speed_reduction = -25
 end
 
 function modifier_ogre_magi_berserker_rage_speed:GetModifierMoveSpeedBonus_Percentage()
-	return self.move_speed_bonus
+	return self.move_speed_reduction
 end
 
 function modifier_ogre_magi_berserker_rage_speed:GetTexture()
 	return "bloodseeker_thirst"
 end
 
--- Сопротивление магии
+-- Уменьшение сопротивления магии
 modifier_ogre_magi_berserker_rage_magic_resist = class({
 	IsHidden 				= function(self) return false end,
 	IsPurgable 				= function(self) return true end,
-	IsBuff                  = function(self) return true end,
+	IsBuff                  = function(self) return false end,
 	RemoveOnDeath 			= function(self) return true end,
 	DeclareFunctions        = function(self) return 
     {
@@ -489,11 +553,11 @@ modifier_ogre_magi_berserker_rage_magic_resist = class({
 })
 
 function modifier_ogre_magi_berserker_rage_magic_resist:OnCreated()
-	self.magic_resist_bonus = 30
+	self.magic_resist_reduction = -25
 end
 
 function modifier_ogre_magi_berserker_rage_magic_resist:GetModifierMagicalResistanceBonus()
-	return self.magic_resist_bonus
+	return self.magic_resist_reduction
 end
 
 function modifier_ogre_magi_berserker_rage_magic_resist:GetTexture()
@@ -563,11 +627,11 @@ function modifier_ogre_magi_berserker_rage_cooldown:GetTexture()
 	return "item_refresher"
 end
 
--- Увеличение брони
+-- Уменьшение брони
 modifier_ogre_magi_berserker_rage_armor = class({
 	IsHidden 				= function(self) return false end,
 	IsPurgable 				= function(self) return true end,
-	IsBuff                  = function(self) return true end,
+	IsBuff                  = function(self) return false end,
 	RemoveOnDeath 			= function(self) return true end,
 	DeclareFunctions        = function(self) return 
     {
@@ -576,11 +640,11 @@ modifier_ogre_magi_berserker_rage_armor = class({
 })
 
 function modifier_ogre_magi_berserker_rage_armor:OnCreated()
-	self.armor_bonus = 10
+	self.armor_reduction = -8
 end
 
 function modifier_ogre_magi_berserker_rage_armor:GetModifierPhysicalArmorBonus()
-	return self.armor_bonus
+	return self.armor_reduction
 end
 
 function modifier_ogre_magi_berserker_rage_armor:GetTexture()
