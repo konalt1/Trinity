@@ -1337,7 +1337,7 @@
         }
     }
 
-    "phantom_assassin_blur"
+    "phantom_assassin_blur_custom"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/phantom_assassin/phantom_assassin_blur"
@@ -1350,6 +1350,7 @@
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
         "Innate"                        "0"
+        "HasScepterUpgrade"             "1"
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "60 50 40 30"
         "AbilityManaCost"               "50"
@@ -1371,6 +1372,24 @@
             {
                 "value"                 "50 60 70 80"
                 "special_bonus_unique_phantom_assassin_4"    "+20"
+            }
+        }
+        
+        "AbilitySpecial"
+        {
+        }
+        
+        // Localization
+        //-------------------------------------------------------------------------------------------------------------
+        "Language"
+        {
+            "English"
+            {
+                "DOTA_Tooltip_ability_phantom_assassin_blur_custom_scepter_description"    "Scepter Upgrade: Blur now refreshes all ability cooldowns when Phantom Assassin kills an enemy hero."
+            }
+            "Russian"
+            {
+                "DOTA_Tooltip_ability_phantom_assassin_blur_custom_scepter_description"    "Улучшение Сцептера: Размытие теперь сбрасывает перезарядку всех способностей, когда Фантомка убивает вражеского героя."
             }
         }
 
@@ -1907,6 +1926,119 @@
             "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
             "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_ground.vpcf"
             "soundfile" "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts"
+        }
+    }
+
+    "phantom_assassin_smoke_bomb"
+    {
+        // Ability Technical Aspect
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/phantom_assassin/phantom_assassin_smoke_bomb"
+        "AbilityTextureName"            "phantom_assassin_blur"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "IsGrantedByShard"              "1"
+        "HasShardUpgrade"               "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "IsOnCastBar"                   "1"
+        "IsOnLearnBar"                  "1"
+        
+        // Ability Description
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        
+        // Localization
+        //-------------------------------------------------------------------------------------------------------------
+        "Language"
+        {
+            "English"
+            {
+                "AbilityName"           "Smoke Bomb"
+                "AbilityDescription"    "Phantom Assassin creates a smoke cloud at her location that makes all allied units within the area invisible. The smoke persists for a short duration."
+                "Lore"                  "A tactical tool used by the Phantom Assassin to provide cover for her allies during dangerous operations."
+                "Notes"
+                {
+                    "01"                "• Provides invisibility to all allied units in the area"
+                    "02"                "• Invisibility is lost when leaving the smoke cloud"
+                    "03"                "• Can be used to escape or set up ambushes"
+                    "04"                "• Does not affect enemy units"
+                }
+                "DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_shard_description"    "Grants Phantom Assassin a new ability: Smoke Bomb. Creates a smoke cloud that makes all allied units in the area invisible for 1.5 seconds."
+            }
+            "Russian"
+            {
+                "AbilityName"           "Дымовая граната"
+                "AbilityDescription"    "Фантомка создает облако дыма в своем местоположении, которое делает всех союзных юнитов в области невидимыми. Дым сохраняется в течение короткого времени."
+                "Lore"                  "Тактический инструмент, используемый Фантомкой для обеспечения прикрытия союзникам во время опасных операций."
+                "Notes"
+                {
+                    "01"                "• Обеспечивает невидимость всем союзным юнитам в области"
+                    "02"                "• Невидимость теряется при выходе из облака дыма"
+                    "03"                "• Можно использовать для побега или организации засад"
+                    "04"                "• Не влияет на вражеских юнитов"
+                }
+                "DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_shard_description"    "Дает Фантомке новую способность: Дымовая граната. Создает облако дыма, которое делает всех союзных юнитов в области невидимыми на 1.5 секунды."
+            }
+        }
+        
+        "precache"
+        {
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+            "particle"  "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur.vpcf"
+            "particle"  "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur_active.vpcf"
+            "particle"  "particles/units/heroes/hero_slark/slark_shard_depth_shroud.vpcf"
+        }
+
+        // Ability Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+
+        // Ability Resource
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "30"
+        "AbilityManaCost"               "100"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "radius"
+            {
+                "value"                 "500"
+                "affected_by_aoe_increase"  "1"
+            }
+            "duration"
+            {
+                "value"                 "1.5"
+            }
+            "fade_time"
+            {
+                "value"                 "0.5"
+            }
+        }
+        
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "radius"                "500"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "duration"              "1.5"
+            }
+            "03"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "fade_time"             "0.5"
+            }
         }
     }
 
