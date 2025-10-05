@@ -9,25 +9,39 @@ Ability checklist (erase if done/checked):
 - Stolen behavior
 ]]
 --------------------------------------------------------------------------------
-phantom_assassin_blur = class({})
+phantom_assassin_blur_custom = class({})
 LinkLuaModifier( "modifier_phantom_assassin_blur", "abilities/phantom_assassin/phantom_assassin_blur", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_phantom_assassin_blur_active", "abilities/phantom_assassin/phantom_assassin_blur", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_phantom_assassin_blur_scepter", "abilities/phantom_assassin/phantom_assassin_blur", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Init Abilities
-function phantom_assassin_blur:Precache( context )
+function phantom_assassin_blur_custom:Precache( context )
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts", context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur.vpcf", context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur_active.vpcf", context )
 end
 
-function phantom_assassin_blur:Spawn()
+function phantom_assassin_blur_custom:Spawn()
 	if not IsServer() then return end
 end
 
 --------------------------------------------------------------------------------
+-- Scepter: Reduce cooldown by half
+function phantom_assassin_blur_custom:GetCooldown( level )
+	local cooldown = self.BaseClass.GetCooldown( self, level )
+	
+	if self:GetCaster():HasScepter() then
+		cooldown = cooldown * 0.5
+		print("[PA Blur] Scepter detected! Cooldown reduced to: " .. cooldown)
+	end
+	
+	return cooldown
+end
+
+--------------------------------------------------------------------------------
 -- Apply passive modifier when hero spawns
-function phantom_assassin_blur:OnOwnerSpawned()
+function phantom_assassin_blur_custom:OnOwnerSpawned()
 	if IsServer() then
 		local caster = self:GetCaster()
 		
@@ -46,13 +60,25 @@ function phantom_assassin_blur:OnOwnerSpawned()
 				"modifier_phantom_assassin_blur",
 				{}
 			)
+			
+			-- Add scepter modifier if has scepter
+			if caster:HasScepter() then
+				if not caster:HasModifier("modifier_phantom_assassin_blur_scepter") then
+					caster:AddNewModifier(
+						caster,
+						self,
+						"modifier_phantom_assassin_blur_scepter",
+						{}
+					)
+				end
+			end
 		end
 	end
 end
 
 --------------------------------------------------------------------------------
 -- Ability Start
-function phantom_assassin_blur:OnSpellStart()
+function phantom_assassin_blur_custom:OnSpellStart()
 	local caster = self:GetCaster()
 	local duration = self:GetSpecialValueFor( "active_duration" )
 
@@ -70,7 +96,7 @@ end
 
 --------------------------------------------------------------------------------
 -- Passive Modifier - Apply when ability is learned
-function phantom_assassin_blur:OnUpgrade()
+function phantom_assassin_blur_custom:OnUpgrade()
 	if IsServer() then
 		local caster = self:GetCaster()
 		
@@ -89,12 +115,24 @@ function phantom_assassin_blur:OnUpgrade()
 				{}
 			)
 		end
+		
+		-- Add scepter modifier for cooldown refresh on kill
+		if caster:HasScepter() then
+			if not caster:HasModifier("modifier_phantom_assassin_blur_scepter") then
+				caster:AddNewModifier(
+					caster,
+					self,
+					"modifier_phantom_assassin_blur_scepter",
+					{}
+				)
+			end
+		end
 	end
 end
 
 --------------------------------------------------------------------------------
 -- Effects
-function phantom_assassin_blur:PlayEffects()
+function phantom_assassin_blur_custom:PlayEffects()
 	-- get resources
 	local sound_cast = "Hero_PhantomAssassin.Blur"
 	local particle_cast = "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur_active.vpcf"
@@ -219,6 +257,23 @@ function modifier_phantom_assassin_blur:OnIntervalThink()
 			invis_modifier:Destroy()
 		end
 	end
+	
+	-- Check for scepter and apply/remove scepter modifier
+	if self.parent:HasScepter() then
+		if not self.parent:HasModifier("modifier_phantom_assassin_blur_scepter") then
+			self.parent:AddNewModifier(
+				self.parent,
+				self.ability,
+				"modifier_phantom_assassin_blur_scepter",
+				{}
+			)
+		end
+	else
+		local scepter_modifier = self.parent:FindModifierByName("modifier_phantom_assassin_blur_scepter")
+		if scepter_modifier then
+			scepter_modifier:Destroy()
+		end
+	end
 end
 
 --------------------------------------------------------------------------------
@@ -329,4 +384,81 @@ end
 
 function modifier_phantom_assassin_blur_active:StatusEffectPriority()
 	return MODIFIER_PRIORITY_HIGH
+end
+
+--------------------------------------------------------------------------------
+-- Scepter Modifier - Refresh cooldowns on hero kill
+--------------------------------------------------------------------------------
+modifier_phantom_assassin_blur_scepter = class({})
+
+--------------------------------------------------------------------------------
+-- Classifications
+function modifier_phantom_assassin_blur_scepter:IsHidden()
+	return true
+end
+
+function modifier_phantom_assassin_blur_scepter:IsDebuff()
+	return false
+end
+
+function modifier_phantom_assassin_blur_scepter:IsPurgable()
+	return false
+end
+
+function modifier_phantom_assassin_blur_scepter:RemoveOnDeath()
+	return false
+end
+
+--------------------------------------------------------------------------------
+-- Initializations
+function modifier_phantom_assassin_blur_scepter:OnCreated( kv )
+	if not IsServer() then return end
+	print("[PA Blur Scepter] Scepter modifier applied! Hero kills will now refresh cooldowns.")
+end
+
+function modifier_phantom_assassin_blur_scepter:DeclareFunctions()
+	local funcs = {
+		MODIFIER_EVENT_ON_HERO_KILLED,
+	}
+	return funcs
+end
+
+--------------------------------------------------------------------------------
+-- Scepter effect: Refresh all cooldowns on hero kill
+function modifier_phantom_assassin_blur_scepter:OnHeroKilled( params )
+	if not IsServer() then return end
+	
+	local parent = self:GetParent()
+	local attacker = params.attacker
+	local target = params.target
+	
+	-- Check if parent killed an enemy hero
+	if attacker == parent and target:IsRealHero() and target:GetTeamNumber() ~= parent:GetTeamNumber() then
+		print("[PA Blur Scepter] Hero killed! Refreshing all cooldowns...")
+		
+		-- Refresh all ability cooldowns
+		local refreshed_count = 0
+		for i = 0, parent:GetAbilityCount() - 1 do
+			local ability = parent:GetAbilityByIndex( i )
+			if ability and not ability:IsItem() then
+				ability:EndCooldown()
+				refreshed_count = refreshed_count + 1
+				print("[PA Blur Scepter] Refreshed: " .. ability:GetAbilityName())
+			end
+		end
+		
+		print("[PA Blur Scepter] Total abilities refreshed: " .. refreshed_count)
+		
+		-- Play sound effect
+		EmitSoundOn( "Hero_PhantomAssassin.CoupDeGrace", parent )
+		
+		-- Show particle effect
+		local particle = ParticleManager:CreateParticle( 
+			"particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", 
+			PATTACH_ABSORIGIN_FOLLOW, 
+			parent 
+		)
+		ParticleManager:SetParticleControl( particle, 0, parent:GetOrigin() )
+		ParticleManager:ReleaseParticleIndex( particle )
+	end
 end 

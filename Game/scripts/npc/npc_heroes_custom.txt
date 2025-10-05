@@ -5,9 +5,12 @@
 	{
 		"override_hero"                                 "npc_dota_hero_phantom_assassin"
 		"Facets" ""
-        "Ability3"				"phantom_assassin_blur"
-		"Ability5"                                      "0"
+        "Ability3"				"phantom_assassin_blur_custom"
+		"Ability5"                                      "phantom_assassin_smoke_bomb"
+        "Ability4"                                      "0"
         "Ability6"		                                "ability_coup_de_foudre"
+        "Ability7"                                      ""
+        "Ability8"                                      ""
 		
         "Ability10"										"special_bonus_gold_200"
         "Ability11"										"special_bonus_gold_200"
