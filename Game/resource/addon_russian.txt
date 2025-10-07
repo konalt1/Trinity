@@ -78,6 +78,9 @@
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note1"			"Бафф снимается через 0.5 секунды после обнаружения."
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note2"			"Синергирует с уменьшенным радиусом обнаружения Blur."
 		
+		//phantom_assassin_blur
+		 "DOTA_Tooltip_ability_phantom_assassin_blur_custom_scepter_description"    "Улучшение Сцептера: Размытие теперь сбрасывает перезарядку всех способностей, когда Фантомка убивает вражеского героя."
+       
 		
 		// Ogre Magi Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"Огненный Взрыв"
@@ -264,5 +267,58 @@
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Note0"			"Филактерий неуязвим к магическому урону, но может быть уничтожен атаками."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Note1"			"Герои наносят двойной урон филактерию по сравнению с крипами."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Note2"			"Аура действует на все дружественные и вражеские юниты в радиусе."
+
+		// Phantom Assassin Shard Upgrade
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard"				"Теневой Покров"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Description"	"Шардовое улучшение для Blur. Phantom Assassin создаёт область дымовой завесы в указанной точке, которая делает всех союзников в радиусе невидимыми. Враги в области дымовой завесы теряют обзор и не могут атаковать невидимых союзников. Дымовая завеса длится 8 секунд и имеет радиус 500 единиц."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Lore"		"Мастерство убийцы достигает новых высот - теперь Фантомка может скрывать целые отряды в тенях."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_radius"		"РАДИУС ДЫМОВОЙ ЗАВЕСЫ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_duration"	"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note0"		"Союзники в дымовой завесе становятся невидимыми и не могут быть атакованы."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note1"		"Враги в области теряют обзор и не могут видеть невидимых союзников."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note2"		"Дымовая завеса не блокирует передвижение, но скрывает всех союзников внутри."
+
+		// Phantom Assassin Aghanim Scepter Upgrade
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter"			"Убийственный Порыв"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Description"	"Аганимное улучшение для Blur. При убийстве вражеского героя Phantom Assassin мгновенно восстанавливает все перезарядки способностей и получает бонус к скорости передвижения на 5 секунд. Дополнительно, время перезарядки Blur сокращается в два раза."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Lore"		"Каждое убийство пробуждает в Фантомке первобытную ярость, делая её ещё более смертоносной."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_movespeed_bonus"	"БОНУС СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_movespeed_duration"	"ДЛИТЕЛЬНОСТЬ БОНУСА:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_cooldown_reduction"	"СОКРАЩЕНИЕ ПЕРЕЗАРЯДКИ BLUR:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note0"		"Срабатывает только при убийстве вражеских героев."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note1"		"Восстанавливает перезарядки всех способностей, включая ультимативные."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note2"		"Бонус скорости передвижения стакается с другими источниками."
+
+		// Doom Shard Upgrade
+		"DOTA_Tooltip_ability_doom_soul_devour_shard"					"Поглощение Души"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Description"		"Шардовое улучшение для Soul Devour. Doom может поглощать души вражеских героев, получая их способности на 30 секунд. Поглощённые способности имеют сниженную стоимость маны на 50% и увеличенный урон на 25%. Doom может хранить до 2 поглощённых способностей одновременно."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Lore"			"Древняя сила Думы позволяет ему не только поглощать души, но и перенимать магические знания жертв."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_ability_duration"	"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТЕЙ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_manacost_reduction"	"СНИЖЕНИЕ СТОИМОСТИ МАНЫ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_damage_bonus"		"БОНУС УРОНА:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_max_abilities"	"МАКСИМУМ СПОСОБНОСТЕЙ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note0"			"Можно поглощать только способности вражеских героев."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note1"			"Ультимативные способности не могут быть поглощены."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note2"			"При поглощении новой способности самая старая исчезает."
+
+		// Doom Aghanim Scepter Upgrade
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter"				"Владыка Душ"
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Description"	"Аганимное улучшение для Soul Devour. Doom может поглощать души вражеских героев, мгновенно убивая их и получая постоянный бонус к Mind Power. Каждая поглощённая душа героя даёт +3 к Mind Power навсегда."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Lore"			"Истинная сила Владыки Душ раскрывается - теперь он может поглощать даже души героев, становясь всё могущественнее."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_hero_soul_power"	"MIND POWER ЗА ГЕРОЯ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note0"			"Мгновенно убивает вражеского героя при использовании."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note1"			"Бонус к Mind Power постоянный и накапливается."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note2"			"Не работает на союзниках или нейтральных юнитах."
+
+		// Phantom Assassin Smoke Bomb (Shard Ability)
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb"				"Дымовая Граната"
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Description"	"Фантомка создает облако дыма в своем местоположении, которое делает всех союзных юнитов в области невидимыми. Дым сохраняется в течение короткого времени, обеспечивая тактическое прикрытие для побега или организации засад."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Lore"		"Тактический инструмент, используемый Фантомкой для обеспечения прикрытия союзникам во время опасных операций."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_radius"		"РАДИУС ДЫМА:"
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_duration"	"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note0"		"Обеспечивает невидимость всем союзным юнитам в области."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note1"		"Невидимость теряется при выходе из облака дыма."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note2"		"Можно использовать для побега или организации засад."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note3"		"Не влияет на вражеских юнитов."
 	}
 }
