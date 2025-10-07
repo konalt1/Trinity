@@ -248,5 +248,58 @@
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Note0"			"Phylactery is immune to magical damage but can be destroyed by attacks."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Note1"			"Heroes deal double damage to the phylactery compared to creeps."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Note2"			"Aura affects all friendly and enemy units within radius."
+
+		// Phantom Assassin Shard Upgrade
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard"				"Shadow Veil"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Description"	"Shard upgrade for Blur. Phantom Assassin creates a smoke screen area at the target location that makes all allies within radius invisible. Enemies within the smoke screen lose vision and cannot attack invisible allies. The smoke screen lasts 8 seconds and has a radius of 500 units."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Lore"		"The assassin's mastery reaches new heights - now Phantom Assassin can hide entire squads in shadows."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_radius"		"SMOKE SCREEN RADIUS:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_duration"	"DURATION:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note0"		"Allies within the smoke screen become invisible and cannot be attacked."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note1"		"Enemies in the area lose vision and cannot see invisible allies."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note2"		"Smoke screen does not block movement but conceals all allies inside."
+
+		// Phantom Assassin Aghanim Scepter Upgrade
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter"			"Killing Spree"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Description"	"Aghanim Scepter upgrade for Blur. When Phantom Assassin kills an enemy hero, she instantly refreshes all ability cooldowns and gains bonus movement speed for 5 seconds. Additionally, Blur's cooldown is reduced by half."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Lore"		"Each kill awakens a primal fury within Phantom Assassin, making her even more deadly."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_movespeed_bonus"	"MOVEMENT SPEED BONUS:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_movespeed_duration"	"BONUS DURATION:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_cooldown_reduction"	"BLUR COOLDOWN REDUCTION:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note0"		"Only triggers on enemy hero kills."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note1"		"Refreshes cooldowns of all abilities, including ultimates."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note2"		"Movement speed bonus stacks with other sources."
+
+		// Doom Shard Upgrade
+		"DOTA_Tooltip_ability_doom_soul_devour_shard"					"Soul Absorption"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Description"		"Shard upgrade for Soul Devour. Doom can absorb souls of enemy heroes, gaining their abilities for 30 seconds. Absorbed abilities have 50% reduced mana cost and 25% increased damage. Doom can store up to 2 absorbed abilities simultaneously."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Lore"			"The ancient power of Doom allows him to not only absorb souls, but also inherit the magical knowledge of his victims."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_ability_duration"	"ABILITY DURATION:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_manacost_reduction"	"MANA COST REDUCTION:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_damage_bonus"		"DAMAGE BONUS:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_max_abilities"	"MAX ABILITIES:"
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note0"			"Can only absorb abilities from enemy heroes."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note1"			"Ultimate abilities cannot be absorbed."
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note2"			"When absorbing a new ability, the oldest one disappears."
+
+		// Doom Aghanim Scepter Upgrade
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter"				"Lord of Souls"
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Description"	"Aghanim Scepter upgrade for Soul Devour. Doom can absorb souls of enemy heroes, instantly killing them and gaining permanent Mind Power bonus. Each absorbed hero soul grants +3 Mind Power forever."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Lore"			"The true power of the Lord of Souls is revealed - now he can absorb even the souls of heroes, becoming ever more powerful."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_hero_soul_power"	"MIND POWER PER HERO:"
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note0"			"Instantly kills enemy hero when used."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note1"			"Mind Power bonus is permanent and accumulates."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note2"			"Does not work on allies or neutral units."
+
+		// Phantom Assassin Smoke Bomb (Shard Ability)
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb"				"Smoke Bomb"
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Description"	"Phantom Assassin creates a smoke cloud at her location that makes all allied units in the area invisible. The smoke persists for a short duration, providing tactical cover for escape or ambush setups."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Lore"		"A tactical tool used by Phantom Assassin to provide cover for allies during dangerous operations."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_radius"		"SMOKE RADIUS:"
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_duration"	"DURATION:"
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note0"		"Provides invisibility to all allied units in the area."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note1"		"Invisibility is lost when leaving the smoke cloud."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note2"		"Can be used to escape or set up ambushes."
+		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note3"		"Does not affect enemy units."
 	}
 }
