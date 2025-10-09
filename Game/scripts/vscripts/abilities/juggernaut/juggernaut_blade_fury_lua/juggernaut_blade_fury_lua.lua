@@ -1,5 +1,5 @@
 juggernaut_blade_fury_lua = class({})
-LinkLuaModifier( "modifier_juggernaut_blade_fury_lua", "Juggernaut/juggernaut_blade_fury_lua/modifier_juggernaut_blade_fury_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_juggernaut_blade_fury_lua", "abilities/juggernaut/juggernaut_blade_fury_lua/modifier_juggernaut_blade_fury_lua", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Ability Start

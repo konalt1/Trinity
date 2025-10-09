@@ -1,5 +1,5 @@
 omniknight_repel_lua = class({})
-LinkLuaModifier( "modifier_omniknight_repel_lua", "lua_abilities/omniknight_repel_lua/modifier_omniknight_repel_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_omniknight_repel_lua", "abilities/omniknight/omniknight_repel_lua/modifier_omniknight_repel_lua", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Ability Start

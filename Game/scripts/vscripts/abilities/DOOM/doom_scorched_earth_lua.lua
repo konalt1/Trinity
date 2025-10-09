@@ -10,7 +10,7 @@ Ability checklist (erase if done/checked):
 ]]
 --------------------------------------------------------------------------------
 doom_scorched_earth_lua = class({})
-LinkLuaModifier( "modifier_doom_scorched_earth_lua", "DOOM/modifier_doom_scorched_earth_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_doom_scorched_earth_lua", "abilities/DOOM/modifier_doom_scorched_earth_lua", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Ability Start

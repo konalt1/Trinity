@@ -3,9 +3,9 @@ require('utils/util')
 tusk_mp_snowball = class({})
 
 -- Register modifiers
-LinkLuaModifier("modifier_tusk_snowball_formation", "Tusk/tusk_mp_snowball", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_tusk_snowball_pickup", "Tusk/tusk_mp_snowball", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_tusk_snowball_movement", "Tusk/tusk_mp_snowball", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_tusk_snowball_formation", "abilities/Tusk/tusk_mp_snowball", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_tusk_snowball_pickup", "abilities/Tusk/tusk_mp_snowball", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_tusk_snowball_movement", "abilities/Tusk/tusk_mp_snowball", LUA_MODIFIER_MOTION_NONE)
 
 function tusk_mp_snowball:IsStealable()
     return true

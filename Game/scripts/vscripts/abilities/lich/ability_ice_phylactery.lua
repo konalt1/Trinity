@@ -1,6 +1,6 @@
-LinkLuaModifier('modifier_ability_ice_phylactery', 'lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_ability_ice_phylactery_buff', 'lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_spell_lifesteal_custom', 'lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_ability_ice_phylactery', 'abilities/lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_ability_ice_phylactery_buff', 'abilities/lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_spell_lifesteal_custom', 'abilities/lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
   
 ability_ice_phylactery = ability_ice_phylactery or class({})
 

@@ -1,6 +1,6 @@
-LinkLuaModifier("modifier_ability_thirsty_blade_buff", "Juggernaut/ability_thirsty_blade", 0)
-LinkLuaModifier("modifier_ability_thirsty_blade", "Juggernaut/ability_thirsty_blade", 0)
-LinkLuaModifier("modifier_ability_thirsty_blade_debuff", "Juggernaut/ability_thirsty_blade", 0)
+LinkLuaModifier("modifier_ability_thirsty_blade_buff", "abilities/juggernaut/ability_thirsty_blade", 0)
+LinkLuaModifier("modifier_ability_thirsty_blade", "abilities/juggernaut/ability_thirsty_blade", 0)
+LinkLuaModifier("modifier_ability_thirsty_blade_debuff", "abilities/juggernaut/ability_thirsty_blade", 0)
 
 ability_thirsty_blade = class({})
 

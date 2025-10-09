@@ -1,4 +1,4 @@
-LinkLuaModifier("modifier_juggernaut_bloodlust", "Juggernaut/juggernaut_bloodlust", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_juggernaut_bloodlust", "abilities/juggernaut/juggernaut_bloodlust", LUA_MODIFIER_MOTION_NONE)
 
 juggernaut_bloodlust = class({})
 

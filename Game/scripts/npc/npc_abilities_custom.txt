@@ -141,7 +141,7 @@
 		// base texture folder	: resource/flash3/images/spellicons
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"Juggernaut/juggernaut_blade_fury_lua/juggernaut_blade_fury_lua"
+		"ScriptFile"					"abilities/juggernaut/juggernaut_blade_fury_lua/juggernaut_blade_fury_lua"
 		"AbilityTextureName"			"juggernaut_blade_fury"
 		"FightRecapLevel"				"1"
 		"MaxLevel"						"4"
@@ -248,7 +248,7 @@
     "ability_thirsty_blade"
     {
      	"BaseClass"						"ability_lua"
-        "ScriptFile"                    "Juggernaut/ability_thirsty_blade"
+        "ScriptFile"                    "abilities/juggernaut/ability_thirsty_blade"
         "AbilityTextureName"            "blade"
 		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
@@ -279,7 +279,7 @@
       
     "ability_fireworks" {
         "BaseClass"						"ability_lua"
-        "ScriptFile"                    "techies/ability_fireworks"
+        "ScriptFile"                    "abilities/techies/ability_fireworks"
         "AbilityTextureName"            "fireworks"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -298,7 +298,7 @@
 
     "ability_chain_bomb" {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "techies/ability_chain_bomb.lua"
+        "ScriptFile"                    "abilities/techies/ability_chain_bomb"
         "AbilityTextureName"            "chain_bomb"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
@@ -357,7 +357,7 @@
     "ability_vampiric_ward"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "Juggernaut/ability_vampiric_ward.lua"
+        "ScriptFile"                    "abilities/juggernaut/ability_vampiric_ward"
         "AbilityTextureName"            "vampiric_ward"
         "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
@@ -417,7 +417,7 @@
     "ability_ice_phylactery"
 	{
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "lich/ability_ice_phylactery.lua"
+        "ScriptFile"                    "abilities/lich/ability_ice_phylactery"
         "AbilityTextureName"            "lich_ice_spire"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
 
@@ -1129,7 +1129,7 @@
     "lich_frost_blast_lua"
     {
         "BaseClass"						"ability_lua"
-        "ScriptFile"					"lich/frost_blast/lich_frost_blast_lua"
+        "ScriptFile"					"abilities/lich/frost_blast/lich_frost_blast_lua"
         "AbilityTextureName"			"lich_frost_nova"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
@@ -1197,7 +1197,7 @@
     "lich_frost_shield_lua"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "lich/frost_shield/lich_frost_shield_lua"
+        "ScriptFile"                    "abilities/lich/frost_shield/lich_frost_shield_lua"
         "AbilityTextureName"            "lich_frost_armor"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
@@ -1454,7 +1454,7 @@
     "lich_chain_frost_shard"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "lich/chain_frost/lich_chain_frost_lua"
+        "ScriptFile"                    "abilities/lich/chain_frost/lich_chain_frost_lua"
         "AbilityTextureName"            "lich_chain_frost"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
@@ -1524,7 +1524,7 @@
     "doom_soul_devour"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/doom_soul_devour"
+        "ScriptFile"                    "abilities/DOOM/doom_soul_devour"
         "AbilityTextureName"            "doom_bringer_devour"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
@@ -1596,7 +1596,7 @@
     "doom_scorched_earth_lua"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "DOOM/doom_scorched_earth_lua"
+        "ScriptFile"                    "abilities/DOOM/doom_scorched_earth_lua"
         "AbilityTextureName"            "doom_bringer_scorched_earth"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
@@ -1637,7 +1637,7 @@
     "doom_ultimate_aura"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "DOOM/doom_ultimate_aura"
+        "ScriptFile"                    "abilities/DOOM/doom_ultimate_aura"
         "AbilityTextureName"            "doom_bringer_doom"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
@@ -1668,7 +1668,7 @@
     "doom_infernal_chain"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/doom_infernal_chain.lua"
+        "ScriptFile"                    "abilities/doom_infernal_chain"
         "AbilityTextureName"            "doom_bringer_scorched_earth"
         
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
@@ -1730,7 +1730,7 @@
             // Ability Technical Aspect
             //-------------------------------------------------------------------------------------------------------------
             "BaseClass"                     "ability_lua"
-            "ScriptFile"                    "Juggernaut/juggernaut_swift_slash_lua/juggernaut_swift_slash_lua"
+            "ScriptFile"                    "abilities/juggernaut/juggernaut_swift_slash_lua/juggernaut_swift_slash_lua"
             "AbilityTextureName"            "juggernaut_omni_slash"
             
             // Ability General
@@ -1793,7 +1793,7 @@
             // Ability Technical Aspect
             //-------------------------------------------------------------------------------------------------------------
             "BaseClass"                     "ability_lua"
-            "ScriptFile"                    "Juggernaut/juggernaut_bloodlust"
+            "ScriptFile"                    "abilities/juggernaut/juggernaut_bloodlust"
             "AbilityTextureName"            "juggernaut_blade_dance"
             
             // Ability General
@@ -1842,7 +1842,7 @@
     "tusk_ice"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "Tusk/tusk_ice"
+        "ScriptFile"                    "abilities/Tusk/tusk_ice"
         "AbilityTextureName"            "tusk_ice_shards"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -1879,7 +1879,7 @@
         // Ability Technical Aspect
         //-------------------------------------------------------------------------------------------------------------
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/tusk_ice_shards_lua"
+        "ScriptFile"                    "abilities/Tusk/tusk_ice_shards_lua"
         "AbilityTextureName"            "tusk_ice_shards"
         "FightRecapLevel"               "1"
         "MaxLevel"                     "4"

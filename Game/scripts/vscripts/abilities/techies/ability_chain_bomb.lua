@@ -1,6 +1,6 @@
-LinkLuaModifier("modifier_unit_chain_bomb", "techies/ability_chain_bomb", 0)
-LinkLuaModifier("modifier_unit_damage_listener", "techies/ability_chain_bomb", 0)
-LinkLuaModifier("modifier_ability_chain_bomb", "techies/ability_chain_bomb", 0)
+LinkLuaModifier("modifier_unit_chain_bomb", "abilities/techies/ability_chain_bomb", 0)
+LinkLuaModifier("modifier_unit_damage_listener", "abilities/techies/ability_chain_bomb", 0)
+LinkLuaModifier("modifier_ability_chain_bomb", "abilities/techies/ability_chain_bomb", 0)
  
 ability_chain_bomb = ability_chain_bomb or class({})
 

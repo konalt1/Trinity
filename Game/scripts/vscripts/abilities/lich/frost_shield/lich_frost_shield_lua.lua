@@ -1,7 +1,7 @@
 lich_frost_shield_lua = class({})
-LinkLuaModifier( "modifier_lich_frost_shield_lua", "lich/frost_shield/modifier_lich_frost_shield_lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_lich_frost_shield_lua_buff", "lich/frost_shield/modifier_lich_frost_shield_lua_buff", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_lich_frost_shield_lua_debuff", "lich/frost_shield/modifier_lich_frost_shield_lua_debuff", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_frost_shield_lua", "abilities/lich/frost_shield/modifier_lich_frost_shield_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_frost_shield_lua_buff", "abilities/lich/frost_shield/modifier_lich_frost_shield_lua_buff", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_frost_shield_lua_debuff", "abilities/lich/frost_shield/modifier_lich_frost_shield_lua_debuff", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Ability Start

@@ -1,5 +1,5 @@
 lich_frost_blast_lua = class({})
-LinkLuaModifier( "modifier_lich_frost_blast_lua", "lich/frost_blast/modifier_lich_frost_blast_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_frost_blast_lua", "abilities/lich/frost_blast/modifier_lich_frost_blast_lua", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Custom KV

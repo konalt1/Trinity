@@ -1,6 +1,6 @@
 -- LinkLuaModifier
-LinkLuaModifier("new_doom_aura", "abilities/new_doom", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("new_doom_aura_modifier", "abilities/new_doom", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("new_doom_aura", "abilities/DOOM/doom_bringer_new_doom", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("new_doom_aura_modifier", "abilities/DOOM/doom_bringer_new_doom", LUA_MODIFIER_MOTION_NONE)
 
 -- new_doom
 new_doom = class({})
