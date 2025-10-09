@@ -1,5 +1,5 @@
 lich_chain_frost_lua = class({})
-LinkLuaModifier( "modifier_lich_chain_frost_lua", "lich/chain_frost/modifier_lich_chain_frost_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_chain_frost_lua", "abilities/lich/chain_frost/modifier_lich_chain_frost_lua", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Custom KV

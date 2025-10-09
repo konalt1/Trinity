@@ -1,5 +1,5 @@
-LinkLuaModifier("modifier_omniknight_innate_oaa", "abilities/oaa_oracle_innate.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_omniknight_innate_damage", "abilities/oaa_oracle_innate.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_omniknight_innate_oaa", "abilities/oaa_oracle_innate", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_omniknight_innate_damage", "abilities/oaa_oracle_innate", LUA_MODIFIER_MOTION_NONE)
 
 omniknight_innate_oaa = class({})
 

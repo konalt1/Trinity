@@ -2,8 +2,8 @@
 -- Позволяет Doom поглощать души крипов и героев для увеличения Mind Power
 
 doom_soul_devour = class({})
-LinkLuaModifier("modifier_doom_soul_devour", "abilities/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_mind_power_local_buff", "abilities/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_doom_soul_devour", "abilities/DOOM/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_mind_power_local_buff", "abilities/DOOM/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 -- Ability Start

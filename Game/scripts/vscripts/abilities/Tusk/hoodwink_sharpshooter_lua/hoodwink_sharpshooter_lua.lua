@@ -11,9 +11,9 @@ Ability checklist (erase if done/checked):
 
 --------------------------------------------------------------------------------
 hoodwink_sharpshooter_lua = class({})
-LinkLuaModifier( "modifier_generic_knockback_lua", "lua_abilities/generic/modifier_generic_knockback_lua", LUA_MODIFIER_MOTION_BOTH )
-LinkLuaModifier( "modifier_hoodwink_sharpshooter_lua", "lua_abilities/hoodwink_sharpshooter_lua/modifier_hoodwink_sharpshooter_lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_hoodwink_sharpshooter_lua_debuff", "lua_abilities/hoodwink_sharpshooter_lua/modifier_hoodwink_sharpshooter_lua_debuff", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_knockback_lua", "abilities/Tusk/hoodwink_sharpshooter_lua/modifier_generic_knockback_lua", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_hoodwink_sharpshooter_lua", "abilities/Tusk/hoodwink_sharpshooter_lua/modifier_hoodwink_sharpshooter_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hoodwink_sharpshooter_lua_debuff", "abilities/Tusk/hoodwink_sharpshooter_lua/modifier_hoodwink_sharpshooter_lua_debuff", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Init Abilities

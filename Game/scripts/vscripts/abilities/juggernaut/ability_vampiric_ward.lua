@@ -1,5 +1,5 @@
-LinkLuaModifier("modifier_ward_vampiric_aura", "Juggernaut/ability_vampiric_ward", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_ward_vampiric_aura_buff", "Juggernaut/ability_vampiric_ward", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ward_vampiric_aura", "abilities/juggernaut/ability_vampiric_ward", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ward_vampiric_aura_buff", "abilities/juggernaut/ability_vampiric_ward", LUA_MODIFIER_MOTION_NONE)
 
 ability_vampiric_ward = class({})
 

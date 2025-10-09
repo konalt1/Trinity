@@ -1,5 +1,5 @@
-LinkLuaModifier("modifier_doom_ultimate_aura", "DOOM/doom_ultimate_aura.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_doom_ultimate_aura_debuff", "DOOM/doom_ultimate_aura.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_doom_ultimate_aura", "abilities/DOOM/doom_ultimate_aura", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_doom_ultimate_aura_debuff", "abilities/DOOM/doom_ultimate_aura", LUA_MODIFIER_MOTION_NONE)
 
 -- Основная способность
 

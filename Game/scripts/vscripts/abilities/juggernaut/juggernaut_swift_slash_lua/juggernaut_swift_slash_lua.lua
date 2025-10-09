@@ -1,5 +1,5 @@
 juggernaut_swift_slash_lua = class({})
-LinkLuaModifier( "modifier_juggernaut_swift_slash_lua", "Juggernaut/juggernaut_swift_slash_lua/modifier_juggernaut_swift_slash_lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_juggernaut_swift_slash_lua", "abilities/juggernaut/juggernaut_swift_slash_lua/modifier_juggernaut_swift_slash_lua", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Ability Start

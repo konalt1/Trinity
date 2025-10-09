@@ -1,4 +1,4 @@
-LinkLuaModifier("modifier_fireworks", "techies/ability_fireworks", 0)
+LinkLuaModifier("modifier_fireworks", "abilities/techies/ability_fireworks", 0)
 
 ability_fireworks = ability_fireworks or class({})
 
