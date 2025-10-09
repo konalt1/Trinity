@@ -167,9 +167,9 @@
 		"Facets" ""
 		"Ability1"				"doom_soul_devour"
 		"Ability2"				"doom_scorched_earth_lua"
-		"Ability4" 				"0"
-		"Ability5" 				"0"
-		"Ability7" 				"0"
+		"Ability4" 				"generic_hidden"
+		"Ability5" 				 "generic_hidden"
+		"Ability7" 				 "generic_hidden"
 		"Ability6"               "doom_ultimate_aura"
 
         "Ability10"										"special_bonus_gold_200"

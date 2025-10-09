@@ -122,6 +122,7 @@ function modifier_doom_ultimate_aura_debuff:DeclareFunctions()
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE,
         MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+        MODIFIER_PROPERTY_DISABLE_HEALING,
     }
 end
 
@@ -137,11 +138,14 @@ function modifier_doom_ultimate_aura_debuff:GetModifierHPRegenAmplify_Percentage
     return -100
 end
 
+function modifier_doom_ultimate_aura_debuff:GetDisableHealing()
+    return 1
+end
+
 function modifier_doom_ultimate_aura_debuff:CheckState()
     return {
-        [1] = true, -- MODIFIER_STATE_SILENCED
-        [2] = true, -- MODIFIER_STATE_PASSIVES_DISABLED  
-        [3] = true, -- MODIFIER_STATE_CANNOT_BE_HEALED
+        [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_PASSIVES_DISABLED] = true,
     }
 end
 
