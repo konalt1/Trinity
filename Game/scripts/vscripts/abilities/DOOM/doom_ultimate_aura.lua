@@ -26,21 +26,45 @@ function modifier_doom_ultimate_aura:IsAura() return true end
 function modifier_doom_ultimate_aura:IsPurgable() return false end
 function modifier_doom_ultimate_aura:IsBuff() return true end
 function modifier_doom_ultimate_aura:GetAuraRadius() 
-    return self:GetAbility():GetSpecialValueFor("aura_radius") 
+    local ability = self:GetAbility()
+    local base_radius = ability:GetSpecialValueFor("aura_radius")
+    local caster = self:GetCaster()
+    
+    -- Учитываем бонусы к радиусу заклинаний
+    local spell_radius_bonus = caster:GetSpellAmplification(false) * 100 -- Преобразуем в проценты
+    local total_radius = base_radius * (1 + spell_radius_bonus / 100)
+    
+    return total_radius
 end
 function modifier_doom_ultimate_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
 function modifier_doom_ultimate_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
 function modifier_doom_ultimate_aura:GetModifierAura() return "modifier_doom_ultimate_aura_debuff" end
 function modifier_doom_ultimate_aura:GetEffectName() 
-    return "particles/units/heroes/hero_doom_bringer/doom_bringer_doom_aura.vpcf" 
+    return "" -- Эффект создается вручную в OnCreated()
 end
 function modifier_doom_ultimate_aura:GetEffectAttachType() 
     return PATTACH_ABSORIGIN_FOLLOW 
 end
 
+
 function modifier_doom_ultimate_aura:OnCreated()
     if not IsServer() then return end
     self:GetParent():EmitSound("Hero_DoomBringer.ScorchedEarth")
+    
+    -- Отладочная информация о радиусе ауры
+    local ability = self:GetAbility()
+    local base_radius = ability:GetSpecialValueFor("aura_radius")
+    local caster = self:GetCaster()
+    local spell_radius_bonus = caster:GetSpellAmplification(false) * 100
+    local total_radius = base_radius * (1 + spell_radius_bonus / 100)
+    
+    print("Doom Aura - Base radius:", base_radius, "Spell amp:", spell_radius_bonus, "Total radius:", total_radius)
+    
+    -- Создаем кастомную частицу с правильным радиусом
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_doom_bringer/doom_bringer_doom_aura.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
+    ParticleManager:SetParticleControl(particle, 1, Vector(total_radius, total_radius, total_radius))
+    ParticleManager:SetParticleControl(particle, 2, Vector(total_radius, total_radius, total_radius))
+    self.particle = particle
 end
 
 function modifier_doom_ultimate_aura:OnDestroy()
@@ -48,6 +72,13 @@ function modifier_doom_ultimate_aura:OnDestroy()
     local parent = self:GetParent()
     if parent then
         parent:StopSound("Hero_DoomBringer.ScorchedEarth")
+    end
+    
+    -- Уничтожаем кастомную частицу
+    if self.particle then
+        ParticleManager:DestroyParticle(self.particle, false)
+        ParticleManager:ReleaseParticleIndex(self.particle)
+        self.particle = nil
     end
 end
 
@@ -108,9 +139,9 @@ end
 
 function modifier_doom_ultimate_aura_debuff:CheckState()
     return {
-        [MODIFIER_STATE_SILENCED] = true,
-        [MODIFIER_STATE_PASSIVES_DISABLED] = true,
-        [MODIFIER_STATE_CANNOT_BE_HEALED] = true,
+        [1] = true, -- MODIFIER_STATE_SILENCED
+        [2] = true, -- MODIFIER_STATE_PASSIVES_DISABLED  
+        [3] = true, -- MODIFIER_STATE_CANNOT_BE_HEALED
     }
 end
 
