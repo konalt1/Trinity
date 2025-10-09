@@ -145,11 +145,12 @@
 	{
 		"override_hero"                                 "npc_dota_hero_omniknight"
 		"Facets" ""
-		"Ability1"				"omniknight_purification"
-		"Ability2"				"custom_purification"
-		"Ability3"				"omniknight_innate_oaa"
-		"Ability4"				"holy_ground"
-		"Ability6"				"omniknight_guardian_angel"
+		"Ability1"				"custom_purification"
+		"Ability2"              "omniknight_repel_lua"
+        "Ability3"				"omniknight_innate_oaa"
+		"Ability4"				"generic_hidden"
+        "Ability5"              "generic_hidden"
+		"Ability6"			    "holy_ground"
 		
         "Ability10"										"special_bonus_gold_200"
         "Ability11"										"special_bonus_gold_200"
@@ -164,7 +165,7 @@
 	"npc_dota_hero_doom_bringer"
 	{
 		"override_hero"                                 "npc_dota_hero_doom_bringer"
-		"Facets" ""
+		"Facets" "generic_hidden" 	
 		"Ability1"				"doom_soul_devour"
 		"Ability2"				"doom_scorched_earth_lua"
 		"Ability4" 				"generic_hidden"

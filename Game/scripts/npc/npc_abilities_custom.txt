@@ -74,13 +74,15 @@
 		"ScriptFile"					"abilities/omniknight/holy_ground"
 		"AbilityTextureName"			"omniknight_guardian_angel"
 		"FightRecapLevel"				"1"
-		"MaxLevel"						"3"
+		"MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
 		"precache"
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
 			"soundfile"	"scripts/custom_game_sounds.txt"
 			"particle"	"particles/units/heroes/hero_omniknight/omniknight_guardian_angel_cast.vpcf"
-			"particle"	"particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf"
+			"particle"	"particles/econ/items/omniknight/omni_2021_immortal/omni_2021_immortal_buff_ring.vpcf"
 			"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
 			"particle"	"particles/units/heroes/hero_omniknight/omniknight_degen_aura_debuff.vpcf"
 		}
@@ -130,6 +132,97 @@
 			"mind_power_multiplier"
 			{
 				"value"					"1.0"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Omniknight Repel (Magic Immunity + Heal)
+	//=================================================================================================================
+	"omniknight_repel_lua"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/omniknight/omniknight_repel_lua/omniknight_repel_lua.lua"
+		"AbilityTextureName"			"omniknight_repel"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_repel_buff.vpcf"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_repel_cast.vpcf"
+		}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NONE"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"500"
+		"AbilityCastPoint"				"0.2"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"14.0"
+		"AbilityManaCost"				"50 60 70 80"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+			"duration"
+			{
+				"value"					"4 5 6 7"
+			}
+			"heal_amount"
+			{
+				"value"					"80 120 160 200"
+			}
+			"mind_power_multiplier"
+			{
+				"value"					"1.0"
+			}
+		}
+		
+		// Localization
+		//-------------------------------------------------------------------------------------------------------------
+		"Language"
+		{
+			"English"
+			{
+				"AbilityName"			"Repel"
+				"AbilityDescription"	"Creates a magical barrier around a target ally that blocks most magical damage and provides healing. The healing amount scales with Mind Power."
+				"Lore"					"A divine blessing that shields the faithful from harm while mending their wounds through the power of the mind."
+				"Notes"
+				{
+					"01"					"• Can be cast on magic immune allies"
+					"02"					"• Healing scales with caster's Mind Power"
+					"03"					"• Provides complete magic immunity"
+					"04"					"• Cannot be dispelled"
+				}
+			}
+			"Russian"
+			{
+				"AbilityName"			"Отталкивание"
+				"AbilityDescription"	"Создает магический барьер вокруг союзника, который блокирует большую часть магического урона и обеспечивает лечение. Количество лечения зависит от Силы Разума."
+				"Lore"					"Божественное благословение, которое защищает верующих от вреда, исцеляя их раны силой разума."
+				"Notes"
+				{
+					"01"					"• Можно кастовать на магически иммунных союзников"
+					"02"					"• Лечение зависит от Силы Разума кастера"
+					"03"					"• Обеспечивает полный магический иммунитет"
+					"04"					"• Нельзя снять диспеллом"
+				}
 			}
 		}
 	}
