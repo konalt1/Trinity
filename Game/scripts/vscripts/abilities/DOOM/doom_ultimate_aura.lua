@@ -119,23 +119,8 @@ end
 
 function modifier_doom_ultimate_aura_debuff:DeclareFunctions()
     return {
-        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-        MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE,
-        MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
         MODIFIER_PROPERTY_DISABLE_HEALING,
     }
-end
-
-function modifier_doom_ultimate_aura_debuff:GetModifierConstantHealthRegen()
-    return -10000
-end
-
-function modifier_doom_ultimate_aura_debuff:GetModifierHealthRegenPercentage()
-    return -100
-end
-
-function modifier_doom_ultimate_aura_debuff:GetModifierHPRegenAmplify_Percentage()
-    return -100
 end
 
 function modifier_doom_ultimate_aura_debuff:GetDisableHealing()
