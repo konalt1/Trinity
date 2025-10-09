@@ -320,5 +320,18 @@
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note1"		"Невидимость теряется при выходе из облака дыма."
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note2"		"Можно использовать для побега или организации засад."
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note3"		"Не влияет на вражеских юнитов."
+
+		// Doom Ultimate Aura
+		"DOTA_Tooltip_ability_doom_ultimate_aura"						"Аура Проклятия"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Description"			"Doom создаёт вокруг себя зону проклятия, которая наносит урон и подавляет всех врагов в радиусе. Враги в зоне не могут использовать способности, пассивки и исцеляться. Урон увеличивается в зависимости от Силы Разума Doom'а."
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Lore"				"Смерть следует за Doom'ом, как тень за солнцем - где ступает Владыка Душ, там умирает сама жизнь."
+		"DOTA_Tooltip_ability_doom_ultimate_aura_damage_per_second"	"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_aura_radius"			"РАДИУС АУРЫ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Note0"				"Общий урон = Базовый урон + (Сила Разума × Множитель)"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Note1"				"Дебафф нельзя снять диспеллом или другими способами"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Note2"				"Полностью подавляет исцеление и регенерацию врагов"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Note3"				"Отключает все способности и пассивки врагов в зоне"
 	}
 }
