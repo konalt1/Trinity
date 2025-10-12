@@ -306,7 +306,7 @@
     	{
         "BaseClass"						"ability_lua"
         "ScriptFile"                    "abilities/phantom_assassin/ability_coup_de_foudre"
-        "AbilityTextureName"            "phantom_assassin_coup_de_grace"
+        "AbilityTextureName"            "killers_cloak"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
