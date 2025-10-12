@@ -54,6 +54,18 @@
 		"DOTA_Tooltip_ability_custom_purification_Note0"			"Исцеляет выбранного союзника и наносит урон всем врагам в радиусе вокруг цели."
 		"DOTA_Tooltip_ability_custom_purification_Note1"			"Общее лечение/урон = Базовое значение + (Сила разума × Множитель силы разума)"
 
+		// Omniknight Repel
+		"DOTA_Tooltip_ability_omniknight_repel_lua"				"Отталкивание"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Description"	"Создаёт магический барьер вокруг союзника, который блокирует большую часть магического урона и обеспечивает лечение. Количество лечения зависит от Силы Разума."
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Lore"			"Божественное благословение, которое защищает верующих от вреда, исцеляя их раны силой разума."
+		"DOTA_Tooltip_ability_omniknight_repel_lua_duration"		"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_heal_amount"	"КОЛИЧЕСТВО ЛЕЧЕНИЯ:"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Note0"		"Можно кастовать на магически иммунных союзников"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Note1"		"Лечение зависит от Силы Разума кастера"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Note2"		"Обеспечивает полный магический иммунитет"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Note3"		"Нельзя снять диспеллом"
+
 		// Holy Ground
 		"DOTA_Tooltip_ability_holy_ground"							"Святая Земля"
 		"DOTA_Tooltip_ability_holy_ground_Description"				"Омнинайт освящает выбранную область, создавая круглую зону божественной силы. Все враги в зоне замедляются на 30%/40%/50%. Каждые 2 секунды раздаётся звон колокола, и все союзные юниты в зоне исцеляются на 200/300/400 здоровья плюс бонус от Силы разума. Святая земля длится 10 секунд."
@@ -78,23 +90,37 @@
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note1"			"Бафф снимается через 0.5 секунды после обнаружения."
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_Note2"			"Синергирует с уменьшенным радиусом обнаружения Blur."
 		
+		// Phantom Assassin Blur
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom"				"Размытие"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Description"	"Пассивная способность. Phantom Assassin получает шанс уклонения от атак и уменьшенный радиус обнаружения врагами. При активации значительно увеличивает шанс уклонения на короткое время."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Lore"		"Мастерство убийцы позволяет Фантомке исчезать в тенях, становясь неуловимой для врагов."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_evasion_chance"	"ШАНС УКЛОНЕНИЯ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_radius"		"РАДИУС ОБНАРУЖЕНИЯ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_active_duration"	"ДЛИТЕЛЬНОСТЬ АКТИВАЦИИ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_active_evasion_chance"	"ШАНС УКЛОНЕНИЯ В АКТИВЕ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Note0"		"Пассивно уменьшает радиус обнаружения врагами"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Note1"		"Активация значительно увеличивает шанс уклонения"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Note2"		"Уклонение работает против всех типов атак"
+		
 		//phantom_assassin_blur
 		 "DOTA_Tooltip_ability_phantom_assassin_blur_custom_scepter_description"    "Улучшение Сцептера: Размытие теперь сбрасывает перезарядку всех способностей, когда Фантомка убивает вражеского героя."
        
 		
 		// Ogre Magi Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"Огненный Взрыв"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Огр отмечает область на земле, через 1 секунду на этом месте происходит мощный взрыв, наносящий магический урон и оглушающий всех врагов в радиусе 300 единиц на 1.5 секунды. Способность идеально подходит для инициации и контроля толпы."
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"Древняя магия огра воспламеняет саму землю, превращая её в смертоносную ловушку."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Огр ударяет своей дубиной по земле, отмечая область для разрушения. Через 1 секунду на этом месте происходит мощный взрыв, наносящий магический урон и оглушающий всех врагов в радиусе 300 единиц на 1.5 секунды. Сила взрыва увеличивается в зависимости от Силы Разума Огра, делая его разрушительным против магических врагов."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"Древняя магия огра воспламеняет саму землю, превращая её в смертоносную ловушку, которая становится сильнее с мудростью."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"		"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_delay"				"ЗАДЕРЖКА:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note0"				"Область взрыва отмечается на 1 секунду, давая врагам время для отступления."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note1"				"Эффективна для зонирования и контроля территории в командных боях."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note2"				"Общий урон = Базовый урон + (Сила Разума × Множитель силы разума)"
 
 		// Ogre Magi Bonk
-		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Оглушающий Удар"
+		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Прилив Силы"
 		"DOTA_Tooltip_ability_ogre_magi_bonk_Description"				"Пассивная способность. Каждый раз, когда Огр успешно атакует вражеского героя, время перезарядки всех его способностей сокращается на 0.5/0.7/0.9/1.1 секунды. Эта способность поощряет агрессивную игру и частое использование заклинаний."
 		"DOTA_Tooltip_ability_ogre_magi_bonk_Lore"						"Тяжёлые кулаки огра не только наносят урон, но и пробуждают магическую энергию, ускоряя восстановление заклинаний."
 		"DOTA_Tooltip_ability_ogre_magi_bonk_reduce_cooldown"			"СОКРАЩЕНИЕ КУЛДАУНА:"
@@ -310,6 +336,17 @@
 		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note1"			"Бонус к Mind Power постоянный и накапливается."
 		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note2"			"Не работает на союзниках или нейтральных юнитах."
 
+		// Doom Soul Devour
+		"DOTA_Tooltip_ability_doom_soul_devour"						"Поглощение Души"
+		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom поглощает душу выбранного вражеского юнита, мгновенно убивая его и получая постоянное золото и опыт. Сила этой способности увеличивается в зависимости от Силы Разума Doom'а, делая её более эффективной против сильных врагов. Каждая поглощённая душа укрепляет связь Doom'а с подземным миром."
+		"DOTA_Tooltip_ability_doom_soul_devour_Lore"					"Владыка Душ питается сущностью живых, становясь сильнее с каждой поглощённой душой."
+		"DOTA_Tooltip_ability_doom_soul_devour_gold_bonus"			"БОНУС ЗОЛОТА:"
+		"DOTA_Tooltip_ability_doom_soul_devour_exp_bonus"				"БОНУС ОПЫТА:"
+		"DOTA_Tooltip_ability_doom_soul_devour_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_doom_soul_devour_Note0"				"Мгновенно убивает выбранный юнит."
+		"DOTA_Tooltip_ability_doom_soul_devour_Note1"				"Бонусы золота и опыта увеличиваются в зависимости от Силы Разума."
+		"DOTA_Tooltip_ability_doom_soul_devour_Note2"				"Нельзя использовать на древних юнитах или союзниках."
+
 		// Phantom Assassin Smoke Bomb (Shard Ability)
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb"				"Дымовая Граната"
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Description"	"Фантомка создает облако дыма в своем местоположении, которое делает всех союзных юнитов в области невидимыми. Дым сохраняется в течение короткого времени, обеспечивая тактическое прикрытие для побега или организации засад."
@@ -320,6 +357,19 @@
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note1"		"Невидимость теряется при выходе из облака дыма."
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note2"		"Можно использовать для побега или организации засад."
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note3"		"Не влияет на вражеских юнитов."
+
+		// Doom Scorched Earth
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua"				"Выжженная Земля"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"	"Doom создаёт вокруг себя зону выжженной земли, которая наносит урон врагам и увеличивает скорость передвижения союзников. Урон увеличивается в зависимости от Силы Разума Doom'а."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Lore"			"Древняя магия Doom'а превращает землю под его ногами в смертоносную пустошь."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second"	"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius"		"РАДИУС:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct"	"БОНУС СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration"		"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note0"		"Общий урон = Базовый урон + (Сила Разума × Множитель)"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note1"		"Урон наносится всем врагам в радиусе каждую секунду"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note2"		"Союзники в зоне получают бонус к скорости передвижения"
 
 		// Doom Ultimate Aura
 		"DOTA_Tooltip_ability_doom_ultimate_aura"						"Аура Проклятия"

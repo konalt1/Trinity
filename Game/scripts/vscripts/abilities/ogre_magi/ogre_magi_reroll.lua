@@ -10,21 +10,16 @@ end
 abilities = {
 	"axe_culling_blade",
 	"beastmaster_primal_roar",
-	"bounty_hunter_track",
 	"centaur_stampede",
 	"chen_hand_of_god",
 	"crystal_maiden_freezing_field",
-	"dark_seer_wall_of_replica",
 	{name = "death_prophet_exorcism", modifier = "modifier_death_prophet_exorcism"},
-	"disruptor_static_storm",
 	"earthshaker_echo_slam",
 	"enigma_black_hole",
 	"faceless_void_chronosphere",
 	"jakiro_macropyre",
 	"kunkka_ghostship",
 	"ability_ice_phylactery",
-	"tinker_rearm_custom",
-	"ability_chain_bomb",
 	"lina_laguna_blade",
 	"lion_finger_of_death",
 	"lycan_shapeshift",
@@ -32,19 +27,14 @@ abilities = {
 	"naga_siren_song_of_the_siren",
 	"necrolyte_reapers_scythe",
 	"oracle_false_promise",
-	"phoenix_supernova",
 	"pugna_life_drain",
 	"queenofpain_sonic_wave",
-	"rattletrap_hookshot",
 	"sandking_epicenter",
 	"shadow_shaman_mass_serpent_ward",
 	{name =	"snapfire_mortimer_kisses", modifier = "modifier_snapfire_mortimer_kisses"},	-- "sniper_assassinate",
 	"sven_gods_strength",
-	"terrorblade_sunder",
 	"tidehunter_ravage",
 	"ursa_enrage",
-	"vengefulspirit_nether_swap",
-	"warlock_rain_of_chaos",
 	"winter_wyvern_winters_curse",
 	"witch_doctor_death_ward",
 	"zuus_thundergods_wrath",
@@ -59,10 +49,6 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_beastmaster.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_beastmaster", context)
 
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_bounty_hunter.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_bounty_hunter.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_bounty_hunter", context)
-
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_centaur.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_centaur", context)
@@ -75,17 +61,9 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_crystal_maiden.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_crystal_maiden", context)
 
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_dark_seer.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_dark_seer.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_dark_seer", context)
-
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_death_prophet.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_death_prophet", context)
-
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_disruptor.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_disruptor", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_earthshaker.vsndevts", context)
@@ -135,10 +113,6 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_oracle.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_oracle", context)
 
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_phoenix.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_phoenix.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_phoenix", context)
-
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_pugna.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_pugna.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_pugna", context)
@@ -146,10 +120,6 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_queenofpain.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_queenofpain.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_queenofpain", context)
-
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_rattletrap.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_rattletrap", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_sandking.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_sandking.vsndevts", context)
@@ -167,10 +137,6 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_sven.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_sven", context)
 
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_terrorblade.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_terrorblade", context)
-
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_tidehunter.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_tidehunter", context)
@@ -178,14 +144,6 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_ursa.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_ursa", context)
-
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_vengefulspirit.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_vengefulspirit.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_vengefulspirit", context)
-
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_warlock.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_warlock", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_winter_wyvern.vsndevts", context)

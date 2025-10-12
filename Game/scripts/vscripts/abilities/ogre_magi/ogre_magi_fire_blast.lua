@@ -15,12 +15,7 @@ end
 
 function ogre_magi_fire_blast:GetChannelTime()
     local channel_time = self:GetSpecialValueFor("channel_time")
-    if not channel_time or channel_time == 0 then
-        channel_time = 0.7  -- Принудительно устанавливаем 0.7 секунды
-        print("[DEBUG] GetChannelTime: No channel_time found, using fallback: " .. tostring(channel_time))
-    else
-        print("[DEBUG] GetChannelTime: " .. tostring(channel_time))
-    end
+    print("[DEBUG] GetChannelTime: " .. tostring(channel_time))
     return channel_time
 end
 
@@ -210,11 +205,6 @@ function ogre_magi_fire_blast:GetEffectiveRadius()
     local base_radius = self:GetSpecialValueFor("radius")
     local strength_bonus = self:GetSpecialValueFor("strength_radius_bonus")
     
-    -- Если параметр не задан или равен 0, используем наш коэффициент
-    if not strength_bonus or strength_bonus == 0 then
-        strength_bonus = 2.0  -- 2 радиуса за 1 силу
-    end
-    
     local caster_strength = caster:GetStrength()
     local effective_radius = base_radius + (caster_strength * strength_bonus)
     
@@ -227,11 +217,6 @@ function ogre_magi_fire_blast:GetEffectiveDamage()
     local caster = self:GetCaster()
     local base_damage = self:GetSpecialValueFor("damage")
     local strength_bonus = self:GetSpecialValueFor("strength_damage_bonus")
-    
-    -- Если параметр не задан или равен 0, используем наш коэффициент
-    if not strength_bonus or strength_bonus == 0 then
-        strength_bonus = 8.0  -- 8 урона за 1 силу
-    end
     
     local caster_strength = caster:GetStrength()
     local effective_damage = base_damage + (caster_strength * strength_bonus)

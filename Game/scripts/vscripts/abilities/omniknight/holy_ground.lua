@@ -96,10 +96,15 @@ function modifier_holy_ground_thinker:OnCreated(kv)
 	self.position = parent:GetAbsOrigin()
 	
 	-- Create visual effect for the holy ground
-	self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf", PATTACH_WORLDORIGIN, nil)
+	self.particle = ParticleManager:CreateParticle("particles/econ/items/omniknight/omni_2021_immortal/omni_2021_immortal_buff_ring.vpcf", PATTACH_WORLDORIGIN, nil)
 	ParticleManager:SetParticleControl(self.particle, 0, self.position)
-	ParticleManager:SetParticleControl(self.particle, 1, Vector(self.radius * 0.8, self.radius * 0.8, self.radius * 0.8))
-	ParticleManager:SetParticleControl(self.particle, 2, Vector(self.radius, 0, 0))
+	-- Настраиваем масштаб для отображения полного радиуса способности (450 единиц)
+	-- Пробуем разные коэффициенты масштабирования
+	local scale_factor = self.radius / 100  -- Базовый масштаб относительно 100 единиц
+	ParticleManager:SetParticleControl(self.particle, 1, Vector(scale_factor, scale_factor, scale_factor))
+	ParticleManager:SetParticleControl(self.particle, 2, Vector(scale_factor, 0, 0))
+	ParticleManager:SetParticleControl(self.particle, 3, Vector(scale_factor, 0, 0))
+	ParticleManager:SetParticleControl(self.particle, 4, Vector(scale_factor, 0, 0))
 	
 	-- Create additional boundary effect to show exact area
 	self.boundary_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf", PATTACH_WORLDORIGIN, nil)

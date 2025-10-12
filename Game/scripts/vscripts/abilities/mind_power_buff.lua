@@ -20,18 +20,6 @@ function mind_power_buff:OnSpellStart()
     self:PlayEffects(target)
 end
 
-function mind_power_buff:PlayEffects(target)
-    local particle_cast = "particles/generic_gameplay/generic_buff.vpcf"
-    local sound_cast = "Hero_Omniknight.Purification"
-    
-    -- Создаем частицы
-    local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, target)
-    ParticleManager:SetParticleControl(effect_cast, 0, target:GetOrigin())
-    ParticleManager:ReleaseParticleIndex(effect_cast)
-    
-    -- Воспроизводим звук
-    EmitSoundOn(target, sound_cast)
-end
 
 -- Модификатор для временного бонуса к mind power
 modifier_mind_power_buff = class({

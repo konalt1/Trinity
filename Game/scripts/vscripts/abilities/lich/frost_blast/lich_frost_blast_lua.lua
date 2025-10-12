@@ -27,17 +27,6 @@ function lich_frost_blast_lua:OnSpellStart()
 	local damage_aoe = self:GetSpecialValueFor("aoe_damage")
 	local radius = self:GetSpecialValueFor("radius")
 
-	-- Debug values loading
-	print("Ability values debug:")
-	print("GetAbilityDamage(): " .. damage)
-	print("GetDuration(): " .. duration)
-	print("GetSpecialValueFor('aoe_damage'): " .. damage_aoe)
-	print("GetSpecialValueFor('radius'): " .. radius)
-	
-	-- Try alternative ways to get AOE damage
-	local aoe_damage_alt = self:GetLevelSpecialValueFor("aoe_damage", self:GetLevel() - 1)
-	print("GetLevelSpecialValueFor('aoe_damage'): " .. aoe_damage_alt)
-
 	-- Fix: Get values from AbilitySpecial correctly
 	if damage_aoe == 0 then
 		damage_aoe = self:GetSpecialValueFor("04") -- aoe_damage is the 4th special value
@@ -58,9 +47,6 @@ function lich_frost_blast_lua:OnSpellStart()
 	if radius == 0 then
 		radius = 200
 	end
-	
-	print("Fixed AOE Damage: " .. damage_aoe)
-	print("Fixed Radius: " .. radius)
 
 	-- get mind power bonus damage
 	local mind_power_modifier = caster:FindModifierByName("modifier_mind_power")
@@ -77,16 +63,6 @@ function lich_frost_blast_lua:OnSpellStart()
 	
 	local mind_bonus_damage = mind_power_value * mind_power_multiplier
 
-	-- Debug info
-	print("Frost Blast Debug:")
-	print("Target: " .. target:GetUnitName())
-	print("Radius: " .. radius)
-	print("Damage: " .. damage)
-	print("AOE Damage: " .. damage_aoe)
-	print("Mind Power: " .. mind_power_value)
-	print("Mind Power Multiplier: " .. mind_power_multiplier)
-	print("Mind Bonus: " .. mind_bonus_damage)
-
 	-- get enemies
 	local enemies = FindUnitsInRadius(
 		caster:GetTeamNumber(),	-- int, your team number
@@ -100,8 +76,6 @@ function lich_frost_blast_lua:OnSpellStart()
 		false	-- bool, can grow cache
 	)
 
-	print("Enemies found: " .. #enemies)
-
 	-- damage table
 	local damageTable = {
 		attacker = caster,
@@ -111,14 +85,12 @@ function lich_frost_blast_lua:OnSpellStart()
 
 	-- damage and debuff all enemies in radius
 	for _,enemy in pairs(enemies) do
-		-- damage (main target gets full damage + mind power bonus, others get AOE damage + mind power bonus)
+		-- damage (main target gets both spell damage and AOE damage + mind power bonus, others get only AOE damage + mind power bonus)
 		damageTable.victim = enemy
 		if enemy == target then
-			damageTable.damage = damage + mind_bonus_damage
-			print("Main target damage: " .. damageTable.damage)
+			damageTable.damage = damage + damage_aoe + mind_bonus_damage
 		else
 			damageTable.damage = damage_aoe + mind_bonus_damage
-			print("AOE target damage: " .. damageTable.damage .. " to " .. enemy:GetUnitName())
 		end
 		ApplyDamage( damageTable )
 		

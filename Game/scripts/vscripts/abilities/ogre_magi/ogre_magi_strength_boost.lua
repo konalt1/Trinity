@@ -150,7 +150,6 @@ function modifier_ogre_magi_strength_boost:OnCreated()
 	
 	-- Проверяем, что increment не равен нулю
 	if math.abs(self.scale_increment) < 0.001 then
-		print("WARNING: scale_increment is too small: " .. self.scale_increment)
 		-- Если разница маленькая, сразу устанавливаем целевой размер
 		local parent = self:GetParent()
 		if parent and IsValidEntity(parent) then
@@ -159,13 +158,6 @@ function modifier_ogre_magi_strength_boost:OnCreated()
 		return
 	end
 	
-	-- Отладочная информация
-	print("Ogre Strength Boost: Base=" .. self.base_strength_bonus .. 
-		  ", Mind Power=" .. mind_power .. 
-		  " (x" .. mind_power_multiplier .. "=" .. mind_power_bonus .. ")" ..
-		  ", Total=" .. self.total_strength_bonus ..
-		  ", Target Size=" .. (self.target_scale * 100) .. "%")
-	print("Animation setup: current=" .. self.current_scale .. ", target=" .. self.target_scale .. ", increment=" .. self.scale_increment)
 	
 	-- Запускаем анимацию увеличения
 	self:StartThinking()
@@ -216,7 +208,6 @@ function modifier_ogre_magi_strength_boost:OnIntervalThink()
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
 	
-	print("OnIntervalThink: current_scale=" .. (self.current_scale or 0) .. ", target_scale=" .. (self.target_scale or 0) .. ", increment=" .. (self.scale_increment or 0))
 	
 	-- Если уменьшаемся (при окончании баффа)
 	if self.shrinking then
@@ -230,11 +221,9 @@ function modifier_ogre_magi_strength_boost:OnIntervalThink()
 	-- Если увеличиваемся (при активации)
 	else
 		self.current_scale = self.current_scale + self.scale_increment
-		print("Growing: new scale=" .. self.current_scale)
 		if self.current_scale >= self.target_scale then
 			self.current_scale = self.target_scale
 			parent:SetModelScale(self.current_scale)
-			print("Reached target scale, stopping animation")
 			self:StopThinking()
 			return
 		end
@@ -242,7 +231,6 @@ function modifier_ogre_magi_strength_boost:OnIntervalThink()
 	
 	-- Применяем текущий размер
 	parent:SetModelScale(self.current_scale)
-	print("Applied scale: " .. self.current_scale)
 	
 	-- Планируем следующее обновление
 	self:StartIntervalThink(self.scale_timer)
@@ -260,9 +248,13 @@ function modifier_ogre_magi_strength_boost:GetModifierBonusStats_Strength()
 	return self.total_strength_bonus or 0
 end
 
+function modifier_ogre_magi_strength_boost:GetModifierDescription()
+	local display_value = math.floor(self.total_strength_bonus or 0)
+	return "Increases Strength by " .. display_value .. " points."
+end
 
 function modifier_ogre_magi_strength_boost:GetTexture()
-	return "ogre_magi_bloodlust"
+	return "ogre_magi_strength_boost"
 end
 
 function modifier_ogre_magi_strength_boost:PlayEffects()
