@@ -19,13 +19,9 @@ function modifier_mind_power:OnCreated()
         return
     end
     
-
-    
     -- Запускаем проверку каждые 0.1 секунды для обновления значения
     self:StartIntervalThink(0.1)
-    
-    -- Воспроизводим эффект при создании баффа
-    self:PlayEffects()
+
 end
 
 function modifier_mind_power:OnIntervalThink()
@@ -86,18 +82,6 @@ function modifier_mind_power:OnIntervalThink()
 
 end
 
-function modifier_mind_power:PlayEffects()
-    local particle_cast = "particles/generic_gameplay/generic_buff.vpcf"
-    local sound_cast = "Hero_Omniknight.Purification"
-    
-    -- Создаем частицы
-    local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-    ParticleManager:SetParticleControl(effect_cast, 0, self:GetParent():GetOrigin())
-    ParticleManager:ReleaseParticleIndex(effect_cast)
-    
-    -- Воспроизводим звук
-    EmitSoundOn(self:GetParent(), sound_cast)
-end
 
 function modifier_mind_power:GetTexture()
     return "phantom_assassin_coup_de_grace"

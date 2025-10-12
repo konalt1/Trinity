@@ -68,18 +68,20 @@
 		"DOTA_Tooltip_ability_holy_ground_Note2"					"Bell tolls every 2 seconds, healing allies and refreshing enemy slow debuffs."
 		
 		// Ogre Magi Fire Blast
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"Fire Blast"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Ogre marks an area on the ground, after 1 second a powerful explosion occurs at that location, dealing magical damage and stunning all enemies in a 300 unit radius for 1.5 seconds. Perfect ability for initiation and crowd control."
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"The ancient magic of the ogre ignites the very earth, turning it into a deadly trap."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"SMASH"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Ogre smashes his club into the ground, marking the area for destruction. After 1 second, a powerful explosion occurs at that location, dealing magical damage and stunning all enemies in a 300 unit radius for 1.5 seconds. The explosion's power scales with Ogre's Mind Power, making it devastating against magical foes."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"The ancient magic of the ogre ignites the very earth, turning it into a deadly trap that grows stronger with wisdom."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"				"DAMAGE:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"		"STUN DURATION:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"				"RADIUS:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_delay"				"DELAY:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note0"				"The blast area is marked for 1 second, giving enemies time to retreat."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note1"				"Effective for zoning and territorial control in team fights."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note2"				"Total damage = Base damage + (Mind Power × Mind Power multiplier)"
 
 		// Ogre Magi Bonk
-		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Stunning Strike"
+		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Surge of Strength"
 		"DOTA_Tooltip_ability_ogre_magi_bonk_Description"				"Passive ability. Every time Ogre successfully attacks an enemy hero, the cooldown of all his abilities is reduced by 0.5/0.7/0.9/1.1 seconds. This ability encourages aggressive play and frequent spell usage."
 		"DOTA_Tooltip_ability_ogre_magi_bonk_Lore"						"The ogre's heavy fists not only deal damage but also awaken magical energy, accelerating spell recovery."
 		"DOTA_Tooltip_ability_ogre_magi_bonk_reduce_cooldown"			"COOLDOWN REDUCTION:"
@@ -290,6 +292,30 @@
 		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note0"			"Instantly kills enemy hero when used."
 		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note1"			"Mind Power bonus is permanent and accumulates."
 		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note2"			"Does not work on allies or neutral units."
+
+		// Doom Soul Devour
+		"DOTA_Tooltip_ability_doom_soul_devour"						"Soul Devour"
+		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom devours the soul of a target enemy unit, instantly killing it and gaining permanent gold and experience. The power of this ability scales with Doom's Mind Power, making it more effective against stronger foes. Each devoured soul strengthens Doom's connection to the underworld."
+		"DOTA_Tooltip_ability_doom_soul_devour_Lore"					"The Lord of Souls feeds upon the essence of the living, growing stronger with each soul consumed."
+		"DOTA_Tooltip_ability_doom_soul_devour_gold_bonus"			"GOLD BONUS:"
+		"DOTA_Tooltip_ability_doom_soul_devour_exp_bonus"				"EXPERIENCE BONUS:"
+		"DOTA_Tooltip_ability_doom_soul_devour_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_doom_soul_devour_Note0"				"Instantly kills the target unit."
+		"DOTA_Tooltip_ability_doom_soul_devour_Note1"				"Gold and experience bonuses scale with Mind Power."
+		"DOTA_Tooltip_ability_doom_soul_devour_Note2"				"Cannot target ancient units or allies."
+
+		// Doom Scorched Earth
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua"				"Scorched Earth"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"	"Doom channels his infernal power to create a zone of scorched earth around himself. The cursed ground burns enemies for magical damage every second while granting allies increased movement speed. The destructive power of this ability grows stronger with Doom's Mind Power, making it a devastating area control tool."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Lore"			"The ancient magic of Doom transforms the earth beneath his feet into a deadly wasteland that grows more destructive with each soul consumed."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second"	"DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius"		"RADIUS:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct"	"BONUS MOVEMENT SPEED:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration"		"DURATION:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier"	"MIND POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note0"		"Total damage = Base damage + (Mind Power × Mind Power multiplier)"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note1"		"Damage is dealt to all enemies in radius every second"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note2"		"Allies in the zone receive movement speed bonus"
 
 		// Phantom Assassin Smoke Bomb (Shard Ability)
 		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb"				"Smoke Bomb"

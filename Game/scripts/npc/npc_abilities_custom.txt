@@ -291,6 +291,17 @@
         }
     }
 
+    "ability_ice_spire"
+
+    {
+         "IsGrantedByShard"              "0"
+    }
+
+    "ability_sinister_gaze"
+    {
+        "HasScepterUpgrade"               "0"
+    }
+
     "ability_coup_de_foudre" 
     	{
         "BaseClass"						"ability_lua"
@@ -308,7 +319,7 @@
 		"AbilityValues"
         {
           "crit_bonus"				"200 300 400"
-          "activation_delay"          "0.5"
+          "activation_delay"          "1.5"
           "dagger_buff_time"          "2.0"
         }
     }
@@ -342,7 +353,7 @@
     {
      	"BaseClass"						"ability_lua"
         "ScriptFile"                    "abilities/juggernaut/ability_thirsty_blade"
-        "AbilityTextureName"            "blade"
+        "AbilityTextureName"            "juggernaut_blade_dance"
 		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 
@@ -902,7 +913,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ogre_magi/ogre_magi_bonk"
-        "AbilityTextureName"            "fireworks"
+        "AbilityTextureName"            "ogre_magi_bonk"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
 
@@ -916,7 +927,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ogre_magi/ogre_magi_reroll"
-        "AbilityTextureName"            "fireworks"
+        "AbilityTextureName"            "Wild Magic"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         
@@ -1074,7 +1085,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ogre_magi/ogre_magi_fire_blast"
-        "AbilityTextureName"            "ogre_magi_fireblast"
+        "AbilityTextureName"            "ogre_magi_bonk"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -1092,6 +1103,9 @@
             "stun_duration"             "1.5"
             "radius"                    "300"
             "delay"                     "1"
+            "strength_damage_bonus"     "8.0"
+            "strength_radius_bonus"     "2.0"
+            "channel_time"              "0.7"
         }
         "precache"
         {
@@ -1107,7 +1121,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ogre_magi/ogre_magi_berserker_rage"
-        "AbilityTextureName"            "ogre_magi_multicast"
+        "AbilityTextureName"            "Wild Magic"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -1171,7 +1185,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ogre_magi/ogre_magi_strength_boost"
-        "AbilityTextureName"            "ogre_magi_bloodlust"
+        "AbilityTextureName"            "ogre_magi_strength_boost"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -1623,7 +1637,7 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
-        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NONE"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "FightRecapLevel"               "1"
@@ -1739,6 +1753,7 @@
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
         "MaxLevel"                      "3"
         "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
         "AbilityCooldown"               "140 120 100"
         "AbilityManaCost"               "150 200 250"
         "AbilityCastPoint"              "0.3"
@@ -1746,7 +1761,7 @@
         "AbilityDuration"               "16.0"
         "AbilityValues"
         {
-            "aura_radius"               "600"
+            "aura_radius"               "400 500 600"
             "damage_per_second"         "40 60 80"
             "duration"                  "16.0"
             "mind_power_multiplier"     "0.5"
@@ -1887,7 +1902,7 @@
             //-------------------------------------------------------------------------------------------------------------
             "BaseClass"                     "ability_lua"
             "ScriptFile"                    "abilities/juggernaut/juggernaut_bloodlust"
-            "AbilityTextureName"            "juggernaut_blade_dance"
+            "AbilityTextureName"            "juggernaut_rush"
             
             // Ability General
             //-------------------------------------------------------------------------------------------------------------
@@ -1907,11 +1922,11 @@
 
             // Time
             //-------------------------------------------------------------------------------------------------------------
-            "AbilityCooldown"               "30 25 20 15"
+            "AbilityCooldown"               "30 28 26 24"
 
             // Cost
             //-------------------------------------------------------------------------------------------------------------
-            "AbilityManaCost"               "80 90 100 110"
+            "AbilityManaCost"               "30 40 50 60"
             
             // Special
             //-------------------------------------------------------------------------------------------------------------
