@@ -8,101 +8,73 @@ function custom_purification:OnSpellStart()
 	local target = self:GetCursorTarget()
 
 	-- load data
-	local instant_heal = self:GetSpecialValueFor("instant_heal")
-	local duration = self:GetSpecialValueFor("duration")
-	local magic_resistance = self:GetSpecialValueFor("magic_resistance")
+	local heal = self:GetSpecialValueFor("heal")
+	local radius = self:GetSpecialValueFor("radius")
+	local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier")
 	
-	-- Debug output
-	print("Custom Purification: Instant Heal=" .. instant_heal .. ", Duration=" .. duration .. ", Magic Resistance=" .. magic_resistance .. "%")
-
-	-- Сильное развеивание (очищает все негативные эффекты)
-	target:Purge(false, true, false, true, false)
+	-- Get Mind Power
+	local mind_power = 0
+	if GetHeroMindPower then
+		mind_power = GetHeroMindPower(caster) or 0
+	else
+		mind_power = caster:GetIntellect(false) or 0
+	end
+	
+	-- Calculate bonus damage from Mind Power
+	local mind_power_bonus = mind_power * mind_power_multiplier
+	local total_damage = heal + mind_power_bonus
 	
 	-- Мгновенное исцеление
-	target:Heal(instant_heal, self)
+	target:Heal(heal, self)
+	
+	-- Найти всех врагов вокруг цели
+	local enemies = FindUnitsInRadius(
+		caster:GetTeamNumber(),
+		target:GetAbsOrigin(),
+		nil,
+		radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false
+	)
+	
+	-- Нанести урон врагам (базовый урон + бонус от Mind Power)
+	for _, enemy in pairs(enemies) do
+		ApplyDamage({
+			victim = enemy,
+			attacker = caster,
+			damage = total_damage,
+			damage_type = DAMAGE_TYPE_MAGICAL,
+			ability = self
+		})
+	end
 
-	-- Применить модификатор защиты
-	target:AddNewModifier(caster, self, "modifier_custom_purification_protection", {duration = duration})
-
-	self:PlayEffects1(target)
+	self:PlayEffects(target)
 end
 
 --------------------------------------------------------------------------------
-function custom_purification:PlayEffects1(target)
-	-- Get Resources
+function custom_purification:PlayEffects(target)
+	local radius = self:GetSpecialValueFor("radius")
+	
+	-- Get Resources (оригинальные эффекты и звуки от Purification)
 	local particle_cast = "particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
 	local particle_target = "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
-	local particle_protection = "particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf"
-	local sound_target = "Hero_Omniknight.Purification"
+	local sound_cast = "Hero_Omniknight.Purification"
 
-	-- Create Target Effects
+	-- Create particle effect on target with radius
 	local effect_target = ParticleManager:CreateParticle(particle_target, PATTACH_ABSORIGIN_FOLLOW, target)
+	ParticleManager:SetParticleControl(effect_target, 0, target:GetAbsOrigin())
+	ParticleManager:SetParticleControl(effect_target, 1, Vector(radius, radius, radius))
 	ParticleManager:ReleaseParticleIndex(effect_target)
 	
-	-- Create Protection Effect
-	local effect_protection = ParticleManager:CreateParticle(particle_protection, PATTACH_ABSORIGIN_FOLLOW, target)
-	ParticleManager:ReleaseParticleIndex(effect_protection)
-	
-	EmitSoundOn(sound_target, target)
+	-- Play sound on target
+	EmitSoundOn(sound_cast, target)
 
-	-- Create Caster Effects
+	-- Create beam effect from caster to target
 	local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-	ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetOrigin())
-	ParticleManager:SetParticleControl(effect_cast, 1, target:GetOrigin())
-	
+	ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetAbsOrigin())
+	ParticleManager:SetParticleControl(effect_cast, 1, target:GetAbsOrigin())
 	ParticleManager:ReleaseParticleIndex(effect_cast)
-end
-
---------------------------------------------------------------------------------
--- Модификатор защиты
-modifier_custom_purification_protection = class({})
-
-function modifier_custom_purification_protection:IsHidden()
-	return false
-end
-
-function modifier_custom_purification_protection:IsPurgable()
-	return false
-end
-
-function modifier_custom_purification_protection:IsBuff()
-	return true
-end
-
-function modifier_custom_purification_protection:RemoveOnDeath()
-	return true
-end
-
-function modifier_custom_purification_protection:OnCreated()
-	if not IsServer() then return end
-	
-	local ability = self:GetAbility()
-	if ability then
-		self.magic_resistance = ability:GetSpecialValueFor("magic_resistance")
-	else
-		self.magic_resistance = 80
-	end
-end
-
-function modifier_custom_purification_protection:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING
-	}
-end
-
-function modifier_custom_purification_protection:GetModifierMagicalResistanceBonus()
-	return self.magic_resistance or 80
-end
-
-function modifier_custom_purification_protection:GetModifierStatusResistanceStacking()
-	return 100 -- Полная защита от эффектов
-end
-
-function modifier_custom_purification_protection:GetEffectName()
-	return "particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf"
-end
-
-function modifier_custom_purification_protection:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
 end

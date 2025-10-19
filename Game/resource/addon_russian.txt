@@ -45,14 +45,15 @@
 		"DOTA_Tooltip_modifier_omniknight_innate_damage_Description"	"Предоставляет бонусный урон от атак за исцеление союзников."
 		
 		// Custom Purification
-		"DOTA_Tooltip_ability_custom_purification"					"Божественное Очищение"
-		"DOTA_Tooltip_ability_custom_purification_Description"		"Омнинайт мгновенно исцеляет выбранного союзника и наносит урон всем ближайшим врагам святой энергией. Лечение и урон увеличиваются в зависимости от силы разума Омнинайта, делая эту способность сильнее по мере роста его магических знаний."
-		"DOTA_Tooltip_ability_custom_purification_Lore"			"Божественный свет течёт через Омнинайта, очищая союзников и опаляя нечестивых."
-		"DOTA_Tooltip_ability_custom_purification_heal"			"ЛЕЧЕНИЕ/УРОН:"
+		"DOTA_Tooltip_ability_custom_purification"					"Очищение"
+		"DOTA_Tooltip_ability_custom_purification_Description"		"Омнинайт высвобождает святую энергию на выбранного союзника, мгновенно исцеляя его и нанося урон всем ближайшим врагам. Урон, наносимый врагам, равен количеству исцеления, и оба значения увеличиваются в зависимости от Силы Разума Омнинайта, делая это мощной гибридной наступательно-защитной способностью."
+		"DOTA_Tooltip_ability_custom_purification_Lore"			"Божественный свет течёт через Омнинайта, исцеляя союзников и опаляя тех, кто желает им зла."
+		"DOTA_Tooltip_ability_custom_purification_heal"			"ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_custom_purification_radius"			"РАДИУС УРОНА:"
 		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
-		"DOTA_Tooltip_ability_custom_purification_Note0"			"Исцеляет выбранного союзника и наносит урон всем врагам в радиусе вокруг цели."
-		"DOTA_Tooltip_ability_custom_purification_Note1"			"Общее лечение/урон = Базовое значение + (Сила разума × Множитель силы разума)"
+		"DOTA_Tooltip_ability_custom_purification_Note0"			"Исцеляет выбранного союзника и наносит урон всем врагам в радиусе 260 вокруг него."
+		"DOTA_Tooltip_ability_custom_purification_Note1"			"Урон равен исцелению: Базовое исцеление + (Сила Разума × 1.0)"
+		"DOTA_Tooltip_ability_custom_purification_Note2"			"Наносит магический урон, который может быть уменьшен сопротивлением магии."
 
 		// Omniknight Repel
 		"DOTA_Tooltip_ability_omniknight_repel_lua"				"Отталкивание"

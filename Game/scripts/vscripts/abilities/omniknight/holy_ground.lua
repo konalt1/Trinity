@@ -4,6 +4,15 @@ LinkLuaModifier("modifier_holy_ground_thinker", "abilities/omniknight/holy_groun
 LinkLuaModifier("modifier_holy_ground_slow", "abilities/omniknight/holy_ground", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
+-- Precache
+function holy_ground:Precache(context)
+	-- Precache custom particles
+	PrecacheResource("particle", "particles/Omniknight/omniknight_guardian_angel_ally_custom.vpcf", context)
+	PrecacheResource("particle", "particles/Omniknight/pulse_main.vpcf", context)
+	PrecacheResource("particle", "particles/Omniknight/omniknight_purification_custom.vpcf", context)
+end
+
+--------------------------------------------------------------------------------
 -- AOE Radius
 function holy_ground:GetAOERadius()
 	return self:GetSpecialValueFor( "radius" )
@@ -36,6 +45,9 @@ function holy_ground:OnSpellStart()
 	local mind_power_bonus = mind_power * mind_power_multiplier
 	local total_heal = heal_amount + mind_power_bonus
 
+	-- Play custom cast sound
+	EmitSoundOn("Holy_Ground.Cast", caster)
+	
 	-- Create thinker for the holy ground area
 	CreateModifierThinker(
 		caster, -- player responsible
@@ -52,21 +64,6 @@ function holy_ground:OnSpellStart()
 		caster:GetTeamNumber(), -- team number
 		false  -- force create
 	)
-
-	-- Play cast effects
-	self:PlayCastEffects(point, radius)
-end
-
-function holy_ground:PlayCastEffects(point, radius)
-	-- Play custom cast sound
-	EmitSoundOn("Holy_Ground.Cast", self:GetCaster())
-	
-	-- Create cast particle effect
-	local particle_cast = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_guardian_angel_cast.vpcf", PATTACH_WORLDORIGIN, nil)
-	ParticleManager:SetParticleControl(particle_cast, 0, point)
-	ParticleManager:SetParticleControl(particle_cast, 1, Vector(radius, radius, radius))
-	ParticleManager:SetParticleControl(particle_cast, 2, Vector(radius, 0, 0))
-	ParticleManager:ReleaseParticleIndex(particle_cast)
 end
 
 --------------------------------------------------------------------------------
@@ -95,23 +92,14 @@ function modifier_holy_ground_thinker:OnCreated(kv)
 	self.heal_interval = kv.heal_interval or ability:GetSpecialValueFor("heal_interval")
 	self.position = parent:GetAbsOrigin()
 	
-	-- Create visual effect for the holy ground
-	self.particle = ParticleManager:CreateParticle("particles/econ/items/omniknight/omni_2021_immortal/omni_2021_immortal_buff_ring.vpcf", PATTACH_WORLDORIGIN, nil)
-	ParticleManager:SetParticleControl(self.particle, 0, self.position)
-	-- Настраиваем масштаб для отображения полного радиуса способности (450 единиц)
-	-- Пробуем разные коэффициенты масштабирования
-	local scale_factor = self.radius / 100  -- Базовый масштаб относительно 100 единиц
-	ParticleManager:SetParticleControl(self.particle, 1, Vector(scale_factor, scale_factor, scale_factor))
-	ParticleManager:SetParticleControl(self.particle, 2, Vector(scale_factor, 0, 0))
-	ParticleManager:SetParticleControl(self.particle, 3, Vector(scale_factor, 0, 0))
-	ParticleManager:SetParticleControl(self.particle, 4, Vector(scale_factor, 0, 0))
+	-- Initialize particle storage table
+	self.particles = {}
 	
-	-- Create additional boundary effect to show exact area
-	self.boundary_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf", PATTACH_WORLDORIGIN, nil)
-	ParticleManager:SetParticleControl(self.boundary_particle, 0, self.position)
-	-- Уменьшаем размер круга до точного радиуса способности
-	ParticleManager:SetParticleControl(self.boundary_particle, 1, Vector(self.radius * 0.7, 0, 0))
-	ParticleManager:SetParticleControl(self.boundary_particle, 2, Vector(self.radius * 0.7, 0, 0))
+	-- Create cast particle effect
+	self.cast_particle = ParticleManager:CreateParticle("particles/Omniknight/omniknight_guardian_angel_ally_custom.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(self.cast_particle, 0, self.position)  -- CP 0 - позиция партикла
+	ParticleManager:SetParticleControl(self.cast_particle, 1, Vector(self.radius, 0, 0))  -- CP 1 - (радиус, 0, 0)
+	ParticleManager:SetParticleControl(self.cast_particle, 3, Vector(20, 0, 0))  -- CP 3 - (радиус символов, 0, 0) - начинаем с 20
 	
 	-- Start healing timer
 	self:StartIntervalThink(self.heal_interval)
@@ -123,8 +111,13 @@ end
 function modifier_holy_ground_thinker:OnIntervalThink()
 	if not IsServer() then return end
 	
-	-- Play custom bell sound
-	EmitSoundOnLocationWithCaster(self.position, "Holy_Ground.Bell", self:GetCaster())
+	-- Create pulse effect
+	local pulse_duration = 0.45
+	local pulse_particle = ParticleManager:CreateParticle("particles/Omniknight/pulse_main.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(pulse_particle, 0, self.position)  -- CP 0 - позиция партикла
+	ParticleManager:SetParticleControl(pulse_particle, 1, Vector(self.radius, self.radius / pulse_duration, 0))  -- CP 1 - (радиус, скорость, 0)
+	ParticleManager:SetParticleControl(pulse_particle, 2, Vector(pulse_duration, 0, 0))  -- CP 2 - (длительность, 0, 0)
+	table.insert(self.particles, pulse_particle)
 	
 	-- Find allied units in radius for healing
 	local allies = FindUnitsInRadius(
@@ -140,13 +133,21 @@ function modifier_holy_ground_thinker:OnIntervalThink()
 	)
 	
 	-- Heal allies
+	local healed_someone = false
 	for _, ally in pairs(allies) do
 		ally:Heal(self.total_heal, self:GetAbility())
+		healed_someone = true
 		
 		-- Create heal particle effect
-		local heal_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_purification.vpcf", PATTACH_ABSORIGIN_FOLLOW, ally)
-		ParticleManager:SetParticleControl(heal_particle, 1, Vector(200, 200, 200))
-		ParticleManager:ReleaseParticleIndex(heal_particle)
+		local heal_particle = ParticleManager:CreateParticle("particles/Omniknight/omniknight_purification_custom.vpcf", PATTACH_ABSORIGIN_FOLLOW, ally)
+		ParticleManager:SetParticleControl(heal_particle, 0, ally:GetAbsOrigin())  -- CP 0 - позиция партикла
+		ParticleManager:SetParticleControl(heal_particle, 1, Vector(100, 0, 0))  -- CP 1 - (радиус, 0, 0)
+		table.insert(self.particles, heal_particle)
+	end
+	
+	-- Play custom bell sound only if someone was healed
+	if healed_someone then
+		EmitSoundOnLocationWithCaster(self.position, "Holy_Ground.Bell", self:GetCaster())
 	end
 	
 	-- Apply/refresh slow debuff on enemies
@@ -173,15 +174,19 @@ end
 function modifier_holy_ground_thinker:OnDestroy()
 	if not IsServer() then return end
 	
-	-- Remove visual effects
-	if self.particle then
-		ParticleManager:DestroyParticle(self.particle, false)
-		ParticleManager:ReleaseParticleIndex(self.particle)
+	-- Destroy cast particle
+	if self.cast_particle then
+		ParticleManager:DestroyParticle(self.cast_particle, false)
+		ParticleManager:ReleaseParticleIndex(self.cast_particle)
 	end
 	
-	if self.boundary_particle then
-		ParticleManager:DestroyParticle(self.boundary_particle, false)
-		ParticleManager:ReleaseParticleIndex(self.boundary_particle)
+	-- Destroy all other particles immediately
+	if self.particles then
+		for _, particle in pairs(self.particles) do
+			ParticleManager:DestroyParticle(particle, true)
+			ParticleManager:ReleaseParticleIndex(particle)
+		end
+		self.particles = {}
 	end
 	
 	-- Stop custom ambient sound
@@ -203,14 +208,6 @@ end
 
 function modifier_holy_ground_slow:IsPurgable()
 	return true
-end
-
-function modifier_holy_ground_slow:GetEffectName()
-	return "particles/units/heroes/hero_omniknight/omniknight_degen_aura_debuff.vpcf"
-end
-
-function modifier_holy_ground_slow:GetEffectAttachType()
-	return PATTACH_OVERHEAD_FOLLOW
 end
 
 function modifier_holy_ground_slow:DeclareFunctions()
