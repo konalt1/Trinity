@@ -1,8 +1,0 @@
-"holy_ground_bell.vsnd"
-{
-	"type"		"dota_src1_3d"
-	"volume"	"0.8"
-	"pitch"		"1.0"
-	"soundlevel"	"75"
-	"wave"		"sounds/custom/bell_chime.wav"
-}
