@@ -10,6 +10,9 @@ function holy_ground:Precache(context)
 	PrecacheResource("particle", "particles/Omniknight/omniknight_guardian_angel_ally_custom.vpcf", context)
 	PrecacheResource("particle", "particles/Omniknight/pulse_main.vpcf", context)
 	PrecacheResource("particle", "particles/Omniknight/omniknight_purification_custom.vpcf", context)
+	
+	-- Precache custom sounds
+	PrecacheResource("soundfile", "soundevents/trinity_sounds.vsndevts", context)
 end
 
 --------------------------------------------------------------------------------
@@ -46,7 +49,9 @@ function holy_ground:OnSpellStart()
 	local total_heal = heal_amount + mind_power_bonus
 
 	-- Play custom cast sound
+	print("[HOLY GROUND DEBUG] Attempting to play cast sound: Holy_Ground.Cast")
 	EmitSoundOn("Holy_Ground.Cast", caster)
+	print("[HOLY GROUND DEBUG] Cast sound EmitSoundOn called")
 	
 	-- Create thinker for the holy ground area
 	CreateModifierThinker(
@@ -105,7 +110,9 @@ function modifier_holy_ground_thinker:OnCreated(kv)
 	self:StartIntervalThink(self.heal_interval)
 	
 	-- Play custom ambient sound
+	print("[HOLY GROUND DEBUG] Attempting to play ambient sound: Holy_Ground.Ambient on", parent:GetClassname())
 	EmitSoundOn("Holy_Ground.Ambient", parent)
+	print("[HOLY GROUND DEBUG] Ambient sound EmitSoundOn called")
 end
 
 function modifier_holy_ground_thinker:OnIntervalThink()
@@ -147,7 +154,11 @@ function modifier_holy_ground_thinker:OnIntervalThink()
 	
 	-- Play custom bell sound only if someone was healed
 	if healed_someone then
+		print("[HOLY GROUND DEBUG] Attempting to play bell sound: Holy_Ground.Bell")
 		EmitSoundOnLocationWithCaster(self.position, "Holy_Ground.Bell", self:GetCaster())
+		print("[HOLY GROUND DEBUG] Bell sound EmitSoundOnLocationWithCaster called")
+	else
+		print("[HOLY GROUND DEBUG] No one was healed, skipping bell sound")
 	end
 	
 	-- Apply/refresh slow debuff on enemies
@@ -190,6 +201,7 @@ function modifier_holy_ground_thinker:OnDestroy()
 	end
 	
 	-- Stop custom ambient sound
+	print("[HOLY GROUND DEBUG] Stopping ambient sound: Holy_Ground.Ambient")
 	StopSoundOn("Holy_Ground.Ambient", self:GetParent())
 end
 
