@@ -22,6 +22,27 @@ function holy_ground:GetAOERadius()
 end
 
 --------------------------------------------------------------------------------
+-- Ability Phase Start (plays during cast animation, BEFORE spell actually casts)
+function holy_ground:OnAbilityPhaseStart()
+	local caster = self:GetCaster()
+	
+	-- Play "Deus Vult" sound during cast animation (before spell fires)
+	print("[HOLY GROUND DEBUG] PHASE START - Playing cast sound: Holy_Ground.Cast")
+	EmitSoundOn("Holy_Ground.Cast", caster)
+	
+	return true -- must return true to continue casting
+end
+
+--------------------------------------------------------------------------------
+-- Ability Phase Interrupted (if cast is cancelled, stop the sound)
+function holy_ground:OnAbilityPhaseInterrupted()
+	local caster = self:GetCaster()
+	
+	print("[HOLY GROUND DEBUG] PHASE INTERRUPTED - Stopping cast sound")
+	StopSoundOn("Holy_Ground.Cast", caster)
+end
+
+--------------------------------------------------------------------------------
 -- Ability Start
 function holy_ground:OnSpellStart()
 	-- unit identifier
@@ -47,11 +68,6 @@ function holy_ground:OnSpellStart()
 	-- Calculate total heal with Mind Power scaling
 	local mind_power_bonus = mind_power * mind_power_multiplier
 	local total_heal = heal_amount + mind_power_bonus
-
-	-- Play custom cast sound
-	print("[HOLY GROUND DEBUG] Attempting to play cast sound: Holy_Ground.Cast")
-	EmitSoundOn("Holy_Ground.Cast", caster)
-	print("[HOLY GROUND DEBUG] Cast sound EmitSoundOn called")
 	
 	-- Create thinker for the holy ground area
 	CreateModifierThinker(

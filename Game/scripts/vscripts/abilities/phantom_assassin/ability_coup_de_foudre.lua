@@ -3,6 +3,11 @@ LinkLuaModifier("modifier_coup_de_foudre_buff", "abilities/phantom_assassin/abil
 
 ability_coup_de_foudre = ability_coup_de_foudre or class({})
 
+function ability_coup_de_foudre:Precache(context)
+    -- Precache custom sounds
+    PrecacheResource("soundfile", "soundevents/trinity_sounds.vsndevts", context)
+end
+
 function ability_coup_de_foudre:GetIntrinsicModifierName()
     return "modifier_coup_de_foudre"
 end
@@ -70,6 +75,7 @@ function modifier_coup_de_foudre:AddBuff(unit)
             {}
         )
     end
+    
     if self.timer then 
         Timers:RemoveTimer(self.timer)
         self.timer = nil
@@ -80,6 +86,39 @@ modifier_coup_de_foudre_buff = modifier_coup_de_foudre_buff or class({})
 
 function modifier_coup_de_foudre_buff:OnCreated()
     self.is_crit = false
+    
+    if IsServer() then
+        local parent = self:GetParent()
+        
+        -- Start sound and track start time
+        self.sound_start_time = GameRules:GetGameTime()
+        EmitSoundOn("Assassins_sense.ambient", parent)
+        
+        -- Check every 5 seconds if sound needs to be restarted
+        self:StartIntervalThink(5.0)
+    end
+end
+
+function modifier_coup_de_foudre_buff:OnIntervalThink()
+    if not IsServer() then return end
+    
+    local current_time = GameRules:GetGameTime()
+    local elapsed_time = current_time - self.sound_start_time
+    
+    -- If sound has been playing for 25+ seconds, restart it
+    if elapsed_time >= 25.0 then
+        local parent = self:GetParent()
+        StopSoundOn("Assassins_sense.ambient", parent)
+        EmitSoundOn("Assassins_sense.ambient", parent)
+        self.sound_start_time = current_time
+    end
+end
+
+function modifier_coup_de_foudre_buff:OnDestroy()
+    if IsServer() then
+        local parent = self:GetParent()
+        StopSoundOn("Assassins_sense.ambient", parent)
+    end
 end
 
 function modifier_coup_de_foudre_buff:IsPurgable()
