@@ -4,8 +4,8 @@ ogre_magi_strength_boost = class({})
 
 function ogre_magi_strength_boost:Precache(context)
 	-- Звуки для способности
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_alchemist.vsndevts", context)
+
+	PrecacheResource("soundfile", "soundevents/trinity_sounds.vsndevts", context)
 	
 	-- Частицы для эффектов
 	PrecacheResource("particle", "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust.vpcf", context)
@@ -42,9 +42,7 @@ function ogre_magi_strength_boost:OnSpellStart()
 	)
 	
 	-- Звуковые эффекты
-	EmitSoundOn("Hero_OgreMagi.Bloodlust.Cast", caster)
-	EmitSoundOn("Hero_Alchemist.ChemicalRage.Cast", caster)
-	
+	EmitSoundOn("Ogre_roar.sound", caster)	
 	-- Убираем проблемный эффект каста, который улетает в центр карты
 end
 
@@ -262,8 +260,6 @@ function modifier_ogre_magi_strength_boost:PlayEffects()
 	
 	if not parent or not IsValidEntity(parent) then return end
 	
-	-- Пока убираем эффекты и оставляем только звук
-	EmitSoundOn("Hero_OgreMagi.Bloodlust.Target", parent)
 end
 
 function modifier_ogre_magi_strength_boost:OnDestroy()
@@ -282,6 +278,6 @@ function modifier_ogre_magi_strength_boost:OnDestroy()
 	end
 	
 	-- Звук окончания баффа
-	EmitSoundOn("Hero_Alchemist.ChemicalRage.End", parent)
+	EmitSoundOn("Ogre_fart.sound", parent)
 end
 
