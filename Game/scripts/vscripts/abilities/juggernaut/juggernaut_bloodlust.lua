@@ -2,6 +2,10 @@ LinkLuaModifier("modifier_juggernaut_bloodlust", "abilities/juggernaut/juggernau
 
 juggernaut_bloodlust = class({})
 
+function juggernaut_bloodlust:Precache(context)
+	PrecacheResource("soundfile", "soundevents/trinity_sounds.vsndevts", context)
+end
+
 function juggernaut_bloodlust:OnSpellStart()
     local caster = self:GetCaster()
     local duration = self:GetSpecialValueFor("duration")
@@ -9,7 +13,8 @@ function juggernaut_bloodlust:OnSpellStart()
     -- Add the bloodlust modifier to the caster
     caster:AddNewModifier(caster, self, "modifier_juggernaut_bloodlust", {duration = duration})
     
-    -- Play cast sound
+    -- Play cast sounds
+    StartSoundEvent("Jugger_mom.sound", caster)
     caster:EmitSound("Hero_Juggernaut.BladeFury.Start")
 end
 

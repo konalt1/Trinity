@@ -29,4 +29,25 @@
 		vsnd_duration = 30.0
 		volume_fade_out = 0.3
 	}
+	
+	Jugger_mom.sound =
+	{
+		type = "dota_src1_2d"
+		vsnd_files = "sounds/jugger_mom.vsnd"
+		volume = 4.0
+	}
+	
+	Ogre_fart.sound =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/ogre_fart.vsnd"
+		volume = 1.0
+	}
+	
+	Ogre_roar.sound =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/ogre's_roar.vsnd"
+		volume = 15.0
+	}
 }
