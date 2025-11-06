@@ -60,8 +60,6 @@ function lich_frost_blast_lua:OnSpellStart()
 	if mind_power_multiplier == 0 then
 		mind_power_multiplier = 0.5 -- fallback value
 	end
-	
-	local mind_bonus_damage = mind_power_value * mind_power_multiplier
 
 	-- get enemies
 	local enemies = FindUnitsInRadius(
@@ -83,9 +81,13 @@ function lich_frost_blast_lua:OnSpellStart()
 		ability = self, --Optional.
 	}
 
+	-- Calculate mind power bonus damage (applies to all targets)
+	local mind_bonus_damage = mind_power_value * mind_power_multiplier
+
 	-- damage and debuff all enemies in radius
 	for _,enemy in pairs(enemies) do
-		-- damage (main target gets both spell damage and AOE damage + mind power bonus, others get only AOE damage + mind power bonus)
+		-- damage (main target gets both spell damage and AOE damage, others get only AOE damage)
+		-- mind power bonus is added to both damage types
 		damageTable.victim = enemy
 		if enemy == target then
 			damageTable.damage = damage + damage_aoe + mind_bonus_damage

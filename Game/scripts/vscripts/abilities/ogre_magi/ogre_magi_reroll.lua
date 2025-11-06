@@ -30,7 +30,6 @@ abilities = {
 	"pugna_life_drain",
 	"queenofpain_sonic_wave",
 	"sandking_epicenter",
-	"shadow_shaman_mass_serpent_ward",
 	{name =	"snapfire_mortimer_kisses", modifier = "modifier_snapfire_mortimer_kisses"},	-- "sniper_assassinate",
 	"sven_gods_strength",
 	"tidehunter_ravage",
@@ -41,6 +40,12 @@ abilities = {
 }
 
 function ogre_magi_reroll:Precache(context)
+	-- Precache Ogre Magi particles
+	PrecacheResource("particle", "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust.vpcf", context)
+	PrecacheResource("particle", "particles/units/neutral_creeps/ogre_bruiser_smash.vpcf", context)
+	PrecacheResource("particle", "particles/creatures/ogre/ogre_bruiser_smash.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_ogre_magi/ogre_bruiser_smash.vpcf", context)
+	
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_axe.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_axe", context)
@@ -152,6 +157,7 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_witch_doctor.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_witch_doctor.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_witch_doctor", context)
+	PrecacheUnitByNameSync("npc_dota_witch_doctor_death_ward", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_zuus.vsndevts", context)
@@ -249,8 +255,25 @@ modifier_ogre_magi_reroll_passive = class({
 	RemoveOnDeath 			= function(self) return false end,
 	DeclareFunctions  		= function(self) return {
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING,
 	} end,
 })
+
+function modifier_ogre_magi_reroll_passive:GetModifierPercentageManacostStacking(params)
+	local ability = params.ability
+	local abilityName = ability:GetAbilityName()
+	
+	-- Проверяем, что это одна из возможных полученных способностей
+	for _, possibleAbility in ipairs(abilities) do
+		local name = type(possibleAbility) == "table" and possibleAbility.name or possibleAbility
+		if abilityName == name then
+			-- Возвращаем 100 для 100% уменьшения стоимости маны (бесплатная способность)
+			return 100
+		end
+	end
+	
+	return 0
+end
 
 function modifier_ogre_magi_reroll_passive:OnAttackLanded(event)
 	if IsServer() then

@@ -37,18 +37,6 @@ modifier_ability_ice_phylactery = class({
     GetAuraRadius           = function(self) return self:GetAbility():GetSpecialValueFor("aura_radius") end,
     GetAuraDuration         = function(self) return self:GetAbility():GetSpecialValueFor("slow_duration") end,
     GetAuraSearchType       = function(self) return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end,
-    DeclareFunctions        = function(self)
-        return {
-            MODIFIER_PROPERTY_HEALTHBAR_PIPS,
-            MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-            MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
-            MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-            MODIFIER_EVENT_ON_ATTACKED
-        }
-    end,
-    GetAbsoluteNoDamageMagical  = function(self) return 1 end,
-    GetAbsoluteNoDamagePhysical  = function(self) return 1 end,
-    GetAbsoluteNoDamagePure  = function(self) return 1 end,
 })
 
 function modifier_ability_ice_phylactery:OnCreated()
@@ -63,18 +51,7 @@ function modifier_ability_ice_phylactery:OnCreated()
     ParticleManager:SetParticleControl(self.effect_cast, 2, origin)
     ParticleManager:SetParticleControl(self.effect_cast, 3, Vector(origin.x, origin.y, origin.z + 10))
     ParticleManager:SetParticleControl(self.effect_cast, 4, parent:GetAbsOrigin())
-    ParticleManager:SetParticleControl(self.effect_cast, 5, Vector(radius,radius,radius))  
-
-    self.Pips = ability:GetSpecialValueFor("max_hero_attacks")
-
-    self.AttacksToDestroy = ability:GetSpecialValueFor("max_creep_attacks")
-
-    if IsServer() then 
-        parent:SetMaxHealth(self.AttacksToDestroy)
-    end
-
-    self.HeroesAttacksMult = 2
-    self.HealthPerPips = self:GetParent():GetMaxHealth() / self.AttacksToDestroy
+    ParticleManager:SetParticleControl(self.effect_cast, 5, Vector(radius,radius,radius))
 end
 
 function modifier_ability_ice_phylactery:OnDestroy()
@@ -83,27 +60,6 @@ function modifier_ability_ice_phylactery:OnDestroy()
     end
     ParticleManager:DestroyParticle(self.effect_cast, false)
     ParticleManager:ReleaseParticleIndex(self.effect_cast)
-end
- 
-function modifier_ability_ice_phylactery:OnAttacked(keys)
-    if not IsServer() then return end
-    local target = keys.target
-    local attacker = keys.attacker
-    local parent = self:GetParent()
-    if target and attacker and target == parent then
-        local HealthsDiff = math.floor(parent:GetHealth() - (self.HealthPerPips * (attacker:IsRealHero() and self.HeroesAttacksMult or 1)))
-
-        if HealthsDiff <= 0 then
-            parent:Kill(nil, attacker)
-            self:Destroy()
-        else 
-            parent:SetHealth(HealthsDiff)
-        end
-    end
-end
-
-function modifier_ability_ice_phylactery:GetModifierHealthBarPips()
-    return self.Pips or 0
 end
 
 modifier_ability_ice_phylactery_buff = class({
