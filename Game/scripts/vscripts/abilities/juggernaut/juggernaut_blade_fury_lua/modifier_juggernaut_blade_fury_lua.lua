@@ -66,14 +66,9 @@ end
 -- Modifier Effects
 function modifier_juggernaut_blade_fury_lua:DeclareFunctions()
 	local funcs = {
-		MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
 	}
 
 	return funcs
-end
-
-function modifier_juggernaut_blade_fury_lua:GetModifierProcAttack_BonusDamage_Physical( params )
-	return -params.damage
 end
 
 --------------------------------------------------------------------------------
