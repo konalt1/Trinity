@@ -21,12 +21,17 @@ function modifier_coup_de_foudre:OnCreated(_)
 
     self.activation_delay = self:GetAbility():GetSpecialValueFor("activation_delay")
     self.dagger_buff_time = self:GetAbility():GetSpecialValueFor("dagger_buff_time")
+    
+    -- Table to track dagger projectiles cast with crit buff
+    self.dagger_snapshots = {}
 
     self:StartIntervalThink(0.1)
 end
 
 function modifier_coup_de_foudre:DeclareFunctions()
     return {
+        MODIFIER_EVENT_ON_ABILITY_EXECUTED,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
     }  
 end
 
@@ -36,6 +41,120 @@ end
 
 function modifier_coup_de_foudre:IsHidden()
     return true 
+end
+
+function modifier_coup_de_foudre:OnAbilityExecuted(params)
+    if not IsServer() then return end
+    
+    local caster = params.unit
+    local ability = params.ability
+    
+    -- Check if it's our PA casting Stifling Dagger
+    if caster ~= self:GetParent() then return end
+    if not ability then return end
+    
+    local ability_name = ability:GetAbilityName()
+    if ability_name ~= "phantom_assassin_stifling_dagger" then return end
+    
+    -- Snapshot: check if crit buff is active at cast time
+    local has_crit_buff = caster:HasModifier("modifier_coup_de_foudre_buff")
+    
+    if has_crit_buff then
+        local target = params.target
+        if target then
+            -- Store snapshot with target and timestamp
+            local snapshot = {
+                target = target,
+                time = GameRules:GetGameTime(),
+                has_crit = true
+            }
+            table.insert(self.dagger_snapshots, snapshot)
+            
+            -- Clean up old snapshots (older than 5 seconds)
+            self:CleanupOldSnapshots()
+        end
+    end
+end
+
+function modifier_coup_de_foudre:OnTakeDamage(params)
+    if not IsServer() then return end
+    
+    local attacker = params.attacker
+    local victim = params.unit
+    local ability = params.inflictor
+    
+    -- Check if PA is dealing damage with Stifling Dagger
+    if attacker ~= self:GetParent() then return end
+    if not ability then return end
+    
+    local ability_name = ability:GetAbilityName()
+    if ability_name ~= "phantom_assassin_stifling_dagger" then return end
+    
+    -- Check if we have a snapshot for this target
+    local snapshot = self:FindSnapshot(victim)
+    if snapshot and snapshot.has_crit then
+        -- Apply additional crit damage
+        local crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus")
+        local base_damage = params.original_damage
+        
+        -- Calculate additional damage (crit multiplier - 100%)
+        local additional_damage = base_damage * ((crit_bonus - 100) / 100)
+        
+        if additional_damage > 0 then
+            ApplyDamage({
+                victim = victim,
+                attacker = attacker,
+                damage = additional_damage,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+                damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION,
+                ability = self:GetAbility()
+            })
+            
+            -- Play crit sound
+            EmitSoundOnLocationWithCaster(
+                victim:GetAbsOrigin(),
+                "Hero_PhantomAssassin.CoupDeGrace",
+                attacker
+            )
+        end
+        
+        -- Remove the snapshot after use
+        self:RemoveSnapshot(victim)
+    end
+end
+
+function modifier_coup_de_foudre:FindSnapshot(target)
+    local current_time = GameRules:GetGameTime()
+    
+    for i, snapshot in ipairs(self.dagger_snapshots) do
+        if snapshot.target == target then
+            -- Check if snapshot is still valid (within dagger_buff_time)
+            if (current_time - snapshot.time) <= self.dagger_buff_time then
+                return snapshot
+            end
+        end
+    end
+    
+    return nil
+end
+
+function modifier_coup_de_foudre:RemoveSnapshot(target)
+    for i = #self.dagger_snapshots, 1, -1 do
+        if self.dagger_snapshots[i].target == target then
+            table.remove(self.dagger_snapshots, i)
+            return
+        end
+    end
+end
+
+function modifier_coup_de_foudre:CleanupOldSnapshots()
+    local current_time = GameRules:GetGameTime()
+    
+    for i = #self.dagger_snapshots, 1, -1 do
+        if (current_time - self.dagger_snapshots[i].time) > 5.0 then
+            table.remove(self.dagger_snapshots, i)
+        end
+    end
 end
 
 

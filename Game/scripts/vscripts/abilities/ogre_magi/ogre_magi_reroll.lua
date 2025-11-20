@@ -184,7 +184,10 @@ function ogre_magi_reroll:OnSpellStart()
 	local abilityName = type(randomAbility) == "table" and randomAbility.name or randomAbility
 	self.newAbility = caster:AddAbility(abilityName)
 	self.newAbilityModifier = type(randomAbility) == "table" and randomAbility.modifier or nil
-	self.newAbility:SetLevel(1) -- Всегда 1 уровень для получаемых способностей
+	-- Устанавливаем уровень способности в соответствии с уровнем ульты
+	self.newAbility:SetLevel(self:GetLevel())
+	-- Отключаем возможность прокачки полученной способности
+	self.newAbility:SetUpgradeRecommended(false)
 	
 	
 	

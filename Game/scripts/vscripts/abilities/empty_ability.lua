@@ -47,7 +47,7 @@ function modifier_empty_ability:GetModifierPhysicalArmorBonus()
 end
 
 function modifier_empty_ability:GetModifierMoveSpeedBonus_Constant()
-    return self:GetStackCount()
+    return self:GetStackCount() * 0.5
 end
 
 function modifier_empty_ability:GetTexture()
