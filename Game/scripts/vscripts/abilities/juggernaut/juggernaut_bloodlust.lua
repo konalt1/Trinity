@@ -15,7 +15,7 @@ function juggernaut_bloodlust:OnSpellStart()
     
     -- Play cast sounds
     StartSoundEvent("Jugger_mom.sound", caster)
-    caster:EmitSound("Hero_Juggernaut.BladeFury.Start")
+    caster:EmitSoundOn("Hero_Juggernaut.BladeFury.Start")
 end
 
 --------------------------------------------------------------------------------

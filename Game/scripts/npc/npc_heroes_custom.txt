@@ -5,6 +5,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_phantom_assassin"
 		"Facets" ""
+		"MovementSpeed"									"309"
         "Ability3"				                        "phantom_assassin_blur_custom"
 		"Ability5"                                      "generic_hidden"
         //"phantom_assassin_smoke_bomb"
@@ -47,6 +48,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_juggernaut"
 		"Facets" ""
+		"MovementSpeed"									"296"
 		"Ability1"		                                "juggernaut_blade_fury_lua"
 		"Ability2"		                                "juggernaut_bloodlust"
 		"Ability3"		                                "ability_thirsty_blade"
@@ -69,8 +71,10 @@
 	{
 		"override_hero"                                 "npc_dota_hero_lich"
 		"Facets" ""
+		"MovementSpeed"									"293"
 		"Ability1"				                        "lich_frost_blast_lua"
 		"Ability2"				                        "lich_frost_shield_lua"
+		"Ability3"				                        "lich_spark_wraith"
         "Ability4"                                      "generic_hidden"
         "Ability5"                                      "generic_hidden"
 		"Ability6"				                        "ability_ice_phylactery"
@@ -111,6 +115,7 @@
 	{	
 		"override_hero"			"npc_dota_hero_ogre_magi"
 		"Facets" ""
+		"MovementSpeed"									"276"
 		
 		// Измененные характеристики интеллекта
 		"AttributeBaseIntelligence"		"10"		// Базовый интеллект (было 0)
@@ -152,6 +157,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_omniknight"
 		"Facets" ""
+		"MovementSpeed"									"285"
 		"Ability1"				                        "custom_purification"
 		"Ability2"                                      "omniknight_repel_lua"
         "Ability3"				                        "omniknight_innate_oaa"
@@ -172,7 +178,8 @@
 	"npc_dota_hero_doom_bringer"
 	{
 		"override_hero"                                 "npc_dota_hero_doom_bringer"
-		"Facets" "generic_hidden" 	
+		"Facets" "generic_hidden"
+		"MovementSpeed"									"275"
 		"Ability1"				                        "doom_soul_devour"
 		"Ability2"				                        "doom_scorched_earth_lua"
 		"Ability4" 				                        "generic_hidden"

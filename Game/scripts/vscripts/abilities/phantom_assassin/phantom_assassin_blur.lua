@@ -229,6 +229,11 @@ end
 function modifier_phantom_assassin_blur:OnIntervalThink()
 	if not IsServer() then return end
 	
+	-- Don't check for enemies if active blur is running
+	if self.parent:HasModifier("modifier_phantom_assassin_blur_active") then
+		return
+	end
+	
 	-- Check if there are enemy heroes nearby
 	local enemies = FindUnitsInRadius(
 		self.parent:GetTeamNumber(),

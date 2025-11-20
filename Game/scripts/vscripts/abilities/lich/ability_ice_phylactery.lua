@@ -37,6 +37,17 @@ modifier_ability_ice_phylactery = class({
     GetAuraRadius           = function(self) return self:GetAbility():GetSpecialValueFor("aura_radius") end,
     GetAuraDuration         = function(self) return self:GetAbility():GetSpecialValueFor("slow_duration") end,
     GetAuraSearchType       = function(self) return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end,
+    GetAuraEntityReject     = function(self, target) 
+        local caster = self:GetCaster()
+        -- Действует только на кастера (союзник) или на врагов
+        if target:GetTeamNumber() == caster:GetTeamNumber() then
+            return target ~= caster
+        end
+        return false
+    end,
+    DeclareFunctions        = function(self) return {
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+    } end,
 })
 
 function modifier_ability_ice_phylactery:OnCreated()
@@ -62,6 +73,37 @@ function modifier_ability_ice_phylactery:OnDestroy()
     ParticleManager:ReleaseParticleIndex(self.effect_cast)
 end
 
+function modifier_ability_ice_phylactery:OnTakeDamage(params)
+    if not IsServer() then return end
+    
+    local parent = self:GetParent()
+    local caster = self:GetCaster()
+    local victim = params.unit
+    local ability = self:GetAbility()
+    local radius = ability:GetSpecialValueFor("aura_radius")
+    
+    -- Проверяем, что жертва - враг
+    if victim:GetTeamNumber() == caster:GetTeamNumber() then
+        return
+    end
+    
+    -- Проверяем, что жертва в радиусе тотема
+    local distance = (victim:GetAbsOrigin() - parent:GetAbsOrigin()):Length2D()
+    if distance > radius then
+        return
+    end
+    
+    -- Даем кастеру ману равную полученному урону
+    if caster and not caster:IsNull() and caster:IsAlive() then
+        caster:GiveMana(params.damage)
+        
+        -- Эффект восстановления маны
+        local particle = ParticleManager:CreateParticle("particles/generic_gameplay/generic_mana_gain.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
+        ParticleManager:SetParticleControl(particle, 0, caster:GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(particle)
+    end
+end
+
 modifier_ability_ice_phylactery_buff = class({
     IsHidden                 = function(self) return false end,
     IsPurgable                 = function(self) return false end,
@@ -77,11 +119,13 @@ modifier_ability_ice_phylactery_buff = class({
 function modifier_ability_ice_phylactery_buff:OnCreated()
     local caster = self:GetCaster()
     local parent = self:GetParent()
-
-    self.isBuff = parent:GetTeamNumber() == caster:GetTeamNumber()
-
+    
+    -- Проверяем, является ли цель кастером
+    self.isCaster = parent == caster
+    
     if IsClient() then return end
-    if self.isBuff then 
+    
+    if self.isCaster then 
         self.modifier = parent:AddNewModifier(caster, self:GetAbility(), "modifier_spell_lifesteal_custom", {})
     end
 end
@@ -94,30 +138,27 @@ function modifier_ability_ice_phylactery_buff:OnDestroy()
     end
 end
 
-function modifier_ability_ice_phylactery_buff:isBuff()
-    return self.isBuff
+function modifier_ability_ice_phylactery_buff:IsBuff()
+    return self.isCaster
 end
 
-
 function modifier_ability_ice_phylactery_buff:GetModifierMoveSpeedBonus_Percentage()
-    if not self.isBuff then 
+    -- Замедление для врагов
+    if not self.isCaster then 
         return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
     end
 end
 
 function modifier_ability_ice_phylactery_buff:GetModifierPercentageCooldown()
-    if self.isBuff then 
-        return self:GetAbility():GetSpecialValueFor("cooldown_reduction")
-    end
-end
-function modifier_ability_ice_phylactery_buff:GetModifierPercentageCooldown()
-    if self.isBuff then 
+    -- Снижение кулдаунов для кастера
+    if self.isCaster then 
         return self:GetAbility():GetSpecialValueFor("cooldown_reduction")
     end
 end
 
 function modifier_ability_ice_phylactery_buff:GetModifierSpellLifestealRegenAmplify_Percentage()
-    if self.isBuff then 
+    -- Spell lifesteal для кастера
+    if self.isCaster then 
         return self:GetAbility():GetSpecialValueFor("spell_lifesteal")
     end
 end
