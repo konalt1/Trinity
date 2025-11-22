@@ -26,39 +26,13 @@ function lich_frost_blast_lua:OnSpellStart()
 	local duration = self:GetDuration()
 	local damage_aoe = self:GetSpecialValueFor("aoe_damage")
 	local radius = self:GetSpecialValueFor("radius")
-
-	-- Fix: Get values from AbilitySpecial correctly
-	if damage_aoe == 0 then
-		damage_aoe = self:GetSpecialValueFor("04") -- aoe_damage is the 4th special value
-	end
-	if radius == 0 then
-		radius = self:GetSpecialValueFor("01") -- radius is the 1st special value
-	end
-	
-	-- Fallback values if still 0
-	if damage_aoe == 0 then
-		local level = self:GetLevel()
-		if level == 1 then damage_aoe = 75
-		elseif level == 2 then damage_aoe = 100
-		elseif level == 3 then damage_aoe = 125
-		elseif level == 4 then damage_aoe = 150
-		end
-	end
-	if radius == 0 then
-		radius = 200
-	end
+	local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier")
 
 	-- get mind power bonus damage
 	local mind_power_modifier = caster:FindModifierByName("modifier_mind_power")
 	local mind_power_value = 0
 	if mind_power_modifier then
 		mind_power_value = mind_power_modifier:GetStackCount()
-	end
-	
-	-- Get mind power multiplier from KV file
-	local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier")
-	if mind_power_multiplier == 0 then
-		mind_power_multiplier = 0.5 -- fallback value
 	end
 
 	-- get enemies

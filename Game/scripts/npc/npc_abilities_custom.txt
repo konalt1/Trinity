@@ -37,35 +37,6 @@
             "hero_soul_multiplier"      "3"
         }
 
-        "AbilitySpecial"
-        {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "soul_power"            "1 2 3 4"
-            }
-            "02"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "heal_amount"           "100 150 200 250"
-            }
-            "03"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "cast_range"            "300"
-            }
-            "04"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "aghanim_hp_threshold" "666"
-            }
-            "05"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "hero_soul_multiplier"  "3"
-            }
-        }
-
         "precache"
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_doombringer.vsndevts"
@@ -131,38 +102,14 @@
         "AbilityCooldown"               "12"
         "AbilityManaCost"               "100"
         
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "cast_range"            "800"
-            }
-            "02"
-            {
-                "var_type"              "FIELD_FLOAT"
-                "chain_duration"        "4.0"
-            }
-            "03"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "damage_per_second"     "50"
-            }
-            "04"
-            {
-                "var_type"              "FIELD_FLOAT"
-                "mind_power_multiplier" "2.0"
-            }
-            "05"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "chain_radius"          "600"
-            }
-            "06"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "max_chains"            "3"
-            }
+            "cast_range"            "800"
+            "chain_duration"        "4.0"
+            "damage_per_second"     "50"
+            "mind_power_multiplier" "2.0"
+            "chain_radius"          "600"
+            "max_chains"            "3"
         }
         
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
@@ -449,33 +396,13 @@
             "particle"      "particles/status_fx/status_effect_frost_lich.vpcf"
         }
 
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"				"FIELD_INTEGER"
-                "radius"				"200 200 200 200"
-            }
-            "02"
-            {
-                "var_type"				"FIELD_INTEGER"
-                "slow_movement_speed"	"-30"
-            }
-            "03"
-            {
-                "var_type"				"FIELD_INTEGER"
-                "slow_attack_speed"		"-30"
-            }
-            "04"
-            {
-                "var_type"				"FIELD_INTEGER"
-                "aoe_damage"			"75 100 125 150"
-            }
-            "05"
-            {
-                "var_type"				"FIELD_FLOAT"
-                "mind_power_multiplier"	"2"
-            }
+            "radius"				"200 200 200 200"
+            "slow_movement_speed"	"-30"
+            "slow_attack_speed"		"-30"
+            "aoe_damage"			"75 100 125 150"
+            "mind_power_multiplier"	"2"
         }
     }
 
@@ -526,61 +453,91 @@
             "duration"                  "6.0"
             "mind_power_damage_multiplier" "0.5"
         }
-
-        "AbilitySpecial"
-        {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "damage_reduction"      "30 40 50 60"
-            }
-            "02"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "radius"                "600"
-            }
-            "03"
-            {
-                "var_type"              "FIELD_FLOAT"
-                "interval"              "1.0"
-            }
-            "04"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "damage"                "20 30 40 50"
-            }
-            "05"
-            {
-                "var_type"              "FIELD_FLOAT"
-                "slow_duration"         "0.5"
-            }
-            "06"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "slow_movespeed"        "-20 -25 -30 -35"
-            }
-            "07"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "health_regen"          "0 0 0 0"
-            }
-            "08"
-            {
-                "var_type"              "FIELD_FLOAT"
-                "duration"              "6.0"
-            }
-            "09"
-            {
-                "var_type"              "FIELD_FLOAT"
-                "mind_power_damage_multiplier" "0.5"
-            }
-        }
     }
 
     "ability_sinister_gaze"
     {
         "BaseClass"                     "ability_datadriven"
         "HasScepterUpgrade"               "0"
+    }
+
+    "lich_ice_arrow"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lich/lich_ice_arrow"
+        "AbilityTextureName"            "mirana_arrow"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastRange"              "3000"
+        "AbilityCastPoint"              "0.5"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+
+        "AbilityCooldown"               "17 16 15 14"
+        "AbilityManaCost"               "100 120 140 160"
+
+        // Базовый урон
+        "AbilityDamage"                 "100 175 250 325"
+
+        "AbilityValues"
+        {
+            "arrow_speed"
+            {
+                "value"                 "857"
+            }
+            "arrow_width"
+            {
+                "value"                 "115"
+            }
+            "arrow_range"
+            {
+                "value"                 "3000"
+            }
+            "stun_duration"
+            {
+                "value"                 "1.5 2.0 2.5 3.0"
+                "special_bonus_tooltip" "Длительность оглушения:"
+            }
+            "arrow_vision"
+            {
+                "value"                 "500"
+            }
+            "mind_power_multiplier"
+            {
+                "value"                 "1.5"
+                "special_bonus_tooltip" "Множитель Mind Power:"
+            }
+            "slow_duration"
+            {
+                "value"                 "3.0"
+                "special_bonus_tooltip" "Длительность замедления:"
+            }
+            "slow_movement_speed"
+            {
+                "value"                 "-30"
+            }
+            "slow_attack_speed"
+            {
+                "value"                 "-30"
+            }
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_mirana.vsndevts"
+            "particle"      "particles/units/heroes/hero_lich/lich_frost_blast.vpcf"
+            "particle"      "particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
+            "particle"      "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+            "particle"      "particles/units/heroes/hero_mirana/mirana_spell_arrow_fx.vpcf"
+        }
     }
 
 "lich_chain_frost_shard"
@@ -661,6 +618,7 @@
             }
             "max_hero_attacks"          "3"
             "max_creep_attacks"         "6"
+            "attacks_to_destroy"        "3 6 9"
             "duration"                  "20.0"
             "slow_duration"             "0.5"               	
         }
@@ -1157,10 +1115,6 @@
             }
         }
         
-        "AbilitySpecial"
-        {
-        }
-        
         // Localization
         //-------------------------------------------------------------------------------------------------------------
         "Language"
@@ -1199,8 +1153,8 @@
 
 		"AbilityValues"
         {
-          "crit_bonus"				"200 300 400"
-          "activation_delay"          "1.5"
+          "crit_bonus"				"200 250 300"
+          "activation_delay"          "0.75"
           "dagger_buff_time"          "2.0"
         }
     }
@@ -1522,13 +1476,9 @@
         "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "value"                 "200"
-            }
+            "value"                 "200"
         }
     }     
 
@@ -1749,13 +1699,9 @@
         "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "value"                 "10"
-            }
+            "value"                 "10"
         }
     }
 
@@ -1764,13 +1710,9 @@
         "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "value"                 "4"
-            }
+            "value"                 "4"
         }
     }
 
@@ -1779,13 +1721,9 @@
         "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilitySpecial"
+        "AbilityValues"
         {
-            "01"
-            {
-                "var_type"              "FIELD_INTEGER"
-                "value"                 "50"
-            }
+            "value"                 "50"
         }
     }
 
@@ -2053,24 +1991,97 @@
                 "value"                 "0.5"
             }
         }
+    }
+
+    "lich_spark_wraith"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lich/Lich_spark_wraith_custom"
+        "AbilityTextureName"            "arc_warden_spark_wraith"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
         
-        "AbilitySpecial"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        
+        "AbilityCastRange"              "2000"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        
+        "AbilityCooldown"               "4"
+        "AbilityManaCost"               "80 90 100 110"
+        
+        "AbilityValues"
         {
-            "01"
+            "spark_damage_base"
             {
-                "var_type"              "FIELD_INTEGER"
-                "radius"                "500"
+                "value"                 "100 160 220 280"
+                "special_bonus_tooltip" "Урон:"
             }
-            "02"
+            "radius"
             {
-                "var_type"              "FIELD_FLOAT"
-                "duration"              "1.5"
+                "value"                 "375"
+                "special_bonus_tooltip" "Радиус активации:"
             }
-            "03"
+            "duration"
             {
-                "var_type"              "FIELD_FLOAT"
-                "fade_time"             "0.5"
+                "value"                 "50"
+                "special_bonus_tooltip" "Время жизни искры:"
             }
+            "ministun_duration"
+            {
+                "value"                 "0.4 0.6 0.8 1.0"
+                "special_bonus_tooltip" "Длительность замедления:"
+            }
+            "damage_near"
+            {
+                "value"                 "80"
+                "special_bonus_tooltip" "Урон не основной цели (%):"
+            }
+            "wraith_speed_base"
+            {
+                "value"                 "400"
+            }
+            "wraith_vision_radius"
+            {
+                "value"                 "400"
+            }
+            "damage_radius"
+            {
+                "value"                 "250"
+                "special_bonus_tooltip" "Радиус урона:"
+            }
+            "wraith_vision_duration"
+            {
+                "value"                 "3.34"
+            }
+            "base_activation_delay"
+            {
+                "value"                 "3.0"
+                "special_bonus_tooltip" "Задержка активации:"
+            }
+            "think_interval"
+            {
+                "value"                 "0.1"
+            }
+            "move_speed_slow_pct"
+            {
+                "value"                 "40 50 60 70"
+                "special_bonus_tooltip" "Замедление (%):"
+            }
+        }
+        
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_arc_warden.vsndevts"
+            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith.vpcf"
+            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_spawn.vpcf"
+            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_explosion.vpcf"
         }
     }
 

@@ -1,10 +1,14 @@
-lich_frost_shield_lua = class({})
 LinkLuaModifier( "modifier_lich_frost_shield_lua", "abilities/lich/frost_shield/modifier_lich_frost_shield_lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_lich_frost_shield_lua_buff", "abilities/lich/frost_shield/modifier_lich_frost_shield_lua_buff", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_lich_frost_shield_lua_debuff", "abilities/lich/frost_shield/modifier_lich_frost_shield_lua_debuff", LUA_MODIFIER_MOTION_NONE )
-PrecacheResource("particle", "particles/lich/lich_ice_age_dmg.vpcf", context)
-PrecacheResource("particle", "particles/lich/lich_ice_age.vpcf", context)
-PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts", context)
+
+lich_frost_shield_lua = class({})
+
+function lich_frost_shield_lua:Precache(context)
+	PrecacheResource("particle", "particles/lich/lich_ice_age_dmg.vpcf", context)
+	PrecacheResource("particle", "particles/lich/lich_ice_age.vpcf", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts", context)
+end
 
 --------------------------------------------------------------------------------
 -- Ability Start

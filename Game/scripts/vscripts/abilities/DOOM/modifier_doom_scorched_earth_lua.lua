@@ -77,9 +77,19 @@ end
 function modifier_doom_scorched_earth_lua:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+		MODIFIER_EVENT_ON_DEATH,
 	}
 
 	return funcs
+end
+
+function modifier_doom_scorched_earth_lua:OnDeath( params )
+	if not IsServer() then return end
+	
+	-- Check if the dead unit is the caster
+	if params.unit == self:GetParent() then
+		self:Destroy()
+	end
 end
 
 function modifier_doom_scorched_earth_lua:GetModifierMoveSpeedBonus_Percentage()
