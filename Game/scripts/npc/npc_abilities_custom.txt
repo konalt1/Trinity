@@ -1996,7 +1996,7 @@
     "lich_spark_wraith"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lich/Lich_spark_wraith_custom"
+        "ScriptFile"                    "abilities/lich/spark_wraith/Lich_spark_wraith_custom"
         "AbilityTextureName"            "arc_warden_spark_wraith"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
@@ -2033,11 +2033,6 @@
                 "value"                 "50"
                 "special_bonus_tooltip" "Время жизни искры:"
             }
-            "ministun_duration"
-            {
-                "value"                 "0.4 0.6 0.8 1.0"
-                "special_bonus_tooltip" "Длительность замедления:"
-            }
             "damage_near"
             {
                 "value"                 "80"
@@ -2068,11 +2063,6 @@
             "think_interval"
             {
                 "value"                 "0.1"
-            }
-            "move_speed_slow_pct"
-            {
-                "value"                 "40 50 60 70"
-                "special_bonus_tooltip" "Замедление (%):"
             }
         }
         

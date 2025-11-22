@@ -1,5 +1,4 @@
-LinkLuaModifier( "modifier_lich_spark_wraith_thinker", "abilities/lich/Lich_spark_wraith_custom", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_lich_spark_wraith_slow", "abilities/lich/Lich_spark_wraith_custom", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_spark_wraith_thinker", "abilities/lich/spark_wraith/Lich_spark_wraith_custom", LUA_MODIFIER_MOTION_NONE )
 
 lich_spark_wraith = class({})
 
@@ -54,7 +53,6 @@ function lich_spark_wraith:DealDamage(target, not_main)
 
 	local caster = self:GetCaster() 
 	local damage = self:GetDamage()
-	local slow_duration = self:GetSpecialValueFor("ministun_duration")
 
 	local k = 1
 	if not_main then 
@@ -70,11 +68,6 @@ function lich_spark_wraith:DealDamage(target, not_main)
 		damage_type = DAMAGE_TYPE_MAGICAL,
 		attacker = caster,
 		ability = self
-	})
-
-	-- Применение замедления
-	target:AddNewModifier(caster, self, "modifier_lich_spark_wraith_slow", {
-		duration = slow_duration * (1 - target:GetStatusResistance())
 	})
 end 
 
@@ -103,12 +96,44 @@ function lich_spark_wraith:LaunchSpark(target, source)
 		iVisionRadius = wraith_vision_radius,
 		iVisionTeamNumber = caster:GetTeamNumber(),
 	})
+end
+
+function lich_spark_wraith:LaunchSparkReturn(origin, target)
+	if not IsServer() then return end 
+
+	local caster = self:GetCaster()
+	local speed = self:GetSpecialValueFor("wraith_speed_base")
+	local wraith_vision_radius = self:GetSpecialValueFor("wraith_vision_radius")
+
+	local proj_pfx = "particles/units/heroes/hero_arc_warden/arc_warden_wraith_prj.vpcf"
+
+	ProjectileManager:CreateTrackingProjectile({
+		EffectName = proj_pfx,
+		Ability = self,
+		vSourceLoc = origin,
+		Target = target,
+		iMoveSpeed = speed,
+		bDodgeable = false,
+		bVisibleToEnemies = true,
+		bProvidesVision = true,
+		iVisionRadius = wraith_vision_radius,
+		iVisionTeamNumber = caster:GetTeamNumber(),
+		ExtraData = {
+			is_returning = 1
+		}
+	})
 end 
 
 function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData)
 	if not target then return end
 
 	local caster = self:GetCaster()
+	
+	-- Если это возвращающийся снаряд, просто завершаем
+	if ExtraData and ExtraData.is_returning == 1 then
+		return true
+	end
+
 	local damage_radius = self:GetSpecialValueFor("damage_radius")
 
 	AddFOWViewer(caster:GetTeamNumber(), location, self:GetSpecialValueFor("wraith_vision_radius"), self:GetSpecialValueFor("wraith_vision_duration"), true)
@@ -128,6 +153,11 @@ function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData
 
 	for _, unit in pairs(enemies) do 
 		self:DealDamage(unit, unit ~= target)
+	end
+
+	-- Если попали по герою, возвращаем спарк к личу
+	if target:IsHero() and caster:IsAlive() then
+		self:LaunchSparkReturn(target:GetAbsOrigin(), caster)
 	end
 
 	return true
@@ -202,35 +232,3 @@ function modifier_lich_spark_wraith_thinker:OnDestroy()
 	if not IsServer() then return end
 	self.parent:StopSound("Hero_ArcWarden.SparkWraith.Loop")
 end
-
---------------------------------------------------------------------------------
--- Modifier: Slow (Замедление)
---------------------------------------------------------------------------------
-modifier_lich_spark_wraith_slow = class({})
-
-function modifier_lich_spark_wraith_slow:IsDebuff()
-	return true
-end
-
-function modifier_lich_spark_wraith_slow:IsPurgable()
-	return true
-end
-
-function modifier_lich_spark_wraith_slow:OnCreated()
-	self.move_speed_slow_pct = self:GetAbility():GetSpecialValueFor("move_speed_slow_pct")
-end
-
-function modifier_lich_spark_wraith_slow:OnRefresh()
-	self:OnCreated()
-end
-
-function modifier_lich_spark_wraith_slow:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-	}
-end
-
-function modifier_lich_spark_wraith_slow:GetModifierMoveSpeedBonus_Percentage()
-	return -self.move_speed_slow_pct
-end
-
