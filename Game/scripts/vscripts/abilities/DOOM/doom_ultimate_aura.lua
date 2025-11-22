@@ -67,6 +67,25 @@ function modifier_doom_ultimate_aura:OnCreated()
     self.particle = particle
 end
 
+function modifier_doom_ultimate_aura:DeclareFunctions()
+    return {
+        MODIFIER_EVENT_ON_DEATH,
+    }
+end
+
+function modifier_doom_ultimate_aura:OnDeath( params )
+    if not IsServer() then return end
+    
+    -- Check if the dead unit is the caster
+    if params.unit == self:GetParent() then
+        -- Stop sounds
+        self:GetParent():StopSound("Hero_DoomBringer.Doom")
+        self:GetParent():StopSound("Hero_DoomBringer.ScorchedEarth")
+        -- Remove modifier
+        self:Destroy()
+    end
+end
+
 function modifier_doom_ultimate_aura:OnDestroy()
     if not IsServer() then return end
     local parent = self:GetParent()

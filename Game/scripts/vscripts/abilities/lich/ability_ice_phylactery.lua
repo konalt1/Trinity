@@ -26,7 +26,7 @@ end
 
 
 modifier_ability_ice_phylactery = class({
-    IsHidden                = function(self) return true end,
+    IsHidden                = function(self) return false end,
     IsPurgable              = function(self) return false end,
     IsPurgeException        = function(self) return false end,
     IsDebuff                = function(self) return false end,
@@ -47,6 +47,10 @@ modifier_ability_ice_phylactery = class({
     end,
     DeclareFunctions        = function(self) return {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
     } end,
 })
 
@@ -55,6 +59,12 @@ function modifier_ability_ice_phylactery:OnCreated()
     local parent = self:GetParent()
     local radius = ability:GetSpecialValueFor("aura_radius")
     local origin = parent:GetAbsOrigin()
+
+    -- Инициализируем счетчик атак
+    if IsServer() then
+        self.attacks_remaining = ability:GetSpecialValueFor("attacks_to_destroy") or 3
+        self:SetStackCount(self.attacks_remaining)
+    end
 
     self.effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_lich/lich_ice_spire.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent )
     ParticleManager:SetParticleControl(self.effect_cast, 0, origin)
@@ -71,6 +81,10 @@ function modifier_ability_ice_phylactery:OnDestroy()
     end
     ParticleManager:DestroyParticle(self.effect_cast, false)
     ParticleManager:ReleaseParticleIndex(self.effect_cast)
+end
+
+function modifier_ability_ice_phylactery:GetTexture()
+    return "lich_ice_phylactery"
 end
 
 function modifier_ability_ice_phylactery:OnTakeDamage(params)
@@ -101,6 +115,52 @@ function modifier_ability_ice_phylactery:OnTakeDamage(params)
         local particle = ParticleManager:CreateParticle("particles/generic_gameplay/generic_mana_gain.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
         ParticleManager:SetParticleControl(particle, 0, caster:GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(particle)
+    end
+end
+
+-- Блокируем весь урон
+function modifier_ability_ice_phylactery:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_ability_ice_phylactery:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_ability_ice_phylactery:GetModifierAbsolute_NoDamage()
+    return 1
+end
+
+-- Обработка атак
+function modifier_ability_ice_phylactery:OnAttackLanded(params)
+    if not IsServer() then return end
+    
+    local parent = self:GetParent()
+    
+    -- Проверяем, что атакуют филактерий
+    if params.target ~= parent then
+        return
+    end
+    
+    -- Проверяем, что атакует враг
+    if params.attacker:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
+        return
+    end
+    
+    -- Уменьшаем счетчик атак
+    self.attacks_remaining = self.attacks_remaining - 1
+    self:SetStackCount(self.attacks_remaining)
+    
+    -- Эффект попадания
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_crystalmaiden/maiden_ice_hit.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
+    ParticleManager:SetParticleControl(particle, 0, parent:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(particle)
+    
+    parent:EmitSound("Hero_Lich.IceSpire.Hit")
+    
+    -- Если атак не осталось - уничтожаем филактерий
+    if self.attacks_remaining <= 0 then
+        parent:ForceKill(false)
     end
 end
 
