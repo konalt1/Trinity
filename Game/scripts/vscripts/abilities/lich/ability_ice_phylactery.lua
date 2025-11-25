@@ -1,8 +1,8 @@
-LinkLuaModifier('modifier_ability_ice_phylactery', 'abilities/lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_ability_ice_phylactery_buff', 'abilities/lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_spell_lifesteal_custom', 'abilities/lich/ability_ice_phylactery', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ability_ice_phylactery", "abilities/lich/ability_ice_phylactery", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ability_ice_phylactery_buff", "abilities/lich/ability_ice_phylactery", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_spell_lifesteal_custom", "abilities/lich/ability_ice_phylactery", LUA_MODIFIER_MOTION_NONE)
   
-ability_ice_phylactery = ability_ice_phylactery or class({})
+ability_ice_phylactery = class({})
 
 function ability_ice_phylactery:OnSpellStart(event)
     CreateUnitByNameAsync(
@@ -21,7 +21,7 @@ end
 function ability_ice_phylactery:OnIceSpireCreated(unit)
     unit:EmitSound("Hero_Lich.IceSpire")
     unit:AddNewModifier(unit, self, "modifier_kill", {duration = self:GetSpecialValueFor("duration")})
-    unit:AddNewModifier(unit, self, "modifier_ability_ice_phylactery", {duration = self:GetSpecialValueFor("duration")})
+    unit:AddNewModifier(self:GetCaster(), self, "modifier_ability_ice_phylactery", {duration = self:GetSpecialValueFor("duration")})
 end
 
 
@@ -30,7 +30,7 @@ modifier_ability_ice_phylactery = class({
     IsPurgable              = function(self) return false end,
     IsPurgeException        = function(self) return false end,
     IsDebuff                = function(self) return false end,
-    RemoveOnDeath                = function(self) return true end,
+    RemoveOnDeath           = function(self) return true end,
     IsAura                  = function(self) return true end,
     GetModifierAura         = function(self) return "modifier_ability_ice_phylactery_buff" end,
     GetAuraSearchTeam       = function(self) return DOTA_UNIT_TARGET_TEAM_BOTH end,
@@ -39,40 +39,74 @@ modifier_ability_ice_phylactery = class({
     GetAuraSearchType       = function(self) return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end,
     GetAuraEntityReject     = function(self, target) 
         local caster = self:GetCaster()
-        -- Действует только на кастера (союзник) или на врагов
-        if target:GetTeamNumber() == caster:GetTeamNumber() then
-            return target ~= caster
+        if not caster or caster:IsNull() then 
+            print("[Ice Phylactery] GetAuraEntityReject: caster is null")
+            return true 
         end
-        return false
+        
+        local isSameTeam = target:GetTeamNumber() == caster:GetTeamNumber()
+        local isCaster = target == caster
+        local reject = false
+        
+        -- Действует только на кастера (союзник) или на врагов
+        if isSameTeam then
+            reject = not isCaster -- Отклоняем всех союзников кроме кастера
+        else
+            reject = false -- Не отклоняем врагов
+        end
+        
+        if IsServer() then
+            print("[Ice Phylactery] GetAuraEntityReject:", target:GetUnitName(), 
+                  "| SameTeam:", isSameTeam, "| IsCaster:", isCaster, "| Reject:", reject)
+        end
+        
+        return reject
     end,
-    DeclareFunctions        = function(self) return {
-        MODIFIER_EVENT_ON_TAKEDAMAGE,
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-    } end,
+    DeclareFunctions        = function(self)
+        return {
+            MODIFIER_PROPERTY_HEALTHBAR_PIPS,
+            MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+            MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+            MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+            MODIFIER_EVENT_ON_ATTACKED,
+            MODIFIER_EVENT_ON_TAKEDAMAGE,
+        }
+    end,
+    GetAbsoluteNoDamageMagical  = function(self) return 1 end,
+    GetAbsoluteNoDamagePhysical = function(self) return 1 end,
+    GetAbsoluteNoDamagePure     = function(self) return 1 end,
 })
 
 function modifier_ability_ice_phylactery:OnCreated()
     local ability = self:GetAbility()
+    if not ability then return end
+    
     local parent = self:GetParent()
+    if not parent or parent:IsNull() then return end
+    
     local radius = ability:GetSpecialValueFor("aura_radius")
     local origin = parent:GetAbsOrigin()
 
-    -- Инициализируем счетчик атак
-    if IsServer() then
-        self.attacks_remaining = ability:GetSpecialValueFor("attacks_to_destroy") or 3
-        self:SetStackCount(self.attacks_remaining)
+    -- Инициализируем систему HP и пипсов
+    self.Pips = ability:GetSpecialValueFor("max_hero_attacks")
+    self.AttacksToDestroy = ability:GetSpecialValueFor("max_creep_attacks")
+    
+    if IsServer() then 
+        parent:SetMaxHealth(self.AttacksToDestroy)
+        parent:SetHealth(self.AttacksToDestroy)
+        print("[Ice Phylactery] Spire created, aura radius:", radius)
     end
+    
+    self.HeroesAttacksMult = 2
+    self.HealthPerPips = self.AttacksToDestroy / self.AttacksToDestroy
 
-    self.effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_lich/lich_ice_spire.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent )
+    self.effect_cast = ParticleManager:CreateParticle("particles/units/heroes/hero_lich/lich_ice_spire.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
     ParticleManager:SetParticleControl(self.effect_cast, 0, origin)
     ParticleManager:SetParticleControl(self.effect_cast, 1, origin)
     ParticleManager:SetParticleControl(self.effect_cast, 2, origin)
     ParticleManager:SetParticleControl(self.effect_cast, 3, Vector(origin.x, origin.y, origin.z + 10))
     ParticleManager:SetParticleControl(self.effect_cast, 4, parent:GetAbsOrigin())
-    ParticleManager:SetParticleControl(self.effect_cast, 5, Vector(radius,radius,radius))
+    ParticleManager:SetParticleControl(self.effect_cast, 5, Vector(radius, radius, radius))
 end
 
 function modifier_ability_ice_phylactery:OnDestroy()
@@ -89,11 +123,20 @@ end
 
 function modifier_ability_ice_phylactery:OnTakeDamage(params)
     if not IsServer() then return end
+    if not params or not params.unit then return end
     
     local parent = self:GetParent()
+    if not parent or parent:IsNull() then return end
+    
     local caster = self:GetCaster()
+    if not caster or caster:IsNull() then return end
+    
     local victim = params.unit
+    if victim:IsNull() then return end
+    
     local ability = self:GetAbility()
+    if not ability then return end
+    
     local radius = ability:GetSpecialValueFor("aura_radius")
     
     -- Проверяем, что жертва - враг
@@ -108,7 +151,7 @@ function modifier_ability_ice_phylactery:OnTakeDamage(params)
     end
     
     -- Даем кастеру ману равную полученному урону
-    if caster and not caster:IsNull() and caster:IsAlive() then
+    if caster:IsAlive() then
         caster:GiveMana(params.damage)
         
         -- Эффект восстановления маны
@@ -118,38 +161,20 @@ function modifier_ability_ice_phylactery:OnTakeDamage(params)
     end
 end
 
--- Блокируем весь урон
-function modifier_ability_ice_phylactery:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
-function modifier_ability_ice_phylactery:GetAbsoluteNoDamagePhysical()
-    return 1
-end
-
-function modifier_ability_ice_phylactery:GetModifierAbsolute_NoDamage()
-    return 1
-end
-
--- Обработка атак
-function modifier_ability_ice_phylactery:OnAttackLanded(params)
+-- Обработка атак через систему HP
+function modifier_ability_ice_phylactery:OnAttacked(keys)
     if not IsServer() then return end
     
+    local target = keys.target
+    local attacker = keys.attacker
     local parent = self:GetParent()
     
-    -- Проверяем, что атакуют филактерий
-    if params.target ~= parent then
-        return
-    end
+    if not target or not attacker or not parent or parent:IsNull() then return end
+    if target ~= parent then return end
     
-    -- Проверяем, что атакует враг
-    if params.attacker:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
-        return
-    end
-    
-    -- Уменьшаем счетчик атак
-    self.attacks_remaining = self.attacks_remaining - 1
-    self:SetStackCount(self.attacks_remaining)
+    -- Рассчитываем урон: герои х2, крипы х1
+    local damage = self.HealthPerPips * (attacker:IsRealHero() and self.HeroesAttacksMult or 1)
+    local HealthsDiff = math.floor(parent:GetHealth() - damage)
     
     -- Эффект попадания
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_crystalmaiden/maiden_ice_hit.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
@@ -158,35 +183,53 @@ function modifier_ability_ice_phylactery:OnAttackLanded(params)
     
     parent:EmitSound("Hero_Lich.IceSpire.Hit")
     
-    -- Если атак не осталось - уничтожаем филактерий
-    if self.attacks_remaining <= 0 then
-        parent:ForceKill(false)
+    if HealthsDiff <= 0 then
+        parent:Kill(nil, attacker)
+        self:Destroy()
+    else 
+        parent:SetHealth(HealthsDiff)
     end
 end
 
+-- Показываем пипсы на хелсбаре
+function modifier_ability_ice_phylactery:GetModifierHealthBarPips()
+    return self.Pips or 0
+end
+
 modifier_ability_ice_phylactery_buff = class({
-    IsHidden                 = function(self) return false end,
-    IsPurgable                 = function(self) return false end,
-    RemoveOnDeath             = function(self) return true end,
-    DeclareFunctions        = function(self) return 
-    {
+    IsHidden      = function(self) return false end,
+    IsPurgable    = function(self) return false end,
+    RemoveOnDeath = function(self) return true end,
+})
+
+function modifier_ability_ice_phylactery_buff:DeclareFunctions()
+    return {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
-        MODIFIER_PROPERTY_SPELL_LIFESTEAL_AMPLIFY_PERCENTAGE,
-    } end,
-})
+    }
+end
 
 function modifier_ability_ice_phylactery_buff:OnCreated()
     local caster = self:GetCaster()
+    if not caster or caster:IsNull() then return end
+    
     local parent = self:GetParent()
+    if not parent or parent:IsNull() then return end
+    
+    local ability = self:GetAbility()
+    if not ability then return end
     
     -- Проверяем, является ли цель кастером
     self.isCaster = parent == caster
     
-    if IsClient() then return end
-    
-    if self.isCaster then 
-        self.modifier = parent:AddNewModifier(caster, self:GetAbility(), "modifier_spell_lifesteal_custom", {})
+    if IsServer() then
+        print("[Ice Phylactery] Buff created on", parent:GetUnitName(), "| isCaster:", self.isCaster)
+        
+        -- Создаем дополнительный модификатор для spell lifesteal
+        if self.isCaster then 
+            print("[Ice Phylactery] Adding spell lifesteal modifier")
+            self.modifier = parent:AddNewModifier(caster, ability, "modifier_spell_lifesteal_custom", {})
+        end
     end
 end
 
@@ -205,63 +248,91 @@ end
 function modifier_ability_ice_phylactery_buff:GetModifierMoveSpeedBonus_Percentage()
     -- Замедление для врагов
     if not self.isCaster then 
-        return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
+        local ability = self:GetAbility()
+        if not ability then return 0 end
+        return ability:GetSpecialValueFor("bonus_movespeed")
     end
+    return 0
 end
 
 function modifier_ability_ice_phylactery_buff:GetModifierPercentageCooldown()
     -- Снижение кулдаунов для кастера
     if self.isCaster then 
-        return self:GetAbility():GetSpecialValueFor("cooldown_reduction")
+        local ability = self:GetAbility()
+        if not ability then return 0 end
+        local value = ability:GetSpecialValueFor("cooldown_reduction")
+        if IsServer() then
+            print("[Ice Phylactery] Cooldown reduction:", value)
+        end
+        return value
     end
-end
-
-function modifier_ability_ice_phylactery_buff:GetModifierSpellLifestealRegenAmplify_Percentage()
-    -- Spell lifesteal для кастера
-    if self.isCaster then 
-        return self:GetAbility():GetSpecialValueFor("spell_lifesteal")
-    end
+    return 0
 end
 
 modifier_spell_lifesteal_custom = class({
-    IsHidden                 = function(self) return true end,
-    IsPurgable                 = function(self) return false end,
-    IsBuff                  = function(self) return true end,
-    RemoveOnDeath             = function(self) return false end,
-    DeclareFunctions        = function(self) return 
-    {
-        MODIFIER_EVENT_ON_TAKEDAMAGE,
-    } end,
+    IsHidden      = function(self) return true end,
+    IsPurgable    = function(self) return false end,
+    IsBuff        = function(self) return true end,
+    RemoveOnDeath = function(self) return false end,
 })
 
 function modifier_spell_lifesteal_custom:DeclareFunctions()
     return {
-        MODIFIER_PROPERTY_HEALTH_BONUS,
-        MODIFIER_PROPERTY_MANA_BONUS,
-        MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-
-        MODIFIER_EVENT_ON_TAKEDAMAGE
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
     }
 end
- 
- function modifier_spell_lifesteal_custom:OnTakeDamage( keys )
-    if keys.attacker == self:GetParent() and not keys.unit:IsBuilding() and not keys.unit:IsOther() then        
-        if keys.damage_category == DOTA_DAMAGE_CATEGORY_SPELL and keys.inflictor and bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL) ~= DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL then
-            self.lifesteal_pfx = ParticleManager:CreateParticle("particles/items3_fx/octarine_core_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, keys.attacker)
-            ParticleManager:SetParticleControl(self.lifesteal_pfx, 0, keys.attacker:GetAbsOrigin())
-            ParticleManager:ReleaseParticleIndex(self.lifesteal_pfx)
-   
-            if keys.unit:IsIllusion() then
-                if keys.damage_type == DAMAGE_TYPE_PHYSICAL and keys.unit.GetPhysicalArmorValue and GetReductionFromArmor then
-                    keys.damage = keys.original_damage * (1 - GetReductionFromArmor(keys.unit:GetPhysicalArmorValue(false)))
-                elseif keys.damage_type == DAMAGE_TYPE_MAGICAL and keys.unit.GetMagicalArmorValue then
-                    keys.damage = keys.original_damage * (1 - GetReductionFromArmor(keys.unit:GetMagicalArmorValue()))
-                elseif keys.damage_type == DAMAGE_TYPE_PURE then
-                    keys.damage = keys.original_damage
-                end
-            end
 
-            keys.attacker:Heal(math.max(keys.damage, 0) * (self:GetAbility():GetSpecialValueFor("spell_lifesteal") ) * 0.01, keys.attacker)
+function modifier_spell_lifesteal_custom:OnCreated()
+    if not IsServer() then return end
+    
+    local ability = self:GetAbility()
+    if not ability then return end
+    
+    -- Кешируем значение spell_lifesteal
+    self.spell_lifesteal = ability:GetSpecialValueFor("spell_lifesteal")
+    print("[Ice Phylactery] Spell lifesteal modifier created, value:", self.spell_lifesteal)
+end
+ 
+function modifier_spell_lifesteal_custom:OnTakeDamage(keys)
+    if not IsServer() then return end
+    if not keys or not keys.attacker or not keys.unit then return end
+    
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then return end
+    
+    -- Проверяем, что атакующий - владелец модификатора
+    if keys.attacker ~= parent then return end
+    
+    -- Не работает на здания и другие объекты
+    if keys.unit:IsBuilding() or keys.unit:IsOther() then return end
+    
+    -- Проверяем, что это урон от заклинания и есть инфликтор
+    if keys.damage_category ~= DOTA_DAMAGE_CATEGORY_SPELL or not keys.inflictor then return end
+    
+    -- Исправленная проверка флага NO_SPELL_LIFESTEAL
+    if bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL) == DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL then
+        return
+    end
+    
+    -- Эффект лайфстила
+    local lifesteal_pfx = ParticleManager:CreateParticle("particles/items3_fx/octarine_core_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, keys.attacker)
+    ParticleManager:SetParticleControl(lifesteal_pfx, 0, keys.attacker:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(lifesteal_pfx)
+    
+    local damage = keys.damage
+    
+    -- Корректируем урон для иллюзий
+    if keys.unit:IsIllusion() and keys.original_damage then
+        if keys.damage_type == DAMAGE_TYPE_PHYSICAL and keys.unit.GetPhysicalArmorValue and GetReductionFromArmor then
+            damage = keys.original_damage * (1 - GetReductionFromArmor(keys.unit:GetPhysicalArmorValue(false)))
+        elseif keys.damage_type == DAMAGE_TYPE_MAGICAL and keys.unit.GetMagicalArmorValue then
+            damage = keys.original_damage * (1 - GetReductionFromArmor(keys.unit:GetMagicalArmorValue()))
+        elseif keys.damage_type == DAMAGE_TYPE_PURE then
+            damage = keys.original_damage
         end
     end
+    
+    -- Восстанавливаем здоровье
+    local heal_amount = math.max(damage, 0) * (self.spell_lifesteal or 0) * 0.01
+    keys.attacker:Heal(heal_amount, keys.attacker)
 end
