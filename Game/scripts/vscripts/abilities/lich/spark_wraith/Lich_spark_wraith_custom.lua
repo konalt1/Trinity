@@ -1,4 +1,8 @@
 LinkLuaModifier( "modifier_lich_spark_wraith_thinker", "abilities/lich/spark_wraith/Lich_spark_wraith_custom", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_lich_spark_wraith_return_tracker", "abilities/lich/spark_wraith/Lich_spark_wraith_custom", LUA_MODIFIER_MOTION_NONE )
+
+-- Глобальная таблица для хранения данных о сожженной мане
+_G.lich_spark_wraith_mana_data = _G.lich_spark_wraith_mana_data or {}
 
 lich_spark_wraith = class({})
 
@@ -24,7 +28,18 @@ function lich_spark_wraith:GetAbilityTextureName()
 end
 
 function lich_spark_wraith:GetDamage()
-	return self:GetSpecialValueFor("spark_damage_base")
+	local base_damage = self:GetSpecialValueFor("spark_damage_base")
+	local caster = self:GetCaster()
+	
+	-- Добавляем бонусный урон от Mind Power
+	if caster and GetHeroMindPower then
+		local mind_power = GetHeroMindPower(caster)
+		local mind_power_multiplier = self:GetSpecialValueFor("mind_power_damage_multiplier") or 0
+		local bonus_damage = mind_power * mind_power_multiplier
+		return base_damage + bonus_damage
+	end
+	
+	return base_damage
 end
 
 function lich_spark_wraith:OnAbilityPhaseStart()
@@ -98,7 +113,7 @@ function lich_spark_wraith:LaunchSpark(target, source)
 	})
 end
 
-function lich_spark_wraith:LaunchSparkReturn(origin, target)
+function lich_spark_wraith:LaunchSparkReturn(origin, target_entity, initial_mana_burned)
 	if not IsServer() then return end 
 
 	local caster = self:GetCaster()
@@ -107,11 +122,32 @@ function lich_spark_wraith:LaunchSparkReturn(origin, target)
 
 	local proj_pfx = "particles/units/heroes/hero_arc_warden/arc_warden_wraith_prj.vpcf"
 
+	-- Создаем уникальный ID для этого снаряда
+	local projectile_id = DoUniqueString("spark_wraith_return")
+	
+	-- Инициализируем счетчик с уже сожженной маной
+	_G.lich_spark_wraith_mana_data[projectile_id] = initial_mana_burned or 0
+
+	-- Создаем thinker для отслеживания коллизий
+	CreateModifierThinker(
+		caster, 
+		self, 
+		"modifier_lich_spark_wraith_return_tracker", 
+		{
+			speed = speed,
+			projectile_id = projectile_id,
+			original_target_id = target_entity:GetEntityIndex()
+		}, 
+		origin, 
+		caster:GetTeamNumber(), 
+		false
+	)
+
 	ProjectileManager:CreateTrackingProjectile({
 		EffectName = proj_pfx,
 		Ability = self,
 		vSourceLoc = origin,
-		Target = target,
+		Target = caster,
 		iMoveSpeed = speed,
 		bDodgeable = false,
 		bVisibleToEnemies = true,
@@ -119,7 +155,8 @@ function lich_spark_wraith:LaunchSparkReturn(origin, target)
 		iVisionRadius = wraith_vision_radius,
 		iVisionTeamNumber = caster:GetTeamNumber(),
 		ExtraData = {
-			is_returning = 1
+			is_returning = 1,
+			projectile_id = projectile_id
 		}
 	})
 end 
@@ -129,8 +166,27 @@ function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData
 
 	local caster = self:GetCaster()
 	
-	-- Если это возвращающийся снаряд, просто завершаем
+	-- Если это возвращающийся снаряд
 	if ExtraData and ExtraData.is_returning == 1 then
+		-- Если снаряд достиг Лича - восстанавливаем ману
+		if target == caster then
+			local projectile_id = ExtraData.projectile_id
+			local mana_to_restore = _G.lich_spark_wraith_mana_data[projectile_id] or 0
+			
+			-- Восстанавливаем ману только если Лич жив
+			if caster:IsAlive() and mana_to_restore > 0 then
+				local current_mana = caster:GetMana()
+				local max_mana = caster:GetMaxMana()
+				local new_mana = math.min(current_mana + mana_to_restore, max_mana)
+				caster:SetMana(new_mana)
+				
+				-- Визуальный эффект восстановления маны
+				SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_ADD, caster, mana_to_restore, nil)
+			end
+			
+			-- Очищаем данные из глобальной таблицы
+			_G.lich_spark_wraith_mana_data[projectile_id] = nil
+		end
 		return true
 	end
 
@@ -151,13 +207,30 @@ function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData
 		false
 	)
 
+	local total_mana_burned = 0
+	local damage = self:GetDamage()
+
 	for _, unit in pairs(enemies) do 
 		self:DealDamage(unit, unit ~= target)
+		
+		-- Сжигаем ману при основном попадании
+		if unit:GetMana() > 0 then
+			local current_mana = unit:GetMana()
+			local mana_to_burn = math.min(damage, current_mana)
+			unit:SetMana(current_mana - mana_to_burn)
+			total_mana_burned = total_mana_burned + mana_to_burn
+			
+			-- Визуальный эффект
+			SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, unit, mana_to_burn, nil)
+		else
+			-- Если у цели нет маны (крипы), считаем полный урон как потенциальную сожженную ману
+			total_mana_burned = total_mana_burned + damage
+		end
 	end
 
-	-- Если попали по герою, возвращаем спарк к личу
-	if target:IsHero() and caster:IsAlive() then
-		self:LaunchSparkReturn(target:GetAbsOrigin(), caster)
+	-- Возвращаем спарк к личу при попадании по любой цели
+	if caster:IsAlive() then
+		self:LaunchSparkReturn(target:GetAbsOrigin(), target, total_mana_burned)
 	end
 
 	return true
@@ -231,4 +304,143 @@ end
 function modifier_lich_spark_wraith_thinker:OnDestroy()
 	if not IsServer() then return end
 	self.parent:StopSound("Hero_ArcWarden.SparkWraith.Loop")
+end
+
+--------------------------------------------------------------------------------
+-- Modifier: Return Tracker (отслеживание коллизий возвращающегося снаряда)
+--------------------------------------------------------------------------------
+modifier_lich_spark_wraith_return_tracker = class({})
+
+function modifier_lich_spark_wraith_return_tracker:IsHidden()
+	return true
+end
+
+function modifier_lich_spark_wraith_return_tracker:IsPurgable()
+	return false
+end
+
+function modifier_lich_spark_wraith_return_tracker:OnCreated(params)
+	if not IsServer() then return end
+
+	self.parent = self:GetParent()
+	self.caster = self:GetCaster()
+	self.ability = self:GetAbility()
+	
+	-- Получаем параметры движения
+	self.speed = params.speed
+	self.collision_radius = 150 -- Радиус проверки коллизий
+	self.projectile_id = params.projectile_id
+	self.original_target_id = params.original_target_id -- ID оригинальной цели для исключения
+	self.finish_distance = 100 -- Расстояние до Лича, на котором tracker уничтожается
+	
+	-- Интервал проверки (чем меньше, тем точнее, но больше нагрузка)
+	self.think_interval = 0.03
+	
+	-- Таблица для отслеживания уже пораженных целей
+	self.hit_targets = {}
+	
+	-- Счетчик сожженной маны (для отслеживания локально)
+	self.total_mana_burned = 0
+	
+	self:StartIntervalThink(self.think_interval)
+end
+
+function modifier_lich_spark_wraith_return_tracker:OnIntervalThink()
+	if not IsServer() then return end
+	
+	-- Проверяем, жив ли Лич
+	if not self.caster:IsAlive() then
+		self:Destroy()
+		return
+	end
+	
+	-- Получаем текущие позиции
+	local current_pos = self.parent:GetAbsOrigin()
+	local target_pos = self.caster:GetAbsOrigin()
+	
+	-- Вычисляем расстояние до Лича
+	local distance_to_lich = (target_pos - current_pos):Length2D()
+	
+	-- Проверяем, достигли ли Лича
+	if distance_to_lich <= self.finish_distance then
+		self:Destroy()
+		return
+	end
+	
+	-- Вычисляем направление к Личу (обновляется каждый тик!)
+	local direction = (target_pos - current_pos):Normalized()
+	
+	-- Двигаем thinker к Личу
+	local move_distance = self.speed * self.think_interval
+	local new_pos = current_pos + direction * move_distance
+	self.parent:SetAbsOrigin(new_pos)
+	
+	-- Проверяем коллизии с врагами
+	local enemies = FindUnitsInRadius(
+		self.caster:GetTeamNumber(),
+		self.parent:GetAbsOrigin(),
+		nil,
+		self.collision_radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
+		FIND_ANY_ORDER,
+		false
+	)
+	
+	-- Если нашли врагов - проверяем, не были ли они уже задеты
+	if #enemies > 0 then
+		for _, enemy in pairs(enemies) do
+			local enemy_id = enemy:GetEntityIndex()
+			
+			-- Исключаем оригинальную цель (она уже получила урон при первом попадании)
+			if enemy_id ~= self.original_target_id and not self.hit_targets[enemy_id] then
+				self.hit_targets[enemy_id] = true
+				
+				local damage = self.ability:GetDamage()
+				
+				-- Наносим урон
+				ApplyDamage({
+					victim = enemy,
+					damage = damage,
+					damage_type = DAMAGE_TYPE_MAGICAL,
+					attacker = self.caster,
+					ability = self.ability
+				})
+				
+				-- Сжигаем ману равную урону способности
+				local mana_to_add = 0
+				if enemy:GetMana() > 0 then
+					local current_mana = enemy:GetMana()
+					local mana_to_burn = math.min(damage, current_mana)
+					enemy:SetMana(current_mana - mana_to_burn)
+					mana_to_add = mana_to_burn
+					
+					-- Визуальный эффект
+					SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, enemy, mana_to_burn, nil)
+				else
+					-- Если у цели нет маны (крипы), считаем полный урон как потенциальную сожженную ману
+					mana_to_add = damage
+				end
+				
+				-- Добавляем к общему счетчику сожженной маны
+				self.total_mana_burned = self.total_mana_burned + mana_to_add
+				local current_total = _G.lich_spark_wraith_mana_data[self.projectile_id] or 0
+				_G.lich_spark_wraith_mana_data[self.projectile_id] = current_total + mana_to_add
+			end
+		end
+	end
+end
+
+function modifier_lich_spark_wraith_return_tracker:OnDestroy()
+	if not IsServer() then return end
+	
+	-- Если Лич мертв - очищаем данные, так как снаряд не восстановит ману
+	if not self.caster:IsAlive() then
+		if self.projectile_id and _G.lich_spark_wraith_mana_data[self.projectile_id] then
+			_G.lich_spark_wraith_mana_data[self.projectile_id] = nil
+		end
+	end
+	-- Иначе НЕ очищаем данные! Tracker уничтожается при достижении цели, 
+	-- но снаряд еще не попал в Лича. Очистка происходит в OnProjectileHit_ExtraData
 end
