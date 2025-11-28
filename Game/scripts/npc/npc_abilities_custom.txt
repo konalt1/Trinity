@@ -1103,29 +1103,17 @@
                 "special_bonus_unique_phantom_assassin_2"    "+15"
             }
             "radius"                    "600"
-            "active_duration"
+            "duration"
             {
                 "value"                 "8"
                 "special_bonus_unique_phantom_assassin_3"    "+4"
             }
+            "fade_duration"             "0.5"
+            "bonus_movement_speed"      "15 20 25 30"
             "active_evasion_chance"
             {
                 "value"                 "50 60 70 80"
                 "special_bonus_unique_phantom_assassin_4"    "+20"
-            }
-        }
-        
-        // Localization
-        //-------------------------------------------------------------------------------------------------------------
-        "Language"
-        {
-            "English"
-            {
-                "DOTA_Tooltip_ability_phantom_assassin_blur_custom_scepter_description"    "Scepter Upgrade: Blur now refreshes all ability cooldowns when Phantom Assassin kills an enemy hero."
-            }
-            "Russian"
-            {
-                "DOTA_Tooltip_ability_phantom_assassin_blur_custom_scepter_description"    "Улучшение Сцептера: Размытие теперь сбрасывает перезарядку всех способностей, когда Фантомка убивает вражеского героя."
             }
         }
 
