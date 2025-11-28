@@ -24,8 +24,30 @@ function modifier_coup_de_foudre:OnCreated(_)
     
     -- Table to track dagger projectiles cast with crit buff
     self.dagger_snapshots = {}
+    
+    -- Reset state to prevent issues on respawn/reconnect
+    self.timer = nil
+    self.modifier = nil
 
     self:StartIntervalThink(0.1)
+end
+
+function modifier_coup_de_foudre:OnDestroy()
+    if not IsServer() then
+        return
+    end
+    
+    -- Clean up timer to prevent memory leaks in multiplayer
+    if self.timer then
+        Timers:RemoveTimer(self.timer)
+        self.timer = nil
+    end
+    
+    -- Clean up buff modifier
+    if self.modifier and not self.modifier:IsNull() then
+        self.modifier:Destroy()
+        self.modifier = nil
+    end
 end
 
 function modifier_coup_de_foudre:DeclareFunctions()
@@ -50,6 +72,7 @@ function modifier_coup_de_foudre:OnAbilityExecuted(params)
     local ability = params.ability
     
     -- Check if it's our PA casting Stifling Dagger
+    if not caster or caster:IsNull() then return end
     if caster ~= self:GetParent() then return end
     if not ability then return end
     
@@ -61,7 +84,7 @@ function modifier_coup_de_foudre:OnAbilityExecuted(params)
     
     if has_crit_buff then
         local target = params.target
-        if target then
+        if target and not target:IsNull() then
             -- Store snapshot with target and timestamp
             local snapshot = {
                 target = target,
@@ -83,7 +106,9 @@ function modifier_coup_de_foudre:OnTakeDamage(params)
     local victim = params.unit
     local ability = params.inflictor
     
-    -- Check if PA is dealing damage with Stifling Dagger
+    -- Validate entities
+    if not attacker or attacker:IsNull() then return end
+    if not victim or victim:IsNull() then return end
     if attacker ~= self:GetParent() then return end
     if not ability then return end
     
@@ -124,10 +149,13 @@ function modifier_coup_de_foudre:OnTakeDamage(params)
 end
 
 function modifier_coup_de_foudre:FindSnapshot(target)
+    if not target or target:IsNull() then return nil end
+    
     local current_time = GameRules:GetGameTime()
     
     for i, snapshot in ipairs(self.dagger_snapshots) do
-        if snapshot.target == target then
+        -- Check if snapshot target is still valid
+        if snapshot.target and not snapshot.target:IsNull() and snapshot.target == target then
             -- Check if snapshot is still valid (within dagger_buff_time)
             if (current_time - snapshot.time) <= self.dagger_buff_time then
                 return snapshot
@@ -151,7 +179,10 @@ function modifier_coup_de_foudre:CleanupOldSnapshots()
     local current_time = GameRules:GetGameTime()
     
     for i = #self.dagger_snapshots, 1, -1 do
-        if (current_time - self.dagger_snapshots[i].time) > 5.0 then
+        local snapshot = self.dagger_snapshots[i]
+        -- Remove if too old or target is invalid
+        if (current_time - snapshot.time) > 5.0 or 
+           not snapshot.target or snapshot.target:IsNull() then
             table.remove(self.dagger_snapshots, i)
         end
     end
@@ -161,9 +192,13 @@ end
 
  
 function modifier_coup_de_foudre:OnIntervalThink()
+    if not IsServer() then return end
+    
     local unit = self:GetCaster()
+    if not unit or unit:IsNull() then return end
+    
     local canBeSeen = unit:CanBeSeenByAnyOpposingTeam()
-    local hasBlurActive = unit:HasModifier("modifier_phantom_assassin_blur_active")
+    local hasBlurActive = unit:HasModifier("modifier_phantom_assassin_blur_custom_active")
     
     if hasBlurActive then 
         self:AddBuff(unit)
@@ -174,19 +209,25 @@ function modifier_coup_de_foudre:OnIntervalThink()
         self:AddBuff(unit)
     else 
         if not self.timer then 
+            local parent = self:GetParent()
             self.timer = Timers:CreateTimer(self.activation_delay, function()
-                if self.modifier then 
+                -- Check if modifier still exists and is valid
+                if self and not self:IsNull() and self.modifier and not self.modifier:IsNull() then 
                     self.modifier:Destroy()
                     self.modifier = nil
                 end
                 self.timer = nil
+                return nil -- Stop timer
             end)
         end
     end
 end
 
 function modifier_coup_de_foudre:AddBuff(unit)
-    if not self.modifier then 
+    if not unit or unit:IsNull() then return end
+    
+    -- Check if modifier exists and is still valid
+    if not self.modifier or self.modifier:IsNull() then 
         self.modifier = unit:AddNewModifier(
             unit,
             self:GetAbility(),
@@ -195,6 +236,7 @@ function modifier_coup_de_foudre:AddBuff(unit)
         )
     end
     
+    -- Clean up timer if exists
     if self.timer then 
         Timers:RemoveTimer(self.timer)
         self.timer = nil
