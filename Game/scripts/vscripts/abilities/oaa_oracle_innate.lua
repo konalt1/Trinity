@@ -181,6 +181,15 @@ function modifier_omniknight_innate_damage:OnIntervalThink()
       end
     end
     
+    -- Применяем максимальный лимит урона
+    local ability = self:GetAbility()
+    if ability and not ability:IsNull() then
+      local max_damage = ability:GetSpecialValueFor("max_bonus_damage")
+      if max_damage and total_damage > max_damage then
+        total_damage = max_damage
+      end
+    end
+    
     -- Обновляем отображение
     self:SetStackCount(total_damage)
     

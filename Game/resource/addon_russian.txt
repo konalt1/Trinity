@@ -189,20 +189,22 @@
 		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor"				"Ярость: Твёрдая Кожа"
 		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor_Description"	"Увеличивает броню на 10 единиц."
 
-		// Ogre Magi Strength Boost
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Усиление Силы"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Огр направляет свою внутреннюю мощь, значительно увеличивая свою силу на короткое время. Способность даёт базовый бонус к силе плюс дополнительную силу, основанную на его Силе Разума, делая его значительно сильнее в бою."
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"Двуглавый огр черпает из первобытных сил, его мышцы набухают от древней мощи."
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"БАЗОВЫЙ БОНУС СИЛЫ:"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Общий бонус силы = Базовая сила + (Сила Разума × Множитель)"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Сила Разума рассчитывается из интеллекта и бонусов от предметов"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Высокая Сила Разума значительно увеличивает эффективность этой способности"
+	// Ogre Magi Strength Boost
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Усиление Силы"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Огр направляет свою внутреннюю мощь, значительно увеличивая свою силу и урон от атаки на короткое время. Способность даёт базовый бонус к силе плюс дополнительную силу, основанную на его Силе Разума, а также бонусный урон от атаки, который масштабируется с уровнем способности, делая его значительно опаснее в бою."
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"Двуглавый огр черпает из первобытных сил, его мышцы набухают от древней мощи."
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"БАЗОВЫЙ БОНУС СИЛЫ:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"	"БОНУСНЫЙ УРОН ОТ АТАКИ:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ РАЗУМА:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"ДЛИТЕЛЬНОСТЬ:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Общий бонус силы = Базовая сила + (Сила Разума × Множитель)"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Сила Разума рассчитывается из интеллекта и бонусов от предметов"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Даёт как дополнительную силу, так и прямой бонус к урону от атаки"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note3"			"Высокая Сила Разума значительно увеличивает эффективность этой способности"
 		
-		// Ogre Magi Strength Boost Modifier
-		"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Усиление Силы"
-		"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Значительно увеличенная сила от внутренней мощи и бонуса Силы Разума."
+	// Ogre Magi Strength Boost Modifier
+	"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Усиление Силы"
+	"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Значительно увеличенная сила и урон от атаки от внутренней мощи и бонуса Силы Разума."
 
 		// Universal Gold Talent
 		"DOTA_Tooltip_ability_special_bonus_gold_200"				"+200 золота"

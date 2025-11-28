@@ -150,20 +150,22 @@
 		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor"				"Rage: Tough Skin"
 		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor_Description"	"Increases armor by 10."
 		
-		// Ogre Magi Strength Boost
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Strength Boost"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Ogre Magi channels his inner power, dramatically increasing his strength for a short duration. The ability grants base strength bonus plus additional strength based on his Mind Power, making him significantly stronger in combat."
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"The two-headed ogre taps into primal forces, his muscles swelling with ancient power."
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"BASE STRENGTH BONUS:"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"DURATION:"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Total strength bonus = Base strength + (Mind Power × Multiplier)"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Mind Power is calculated from intelligence and item bonuses"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Higher Mind Power significantly increases the effectiveness of this ability"
+	// Ogre Magi Strength Boost
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Strength Boost"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Ogre Magi channels his inner power, dramatically increasing his strength and attack damage for a short duration. The ability grants base strength bonus plus additional strength based on his Mind Power, as well as bonus attack damage that scales with ability level, making him significantly more dangerous in combat."
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"The two-headed ogre taps into primal forces, his muscles swelling with ancient power."
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"BASE STRENGTH BONUS:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"	"BONUS ATTACK DAMAGE:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"DURATION:"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Total strength bonus = Base strength + (Mind Power × Multiplier)"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Mind Power is calculated from intelligence and item bonuses"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Grants both additional strength and direct attack damage bonus"
+	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note3"			"Higher Mind Power significantly increases the effectiveness of this ability"
 		
-		// Ogre Magi Strength Boost Modifier
-		"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Strength Boost"
-		"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Dramatically increased strength from inner power and Mind Power bonus."
+	// Ogre Magi Strength Boost Modifier
+	"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Strength Boost"
+	"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Dramatically increased strength and attack damage from inner power and Mind Power bonus."
 
 		// Juggernaut Abilities
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"			"Blade Fury"

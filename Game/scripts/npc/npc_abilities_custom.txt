@@ -243,7 +243,7 @@
 		}
     }
 
-      "juggernaut_bloodlust"
+"juggernaut_bloodlust"
         {
             // Ability Technical Aspect
             //-------------------------------------------------------------------------------------------------------------
@@ -295,7 +295,7 @@
         }
 
 
-       "juggernaut_swift_slash_lua"
+"juggernaut_swift_slash_lua"
         {
             // Ability Technical Aspect
             //-------------------------------------------------------------------------------------------------------------
@@ -340,7 +340,7 @@
                 "damage"                    "0 0 0"
                 "slash_radius"              "425"
                 "max_targets"               "3"
-                "slash_delay"               "0.4"
+                "slash_delay"               "0.5"
             }
 
             "precache"
@@ -351,14 +351,14 @@
             }
         }
 
-        "juggernaut_omni_slash"
+"juggernaut_omni_slash"
         {
             // Override base omnislash for scepter
             "IsGrantedByScepter"            "0"
             "HasScepterUpgrade"             "0"
         }
 
- "lich_frost_blast_lua"
+"lich_frost_blast_lua"
     {
         "BaseClass"						"ability_lua"
         "ScriptFile"					"abilities/lich/frost_blast/lich_frost_blast_lua"
@@ -750,6 +750,7 @@
         "AbilityValues"
         {
             "base_strength_bonus"       "8 16 24 32"
+            "bonus_damage"              "20 40 60 80"
             "mind_power_multiplier"     "2"
             "duration"                  "8"
         }
@@ -878,13 +879,12 @@
 		
 		// Ability General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+	"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
 
 		// Ability Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -910,7 +910,7 @@
 			}
 			"mind_power_multiplier"
 			{
-				"value"					"1.0"
+				"value"					"3.0"
 			}
 		}
 	}
@@ -970,7 +970,7 @@
 			}
 			"mind_power_multiplier"
 			{
-				"value"					"1.0"
+				"value"					"5.0"
 			}
 		
 		}
@@ -998,6 +998,11 @@
             {
                 "value"                 "10.0"
                 "special_bonus_tooltip" "Длительность стака:"
+            }
+            "max_bonus_damage"          
+            {
+                "value"                 "300 600 900 1200"
+                "special_bonus_tooltip" "Максимальный бонусный урон:"
             }
         }
     }
