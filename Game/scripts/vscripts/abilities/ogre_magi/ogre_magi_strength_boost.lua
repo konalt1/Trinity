@@ -103,9 +103,12 @@ modifier_ogre_magi_strength_boost = class({
 	IsPurgable 				= function(self) return true end,
 	IsBuff                  = function(self) return true end,
 	RemoveOnDeath 			= function(self) return true end,
+	GetAttributes			= function(self) return MODIFIER_ATTRIBUTE_MULTIPLE end,
 	DeclareFunctions        = function(self) return 
     {
     	MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    	MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+    	MODIFIER_PROPERTY_TOOLTIP,
     } end,
 })
 
@@ -118,6 +121,9 @@ function modifier_ogre_magi_strength_boost:OnCreated()
 	-- Базовый бонус силы от уровня способности
 	self.base_strength_bonus = ability:GetSpecialValueFor("base_strength_bonus")
 	
+	-- Бонус к урону от уровня способности
+	self.bonus_damage = ability:GetSpecialValueFor("bonus_damage")
+	
 	-- Множитель Mind Power
 	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
 	
@@ -129,6 +135,9 @@ function modifier_ogre_magi_strength_boost:OnCreated()
 	
 	-- Итоговый бонус силы
 	self.total_strength_bonus = self.base_strength_bonus + mind_power_bonus
+	
+	-- Устанавливаем стаки для отображения итоговой силы на иконке модификатора
+	self:SetStackCount(math.floor(self.total_strength_bonus))
 	
 	-- Рассчитываем размер модели: 100% + X%, где X = полученная сила, максимум 200%
 	local size_bonus = 100 + self.total_strength_bonus
@@ -243,12 +252,55 @@ function modifier_ogre_magi_strength_boost:StopThinking()
 end
 
 function modifier_ogre_magi_strength_boost:GetModifierBonusStats_Strength()
-	return self.total_strength_bonus or 0
+	if IsServer() then
+		return self.total_strength_bonus or 0
+	else
+		-- На клиенте получаем значение из стаков
+		return self:GetStackCount()
+	end
+end
+
+function modifier_ogre_magi_strength_boost:GetModifierPreAttack_BonusDamage()
+	if IsServer() then
+		return self.bonus_damage or 0
+	else
+		-- На клиенте получаем значение из способности
+		local ability = self:GetAbility()
+		if ability then
+			return ability:GetSpecialValueFor("bonus_damage")
+		end
+		return 0
+	end
+end
+
+function modifier_ogre_magi_strength_boost:OnTooltip()
+	if IsServer() then
+		return self.total_strength_bonus or 0
+	else
+		-- На клиенте получаем значение из стаков
+		return self:GetStackCount()
+	end
 end
 
 function modifier_ogre_magi_strength_boost:GetModifierDescription()
-	local display_value = math.floor(self.total_strength_bonus or 0)
-	return "Increases Strength by " .. display_value .. " points."
+	local strength_value
+	local damage_value
+	
+	if IsServer() then
+		strength_value = math.floor(self.total_strength_bonus or 0)
+		damage_value = math.floor(self.bonus_damage or 0)
+	else
+		-- На клиенте получаем значения
+		strength_value = self:GetStackCount()
+		local ability = self:GetAbility()
+		if ability then
+			damage_value = math.floor(ability:GetSpecialValueFor("bonus_damage"))
+		else
+			damage_value = 0
+		end
+	end
+	
+	return "Increases Strength by " .. strength_value .. " and Attack Damage by " .. damage_value .. "."
 end
 
 function modifier_ogre_magi_strength_boost:GetTexture()
