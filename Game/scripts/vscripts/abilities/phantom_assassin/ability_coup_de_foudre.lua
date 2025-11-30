@@ -118,30 +118,12 @@ function modifier_coup_de_foudre:OnTakeDamage(params)
     -- Check if we have a snapshot for this target
     local snapshot = self:FindSnapshot(victim)
     if snapshot and snapshot.has_crit then
-        -- Apply additional crit damage
-        local crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus")
-        local base_damage = params.original_damage
-        
-        -- Calculate additional damage (crit multiplier - 100%)
-        local additional_damage = base_damage * ((crit_bonus - 100) / 100)
-        
-        if additional_damage > 0 then
-            ApplyDamage({
-                victim = victim,
-                attacker = attacker,
-                damage = additional_damage,
-                damage_type = DAMAGE_TYPE_PHYSICAL,
-                damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION,
-                ability = self:GetAbility()
-            })
-            
-            -- Play crit sound
-            EmitSoundOnLocationWithCaster(
-                victim:GetAbsOrigin(),
-                "Hero_PhantomAssassin.CoupDeGrace",
-                attacker
-            )
-        end
+        -- Play crit sound (crit already applied by GetModifierPreAttack_CriticalStrike)
+        EmitSoundOnLocationWithCaster(
+            victim:GetAbsOrigin(),
+            "Hero_PhantomAssassin.CoupDeGrace",
+            attacker
+        )
         
         -- Remove the snapshot after use
         self:RemoveSnapshot(victim)

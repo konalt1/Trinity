@@ -65,6 +65,9 @@ function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
 	GameRules:GetGameModeEntity():SetRespawnTimeScale(0.5)
  	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
+	
+	-- Set neutral creep spawn time to 0:00
+	GameRules:GetGameModeEntity():SetNeutralCreepSpawnTime(0.0)
 
 	GameRules:SetGoldTickTime(1)
 	GameRules:SetGoldPerTick(2)

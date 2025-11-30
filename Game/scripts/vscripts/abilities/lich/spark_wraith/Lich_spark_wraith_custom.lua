@@ -34,12 +34,27 @@ function lich_spark_wraith:GetDamage()
 	-- Добавляем бонусный урон от Mind Power
 	if caster and GetHeroMindPower then
 		local mind_power = GetHeroMindPower(caster)
-		local mind_power_multiplier = self:GetSpecialValueFor("mind_power_damage_multiplier") or 0
+		local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier") or 0
 		local bonus_damage = mind_power * mind_power_multiplier
 		return base_damage + bonus_damage
 	end
 	
 	return base_damage
+end
+
+function lich_spark_wraith:GetManaBurn()
+	local base_mana_burn = self:GetSpecialValueFor("mana_burn_base")
+	local caster = self:GetCaster()
+	
+	-- Добавляем бонус от силы разума (Mind Power)
+	if caster and GetHeroMindPower then
+		local mind_power = GetHeroMindPower(caster)
+		local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier") or 0
+		local bonus_mana_burn = mind_power * mind_power_multiplier
+		return base_mana_burn + bonus_mana_burn
+	end
+	
+	return base_mana_burn
 end
 
 function lich_spark_wraith:OnAbilityPhaseStart()
@@ -208,7 +223,7 @@ function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData
 	)
 
 	local total_mana_burned = 0
-	local damage = self:GetDamage()
+	local mana_burn = self:GetManaBurn()
 
 	for _, unit in pairs(enemies) do 
 		self:DealDamage(unit, unit ~= target)
@@ -216,15 +231,15 @@ function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData
 		-- Сжигаем ману при основном попадании
 		if unit:GetMana() > 0 then
 			local current_mana = unit:GetMana()
-			local mana_to_burn = math.min(damage, current_mana)
+			local mana_to_burn = math.min(mana_burn, current_mana)
 			unit:SetMana(current_mana - mana_to_burn)
 			total_mana_burned = total_mana_burned + mana_to_burn
 			
 			-- Визуальный эффект
 			SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, unit, mana_to_burn, nil)
 		else
-			-- Если у цели нет маны (крипы), считаем полный урон как потенциальную сожженную ману
-			total_mana_burned = total_mana_burned + damage
+			-- Если у цели нет маны (крипы), считаем полное сжигание маны как потенциальную сожженную ману
+			total_mana_burned = total_mana_burned + mana_burn
 		end
 	end
 
@@ -398,6 +413,7 @@ function modifier_lich_spark_wraith_return_tracker:OnIntervalThink()
 				self.hit_targets[enemy_id] = true
 				
 				local damage = self.ability:GetDamage()
+				local mana_burn = self.ability:GetManaBurn()
 				
 				-- Наносим урон
 				ApplyDamage({
@@ -408,19 +424,19 @@ function modifier_lich_spark_wraith_return_tracker:OnIntervalThink()
 					ability = self.ability
 				})
 				
-				-- Сжигаем ману равную урону способности
+				-- Сжигаем ману (независимо от урона)
 				local mana_to_add = 0
 				if enemy:GetMana() > 0 then
 					local current_mana = enemy:GetMana()
-					local mana_to_burn = math.min(damage, current_mana)
+					local mana_to_burn = math.min(mana_burn, current_mana)
 					enemy:SetMana(current_mana - mana_to_burn)
 					mana_to_add = mana_to_burn
 					
 					-- Визуальный эффект
 					SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, enemy, mana_to_burn, nil)
 				else
-					-- Если у цели нет маны (крипы), считаем полный урон как потенциальную сожженную ману
-					mana_to_add = damage
+					-- Если у цели нет маны (крипы), считаем полное сжигание маны как потенциальную сожженную ману
+					mana_to_add = mana_burn
 				end
 				
 				-- Добавляем к общему счетчику сожженной маны

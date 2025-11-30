@@ -402,7 +402,7 @@
             "slow_movement_speed"	"-30"
             "slow_attack_speed"		"-30"
             "aoe_damage"			"75 100 125 150"
-            "mind_power_multiplier"	"2"
+            "mind_power_multiplier"	"4"
         }
     }
 
@@ -459,85 +459,6 @@
     {
         "BaseClass"                     "ability_datadriven"
         "HasScepterUpgrade"               "0"
-    }
-
-    "lich_ice_arrow"
-    {
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lich/lich_ice_arrow"
-        "AbilityTextureName"            "mirana_arrow"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
-        "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "FightRecapLevel"               "1"
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "2"
-
-        "AbilityCastRange"              "3000"
-        "AbilityCastPoint"              "0.5"
-        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
-
-        "AbilityCooldown"               "17 16 15 14"
-        "AbilityManaCost"               "100 120 140 160"
-
-        // Базовый урон
-        "AbilityDamage"                 "100 175 250 325"
-
-        "AbilityValues"
-        {
-            "arrow_speed"
-            {
-                "value"                 "857"
-            }
-            "arrow_width"
-            {
-                "value"                 "115"
-            }
-            "arrow_range"
-            {
-                "value"                 "3000"
-            }
-            "stun_duration"
-            {
-                "value"                 "1.5 2.0 2.5 3.0"
-                "special_bonus_tooltip" "Длительность оглушения:"
-            }
-            "arrow_vision"
-            {
-                "value"                 "500"
-            }
-            "mind_power_multiplier"
-            {
-                "value"                 "1.5"
-                "special_bonus_tooltip" "Множитель Mind Power:"
-            }
-            "slow_duration"
-            {
-                "value"                 "3.0"
-                "special_bonus_tooltip" "Длительность замедления:"
-            }
-            "slow_movement_speed"
-            {
-                "value"                 "-30"
-            }
-            "slow_attack_speed"
-            {
-                "value"                 "-30"
-            }
-        }
-
-        "precache"
-        {
-            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
-            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_mirana.vsndevts"
-            "particle"      "particles/units/heroes/hero_lich/lich_frost_blast.vpcf"
-            "particle"      "particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
-            "particle"      "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
-            "particle"      "particles/units/heroes/hero_mirana/mirana_spell_arrow_fx.vpcf"
-        }
     }
 
 "lich_chain_frost_shard"
@@ -989,20 +910,17 @@
 
         "AbilityValues"
         {
-            "damage_per_heal"           
+            "damage_per_heal"
             {
                 "value"                 "0.3 0.4 0.5 0.6"
-                "special_bonus_tooltip" "Урон за HP исцеления:"
             }
-            "stack_duration"            
+            "stack_duration"
             {
                 "value"                 "10.0"
-                "special_bonus_tooltip" "Длительность стака:"
             }
             "max_bonus_damage"          
             {
                 "value"                 "300 600 900 1200"
-                "special_bonus_tooltip" "Максимальный бонусный урон:"
             }
         }
     }
@@ -2002,34 +1920,30 @@
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
         
-        "AbilityCastRange"              "2000"
+        "AbilityCastRange"              "1000"
         "AbilityCastPoint"              "0.3"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
         
-        "AbilityCooldown"               "4"
-        "AbilityManaCost"               "80 90 100 110"
+        "AbilityCooldown"               "7 6 5 4"
+        "AbilityManaCost"               "60 70 80 90"
         
         "AbilityValues"
         {
             "spark_damage_base"
             {
                 "value"                 "100 160 220 280"
-                "special_bonus_tooltip" "Урон:"
             }
             "radius"
             {
                 "value"                 "375"
-                "special_bonus_tooltip" "Радиус активации:"
             }
             "duration"
             {
-                "value"                 "50"
-                "special_bonus_tooltip" "Время жизни искры:"
+                "value"                 "10"
             }
             "damage_near"
             {
                 "value"                 "80"
-                "special_bonus_tooltip" "Урон не основной цели (%):"
             }
             "wraith_speed_base"
             {
@@ -2042,7 +1956,6 @@
             "damage_radius"
             {
                 "value"                 "250"
-                "special_bonus_tooltip" "Радиус урона:"
             }
             "wraith_vision_duration"
             {
@@ -2051,11 +1964,18 @@
             "base_activation_delay"
             {
                 "value"                 "3.0"
-                "special_bonus_tooltip" "Задержка активации:"
             }
             "think_interval"
             {
                 "value"                 "0.1"
+            }
+            "mana_burn_base"
+            {
+                "value"                 "50 100 150 200"
+            }
+            "mind_power_multiplier"
+            {
+                "value"                 "4"
             }
         }
         
