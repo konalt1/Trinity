@@ -20,12 +20,13 @@ function custom_purification:OnSpellStart()
 		mind_power = caster:GetIntellect(false) or 0
 	end
 	
-	-- Calculate bonus damage from Mind Power
+	-- Calculate bonus from Mind Power (applies to both heal and damage)
 	local mind_power_bonus = mind_power * mind_power_multiplier
+	local total_heal = heal + mind_power_bonus
 	local total_damage = heal + mind_power_bonus
 	
-	-- Мгновенное исцеление
-	target:Heal(heal, self)
+	-- Мгновенное исцеление (с бонусом от Mind Power)
+	target:Heal(total_heal, self)
 	
 	-- Найти всех врагов вокруг цели
 	local enemies = FindUnitsInRadius(

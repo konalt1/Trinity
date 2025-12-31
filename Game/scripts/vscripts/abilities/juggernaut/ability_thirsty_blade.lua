@@ -1,6 +1,5 @@
 LinkLuaModifier("modifier_ability_thirsty_blade_buff", "abilities/juggernaut/ability_thirsty_blade", 0)
 LinkLuaModifier("modifier_ability_thirsty_blade", "abilities/juggernaut/ability_thirsty_blade", 0)
-LinkLuaModifier("modifier_ability_thirsty_blade_debuff", "abilities/juggernaut/ability_thirsty_blade", 0)
 
 ability_thirsty_blade = class({})
 
@@ -46,15 +45,6 @@ function modifier_ability_thirsty_blade:OnAttackLanded( params )
 			local modifier = parent:AddNewModifier(parent, self:GetAbility(),"modifier_ability_thirsty_blade_buff" , {duration = 5})
 			if modifier:GetStackCount() < self.max_stacks then
 				modifier:IncrementStackCount()
-			end
-			local stackPerSlow = self:GetAbility():GetSpecialValueFor("stack_per_slow")
-
-			if stackPerSlow ~= 0 then 
-				local modifier = self:GetParent():FindModifierByName("modifier_ability_thirsty_blade_buff")
-
-				if modifier:GetStackCount() >= self:GetAbility():GetSpecialValueFor("stack_per_slow") then 
-					params.target:AddNewModifier(parent, self:GetAbility(), "modifier_ability_thirsty_blade_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff")})
-				end
 			end
 
 			local reduceCoolodwn = self:GetAbility():GetSpecialValueFor("reduce_cooldown_omni")
@@ -121,23 +111,4 @@ end
  
 function modifier_ability_thirsty_blade_buff:GetModifierPreAttack_BonusDamage()
 	return self:GetStackCount() * self.stack_multiplier	
-end
-
- 
-modifier_ability_thirsty_blade_debuff = class({
-	IsHidden 				= function(self) return false end,
-	IsPurgable 				= function(self) return true end,
-	IsDebuff 				= function(self) return true end,
-    DeclareFunctions        = function(self) return 
-    {
-    	MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-    } end,
-})
-
-function modifier_ability_thirsty_blade_debuff:OnCreated()
-	self.slowMoveSpeed = self:GetAbility():GetSpecialValueFor("slow_move_speed")
-end
-
-function modifier_ability_thirsty_blade_debuff:GetModifierMoveSpeedBonus_Percentage()
-	return self.slowMoveSpeed
 end
