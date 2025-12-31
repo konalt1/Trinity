@@ -3,350 +3,182 @@
 	"Language"		"english"
 	"Tokens"
 	{
-		// Tusk Ice Shards
-		"DOTA_Tooltip_ability_tusk_ice"							"Ice Shards"
-		"DOTA_Tooltip_ability_tusk_ice_Description"				"Tusk launches a projectile of ice shards that creates a curved wall of ice at the target location. The ice wall blocks enemy movement and deals magical damage to all enemies in the area. The damage scales with Tusk's mind power."
-		"DOTA_Tooltip_ability_tusk_ice_Lore"					"The frozen tundra responds to Tusk's call, forming a barrier of crystalline ice."
-		"DOTA_Tooltip_ability_tusk_ice_damage"					"DAMAGE:"
-		"DOTA_Tooltip_ability_tusk_ice_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_tusk_ice_speed"					"PROJECTILE SPEED:"
-		"DOTA_Tooltip_ability_tusk_ice_width"					"PROJECTILE WIDTH:"
-		"DOTA_Tooltip_ability_tusk_ice_radius"					"FORMATION RADIUS:"
-		"DOTA_Tooltip_ability_tusk_ice_duration"				"DURATION:"
-		"DOTA_Tooltip_ability_tusk_ice_Note0"					"The ice shards form a semicircular wall that extends away from Tusk."
-		"DOTA_Tooltip_ability_tusk_ice_Note1"					"Total damage = Base damage + (Mind Power × Mind Power multiplier)"
-		
-		// Tusk Channeled Snowball Ultimate
-		"DOTA_Tooltip_ability_tusk_channeled_snowball"			"Channeled Snowball"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_Description"	"Tusk begins channeling to prepare a massive snowball. The longer the channel, the less damage it deals. The first 0.5 seconds are free, then damage decreases over time. You can adjust the direction while channeling. When released, Tusk throws a snowball in the target direction that deals damage and stuns the first enemy hit."
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_Lore"		"Through sheer force of will, Tusk compacts the very essence of winter into a devastating projectile."
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_max_damage"		"MAXIMUM DAMAGE:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_min_damage"		"MINIMUM DAMAGE:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_free_channel_time"	"FREE CHANNEL TIME:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_damage_reduction_per_sec"	"DAMAGE REDUCTION PER SECOND:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_projectile_speed"		"PROJECTILE SPEED:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_stun_duration"		"STUN DURATION:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note0"		"Channel time affects damage: first 0.5 seconds are free, then damage decreases by the reduction amount per second."
-		"DOTA_Tooltip_ability_tusk_channeled_snowball_Note1"		"The direction can be adjusted during channeling by moving the cursor."
-		
-		// Omniknight Hammer of Purity
-		"DOTA_Tooltip_ability_omniknight_innate_oaa"				"Hammer of Purity"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"	"Each time Omniknight heals an ally, he accumulates the power of purity. For every HP healed, Omniknight gains bonus attack damage. Each damage stack lasts 10 seconds."
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_Lore"			"The Hammer of Purity transforms every act of healing into a source of righteous power."
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"	"DAMAGE PER HP HEALED:"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"STACK DURATION:"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note0"			"Only actual healing counts - overhealing and blocked healing do not grant damage."
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_Note1"			"Each damage stack expires independently after 10 seconds."
-		
-		// Omniknight Hammer of Purity Modifier
-		"DOTA_Tooltip_modifier_omniknight_innate_damage"			"Hammer of Purity"
-		"DOTA_Tooltip_modifier_omniknight_innate_damage_Description"	"Provides bonus attack damage from healing allies."
-		
-		// Custom Purification
-		"DOTA_Tooltip_ability_custom_purification"					"Purification"
-		"DOTA_Tooltip_ability_custom_purification_Description"		"Omniknight unleashes holy energy on a target ally, instantly healing them and damaging all nearby enemies. The damage dealt to enemies equals the amount healed, and both scale with Omniknight's Mind Power, making this a devastating offensive-defensive hybrid ability."
-		"DOTA_Tooltip_ability_custom_purification_Lore"			"The divine light flows through Omniknight, mending allies while scorching those who would harm them."
-		"DOTA_Tooltip_ability_custom_purification_heal"			"HEAL:"
-		"DOTA_Tooltip_ability_custom_purification_radius"			"DAMAGE RADIUS:"
-		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_custom_purification_Note0"			"Heals the target ally and damages all enemies within 260 radius around them."
-		"DOTA_Tooltip_ability_custom_purification_Note1"			"Damage equals heal amount: Base heal + (Mind Power × 1.0)"
-		"DOTA_Tooltip_ability_custom_purification_Note2"			"Deals magical damage that can be reduced by magic resistance."
-
-		// Holy Ground
-		"DOTA_Tooltip_ability_holy_ground"							"Holy Ground"
-		"DOTA_Tooltip_ability_holy_ground_Description"				"Omniknight consecrates a target area, creating a circular zone of divine power. All enemies within the zone are slowed by 30%/40%/50%. Every 2 seconds, a bell tolls and all allied units in the zone are healed for 200/300/400 health plus Mind Power bonus. The holy ground lasts for 10 seconds."
-		"DOTA_Tooltip_ability_holy_ground_Lore"					"Where the faithful tread, the very earth becomes sacred, blessing allies and hindering the unholy."
-		"DOTA_Tooltip_ability_holy_ground_radius"					"RADIUS:"
-		"DOTA_Tooltip_ability_holy_ground_duration"				"DURATION:"
-		"DOTA_Tooltip_ability_holy_ground_slow_percent"			"ENEMY SLOW:"
-		"DOTA_Tooltip_ability_holy_ground_heal_amount"				"HEAL AMOUNT:"
-		"DOTA_Tooltip_ability_holy_ground_heal_interval"			"HEAL INTERVAL:"
-		"DOTA_Tooltip_ability_holy_ground_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_holy_ground_Note0"					"The holy ground affects all units within the area for its entire duration."
-		"DOTA_Tooltip_ability_holy_ground_Note1"					"Total heal = Base heal + (Mind Power × Mind Power multiplier)"
-		"DOTA_Tooltip_ability_holy_ground_Note2"					"Bell tolls every 2 seconds, healing allies and refreshing enemy slow debuffs."
-		
-		// Ogre Magi Fire Blast
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast"						"SMASH"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"			"Ogre channels for 0.7 seconds before smashing his club into the ground at target location, dealing magical damage and stunning all enemies in the area. Both damage and radius scale with Ogre's Strength. Damage and stun duration decrease with distance from the epicenter, with minimum 30% effectiveness at the edge."
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Lore"				"The ancient brute strength of the ogre shatters the very earth, turning it into a deadly trap that grows more devastating with raw power."
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"				"BASE DAMAGE:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"		"MAX STUN DURATION:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"				"BASE RADIUS:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_channel_time"		"CHANNEL TIME:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_damage_bonus"	"DAMAGE PER STRENGTH:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_radius_bonus"	"RADIUS PER STRENGTH:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note0"				"Must channel for 0.7 seconds. Interrupting the channel refunds mana and cooldown."
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note1"				"Damage and stun scale with distance: 100% at center, minimum 30% at edge."
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note2"				"Total damage = Base damage + (Strength × 3.0)"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Note3"				"Total radius = Base radius + (Strength × 2.0)"
-
-		// Ogre Magi Bonk
-		"DOTA_Tooltip_ability_ogre_magi_bonk"							"Surge of Strength"
-		"DOTA_Tooltip_ability_ogre_magi_bonk_Description"				"Passive ability. Every time Ogre successfully attacks an enemy hero, the cooldown of all his abilities is reduced by 0.5/0.7/0.9/1.1 seconds. This ability encourages aggressive play and frequent spell usage."
-		"DOTA_Tooltip_ability_ogre_magi_bonk_Lore"						"The ogre's heavy fists not only deal damage but also awaken magical energy, accelerating spell recovery."
-		"DOTA_Tooltip_ability_ogre_magi_bonk_reduce_cooldown"			"COOLDOWN REDUCTION:"
-		"DOTA_Tooltip_ability_ogre_magi_bonk_Note0"						"Only works when attacking enemy heroes."
-		"DOTA_Tooltip_ability_ogre_magi_bonk_Note1"						"Affects all of Ogre's abilities, including ultimates."
-		"DOTA_Tooltip_ability_ogre_magi_bonk_Note2"						"Stacks with other sources of cooldown reduction."
-
-		// Ogre Magi Reroll
-		"DOTA_Tooltip_ability_ogre_magi_reroll"							"Reroll Dice"
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"				"Ogre temporarily forgets his ultimate ability and gains a random ultimate ability from another hero for 10 seconds. During the effect, the mana cost of the new ability is reduced by 100%. After the effect ends, Ogre returns his original ultimate ability."
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Lore"					"The chaotic mind of the two-headed ogre sometimes connects to the magical abilities of other beings, copying their power."
-		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"		"ABILITY DURATION:"
-		"DOTA_Tooltip_ability_ogre_magi_reroll_manacost_reduction"		"MANA COST REDUCTION:"
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Note0"					"Gains a random ultimate ability from a list of more than 80 different spells."
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Note1"					"The level of the gained ability equals the level of Reroll Dice."
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Note2"					"The new ability has 100% mana cost reduction, allowing free usage."
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Note3"					"Cannot be used while the previous effect is active."
-
-		// Ogre Magi Reroll Modifier
-		"DOTA_Tooltip_modifier_ogre_magi_reroll"						"Reroll Dice"
-		"DOTA_Tooltip_modifier_ogre_magi_reroll_Description"			"Temporarily replaced his ultimate ability with a random one. The new ability requires no mana."
-
-		// Ogre Magi Berserker Rage
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"					"Berserker Rage"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"		"Passive ultimate ability. After every 10 successful attacks against enemies (heroes, creeps, neutrals), Ogre Magi enters berserker rage, gaining a random powerful buff for 10-15 seconds. During the ability effect and cooldown, the attack counter does not accumulate. Buff list includes: increased attack speed, damage, protective shield (like Aphotic Shield), health regeneration, movement speed, magic resistance, lifesteal, cooldown reduction and armor increase."
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Lore"			"The ancient fury of the two-headed ogre awakens in battle, granting him unpredictable power of ancestral spirits."
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_attacks_needed"	"ATTACKS TO ACTIVATE:"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_buff_duration"	"BUFF DURATION:"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note0"			"Works against all enemies: heroes, creeps and neutrals. Attacks on allies and buildings don't count."
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note1"			"During ability cooldown (20/15/10 seconds) the attack counter is frozen."
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note2"			"Random buffs include: +20% attack speed, +25% damage, 200 HP shield with explosion, 5% regeneration, +15% speed, +30% magic resistance, 20% lifesteal, -20% cooldowns, +10 armor."
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Note3"			"Protective shield works like Aphotic Shield - absorbs damage and explodes when destroyed."
-		
-		// Main Berserker Rage Modifier
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage"					"Berserker Rage"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_Description"		"Tracks attacks against enemy heroes. Shows current progress towards berserker rage activation."
-		
-		// Modifiers for Ogre Berserker Rage
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_attack_speed"		"Rage: Attack Speed"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_attack_speed_Description"	"Increases attack speed by 20%."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_damage"				"Rage: Strike Power"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_damage_Description"	"Increases attack damage by 25%."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_shield"				"Rage: Protective Shield"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_shield_Description"	"Absorbs up to 200 damage. Explodes when destroyed, dealing 100 damage to enemies in 675 radius."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_regen"				"Rage: Regeneration"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_regen_Description"	"Restores 5% of maximum health every second."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_speed"				"Rage: Swiftness"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_speed_Description"	"Increases movement speed by 15%."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_magic_resist"		"Rage: Magic Protection"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_magic_resist_Description"	"Increases magic damage resistance by 30%."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_lifesteal"			"Rage: Vampirism"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_lifesteal_Description"	"Attacks restore 20% of dealt damage as health."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_cooldown"			"Rage: Quick Reload"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_cooldown_Description"	"Reduces cooldown of all abilities by 20%."
-		
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor"				"Rage: Tough Skin"
-		"DOTA_Tooltip_modifier_ogre_magi_berserker_rage_armor_Description"	"Increases armor by 10."
-		
-	// Ogre Magi Strength Boost
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost"					"Strength Boost"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"		"Ogre Magi channels his inner power, dramatically increasing his strength and attack damage for a short duration. The ability grants base strength bonus plus additional strength based on his Mind Power, as well as bonus attack damage that scales with ability level, making him significantly more dangerous in combat."
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Lore"			"The two-headed ogre taps into primal forces, his muscles swelling with ancient power."
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"BASE STRENGTH BONUS:"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"	"BONUS ATTACK DAMAGE:"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"		"DURATION:"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note0"			"Total strength bonus = Base strength + (Mind Power × Multiplier)"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note1"			"Mind Power is calculated from intelligence and item bonuses"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note2"			"Grants both additional strength and direct attack damage bonus"
-	"DOTA_Tooltip_ability_ogre_magi_strength_boost_Note3"			"Higher Mind Power significantly increases the effectiveness of this ability"
-		
-	// Ogre Magi Strength Boost Modifier
-	"DOTA_Tooltip_modifier_ogre_magi_strength_boost"				"Strength Boost"
-	"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"	"Dramatically increased strength and attack damage from inner power and Mind Power bonus."
-
-		// Juggernaut Abilities
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"			"Blade Fury"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"	"Juggernaut spins with incredible speed, becoming magic immune and dealing magical damage to all nearby enemies every 0.2 seconds. Damage scales with Juggernaut's Mind Power."
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Lore"		"The ancient art of the blade transforms the warrior into a deadly whirlwind of steel."
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"DAMAGE PER TICK:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"RADIUS:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"	"DURATION:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Note0"		"Provides complete magic immunity for the duration."
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Note1"		"Total damage per tick = Base damage + (Mind Power × Multiplier)"
-
-		"DOTA_Tooltip_ability_ability_thirsty_blade"				"Thirsty Blade"
-		"DOTA_Tooltip_ability_ability_thirsty_blade_Description"	"Passive ability. Each attack against an enemy hero grants Juggernaut a stack of attack damage for 5 seconds. Maximum 7 stacks. With talents can slow enemies, provide lifesteal and reduce ultimate ability cooldowns."
-		"DOTA_Tooltip_ability_ability_thirsty_blade_Lore"			"Juggernaut's blade thirsts for enemy blood, becoming sharper with each strike."
-		"DOTA_Tooltip_ability_ability_thirsty_blade_max_stacks"		"MAXIMUM STACKS:"
-		"DOTA_Tooltip_ability_ability_thirsty_blade_attack_damage"	"DAMAGE PER STACK:"
-		"DOTA_Tooltip_ability_ability_thirsty_blade_Note0"			"Only works against enemy heroes."
-		"DOTA_Tooltip_ability_ability_thirsty_blade_Note1"			"Each stack lasts 5 seconds independently of others."
-		"DOTA_Tooltip_ability_ability_thirsty_blade_Note2"			"Talents can add enemy slow, lifesteal and ultimate cooldown reduction."
-
-		"DOTA_Tooltip_ability_ability_vampiric_ward"				"Vampiric Ward"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_Description"	"Juggernaut places a ward that provides lifesteal aura to allies and slows enemies within 400 units radius. The ward is nearly invulnerable to physical damage. With talents can provide additional attack speed and health."
-		"DOTA_Tooltip_ability_ability_vampiric_ward_Lore"			"An ancient totem of the Isle of Masks warriors calls upon ancestral spirits for battle support."
-		"DOTA_Tooltip_ability_ability_vampiric_ward_lifesteal_percent"	"LIFESTEAL:"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_vampiric_ward_duration"	"WARD DURATION:"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_aura_radius"	"AURA RADIUS:"
-		"DOTA_Tooltip_ability_ability_vampiric_ward_Note0"			"Ward absorbs all physical damage except 1 point."
-		"DOTA_Tooltip_ability_ability_vampiric_ward_Note1"			"Aura affects allies and slows enemies."
-		"DOTA_Tooltip_ability_ability_vampiric_ward_Note2"			"Talents can add attack speed to allies and additional health to the ward."
-
-		"DOTA_Tooltip_ability_juggernaut_bloodlust"				"Bloodlust"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_Description"		"Juggernaut enters a state of bloodlust, significantly increasing attack speed. Each attack during the ability heals him. The amount of healing scales with Mind Power."
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_Lore"			"Juggernaut's battle fury transforms every strike into a source of vital energy."
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"	"ATTACK SPEED BONUS:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"	"HEAL PER ATTACK:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"		"DURATION:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_mind_power_heal_multiplier"	"MIND POWER HEAL MULTIPLIER:"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_Note0"			"Healing only works on attacks during the ability duration."
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_Note1"			"Total healing = Base healing + (Mind Power × Multiplier)"
-
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua"			"Swift Slash"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Description"	"Juggernaut becomes spell immune and begins a series of rapid attacks against enemies within 425 units radius. During the ability duration, Juggernaut automatically attacks nearby enemies, dealing normal attack damage. The speed and number of strikes depend on Juggernaut's attack speed."
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Lore"		"Blade mastery reaches perfection - enemies fall faster than they can react."
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_duration"	"DURATION:"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_damage"	"BONUS DAMAGE:"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_slash_radius"	"TARGET SEARCH RADIUS:"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Note0"		"Provides complete spell immunity for the duration."
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Note1"		"Target switching speed depends on attack speed."
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Note2"		"Target priority: 60% - heroes, 10% - creeps, 30% - current target."
-
-		// Lich Abilities
-	"DOTA_Tooltip_ability_lich_frost_blast_lua"				"Frost Blast"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"		"Lich launches an ice projectile at the target, dealing magical damage and slowing it. On impact, the projectile explodes, dealing area damage and slowing all enemies within %radius% units radius for %AbilityDuration% seconds. Mind Power adds bonus damage to all targets."
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_Lore"			"The ancient cold of Northrend binds enemies with icy shackles."
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_damage"			"PRIMARY TARGET DAMAGE:"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"		"AREA DAMAGE:"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"			"EXPLOSION RADIUS:"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"	"MOVEMENT SLOW:"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed"	"ATTACK SLOW:"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_Note0"			"Primary target damage: %AbilityDamage% + %aoe_damage% + Mind Power bonus"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_Note1"			"Secondary targets damage: %aoe_damage% + Mind Power bonus"
-	"DOTA_Tooltip_ability_lich_frost_blast_lua_Note2"			"Mind Power bonus = Mind Power × %mind_power_multiplier%"
-
-		"DOTA_Tooltip_ability_lich_frost_shield_lua"				"Frost Shield"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"	"Lich surrounds an ally with a protective ice shield that reduces incoming damage by 30-60%. Every second, the shield radiates an ice aura within 600 units radius, dealing magical damage and slowing all enemies. Aura damage scales with Mind Power."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Lore"			"Lich's protective magic transforms an ally into a source of deadly cold."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"	"DAMAGE REDUCTION:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"		"AURA RADIUS:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"		"AURA DAMAGE:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed"	"MOVEMENT SLOW:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration"		"DURATION:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_mind_power_damage_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Note0"			"Aura deals damage every second to all enemies in radius."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Note1"			"Total aura damage = Base damage + (Mind Power × Multiplier)"
-
-		"DOTA_Tooltip_ability_lich_spark_wraith"				"Spark Wraith"
-		"DOTA_Tooltip_ability_lich_spark_wraith_Description"		"Lich summons a Spark Wraith at target location. After %base_activation_delay% seconds, the wraith activates and searches for enemies within %radius% units. When an enemy is detected, the wraith launches at them, exploding on impact and dealing magical damage in %damage_radius% units radius, slowing all affected targets. Lasts %duration% seconds."
-		"DOTA_Tooltip_ability_lich_spark_wraith_Lore"			"A frozen sentinel of pure arcane energy that hunts those who dare approach."
-		"DOTA_Tooltip_ability_lich_spark_wraith_spark_damage_base"	"DAMAGE (PRIMARY TARGET):"
-		"DOTA_Tooltip_ability_lich_spark_wraith_radius"			"ACTIVATION RADIUS:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_damage_radius"		"EXPLOSION RADIUS:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_base_activation_delay"	"ACTIVATION DELAY:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_duration"			"DURATION:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_move_speed_slow_pct"	"MOVEMENT SLOW:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_ministun_duration"	"SLOW DURATION:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_damage_near"		"SECONDARY TARGET DAMAGE:"
-		"DOTA_Tooltip_ability_lich_spark_wraith_Note0"			"Wraith provides vision around its location."
-		"DOTA_Tooltip_ability_lich_spark_wraith_Note1"			"Secondary targets take %damage_near%% of the primary target damage."
-		"DOTA_Tooltip_ability_lich_spark_wraith_Note2"			"Wraith can detect invisible and fogged enemies."
-
-		"DOTA_Tooltip_ability_ability_ice_phylactery"				"Ice Phylactery"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"	"Lich creates a powerful ice phylactery at target location. The phylactery is immune to magical damage and has 3/6 health points (heroes deal double damage). While the phylactery exists, it provides an aura within 500-700 units radius: allies get 60% cooldown reduction, 60% spell lifesteal, while enemies are slowed by 25%."
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Lore"			"A vessel of undeath containing Lich's essence radiates an aura of death and power."
-		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"	"AURA RADIUS:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction"	"COOLDOWN REDUCTION:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"	"SPELL LIFESTEAL:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"	"ENEMY SLOW:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_max_hero_attacks"	"HERO ATTACKS TO DESTROY:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_max_creep_attacks"	"CREEP ATTACKS TO DESTROY:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_duration"		"DURATION:"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Note0"			"Phylactery is immune to magical damage but can be destroyed by attacks."
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Note1"			"Heroes deal double damage to the phylactery compared to creeps."
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Note2"			"Aura affects all friendly and enemy units within radius."
-
-		// Phantom Assassin Shard Upgrade
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard"				"Shadow Veil"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Description"	"Shard upgrade for Blur. Phantom Assassin creates a smoke screen area at the target location that makes all allies within radius invisible. Enemies within the smoke screen lose vision and cannot attack invisible allies. The smoke screen lasts 8 seconds and has a radius of 500 units."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Lore"		"The assassin's mastery reaches new heights - now Phantom Assassin can hide entire squads in shadows."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_radius"		"SMOKE SCREEN RADIUS:"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_duration"	"DURATION:"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note0"		"Allies within the smoke screen become invisible and cannot be attacked."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note1"		"Enemies in the area lose vision and cannot see invisible allies."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_shard_Note2"		"Smoke screen does not block movement but conceals all allies inside."
-
-		// Phantom Assassin Aghanim Scepter Upgrade
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter"			"Killing Spree"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Description"	"Aghanim Scepter upgrade for Blur. When Phantom Assassin kills an enemy hero, she instantly refreshes all ability cooldowns and gains bonus movement speed for 5 seconds. Additionally, Blur's cooldown is reduced by half."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Lore"		"Each kill awakens a primal fury within Phantom Assassin, making her even more deadly."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_movespeed_bonus"	"MOVEMENT SPEED BONUS:"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_movespeed_duration"	"BONUS DURATION:"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_cooldown_reduction"	"BLUR COOLDOWN REDUCTION:"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note0"		"Only triggers on enemy hero kills."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note1"		"Refreshes cooldowns of all abilities, including ultimates."
-		"DOTA_Tooltip_ability_phantom_assassin_blur_scepter_Note2"		"Movement speed bonus stacks with other sources."
-
-		// Doom Shard Upgrade
-		"DOTA_Tooltip_ability_doom_soul_devour_shard"					"Soul Absorption"
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_Description"		"Shard upgrade for Soul Devour. Doom can absorb souls of enemy heroes, gaining their abilities for 30 seconds. Absorbed abilities have 50% reduced mana cost and 25% increased damage. Doom can store up to 2 absorbed abilities simultaneously."
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_Lore"			"The ancient power of Doom allows him to not only absorb souls, but also inherit the magical knowledge of his victims."
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_ability_duration"	"ABILITY DURATION:"
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_manacost_reduction"	"MANA COST REDUCTION:"
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_damage_bonus"		"DAMAGE BONUS:"
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_max_abilities"	"MAX ABILITIES:"
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note0"			"Can only absorb abilities from enemy heroes."
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note1"			"Ultimate abilities cannot be absorbed."
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_Note2"			"When absorbing a new ability, the oldest one disappears."
-
-		// Doom Aghanim Scepter Upgrade
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter"				"Lord of Souls"
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Description"	"Aghanim Scepter upgrade for Soul Devour. Doom can absorb souls of enemy heroes, instantly killing them and gaining permanent Mind Power bonus. Each absorbed hero soul grants +3 Mind Power forever."
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Lore"			"The true power of the Lord of Souls is revealed - now he can absorb even the souls of heroes, becoming ever more powerful."
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_hero_soul_power"	"MIND POWER PER HERO:"
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note0"			"Instantly kills enemy hero when used."
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note1"			"Mind Power bonus is permanent and accumulates."
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_Note2"			"Does not work on allies or neutral units."
-
+		//Doom
 		// Doom Soul Devour
-		"DOTA_Tooltip_ability_doom_soul_devour"						"Soul Devour"
-		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom devours the soul of a target enemy unit, instantly killing it and gaining permanent gold and experience. The power of this ability scales with Doom's Mind Power, making it more effective against stronger foes. Each devoured soul strengthens Doom's connection to the underworld."
-		"DOTA_Tooltip_ability_doom_soul_devour_Lore"					"The Lord of Souls feeds upon the essence of the living, growing stronger with each soul consumed."
-		"DOTA_Tooltip_ability_doom_soul_devour_gold_bonus"			"GOLD BONUS:"
-		"DOTA_Tooltip_ability_doom_soul_devour_exp_bonus"				"EXPERIENCE BONUS:"
-		"DOTA_Tooltip_ability_doom_soul_devour_mind_power_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_doom_soul_devour_Note0"				"Instantly kills the target unit."
-		"DOTA_Tooltip_ability_doom_soul_devour_Note1"				"Gold and experience bonuses scale with Mind Power."
-		"DOTA_Tooltip_ability_doom_soul_devour_Note2"				"Cannot target ancient units or allies."
+		"DOTA_Tooltip_ability_doom_soul_devour"						"Поглощение Души"
+		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom поглощает выбранного крипа, излечивая себя и получая постоянный бонус к Силе Магии"
+		"DOTA_Tooltip_ability_doom_soul_devour_soul_power"				"СИЛА МАГИИ ЗА КРИПА:"
+		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount"				"ИСЦЕЛЕНИЕ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_hero_soul_multiplier"		"МНОЖИТЕЛЬ ДЛЯ ГЕРОЯ:"
 
 		// Doom Scorched Earth
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua"				"Scorched Earth"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"	"Doom channels his infernal power to create a zone of scorched earth around himself. The cursed ground burns enemies for magical damage every second while granting allies increased movement speed. The destructive power of this ability grows stronger with Doom's Mind Power, making it a devastating area control tool."
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Lore"			"The ancient magic of Doom transforms the earth beneath his feet into a deadly wasteland that grows more destructive with each soul consumed."
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second"	"DAMAGE PER SECOND:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius"		"RADIUS:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct"	"BONUS MOVEMENT SPEED:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration"		"DURATION:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier"	"MIND POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note0"		"Total damage = Base damage + (Mind Power × Mind Power multiplier)"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note1"		"Damage is dealt to all enemies in radius every second"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Note2"		"Allies in the zone receive movement speed bonus"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua"								"Выжженная Земля"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"					"Doom поджигает землю вокруг себя, нанося урон врагам и увеличивая свою скорость передвижения. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second"			"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius"						"РАДИУС:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct"		"%БОНУС СКОРОСТИ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_mind_power_damage_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 
-		// Phantom Assassin Smoke Bomb (Shard Ability)
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb"				"Smoke Bomb"
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Description"	"Phantom Assassin creates a smoke cloud at her location that makes all allied units in the area invisible. The smoke persists for a short duration, providing tactical cover for escape or ambush setups."
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Lore"		"A tactical tool used by Phantom Assassin to provide cover for allies during dangerous operations."
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_radius"		"SMOKE RADIUS:"
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_duration"	"DURATION:"
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note0"		"Provides invisibility to all allied units in the area."
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note1"		"Invisibility is lost when leaving the smoke cloud."
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note2"		"Can be used to escape or set up ambushes."
-		"DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_Note3"		"Does not affect enemy units."
+		// Doom Ultimate Aura
+		"DOTA_Tooltip_ability_doom_ultimate_aura"								"Вестник Рока"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Description"					"Doom создаёт вокруг себя ауру ада, которая наносит чистый урон врагам, отключает активные и пассивные способности, и блокирует исцеление. Урон ауры усиливается Силой Магии."
+		"DOTA_Tooltip_ability_doom_ultimate_aura_aura_radius"					"РАДИУС АУРЫ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_damage_per_second"				"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		//Ogre
+		// Ogre Fire Blast
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast"							"Огненный Удар"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Огр с размаху бьёт по земле, нанося магический урон и оглушая врагов в области. Урон и радиус увеличиваются от Силы."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"					"БАЗОВЫЙ УРОН:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"			"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"					"БАЗОВЫЙ РАДИУС:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_damage_bonus"	"БОНУС УРОНА ЗА СИЛУ:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_radius_bonus"	"БОНУС РАДИУСА ЗА СИЛУ:"
+
+		// Ogre Strength Boost
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost"						"Прилив Силы"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Огр впадает в ярость, получая бонус к Силе и урону от атаки. Бонус Силы усиливается от Силы Магии."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"БАЗОВЫЙ БОНУС СИЛЫ:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"			"БОНУС К УРОНУ:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"			"ДЛИТЕЛЬНОСТЬ:"
+
+
+
+		// Ogre Reroll
+		"DOTA_Tooltip_ability_ogre_magi_reroll"								"Дикая Магия"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"					"Огр получает случайную ультимативную способность на ограниченное время. Полученная способность не требует маны. Атаки по врагам уменьшают перезарядку этой способности."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"				"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТИ:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ:"
+
+		//Omniknight
+		// Custom Purification
+		"DOTA_Tooltip_ability_custom_purification"							"Очищение"
+		"DOTA_Tooltip_ability_custom_purification_Description"				"Омникнайт исцеляет союзника и наносит магический урон всем врагам вокруг цели. Урон и исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_custom_purification_heal"						"ИСЦЕЛЕНИЕ:"
+		"DOTA_Tooltip_ability_custom_purification_radius"					"РАДИУС УРОНА:"
+		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Omniknight Repel
+		"DOTA_Tooltip_ability_omniknight_repel_lua"							"Отпор"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Description"				"Омникнайт дарует союзнику иммунитет к магии и мгновенно исцеляет его. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_omniknight_repel_lua_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_heal_amount"				"БАЗОВОЕ ИСЦЕЛЕНИЕ:"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Omniknight Innate (Passive)
+		"DOTA_Tooltip_ability_omniknight_innate_oaa"						"Молот Чистоты"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"			"Пассивная способность. Когда Омникнайт исцеляет союзников, он накапливает бонусный урон. Стаки урона исчезают через некоторое время."
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"		"%УРОН ЗА ИСЦЕЛЕНИЕ:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"ДЛИТЕЛЬНОСТЬ СТАКОВ:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_max_bonus_damage"	"МАКС. БОНУСНЫЙ УРОН:"
+
+		// Holy Ground
+		"DOTA_Tooltip_ability_holy_ground"									"Святая Земля"
+		"DOTA_Tooltip_ability_holy_ground_Description"						"Омникнайт освящает область, периодически исцеляя союзников и замедляя врагов внутри. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_holy_ground_radius"							"РАДИУС:"
+		"DOTA_Tooltip_ability_holy_ground_duration"							"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_holy_ground_heal_amount"						"ИСЦЕЛЕНИЕ ЗА ТИК:"
+		"DOTA_Tooltip_ability_holy_ground_heal_interval"					"ИНТЕРВАЛ ИСЦЕЛЕНИЯ:"
+		"DOTA_Tooltip_ability_holy_ground_slow_percent"						"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_holy_ground_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		//Juggernaut
+		// Blade Fury
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"					"BLADE FURY"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Джаггернаут вращается, нанося магический урон врагам вокруг и становясь невосприимчивым к магии. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"УРОН:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"РАДИУС:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Thirsty Blade (Passive)
+		"DOTA_Tooltip_ability_ability_thirsty_blade"						"Жаждущий Клинок"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_Description"			"Каждый повторный удар по герою временно увеличивает урон Джаггернаута."
+		"DOTA_Tooltip_ability_ability_thirsty_blade_attack_damage"			"УРОН ЗА СТАК:"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_max_stacks"				"МАКС. СТАКОВ:"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_slow_move_speed"		"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_ability_thirsty_blade_duration_debuff"		"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+
+		// Bloodlust
+		"DOTA_Tooltip_ability_juggernaut_bloodlust"							"Безумие Маски"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_Description"				"Джаггернаут входит в раж, получая бонус к скорости атаки и исцеляя себя за каждой атакой. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"		"БОНУС СКОРОСТИ АТАКИ:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			"ИСЦЕЛЕНИЕ ЗА АТАКУ:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_mind_power_heal_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Swift Slash (Ultimate)
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua"					"Swift Slash"
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Description"		"Джаггернаут становится неуязвимым и стремительно перемещается между врагами, нанося им удары."
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_slash_radius"		"РАДИУС ПОИСКА ЦЕЛЕЙ:"
+
+		//Phantom Assassin
+		// Blur
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom"						"Размытие"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Description"			"Фантомка становится невидимой. Эффект спадает при приближении к вражеским героям, к башням или при атаке. Также даёт бонус к скорости передвижения."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_radius"				"РАДИУС ОБНАРУЖЕНИЯ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_bonus_movement_speed"	"%БОНУС СКОРОСТИ:"
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_active_evasion_chance"	"%ШАНС УКЛОНЕНИЯ:"
+
+
+		// Coup de Foudre (Ultimate)
+		"DOTA_Tooltip_ability_ability_coup_de_foudre"							"Чутьё Убийцы"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"				"Пока враги не видят Phantom Assassin, все её атаки становятся критическими."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"					"%КРИТИЧЕСКИЙ УРОН:"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_activation_delay"			"ЗАДЕРЖКА СНЯТИЯ ЭФФЕКТА:"
+
+		//Lich
+		// Frost Blast
+		"DOTA_Tooltip_ability_lich_frost_blast_lua"								"Ледяной Взрыв"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Лич обдаёт цель холодом, нанося урон ей и врагам вокруг, а также замедляя их. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"					"УРОН ПО ОБЛАСТИ:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"						"РАДИУС:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"			"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_attack_speed"			"ЗАМЕДЛЕНИЕ АТАКИ:"
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Frost Shield
+		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Морозный Щит"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий урон и нанося урон врагам вокруг. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ УРОНА:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"УРОН ВРАГАМ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"РАДИУС:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration"					"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed"				"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_mind_power_damage_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Spark Wraith
+		"DOTA_Tooltip_ability_lich_spark_wraith"								"Искра Призрака"
+		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Лич создаёт призрачную искру, которая ждёт врага. При обнаружении искра летит к цели, нанося урон и сжигая ману, затем возвращается к Личу, поражая врагов на пути и восстанавливая всю сожжённую ману."
+		"DOTA_Tooltip_ability_lich_spark_wraith_spark_damage_base"				"УРОН:"
+		"DOTA_Tooltip_ability_lich_spark_wraith_radius"							"РАДИУС ОБНАРУЖЕНИЯ:"
+		"DOTA_Tooltip_ability_lich_spark_wraith_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_lich_spark_wraith_mana_burn_base"					"СЖИГАНИЕ МАНЫ:"
+		"DOTA_Tooltip_ability_lich_spark_wraith_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Ice Phylactery (Ultimate)
+		"DOTA_Tooltip_ability_ability_ice_phylactery"							"Ледяной Филактерий"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Лич создаёт ледяной Филактерий, который замедляет врагов вокруг, уменьшает перезарёдку способностей лича а так-же даёт ему вампиризм от заклинаний. Филактерий уничтожается после определённого количества атак."
+		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"РАДИУС АУРЫ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_attacks_to_destroy"		"АТАК ДЛЯ УНИЧТОЖЕНИЯ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_duration"					"ДЛИТЕЛЬНОСТЬ:"
+
+		//Weaver
+		// Cucaracha
+		"DOTA_Tooltip_ability_weaver_cucaracha"									"Кукарача"
+		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач временно уменьшается в размерах, становясь маленьким и юрким тараканом, а так же получает бонус к ловкости. Бонус ловкости усиливается Силой Магии."
+		"DOTA_Tooltip_ability_weaver_cucaracha_base_agility_bonus"				"БАЗОВЫЙ БОНУС ЛОВКОСТИ:"
+		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
+		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_weaver_cucaracha_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
 	}
 }

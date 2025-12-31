@@ -1,20 +1,20 @@
-LinkLuaModifier("modifier_item_kaya_mind_power", "items/item_kaya_mind_power", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_kaya", "items/item_kaya_mind_power", LUA_MODIFIER_MOTION_NONE)
 
-item_kaya_mind_power = class({})
+item_kaya = class({})
 
-function item_kaya_mind_power:GetIntrinsicModifierName()
-    return "modifier_item_kaya_mind_power"
+function item_kaya:GetIntrinsicModifierName()
+    return "modifier_item_kaya"
 end
 
 -- Модификатор для Kaya, который дает бонус к mind power
-modifier_item_kaya_mind_power = class({
+modifier_item_kaya = class({
     IsHidden = function(self) return false end,
     IsPurgable = function(self) return false end,
     IsBuff = function(self) return true end,
     RemoveOnDeath = function(self) return false end,
 })
 
-function modifier_item_kaya_mind_power:OnCreated()
+function modifier_item_kaya:OnCreated()
     if not IsServer() then
         return
     end
@@ -23,7 +23,7 @@ function modifier_item_kaya_mind_power:OnCreated()
     self.mind_power_bonus = self:GetAbility():GetSpecialValueFor("mind_power_bonus")
 end
 
-function modifier_item_kaya_mind_power:OnRefresh()
+function modifier_item_kaya:OnRefresh()
     if not IsServer() then
         return
     end
@@ -33,22 +33,18 @@ function modifier_item_kaya_mind_power:OnRefresh()
 end
 
 -- Функция для получения бонуса к mind power
-function modifier_item_kaya_mind_power:GetModifierMindPowerBonus()
+function modifier_item_kaya:GetModifierMindPowerBonus()
     return self.mind_power_bonus or 0
 end
 
-function modifier_item_kaya_mind_power:GetTexture()
+function modifier_item_kaya:GetTexture()
     return "item_kaya"
 end
 
-function modifier_item_kaya_mind_power:GetModifierBonusIntellect()
+function modifier_item_kaya:GetModifierBonusIntellect()
     return self:GetAbility():GetSpecialValueFor("bonus_intellect")
 end
 
-function modifier_item_kaya_mind_power:GetModifierConstantManaRegen()
+function modifier_item_kaya:GetModifierConstantManaRegen()
     return self:GetAbility():GetSpecialValueFor("mana_regen_multiplier")
-end
-
-function modifier_item_kaya_mind_power:GetModifierSpellLifesteal()
-    return self:GetAbility():GetSpecialValueFor("spell_lifesteal_amp")
 end 

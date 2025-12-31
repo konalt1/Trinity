@@ -6,6 +6,7 @@
 		"override_hero"                                 "npc_dota_hero_phantom_assassin"
 		"Facets" ""
 		"MovementSpeed"									"309"
+        "Armor"                                         "4.5"
         "Ability3"				                        "phantom_assassin_blur_custom"
 		"Ability5"                                      "generic_hidden"
         //"phantom_assassin_smoke_bomb"
@@ -28,6 +29,7 @@
     "npc_dota_hero_techies"
     {
         "override_hero"                                 "npc_dota_hero_techies"
+        "Armor"                                         "2"
         "Facets" ""
 		"Ability2"		                                "ability_fireworks"
 		"Ability6"		                                "ability_chain_bomb"
@@ -48,6 +50,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_juggernaut"
 		"Facets" ""
+        "Armor"                                         "5.7"
 		"MovementSpeed"									"296"
 		"Ability1"		                                "juggernaut_blade_fury_lua"
 		"Ability2"		                                "juggernaut_bloodlust"
@@ -71,6 +74,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_lich"
 		"Facets" ""
+        "Armor"                                         "1.8"
 		"MovementSpeed"									"293"
 		"Ability1"				                        "lich_frost_blast_lua"
 		"Ability2"				                        "lich_frost_shield_lua"
@@ -115,6 +119,7 @@
 	{	
 		"override_hero"			"npc_dota_hero_ogre_magi"
 		"Facets" ""
+        "Armor"                                         "6.3"
 		"MovementSpeed"									"276"
 		
 		// Измененные характеристики интеллекта
@@ -157,6 +162,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_omniknight"
 		"Facets" ""
+        "Armor"                                         "4.5"
 		"MovementSpeed"									"285"
 		"Ability1"				                        "custom_purification"
 		"Ability2"                                      "omniknight_repel_lua"
@@ -180,6 +186,7 @@
 		"override_hero"                                 "npc_dota_hero_doom_bringer"
 		"Facets" "generic_hidden"
 		"MovementSpeed"									"275"
+        "armor"                                         "4.5"
 		"Ability1"				                        "doom_soul_devour"
 		"Ability2"				                        "doom_scorched_earth_lua"
 		"Ability4" 				                        "generic_hidden"
@@ -216,6 +223,24 @@
         "Ability16"										"special_bonus_gold_200"
         "Ability17"										"special_bonus_gold_200"
 
+	}
+
+	"npc_dota_hero_weaver"
+	{
+		"override_hero"                                 "npc_dota_hero_weaver"
+		"Facets" ""
+
+		// Replace Shukuchi (Ability2) with custom Cucaracha
+		"Ability2"                                      "weaver_cucaracha"
+
+        "Ability10"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_gold_200"
+        "Ability12"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_gold_200"
+        "Ability15"										"special_bonus_gold_200"
+        "Ability16"										"special_bonus_gold_200"
+        "Ability17"										"special_bonus_gold_200"
 	}
 
 	 

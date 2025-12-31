@@ -10,7 +10,7 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -566,7 +566,6 @@
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
         "AbilityCooldown"               "14"
         "AbilityManaCost"               "60 70 80 90"
-        "AbilityDamage"                 "100 200 300 400"
         "AbilityValues"
         {
             "damage"                    "60 120 180 240"
@@ -1832,39 +1831,6 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         
-        // Localization
-        //-------------------------------------------------------------------------------------------------------------
-        "Language"
-        {
-            "English"
-            {
-                "AbilityName"           "Smoke Bomb"
-                "AbilityDescription"    "Phantom Assassin creates a smoke cloud at her location that makes all allied units within the area invisible. The smoke persists for a short duration."
-                "Lore"                  "A tactical tool used by the Phantom Assassin to provide cover for her allies during dangerous operations."
-                "Notes"
-                {
-                    "01"                "• Provides invisibility to all allied units in the area"
-                    "02"                "• Invisibility is lost when leaving the smoke cloud"
-                    "03"                "• Can be used to escape or set up ambushes"
-                    "04"                "• Does not affect enemy units"
-                }
-                "DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_shard_description"    "Grants Phantom Assassin a new ability: Smoke Bomb. Creates a smoke cloud that makes all allied units in the area invisible for 1.5 seconds."
-            }
-            "Russian"
-            {
-                "AbilityName"           "Дымовая граната"
-                "AbilityDescription"    "Фантомка создает облако дыма в своем местоположении, которое делает всех союзных юнитов в области невидимыми. Дым сохраняется в течение короткого времени."
-                "Lore"                  "Тактический инструмент, используемый Фантомкой для обеспечения прикрытия союзникам во время опасных операций."
-                "Notes"
-                {
-                    "01"                "• Обеспечивает невидимость всем союзным юнитам в области"
-                    "02"                "• Невидимость теряется при выходе из облака дыма"
-                    "03"                "• Можно использовать для побега или организации засад"
-                    "04"                "• Не влияет на вражеских юнитов"
-                }
-                "DOTA_Tooltip_ability_phantom_assassin_smoke_bomb_shard_description"    "Дает Фантомке новую способность: Дымовая граната. Создает облако дыма, которое делает всех союзных юнитов в области невидимыми на 1.5 секунды."
-            }
-        }
         
         "precache"
         {
@@ -1985,6 +1951,44 @@
             "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith.vpcf"
             "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_spawn.vpcf"
             "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_explosion.vpcf"
+        }
+    }
+
+    //=================================================================================================================
+    // Weaver Cucaracha (Shrink + Agility)
+    //=================================================================================================================
+    "weaver_cucaracha"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/Weaver/Cucaracha"
+        "AbilityTextureName"            "weaver_shukuchi"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastPoint"              "0.0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCooldown"               "20 18 16 14"
+        "AbilityManaCost"               "60 70 80 90"
+
+        "AbilityValues"
+        {
+            "base_agility_bonus"        "20 40 60 80"
+            "model_scale"               "0.7 0.6 0.5 0.4"
+            "duration"                  "6.0 7.0 8.0 9.0"
+            "mind_power_multiplier"     "0.5"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_weaver.vsndevts"
+            "particle"      "particles/units/heroes/hero_weaver/weaver_shukuchi.vpcf"
+            "particle"      "particles/generic_gameplay/generic_buff.vpcf"
         }
     }
 

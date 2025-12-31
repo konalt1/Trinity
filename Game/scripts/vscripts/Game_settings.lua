@@ -1,4 +1,4 @@
-START_GAME_AUTOMATICALLY = true				-- Should the game start automatically
+START_GAME_AUTOMATICALLY = false				-- Should the game start automatically
 UNIVERSAL_SHOP_MODE = true             -- Should the main shop contain Secret Shop items as well as regular items
 PLAYER_COUNT_GOODGUYS = 3
 PLAYER_COUNT_BADGUYS = 3
@@ -216,6 +216,14 @@ function GameSettings:CaptureGameMode()
 		mode:SetRemoveIllusionsOnDeath( REMOVE_ILLUSIONS_ON_DEATH )
 		mode:SetMaximumAttackSpeed( MAXIMUM_ATTACK_SPEED ) 
 		mode:SetMinimumAttackSpeed( MINIMUM_ATTACK_SPEED )
+		
+		-- Автоматический выбор героя для игроков, не выбравших героя
+		-- Принудительный выбор героя для всех игроков
+		-- Раскомментируйте одну из следующих строк для принудительного выбора конкретного героя:
+		mode:SetCustomGameForceHero("npc_dota_hero_lich") -- Принудительно выбирает Lich
+		-- mode:SetCustomGameForceHero("npc_dota_hero_phantom_assassin") -- Принудительно выбирает Phantom Assassin
+		-- mode:SetCustomGameForceHero("npc_dota_hero_techies") -- Принудительно выбирает Techies
+		
 --[[
 		mode:SetCustomAttributeDerivedStatValue(DOTA_ATTRIBUTE_STRENGTH_DAMAGE,1)
 		mode:SetCustomAttributeDerivedStatValue(DOTA_ATTRIBUTE_STRENGTH_STATUS_RESISTANCE_PERCENT,0)
@@ -558,6 +566,13 @@ function GameSettings:OnPlayerPickHero(keys)
 	local heroClass = keys.hero
 	local heroEntity = EntIndexToHScript(keys.heroindex)
 	local player = EntIndexToHScript(keys.player)
+	
+	-- Проверяем, что игрок выбрал героя
+	if heroClass and heroEntity then
+		print("[BAREBONES] Player " .. player:GetPlayerID() .. " picked hero: " .. heroClass)
+	else
+		print("[BAREBONES] Warning: Player " .. player:GetPlayerID() .. " did not pick a valid hero!")
+	end
 end
 
 -- A player killed another player in a multi-team context
