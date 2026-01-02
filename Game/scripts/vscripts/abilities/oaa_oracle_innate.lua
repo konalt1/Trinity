@@ -30,7 +30,6 @@ end
 
 if IsServer() then
   function modifier_omniknight_innate_oaa:OnHealReceived(event)
-    print("[Omniknight Innate] OnHealReceived triggered")
     local parent = self:GetParent()
     local inflictor = event.inflictor -- Heal ability
     local unit = event.unit -- Healed unit
@@ -72,11 +71,8 @@ if IsServer() then
           
           -- Убеждаемся что исцеление положительное
           if actual_heal <= 0 then
-            print("[Omniknight Innate] No actual healing occurred (HP before: " .. unit_hp_before .. ", HP after: " .. unit_hp_after .. ")")
             return
           end
-          
-          print("[Omniknight Innate] Unit HP: " .. unit_hp_before .. "->" .. unit_hp_after .. " (+" .. actual_heal .. "), Max: " .. unit_max_hp .. ", Potential: " .. amount)
           
           -- Накапливаем урон только за реально восстановленное здоровье
           local damage_per_heal = innate:GetSpecialValueFor("damage_per_heal") or 0.5
@@ -91,7 +87,6 @@ if IsServer() then
             
             if damage_modifier then
               damage_modifier:AddDamageStack(bonus_damage)
-              print("[Omniknight Innate] Added " .. bonus_damage .. " damage for " .. actual_heal .. " HP healed")
             end
           end
         end)
@@ -216,8 +211,6 @@ function modifier_omniknight_innate_damage:AddDamageStack(damage)
       damage = damage,
       expire_time = expire_time
     })
-    
-    print("[Omniknight Innate] Added damage stack: " .. damage .. ", expires at: " .. expire_time)
     
     -- Немедленно обновляем отображение
     self:OnIntervalThink()

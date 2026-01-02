@@ -28,16 +28,9 @@ function modifier_juggernaut_blade_fury_lua:OnRefresh( kv )
 	self.count = 0
 
 	-- Note: Damage is calculated dynamically in OnIntervalThink, no need to pre-calculate here
-	if IsServer() then
-		print("Blade Fury: OnRefresh called - values updated for dynamic calculation")
-	end
 end
 
 function modifier_juggernaut_blade_fury_lua:OnDestroy( kv )
-	if IsServer() then
-		print("Blade Fury: OnDestroy called - stopping sounds and animation")
-	end
-	
 	-- Stop effects
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"
 	StopSoundOn( sound_cast, self:GetParent() )
@@ -58,7 +51,6 @@ function modifier_juggernaut_blade_fury_lua:OnDestroy( kv )
 		if parent then
 			EmitSoundOnLocationForPlayer("Hero_Juggernaut.BladeFuryEnd", parent:GetAbsOrigin(), parent:GetPlayerID())
 		end
-		print("Blade Fury: All sounds should be stopped now")
 	end
 end
 
@@ -92,11 +84,6 @@ function modifier_juggernaut_blade_fury_lua:OnCreated( kv )
 	
 	self.max_count = kv.duration/self.tick
 	self.count = 0
-	
-	if IsServer() then
-		print("Blade Fury: Duration=" .. kv.duration .. ", Tick=" .. self.tick .. ", MaxCount=" .. self.max_count)
-		print("Blade Fury: Base DPS=" .. self.dps .. ", Mind Power Multiplier=" .. self.mind_power_multiplier)
-	end
 
 	-- Start interval
 	if IsServer() then
@@ -124,8 +111,6 @@ end
 --------------------------------------------------------------------------------
 -- Interval Effects
 function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
-	print("Blade Fury: OnIntervalThink called, tick: " .. (self.count + 1) .. "/" .. self.max_count)
-	
 	-- Calculate mind power bonus damage with error handling (every tick for dynamic scaling)
 	local caster = self:GetParent()
 	local mind_power = 0
@@ -144,16 +129,6 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 	-- Update damage table with current calculated damage
 	self.damageTable.damage = damage_per_tick
 	
-	-- Debug output (every 5th tick to avoid spam)
-	if self.count % 5 == 0 then
-		print("Blade Fury Mind Power Update (Tick " .. (self.count + 1) .. "):")
-		print("  Base damage: " .. self.dps)
-		print("  Mind power: " .. mind_power)
-		print("  Mind power bonus: " .. mind_power_bonus)
-		print("  Total DPS: " .. total_damage)
-		print("  Damage this tick: " .. damage_per_tick)
-	end
-	
 	-- Find enemies in radius
 	local enemies = FindUnitsInRadius(
 		self:GetCaster():GetTeamNumber(),	-- int, your team number
@@ -167,13 +142,10 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 		false	-- bool, can grow cache
 	)
 
-	print("Blade Fury: Found " .. #enemies .. " enemies in radius " .. self.radius)
-
 	-- damage enemies
 	for _,enemy in pairs(enemies) do
 		self.damageTable.victim = enemy
 		ApplyDamage( self.damageTable )
-		print("Blade Fury: Applied " .. self.damageTable.damage .. " damage to " .. enemy:GetUnitName())
 
 		-- Play effects
 		self:PlayEffects2( enemy )
@@ -181,12 +153,8 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 
 	-- counter
 	self.count = self.count+1
-	print("Blade Fury: Tick counter: " .. self.count .. "/" .. self.max_count)
 	
 	if self.count>= self.max_count then
-		if IsServer() then
-			print("Blade Fury: Destroying modifier after " .. self.count .. " ticks (max: " .. self.max_count .. ")")
-		end
 		self:Destroy()
 	end
 end
@@ -194,8 +162,6 @@ end
 --------------------------------------------------------------------------------
 -- Graphics & Animations
 function modifier_juggernaut_blade_fury_lua:PlayEffects()
-	print("Blade Fury: PlayEffects called")
-	
 	-- Get Resources
 	local particle_cast = "particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf"
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"
@@ -214,10 +180,8 @@ function modifier_juggernaut_blade_fury_lua:PlayEffects()
 		false
 	)
 
-	-- Emit sound with debug
-	print("Blade Fury: Emitting sound: " .. sound_cast)
+	-- Emit sound
 	EmitSoundOn( sound_cast, self:GetParent() )
-	print("Blade Fury: Sound emission complete")
 end
 
 function modifier_juggernaut_blade_fury_lua:PlayEffects2( target )
