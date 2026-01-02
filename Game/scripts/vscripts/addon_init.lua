@@ -1,1 +1,2 @@
 LinkLuaModifier('modifier_lifesteal_custom', 'modifiers/modifier_lifesteal_custom.lua', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_tower_bonus_armor', 'modifiers/modifier_tower_bonus_armor.lua', LUA_MODIFIER_MOTION_NONE)

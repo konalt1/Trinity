@@ -85,7 +85,6 @@ function modifier_ability_thirsty_blade_buff:OnStackCountChanged(stackCount)
 	local bonusLifesteal = self:GetAbility():GetSpecialValueFor("bonus_lifesteal")
 
 	if bonusLifesteal == 0 then return end
-	print(stack, stackCount)
 	self.lifesteal = stack * self:GetAbility():GetSpecialValueFor("bonus_lifesteal")
 	AddModifierLifesteal(parent, self.lifesteal - stackCount * self:GetAbility():GetSpecialValueFor("bonus_lifesteal"))
 end
