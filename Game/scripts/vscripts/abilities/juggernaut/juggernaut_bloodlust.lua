@@ -13,9 +13,8 @@ function juggernaut_bloodlust:OnSpellStart()
     -- Add the bloodlust modifier to the caster
     caster:AddNewModifier(caster, self, "modifier_juggernaut_bloodlust", {duration = duration})
     
-    -- Play cast sounds
-    StartSoundEvent("Jugger_mom.sound", caster)
-    caster:EmitSoundOn("Hero_Juggernaut.BladeFury.Start")
+    -- Play cast sound
+    EmitSoundOn("Jugger_mom.sound", caster)
 end
 
 --------------------------------------------------------------------------------

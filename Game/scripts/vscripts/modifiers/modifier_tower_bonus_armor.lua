@@ -27,3 +27,4 @@ function modifier_tower_bonus_armor:GetModifierPhysicalArmorBonus()
 	return 5
 end
 
+
