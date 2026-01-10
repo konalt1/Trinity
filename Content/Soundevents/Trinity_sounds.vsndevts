@@ -2,7 +2,7 @@
 {
 	Holy_Ground.Cast = 
 	{
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files = "sounds/deus_vult.vsnd"
 		volume = 1.0
 	}
@@ -32,9 +32,11 @@
 	
 	Jugger_mom.sound =
 	{
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files = "sounds/jugger_mom.vsnd"
 		volume = 4.0
+		vsnd_distance_max = 1000.0
+		vsnd_distance_min = 500.0
 	}
 	
 	Ogre_fart.sound =
