@@ -1,0 +1,65 @@
+ 
+"Wheel.pudge"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_src1_3d"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                      "value"
+                      {
+                        "value0"        "sounds/wheel/pudge.vsnd"
+                      }
+                    }
+                    "volume"          { "value"     "1.000000" }
+                    "pitch_rand_min" 	{ "value" 	  "0.000000" }
+                    "pitch_rand_max"	{ "value" 	  "0.000000" }
+                    "pitch"				    { "value" 	  "1.000000" }
+                    "soundlevel"		  { "value" 	  "81.000000" }
+                    "spread_radius"		{ "value" 	  "600.000000" }
+                    "vsnd_duration"		  { "value" 	  "5.000000" }
+                }
+            }
+        }
+    }
+} 
+
+"Wheel.tuntunsahur"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_src1_3d"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                      "value"
+                      {
+                        "value0"        "sounds/wheel/tuntunsahur.vsnd"
+                      }
+                    }
+                    "volume"          { "value"     "1.000000" }
+                    "pitch_rand_min" 	{ "value" 	  "0.000000" }
+                    "pitch_rand_max"	{ "value" 	  "0.000000" }
+                    "pitch"				    { "value" 	  "1.000000" }
+                    "soundlevel"		  { "value" 	  "81.000000" }
+                    "spread_radius"		{ "value" 	  "600.000000" }
+                    "vsnd_duration"		  { "value" 	  "5.000000" }
+                }
+            }
+        }
+    }
+}
+ 

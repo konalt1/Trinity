@@ -3,6 +3,12 @@
 	"Language"		"english"
 	"Tokens"
 	{
+		// Колесо чата
+	    "chat_wheel_donate_sound_empty"                                 "Пусто"
+		"chat_wheel_donate_sound_pudge"							"Иди на*уй!"
+		"chat_wheel_donate_sound_tuntunsahur"				"Бр-Бр патапим Бр-Бр патапим"
+		"dota_error_cooldown_chat_wheel"					"Фразы на перезарядке"
+
 		//Doom
 		// Doom Soul Devour
 		"DOTA_Tooltip_ability_doom_soul_devour"						"Поглощение Души"
