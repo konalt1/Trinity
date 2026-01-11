@@ -41,8 +41,10 @@ function Precache( context )
 	PrecacheResource( "particle", "particles/econ/events/plus/high_five/high_five_impact.vpcf", context )
 	
 	-- Precache Trinity custom sounds
-	PrecacheResource( "soundfile", "soundevents/trinity_sounds.vsndevts", context )
-
+	PrecacheResource( "soundfile", "soundevents/chat_wheel_sounds.vsndevts", context )
+-- Из за него не работал прекеш выше файла
+	 -- PrecacheResource( "soundfile", "soundevents/trinity_sounds.vsndevts", context )
+ 
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")
 	-- 	print(hero_name)

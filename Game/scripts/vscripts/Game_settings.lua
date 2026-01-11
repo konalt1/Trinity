@@ -38,6 +38,7 @@ CUSTOM_BUYBACK_COOLDOWN_ENABLED = false  -- Should we use a custom buyback time?
 CUSTOM_BUYBACK_COOLDOWN = 900  -- Should we use a custom buyback time?
 BUYBACK_ENABLED = true                 -- Should we allow people to buyback when they die?
 
+
 DISABLE_FOG_OF_WAR_ENTIRELY = false     -- Should we disable fog of war entirely for both teams?
 USE_UNSEEN_FOG_OF_WAR = false           -- Should we make unseen and fogged areas of the map completely black until uncovered by each team? 
                                             -- Note: DISABLE_FOG_OF_WAR_ENTIRELY must be false for USE_UNSEEN_FOG_OF_WAR to work
@@ -47,7 +48,7 @@ MAXIMUM_ATTACK_SPEED = 1200
 MINIMUM_ATTACK_SPEED = 50
 Max_level=20
 
-ENABLE_TOWER_BACKDOOR_PROTECTION = True-- Should we enable backdoor protection for our towers?
+ENABLE_TOWER_BACKDOOR_PROTECTION = true-- Should we enable backdoor protection for our towers?
 REMOVE_ILLUSIONS_ON_DEATH = false       -- Should we remove all illusions if the main hero dies?
 DISABLE_GOLD_SOUNDS = false             -- Should we disable the gold sound when players get gold?
 USE_CUSTOM_TOP_BAR_VALUES = false
@@ -173,7 +174,7 @@ function GameSettings:OnConnectFull(keys)
 	local entIndex = keys.index+1
 	-- The Player entity of the joining user
 	local ply = EntIndexToHScript(entIndex)
-
+	if not ply then return end
 	-- The Player ID of the joining player
 	local playerID = ply:GetPlayerID()
 

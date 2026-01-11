@@ -8,7 +8,7 @@ GameMode.wave_number = 0
 GameMode.towers = {} -- Таблица всех башен с информацией о них
 GameMode.ancients = {} -- Таблица тронов
 GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
-
+GameMode.CHAT_WHEEL_COOLDOWN = 10
 GameMode.wave_list = {
 	[1]={reward_gold=250,reward_exp=500,
 			units={["npc_line_creep_1"]=6,["npc_line_creep_2"]=2}},
@@ -22,7 +22,9 @@ function GameMode:InitGameMode()
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
- 	ListenToGameEvent('dota_inventory_item_added', Dynamic_Wrap(self, 'OnInventoryUpdate'), self)	
+	ListenToGameEvent('dota_inventory_item_added', Dynamic_Wrap(self, 'OnInventoryUpdate'), self)	
+
+	CustomGameEventManager:RegisterListener('chat_wheel_select', Dynamic_Wrap(self, 'OnChatWheelSelect'))	
  
 
     GameRules:SetCustomGameTeamMaxPlayers(1, 2)
@@ -581,5 +583,25 @@ function GameMode:OnTowerKill(name, teamnumber)
  	end
 end
 
+function GameMode:OnChatWheelSelect(data) 
+    local sound = data.select;
+	local hero = PlayerResource:GetSelectedHeroEntity(data.PlayerID)
+	local infoCooldown = CustomNetTables:GetTableValue("cooldown_info", tostring(data.PlayerID)) or {cooldown_chat = 0} ;
+    if infoCooldown.cooldown_chat == 1 then return end
+    if not sound then return end
+    if not hero then return end
+	 
+	CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), {cooldown_chat = 1});
+    Timers:CreateTimer(GameMode.CHAT_WHEEL_COOLDOWN, function()
+         CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), { cooldown_chat = 0 });
+	end);
+	EmitSoundOn("Wheel." .. sound, hero) 
+
+	CustomGameEventManager:Send_ServerToAllClients("chat_wheel_send_sound", {
+      hero = hero:entindex(),
+      sound = sound,
+	  maxTime = data.maxTime
+    });
+end
  
 GameMode:InitGameMode()

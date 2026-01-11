@@ -4,5 +4,6 @@
   </scripts>
   <Panel>
       <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml" />
+      <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml" />
   </Panel>
 </root>
