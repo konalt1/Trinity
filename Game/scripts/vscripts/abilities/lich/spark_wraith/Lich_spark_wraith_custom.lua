@@ -44,16 +44,6 @@ end
 
 function lich_spark_wraith:GetManaBurn()
 	local base_mana_burn = self:GetSpecialValueFor("mana_burn_base")
-	local caster = self:GetCaster()
-	
-	-- Добавляем бонус от силы разума (Mind Power)
-	if caster and GetHeroMindPower then
-		local mind_power = GetHeroMindPower(caster)
-		local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier") or 0
-		local bonus_mana_burn = mind_power * mind_power_multiplier
-		return base_mana_burn + bonus_mana_burn
-	end
-	
 	return base_mana_burn
 end
 
