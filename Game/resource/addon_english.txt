@@ -142,7 +142,7 @@
 		//Lich
 		// Frost Blast
 		"DOTA_Tooltip_ability_lich_frost_blast_lua"								"Ледяной Взрыв"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Лич обдаёт цель холодом, нанося урон ей и врагам вокруг, а также замедляя их. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия и замедляя передвижение и атаку всех задетых противников на 4 сек. Основная цель получает как базовый урон, так и урон по площади. Урон усиливается Силой магии."
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"					"УРОН ПО ОБЛАСТИ:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"			"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
@@ -160,8 +160,8 @@
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_mind_power_damage_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 
 		// Spark Wraith
-		"DOTA_Tooltip_ability_lich_spark_wraith"								"Искра Призрака"
-		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Лич создаёт призрачную искру, которая ждёт врага. При обнаружении искра летит к цели, нанося урон и сжигая ману, затем возвращается к Личу, поражая врагов на пути и восстанавливая всю сожжённую ману."
+		"DOTA_Tooltip_ability_lich_spark_wraith"								"Неупокоенная Душа"
+		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Лич создаёт в выбранной точке Душу. При обнаружении врага Душа летит к нему, нанося ему урон и сжигая ману. Затем Душа возвращается к Личу, нанося урон и сжигая ману у всех на пути. Душа передаёт всю сожжённую ману Личу"
 		"DOTA_Tooltip_ability_lich_spark_wraith_spark_damage_base"				"УРОН:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_radius"							"РАДИУС ОБНАРУЖЕНИЯ:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_duration"						"ДЛИТЕЛЬНОСТЬ:"
@@ -170,7 +170,7 @@
 
 		// Ice Phylactery (Ultimate)
 		"DOTA_Tooltip_ability_ability_ice_phylactery"							"Ледяной Филактерий"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Лич создаёт ледяной Филактерий, который замедляет врагов вокруг, уменьшает перезарёдку способностей лича а так-же даёт ему вампиризм от заклинаний. Филактерий уничтожается после определённого количества атак."
+		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Лич создаёт ледяной Филактерий. Аура Филактерия замедляет врагов вокруг, уменьшает перезарядку способностей Лича, а также даёт ему вампиризм от заклинаний. Филактерий уничтожается после определённого количества атак."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"РАДИУС АУРЫ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
