@@ -188,6 +188,10 @@ const checkMousePosition = () => {
   $.Schedule(0.03, checkMousePosition);
 };
 
+function isHealthBarVisible(posX, posY, originZ) {
+  return !(posX < 0 || posX > Game.GetScreenWidth() || posY < 0 || posY > Game.GetScreenHeight() || originZ < -500);
+}
+
 const CreateVideoHeadMessage = (data) => {
   const hudRoot = dotaHud.FindChildTraverse("HeroRelicProgress");
   hudRoot.hittestchildren = true;
@@ -227,6 +231,29 @@ const CreateVideoHeadMessage = (data) => {
     // Быстрая проверка валидности координат
     if (isNaN(posX) || isNaN(posY)) return;
 
+    const next = () => {
+      const frameTime = Game.GetGameFrameTime();
+      time += frameTime;
+
+      $.Schedule(Game.GetGameFrameTime(), () => {
+        UpdateVideoPanels();
+      });
+    };
+
+    if (!isHealthBarVisible(posX, posY, origin[2])) {
+      // Полностью скрываем панель если она за краем экрана
+      if (newPanel.style.visibility !== "collapse") {
+        newPanel.style.visibility = "collapse";
+      }
+      next();
+      return;
+    } else {
+      // Показываем панель если она в видимой области
+      if (newPanel.style.visibility !== "visible") {
+        newPanel.style.visibility = "visible";
+      }
+    }
+
     // Вычисляем offset для позиционирования над юнитом
     let offSet = Entities.GetHealthBarOffset(hero) + 100;
     if (offSet < 200) {
@@ -252,10 +279,7 @@ const CreateVideoHeadMessage = (data) => {
       newPanel.style.transform = panelTransform;
     }
 
-    const frameTime = Game.GetGameFrameTime();
-    time += frameTime;
-
-    $.Schedule(Game.GetGameFrameTime(), UpdateVideoPanels);
+    next();
   };
 
   UpdateVideoPanels();

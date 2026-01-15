@@ -52,4 +52,18 @@
 		vsnd_files = "sounds/ogre's_roar.vsnd"
 		volume = 15.0
 	}
+
+	Wheel.tuntunsahur =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/tuntunsahur.vsnd"
+		volume = 15.0
+	}	
+
+	Wheel.pudge =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/pudge.vsnd"
+		volume = 15.0
+	}		
 }
