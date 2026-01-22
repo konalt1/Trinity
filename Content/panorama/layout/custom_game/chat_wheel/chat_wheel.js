@@ -10,6 +10,7 @@ var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const initTableHero = () => {
   // Имя должно совпадать с видео и аудио, цифра это позиция в колесе чатов от 0 - до 7
   tableHero = { ["0"]: { sound: "pudge", maxTime: 5 }, ["3"]: { sound: "tuntunsahur", maxTime: 4 } };
+  tableHero = { ["0"]: { sound: "Watson", maxTime: 1.5 }, ["2"]: { sound: "tuntunsahur", maxTime: 1.5} };
 };
 const initChatWheel = () => {
   var _a;

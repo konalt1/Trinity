@@ -43,6 +43,7 @@ function Precache( context )
 	-- Precache Trinity custom sounds
  
 	PrecacheResource( "soundfile", "soundevents/trinity_sounds.vsndevts", context )
+
  
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")
