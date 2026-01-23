@@ -34,8 +34,6 @@ function GameMode:OnGameRulesStateChange()
 	local newState = GameRules:State_Get()
 
 	if newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		print("=== ИГРА НАЧАЛАСЬ! Инициализация башен ===")
-		
 		-- Сбрасываем флаг спавна крипов
 		GameMode.lane_creeps_spawned = false
 		
@@ -63,6 +61,70 @@ function GameMode:OnGameRulesStateChange()
 			end
 		end)
 	end
+end
+
+-- Функция спавна Guardian с привязкой к точке спавна
+function GameMode:SpawnGuardianWithLeash(unit_name, position, team, leash_radius, owner_hero)
+	-- Спавним юнита
+	local guardian = CreateUnitByName(
+		unit_name,
+		position,
+		true,
+		owner_hero,
+		owner_hero,
+		team
+	)
+	
+	if guardian ~= nil and IsValidEntity(guardian) then
+		-- Применяем модификатор привязки к точке спавна
+		guardian:AddNewModifier(guardian, nil, "modifier_leash_to_spawn", {
+			radius = leash_radius or 1000
+		})
+		
+		-- Если есть владелец, делаем юнита контролируемым
+		if owner_hero and owner_hero:IsRealHero() then
+			local playerID = owner_hero:GetPlayerOwnerID()
+			guardian:SetControllableByPlayer(playerID, true)
+			guardian:SetOwner(owner_hero)
+		end
+		
+		print("[GameMode] ✓ " .. unit_name .. " заспавнен с привязкой " .. (leash_radius or 1000) .. " радиус")
+		return guardian
+	else
+		print("[GameMode] ✗ Ошибка спавна " .. unit_name)
+		return nil
+	end
+end
+
+-- Функция спавна тестового Guardian (для консольных команд)
+function GameMode:SpawnTestGuardian()
+	print("========================================")
+	print("[GameMode] СПАВН npc_guardian_good")
+	print("========================================")
+	
+	local spawn_pos = Vector(0, 0, 256)
+	
+	-- Находим первого игрока для привязки юнита
+	local playerID = 0
+	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+	
+	-- Спавним с привязкой к точке спавна
+	local guardian = GameMode:SpawnGuardianWithLeash(
+		"npc_guardian_good",
+		spawn_pos,
+		DOTA_TEAM_GOODGUYS,
+		1000,  -- Радиус привязки 1000 юнитов
+		hero
+	)
+	
+	if guardian then
+		print("[GameMode] Позиция: " .. tostring(guardian:GetAbsOrigin()))
+		print("[GameMode] entindex: " .. tostring(guardian:entindex()))
+		print("[GameMode] Здоровье: " .. tostring(guardian:GetHealth()))
+		print("[GameMode] ✓ Юнит привязан к точке спавна (радиус 1000)")
+	end
+	
+	print("========================================")
 end
 
 -- Регистрируем одну башню в таблице
@@ -164,17 +226,11 @@ end
 ]]
 
 function GameMode:MakeTowersInvulnerable()
-	print("=== Инициализация защиты башен ===")
-	
-	local towers_count = 0
-	
 	-- Находим все башни через класс npc_dota_tower
 	local tower = Entities:FindByClassname(nil, "npc_dota_tower")
 	while tower ~= nil do
 		if tower and IsValidEntity(tower) then
-			if self:RegisterTower(tower) then
-				towers_count = towers_count + 1
-			end
+			self:RegisterTower(tower)
 		end
 		tower = Entities:FindByClassname(tower, "npc_dota_tower")
 	end
@@ -194,35 +250,12 @@ function GameMode:MakeTowersInvulnerable()
 			}
 			table.insert(GameMode.towers, tower_info)
 			watch_tower:AddNewModifier(watch_tower, nil, "modifier_invulnerable", {})
-			towers_count = towers_count + 1
 		end
 		watch_tower = Entities:FindByClassname(watch_tower, "npc_dota_watch_tower")
 	end
-	
-	print("=== Защищено башен: " .. towers_count .. " ===")
 end
 
 --[[
-	ПРИМЕР ИСПОЛЬЗОВАНИЯ GameMode.towers:
-	
-	-- Найти все башни T1 команды Radiant:
-	for _, tower_info in pairs(GameMode.towers) do
-		if tower_info.tier == 1 and tower_info.team == "radiant" then
-			print("T1 башня Radiant: " .. tower_info.name)
-		end
-	end
-	
-	-- Найти все башни на top линии:
-	for _, tower_info in pairs(GameMode.towers) do
-		if tower_info.lane == "top" then
-			print("Top башня: " .. tower_info.name .. " tier " .. tower_info.tier)
-		end
-	end
-	
-	-- Получить entity башни:
-	local tower_entity = tower_info.entity
-	tower_entity:RemoveModifierByName("modifier_invulnerable")
-	
 	Структура tower_info:
 	{
 		entity = [handle башни],
@@ -236,10 +269,6 @@ end
 
 -- Делаем троны неуязвимыми
 function GameMode:MakeAncientsInvulnerable()
-	print("=== Инициализация защиты тронов ===")
-	
-	local ancient_count = 0
-	
 	-- Находим древних (троны)
 	local ancient = Entities:FindByClassname(nil, "npc_dota_fort")
 	while ancient ~= nil do
@@ -263,41 +292,24 @@ function GameMode:MakeAncientsInvulnerable()
 			
 			table.insert(GameMode.ancients, ancient_info)
 			ancient:AddNewModifier(ancient, nil, "modifier_invulnerable", {})
-			ancient_count = ancient_count + 1
 		end
 		ancient = Entities:FindByClassname(ancient, "npc_dota_fort")
 	end
-	
-	print("=== Защищено тронов: " .. ancient_count .. " ===")
 end
 
 -- Снимаем неуязвимость с T1 башен
 function GameMode:UnlockTier1Towers()
-	print("========================================")
-	print("=== СПАВН КРИПОВ: Снимаем защиту с T1 и T3 mid башен ===")
-	
-	local unlocked_count = 0
-	
 	for _, tower_info in pairs(GameMode.towers) do
 		-- T1 башни всех линий
 		if tower_info.tier == 1 and tower_info.entity and IsValidEntity(tower_info.entity) then
 			tower_info.entity:RemoveModifierByName("modifier_invulnerable")
-			unlocked_count = unlocked_count + 1
-			print(string.format("    ✓ %s [T%d %s %s] уязвима", 
-				tower_info.name, tower_info.tier, tower_info.team, tower_info.lane))
-		-- T3 mid башни
-		elseif tower_info.tier == 3 and tower_info.lane == "mid" and tower_info.entity and IsValidEntity(tower_info.entity) then
+		-- T2 mid башни
+		elseif tower_info.tier == 2 and tower_info.lane == "mid" and tower_info.entity and IsValidEntity(tower_info.entity) then
 			tower_info.entity:RemoveModifierByName("modifier_invulnerable")
-			unlocked_count = unlocked_count + 1
-			print(string.format("    ✓ %s [T3 mid %s] уязвима", 
-				tower_info.name, tower_info.team))
-			-- Даем модификатор брони от T2 башен
-			GameMode:UpdateT3MidArmor(tower_info)
+			-- Даем модификатор брони от T1 башен
+			GameMode:UpdateT2MidArmor(tower_info)
 		end
 	end
-	
-	print("=== Разблокировано башен: " .. unlocked_count .. " ===")
-	print("========================================")
 end
 
 -- Снимаем неуязвимость со следующего тира башен на линии
@@ -310,8 +322,6 @@ function GameMode:UnlockNextTierTower(team, lane, current_tier)
 		   IsValidEntity(tower_info.entity) then
 			
 			tower_info.entity:RemoveModifierByName("modifier_invulnerable")
-			print(string.format("    ✓ РАЗБЛОКИРОВАНА: %s [T%d %s %s]", 
-				tower_info.name, tower_info.tier, tower_info.team, tower_info.lane))
 			return true
 		end
 	end
@@ -319,70 +329,41 @@ function GameMode:UnlockNextTierTower(team, lane, current_tier)
 	return false
 end
 
--- Обновляем броню T3 mid башни на основе количества живых T2 башен
-function GameMode:UpdateT3MidArmor(t3_mid_tower_info)
-	if not t3_mid_tower_info or not t3_mid_tower_info.entity or not IsValidEntity(t3_mid_tower_info.entity) then
-		print("    >>> ERROR: T3 mid башня не валидна!")
+-- Обновляем броню T2 mid башни на основе количества живых T1 башен
+function GameMode:UpdateT2MidArmor(t2_mid_tower_info)
+	if not t2_mid_tower_info or not t2_mid_tower_info.entity or not IsValidEntity(t2_mid_tower_info.entity) then
 		return
 	end
 	
-	print(string.format("    >>> Обновляем броню для: %s [%s]", t3_mid_tower_info.name, t3_mid_tower_info.team))
-	
-	-- Подсчитываем живые T2 башни союзной команды
-	local t2_count = 0
+	-- Подсчитываем живые T1 башни союзной команды
+	local t1_count = 0
 	for _, tower_info in pairs(GameMode.towers) do
-		if tower_info.tier == 2 and tower_info.team == t3_mid_tower_info.team then
-			print(string.format("        Проверка T2: %s [%s, %s]", 
-				tower_info.name, tower_info.team, tower_info.lane))
-			
-			if tower_info.entity and IsValidEntity(tower_info.entity) then
-				if tower_info.entity:IsAlive() then
-					t2_count = t2_count + 1
-					print("            -> Жива, считаем")
-				else
-					print("            -> Мертва, не считаем")
-				end
-			else
-				print("            -> Entity не валидна")
+		if tower_info.tier == 1 and tower_info.team == t2_mid_tower_info.team then
+			if tower_info.entity and IsValidEntity(tower_info.entity) and tower_info.entity:IsAlive() then
+				t1_count = t1_count + 1
 			end
 		end
 	end
 	
-	print(string.format("        Всего живых T2 башен: %d", t2_count))
-	
 	-- Удаляем все старые модификаторы
-	while t3_mid_tower_info.entity:HasModifier("modifier_tower_bonus_armor") do
-		t3_mid_tower_info.entity:RemoveModifierByName("modifier_tower_bonus_armor")
+	while t2_mid_tower_info.entity:HasModifier("modifier_tower_bonus_armor") do
+		t2_mid_tower_info.entity:RemoveModifierByName("modifier_tower_bonus_armor")
 	end
 	
 	-- Добавляем новый с нужным количеством стаков
-	if t2_count > 0 then
-		for i = 1, t2_count do
-			t3_mid_tower_info.entity:AddNewModifier(t3_mid_tower_info.entity, nil, "modifier_tower_bonus_armor", {})
+	if t1_count > 0 then
+		for i = 1, t1_count do
+			t2_mid_tower_info.entity:AddNewModifier(t2_mid_tower_info.entity, nil, "modifier_tower_bonus_armor", {})
 		end
-		print(string.format("    >>> T3 mid башня %s получила +%d брони (T2 башен: %d)", 
-			t3_mid_tower_info.name, t2_count * 5, t2_count))
-	else
-		print(string.format("    >>> T3 mid башня %s не имеет бонуса брони (нет T2 башен)", 
-			t3_mid_tower_info.name))
 	end
 end
 
--- Обновляем броню всех T3 mid башен команды
-function GameMode:UpdateAllT3MidArmor(team)
-	print(string.format(">>> UpdateAllT3MidArmor вызвана для команды: %s", team))
-	
-	local found = false
+-- Обновляем броню всех T2 mid башен команды
+function GameMode:UpdateAllT2MidArmor(team)
 	for _, tower_info in pairs(GameMode.towers) do
-		if tower_info.tier == 3 and tower_info.lane == "mid" and tower_info.team == team then
-			found = true
-			print(string.format("    Найдена T3 mid башня: %s", tower_info.name))
-			GameMode:UpdateT3MidArmor(tower_info)
+		if tower_info.tier == 2 and tower_info.lane == "mid" and tower_info.team == team then
+			GameMode:UpdateT2MidArmor(tower_info)
 		end
-	end
-	
-	if not found then
-		print("    ✗ T3 mid башня не найдена!")
 	end
 end
 
@@ -394,8 +375,6 @@ function GameMode:UnlockAncient(team)
 		   IsValidEntity(ancient_info.entity) then
 			
 			ancient_info.entity:RemoveModifierByName("modifier_invulnerable")
-			print(string.format("    ✓ РАЗБЛОКИРОВАН ТРОН: %s [%s]", 
-				ancient_info.name, ancient_info.team))
 			return true
 		end
 	end
@@ -498,24 +477,18 @@ function GameMode:OnEntityKilled(keys)
 		end
 		
 		if killed_tower_info then
-			print("========================================")
-			print(string.format("=== УНИЧТОЖЕНА БАШНЯ: %s [T%d %s %s] ===", 
-				killed_tower_info.name, killed_tower_info.tier, killed_tower_info.team, killed_tower_info.lane))
-			
-			-- Если это T1 или T2 - разблокируем следующий тир на линии
-			if killed_tower_info.tier == 1 or killed_tower_info.tier == 2 then
+			-- Если это T1 - разблокируем T2 на линии и обновляем броню T2 mid
+			if killed_tower_info.tier == 1 then
 				GameMode:UnlockNextTierTower(killed_tower_info.team, killed_tower_info.lane, killed_tower_info.tier)
-				
-				-- Если уничтожена T2 башня - обновляем броню T3 mid башни
-				if killed_tower_info.tier == 2 then
-					print(">>> T2 башня уничтожена, обновляем броню T3 mid команды: " .. killed_tower_info.team)
-					GameMode:UpdateAllT3MidArmor(killed_tower_info.team)
-				end
-			-- Если это T3 или T4 - разблокируем трон
-			elseif killed_tower_info.tier == 3 or killed_tower_info.tier == 4 then
+				GameMode:UpdateAllT2MidArmor(killed_tower_info.team)
+			-- Если это T2 - разблокируем T3 на линии и разблокируем трон
+			elseif killed_tower_info.tier == 2 then
+				GameMode:UnlockNextTierTower(killed_tower_info.team, killed_tower_info.lane, killed_tower_info.tier)
 				GameMode:UnlockAncient(killed_tower_info.team)
+			-- Если это T3 - разблокируем T4 на линии
+			elseif killed_tower_info.tier == 3 then
+				GameMode:UnlockNextTierTower(killed_tower_info.team, killed_tower_info.lane, killed_tower_info.tier)
 			end
-			print("========================================")
 		end
 	end
 
