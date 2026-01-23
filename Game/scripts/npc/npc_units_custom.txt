@@ -24,7 +24,100 @@
             "BlockNeutralCamps"         "0"
         }
     }
-    
+    "npc_guardian_good"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
+        "Level"                         "1"
+        "ModelScale"                    "2.0"
+        
+        // Armor
+        "ArmorPhysical"                 "50"
+        "MagicalResistance"             "50"
+        
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "500"
+        "AttackDamageMax"               "600"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.5"
+        "AttackAcquisitionRange"        "600"
+        "AttackRange"                   "128"
+        
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "350"
+        "MovementTurnRate"              "0.6"
+        
+        // Status
+        "StatusHealth"                  "10000"
+        "StatusHealthRegen"             "10"
+        "StatusMana"                    "0"
+        "StatusManaRegen"               "0"
+        
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+        
+        // Bounty
+        "BountyXP"                      "100"
+        "BountyGoldMin"                 "50"
+        "BountyGoldMax"                 "75"
+        
+        // Team - будет задана при спавне
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_guardian_bad"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/items/broodmother/spiderling/the_glacial_creeper_creepling/the_glacial_creeper_creepling_dpc.vmdl"
+        "Level"                         "1"
+        "ModelScale"                    "2.0"
+        
+        // Armor
+        "ArmorPhysical"                 "50"
+        "MagicalResistance"             "50"
+        
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "500"
+        "AttackDamageMax"               "600"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.5"
+        "AttackAcquisitionRange"        "600"
+        "AttackRange"                   "128"
+        
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "350"
+        "MovementTurnRate"              "0.6"
+        
+        // Status
+        "StatusHealth"                  "10000"
+        "StatusHealthRegen"             "10"
+        "StatusMana"                    "0"
+        "StatusManaRegen"               "0"
+        
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+        
+        // Bounty
+        "BountyXP"                      "100"
+        "BountyGoldMin"                 "50"
+        "BountyGoldMax"                 "75"
+        
+        // Team - будет задана при спавне
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
 	"npc_dota3_chainbomb"
     {
         "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"// Model.
@@ -162,6 +255,7 @@
         // Status
         //----------------------------------------------------------------
         "StatusHealth"              "575"       // Base health.
+    }
 
     "npc_dota_damage_listener"
     {
@@ -264,6 +358,8 @@
         "AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
     }
 
+    
+
     "npc_gold_lama"   
     {
         // General
@@ -338,30 +434,84 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
 
-    "npc_dota_tusk_ice_shard_blocker"
+    "npc_dota_roshan_custom"
     {
-        "BaseClass"                     "npc_dota_base_additive"
-        "Model"                         "models/development/invisiblebox.vmdl"
-        "ModelScale"                    "1.0"
-        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
-        "StatusHealth"                  "1"
-        "BoundsHullName"               "DOTA_HULL_SIZE_SMALL"
-        "CollisionSize"                 "50"
-        "RingRadius"                    "50"
-        "HealthBarOffset"              "0"
-        "StatusMana"                    "0"
-        "StatusManaRegen"              "0"
-        "MovementSpeed"                 "0"
-        "MovementTurnRate"             "0"
-        "HasInventory"                  "0"
-        "VisionDaytimeRange"           "0"
-        "VisionNighttimeRange"         "0"
-        "UnitRelationshipClass"        "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
-        "Creature"
-        {
-            "DisableClumpingBehavior"   "1"
-            "AttachWearables"           []
-        }
+        // General
+        //----------------------------------------------------------------
+        "BaseClass"                 "npc_dota_roshan"
+        "Model"                     "models/creeps/roshan/roshan.vmdl"
+        "SoundSet"                  "Roshan"
+        "ModelScale"                "1.2"
+        "Level"                     "30"
+        "IsAncient"                 "1"
+        
+        // Abilities
+        //----------------------------------------------------------------
+        "Ability1"                  "roshan_revengeroar"
+        "Ability2"                  "roshan_slam"
+        "Ability3"                  "roshan_inherent_buffs"
+        "Ability4"                  "roshan_devotion"
+        "Ability5"                  "roshan_bash"
+        "Ability6"                  "roshan_spell_block"
+        "Ability7"                  ""
+        "Ability8"                  ""
+
+        // Armor
+        //----------------------------------------------------------------
+        "ArmorPhysical"             "40"
+        "MagicalResistance"         "65"
+
+        // Attack
+        //----------------------------------------------------------------
+        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"           "100"
+        "AttackDamageMax"           "120"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackRate"                "1.5"
+        "AttackAnimationPoint"      "0.6"
+        "AttackAcquisitionRange"    "150"
+        "AttackRange"               "150"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        // Bounty
+        //----------------------------------------------------------------
+        "BountyXP"                  "500"
+        "BountyGoldMin"             "250"
+        "BountyGoldMax"             "350"
+
+        // Bounds
+        //----------------------------------------------------------------
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "RingRadius"                "110"
+        "HealthBarOffset"           "400"
+
+        // Movement
+        //----------------------------------------------------------------
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "270"
+        "MovementTurnRate"          "0.5"
+
+        // Status
+        //----------------------------------------------------------------
+        "StatusHealth"              "15000"
+        "StatusHealthRegen"         "50"
+        "StatusMana"                "500"
+        "StatusManaRegen"           "10"
+
+        // Vision
+        //----------------------------------------------------------------
+        "VisionDaytimeRange"        "1400"
+        "VisionNighttimeRange"      "1400"
+
+        // Team
+        //----------------------------------------------------------------
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_HERO"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_HERO"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
+
+
 
 }

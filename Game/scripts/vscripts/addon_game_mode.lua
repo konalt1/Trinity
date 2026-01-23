@@ -29,6 +29,9 @@ require ("Tusk/test_tusk")
 require ("Tusk/tusk_channeled_snowball")
 print("=== TUSK ABILITIES LOADED ===")
 
+-- Загружаем модификаторы
+require ("modifiers/modifier_leash_to_spawn")
+
 function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
