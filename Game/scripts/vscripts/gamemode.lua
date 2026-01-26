@@ -576,5 +576,15 @@ function GameMode:OnChatWheelSelect(data)
 	  maxTime = data.maxTime
     });
 end
+
+-- Консольная команда для спавна Рошана
+Convars:RegisterCommand("spawn_roshan", function()
+	local hero = PlayerResource:GetSelectedHeroEntity(0)
+	if hero then
+		local pos = hero:GetAbsOrigin() + hero:GetForwardVector() * 300
+		local roshan = CreateUnitByName("npc_dota_roshan_custom", pos, true, nil, nil, DOTA_TEAM_NEUTRALS)
+		print("[Console] Рошан заспавнен на позиции: " .. tostring(pos))
+	end
+end, "Спавнит кастомного Рошана перед героем", 0)
  
 GameMode:InitGameMode()

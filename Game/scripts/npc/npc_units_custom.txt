@@ -445,6 +445,10 @@
         "Level"                     "30"
         "IsAncient"                 "1"
         
+        // AI Script
+        //----------------------------------------------------------------
+        "vscripts"                  "ai_roshan_custom.lua"
+        
         // Abilities
         //----------------------------------------------------------------
         "Ability1"                  "roshan_revengeroar"
