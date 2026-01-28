@@ -17,6 +17,7 @@ local TEAM_DIRE = DOTA_TEAM_BADGUYS or 3
 local CAPTURE_TIME = 5  -- время захвата в секундах
 local ACTIVATION_INTERVAL = 30  -- интервал активации (каждые 30 секунд игрового времени)
 local nextActivationTime = 30  -- следующее время активации (начинаем с 0:30)
+local activationTimerStarted = false  -- флаг, что таймер активации запущен
 
 -- Эффект захвата
 local CAPTURE_PARTICLE = "particles/econ/generic/generic_aoe_shockwave_1/generic_aoe_shockwave_1.vpcf"
@@ -105,6 +106,7 @@ end
 local function StartCooldownUntilNextActivation()
     nextActivationTime = CalculateNextActivationTime()
     isOnCooldown = true
+    activationTimerStarted = true
     
     local currentTime = GetGameTime()
     local waitTime = nextActivationTime - currentTime
@@ -115,6 +117,7 @@ local function StartCooldownUntilNextActivation()
     
     Timers:CreateTimer(waitTime, function()
         isOnCooldown = false
+        activationTimerStarted = false
         print("[Shard Shrine] Zone now active! (Game time: " .. minutes .. ":" .. string.format("%02d", seconds) .. ")")
         
         -- Проверяем, есть ли ожидающие герои
@@ -281,10 +284,101 @@ function OnStart(trigger)
         return
     end
     
-    -- Если на кулдауне — добавляем в список ожидания
-    if isOnCooldown then
+    -- Проверяем, активна ли зона (по игровому времени)
+    if not IsZoneActive() or isOnCooldown then
         heroesWaiting[heroId] = hero
-        print("[Shard Shrine] Zone on cooldown - hero added to waiting list")
+        local minutes = math.floor(nextActivationTime / 60)
+        local seconds = nextActivationTime % 60
+        print("[Shard Shrine] Zone not active - hero waiting until " .. minutes .. ":" .. string.format("%02d", seconds))
+        
+        -- Запускаем таймер ожидания активации (если ещё не запущен)
+        if not activationTimerStarted and not isOnCooldown then
+            activationTimerStarted = true
+            local currentTime = GetGameTime()
+            local waitTime = nextActivationTime - currentTime
+            
+            if waitTime > 0 then
+                print("[Shard Shrine] Activation timer started, waiting " .. string.format("%.1f", waitTime) .. " seconds")
+                Timers:CreateTimer(waitTime, function()
+                    activationTimerStarted = false
+                    
+                    -- Проверяем, есть ли ожидающие герои
+                    local waitingHero = GetAnyHeroFromTable(heroesWaiting)
+                    if waitingHero and IsValidEntity(waitingHero) then
+                        print("[Shard Shrine] Zone now active! Starting capture for waiting heroes!")
+                        
+                        -- Переносим ожидающих в активные
+                        for id, h in pairs(heroesWaiting) do
+                            if h and IsValidEntity(h) then
+                                local hTeam = h:GetTeamNumber()
+                                if IsValidTeam(hTeam) then
+                                    if not capturingTeam then
+                                        capturingTeam = hTeam
+                                        heroesInArea[id] = h
+                                        currentHero = h
+                                        CreateCaptureEffect(h:GetAbsOrigin())
+                                    elseif hTeam == capturingTeam then
+                                        heroesInArea[id] = h
+                                    else
+                                        enemiesInArea[id] = h
+                                    end
+                                end
+                            end
+                        end
+                        heroesWaiting = {}
+                        
+                        -- Запускаем таймер захвата
+                        if capturingTeam and not activeTimer then
+                            countdown = CAPTURE_TIME
+                            print("[Shard Shrine] Timer started - " .. countdown .. " seconds")
+                            
+                            activeTimer = Timers:CreateTimer(1.0, function()
+                                if GetTableCount(heroesInArea) == 0 then
+                                    return nil
+                                end
+                                
+                                if IsContested() then
+                                    print("[Shard Shrine] CONTESTED - Timer paused...")
+                                    return 1.0
+                                end
+                                
+                                countdown = countdown - 1
+                                
+                                if countdown > 0 then
+                                    print("[Shard Shrine] " .. countdown .. " seconds remaining...")
+                                    return 1.0
+                                else
+                                    print("[Shard Shrine] Timer finished! Giving Aghanim's Shard!")
+                                    
+                                    local rewardHero = currentHero
+                                    if not rewardHero or not IsValidEntity(rewardHero) then
+                                        rewardHero = GetAnyHeroFromTable(heroesInArea)
+                                    end
+                                    
+                                    if rewardHero and IsValidEntity(rewardHero) then
+                                        rewardHero:AddItemByName("item_aghanims_shard")
+                                    end
+                                    
+                                    DestroyCaptureEffect()
+                                    activeTimer = nil
+                                    currentHero = nil
+                                    capturingTeam = nil
+                                    countdown = CAPTURE_TIME
+                                    heroesInArea = {}
+                                    enemiesInArea = {}
+                                    
+                                    StartCooldownUntilNextActivation()
+                                    return nil
+                                end
+                            end)
+                        end
+                    else
+                        print("[Shard Shrine] Zone now active - ready for capture!")
+                    end
+                end)
+            end
+        end
+        
         return
     end
     
@@ -355,96 +449,8 @@ function OnStart(trigger)
             heroesInArea = {}
             enemiesInArea = {}
             
-            -- Запускаем кулдаун
-            isOnCooldown = true
-            print("[Shard Shrine] Zone on cooldown for " .. COOLDOWN_TIME .. " seconds")
-            
-            Timers:CreateTimer(COOLDOWN_TIME, function()
-                isOnCooldown = false
-                print("[Shard Shrine] Zone cooldown finished!")
-                
-                -- Проверяем, есть ли ожидающие герои
-                local waitingHero = GetAnyHeroFromTable(heroesWaiting)
-                if waitingHero and IsValidEntity(waitingHero) then
-                    print("[Shard Shrine] Starting capture for waiting heroes!")
-                    
-                    -- Переносим ожидающих в активные
-                    for id, hero in pairs(heroesWaiting) do
-                        if hero and IsValidEntity(hero) then
-                            local heroTeam = hero:GetTeamNumber()
-                            if IsValidTeam(heroTeam) then
-                                if not capturingTeam then
-                                    capturingTeam = heroTeam
-                                    heroesInArea[id] = hero
-                                    currentHero = hero
-                                    CreateCaptureEffect(hero:GetAbsOrigin())
-                                elseif heroTeam == capturingTeam then
-                                    heroesInArea[id] = hero
-                                else
-                                    enemiesInArea[id] = hero
-                                end
-                            end
-                        end
-                    end
-                    heroesWaiting = {}
-                    
-                    -- Запускаем таймер захвата
-                    if capturingTeam and not activeTimer then
-                        countdown = CAPTURE_TIME
-                        print("[Shard Shrine] Timer started - " .. countdown .. " seconds")
-                        
-                        activeTimer = Timers:CreateTimer(1.0, function()
-                            if GetTableCount(heroesInArea) == 0 then
-                                return nil
-                            end
-                            
-                            if IsContested() then
-                                print("[Shard Shrine] CONTESTED - Timer paused...")
-                                return 1.0
-                            end
-                            
-                            countdown = countdown - 1
-                            
-                            if countdown > 0 then
-                                print("[Shard Shrine] " .. countdown .. " seconds remaining...")
-                                return 1.0
-                            else
-                                print("[Shard Shrine] Timer finished! Giving Aghanim's Shard!")
-                                
-                                local rewardHero = currentHero
-                                if not rewardHero or not IsValidEntity(rewardHero) then
-                                    rewardHero = GetAnyHeroFromTable(heroesInArea)
-                                end
-                                
-                                if rewardHero and IsValidEntity(rewardHero) then
-                                    rewardHero:AddItemByName("item_aghanims_shard")
-                                end
-                                
-                                DestroyCaptureEffect()
-                                activeTimer = nil
-                                currentHero = nil
-                                capturingTeam = nil
-                                countdown = CAPTURE_TIME
-                                heroesInArea = {}
-                                enemiesInArea = {}
-                                
-                                -- Снова на кулдаун
-                                isOnCooldown = true
-                                print("[Shard Shrine] Zone on cooldown for " .. COOLDOWN_TIME .. " seconds")
-                                
-                                Timers:CreateTimer(COOLDOWN_TIME, function()
-                                    isOnCooldown = false
-                                    print("[Shard Shrine] Zone cooldown finished - ready for capture!")
-                                end)
-                                
-                                return nil
-                            end
-                        end)
-                    end
-                else
-                    print("[Shard Shrine] Ready for capture!")
-                end
-            end)
+            -- Запускаем кулдаун до следующего интервала
+            StartCooldownUntilNextActivation()
             
             return nil  -- остановить таймер
         end
