@@ -1,4 +1,5 @@
 LinkLuaModifier('modifier_weaver_cucaracha', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_weaver_cucaracha_invis', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
 
 weaver_cucaracha = class({})
 
@@ -125,6 +126,12 @@ function modifier_weaver_cucaracha:OnCreated()
 	end
 
 	self:PlayEffects()
+
+	-- Shard: применяем модификатор невидимости
+	if HasShard(parent) then
+		local duration = self:GetRemainingTime()
+		parent:AddNewModifier(caster, ability, "modifier_weaver_cucaracha_invis", { duration = duration })
+	end
 end
 
 function modifier_weaver_cucaracha:OnRefresh()
@@ -230,6 +237,9 @@ function modifier_weaver_cucaracha:OnDestroy()
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
 
+	-- Удаляем модификатор невидимости при окончании Cucaracha
+	parent:RemoveModifierByName("modifier_weaver_cucaracha_invis")
+
 	local ability = self:GetAbility()
 	if ability then
 		ability:StartGrowAnimation(parent, self.current_scale or self.target_scale or 0.5)
@@ -238,4 +248,145 @@ function modifier_weaver_cucaracha:OnDestroy()
 	end
 
 	EmitSoundOn("Hero_Weaver.Shukuchi.End", parent)
+end
+
+--------------------------------------------------------------------------------
+-- Shard Modifier: Невидимость во время Cucaracha
+--------------------------------------------------------------------------------
+modifier_weaver_cucaracha_invis = class({
+	IsHidden = function(self) return false end,
+	IsPurgable = function(self) return false end,
+	IsBuff = function(self) return true end,
+	RemoveOnDeath = function(self) return true end,
+	GetAttributes = function(self) return MODIFIER_ATTRIBUTE_NONE end,
+})
+
+function modifier_weaver_cucaracha_invis:DeclareFunctions()
+	return {
+		MODIFIER_EVENT_ON_ATTACK,
+		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
+	}
+end
+
+function modifier_weaver_cucaracha_invis:CheckState()
+	if self.is_visible then
+		return {}
+	end
+	return {
+		[MODIFIER_STATE_INVISIBLE] = true,
+	}
+end
+
+function modifier_weaver_cucaracha_invis:OnCreated()
+	if not IsServer() then return end
+
+	self.fade_time = 1.0
+	self.is_visible = true -- Начинаем видимыми, fade time до невидимости
+
+	-- Запускаем таймер для перехода в невидимость
+	self:StartFadeTimer()
+end
+
+function modifier_weaver_cucaracha_invis:OnRefresh()
+	if not IsServer() then return end
+	-- При рефреше обновляем длительность, но не сбрасываем состояние
+end
+
+function modifier_weaver_cucaracha_invis:StartFadeTimer()
+	if self.fade_timer then
+		Timers:RemoveTimer(self.fade_timer)
+		self.fade_timer = nil
+	end
+
+	local parent = self:GetParent()
+	self.fade_timer = Timers:CreateTimer(self.fade_time, function()
+		if not self or self:IsNull() then return nil end
+		if not parent or not IsValidEntity(parent) then return nil end
+
+		self.is_visible = false
+		self:PlayInvisEffects()
+		return nil
+	end)
+end
+
+function modifier_weaver_cucaracha_invis:BreakInvisibility()
+	if not IsServer() then return end
+
+	-- Если уже видимы, просто перезапускаем таймер (сброс при повторных атаках)
+	if self.is_visible then
+		self:StartFadeTimer()
+		return
+	end
+
+	self.is_visible = true
+	self:StopInvisEffects()
+	self:StartFadeTimer()
+end
+
+-- Отслеживание атаки
+function modifier_weaver_cucaracha_invis:OnAttack(event)
+	if not IsServer() then return end
+	if event.attacker ~= self:GetParent() then return end
+
+	self:BreakInvisibility()
+end
+
+-- Отслеживание применения способностей
+function modifier_weaver_cucaracha_invis:OnAbilityExecuted(event)
+	if not IsServer() then return end
+	if event.unit ~= self:GetParent() then return end
+
+	-- Проверяем, что это не предмет (предметы обрабатываются отдельно через OnInventoryContentsChanged)
+	local ability = event.ability
+	if ability and ability:IsItem() then
+		self:BreakInvisibility()
+		return
+	end
+
+	self:BreakInvisibility()
+end
+
+function modifier_weaver_cucaracha_invis:PlayInvisEffects()
+	local parent = self:GetParent()
+	if not parent or not IsValidEntity(parent) then return end
+
+	-- Стандартный эффект Shukuchi невидимости
+	if self.invis_particle then
+		ParticleManager:DestroyParticle(self.invis_particle, false)
+		ParticleManager:ReleaseParticleIndex(self.invis_particle)
+	end
+
+	self.invis_particle = ParticleManager:CreateParticle(
+		"particles/units/heroes/hero_weaver/weaver_shukuchi.vpcf",
+		PATTACH_ABSORIGIN_FOLLOW,
+		parent
+	)
+	ParticleManager:SetParticleControl(self.invis_particle, 0, parent:GetAbsOrigin())
+end
+
+function modifier_weaver_cucaracha_invis:StopInvisEffects()
+	if self.invis_particle then
+		ParticleManager:DestroyParticle(self.invis_particle, false)
+		ParticleManager:ReleaseParticleIndex(self.invis_particle)
+		self.invis_particle = nil
+	end
+end
+
+function modifier_weaver_cucaracha_invis:OnDestroy()
+	if not IsServer() then return end
+
+	if self.fade_timer then
+		Timers:RemoveTimer(self.fade_timer)
+		self.fade_timer = nil
+	end
+
+	self:StopInvisEffects()
+end
+
+function modifier_weaver_cucaracha_invis:GetTexture()
+	return "weaver_shukuchi"
+end
+
+function modifier_weaver_cucaracha_invis:GetEffectName()
+	return ""
 end

@@ -8,9 +8,8 @@
 		"MovementSpeed"									"309"
         "Armor"                                         "4.5"
         "Ability3"				                        "phantom_assassin_blur_custom"
-		"Ability5"                                      "generic_hidden"
-        //"phantom_assassin_smoke_bomb"
         "Ability4"                                      "generic_hidden"
+		"Ability5"                                      "phantom_assassin_phantom_cloud"  // Aghanim's Shard ability
         "Ability6"		                                "ability_coup_de_foudre"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"

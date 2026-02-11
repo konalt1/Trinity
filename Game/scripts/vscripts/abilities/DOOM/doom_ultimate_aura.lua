@@ -139,11 +139,23 @@ end
 function modifier_doom_ultimate_aura_debuff:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_DISABLE_HEALING,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
     }
 end
 
 function modifier_doom_ultimate_aura_debuff:GetDisableHealing()
     return 1
+end
+
+function modifier_doom_ultimate_aura_debuff:GetModifierMoveSpeedBonus_Percentage()
+    local caster = self:GetCaster()
+    if caster and caster:HasModifier("modifier_item_aghanims_shard") then
+        local ability = self:GetAbility()
+        if ability then
+            return -ability:GetSpecialValueFor("shard_move_slow")
+        end
+    end
+    return 0
 end
 
 function modifier_doom_ultimate_aura_debuff:CheckState()

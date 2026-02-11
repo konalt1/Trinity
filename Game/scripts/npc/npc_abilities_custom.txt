@@ -133,6 +133,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "HasShardUpgrade"               "1"
         "MaxLevel"                      "3"
         "RequiredLevel"                 "6"
         "LevelsBetweenUpgrades"         "6"
@@ -147,6 +148,11 @@
             "damage_per_second"         "40 60 80"
             "duration"                  "16.0"
             "mind_power_multiplier"     "0.5"
+            "shard_move_slow"
+            {
+                "value"                 "40"
+                "RequiresShard"         "1"
+            }
         }
         "precache"
         {
@@ -171,6 +177,7 @@
 		"AbilityTextureName"			"juggernaut_blade_fury"
 		"FightRecapLevel"				"1"
 		"MaxLevel"						"4"
+		"HasShardUpgrade"				"1"
 		"precache"
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
@@ -207,6 +214,16 @@
 			"blade_fury_damage"				"80 105 130 155"
 			"duration"						"5.0"
 			"mind_power_multiplier"			"1"
+			"shard_bonus_radius"
+			{
+				"value"						"100"
+				"RequiresShard"				"1"
+			}
+			"shard_movement_slow"
+			{
+				"value"						"35"
+				"RequiresShard"				"1"
+			}
 		}
 	}
 
@@ -510,6 +527,7 @@
         "ScriptFile"                    "abilities/lich/ability_ice_phylactery"
         "AbilityTextureName"            "lich_ice_spire"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "HasShardUpgrade"               "1"
 
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
         "SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
@@ -541,7 +559,17 @@
             "max_creep_attacks"         "6"
             "attacks_to_destroy"        "3 6 9"
             "duration"                  "20.0"
-            "slow_duration"             "0.5"               	
+            "slow_duration"             "0.5"
+            "shard_spire_move_speed"
+            {
+                "value"                 "150"
+                "RequiresShard"         "1"
+            }
+            "shard_spire_follow_distance"
+            {
+                "value"                 "50"
+                "RequiresShard"         "1"
+            }
         }
 	}
 
@@ -776,6 +804,45 @@
         }
     }
 
+    "ogre_magi_ogres_roar"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_ogres_roar"
+        "AbilityTextureName"            "lone_druid_savage_roar"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "IsGrantedByShard"              "1"
+        
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        
+        "AbilityCooldown"               "20"
+        "AbilityManaCost"               "90"
+        
+        "AbilityValues"
+        {
+            "radius"                    "300"
+            "angle"                     "90"
+            "base_fear_duration"        "1.0"
+            "fear_per_strength"         "0.1"
+            "strength_per_bonus"        "10"
+        }
+        
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lone_druid.vsndevts"
+            "particle"      "particles/units/heroes/hero_lone_druid/lone_druid_savage_roar.vpcf"
+            "particle"      "particles/units/heroes/hero_lone_druid/lone_druid_savage_roar_debuff.vpcf"
+        }
+    }
+
     //=================================================================================================================
 	// Custom Purification (Heal ally and damage enemies around)
 	//=================================================================================================================
@@ -790,6 +857,7 @@
 		"AbilityTextureName"			"omniknight_purification"
 		"FightRecapLevel"				"1"
 		"MaxLevel"						"4"
+		"HasShardUpgrade"				"1"
 		"precache"
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
@@ -831,6 +899,11 @@
 			"mind_power_multiplier"
 			{
 				"value"					"3.0"
+			}
+			"shard_bonus_radius"
+			{
+				"value"					"100"
+				"RequiresShard"			"1"
 			}
 		}
 	}
@@ -1058,7 +1131,7 @@
         "MaxLevel"                      "3"
         "RequiredLevel"                 "6"
         "LevelsBetweenUpgrades"         "6"
-        "HasShardUpgrade"               "0"
+        "HasShardUpgrade"               "1"
         "IsGrantedByScepter"            "0"
 
 		"AbilityValues"
@@ -1066,6 +1139,51 @@
           "crit_bonus"				"200 250 300"
           "activation_delay"          "0.75"
           "dagger_buff_time"          "2.0"
+        }
+    }
+
+    //=================================================================================================================
+    // Phantom Assassin - Phantom Cloud (Aghanim's Shard)
+    // Creates a cloud that grants unrevealable invisibility to PA and allies
+    //=================================================================================================================
+    "phantom_assassin_phantom_cloud"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/phantom_assassin/phantom_assassin_phantom_cloud"
+        "AbilityTextureName"            "phantom_assassin_blur"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+        
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "IsGrantedByShard"              "1"
+        
+        "AbilityCastPoint"              "0.0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        
+        "AbilityCooldown"               "30"
+        "AbilityManaCost"               "80"
+
+        "AbilityValues"
+        {
+            "radius"
+            {
+                "value"                 "200"
+                "affected_by_aoe_increase"  "1"
+            }
+            "duration"                  "2.0"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_slark.vsndevts"
+            "particle"      "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur.vpcf"
+            "particle"      "particles/units/heroes/hero_slark/slark_shard_depth_shroud.vpcf"
+            "particle"      "particles/generic_gameplay/generic_smoke.vpcf"
         }
     }
 
@@ -1891,7 +2009,7 @@
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
         
         "AbilityCooldown"               "7 6 5 4"
-        "AbilityManaCost"               "100 120 130 140"
+        "AbilityManaCost"               "150 175 200 250"
         
         "AbilityValues"
         {
@@ -1937,7 +2055,7 @@
             }
             "mana_burn_base"
             {
-                "value"                 "50 100 150 200"
+                "value"                 "50 75 100 125"
             }
             "mind_power_multiplier"
             {

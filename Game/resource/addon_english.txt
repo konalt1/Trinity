@@ -33,6 +33,8 @@
 		"DOTA_Tooltip_ability_doom_ultimate_aura_damage_per_second"				"УРОН В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_shard_move_slow"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
+		"DOTA_Tooltip_ability_doom_ultimate_aura_shard_description"			"Вестник Рока дополнительно замедляет скорость передвижения всех врагов в радиусе ауры."
 
 		//Ogre
 		// Ogre Fire Blast
@@ -60,6 +62,18 @@
 		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"				"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТИ:"
 		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ:"
 
+		// Ogre's Roar (Aghanim's Shard)
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar"							"Рык Огров"
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_Description"				"Огр издаёт устрашающий рык, накладывая страх на всех врагов в секторе перед собой. Враги в страхе убегают от Огра. Длительность страха увеличивается в зависимости от Силы Огра."
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_Lore"						"Два рта - вдвое громче рёв!"
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_angle"					"УГОЛ СЕКТОРА:"
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_base_fear_duration"		"БАЗОВАЯ ДЛИТЕЛЬНОСТЬ СТРАХА:"
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_fear_per_strength"		"БОНУС ДЛИТЕЛЬНОСТИ ЗА СИЛУ:"
+		"DOTA_Tooltip_ability_ogre_magi_ogres_roar_strength_per_bonus"		"СИЛЫ ДЛЯ БОНУСА:"
+		"DOTA_Tooltip_modifier_ogre_magi_ogres_roar_fear"					"Рык Огров"
+		"DOTA_Tooltip_modifier_ogre_magi_ogres_roar_fear_Description"		"В страхе. Убегает от Огра."
+
 		//Omniknight
 		// Custom Purification
 		"DOTA_Tooltip_ability_custom_purification"							"Очищение"
@@ -67,6 +81,8 @@
 		"DOTA_Tooltip_ability_custom_purification_heal"						"ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_custom_purification_radius"					"РАДИУС УРОНА:"
 		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_custom_purification_shard_bonus_radius"		"БОНУС К РАДИУСУ:"
+		"DOTA_Tooltip_ability_custom_purification_shard_description"		"Увеличивает радиус Очищения. Способность также исцеляет всех союзных юнитов в радиусе действия."
 
 		// Omniknight Repel
 		"DOTA_Tooltip_ability_omniknight_repel_lua"							"Отпор"
@@ -100,6 +116,11 @@
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"РАДИУС:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_bonus_radius"	"БОНУС К РАДИУСУ:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_movement_slow"	"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_description"	"Увеличивает радиус Blade Fury, замедляет передвижение врагов в области и постоянно срубает деревья в радиусе действия."
+		"DOTA_Tooltip_modifier_juggernaut_blade_fury_shard_slow"			"Blade Fury - Замедление"
+		"DOTA_Tooltip_modifier_juggernaut_blade_fury_shard_slow_Description"	"Скорость передвижения снижена."
 
 		// Thirsty Blade (Passive)
 		"DOTA_Tooltip_ability_ability_thirsty_blade"						"Жаждущий Клинок"
@@ -138,6 +159,16 @@
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"				"Пока враги не видят Phantom Assassin, все её атаки становятся критическими."
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"					"%КРИТИЧЕСКИЙ УРОН:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_activation_delay"			"ЗАДЕРЖКА СНЯТИЯ ЭФФЕКТА:"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_shard_description"			"Даёт способность Призрачная Туча."
+
+		// Phantom Cloud (Aghanim's Shard)
+		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud"					"Призрачная Туча"
+		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_Description"		"Phantom Assassin создаёт вокруг себя туман, в котором она и все союзники становятся невидимыми. Эту невидимость невозможно раскрыть и развеять."
+		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_Lore"				"Туман, сотканный из теней, скрывает охотницу и её союзников от любых глаз."
+		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_modifier_phantom_assassin_phantom_cloud_invis"				"Призрачная Туча"
+		"DOTA_Tooltip_modifier_phantom_assassin_phantom_cloud_invis_Description"	"Невидим. Невозможно раскрыть."
 
 		//Lich
 		// Frost Blast
@@ -176,6 +207,9 @@
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_attacks_to_destroy"		"АТАК ДЛЯ УНИЧТОЖЕНИЯ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_duration"					"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_spire_move_speed"	"СКОРОСТЬ ШПИЛЯ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_spire_follow_distance"	"ДИСТАНЦИЯ СЛЕДОВАНИЯ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_description"			"Филактерий следует за Личём."
 
 		//Weaver
 		// Cucaracha
@@ -185,6 +219,32 @@
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// =============================================
+		// Aghanim's Shard Descriptions
+		// =============================================
+
+		// Doom - Shard upgrade for Soul Devour
+		"DOTA_Tooltip_ability_doom_soul_devour_shard_description"			"Позволяет использовать Поглощение Души на вражеских героях с здоровьем ниже 666. Поглощение героя даёт утроенную Силу Магии и мгновенно убивает цель."
+		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold"		"ПОРОГ ЗДОРОВЬЯ ГЕРОЯ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_hero_soul_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ ОТ ГЕРОЯ:"
+
+		// Techies - Shard upgrade for Fireworks
+		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Атаки с всплеском поджигают врагов, нанося дополнительный магический урон в течение нескольких секунд. Урон от поджога усиливается Силой Магии."
+
+		// Tinker - Shard upgrade for Rearm Custom
+		"DOTA_Tooltip_ability_tinker_rearm_custom_shard_description"		"Во время действия Перезарядки Тинкер получает магический щит, поглощающий входящий магический урон. Сила щита зависит от текущей маны Тинкера."
+
+		// Tusk - Shard upgrade for Ice Shards
+		"DOTA_Tooltip_ability_tusk_ice_shard_description"					"Враги внутри ледяной клетки получают периодический магический урон и замедление передвижения. Урон усиливается Силой Магии."
+
+		// Weaver - Shard upgrade for Cucaracha
+		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"			"Во время Кукарачи Ткач получает шанс уклонения, а его атаки снижают броню врагов на время действия способности."
+
+		// Lycan - Shard upgrade for Summon Wolves
+		"DOTA_Tooltip_ability_lycan_summon_wolves_custom_shard_description"	"Волки периодически наносят удар ближайшему вражескому юниту. Удар происходит каждые 3 сек. по крипам и каждые 5 сек. по героям."
+		"DOTA_Tooltip_ability_lycan_summon_wolves_custom_creep_attack_second"	"ИНТЕРВАЛ АТАКИ ПО КРИПАМ:"
+		"DOTA_Tooltip_ability_lycan_summon_wolves_custom_hero_attack_second_shard"	"ИНТЕРВАЛ АТАКИ ПО ГЕРОЯМ:"
 
 	}
 }

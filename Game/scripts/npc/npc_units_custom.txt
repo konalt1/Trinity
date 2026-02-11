@@ -118,6 +118,88 @@
         "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
 
+    "npc_tract"
+    {   
+        "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"
+		"BaseClass"                 "npc_dota_creature"
+        "Level"                     "1"
+        
+        // AI Script - спавнит рошанов
+        "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
+        
+        // Armor - неуязвимый
+        "ArmorPhysical"             "100"
+        "MagicalResistance"         "100"
+        
+        // Attack
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        
+        // Movement
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        
+        // Status
+        "StatusHealth"              "99999"
+        "StatusHealthRegen"         "1000"
+        
+        // Vision
+        "VisionDaytimeRange"        "800"
+        "VisionNighttimeRange"      "800"
+        
+        // Team
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Спавнер рошанов - создаёт рошанов каждые 30 секунд
+    "npc_roshan_spawner"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/heroes/techies/fx_techiesfx_mine.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1.5"
+        
+        // AI Script - спавнит рошанов
+        "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
+        
+        // Abilities
+        "Ability1"                  ""
+        "Ability2"                  ""
+        "Ability3"                  ""
+        "Ability4"                  ""
+        
+        // Armor
+        "ArmorPhysical"             "100"
+        "MagicalResistance"         "100"
+        
+        // Attack
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        
+        // Bounds
+        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
+        "HealthBarOffset"           "140"
+        
+        // Movement
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        
+        // Status
+        "StatusHealth"              "99999"
+        "StatusHealthRegen"         "1000"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+        
+        // Vision
+        "VisionDaytimeRange"        "800"
+        "VisionNighttimeRange"      "800"
+        
+        // Team
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
 	"npc_dota3_chainbomb"
     {
         "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"// Model.
@@ -516,6 +598,83 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
 
+    // Рошан, идущий по пути (pathway roshan)
+    "npc_dota_roshan_pathway"
+    {
+        // General
+        //----------------------------------------------------------------
+        "BaseClass"                 "npc_dota_roshan"
+        "Model"                     "models/creeps/roshan/roshan.vmdl"
+        "SoundSet"                  "Roshan"
+        "ModelScale"                "1.0"
+        "Level"                     "15"
+        "IsAncient"                 "1"
+        
+        // AI Script
+        //----------------------------------------------------------------
+        "vscripts"                  "map_modifications/Roshan/ai_roshan_pathway.lua"
+        
+        // Abilities
+        //----------------------------------------------------------------
+        "Ability1"                  "roshan_slam"
+        "Ability2"                  "roshan_bash"
+        "Ability3"                  ""
+        "Ability4"                  ""
 
+        // Armor
+        //----------------------------------------------------------------
+        "ArmorPhysical"             "20"
+        "MagicalResistance"         "50"
+
+        // Attack
+        //----------------------------------------------------------------
+        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"           "80"
+        "AttackDamageMax"           "100"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackRate"                "1.5"
+        "AttackAnimationPoint"      "0.6"
+        "AttackAcquisitionRange"    "150"
+        "AttackRange"               "150"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        // Bounty
+        //----------------------------------------------------------------
+        "BountyXP"                  "300"
+        "BountyGoldMin"             "150"
+        "BountyGoldMax"             "200"
+
+        // Bounds
+        //----------------------------------------------------------------
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "RingRadius"                "110"
+        "HealthBarOffset"           "350"
+
+        // Movement
+        //----------------------------------------------------------------
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "270"
+        "MovementTurnRate"          "0.5"
+
+        // Status
+        //----------------------------------------------------------------
+        "StatusHealth"              "2000"
+        "StatusHealthRegen"         "20"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        // Vision
+        //----------------------------------------------------------------
+        "VisionDaytimeRange"        "1400"
+        "VisionNighttimeRange"      "1400"
+
+        // Team
+        //----------------------------------------------------------------
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_HERO"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_HERO"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
 
 }

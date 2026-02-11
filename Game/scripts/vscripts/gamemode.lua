@@ -37,8 +37,13 @@ function GameMode:OnGameRulesStateChange()
 		-- Сбрасываем флаг спавна крипов
 		GameMode.lane_creeps_spawned = false
 		
-		-- Spawn neutral creeps immediately
-		GameRules:SpawnNeutralCreeps()
+		-- Spawn neutral creeps with retries to ensure all spawners are ready
+		Timers:CreateTimer(1.0, function()
+			GameRules:SpawnNeutralCreeps()
+		end)
+		Timers:CreateTimer(3.0, function()
+			GameRules:SpawnNeutralCreeps()
+		end)
 		GameMode:LineBossSpawner()
 		
 		-- Делаем все башни и троны неуязвимыми

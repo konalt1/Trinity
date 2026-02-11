@@ -39,28 +39,16 @@ modifier_ability_ice_phylactery = class({
     GetAuraSearchType       = function(self) return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end,
     GetAuraEntityReject     = function(self, target) 
         local caster = self:GetCaster()
-        if not caster or caster:IsNull() then 
-            print("[Ice Phylactery] GetAuraEntityReject: caster is null")
-            return true 
-        end
+        if not caster or caster:IsNull() then return true end
         
         local isSameTeam = target:GetTeamNumber() == caster:GetTeamNumber()
         local isCaster = target == caster
-        local reject = false
         
         -- Действует только на кастера (союзник) или на врагов
         if isSameTeam then
-            reject = not isCaster -- Отклоняем всех союзников кроме кастера
-        else
-            reject = false -- Не отклоняем врагов
+            return not isCaster -- Отклоняем всех союзников кроме кастера
         end
-        
-        if IsServer() then
-            print("[Ice Phylactery] GetAuraEntityReject:", target:GetUnitName(), 
-                  "| SameTeam:", isSameTeam, "| IsCaster:", isCaster, "| Reject:", reject)
-        end
-        
-        return reject
+        return false -- Не отклоняем врагов
     end,
     DeclareFunctions        = function(self)
         return {
@@ -84,6 +72,8 @@ function modifier_ability_ice_phylactery:OnCreated()
     local parent = self:GetParent()
     if not parent or parent:IsNull() then return end
     
+    local caster = self:GetCaster()
+    
     local radius = ability:GetSpecialValueFor("aura_radius")
     local origin = parent:GetAbsOrigin()
 
@@ -94,19 +84,89 @@ function modifier_ability_ice_phylactery:OnCreated()
     if IsServer() then 
         parent:SetMaxHealth(self.AttacksToDestroy)
         parent:SetHealth(self.AttacksToDestroy)
-        print("[Ice Phylactery] Spire created, aura radius:", radius)
+        
+        -- Проверяем наличие Aghanim's Shard для движения шпиля
+        if caster and not caster:IsNull() and caster:HasModifier("modifier_item_aghanims_shard") then
+            self.has_shard = true
+            self.move_speed = ability:GetSpecialValueFor("shard_spire_move_speed")
+            self.follow_distance = ability:GetSpecialValueFor("shard_spire_follow_distance")
+            self.think_interval = 1 / 24
+            self:StartIntervalThink(self.think_interval)
+        else
+            self.has_shard = false
+        end
     end
     
     self.HeroesAttacksMult = 2
     self.HealthPerPips = self.AttacksToDestroy / self.AttacksToDestroy
+    self.aura_radius = radius
 
-    self.effect_cast = ParticleManager:CreateParticle("particles/units/heroes/hero_lich/lich_ice_spire.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
-    ParticleManager:SetParticleControl(self.effect_cast, 0, origin)
-    ParticleManager:SetParticleControl(self.effect_cast, 1, origin)
-    ParticleManager:SetParticleControl(self.effect_cast, 2, origin)
-    ParticleManager:SetParticleControl(self.effect_cast, 3, Vector(origin.x, origin.y, origin.z + 10))
-    ParticleManager:SetParticleControl(self.effect_cast, 4, parent:GetAbsOrigin())
-    ParticleManager:SetParticleControl(self.effect_cast, 5, Vector(radius, radius, radius))
+    -- Создаём партикл шпиля
+    self.effect_cast = self:CreateSpireParticle(parent, origin, radius)
+end
+
+-- Создаёт новый партикл и удаляет старый (двойная буферизация — без мигания)
+function modifier_ability_ice_phylactery:CreateSpireParticle(parent, pos, radius)
+    local new_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lich/lich_ice_spire.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
+    for i = 0, 4 do
+        ParticleManager:SetParticleControl(new_particle, i, pos)
+    end
+    ParticleManager:SetParticleControl(new_particle, 5, Vector(radius, radius, radius))
+
+    -- Удаляем старый партикл ПОСЛЕ создания нового
+    if self.effect_cast then
+        ParticleManager:DestroyParticle(self.effect_cast, true)
+        ParticleManager:ReleaseParticleIndex(self.effect_cast)
+    end
+
+    return new_particle
+end
+
+-- Think функция для движения шпиля за Личём (только с Aghanim's Shard)
+function modifier_ability_ice_phylactery:OnIntervalThink()
+    if not IsServer() then return end
+    if not self.has_shard then return end
+    
+    local parent = self:GetParent()
+    local caster = self:GetCaster()
+    
+    if not parent or parent:IsNull() then return end
+    if not caster or caster:IsNull() then return end
+    
+    -- Шпиль следует за кастером даже после его смерти? Нет - остаётся на месте
+    if not caster:IsAlive() then return end
+    
+    local spire_pos = parent:GetAbsOrigin()
+    local caster_pos = caster:GetAbsOrigin()
+    
+    -- Вычисляем расстояние до кастера
+    local direction = caster_pos - spire_pos
+    local distance = direction:Length2D()
+    
+    -- Если шпиль уже достаточно близко - не двигаемся
+    if distance <= self.follow_distance then
+        return
+    end
+    
+    -- Нормализуем направление
+    direction.z = 0
+    direction = direction:Normalized()
+    
+    -- Вычисляем новую позицию (движемся со скоростью move_speed)
+    local move_distance = self.move_speed * self.think_interval
+    
+    -- Не перелетаем через цель
+    if move_distance > (distance - self.follow_distance) then
+        move_distance = distance - self.follow_distance
+    end
+    
+    local new_pos = spire_pos + direction * move_distance
+    
+    -- Перемещаем шпиль
+    parent:SetAbsOrigin(new_pos)
+    
+    -- Пересоздаём партикл на новой позиции (двойная буферизация)
+    self.effect_cast = self:CreateSpireParticle(parent, new_pos, self.aura_radius)
 end
 
 function modifier_ability_ice_phylactery:OnDestroy()
@@ -222,14 +282,8 @@ function modifier_ability_ice_phylactery_buff:OnCreated()
     -- Проверяем, является ли цель кастером
     self.isCaster = parent == caster
     
-    if IsServer() then
-        print("[Ice Phylactery] Buff created on", parent:GetUnitName(), "| isCaster:", self.isCaster)
-        
-        -- Создаем дополнительный модификатор для spell lifesteal
-        if self.isCaster then 
-            print("[Ice Phylactery] Adding spell lifesteal modifier")
-            self.modifier = parent:AddNewModifier(caster, ability, "modifier_spell_lifesteal_custom", {})
-        end
+    if IsServer() and self.isCaster then 
+        self.modifier = parent:AddNewModifier(caster, ability, "modifier_spell_lifesteal_custom", {})
     end
 end
 
@@ -256,15 +310,10 @@ function modifier_ability_ice_phylactery_buff:GetModifierMoveSpeedBonus_Percenta
 end
 
 function modifier_ability_ice_phylactery_buff:GetModifierPercentageCooldown()
-    -- Снижение кулдаунов для кастера
     if self.isCaster then 
         local ability = self:GetAbility()
         if not ability then return 0 end
-        local value = ability:GetSpecialValueFor("cooldown_reduction")
-        if IsServer() then
-            print("[Ice Phylactery] Cooldown reduction:", value)
-        end
-        return value
+        return ability:GetSpecialValueFor("cooldown_reduction")
     end
     return 0
 end
@@ -288,9 +337,7 @@ function modifier_spell_lifesteal_custom:OnCreated()
     local ability = self:GetAbility()
     if not ability then return end
     
-    -- Кешируем значение spell_lifesteal
     self.spell_lifesteal = ability:GetSpecialValueFor("spell_lifesteal")
-    print("[Ice Phylactery] Spell lifesteal modifier created, value:", self.spell_lifesteal)
 end
  
 function modifier_spell_lifesteal_custom:OnTakeDamage(keys)
