@@ -35,6 +35,9 @@ require ("modifiers/modifier_leash_to_spawn")
 -- Загружаем AI Рошана
 require ("ai_roshan_custom")
 
+-- Загружаем спавнер Pathway Roshan
+require ("map_modifications/roshan_pathway_spawner")
+
 function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
@@ -45,11 +48,20 @@ function Precache( context )
 	]]
 
 	PrecacheResource( "particle", "particles/econ/events/plus/high_five/high_five_impact.vpcf", context )
+	PrecacheResource( "particle", "particles/generic_gameplay/launchpad_progress_ring.vpcf", context )
 	
 	-- Precache Trinity custom sounds
- 
 	PrecacheResource( "soundfile", "soundevents/trinity_sounds.vsndevts", context )
 
+	-- Phantom Assassin Phantom Cloud (Aghanim's Shard)
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_slark.vsndevts", context )
+	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_blur.vpcf", context )
+	PrecacheResource( "particle", "particles/units/heroes/hero_slark/slark_shard_depth_shroud.vpcf", context )
+	PrecacheResource( "particle", "particles/generic_gameplay/generic_smoke.vpcf", context )
+
+	-- Roshan sounds
+	PrecacheResource( "soundfile", "soundevents/game_sounds_creeps.vsndevts", context )
  
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")
@@ -80,4 +92,34 @@ function CAddonTemplateGameMode:InitGameMode()
 	GameRules:SetGoldTickTime(1)
 	GameRules:SetGoldPerTick(2)
 	InitGameManagers()
+	
+	-- Инициализация спавнера Pathway Roshan
+	InitRoshanPathwaySpawner()
+	
+	-- Создаём спавнер рошанов при старте игры (раскомментируйте и укажите нужные координаты)
+	-- Timers:CreateTimer(5, function()
+	--     local spawnerPos = Vector(0, 0, 128)  -- ЗАМЕНИТЕ на нужные координаты
+	--     local spawner = CreateUnitByName("npc_roshan_spawner", spawnerPos, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--     if spawner then
+	--         print("[RoshanSpawner] Спавнер создан на позиции: " .. tostring(spawnerPos))
+	--     end
+	-- end)
+	
+	-- Консольная команда для создания спавнера рошанов (для тестирования)
+	Convars:RegisterCommand("create_roshan_spawner", function(_, x, y, z)
+		local pos
+		if x and y and z then
+			pos = Vector(tonumber(x), tonumber(y), tonumber(z))
+		else
+			-- Если координаты не указаны, спавним в центре карты
+			pos = Vector(0, 0, 128)
+		end
+		
+		local spawner = CreateUnitByName("npc_roshan_spawner", pos, true, nil, nil, DOTA_TEAM_NEUTRALS)
+		if spawner then
+			print("[RoshanSpawner] Спавнер создан на позиции: " .. tostring(pos))
+		else
+			print("[RoshanSpawner] ОШИБКА: Не удалось создать спавнер!")
+		end
+	end, "Создать спавнер рошанов. Использование: create_roshan_spawner [x] [y] [z]", FCVAR_CHEAT)
 end

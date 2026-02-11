@@ -12,6 +12,13 @@ function custom_purification:OnSpellStart()
 	local radius = self:GetSpecialValueFor("radius")
 	local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier")
 	
+	-- Check for Aghanim's Shard
+	local has_shard = caster:HasModifier("modifier_item_aghanims_shard")
+	if has_shard then
+		local shard_bonus_radius = self:GetSpecialValueFor("shard_bonus_radius")
+		radius = radius + shard_bonus_radius
+	end
+	
 	-- Get Mind Power
 	local mind_power = 0
 	if GetHeroMindPower then
@@ -25,8 +32,29 @@ function custom_purification:OnSpellStart()
 	local total_heal = heal + mind_power_bonus
 	local total_damage = heal + mind_power_bonus
 	
-	-- Мгновенное исцеление (с бонусом от Mind Power)
+	-- Мгновенное исцеление основной цели (с бонусом от Mind Power)
 	target:Heal(total_heal, self)
+	
+	-- Aghanim's Shard: исцеляем всех союзников в радиусе (кроме основной цели)
+	if has_shard then
+		local allies = FindUnitsInRadius(
+			caster:GetTeamNumber(),
+			target:GetAbsOrigin(),
+			nil,
+			radius,
+			DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+			DOTA_UNIT_TARGET_FLAG_NONE,
+			FIND_ANY_ORDER,
+			false
+		)
+		
+		for _, ally in pairs(allies) do
+			if ally ~= target then
+				ally:Heal(total_heal, self)
+			end
+		end
+	end
 	
 	-- Найти всех врагов вокруг цели
 	local enemies = FindUnitsInRadius(
@@ -52,12 +80,11 @@ function custom_purification:OnSpellStart()
 		})
 	end
 
-	self:PlayEffects(target)
+	self:PlayEffects(target, radius)
 end
 
 --------------------------------------------------------------------------------
-function custom_purification:PlayEffects(target)
-	local radius = self:GetSpecialValueFor("radius")
+function custom_purification:PlayEffects(target, radius)
 	
 	-- Get Resources (оригинальные эффекты и звуки от Purification)
 	local particle_cast = "particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"

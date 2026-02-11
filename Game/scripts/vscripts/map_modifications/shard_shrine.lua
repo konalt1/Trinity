@@ -1,474 +1,506 @@
-local activeTimer = nil
-local heroesInArea = {}  -- таблица союзных героев в зоне
-local enemiesInArea = {}  -- таблица вражеских героев в зоне
-local heroesWaiting = {}  -- герои, ожидающие окончания кулдауна
-local currentHero = nil
-local capturingTeam = nil  -- команда, которая захватывает
-local countdown = nil  -- текущий отсчёт таймера (инициализируется при захвате)
-local captureParticle = nil  -- визуальный эффект захвата
-local capturePosition = nil  -- позиция захвата
-local isOnCooldown = false  -- флаг кулдауна
-
--- Допустимые команды (Radiant = 2, Dire = 3)
-local TEAM_RADIANT = DOTA_TEAM_GOODGUYS or 2
-local TEAM_DIRE = DOTA_TEAM_BADGUYS or 3
-
--- Настройки
-local CAPTURE_TIME = 5  -- время захвата в секундах
-local ACTIVATION_INTERVAL = 30  -- интервал активации (каждые 30 секунд игрового времени)
-local nextActivationTime = 30  -- следующее время активации (начинаем с 0:30)
-local activationTimerStarted = false  -- флаг, что таймер активации запущен
-
--- Эффект захвата
-local CAPTURE_PARTICLE = "particles/econ/generic/generic_aoe_shockwave_1/generic_aoe_shockwave_1.vpcf"
-
--- Прекеш ресурсов
-function Precache(context)
-    PrecacheResource("particle", CAPTURE_PARTICLE, context)
-    print("[Shard Shrine] Resources precached")
-end
-
--- Создать визуальный эффект захвата
-local function CreateCaptureEffect(position)
-    if captureParticle then
-        ParticleManager:DestroyParticle(captureParticle, false)
-    end
+--[[
+    Shimmering Lake Mechanic (Мерцающее Озеро)
     
-    captureParticle = ParticleManager:CreateParticle(CAPTURE_PARTICLE, PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(captureParticle, 0, position)
-    ParticleManager:SetParticleControl(captureParticle, 1, position)
-    capturePosition = position
-    print("[Shard Shrine] Capture effect created")
-end
+    Механика захвата Aghanim's Shard:
+    - Озеро активируется каждые ACTIVATION_INTERVAL секунд игрового времени
+    - Герои/иллюзии могут захватывать озеро, удерживаясь в нём
+    - При входе противника - прогресс на паузе (но сохраняется)
+    - Иллюзии участвуют в захвате, но не могут его завершить
+    - При выходе всех - мгновенный сброс прогресса
+]]
 
--- Удалить визуальный эффект захвата
-local function DestroyCaptureEffect()
-    if captureParticle then
-        ParticleManager:DestroyParticle(captureParticle, false)
-        ParticleManager:ReleaseParticleIndex(captureParticle)
-        captureParticle = nil
-        print("[Shard Shrine] Capture effect destroyed")
-    end
-end
+-- =============================================================================
+-- CONFIGURATION
+-- =============================================================================
+local CONFIG = {
+    -- Timing
+    FIRST_ACTIVATION_TIME = 420,    -- (sec) Первая активация на 7:00 игрового времени
+    ACTIVATION_INTERVAL = 240,      -- (sec) Интервал активации (каждые 4 минуты: 7:00, 11:00, 15:00, ...)
+    CAPTURE_TIME = 5.0,             -- (sec) Время, необходимое для захвата
+    
+    -- Alerts
+    ALERT_COOLDOWN = 30.0,          -- (sec) КД на звук/пинг оповещения при входе
+    VISION_DURATION = 5.0,          -- (sec) Длительность раскрытия тумана при входе
+    VISION_RADIUS = 500,            -- (units) Радиус раскрытия тумана войны
+    
+    -- Visuals
+    PARTICLE_RADIUS = 300,          -- (units) Визуальный радиус круга прогресса
+    
+    -- System
+    THINK_INTERVAL = 0.03,          -- (sec) Частота обновления логики (~30 FPS)
+    
+    -- Sounds (placeholders - заменить на реальные)
+    SOUND_CAPTURE_LOOP = nil,       -- Looping звук во время захвата (будет добавлен)
+    SOUND_CAPTURE_COMPLETE = "Item.MoonShard.Consume",  -- Звук получения шарда
+    SOUND_ALERT = "General.PingAttack",                 -- Звук оповещения
+}
 
--- Проверить, является ли команда допустимой
-local function IsValidTeam(teamNumber)
-    return teamNumber == TEAM_RADIANT or teamNumber == TEAM_DIRE
-end
+-- =============================================================================
+-- STATE
+-- =============================================================================
+local state = {
+    -- Activation
+    is_active = false,              -- Активно ли озеро (доступен ли шард)
+    next_activation_time = 0,       -- Следующее время активации (игровое время)
+    
+    -- Capture
+    capture_progress = 0.0,         -- Текущий прогресс захвата (0.0 ... CAPTURE_TIME)
+    capturing_team = nil,           -- Команда, которая сейчас захватывает (или nil)
+    
+    -- Units tracking
+    units_inside = {},              -- Map: [ent_index] -> { handle, enter_time, team, is_illusion }
+    
+    -- Alerts
+    alert_cd_timestamp = 0,         -- Время окончания КД оповещения
+    
+    -- Visuals & Audio
+    particle_fx = nil,              -- Handle партикла прогресса
+    capture_sound = nil,            -- Handle looping звука захвата
+    
+    -- Cached
+    trigger_center = Vector(0, 0, 0),
+}
 
--- Получить количество героев в таблице
-local function GetTableCount(tbl)
-    local count = 0
-    for _, _ in pairs(tbl) do
-        count = count + 1
-    end
-    return count
-end
+-- =============================================================================
+-- UTILITY FUNCTIONS
+-- =============================================================================
 
--- Получить любого героя из таблицы
-local function GetAnyHeroFromTable(tbl)
-    for _, hero in pairs(tbl) do
-        if hero and IsValidEntity(hero) then
-            return hero
-        end
-    end
-    return nil
-end
-
--- Проверить, оспаривается ли захват
-local function IsContested()
-    return GetTableCount(enemiesInArea) > 0
-end
-
--- Получить текущее игровое время
+-- Получить текущее игровое время (без учёта паузы, без негативного времени)
 local function GetGameTime()
     return GameRules:GetDOTATime(false, false)
 end
 
--- Вычислить следующее время активации (кратное ACTIVATION_INTERVAL)
+-- Проверка валидной команды (Radiant/Dire)
+local function IsValidTeam(team_id)
+    return team_id == DOTA_TEAM_GOODGUYS or team_id == DOTA_TEAM_BADGUYS
+end
+
+-- Проверить, есть ли у героя шард
+local function HasShard(hero)
+    if not hero or not IsValidEntity(hero) then return true end
+    return hero:HasModifier("modifier_item_aghanims_shard")
+end
+
+-- Проверить, нужен ли шард команде (есть ли хоть один игрок без шарда)
+local function DoesTeamNeedShard(team_id)
+    for i = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+        if PlayerResource:IsValidPlayer(i) and PlayerResource:GetTeam(i) == team_id then
+            local hero = PlayerResource:GetSelectedHeroEntity(i)
+            if hero and IsValidEntity(hero) and not HasShard(hero) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+-- Подсчитать юнитов по командам внутри озера
+local function AnalyzeUnitsInside()
+    local teams = {}                -- team_id -> { count, has_real_hero, units[] }
+    local total_count = 0
+    
+    for idx, data in pairs(state.units_inside) do
+        -- Проверяем валидность и жизнь юнита
+        if not IsValidEntity(data.handle) or not data.handle:IsAlive() then
+            state.units_inside[idx] = nil
+        else
+            total_count = total_count + 1
+            
+            if not teams[data.team] then
+                teams[data.team] = { count = 0, has_real_hero = false, units = {} }
+            end
+            
+            teams[data.team].count = teams[data.team].count + 1
+            table.insert(teams[data.team].units, data)
+            
+            if not data.is_illusion then
+                teams[data.team].has_real_hero = true
+            end
+        end
+    end
+    
+    -- Подсчёт команд
+    local team_count = 0
+    local single_team = nil
+    for team_id, _ in pairs(teams) do
+        team_count = team_count + 1
+        single_team = team_id
+    end
+    
+    return {
+        teams = teams,
+        team_count = team_count,
+        single_team = single_team,
+        total_count = total_count,
+        is_empty = total_count == 0,
+        is_contested = team_count > 1,
+    }
+end
+
+-- =============================================================================
+-- VISUAL & AUDIO FUNCTIONS
+-- =============================================================================
+
+-- Создать партикл прогресса
+local function CreateProgressParticle()
+    if state.particle_fx then return end
+    
+    state.particle_fx = ParticleManager:CreateParticle(
+        "particles/generic_gameplay/launchpad_progress_ring.vpcf",
+        PATTACH_WORLDORIGIN,
+        nil
+    )
+    ParticleManager:SetParticleControl(state.particle_fx, 0, state.trigger_center)
+    ParticleManager:SetParticleControl(state.particle_fx, 1, Vector(CONFIG.PARTICLE_RADIUS, 0, 0))
+end
+
+-- Обновить партикл прогресса
+local function UpdateProgressParticle()
+    if not state.particle_fx then return end
+    
+    local progress_ratio = state.capture_progress / CONFIG.CAPTURE_TIME
+    local current_radius = progress_ratio * CONFIG.PARTICLE_RADIUS
+    
+    ParticleManager:SetParticleControl(state.particle_fx, 1, Vector(CONFIG.PARTICLE_RADIUS, current_radius, 0))
+end
+
+-- Уничтожить партикл прогресса
+local function DestroyProgressParticle()
+    if state.particle_fx then
+        ParticleManager:DestroyParticle(state.particle_fx, true)  -- true = immediate
+        ParticleManager:ReleaseParticleIndex(state.particle_fx)
+        state.particle_fx = nil
+    end
+end
+
+-- Запустить звук захвата (looping)
+local function StartCaptureSound()
+    if CONFIG.SOUND_CAPTURE_LOOP and not state.capture_sound then
+        state.capture_sound = EmitSoundOn(CONFIG.SOUND_CAPTURE_LOOP, thisEntity)
+    end
+end
+
+-- Остановить звук захвата
+local function StopCaptureSound()
+    if state.capture_sound and CONFIG.SOUND_CAPTURE_LOOP then
+        StopSoundOn(CONFIG.SOUND_CAPTURE_LOOP, thisEntity)
+        state.capture_sound = nil
+    end
+end
+
+-- Раскрыть область для обеих команд
+local function RevealArea()
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, state.trigger_center, CONFIG.VISION_RADIUS, CONFIG.VISION_DURATION, false)
+    AddFOWViewer(DOTA_TEAM_BADGUYS, state.trigger_center, CONFIG.VISION_RADIUS, CONFIG.VISION_DURATION, false)
+end
+
+-- Отправить пинг обеим командам
+local function PingBothTeams()
+    local coords = state.trigger_center
+    GameRules:ExecuteTeamPing(DOTA_TEAM_GOODGUYS, coords.x, coords.y, nil, 0)
+    GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, coords.x, coords.y, nil, 0)
+    
+    if CONFIG.SOUND_ALERT then
+        EmitGlobalSound(CONFIG.SOUND_ALERT)
+    end
+end
+
+-- =============================================================================
+-- ALERT SYSTEM
+-- =============================================================================
+
+-- Попробовать отправить оповещение (с учётом КД)
+local function TryTriggerAlert()
+    local now = GetGameTime()
+    
+    if now >= state.alert_cd_timestamp then
+        state.alert_cd_timestamp = now + CONFIG.ALERT_COOLDOWN
+        
+        PingBothTeams()
+        RevealArea()
+        
+        return true
+    end
+    
+    return false
+end
+
+-- =============================================================================
+-- ACTIVATION SYSTEM
+-- =============================================================================
+
+-- Вычислить следующее время активации
 local function CalculateNextActivationTime()
-    local currentTime = GetGameTime()
-    local nextTime = math.ceil(currentTime / ACTIVATION_INTERVAL) * ACTIVATION_INTERVAL
-    -- Если текущее время точно на интервале, берём следующий
-    if nextTime <= currentTime then
-        nextTime = nextTime + ACTIVATION_INTERVAL
+    local current_time = GetGameTime()
+    
+    -- Если игра ещё не началась или время отрицательное
+    if current_time < 0 then
+        return CONFIG.FIRST_ACTIVATION_TIME
     end
-    return nextTime
+    
+    -- Находим следующий интервал, кратный ACTIVATION_INTERVAL, >= FIRST_ACTIVATION_TIME
+    local intervals_passed = math.floor((current_time - CONFIG.FIRST_ACTIVATION_TIME) / CONFIG.ACTIVATION_INTERVAL)
+    local next_time = CONFIG.FIRST_ACTIVATION_TIME + (intervals_passed + 1) * CONFIG.ACTIVATION_INTERVAL
+    
+    -- Если текущее время ровно на интервале, берём следующий
+    if current_time >= CONFIG.FIRST_ACTIVATION_TIME and 
+       math.abs(current_time - (CONFIG.FIRST_ACTIVATION_TIME + intervals_passed * CONFIG.ACTIVATION_INTERVAL)) < 0.1 then
+        next_time = CONFIG.FIRST_ACTIVATION_TIME + (intervals_passed + 1) * CONFIG.ACTIVATION_INTERVAL
+    end
+    
+    return next_time
 end
 
--- Проверить, активна ли зона
-local function IsZoneActive()
-    local currentTime = GetGameTime()
-    return currentTime >= nextActivationTime
+-- Активировать озеро (шард стал доступен)
+local function ActivateLake()
+    state.is_active = true
+    state.capture_progress = 0.0
+    state.capturing_team = nil
+    
+    -- Оповещаем всех о доступности (используем систему с КД)
+    -- Сбрасываем КД чтобы следующий вход гарантированно сработал
+    state.alert_cd_timestamp = 0
+    TryTriggerAlert()
+    
+    -- Создаём партикл (прогресс = 0)
+    CreateProgressParticle()
 end
 
--- Запустить ожидание следующей активации
-local function StartCooldownUntilNextActivation()
-    nextActivationTime = CalculateNextActivationTime()
-    isOnCooldown = true
-    activationTimerStarted = true
+-- Деактивировать озеро (после захвата)
+local function DeactivateLake()
+    state.is_active = false
+    state.capture_progress = 0.0
+    state.capturing_team = nil
+    state.next_activation_time = CalculateNextActivationTime()
     
-    local currentTime = GetGameTime()
-    local waitTime = nextActivationTime - currentTime
+    DestroyProgressParticle()
+    StopCaptureSound()
+end
+
+-- =============================================================================
+-- CAPTURE SYSTEM
+-- =============================================================================
+
+-- Полный сброс захвата (все вышли)
+local function ResetCapture()
+    state.capture_progress = 0.0
+    state.capturing_team = nil
     
-    local minutes = math.floor(nextActivationTime / 60)
-    local seconds = nextActivationTime % 60
-    print("[Shard Shrine] Zone on cooldown until " .. minutes .. ":" .. string.format("%02d", seconds))
+    DestroyProgressParticle()
+    StopCaptureSound()
     
-    Timers:CreateTimer(waitTime, function()
-        isOnCooldown = false
-        activationTimerStarted = false
-        print("[Shard Shrine] Zone now active! (Game time: " .. minutes .. ":" .. string.format("%02d", seconds) .. ")")
-        
-        -- Проверяем, есть ли ожидающие герои
-        local waitingHero = GetAnyHeroFromTable(heroesWaiting)
-        if waitingHero and IsValidEntity(waitingHero) then
-            print("[Shard Shrine] Starting capture for waiting heroes!")
-            
-            -- Переносим ожидающих в активные
-            for id, hero in pairs(heroesWaiting) do
-                if hero and IsValidEntity(hero) then
-                    local heroTeam = hero:GetTeamNumber()
-                    if IsValidTeam(heroTeam) then
-                        if not capturingTeam then
-                            capturingTeam = heroTeam
-                            heroesInArea[id] = hero
-                            currentHero = hero
-                            CreateCaptureEffect(hero:GetAbsOrigin())
-                        elseif heroTeam == capturingTeam then
-                            heroesInArea[id] = hero
-                        else
-                            enemiesInArea[id] = hero
-                        end
-                    end
+    -- Пересоздаём партикл с нулевым прогрессом если озеро активно
+    if state.is_active then
+        CreateProgressParticle()
+    end
+end
+
+-- Выдать награду команде
+local function GrantShardToTeam(team_id)
+    local analysis = AnalyzeUnitsInside()
+    local team_data = analysis.teams[team_id]
+    
+    if not team_data then return false end
+    
+    -- Собираем кандидатов (только реальные герои в озере)
+    local candidates = {}
+    for _, data in ipairs(team_data.units) do
+        if not data.is_illusion and IsValidEntity(data.handle) and data.handle:IsAlive() then
+            table.insert(candidates, data)
+        end
+    end
+    
+    -- Сортируем по времени входа (первый вошедший - приоритет)
+    table.sort(candidates, function(a, b) return a.enter_time < b.enter_time end)
+    
+    local winner_hero = nil
+    
+    -- Ищем первого без шарда среди присутствующих
+    for _, data in ipairs(candidates) do
+        if not HasShard(data.handle) then
+            winner_hero = data.handle
+            break
+        end
+    end
+    
+    -- Если все в озере уже с шардами - ищем случайного союзника без шарда
+    if not winner_hero then
+        local global_candidates = {}
+        for i = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+            if PlayerResource:IsValidPlayer(i) and PlayerResource:GetTeam(i) == team_id then
+                local hero = PlayerResource:GetSelectedHeroEntity(i)
+                if hero and IsValidEntity(hero) and not HasShard(hero) then
+                    table.insert(global_candidates, hero)
                 end
             end
-            heroesWaiting = {}
-            
-            -- Запускаем таймер захвата
-            if capturingTeam and not activeTimer then
-                countdown = CAPTURE_TIME
-                print("[Shard Shrine] Timer started - " .. countdown .. " seconds")
-                
-                activeTimer = Timers:CreateTimer(1.0, function()
-                    if GetTableCount(heroesInArea) == 0 then
-                        return nil
-                    end
-                    
-                    if IsContested() then
-                        print("[Shard Shrine] CONTESTED - Timer paused...")
-                        return 1.0
-                    end
-                    
-                    countdown = countdown - 1
-                    
-                    if countdown > 0 then
-                        print("[Shard Shrine] " .. countdown .. " seconds remaining...")
-                        return 1.0
-                    else
-                        print("[Shard Shrine] Timer finished! Giving Aghanim's Shard!")
-                        
-                        local rewardHero = currentHero
-                        if not rewardHero or not IsValidEntity(rewardHero) then
-                            rewardHero = GetAnyHeroFromTable(heroesInArea)
-                        end
-                        
-                        if rewardHero and IsValidEntity(rewardHero) then
-                            rewardHero:AddItemByName("item_aghanims_shard")
-                        end
-                        
-                        DestroyCaptureEffect()
-                        activeTimer = nil
-                        currentHero = nil
-                        capturingTeam = nil
-                        countdown = CAPTURE_TIME
-                        heroesInArea = {}
-                        enemiesInArea = {}
-                        
-                        StartCooldownUntilNextActivation()
-                        return nil
-                    end
-                end)
-            end
+        end
+        
+        if #global_candidates > 0 then
+            winner_hero = global_candidates[RandomInt(1, #global_candidates)]
+        end
+    end
+    
+    -- Выдаём награду
+    if winner_hero then
+        winner_hero:AddItemByName("item_aghanims_shard")
+        
+        if CONFIG.SOUND_CAPTURE_COMPLETE then
+            EmitSoundOn(CONFIG.SOUND_CAPTURE_COMPLETE, winner_hero)
+        end
+        
+        return true
+    end
+    
+    return false
+end
+
+-- =============================================================================
+-- MAIN THINK LOOP
+-- =============================================================================
+
+function LakeThink()
+    local dt = CONFIG.THINK_INTERVAL
+    local now = GetGameTime()
+    
+    -- 1. Проверка активации озера
+    if not state.is_active then
+        if now >= state.next_activation_time then
+            ActivateLake()
         else
-            print("[Shard Shrine] Ready for capture!")
+            return CONFIG.THINK_INTERVAL
         end
-    end)
-end
-
--- Удалить героя из зоны (при выходе или смерти)
-local function RemoveHeroFromArea(hero)
-    if not hero then return end
+    end
     
-    local heroId = hero:GetEntityIndex()
-    local heroTeam = hero:GetTeamNumber()
+    -- 2. Анализ юнитов внутри
+    local analysis = AnalyzeUnitsInside()
     
-    -- Игнорируем героев не из Radiant/Dire
-    if not IsValidTeam(heroTeam) then return end
-    
-    -- Проверяем, враг это или союзник
-    if heroesInArea[heroId] then
-        heroesInArea[heroId] = nil
-        print("[Shard Shrine] Ally removed - Allies in area: " .. GetTableCount(heroesInArea))
-        
-        -- Если ушёл текущий герой, назначаем нового
-        if currentHero == hero then
-            currentHero = GetAnyHeroFromTable(heroesInArea)
-            if currentHero then
-                print("[Shard Shrine] New ally takes over capture")
-            end
+    -- 3. Обработка пустого озера
+    if analysis.is_empty then
+        -- Если был прогресс - сбрасываем
+        if state.capture_progress > 0 then
+            ResetCapture()
         end
-        
-        -- Если все союзники ушли, но есть враги — враги перехватывают захват
-        if GetTableCount(heroesInArea) == 0 then
-            if GetTableCount(enemiesInArea) > 0 then
-                print("[Shard Shrine] All allies left - Enemies take over capture!")
-                
-                -- Враги становятся новой захватывающей командой
-                heroesInArea = enemiesInArea
-                enemiesInArea = {}
-                
-                -- Определяем новую команду
-                local newHero = GetAnyHeroFromTable(heroesInArea)
-                if newHero then
-                    capturingTeam = newHero:GetTeamNumber()
-                    currentHero = newHero
-                    print("[Shard Shrine] Team " .. capturingTeam .. " now capturing, " .. countdown .. " seconds remaining")
-                end
-                
-                -- Таймер продолжает работать с тем же countdown
+        return CONFIG.THINK_INTERVAL
+    end
+    
+    -- 4. Обработка оспаривания (contested)
+    if analysis.is_contested then
+        -- Прогресс на паузе, но сохраняется
+        -- Звук захвата продолжает играть
+        UpdateProgressParticle()
+        return CONFIG.THINK_INTERVAL
+    end
+    
+    -- 5. Одна команда внутри
+    local team_id = analysis.single_team
+    local team_data = analysis.teams[team_id]
+    
+    -- Проверяем, нужен ли шард команде
+    if not DoesTeamNeedShard(team_id) then
+        -- Команда не нуждается в шарде - прогресс не идёт
+        UpdateProgressParticle()
+        return CONFIG.THINK_INTERVAL
+    end
+    
+    -- Обновляем захватывающую команду (для перехвата)
+    if state.capturing_team ~= team_id then
+        state.capturing_team = team_id
+        -- Прогресс сохраняется при перехвате
+    end
+    
+    -- 6. Увеличиваем прогресс
+    state.capture_progress = state.capture_progress + dt
+    
+    -- Запускаем звук захвата если ещё не запущен
+    if state.capture_progress > 0 and not state.capture_sound then
+        StartCaptureSound()
+    end
+    
+    -- 7. Проверка завершения захвата
+    if state.capture_progress >= CONFIG.CAPTURE_TIME then
+        -- Проверяем, есть ли реальный герой для получения награды
+        if team_data.has_real_hero then
+            -- Захват завершён!
+            if GrantShardToTeam(team_id) then
+                DeactivateLake()
             else
-                -- Зона полностью пуста
-                print("[Shard Shrine] Area empty - Timer cancelled!")
-                DestroyCaptureEffect()
-                if activeTimer then
-                    Timers:RemoveTimer(activeTimer)
-                    activeTimer = nil
-                    currentHero = nil
-                    capturingTeam = nil
-                    countdown = CAPTURE_TIME  -- сбрасываем отсчёт
-                end
+                -- Не удалось выдать (все с шардами?) - сброс
+                ResetCapture()
             end
-        end
-    elseif enemiesInArea[heroId] then
-        enemiesInArea[heroId] = nil
-        print("[Shard Shrine] Enemy removed - Enemies in area: " .. GetTableCount(enemiesInArea))
-        
-        if not IsContested() and activeTimer then
-            print("[Shard Shrine] Capture resumed!")
-        end
-    end
-end
-
--- Обработчик смерти героя
-local function OnHeroDeath(event)
-    local hero = EntIndexToHScript(event.entindex_killed)
-    if hero and hero:IsRealHero() then
-        RemoveHeroFromArea(hero)
-    end
-end
-
--- Подписываемся на событие смерти
-ListenToGameEvent("entity_killed", OnHeroDeath, nil)
-
-function OnStart(trigger)
-    local hero = trigger.activator
-    if not hero or not hero:IsRealHero() then return end
-    
-    local heroId = hero:GetEntityIndex()
-    local heroTeam = hero:GetTeamNumber()
-    
-    -- Игнорируем героев не из Radiant/Dire
-    if not IsValidTeam(heroTeam) then
-        print("[Shard Shrine] Invalid team " .. heroTeam .. " - ignoring")
-        return
-    end
-    
-    -- Проверяем, активна ли зона (по игровому времени)
-    if not IsZoneActive() or isOnCooldown then
-        heroesWaiting[heroId] = hero
-        local minutes = math.floor(nextActivationTime / 60)
-        local seconds = nextActivationTime % 60
-        print("[Shard Shrine] Zone not active - hero waiting until " .. minutes .. ":" .. string.format("%02d", seconds))
-        
-        -- Запускаем таймер ожидания активации (если ещё не запущен)
-        if not activationTimerStarted and not isOnCooldown then
-            activationTimerStarted = true
-            local currentTime = GetGameTime()
-            local waitTime = nextActivationTime - currentTime
-            
-            if waitTime > 0 then
-                print("[Shard Shrine] Activation timer started, waiting " .. string.format("%.1f", waitTime) .. " seconds")
-                Timers:CreateTimer(waitTime, function()
-                    activationTimerStarted = false
-                    
-                    -- Проверяем, есть ли ожидающие герои
-                    local waitingHero = GetAnyHeroFromTable(heroesWaiting)
-                    if waitingHero and IsValidEntity(waitingHero) then
-                        print("[Shard Shrine] Zone now active! Starting capture for waiting heroes!")
-                        
-                        -- Переносим ожидающих в активные
-                        for id, h in pairs(heroesWaiting) do
-                            if h and IsValidEntity(h) then
-                                local hTeam = h:GetTeamNumber()
-                                if IsValidTeam(hTeam) then
-                                    if not capturingTeam then
-                                        capturingTeam = hTeam
-                                        heroesInArea[id] = h
-                                        currentHero = h
-                                        CreateCaptureEffect(h:GetAbsOrigin())
-                                    elseif hTeam == capturingTeam then
-                                        heroesInArea[id] = h
-                                    else
-                                        enemiesInArea[id] = h
-                                    end
-                                end
-                            end
-                        end
-                        heroesWaiting = {}
-                        
-                        -- Запускаем таймер захвата
-                        if capturingTeam and not activeTimer then
-                            countdown = CAPTURE_TIME
-                            print("[Shard Shrine] Timer started - " .. countdown .. " seconds")
-                            
-                            activeTimer = Timers:CreateTimer(1.0, function()
-                                if GetTableCount(heroesInArea) == 0 then
-                                    return nil
-                                end
-                                
-                                if IsContested() then
-                                    print("[Shard Shrine] CONTESTED - Timer paused...")
-                                    return 1.0
-                                end
-                                
-                                countdown = countdown - 1
-                                
-                                if countdown > 0 then
-                                    print("[Shard Shrine] " .. countdown .. " seconds remaining...")
-                                    return 1.0
-                                else
-                                    print("[Shard Shrine] Timer finished! Giving Aghanim's Shard!")
-                                    
-                                    local rewardHero = currentHero
-                                    if not rewardHero or not IsValidEntity(rewardHero) then
-                                        rewardHero = GetAnyHeroFromTable(heroesInArea)
-                                    end
-                                    
-                                    if rewardHero and IsValidEntity(rewardHero) then
-                                        rewardHero:AddItemByName("item_aghanims_shard")
-                                    end
-                                    
-                                    DestroyCaptureEffect()
-                                    activeTimer = nil
-                                    currentHero = nil
-                                    capturingTeam = nil
-                                    countdown = CAPTURE_TIME
-                                    heroesInArea = {}
-                                    enemiesInArea = {}
-                                    
-                                    StartCooldownUntilNextActivation()
-                                    return nil
-                                end
-                            end)
-                        end
-                    else
-                        print("[Shard Shrine] Zone now active - ready for capture!")
-                    end
-                end)
-            end
-        end
-        
-        return
-    end
-    
-    -- Если захват ещё не начат, этот герой начинает захват
-    if not capturingTeam then
-        capturingTeam = heroTeam
-        heroesInArea[heroId] = hero
-        
-        -- Создаём визуальный эффект на позиции героя
-        CreateCaptureEffect(hero:GetAbsOrigin())
-        
-        print("[Shard Shrine] Capture started by team " .. heroTeam)
-    elseif heroTeam == capturingTeam then
-        -- Союзник заходит в зону
-        heroesInArea[heroId] = hero
-        print("[Shard Shrine] Ally entered - Allies in area: " .. GetTableCount(heroesInArea))
-    else
-        -- Враг заходит в зону
-        enemiesInArea[heroId] = hero
-        print("[Shard Shrine] Enemy entered - CONTESTED! Enemies: " .. GetTableCount(enemiesInArea))
-        return  -- враги не запускают таймер
-    end
-    
-    -- Если таймер уже активен, не запускаем новый
-    if activeTimer then
-        print("[Shard Shrine] Timer already active, hero added to queue")
-        return
-    end
-    
-    currentHero = hero
-    countdown = CAPTURE_TIME  -- сбрасываем отсчёт для нового захвата
-    print("[Shard Shrine] Timer started - " .. countdown .. " seconds")
-    
-    activeTimer = Timers:CreateTimer(1.0, function()
-        if GetTableCount(heroesInArea) == 0 then
-            return nil  -- все союзники покинули зону
-        end
-        
-        -- Если захват оспаривается, ставим на паузу
-        if IsContested() then
-            print("[Shard Shrine] CONTESTED - Timer paused...")
-            return 1.0  -- продолжаем проверять каждую секунду
-        end
-        
-        countdown = countdown - 1
-        
-        if countdown > 0 then
-            print("[Shard Shrine] " .. countdown .. " seconds remaining...")
-            return 1.0  -- повторить через 1 секунду
         else
-            print("[Shard Shrine] Timer finished! Giving Aghanim's Shard!")
-            
-            -- Выдаём шард текущему герою (или любому оставшемуся)
-            local rewardHero = currentHero
-            if not rewardHero or not IsValidEntity(rewardHero) then
-                rewardHero = GetAnyHeroFromTable(heroesInArea)
-            end
-            
-            if rewardHero and IsValidEntity(rewardHero) then
-                rewardHero:AddItemByName("item_aghanims_shard")
-            end
-            
-            DestroyCaptureEffect()
-            activeTimer = nil
-            currentHero = nil
-            capturingTeam = nil
-            countdown = CAPTURE_TIME  -- сбрасываем для следующего захвата
-            heroesInArea = {}
-            enemiesInArea = {}
-            
-            -- Запускаем кулдаун до следующего интервала
-            StartCooldownUntilNextActivation()
-            
-            return nil  -- остановить таймер
+            -- Только иллюзии - ждём реального героя, прогресс = max
+            state.capture_progress = CONFIG.CAPTURE_TIME
         end
-    end)
-end
-
-function OnEnd(trigger)
-    local hero = trigger.activator
-    if not hero or not hero:IsRealHero() then return end
-    
-    -- Удаляем из списка ожидания (если на кулдауне)
-    local heroId = hero:GetEntityIndex()
-    if heroesWaiting[heroId] then
-        heroesWaiting[heroId] = nil
-        print("[Shard Shrine] Hero removed from waiting list")
-        return
     end
     
-    RemoveHeroFromArea(hero)
+    -- 8. Обновляем визуал
+    UpdateProgressParticle()
+    
+    return CONFIG.THINK_INTERVAL
 end
 
+-- =============================================================================
+-- API FUNCTIONS (вызываются движком)
+-- =============================================================================
+
+function Precache(context)
+    PrecacheResource("particle", "particles/generic_gameplay/launchpad_progress_ring.vpcf", context)
+    -- Добавить звуки когда будут готовы
+    -- PrecacheResource("soundfile", "soundevents/custom_sounds.vsndevts", context)
+end
+
+function Spawn()
+    if not thisEntity then return end
+    
+    state.trigger_center = thisEntity:GetAbsOrigin()
+    state.next_activation_time = CONFIG.FIRST_ACTIVATION_TIME
+    state.is_active = false
+    
+    -- Запускаем Think loop
+    thisEntity:SetContextThink("LakeThink", LakeThink, CONFIG.THINK_INTERVAL)
+end
+
+function Activate()
+    -- Используется если триггер стартует выключенным
+end
+
+-- =============================================================================
+-- TRIGGER EVENTS (вызываются при входе/выходе из триггера)
+-- =============================================================================
+
+function OnStart(event)
+    local unit = event.activator
+    if not unit or unit:IsNull() then return end
+    if not unit:IsHero() then return end
+    
+    local team = unit:GetTeamNumber()
+    if not IsValidTeam(team) then return end
+    
+    local is_illusion = unit:IsIllusion()
+    local ent_index = unit:GetEntityIndex()
+    
+    -- Оповещение срабатывает на всех (герои + иллюзии)
+    if state.is_active then
+        TryTriggerAlert()
+    end
+    
+    -- Добавляем в трекинг (герои и иллюзии)
+    state.units_inside[ent_index] = {
+        handle = unit,
+        enter_time = GameRules:GetGameTime(),
+        team = team,
+        is_illusion = is_illusion,
+    }
+end
+
+function OnEnd(event)
+    local unit = event.activator
+    if not unit or unit:IsNull() then return end
+    
+    local ent_index = unit:GetEntityIndex()
+    
+    -- Удаляем из трекинга
+    if state.units_inside[ent_index] then
+        state.units_inside[ent_index] = nil
+    end
+end

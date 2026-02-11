@@ -27,6 +27,15 @@ function modifier_juggernaut_blade_fury_lua:OnRefresh( kv )
 	self.mind_power_multiplier = self:GetAbility():GetSpecialValueFor( "mind_power_multiplier" ) or 0.5 -- special value with fallback
 	self.count = 0
 
+	-- Shard upgrade: bonus radius and slow
+	local caster = self:GetParent()
+	self.has_shard = caster:HasModifier("modifier_item_aghanims_shard")
+	if self.has_shard then
+		local shard_bonus_radius = self:GetAbility():GetSpecialValueFor( "shard_bonus_radius" ) or 100
+		self.radius = self.radius + shard_bonus_radius
+		self.shard_movement_slow = self:GetAbility():GetSpecialValueFor( "shard_movement_slow" ) or 35
+	end
+
 	-- Note: Damage is calculated dynamically in OnIntervalThink, no need to pre-calculate here
 end
 
@@ -82,6 +91,15 @@ function modifier_juggernaut_blade_fury_lua:OnCreated( kv )
 	self.dps = self:GetAbility():GetSpecialValueFor( "blade_fury_damage" ) -- special value
 	self.mind_power_multiplier = self:GetAbility():GetSpecialValueFor( "mind_power_multiplier" ) or 0.5 -- special value with fallback
 	
+	-- Shard upgrade: bonus radius and slow
+	local caster = self:GetParent()
+	self.has_shard = caster:HasModifier("modifier_item_aghanims_shard")
+	if self.has_shard then
+		local shard_bonus_radius = self:GetAbility():GetSpecialValueFor( "shard_bonus_radius" ) or 100
+		self.radius = self.radius + shard_bonus_radius
+		self.shard_movement_slow = self:GetAbility():GetSpecialValueFor( "shard_movement_slow" ) or 35
+	end
+	
 	self.max_count = kv.duration/self.tick
 	self.count = 0
 
@@ -129,6 +147,11 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 	-- Update damage table with current calculated damage
 	self.damageTable.damage = damage_per_tick
 	
+	-- Shard upgrade: destroy trees in radius
+	if self.has_shard then
+		GridNav:DestroyTreesAroundPoint(caster:GetAbsOrigin(), self.radius, false)
+	end
+	
 	-- Find enemies in radius
 	local enemies = FindUnitsInRadius(
 		self:GetCaster():GetTeamNumber(),	-- int, your team number
@@ -146,6 +169,16 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 	for _,enemy in pairs(enemies) do
 		self.damageTable.victim = enemy
 		ApplyDamage( self.damageTable )
+
+		-- Shard upgrade: apply slow to enemies while they are in radius
+		if self.has_shard then
+			enemy:AddNewModifier(
+				caster,
+				self:GetAbility(),
+				"modifier_juggernaut_blade_fury_shard_slow",
+				{ duration = self.tick + 0.1 } -- slightly longer than tick to ensure continuous slow
+			)
+		end
 
 		-- Play effects
 		self:PlayEffects2( enemy )

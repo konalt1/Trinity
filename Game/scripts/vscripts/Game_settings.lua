@@ -32,14 +32,15 @@ MINIMAP_ICON_SIZE = 1                   -- What icon size should we use for our 
 MINIMAP_CREEP_ICON_SIZE = 1             -- What icon size should we use for creeps?
 MINIMAP_RUNE_ICON_SIZE = 1              -- What icon size should we use for runes?
 
-RUNE_SPAWN_TIME = 180                   -- How long in seconds should we wait between rune spawns?
+RUNE_SPAWN_TIME = 180                   -- How long in seconds should we wait between first rune spawn?
+RUNE_SPAWN_TIME_AFTER_FIRST = 120       -- How long in seconds should we wait between rune spawns after the first one?
 CUSTOM_BUYBACK_COST_ENABLED = false     -- Should we use a custom buyback cost setting?
 CUSTOM_BUYBACK_COOLDOWN_ENABLED = false  -- Should we use a custom buyback time?
 CUSTOM_BUYBACK_COOLDOWN = 900  -- Should we use a custom buyback time?
 BUYBACK_ENABLED = true                 -- Should we allow people to buyback when they die?
 
 
-DISABLE_FOG_OF_WAR_ENTIRELY = false     -- Should we disable fog of war entirely for both teams?
+DISABLE_FOG_OF_WAR_ENTIRELY = true     -- Should we disable fog of war entirely for both teams?
 USE_UNSEEN_FOG_OF_WAR = false           -- Should we make unseen and fogged areas of the map completely black until uncovered by each team? 
                                             -- Note: DISABLE_FOG_OF_WAR_ENTIRELY must be false for USE_UNSEEN_FOG_OF_WAR to work
 USE_STANDARD_DOTA_BOT_THINKING = true  -- Should we have bots act like they would in Dota? (This requires 3 lanes, normal items, etc)
@@ -342,6 +343,12 @@ function GameSettings:OnGameInProgress()
 	Timers:CreateTimer(60, function() -- Start this timer 30 game-time seconds later
 		GiveExperiencePlayers( 1 )
 		return 60.0 -- Rerun this timer every 30 game-time seconds
+	end)
+
+	-- After the first rune spawns at 3:00, switch interval to 2 minutes (3:00, 5:00, 7:00, ...)
+	Timers:CreateTimer(RUNE_SPAWN_TIME + 1, function()
+		GameRules:SetRuneSpawnTime(RUNE_SPAWN_TIME_AFTER_FIRST)
+		print("[BAREBONES] Rune spawn time changed to " .. RUNE_SPAWN_TIME_AFTER_FIRST .. "s")
 	end)
 end
 
