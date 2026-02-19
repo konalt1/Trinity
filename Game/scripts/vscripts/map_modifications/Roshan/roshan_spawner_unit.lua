@@ -60,6 +60,9 @@ function SpawnRoshanLoop()
     if roshan then
         print("[RoshanSpawner] Рошан заспавнен на позиции: " .. tostring(spawnPos))
         
+        -- Снимаем неуязвимость (модификатор), если движок навесил
+        roshan:RemoveModifierByName("modifier_invulnerable")
+        
         -- Сохраняем ссылку на текущего рошана
         thisEntity.currentRoshan = roshan
         
@@ -77,7 +80,7 @@ function SpawnRoshanLoop()
         GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, spawnPos.x, spawnPos.y, roshan, 0)
         
         -- 3. Звук рёва рошана
-        EmitSoundOn("Roshan.Scream", roshan)
+        EmitSoundOn("RoshanDT.Scream", roshan)
     else
         print("[RoshanSpawner] ОШИБКА: Не удалось создать рошана!")
     end

@@ -222,9 +222,6 @@ function GameSettings:CaptureGameMode()
 		-- Автоматический выбор героя для игроков, не выбравших героя
 		-- Принудительный выбор героя для всех игроков
 		-- Раскомментируйте одну из следующих строк для принудительного выбора конкретного героя:
-		mode:SetCustomGameForceHero("npc_dota_hero_lich") -- Принудительно выбирает Lich
-		-- mode:SetCustomGameForceHero("npc_dota_hero_phantom_assassin") -- Принудительно выбирает Phantom Assassin
-		-- mode:SetCustomGameForceHero("npc_dota_hero_techies") -- Принудительно выбирает Techies
 		
 --[[
 		mode:SetCustomAttributeDerivedStatValue(DOTA_ATTRIBUTE_STRENGTH_DAMAGE,1)
@@ -327,6 +324,13 @@ end
 ]]
 function GameSettings:OnGameInProgress()
 	print("[BAREBONES] The game has officially begun")
+
+	-- Remove runes that auto-spawned at 0:00
+	local runes = Entities:FindAllByClassname("dota_item_rune")
+	for _, rune in pairs(runes) do
+		UTIL_Remove(rune)
+	end
+	print("[BAREBONES] Removed " .. #runes .. " runes spawned at 0:00")
 	for i=0,4 do
 		PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)		
 		PlayerResource:SetCustomBuybackCost(i, CUSTOM_BUYBACK_COST)
