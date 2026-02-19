@@ -123,6 +123,7 @@
         "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"
 		"BaseClass"                 "npc_dota_creature"
         "Level"                     "1"
+        "ModelScale"                "0.001"
         
         // AI Script - спавнит рошанов
         "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
