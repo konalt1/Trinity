@@ -19,6 +19,9 @@ local VISION_RADIUS = 800                           -- Радиус обзора
 function Spawn(entityKeyValues)
     thisEntity.currentRoshan = nil
     
+    -- Делаем спавнер неуязвимым
+    thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
+    
     -- Запускаем спавн после задержки
     Timers:CreateTimer(FIRST_SPAWN_DELAY, function()
         return SpawnRoshanLoop()

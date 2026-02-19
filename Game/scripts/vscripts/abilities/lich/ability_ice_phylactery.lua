@@ -108,16 +108,8 @@ end
 -- Создаёт новый партикл и удаляет старый (двойная буферизация — без мигания)
 function modifier_ability_ice_phylactery:CreateSpireParticle(parent, pos, radius)
     local new_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lich/lich_ice_spire.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
-    for i = 0, 4 do
-        ParticleManager:SetParticleControl(new_particle, i, pos)
-    end
-    ParticleManager:SetParticleControl(new_particle, 5, Vector(radius, radius, radius))
-
-    -- Удаляем старый партикл ПОСЛЕ создания нового
-    if self.effect_cast then
-        ParticleManager:DestroyParticle(self.effect_cast, true)
-        ParticleManager:ReleaseParticleIndex(self.effect_cast)
-    end
+   
+    
 
     return new_particle
 end
