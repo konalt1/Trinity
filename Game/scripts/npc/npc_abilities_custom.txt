@@ -808,7 +808,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ogre_magi/ogre_magi_ogres_roar"
-        "AbilityTextureName"            "lone_druid_savage_roar"
+        "AbilityTextureName"            "Ogre_roar"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -827,7 +827,7 @@
         
         "AbilityValues"
         {
-            "radius"                    "300"
+            "radius"                    "500"
             "angle"                     "90"
             "base_fear_duration"        "1.0"
             "fear_per_strength"         "0.1"
@@ -838,7 +838,7 @@
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts"
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lone_druid.vsndevts"
-            "particle"      "particles/units/heroes/hero_lone_druid/lone_druid_savage_roar.vpcf"
+            "particle"      "particles/units/heroes/hero_beastmaster/beastmaster_primal_roar.vpcf"
             "particle"      "particles/units/heroes/hero_lone_druid/lone_druid_savage_roar_debuff.vpcf"
         }
     }
@@ -1150,7 +1150,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/phantom_assassin/phantom_assassin_phantom_cloud"
-        "AbilityTextureName"            "phantom_assassin_blur"
+        "AbilityTextureName"            "PA_smoke"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
@@ -1933,7 +1933,7 @@
         //-------------------------------------------------------------------------------------------------------------
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/phantom_assassin/phantom_assassin_smoke_bomb"
-        "AbilityTextureName"            "phantom_assassin_blur"
+        "AbilityTextureName"            "PA_smoke"
         "FightRecapLevel"               "1"
         "MaxLevel"                      "1"
         "IsGrantedByShard"              "0"
@@ -2088,6 +2088,7 @@
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
+        "HasShardUpgrade"               "1"
 
         "AbilityCastPoint"              "0.0"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"

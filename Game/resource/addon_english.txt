@@ -9,6 +9,9 @@
 		"chat_wheel_donate_sound_tuntunsahur"				"Бр-Бр патапим Бр-Бр патапим"
 		"dota_error_cooldown_chat_wheel"					"Фразы на перезарядке"
 
+		// Кастомный Рошан (pathway)
+		"npc_dota_roshan_pathway"				"Roshan"
+
 		//Doom
 		// Doom Soul Devour
 		"DOTA_Tooltip_ability_doom_soul_devour"						"Поглощение Души"
@@ -219,7 +222,7 @@
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
-
+		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи Ткач становится невидимым. Невидимость проявляется через 1 сек. после применения способности и снимается при атаке или использовании способностей."
 		// =============================================
 		// Aghanim's Shard Descriptions
 		// =============================================
@@ -239,12 +242,22 @@
 		"DOTA_Tooltip_ability_tusk_ice_shard_description"					"Враги внутри ледяной клетки получают периодический магический урон и замедление передвижения. Урон усиливается Силой Магии."
 
 		// Weaver - Shard upgrade for Cucaracha
-		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"			"Во время Кукарачи Ткач получает шанс уклонения, а его атаки снижают броню врагов на время действия способности."
+		
 
 		// Lycan - Shard upgrade for Summon Wolves
 		"DOTA_Tooltip_ability_lycan_summon_wolves_custom_shard_description"	"Волки периодически наносят удар ближайшему вражескому юниту. Удар происходит каждые 3 сек. по крипам и каждые 5 сек. по героям."
 		"DOTA_Tooltip_ability_lycan_summon_wolves_custom_creep_attack_second"	"ИНТЕРВАЛ АТАКИ ПО КРИПАМ:"
 		"DOTA_Tooltip_ability_lycan_summon_wolves_custom_hero_attack_second_shard"	"ИНТЕРВАЛ АТАКИ ПО ГЕРОЯМ:"
+
+		// =============================================
+		// Mind Power Modifiers
+		// =============================================
+
+		// Mind Power (Base modifier)
+		"DOTA_Tooltip_modifier_mind_power"										"Сила Магии"
+		"DOTA_Tooltip_modifier_mind_power_Description"							"Характеристики ваших способностей увеличены на показатель вашей Силы Магии "
+
+	
 
 	}
 }

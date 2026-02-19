@@ -52,6 +52,9 @@ function Spawn(entityKeyValues)
         return 
     end
 
+    -- Снимаем неуязвимость (модификатор), если движок навесил
+    thisEntity:RemoveModifierByName("modifier_invulnerable")
+    
     -- Принудительно задаём HP с задержкой (npc_dota_roshan перезаписывает HP после Spawn)
     local CUSTOM_HP = 2000
     Timers:CreateTimer(0.1, function()

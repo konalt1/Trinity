@@ -5,7 +5,7 @@
 	IsTemplate = false
 	maps = null
 	CheckAFKPlayers = true
-	DefaultMap = "dota3v3"
+	DefaultMap = "tract"
 	Default_Keys = null
 	DisableIK = false
 	EnablePickRules = false

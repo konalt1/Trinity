@@ -128,7 +128,7 @@
 		"Ability1"				                        "ogre_magi_fire_blast"
 		"Ability2"				                        "ogre_magi_strength_boost"
         "Ability4"                                      "generic_hidden"         
-        "Ability5"                                      "generic_hidden"
+        "Ability5"                                      "ogre_magi_ogres_roar"   // Aghanim's Shard
     	"Ability6"	                        			"ogre_magi_reroll"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
