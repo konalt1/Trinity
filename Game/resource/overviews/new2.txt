@@ -1,0 +1,8 @@
+new2
+{
+	material materials/overviews/new2.vmat
+	pos_x -6720
+	pos_y 6720
+	scale 13.125
+}
+
