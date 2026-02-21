@@ -2,7 +2,7 @@
     AI для Рошана, идущего по пути (Pathway Roshan)
     
     Поведение:
-    - Движется по точкам: Roshan_pathway → Roshan_pathway_2 → Roshan_pathway_3 → Roshan_pathway_final
+    - Движется по точкам: Roshan_pathway → Roshan_pathway_2 → Roshan_pathway_final
     - При получении урона останавливается и атакует
     - Если 15 секунд без боя — продолжает движение
     - При смерти дропает аегис
@@ -13,8 +13,7 @@
 local PATHWAY_POINTS = {
     "Roshan_pathway",
     "Roshan_pathway_2", 
-    "Roshan_pathway_3",
-    "Roshan_pathway_final"
+    "Roshan_pathway_final",
 }
 
 -- Время без боя для продолжения движения (в секундах)
@@ -32,7 +31,7 @@ local WAYPOINT_WAIT_TIME = 60
 -- На каких точках останавливаться (по имени)
 local WAIT_AT_WAYPOINTS = {
     ["Roshan_pathway"] = true,
-    ["Roshan_pathway_3"] = true
+    ["Roshan_pathway_2"] = true
 }
 
 -- Максимальное расстояние от точки ожидания (leash)
