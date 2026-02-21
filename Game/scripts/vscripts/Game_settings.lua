@@ -40,7 +40,7 @@ CUSTOM_BUYBACK_COOLDOWN = 900  -- Should we use a custom buyback time?
 BUYBACK_ENABLED = true                 -- Should we allow people to buyback when they die?
 
 
-DISABLE_FOG_OF_WAR_ENTIRELY = true     -- Should we disable fog of war entirely for both teams?
+DISABLE_FOG_OF_WAR_ENTIRELY = false     -- Should we disable fog of war entirely for both teams?
 USE_UNSEEN_FOG_OF_WAR = false           -- Should we make unseen and fogged areas of the map completely black until uncovered by each team? 
                                             -- Note: DISABLE_FOG_OF_WAR_ENTIRELY must be false for USE_UNSEEN_FOG_OF_WAR to work
 USE_STANDARD_DOTA_BOT_THINKING = true  -- Should we have bots act like they would in Dota? (This requires 3 lanes, normal items, etc)
@@ -170,7 +170,7 @@ end
 function GameSettings:OnConnectFull(keys)
 	print ('[BAREBONES] OnConnectFull')
 	DeepPrintTable(keys)
-	GameSettings:CaptureGameMode()
+
 
 	local entIndex = keys.index+1
 	-- The Player entity of the joining user
@@ -373,6 +373,9 @@ function GameSettings:OnGameRulesStateChange(keys)
 	DeepPrintTable(keys)
 
 	local newState = GameRules:State_Get()
+	if newState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+		GameSettings:CaptureGameMode()
+	end
 	if newState == DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD then
 		self.bSeenWaitForPlayers = true
 	elseif newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then

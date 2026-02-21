@@ -2,7 +2,7 @@
     AI для Рошана, идущего по пути (Pathway Roshan)
     
     Поведение:
-    - Движется по точкам: Roshan_pathway → Roshan_pathway_2 → Roshan_pathway_3 → Roshan_pathway_final
+    - Движется по точкам: Roshan_pathway → Roshan_pathway_2 → Roshan_pathway_final
     - При получении урона останавливается и атакует
     - Если 15 секунд без боя — продолжает движение
     - При смерти дропает аегис
@@ -13,8 +13,7 @@
 local PATHWAY_POINTS = {
     "Roshan_pathway",
     "Roshan_pathway_2", 
-    "Roshan_pathway_3",
-    "Roshan_pathway_final"
+    "Roshan_pathway_final",
 }
 
 -- Время без боя для продолжения движения (в секундах)
@@ -32,7 +31,7 @@ local WAYPOINT_WAIT_TIME = 60
 -- На каких точках останавливаться (по имени)
 local WAIT_AT_WAYPOINTS = {
     ["Roshan_pathway"] = true,
-    ["Roshan_pathway_3"] = true
+    ["Roshan_pathway_2"] = true
 }
 
 -- Максимальное расстояние от точки ожидания (leash)
@@ -55,13 +54,21 @@ function Spawn(entityKeyValues)
     -- Снимаем неуязвимость (модификатор), если движок навесил
     thisEntity:RemoveModifierByName("modifier_invulnerable")
     
-    -- Принудительно задаём HP с задержкой (npc_dota_roshan перезаписывает HP после Spawn)
-    local CUSTOM_HP = 2000
+    -- Принудительно задаём характеристики с задержкой (npc_dota_roshan перезаписывает после Spawn)
+    local BASE_HP = 2000
+    local HP_PER_SPAWN = 1000
+    local BASE_ARMOR = 10
+    local ARMOR_PER_SPAWN = 2
     Timers:CreateTimer(0.1, function()
         if IsValidEntity(thisEntity) and thisEntity:IsAlive() then
+            local spawnNum = thisEntity.spawnNumber or 1
+            local CUSTOM_HP = BASE_HP + HP_PER_SPAWN * (spawnNum - 1)
+            local CUSTOM_ARMOR = BASE_ARMOR + ARMOR_PER_SPAWN * (spawnNum - 1)
             thisEntity:SetBaseMaxHealth(CUSTOM_HP)
             thisEntity:SetMaxHealth(CUSTOM_HP)
             thisEntity:SetHealth(CUSTOM_HP)
+            thisEntity:SetPhysicalArmorBaseValue(CUSTOM_ARMOR)
+            print("[Roshan Pathway] Спавн #" .. spawnNum .. " | HP: " .. CUSTOM_HP .. " | Armor: " .. CUSTOM_ARMOR)
         end
     end)
 
