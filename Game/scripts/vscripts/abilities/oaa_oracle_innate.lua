@@ -101,8 +101,7 @@ if IsServer() then
         return
       end
 
-      -- Apply buff/debuff to the unit
-      BuffHealedUnit()
+      AccumulateDamage()
     else
       -- Inflictor is an ability
       local name = inflictor:GetAbilityName()

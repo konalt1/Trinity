@@ -159,7 +159,7 @@
         "Model"                     "models/heroes/techies/fx_techiesfx_mine.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "1.5"
+        "ModelScale"                "0,005"
         
         // AI Script - спавнит рошанов
         "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
@@ -195,6 +195,57 @@
         "VisionDaytimeRange"        "800"
         "VisionNighttimeRange"      "800"
         
+        // Team
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Кастомный слушатель спавна рун
+    // Размещается на карте и запускает логику из vscript
+    "npc_custom_rune_spawner_listener"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/heroes/techies/fx_techiesfx_mine.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.005"
+
+        // Rune spawner logic
+        "vscripts"                  "map_modifications/runes/custom_rune_spawner_listener.lua"
+
+        // Abilities
+        "Ability1"                  ""
+        "Ability2"                  ""
+        "Ability3"                  ""
+        "Ability4"                  ""
+
+        // Armor
+        "ArmorPhysical"             "100"
+        "MagicalResistance"         "100"
+
+        // Attack
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+
+        // Bounds
+        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
+        "HealthBarOffset"           "140"
+
+        // Movement
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+
+        // Status
+        "StatusHealth"              "99999"
+        "StatusHealthRegen"         "1000"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        // Vision
+        "VisionDaytimeRange"        "400"
+        "VisionNighttimeRange"      "400"
+
         // Team
         "TeamName"                  "DOTA_TEAM_NEUTRALS"
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"

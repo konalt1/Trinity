@@ -19,7 +19,7 @@ function omniknight_repel_lua:OnSpellStart()
 	local totalHealAmount = baseHealAmount + mindPowerBonus
 
 	-- Heal target
-	target:Heal(totalHealAmount, caster)
+	target:Heal(totalHealAmount, self)
 
 	-- Add modifier
 	target:AddNewModifier(

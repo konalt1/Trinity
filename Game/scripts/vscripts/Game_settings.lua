@@ -32,8 +32,8 @@ MINIMAP_ICON_SIZE = 1                   -- What icon size should we use for our 
 MINIMAP_CREEP_ICON_SIZE = 1             -- What icon size should we use for creeps?
 MINIMAP_RUNE_ICON_SIZE = 1              -- What icon size should we use for runes?
 
-RUNE_SPAWN_TIME = 180                   -- How long in seconds should we wait between first rune spawn?
-RUNE_SPAWN_TIME_AFTER_FIRST = 120       -- How long in seconds should we wait between rune spawns after the first one?
+RUNE_SPAWN_TIME = 999999                -- Disable vanilla rune cycle (custom rune spawner handles runes)
+RUNE_SPAWN_TIME_AFTER_FIRST = 999999    -- Kept large to avoid any engine-side interval switch
 CUSTOM_BUYBACK_COST_ENABLED = false     -- Should we use a custom buyback cost setting?
 CUSTOM_BUYBACK_COOLDOWN_ENABLED = false  -- Should we use a custom buyback time?
 CUSTOM_BUYBACK_COOLDOWN = 900  -- Should we use a custom buyback time?
@@ -325,12 +325,6 @@ end
 function GameSettings:OnGameInProgress()
 	print("[BAREBONES] The game has officially begun")
 
-	-- Remove runes that auto-spawned at 0:00
-	local runes = Entities:FindAllByClassname("dota_item_rune")
-	for _, rune in pairs(runes) do
-		UTIL_Remove(rune)
-	end
-	print("[BAREBONES] Removed " .. #runes .. " runes spawned at 0:00")
 	for i=0,4 do
 		PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)		
 		PlayerResource:SetCustomBuybackCost(i, CUSTOM_BUYBACK_COST)
@@ -349,11 +343,8 @@ function GameSettings:OnGameInProgress()
 		return 60.0 -- Rerun this timer every 30 game-time seconds
 	end)
 
-	-- After the first rune spawns at 3:00, switch interval to 2 minutes (3:00, 5:00, 7:00, ...)
-	Timers:CreateTimer(RUNE_SPAWN_TIME + 1, function()
-		GameRules:SetRuneSpawnTime(RUNE_SPAWN_TIME_AFTER_FIRST)
-		print("[BAREBONES] Rune spawn time changed to " .. RUNE_SPAWN_TIME_AFTER_FIRST .. "s")
-	end)
+	-- Vanilla rune timing is intentionally disabled.
+	-- Custom spawning is handled by npc_custom_rune_spawner_listener.
 end
 
 -- Cleanup a player when they leave
