@@ -10,8 +10,8 @@
 ]]
 
 -- Конфигурация
-local SPAWN_INTERVAL = 240                          -- Интервал спавна в секундах (4 минуты)
-local FIRST_SPAWN_DELAY = 10                     -- Время первого спавна (10 минута)
+local SPAWN_INTERVAL = 360                          -- Интервал спавна в секундах (6 минут)
+local FIRST_SPAWN_DELAY = 600                     -- Время первого спавна (10 минута)
 local ROSHAN_UNIT_NAME = "npc_dota_roshan_pathway"  -- Какого рошана спавним
 local VISION_DURATION = 5.0                         -- Длительность обзора при спавне
 local VISION_RADIUS = 800                           -- Радиус обзора при спавне
@@ -51,7 +51,6 @@ function SpawnRoshanLoop()
     
     -- Спавним рошана
     local spawnPos = thisEntity:GetAbsOrigin()
-    thisEntity.spawnCount = thisEntity.spawnCount + 1
     
     local roshan = CreateUnitByName(
         ROSHAN_UNIT_NAME,
@@ -63,8 +62,7 @@ function SpawnRoshanLoop()
     )
     
     if roshan then
-        roshan.spawnNumber = thisEntity.spawnCount
-        print("[RoshanSpawner] Рошан #" .. thisEntity.spawnCount .. " заспавнен на позиции: " .. tostring(spawnPos))
+        print("[RoshanSpawner] Рошан заспавнен на позиции: " .. tostring(spawnPos))
         
         -- Снимаем неуязвимость (модификатор), если движок навесил
         roshan:RemoveModifierByName("modifier_invulnerable")

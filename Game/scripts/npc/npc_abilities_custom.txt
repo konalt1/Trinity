@@ -25,7 +25,7 @@
         "AbilityCastPoint"              "0.3"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 
-        "AbilityCooldown"               "70"
+        "AbilityCooldown"               "40"
         "AbilityManaCost"               "40 50 60 70"
 
         "AbilityValues"
@@ -2015,7 +2015,7 @@
         {
             "spark_damage_base"
             {
-                "value"                 "100 160 220 280"
+                "value"                 "50 100 150 200"
             }
             "radius"
             {

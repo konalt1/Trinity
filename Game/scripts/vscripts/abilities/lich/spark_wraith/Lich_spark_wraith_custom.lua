@@ -225,11 +225,7 @@ function lich_spark_wraith:OnProjectileHit_ExtraData(target, location, ExtraData
 			unit:SetMana(current_mana - mana_to_burn)
 			total_mana_burned = total_mana_burned + mana_to_burn
 			
-			-- Визуальный эффект
 			SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, unit, mana_to_burn, nil)
-		else
-			-- Если у цели нет маны (крипы), считаем полное сжигание маны как потенциальную сожженную ману
-			total_mana_burned = total_mana_burned + mana_burn
 		end
 	end
 
@@ -414,25 +410,18 @@ function modifier_lich_spark_wraith_return_tracker:OnIntervalThink()
 					ability = self.ability
 				})
 				
-				-- Сжигаем ману (независимо от урона)
-				local mana_to_add = 0
+				-- Сжигаем ману
 				if enemy:GetMana() > 0 then
 					local current_mana = enemy:GetMana()
 					local mana_to_burn = math.min(mana_burn, current_mana)
 					enemy:SetMana(current_mana - mana_to_burn)
-					mana_to_add = mana_to_burn
 					
-					-- Визуальный эффект
 					SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, enemy, mana_to_burn, nil)
-				else
-					-- Если у цели нет маны (крипы), считаем полное сжигание маны как потенциальную сожженную ману
-					mana_to_add = mana_burn
+					
+					self.total_mana_burned = self.total_mana_burned + mana_to_burn
+					local current_total = _G.lich_spark_wraith_mana_data[self.projectile_id] or 0
+					_G.lich_spark_wraith_mana_data[self.projectile_id] = current_total + mana_to_burn
 				end
-				
-				-- Добавляем к общему счетчику сожженной маны
-				self.total_mana_burned = self.total_mana_burned + mana_to_add
-				local current_total = _G.lich_spark_wraith_mana_data[self.projectile_id] or 0
-				_G.lich_spark_wraith_mana_data[self.projectile_id] = current_total + mana_to_add
 			end
 		end
 	end
