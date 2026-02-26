@@ -1,0 +1,6 @@
+.ImageTelegramQR_220{
+    width: 220px;
+    background-image: url("file://{images}/socials/telegram_qr.svg");
+    background-size: 100%;
+    background-texture-size: 220px;
+}

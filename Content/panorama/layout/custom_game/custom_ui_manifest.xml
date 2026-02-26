@@ -1,9 +1,12 @@
 <root>
-  <scripts>
+    <styles>
+        <include src="file://{resources}/layout/custom_game/styles/precache.css"/>
+    </styles>
+    <scripts>
         <include src="file://{resources}/scripts/custom_game/init.js" />
-  </scripts>
-  <Panel>
-      <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml" />
-      <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml" />
-  </Panel>
+    </scripts>
+    <Panel>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml"/>
+    </Panel>
 </root>
