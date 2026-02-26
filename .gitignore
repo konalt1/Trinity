@@ -1,2 +1,9 @@
-*.bin
 *.vpk
+*.bin
+Game/models/
+Game/panorama/
+Game/materials/
+Game/particles/
+Game/panorama_debugger.cfg
+Game/tools_asset_info.bin
+Game/tools_thumbnail_cache.bin
