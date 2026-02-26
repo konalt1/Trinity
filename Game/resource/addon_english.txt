@@ -3,6 +3,18 @@
 	"Language"		"english"
 	"Tokens"
 	{
+		//Онбординг экраны
+		"ui.custom_loading_screen.slide_1.title" 		"Добро пожаловать!"
+		"ui.custom_loading_screen.slide_1.content"		"Ваша цель — Уничтожить Трон противника в командах 3 на 3."
+
+		"ui.custom_loading_screen.slide_2.title" 		"Still beta"
+		"ui.custom_loading_screen.slide_2.content"		"Игра пока на начальных этапах разработки, следить за ней можно в группе ТГ."
+
+		"ui.custom_loading_screen.slide_3.title" 		"Новый стат — Сила магии!"
+		"ui.custom_loading_screen.slide_3.content"		"Чем больше ваша Сила магии, тем больше урона наносят ваши абилки./n <b>Доп урон</b> тем больше, чем больше <b>множитель силы магии</b> этой абилки. "
+
+		"ui.custom_loading_screen.slide_4.title" 		"Изменения статов"
+		"ui.custom_loading_screen.slide_4.content"		"<b>Ловкость</b> увеличивает <b>скорость</b> передвижения вместо <b>брони</b>."
 		// Колесо чата
 	    "chat_wheel_donate_sound_empty"                                 "Пусто"
 		"chat_wheel_donate_sound_pudge"							"Иди на*уй!"
@@ -257,6 +269,7 @@
 		// Mind Power (Base modifier)
 		"DOTA_Tooltip_modifier_mind_power"										"Сила Магии"
 		"DOTA_Tooltip_modifier_mind_power_Description"							"Характеристики ваших способностей увеличены на показатель вашей Силы Магии "
+
 
 	
 
