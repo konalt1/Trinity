@@ -6,7 +6,6 @@ function empty_ability:GetIntrinsicModifierName()
     return "modifier_empty_ability"
 end
 
--- Модификатор с цифрой "1"
 modifier_empty_ability = class({
     IsHidden = function(self) return true end,
     IsPurgable = function(self) return false end,
@@ -28,13 +27,28 @@ function modifier_empty_ability:OnCreated()
     else
         self.base_armor = 0
     end
+    self.reward_accumulator = 0
     self:StartIntervalThink(0.2)
 end
 
 function modifier_empty_ability:OnIntervalThink()
+    if not IsServer() then
+        return
+    end
     local parent = self:GetParent()
-    if parent and parent.GetAgility then
+    if not parent then
+        return
+    end
+
+    if parent.GetAgility then
         self:SetStackCount(parent:GetAgility())
+    end
+
+    self.reward_accumulator = self.reward_accumulator + 0.2
+    if self.reward_accumulator >= 1.0 and parent:IsAlive() then
+        self.reward_accumulator = self.reward_accumulator - 1.0
+        parent:AddExperience(2, DOTA_ModifyXP_Unspecified, false, false)
+        parent:ModifyGold(2, true, DOTA_ModifyGold_Unspecified)
     end
 end
 
@@ -52,4 +66,4 @@ end
 
 function modifier_empty_ability:GetTexture()
     return "phantom_assassin_coup_de_grace"
-end 
+end

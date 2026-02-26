@@ -159,8 +159,9 @@
 
 		// Coup de Foudre (Ultimate)
 		"DOTA_Tooltip_ability_ability_coup_de_foudre"							"Чутьё Убийцы"
-		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"				"Пока враги не видят Phantom Assassin, все её атаки становятся критическими."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"				"Пока враги не видят Phantom Assassin, все её атаки становятся критическими. Крит по крипам наносит пониженный урон."
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"					"%КРИТИЧЕСКИЙ УРОН:"
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus_creeps"			"%КРИТИЧЕСКИЙ УРОН ПО КРИПАМ:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_activation_delay"			"ЗАДЕРЖКА СНЯТИЯ ЭФФЕКТА:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_shard_description"			"Даёт способность Призрачная Туча."
 

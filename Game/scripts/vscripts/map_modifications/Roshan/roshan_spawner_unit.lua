@@ -62,6 +62,11 @@ function SpawnRoshanLoop()
     )
     
     if roshan then
+        -- Увеличиваем номер спавна и передаём его Рошану,
+        -- чтобы AI корректно посчитал прирост статов.
+        thisEntity.spawnCount = (thisEntity.spawnCount or 0) + 1
+        roshan.spawnNumber = thisEntity.spawnCount
+
         print("[RoshanSpawner] Рошан заспавнен на позиции: " .. tostring(spawnPos))
         
         -- Снимаем неуязвимость (модификатор), если движок навесил
@@ -85,6 +90,8 @@ function SpawnRoshanLoop()
         
         -- 3. Звук рёва рошана
         EmitSoundOn("RoshanDT.Scream", roshan)
+
+        print("[RoshanSpawner] Номер спавна: " .. roshan.spawnNumber)
     else
         print("[RoshanSpawner] ОШИБКА: Не удалось создать рошана!")
     end

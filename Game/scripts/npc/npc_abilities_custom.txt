@@ -65,7 +65,7 @@
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
 
-        "AbilityCooldown"               "50 45 40 35"
+        "AbilityCooldown"               "35 30 25 20"
         "AbilityManaCost"               "60 65 70 75"
 
         "AbilityValues"
@@ -73,7 +73,7 @@
             "damage_per_second"         "20 30 40 50"
             "radius"                    "600 600 600 600"
             "bonus_movement_speed_pct"  "11 12 13 14"
-            "duration"                  "10.0 12.0 14.0 16.0"
+            "duration"                  "7 9 11 13"
             "mind_power_damage_multiplier" "0.5 0.6 0.7 0.8"
         }
 
@@ -137,16 +137,16 @@
         "MaxLevel"                      "3"
         "RequiredLevel"                 "6"
         "LevelsBetweenUpgrades"         "6"
-        "AbilityCooldown"               "140 120 100"
+        "AbilityCooldown"               "100 90 80"
         "AbilityManaCost"               "150 200 250"
         "AbilityCastPoint"              "0.3"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
-        "AbilityDuration"               "16.0"
+        "AbilityDuration"               "10.0"
         "AbilityValues"
         {
-            "aura_radius"               "400 500 600"
+            "aura_radius"               "400 450 500"
             "damage_per_second"         "40 60 80"
-            "duration"                  "16.0"
+            "duration"                  "10.0"
             "mind_power_multiplier"     "0.5"
             "shard_move_slow"
             {
@@ -557,7 +557,7 @@
             }
             "max_hero_attacks"          "3"
             "max_creep_attacks"         "6"
-            "attacks_to_destroy"        "3 6 9"
+            "attacks_to_destroy"        "5 8 11"
             "duration"                  "20.0"
             "slow_duration"             "0.5"
             "shard_spire_move_speed"
@@ -798,9 +798,9 @@
 
         "AbilityValues"
         {     
-          "ability_duration"              "10"
+          "ability_duration"              "20"
           "manacost_reduction"              "100"
-          "cooldown_reduction_per_attack"    "3 4 5"
+          "cooldown_reduction_per_attack"    "5 6 7"
         }
     }
 
@@ -973,7 +973,7 @@
     "omniknight_innate_oaa"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/oaa_oracle_innate"
+        "ScriptFile"                    "abilities/omniknight/oaa_oracle_innate"
         "AbilityTextureName"            "omniknight_hammer_of_purity"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
@@ -984,7 +984,7 @@
         {
             "damage_per_heal"
             {
-                "value"                 "0.3 0.4 0.5 0.6"
+                "value"                 "0.2 0.33 0.46 0.6"
             }
             "stack_duration"
             {
@@ -1046,8 +1046,8 @@
 		{
 			"radius"
 			{
-				"value"					"800 1000 1200"
-				"affected_by_aoe_increase"	"1"
+				"value"					"700 800 900"
+				"affected_by_aoe_increase"	"0"
 			}
 			"duration"
 			{
@@ -1137,6 +1137,7 @@
 		"AbilityValues"
         {
           "crit_bonus"				"200 250 300"
+          "crit_bonus_creeps"			"150 200 250"
           "activation_delay"          "0.75"
           "dagger_buff_time"          "2.0"
         }
@@ -2016,10 +2017,11 @@
             "spark_damage_base"
             {
                 "value"                 "50 100 150 200"
+                "affected_by_mind_power" "1"
             }
             "radius"
             {
-                "value"                 "375"
+                "value"                 "200"
             }
             "duration"
             {
@@ -2039,7 +2041,7 @@
             }
             "damage_radius"
             {
-                "value"                 "250"
+                "value"                 "200"
             }
             "wraith_vision_duration"
             {
@@ -2047,7 +2049,7 @@
             }
             "base_activation_delay"
             {
-                "value"                 "3.0"
+                "value"                 "2"
             }
             "think_interval"
             {
