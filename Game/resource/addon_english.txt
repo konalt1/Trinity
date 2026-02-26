@@ -16,9 +16,16 @@
 		"ui.custom_loading_screen.slide_4.title" 		"Изменения статов"
 		"ui.custom_loading_screen.slide_4.content"		"<b>Ловкость</b> увеличивает <b>скорость</b> передвижения вместо <b>брони</b>."
 		// Колесо чата
-	    "chat_wheel_donate_sound_empty"                                 "Пусто"
-		"chat_wheel_donate_sound_pudge"							"Иди на*уй!"
-		"chat_wheel_donate_sound_tuntunsahur"				"Бр-Бр патапим Бр-Бр патапим"
+	    "chat_wheel_donate_sound_Gura"                                 "ЧТО?!"
+		"chat_wheel_donate_sound_NeuroHug"							"Обнимашки"
+		"chat_wheel_donate_sound_Watson"							"Дарова"
+		"chat_wheel_donate_sound_Neurodance"                                 "Туц-туц"
+		"chat_wheel_donate_sound_Choso"							"Изи"
+		"chat_wheel_donate_sound_ArrowGo"							"Амур_1"
+		"chat_wheel_donate_sound_ArrowArrive"							"Амур_2"
+		"chat_wheel_donate_sound_Anime"							"Довольный"
+		
+		
 		"dota_error_cooldown_chat_wheel"					"Фразы на перезарядке"
 
 		// Кастомный Рошан (pathway)

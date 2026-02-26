@@ -6,10 +6,20 @@ var nowselect = 0;
 var current_button;
 let tableHero;
 let isWorkWheel = false;
+const CHAT_WHEEL_BIND_COMMAND = DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL;
 var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const initTableHero = () => {
   // Имя должно совпадать с видео и аудио, цифра это позиция в колесе чатов от 0 - до 7
-  tableHero = { ["0"]: { sound: "Gura", maxTime: 1 } , ["1"]: { sound: "NeuroHug", maxTime: 1.5 }, ["2"]: { sound: "Watson", maxTime: 1.5 } };
+  tableHero = { ["0"]: { sound: "Gura", maxTime: 1 } ,
+      ["1"]: { sound: "NeuroHug", maxTime: 1.5 },
+      ["2"]: { sound: "Watson", maxTime: 1.5 },
+      ["3"]: { sound: "Anime", maxTime: 1.5 },
+      ["4"]: { sound: "Neurodance", maxTime: 1.5 },
+      ["5"]: { sound: "Choso", maxTime: 0.7},
+      ["6"]: { sound: "ArrowGo", maxTime: 1.5 },
+      ["7"]: { sound: "ArrowArrive", maxTime: 1.5 },
+
+ };
   
 };
 const initChatWheel = () => {
@@ -104,8 +114,8 @@ function OnMouseOver(num) {
   const name_bind = "WheelHeroButton" + Math.floor(Math.random() * 99999999);
   Game.AddCommand("+" + name_bind, StartWheel, "", 0);
   Game.AddCommand("-" + name_bind, StopWheel, "", 0);
-  Game.CreateCustomKeyBind(GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL), "+" + name_bind);
-  current_button = GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL);
+  Game.CreateCustomKeyBind(GetGameKeybind(CHAT_WHEEL_BIND_COMMAND), "+" + name_bind);
+  current_button = GetGameKeybind(CHAT_WHEEL_BIND_COMMAND);
   SetBindInterval();
   $("#Wheel").visible = false;
   $("#Bubble").visible = false;
@@ -115,12 +125,12 @@ function GetGameKeybind(command) {
   return Game.GetKeybindForCommand(command);
 }
 function SetBindInterval() {
-  if (GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_HERO_CHAT_WHEEL) != current_button) {
+  if (GetGameKeybind(CHAT_WHEEL_BIND_COMMAND) != current_button) {
     const name_bind = "WheelHeroButton" + Math.floor(Math.random() * 99999999);
     Game.AddCommand("+" + name_bind, StartWheel, "", 0);
     Game.AddCommand("-" + name_bind, StopWheel, "", 0);
-    Game.CreateCustomKeyBind(GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_HERO_CHAT_WHEEL), "+" + name_bind);
-    current_button = GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_HERO_CHAT_WHEEL);
+    Game.CreateCustomKeyBind(GetGameKeybind(CHAT_WHEEL_BIND_COMMAND), "+" + name_bind);
+    current_button = GetGameKeybind(CHAT_WHEEL_BIND_COMMAND);
   }
   $.Schedule(0.2, SetBindInterval);
 }
