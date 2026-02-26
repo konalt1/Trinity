@@ -177,7 +177,7 @@
 		//Lich
 		// Frost Blast
 		"DOTA_Tooltip_ability_lich_frost_blast_lua"								"Ледяной Взрыв"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия и замедляя передвижение и атаку всех задетых противников на 4 сек. Основная цель получает как базовый урон, так и урон по площади. Урон усиливается Силой магии."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия, замедляя передвижение и атаку всех задетых противников на 4 сек. Основная цель получает как базовый урон, так и урон по площади. Урон усиливается Силой магии."
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"					"УРОН ПО ОБЛАСТИ:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"			"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
@@ -186,7 +186,7 @@
 
 		// Frost Shield
 		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Морозный Щит"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий урон и нанося урон врагам вокруг. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя урон и нанося урон врагам вокруг. Урон заклинания увеличивается Силой Магии."
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ УРОНА:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"УРОН ВРАГАМ:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"РАДИУС:"
