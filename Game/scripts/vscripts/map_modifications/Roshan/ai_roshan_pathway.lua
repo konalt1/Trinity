@@ -26,7 +26,7 @@ local WAYPOINT_REACH_DISTANCE = 100
 local AGRO_RADIUS = 600
 
 -- Время ожидания на точках (в секундах)
-local WAYPOINT_WAIT_TIME = 60
+local WAYPOINT_WAIT_TIME = 0
 
 -- На каких точках останавливаться (по имени)
 local WAIT_AT_WAYPOINTS = {
@@ -92,6 +92,17 @@ function Spawn(entityKeyValues)
     }
     
     print("[Roshan Pathway] Инициализация. Начинаем движение к первой точке: " .. PATHWAY_POINTS[1])
+
+    -- Даём постоянную видимость обеим командам на всё время жизни
+    thisEntity:SetContextThink("RoshanVisibilityThink", function()
+        if not IsValidEntity(thisEntity) or not thisEntity:IsAlive() then
+            return nil
+        end
+        local pos = thisEntity:GetAbsOrigin()
+        AddFOWViewer(DOTA_TEAM_GOODGUYS, pos, 800, 1.0, false)
+        AddFOWViewer(DOTA_TEAM_BADGUYS, pos, 800, 1.0, false)
+        return 0.5
+    end, 0.1)
 
     -- Запускаем основной цикл поведения
     thisEntity:SetContextThink("PathwayBehavior", PathwayBehavior, 0.1)

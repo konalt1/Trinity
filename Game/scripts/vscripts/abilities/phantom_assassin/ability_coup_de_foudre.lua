@@ -291,10 +291,17 @@ function modifier_coup_de_foudre_buff:GetModifierPreAttack_CriticalStrike(params
     end
 
     local target = params.target
-    if not target:IsHero() or target:GetTeam() == pa:GetTeam() then
+    if target:IsBuilding() or target:IsOther() or target:GetTeam() == pa:GetTeam() then
         return
     end
-    local crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus")
+
+    local crit_bonus
+    if target:IsHero() then
+        crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus")
+    else
+        crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus_creeps")
+    end
+
     self.is_crit = true
     return crit_bonus
 end

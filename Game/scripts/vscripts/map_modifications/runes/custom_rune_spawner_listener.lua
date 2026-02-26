@@ -4,7 +4,8 @@
     Спавн-политика:
     - 0:00  -> Bounty
     - 2:00  -> Water
-    - 4:00+ -> Random Powerup
+    - До 4:59 -> Water
+    - 5:00+ -> Random Powerup (первый фактический рандомный спавн на ближайшем тике)
 
     Спавн идёт на координатах самого юнита-слушателя.
 ]]
@@ -12,6 +13,7 @@
 local THINK_INTERVAL = 0.25
 local SPAWN_INTERVAL = 120
 local FIRST_SPAWN_TIME = 0
+local RANDOM_POWERUP_START_TIME = 300
 local RUNE_SEARCH_RADIUS = 220
 
 local state = {
@@ -66,12 +68,16 @@ local function RemoveRunesAtPosition(position)
     end
 end
 
-local function GetRuneTypeForCurrentTick(spawnIndex)
+local function GetRuneTypeForCurrentTick(spawnIndex, gameTime)
     if spawnIndex == 1 then
         return DOTA_RUNE_BOUNTY
     end
 
     if spawnIndex == 2 then
+        return DOTA_RUNE_WATER
+    end
+
+    if gameTime < RANDOM_POWERUP_START_TIME then
         return DOTA_RUNE_WATER
     end
 
@@ -82,16 +88,23 @@ local function GetRuneTypeForCurrentTick(spawnIndex)
     return POWERUP_POOL[RandomInt(1, #POWERUP_POOL)]
 end
 
+local function PingAllPlayers(position)
+    GameRules:ExecuteTeamPing(DOTA_TEAM_GOODGUYS, position.x, position.y, thisEntity, 0)
+    GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, position.x, position.y, thisEntity, 0)
+end
+
 local function SpawnRunesNow()
     if not thisEntity or not IsValidEntity(thisEntity) then
         return
     end
 
+    local gameTime = GameRules:GetDOTATime(false, false)
     state.spawn_index = state.spawn_index + 1
-    local runeType = GetRuneTypeForCurrentTick(state.spawn_index)
+    local runeType = GetRuneTypeForCurrentTick(state.spawn_index, gameTime)
     local origin = thisEntity:GetAbsOrigin()
     RemoveRunesAtPosition(origin)
     CreateRune(origin, runeType)
+    PingAllPlayers(origin)
 
     print(string.format("[CustomRuneSpawner] Спавн #%d, тип=%s, позиция=%s", state.spawn_index, tostring(runeType), tostring(origin)))
 end
