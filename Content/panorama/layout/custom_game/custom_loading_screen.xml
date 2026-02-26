@@ -1,0 +1,35 @@
+<root>
+    <styles>
+        <include src="file://{resources}/layout/custom_game/styles/main.css"/>
+        <include src="file://{resources}/layout/custom_game/styles/images.css"/>
+        <include src="file://{resources}/layout/custom_game/styles/custom_loading_screen.css"/>
+    </styles>
+
+    <scripts>
+        <include src="file://{resources}/layout/custom_game/scripts/custom_loading_screen.js"/>
+    </scripts>
+
+    <snippets>
+		<snippet name="Slide">
+			<Panel id="Slide">
+                <DOTAScenePanel id="HeroPanel" unit="" particleonly="false"/>
+
+                <Panel id="InfoPanel">
+                    <Label id="Title" text="Title"/>
+                    <Panel id="ContentContainer"/>
+                    <Image id="InfoImage"/>
+                </Panel>
+            </Panel>
+		</snippet>
+	</snippets>
+
+    <Panel class="CustomLoadingScreen">
+        <Image id="Background" src="s2r://panorama/images/loadout_backgrounds/loadout_bg_sky_003_jpg.vtex" />
+
+        <Panel id="Content">
+            <Image id="ButtonPrev" class="Button" src="s2r://panorama/images/tooltips/tooltip_arrow_left_customgames_psd.vtex" onactivate="SwapSlide(-1)"/>
+            <Panel id="SlidesContainer"/>
+            <Image id="ButtonNext" class="Button" src="s2r://panorama/images/tooltips/tooltip_arrow_right_customgames_psd.vtex" onactivate="SwapSlide(1)"/>
+        </Panel>
+    </Panel>
+</root>
