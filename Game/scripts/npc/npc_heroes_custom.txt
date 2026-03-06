@@ -86,7 +86,7 @@
 		//"Ability7"				                    "lich_chain_frost_shard"
 		// "Ability9"				"empty_ability"  // Временно отключено
 		
-        "Ability10"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_lich_1"
         "Ability11"										"special_bonus_gold_200"
         "Ability12"										"special_bonus_gold_200"
         "Ability13"										"special_bonus_gold_200"
@@ -170,13 +170,13 @@
         "Ability5"                                      "generic_hidden"
 		"Ability6"			                            "holy_ground"
 		
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_omniknight_1"
+        "Ability11"										"special_bonus_unique_custom_omniknight_2"
+        "Ability12"										"special_bonus_unique_custom_omniknight_3"
         "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
+        "Ability14"										"special_bonus_unique_custom_omniknight_4"
+        "Ability15"										"special_bonus_unique_custom_omniknight_5"
+        "Ability16"										"special_bonus_unique_custom_omniknight_6"
         "Ability17"										"special_bonus_gold_200"
 	}
 

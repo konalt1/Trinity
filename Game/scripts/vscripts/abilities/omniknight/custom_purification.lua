@@ -29,8 +29,8 @@ function custom_purification:OnSpellStart()
 	
 	-- Calculate bonus from Mind Power (applies to both heal and damage)
 	local mind_power_bonus = mind_power * mind_power_multiplier
-	local total_heal = heal + mind_power_bonus
-	local total_damage = heal + mind_power_bonus
+	local total_heal = math.max(0, heal + mind_power_bonus)
+	local total_damage = math.max(0, heal + mind_power_bonus)
 	
 	-- Мгновенное исцеление основной цели (с бонусом от Mind Power)
 	target:Heal(total_heal, self)
@@ -69,13 +69,17 @@ function custom_purification:OnSpellStart()
 		false
 	)
 	
+	-- Check for Pure Damage talent
+	local pure_damage_talent = caster:FindAbilityByName("special_bonus_unique_custom_omniknight_5")
+	local damage_type = (pure_damage_talent and pure_damage_talent:GetLevel() > 0) and DAMAGE_TYPE_PURE or DAMAGE_TYPE_MAGICAL
+
 	-- Нанести урон врагам (базовый урон + бонус от Mind Power)
 	for _, enemy in pairs(enemies) do
 		ApplyDamage({
 			victim = enemy,
 			attacker = caster,
 			damage = total_damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
+			damage_type = damage_type,
 			ability = self
 		})
 	end

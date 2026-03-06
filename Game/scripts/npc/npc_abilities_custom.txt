@@ -1,3 +1,4 @@
+#base "talents.txt"
 // Dota Heroes File
 "DOTAAbilities"
 {
@@ -415,11 +416,15 @@
 
         "AbilityValues"
         {
-            "radius"				"200 200 200 200"
+            "radius"				
+            {
+                "value"             "200"
+                "special_bonus_unique_custom_lich_1" "+100" 
+            }
             "slow_movement_speed"	"-30"
             "slow_attack_speed"		"-30"
             "aoe_damage"			"75 100 125 150"
-            "mind_power_multiplier"	"4"
+            "mind_power_multiplier"	"3"
         }
     }
 
@@ -476,6 +481,91 @@
     {
         "BaseClass"                     "ability_datadriven"
         "HasScepterUpgrade"               "0"
+    }
+
+"lich_spark_wraith"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lich/spark_wraith/Lich_spark_wraith_custom"
+        "AbilityTextureName"            "arc_warden_spark_wraith"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        
+        "AbilityCastRange"              "600 700 800 900"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        
+        "AbilityCooldown"               "12 10 8 6"
+        "AbilityManaCost"               "150 175 200 250"
+        
+        "AbilityValues"
+        {
+            "spark_damage_base"
+            {
+                "value"                 "50 100 150 200"
+                "affected_by_mind_power" "1"
+            }
+            "radius"
+            {
+                "value"                 "200"
+            }
+            "duration"
+            {
+                "value"                 "10"
+            }
+            "damage_near"
+            {
+                "value"                 "80"
+            }
+            "wraith_speed_base"
+            {
+                "value"                 "400"
+            }
+            "wraith_vision_radius"
+            {
+                "value"                 "400"
+            }
+            "damage_radius"
+            {
+                "value"                 "200"
+            }
+            "wraith_vision_duration"
+            {
+                "value"                 "3.34"
+            }
+            "base_activation_delay"
+            {
+                "value"                 "2"
+            }
+            "think_interval"
+            {
+                "value"                 "0.1"
+            }
+            "mana_burn_base"
+            {
+                "value"                 "50 75 100 125"
+            }
+            "mind_power_multiplier"
+            {
+                "value"                 "3"
+            }
+        }
+        
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_arc_warden.vsndevts"
+            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith.vpcf"
+            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_spawn.vpcf"
+            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_explosion.vpcf"
+        }
     }
 
 "lich_chain_frost_shard"
@@ -985,6 +1075,14 @@
             "damage_per_heal"
             {
                 "value"                 "0.2 0.33 0.46 0.6"
+            }
+            "talent_ally_damage_per_heal"
+            {
+                "value"                 "0.2 0.33 0.46 0.6"
+            }
+            "talent_self_damage_per_heal"
+            {
+                "value"                 "0.4 0.66 0.92 1.2"
             }
             "stack_duration"
             {
@@ -1989,90 +2087,7 @@
         }
     }
 
-    "lich_spark_wraith"
-    {
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lich/spark_wraith/Lich_spark_wraith_custom"
-        "AbilityTextureName"            "arc_warden_spark_wraith"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
-        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "FightRecapLevel"               "1"
-        
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "2"
-        
-        "AbilityCastRange"              "600 700 800 900"
-        "AbilityCastPoint"              "0.3"
-        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
-        
-        "AbilityCooldown"               "12 10 8 6"
-        "AbilityManaCost"               "150 175 200 250"
-        
-        "AbilityValues"
-        {
-            "spark_damage_base"
-            {
-                "value"                 "50 100 150 200"
-                "affected_by_mind_power" "1"
-            }
-            "radius"
-            {
-                "value"                 "200"
-            }
-            "duration"
-            {
-                "value"                 "10"
-            }
-            "damage_near"
-            {
-                "value"                 "80"
-            }
-            "wraith_speed_base"
-            {
-                "value"                 "400"
-            }
-            "wraith_vision_radius"
-            {
-                "value"                 "400"
-            }
-            "damage_radius"
-            {
-                "value"                 "200"
-            }
-            "wraith_vision_duration"
-            {
-                "value"                 "3.34"
-            }
-            "base_activation_delay"
-            {
-                "value"                 "2"
-            }
-            "think_interval"
-            {
-                "value"                 "0.1"
-            }
-            "mana_burn_base"
-            {
-                "value"                 "50 75 100 125"
-            }
-            "mind_power_multiplier"
-            {
-                "value"                 "4"
-            }
-        }
-        
-        "precache"
-        {
-            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_arc_warden.vsndevts"
-            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith.vpcf"
-            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_spawn.vpcf"
-            "particle"      "particles/units/heroes/hero_arc_warden/arc_warden_spark_wraith_explosion.vpcf"
-        }
-    }
+    
 
     //=================================================================================================================
     // Weaver Cucaracha (Shrink + Agility)

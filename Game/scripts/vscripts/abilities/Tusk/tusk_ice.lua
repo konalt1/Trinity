@@ -90,8 +90,8 @@ function tusk_ice:OnProjectileHit(hTarget, vLocation)
         end
         
         local mind_power_bonus = mind_power * mind_power_multiplier
-        local total_damage = base_damage + mind_power_bonus
-        
+        local total_damage = math.max(0, base_damage + mind_power_bonus)
+
         local damageTable = {
             victim = hTarget,
             attacker = caster,
@@ -198,7 +198,7 @@ function tusk_ice:OnProjectileHit(hTarget, vLocation)
                 end
                 
                 local mind_power_bonus = mind_power * mind_power_multiplier
-                local total_damage = base_damage + mind_power_bonus
+                local total_damage = math.max(0, base_damage + mind_power_bonus)
                 
                 local damageTable = {
                     victim = enemy,

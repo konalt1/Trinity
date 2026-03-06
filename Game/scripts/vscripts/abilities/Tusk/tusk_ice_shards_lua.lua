@@ -20,7 +20,7 @@ function tusk_ice_shards_lua:OnSpellStart()
     -- Calculate Mind Power bonus damage
     local mind_power = GetHeroMindPower(caster)
     local bonus_damage = mind_power * mind_power_multiplier
-    local total_damage = shard_damage + bonus_damage
+    local total_damage = math.max(0, shard_damage + bonus_damage)
     
     -- Calculate direction and distance (ensure 2D)
     local direction = (target_point - caster_position):Normalized()

@@ -116,7 +116,7 @@ function modifier_doom_scorched_earth_lua:OnIntervalThink()
 	local caster = self:GetCaster()
 	local mind_power = GetHeroMindPower(caster)
 	local mind_power_bonus = mind_power * self.mind_power_multiplier
-	local total_damage = self.base_damage + mind_power_bonus
+	local total_damage = math.max(0, self.base_damage + mind_power_bonus)
 
 	for _,enemy in pairs(enemies) do
 		-- apply damage with Mind Power scaling

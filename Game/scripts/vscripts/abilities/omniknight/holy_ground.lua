@@ -3,6 +3,14 @@ holy_ground = class({})
 LinkLuaModifier("modifier_holy_ground_thinker", "abilities/omniknight/holy_ground", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_holy_ground_slow", "abilities/omniknight/holy_ground", LUA_MODIFIER_MOTION_NONE)
 
+local OMNI_HOLY_GROUND_FOLLOW_TALENT = "special_bonus_unique_custom_omniknight_6"
+
+local function HasFollowTalent(caster)
+	if not caster or caster:IsNull() then return false end
+	local talent = caster:FindAbilityByName(OMNI_HOLY_GROUND_FOLLOW_TALENT)
+	return talent and not talent:IsNull() and talent:GetLevel() > 0
+end
+
 --------------------------------------------------------------------------------
 -- Precache
 function holy_ground:Precache(context)
@@ -13,6 +21,15 @@ function holy_ground:Precache(context)
 	
 	-- Precache custom sounds
 	PrecacheResource("soundfile", "soundevents/trinity_sounds.vsndevts", context)
+end
+
+--------------------------------------------------------------------------------
+-- Dynamic behavior: NO_TARGET when follow talent is active
+function holy_ground:GetBehavior()
+	if HasFollowTalent(self:GetCaster()) then
+		return DOTA_ABILITY_BEHAVIOR_NO_TARGET
+	end
+	return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
 end
 
 --------------------------------------------------------------------------------
@@ -45,7 +62,8 @@ end
 function holy_ground:OnSpellStart()
 	-- unit identifier
 	local caster = self:GetCaster()
-	local point = self:GetCursorPosition()
+	local follow_caster = HasFollowTalent(caster)
+	local point = follow_caster and caster:GetAbsOrigin() or self:GetCursorPosition()
 
 	-- load data
 	local radius = self:GetSpecialValueFor("radius")
@@ -65,7 +83,7 @@ function holy_ground:OnSpellStart()
 	
 	-- Calculate total heal with Mind Power scaling
 	local mind_power_bonus = mind_power * mind_power_multiplier
-	local total_heal = heal_amount + mind_power_bonus
+	local total_heal = math.max(0, heal_amount + mind_power_bonus)
 	
 	-- Create thinker for the holy ground area
 	CreateModifierThinker(
@@ -77,7 +95,8 @@ function holy_ground:OnSpellStart()
 			radius = radius,
 			slow_percent = slow_percent,
 			total_heal = total_heal,
-			heal_interval = heal_interval
+			heal_interval = heal_interval,
+			follow_caster = follow_caster and 1 or 0
 		}, -- kv
 		point, -- location
 		caster:GetTeamNumber(), -- team number
@@ -110,6 +129,7 @@ function modifier_holy_ground_thinker:OnCreated(kv)
 	self.total_heal = kv.total_heal or ability:GetSpecialValueFor("heal_amount")
 	self.heal_interval = kv.heal_interval or ability:GetSpecialValueFor("heal_interval")
 	self.position = parent:GetAbsOrigin()
+	self.follow_caster = (kv.follow_caster or 0) == 1
 	
 	-- Initialize particle storage table
 	self.particles = {}
@@ -120,8 +140,13 @@ function modifier_holy_ground_thinker:OnCreated(kv)
 	ParticleManager:SetParticleControl(self.cast_particle, 1, Vector(self.radius, 0, 0))  -- CP 1 - (радиус, 0, 0)
 	ParticleManager:SetParticleControl(self.cast_particle, 3, Vector(20, 0, 0))  -- CP 3 - (радиус символов, 0, 0) - начинаем с 20
 	
-	-- Start healing timer
-	self:StartIntervalThink(self.heal_interval)
+	-- Follow mode uses faster tick for smooth movement; heal timer is tracked manually
+	if self.follow_caster then
+		self.heal_timer = 0
+		self:StartIntervalThink(0.03)
+	else
+		self:StartIntervalThink(self.heal_interval)
+	end
 	
 	-- Play custom ambient sound
 	EmitSoundOn("Holy_Ground.Ambient", parent)
@@ -130,6 +155,23 @@ end
 function modifier_holy_ground_thinker:OnIntervalThink()
 	if not IsServer() then return end
 	
+	-- Follow caster: move particle emitter to caster position every tick
+	if self.follow_caster then
+		local caster = self:GetCaster()
+		if caster and not caster:IsNull() and caster:IsAlive() then
+			self.position = caster:GetAbsOrigin()
+			if self.cast_particle then
+				ParticleManager:SetParticleControl(self.cast_particle, 0, self.position)
+			end
+		end
+		-- Advance heal timer; skip the heal/slow logic until interval is reached
+		self.heal_timer = self.heal_timer + 0.03
+		if self.heal_timer < self.heal_interval then
+			return
+		end
+		self.heal_timer = 0
+	end
+
 	-- Create pulse effect
 	local pulse_duration = 0.45
 	local pulse_particle = ParticleManager:CreateParticle("particles/Omniknight/pulse_main.vpcf", PATTACH_WORLDORIGIN, nil)

@@ -129,7 +129,7 @@ function modifier_lich_frost_shield_lua_buff:OnIntervalThink()
 			local mind_power = GetHeroMindPower(caster)
 			
 			local mind_power_bonus = mind_power * self.mind_power_multiplier
-			local total_damage = base_damage + mind_power_bonus
+			local total_damage = math.max(0, base_damage + mind_power_bonus)
 			
 			-- Deal damage
 			local damage_table = {
