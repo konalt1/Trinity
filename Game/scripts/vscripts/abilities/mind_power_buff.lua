@@ -62,4 +62,11 @@ end
 
 function modifier_mind_power_buff:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
-end 
+end
+
+-- Регистрация в глобальном реестре Mind Power
+MIND_POWER_MODIFIER_REGISTRY = MIND_POWER_MODIFIER_REGISTRY or {}
+MIND_POWER_MODIFIER_REGISTRY["modifier_mind_power_buff"] = function(modifier)
+    local ability = modifier:GetAbility()
+    return (ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_bonus") or 0
+end

@@ -123,7 +123,7 @@ function modifier_doom_ultimate_aura_debuff:OnIntervalThink()
         local base_damage = ability:GetSpecialValueFor("damage_per_second")
         local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
         local mind_power = GetHeroMindPower(caster)
-        local current_damage = base_damage + (mind_power * mind_power_multiplier)
+        local current_damage = math.max(0, base_damage + (mind_power * mind_power_multiplier))
         
         local damageTable = {
             victim = parent,

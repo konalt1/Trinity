@@ -220,7 +220,7 @@ function tusk_mp_snowball:HitEnemy(target, location)
     local mind_power_bonus = mind_power * mind_power_multiplier
     local ally_count = #self.snowball_allies
     local ally_damage_bonus = (ally_count - 1) * (base_damage * 0.2) -- 20% damage per additional ally
-    local total_damage = base_damage + mind_power_bonus + ally_damage_bonus
+    local total_damage = math.max(0, base_damage + mind_power_bonus + ally_damage_bonus)
     
     -- Apply damage
     local damageTable = {

@@ -80,4 +80,11 @@ end
 
 function modifier_mind_power_local_buff:GetModifierDescription()
     return "Increases Mind Power by " .. (self.mind_power_bonus or 0) .. " through devoured souls."
-end 
+end
+
+-- Регистрация в глобальном реестре Mind Power
+-- Бонус хранится в стаке модификатора (SetStackCount при применении)
+MIND_POWER_MODIFIER_REGISTRY = MIND_POWER_MODIFIER_REGISTRY or {}
+MIND_POWER_MODIFIER_REGISTRY["modifier_mind_power_local_buff"] = function(modifier)
+    return modifier:GetStackCount()
+end

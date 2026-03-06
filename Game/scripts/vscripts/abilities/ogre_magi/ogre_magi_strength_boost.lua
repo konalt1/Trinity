@@ -128,13 +128,13 @@ function modifier_ogre_magi_strength_boost:OnCreated()
 	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
 	
 	-- Получаем Mind Power кастера
-	local mind_power = self:GetMindPower(caster)
+	local mind_power = GetHeroMindPower(caster)
 	
 	-- Вычисляем бонус от Mind Power
 	local mind_power_bonus = mind_power * mind_power_multiplier
 	
 	-- Итоговый бонус силы
-	self.total_strength_bonus = self.base_strength_bonus + mind_power_bonus
+	self.total_strength_bonus = math.max(0, self.base_strength_bonus + mind_power_bonus)
 	
 	-- Устанавливаем стаки для отображения итоговой силы на иконке модификатора
 	self:SetStackCount(math.floor(self.total_strength_bonus))

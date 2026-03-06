@@ -1890,8 +1890,8 @@
 		"BaseAttackSpeed"			"110"
 		"AttackRate"				"0.9"		// Speed of attack.
 		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
-		"AttackRange"				"500"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"450"		// Range within a target can be acquired.
+		"AttackRange"				"450"		// Range within a target can be attacked.
 		"ProjectileModel"			"particles/base_attacks/ranged_tower_good.vpcf"		// Particle system model for projectile.
 		"ProjectileSpeed"			"750"		// Speed of projectile.
 

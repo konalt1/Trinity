@@ -141,7 +141,7 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 	end
 	
 	local mind_power_bonus = mind_power * self.mind_power_multiplier
-	local total_damage = self.dps + mind_power_bonus
+	local total_damage = math.max(0, self.dps + mind_power_bonus)
 	local damage_per_tick = total_damage * self.tick
 	
 	-- Update damage table with current calculated damage

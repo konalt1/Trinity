@@ -36,7 +36,7 @@ function lich_spark_wraith:GetDamage()
 		local mind_power = GetHeroMindPower(caster)
 		local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier") or 0
 		local bonus_damage = mind_power * mind_power_multiplier
-		return base_damage + bonus_damage
+		return math.max(0, base_damage + bonus_damage)
 	end
 	
 	return base_damage

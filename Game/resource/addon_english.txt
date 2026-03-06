@@ -11,7 +11,7 @@
 		"ui.custom_loading_screen.slide_2.content"		"Игра пока на начальных этапах разработки, следить за ней можно в группе ТГ."
 
 		"ui.custom_loading_screen.slide_3.title" 		"Новый стат — Сила магии!"
-		"ui.custom_loading_screen.slide_3.content"		"Чем больше ваша Сила магии, тем больше урона наносят ваши абилки./n <b>Доп урон</b> тем больше, чем больше <b>множитель силы магии</b> этой абилки. "
+		"ui.custom_loading_screen.slide_3.content"		"Чем больше ваша Сила магии, тем больше урона наносят ваши абилки.<br> <b>Доп урон</b> тем больше, чем больше <b>множитель силы магии</b> этой абилки. "
 
 		"ui.custom_loading_screen.slide_4.title" 		"Изменения статов"
 		"ui.custom_loading_screen.slide_4.content"		"<b>Ловкость</b> увеличивает <b>скорость</b> передвижения вместо <b>брони</b>."
@@ -129,6 +129,16 @@
 		"DOTA_Tooltip_ability_holy_ground_heal_interval"					"ИНТЕРВАЛ ИСЦЕЛЕНИЯ:"
 		"DOTA_Tooltip_ability_holy_ground_slow_percent"						"%ЗАМЕДЛЕНИЕ:"
 		"DOTA_Tooltip_ability_holy_ground_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_1"		"Ваше исцеление ускоряет союзников."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_2"		"При исцелении себя вы получаете повышенный бонус к урону от Молота Чистоты."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_4"		"<b>Отпор</b> применяется ко всем персонажам в радиусе 300."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_5"		"<b>Очищение</b> наносит чистый урон."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_3"		"Избыточное лечение преобразуется барьер на {s:barrier_duration} сек."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_6"		"<b> Святая Земля </b> следует за тобой."
+		"DOTA_Tooltip_modifier_omniknight_talent_heal_movespeed"			"Благословение Света"
+		"DOTA_Tooltip_modifier_omniknight_talent_heal_movespeed_Description"	"Скорость передвижения увеличена."
+		"DOTA_Tooltip_modifier_omniknight_talent_overheal_barrier"			"Барьер Света"
+		"DOTA_Tooltip_modifier_omniknight_talent_overheal_barrier_Description"	"Поглощает только физический урон."
 
 		//Juggernaut
 		// Blade Fury
@@ -234,6 +244,8 @@
 		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_spire_follow_distance"	"ДИСТАНЦИЯ СЛЕДОВАНИЯ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_description"			"Филактерий следует за Личём."
 
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lich_1"				"+{s:bonus_radius} к радиусу <b>Ледяной Взрыв</b>"
+
 		//Weaver
 		// Cucaracha
 		"DOTA_Tooltip_ability_weaver_cucaracha"									"Кукарача"
@@ -276,6 +288,57 @@
 		// Mind Power (Base modifier)
 		"DOTA_Tooltip_modifier_mind_power"										"Сила Магии"
 		"DOTA_Tooltip_modifier_mind_power_Description"							"Характеристики ваших способностей увеличены на показатель вашей Силы Магии "
+
+		// =============================================
+		// Item Tooltips — Kaya and Yasha chain
+		// =============================================
+
+		// Kaya
+		"dota_ability_variable_mind_power_bonus"								"Сила магии"
+		"DOTA_Tooltip_ability_item_kaya_mind_power_bonus"									"+$mind_power_bonus"
+	
+
+		// Yasha
+
+		"DOTA_Tooltip_item_yasha_Description"									""
+		"DOTA_Tooltip_ability_item_yasha_bonus_armor"							"+ к броне"
+		"DOTA_Tooltip_ability_item_yasha_bonus_agility"							"+ к ловкости"
+		"DOTA_Tooltip_ability_item_yasha_bonus_attack_speed"					"+ к скорости атаки"
+
+		// Sange and Yasha
+		"DOTA_Tooltip_item_sange_and_yasha_Description"							""
+		"DOTA_Tooltip_ability_item_sange_and_yasha_bonus_armor"					"+ к броне"
+		"DOTA_Tooltip_ability_item_sange_and_yasha_bonus_strength"				"+ к силе"
+		"DOTA_Tooltip_ability_item_sange_and_yasha_bonus_agility"				"+ к ловкости"
+
+		// Kaya and Sange
+		"DOTA_Tooltip_item_kaya_and_sange_mind_power_bonus"						"+ Сила Магии"
+
+		// Yasha and Kaya
+		"DOTA_Tooltip_item_yasha_and_kaya_Description"							""
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_armor"					"+ к броне"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_mind_power_bonus"				"+ к силе магии"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_agility"				"+ к ловкости"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_intellect"				"+ к интеллекту"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_attack_speed"			"+ к скорости атаки"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"+ к множителю регенерации маны"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"+ к скорости применения"
+
+		// Meteor Hammer
+		"DOTA_Tooltip_item_meteor_hammer_Description"								""
+		"DOTA_Tooltip_ability_item_meteor_hammer_mind_power_bonus"				"+ к силе магии"
+
+		// Mage Slayer
+		"dota_ability_variable_dps"											"урон в секунду"		
+		"DOTA_Tooltip_ability_item_mage_slayer_Description"               "<h1>Passive: Slay</h1> Атакуемые враги получают <b><font color='#ff0000'> 20 </font></b> урона в секунду и теряют <b><font color='#000044'>40</font></b> Силы магии. Действует 5 сек."
+							
+		"DOTA_Tooltip_item_mage_slayer_ability"									"ss"
+		"DOTA_Tooltip_modifier_item_mage_slayer_debuff"							"Mage Slayer"
+		"DOTA_Tooltip_modifier_item_mage_slayer_debuff_Description"				"Ваш персонаж получает {d:dps} урона в секунду и потерял 40 Силы магии"
+
+		 Manta Style
+		"DOTA_Tooltip_item_manta_Description"									""
+		"DOTA_Tooltip_ability_item_manta_bonus_armor"							"+ к броне"
 
 
 	

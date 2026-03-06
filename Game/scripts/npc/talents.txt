@@ -1,0 +1,107 @@
+// Dota Heroes File
+"DOTAAbilities"
+{
+    "special_bonus_unique_custom_lich_1"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                        "special_bonus_undefined"
+        "ScriptFile"                    "abilities/lich/talents/bonus"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    "special_bonus_unique_custom_omniknight_1"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                      "special_bonus_undefined"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "bonus_ms"
+            {
+                "value"                  "15"
+            }
+            "duration"
+            {
+                "value"                  "5"
+            }
+            "min_heal"
+            {
+                "value"                  "50"
+            }
+        }
+    }
+
+    "special_bonus_unique_custom_omniknight_2"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                      "special_bonus_undefined"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    "special_bonus_unique_custom_omniknight_3"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                      "special_bonus_undefined"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "overheal_to_barrier_coef"
+            {
+                "value"                  "1"
+            }
+            "barrier_duration"
+            {
+                "value"                  "10"
+            }
+        }
+    }
+
+    "special_bonus_unique_custom_omniknight_4"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                      "special_bonus_undefined"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    "special_bonus_unique_custom_omniknight_5"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                      "special_bonus_undefined"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    "special_bonus_unique_custom_omniknight_6"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                      "special_bonus_undefined"
+        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+}

@@ -25,7 +25,7 @@
 	{
 		type = "dota_src1_3d"
 		vsnd_files = "sounds/assassin_sense.vsnd"
-		volume = 10.0
+		volume = 15.0
 		vsnd_duration = 30.0
 		volume_fade_out = 0.3
 	}

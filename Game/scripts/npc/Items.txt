@@ -6750,11 +6750,11 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_strength"		"6"
-				"bonus_agility"		"6"
-				"bonus_intellect"			"24"
-				"spell_amp"			"10"
-				"mana_regen_multiplier"		"40"
+			"bonus_strength"		"6"
+			"bonus_agility"		"6"
+			"bonus_intellect"			"24"
+			"mind_power_bonus"			"20"
+			"mana_regen_multiplier"		"40"
 
 				"burn_dps_buildings"		"50"
 				"burn_dps_units"		"50"
@@ -6947,9 +6947,9 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_intellect"			"16"
-				"spell_amp"			"10"
-				"mana_regen_multiplier"		"40"
+			"bonus_intellect"			"16"
+			"mind_power_bonus"			"20"
+			"mana_regen_multiplier"		"40"
 		}
 	}
 	
@@ -6977,16 +6977,16 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_strength"		"30"
-				"bonus_agility"			"30"
-				"bonus_intellect"			"30"
-				"status_resistance"				"30"
-				"bonus_attack_speed"	"30"
-				"movement_speed_percent_bonus"	"10"
-				"hp_regen_amp"			"30"
-				"mana_regen_multiplier"		"30"
-				"spell_amp"			"30"
-				"magic_damage_attack"	"30"
+			"bonus_strength"		"30"
+			"bonus_agility"			"30"
+			"bonus_intellect"			"30"
+			"status_resistance"				"30"
+			"bonus_attack_speed"	"30"
+			"bonus_armor"			"30"
+			"hp_regen_amp"			"30"
+			"mana_regen_multiplier"		"30"
+			"mind_power_bonus"			"50"
+			"magic_damage_attack"	"30"
 		}
 	}
 	
@@ -7950,11 +7950,11 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_strength"		"10"
-				"bonus_agility"			"26"
-				"bonus_intellect"		"10"
-				"bonus_attack_speed"	"15"
-				"bonus_movement_speed"	"10"
+			"bonus_strength"		"10"
+			"bonus_agility"			"26"
+			"bonus_intellect"		"10"
+			"bonus_attack_speed"	"15"
+			"bonus_armor"			"15"
 				"images_count"			"2"
 				"illusion_duration"			"18"
 				"images_do_damage_percent_melee"	"-67"
@@ -8303,13 +8303,13 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_strength"		"16"
-				"bonus_agility"			"16"
-				"status_resistance"				"15"
-				"bonus_attack_speed"	"20"
-				"movement_speed_percent_bonus"	"12"
-				"hp_regen_amp"			"20"
-				"slow_resistance"		"25"
+			"bonus_strength"		"16"
+			"bonus_agility"			"16"
+			"status_resistance"				"15"
+			"bonus_attack_speed"	"20"
+			"bonus_armor"			"20"
+			"hp_regen_amp"			"20"
+			"slow_resistance"		"25"
 		}
 	}
 
@@ -8359,13 +8359,13 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_strength"		"16"
-				"bonus_intellect"			"16"
-				"slow_resistance"				"25"
-				"mana_regen_multiplier"		"50"
-				"spell_amp"			"12"
-				"hp_regen_amp"			"20"
-				"manacost_reduction"	"25"
+			"bonus_strength"		"16"
+			"bonus_intellect"			"16"
+			"slow_resistance"				"25"
+			"mana_regen_multiplier"		"50"
+			"mind_power_bonus"			"25"
+			"hp_regen_amp"			"20"
+			"manacost_reduction"	"25"
 		}
 	}
 
@@ -8414,13 +8414,13 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_agility"			"16"
-				"bonus_intellect"			"16"
-				"bonus_attack_speed"	"20"
-				"mana_regen_multiplier"		"50"
-				"movement_speed_percent_bonus"	"12"
-				"spell_amp"			"12"
-				"cast_speed_pct"		"25"
+			"bonus_agility"			"16"
+			"bonus_intellect"			"16"
+			"bonus_attack_speed"	"20"
+			"mana_regen_multiplier"		"50"
+			"bonus_armor"			"20"
+			"mind_power_bonus"			"25"
+			"cast_speed_pct"		"25"
 			
 		}
 	}
@@ -9050,9 +9050,9 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_agility"			"16"
-				"bonus_attack_speed"	"15"
-				"movement_speed_percent_bonus"	"10"
+			"bonus_agility"			"16"
+			"bonus_attack_speed"	"15"
+			"bonus_armor"			"15"
 		}
 	}
 
@@ -9759,7 +9759,10 @@
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_DONT_PROC_OTHER_ABILITIES"
+		"BaseClass"						"item_lua"
+		"ScriptFile"					"items/item_mage_slayer"
+		"AbilityTextureName"			"item_mage_slayer"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
@@ -9781,11 +9784,11 @@
 		{
 			"bonus_magical_armor"	"20"
 			"bonus_attack_speed"	"30"
-			"spell_amp_debuff"		"40"
+			"mind_power_debuff"		"40"
 			"bonus_health_regen"	"5"
 			"bonus_mana_regen"		"2"
 			"bonus_damage"			"8"			
-			"duration"		"3"
+			"duration"		"5"
 			"dps"	"20"
 		}
 	}

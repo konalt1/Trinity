@@ -102,8 +102,8 @@ function modifier_weaver_cucaracha:OnCreated()
 	self.target_scale = ability:GetSpecialValueFor("model_scale")
 
 	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
-	local mind_power = self:GetMindPower(caster)
-	self.total_agility_bonus = self.base_agility_bonus + (mind_power * mind_power_multiplier)
+	local mind_power = GetHeroMindPower(caster)
+	self.total_agility_bonus = math.max(0, self.base_agility_bonus + (mind_power * mind_power_multiplier))
 
 	self:SetStackCount(math.floor(self.total_agility_bonus))
 
@@ -144,8 +144,8 @@ function modifier_weaver_cucaracha:OnRefresh()
 
 	self.base_agility_bonus = ability:GetSpecialValueFor("base_agility_bonus")
 	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
-	local mind_power = self:GetMindPower(caster)
-	self.total_agility_bonus = self.base_agility_bonus + (mind_power * mind_power_multiplier)
+	local mind_power = GetHeroMindPower(caster)
+	self.total_agility_bonus = math.max(0, self.base_agility_bonus + (mind_power * mind_power_multiplier))
 	self:SetStackCount(math.floor(self.total_agility_bonus))
 end
 

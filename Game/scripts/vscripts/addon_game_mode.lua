@@ -16,6 +16,7 @@ require ("abilities/xp_shrine_gold")
 require ("abilities/DOOM/doom_soul_devour")
 require ("abilities/DOOM/doom_scorched_earth_lua")
 require ("items/item_kaya_mind_power")
+require ("items/item_mage_slayer")
 
 -- Загружаем способности Лича
 require ("lich/frost_shield/lich_frost_shield_lua")
