@@ -8,5 +8,7 @@
     <Panel>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml"/>
+
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui/game_events/panel.xml"/>
     </Panel>
 </root>

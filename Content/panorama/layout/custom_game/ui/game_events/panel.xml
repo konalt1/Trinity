@@ -1,0 +1,12 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/layout/custom_game/ui/game_events/styles.css" />
+    </styles>
+    <scripts>
+       <include src="s2r://panorama/layout/custom_game/ui/game_events/scripts.js" />
+    </scripts>
+
+    <Panel class="GameEvents" hittest="false">
+        <Label id="GameEventTitle" text="text text title here...."/>
+    </Panel>
+</root>

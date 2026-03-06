@@ -65,5 +65,15 @@
 		type = "dota_src1_3d"
 		vsnd_files = "sounds/wheel/pudge.vsnd"
 		volume = 15.0
-	}		
+	}
+
+	_game_events.template_sound_event =
+	{
+		type = "dota_src1_3d"
+		volume = 1
+		pitch = 1
+		vsnd_files = [
+			"sounds/misc/mh_event/poogie_hi5_rare100.vsnd",
+		]
+	}
 }
