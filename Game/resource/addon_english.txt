@@ -293,6 +293,10 @@
 		// Item Tooltips — Kaya and Yasha chain
 		// =============================================
 
+		// Shard Shrine (Мерцающее Озеро)
+		"shard_shrine_zone_available"		"Мерцающее Озеро доступно для захвата!"
+		"shard_shrine_capture_started"		"Противник пытается украсть осколок Аганима!"
+
 		// Kaya
 		"dota_ability_variable_mind_power_bonus"								"Сила магии"
 		"DOTA_Tooltip_ability_item_kaya_mind_power_bonus"									"+$mind_power_bonus"
@@ -330,7 +334,7 @@
 
 		// Mage Slayer
 		"dota_ability_variable_dps"											"урон в секунду"		
-		"DOTA_Tooltip_ability_item_mage_slayer_Description"               "<h1>Passive: Slay</h1> Атакуемые враги получают <b><font color='#ff0000'> 20 </font></b> урона в секунду и теряют <b><font color='#000044'>40</font></b> Силы магии. Действует 5 сек."
+		"DOTA_Tooltip_ability_item_mage_slayer_Description"               "<h1>Passive: Slay</h1> Атакуемые враги получают <b><font color='#ff0000'> 20 </font></b> урона в секунду и теряют <b>>40</b> Силы магии. Действует 5 сек."
 							
 		"DOTA_Tooltip_item_mage_slayer_ability"									"ss"
 		"DOTA_Tooltip_modifier_item_mage_slayer_debuff"							"Mage Slayer"
@@ -339,6 +343,8 @@
 		 Manta Style
 		"DOTA_Tooltip_item_manta_Description"									""
 		"DOTA_Tooltip_ability_item_manta_bonus_armor"							"+ к броне"
+
+		"text_localization_token"												"Секс"
 
 
 	
