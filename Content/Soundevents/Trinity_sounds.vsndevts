@@ -73,7 +73,7 @@
 		volume = 1
 		pitch = 1
 		vsnd_files = [
-			"sounds/misc/mh_event/poogie_hi5_rare100.vsnd",
+			"sounds\Holy_ambient.mp3",
 		]
 	}
 }

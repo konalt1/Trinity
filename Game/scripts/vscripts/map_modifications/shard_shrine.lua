@@ -33,6 +33,10 @@ local CONFIG = {
     SOUND_CAPTURE_LOOP = nil,       -- Looping звук во время захвата (будет добавлен)
     SOUND_CAPTURE_COMPLETE = "Item.MoonShard.Consume",  -- Звук получения шарда
     SOUND_ALERT = "General.PingAttack",                 -- Звук оповещения
+    
+    -- Сообщения на экране
+    MSG_ZONE_AVAILABLE = "Мерцающее Озеро доступно для захвата! Стойте в зоне 5 секунд.",   -- Когда зона становится доступной
+    MSG_CAPTURE_STARTED = "Захват Мерцающего Озера начат!", -- Когда игрок начинает захват
 }
 
 -- =============================================================================
@@ -194,6 +198,8 @@ local function RevealArea()
     AddFOWViewer(DOTA_TEAM_BADGUYS, state.trigger_center, CONFIG.VISION_RADIUS, CONFIG.VISION_DURATION, false)
 end
 
+
+
 -- Отправить пинг обеим командам
 local function PingBothTeams()
     local coords = state.trigger_center
@@ -257,6 +263,13 @@ local function ActivateLake()
     state.capture_progress = 0.0
     state.capturing_team = nil
     
+
+    FireGameEvent("draw_game_event", {
+    color = "#a1e4ff",
+    duration = 3,
+    sound_event = "_game_events.template_sound_event",
+    text_token = "#text_localization_token"
+})
     -- Оповещаем всех о доступности (используем систему с КД)
     -- Сбрасываем КД чтобы следующий вход гарантированно сработал
     state.alert_cd_timestamp = 0
@@ -409,6 +422,10 @@ function LakeThink()
     end
     
     -- 6. Увеличиваем прогресс
+    -- Сообщение при начале захвата (первый тик прогресса)
+    if state.capture_progress == 0 then
+        ShowShardMessage(CONFIG.MSG_CAPTURE_STARTED)
+    end
     state.capture_progress = state.capture_progress + dt
     
     -- Запускаем звук захвата если ещё не запущен
