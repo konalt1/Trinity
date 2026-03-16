@@ -77,7 +77,7 @@ function SpawnRoshanLoop()
             color = "#a1e4ff",
             duration = 3,
             sound_event = "_game_events.template_sound_event",
-            text_token = "#text_localization_token"
+            text_token = "#roshan_spawn"
         })
         
         -- Сохраняем ссылку на текущего рошана

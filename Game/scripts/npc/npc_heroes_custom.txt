@@ -14,14 +14,14 @@
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
 		
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_phantom_assassin_1"
+        "Ability11"										"special_bonus_unique_custom_phantom_assassin_2"
+        "Ability12"										"special_bonus_unique_custom_phantom_assassin_3"
+        "Ability13"										"special_bonus_unique_custom_phantom_assassin_4"
+        "Ability14"										"special_bonus_unique_custom_phantom_assassin_5"
+        "Ability15"										"special_bonus_unique_custom_phantom_assassin_6"
+        "Ability16"										"special_bonus_unique_custom_phantom_assassin_7"
+        "Ability17"										"special_bonus_unique_custom_phantom_assassin_8"
 	
 	}
 
@@ -34,14 +34,14 @@
 		"Ability6"		                                "ability_chain_bomb"
         "Ability7"										"techies_sticky_bomb_bonus"
 		
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_techies_1"
+        "Ability11"										"special_bonus_unique_custom_techies_2"
+        "Ability12"										"special_bonus_unique_custom_techies_3"
+        "Ability13"										"special_bonus_unique_custom_techies_4"
+        "Ability14"										"special_bonus_unique_custom_techies_5"
+        "Ability15"										"special_bonus_unique_custom_techies_6"
+        "Ability16"										"special_bonus_unique_custom_techies_7"
+        "Ability17"										"special_bonus_unique_custom_techies_8"
 
     }
 
@@ -58,14 +58,14 @@
 		"Ability6"		                                "juggernaut_swift_slash_lua"
 		"Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_juggernaut_1"
+        "Ability11"										"special_bonus_unique_custom_juggernaut_2"
+        "Ability12"										"special_bonus_unique_custom_juggernaut_3"
+        "Ability13"										"special_bonus_unique_custom_juggernaut_4"
+        "Ability14"										"special_bonus_unique_custom_juggernaut_5"
+        "Ability15"										"special_bonus_unique_custom_juggernaut_6"
+        "Ability16"										"special_bonus_unique_custom_juggernaut_7"
+        "Ability17"										"special_bonus_unique_custom_juggernaut_8"
 		 
 	}
 
@@ -87,13 +87,13 @@
 		// "Ability9"				"empty_ability"  // Временно отключено
 		
         "Ability10"										"special_bonus_unique_custom_lich_1"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability11"										"special_bonus_unique_custom_lich_2"
+        "Ability12"										"special_bonus_unique_custom_lich_3"
+        "Ability13"										"special_bonus_unique_custom_lich_4"
+        "Ability14"										"special_bonus_unique_custom_lich_5"
+        "Ability15"										"special_bonus_unique_custom_lich_6"
+        "Ability16"										"special_bonus_unique_custom_lich_7"
+        "Ability17"										"special_bonus_unique_custom_lich_8"
 	}
 
 	"npc_dota_hero_tinker"
@@ -102,14 +102,14 @@
 		"Facets" ""
 		"Ability6"				                        "tinker_rearm_custom"
 
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_tinker_1"
+        "Ability11"										"special_bonus_unique_custom_tinker_2"
+        "Ability12"										"special_bonus_unique_custom_tinker_3"
+        "Ability13"										"special_bonus_unique_custom_tinker_4"
+        "Ability14"										"special_bonus_unique_custom_tinker_5"
+        "Ability15"										"special_bonus_unique_custom_tinker_6"
+        "Ability16"										"special_bonus_unique_custom_tinker_7"
+        "Ability17"										"special_bonus_unique_custom_tinker_8"
 
 		
 	}
@@ -128,33 +128,33 @@
 		"Ability1"				                        "ogre_magi_fire_blast"
 		"Ability2"				                        "ogre_magi_strength_boost"
         "Ability4"                                      "generic_hidden"         
-        "Ability5"                                      "ogre_magi_ogres_roar"   // Aghanim's Shard
+        "Ability5"                                      "generic_hidden"   // Aghanim's Shard: Fire Blast пробивает БКБ
     	"Ability6"	                        			"ogre_magi_reroll"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
 
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_ogre_magi_1"
+        "Ability11"										"special_bonus_unique_custom_ogre_magi_2"
+        "Ability12"										"special_bonus_unique_custom_ogre_magi_3"
+        "Ability13"										"special_bonus_unique_custom_ogre_magi_4"
+        "Ability14"										"special_bonus_unique_custom_ogre_magi_5"
+        "Ability15"										"special_bonus_unique_custom_ogre_magi_6"
+        "Ability16"										"special_bonus_unique_custom_ogre_magi_7"
+        "Ability17"										"special_bonus_unique_custom_ogre_magi_8"
 	}
 
 	"npc_dota_hero_lycan"
 	{	
 	"Facets" ""
 		"Ability1"				                        "lycan_summon_wolves_custom"
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_lycan_1"
+        "Ability11"										"special_bonus_unique_custom_lycan_2"
+        "Ability12"										"special_bonus_unique_custom_lycan_3"
+        "Ability13"										"special_bonus_unique_custom_lycan_4"
+        "Ability14"										"special_bonus_unique_custom_lycan_5"
+        "Ability15"										"special_bonus_unique_custom_lycan_6"
+        "Ability16"										"special_bonus_unique_custom_lycan_7"
+        "Ability17"										"special_bonus_unique_custom_lycan_8"
 	}
 
 	"npc_dota_hero_omniknight"
@@ -173,11 +173,11 @@
         "Ability10"										"special_bonus_unique_custom_omniknight_1"
         "Ability11"										"special_bonus_unique_custom_omniknight_2"
         "Ability12"										"special_bonus_unique_custom_omniknight_3"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_unique_custom_omniknight_4"
-        "Ability15"										"special_bonus_unique_custom_omniknight_5"
-        "Ability16"										"special_bonus_unique_custom_omniknight_6"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability13"										"special_bonus_unique_custom_omniknight_4"
+        "Ability14"										"special_bonus_unique_custom_omniknight_5"
+        "Ability15"										"special_bonus_unique_custom_omniknight_6"
+        "Ability16"										"special_bonus_unique_custom_omniknight_7"
+        "Ability17"										"special_bonus_unique_custom_omniknight_8"
 	}
 
 	"npc_dota_hero_doom_bringer"
@@ -193,14 +193,14 @@
 		"Ability7" 				                        "generic_hidden"
 		"Ability6"                                      "doom_ultimate_aura"
 
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_doom_bringer_1"
+        "Ability11"										"special_bonus_unique_custom_doom_bringer_2"
+        "Ability12"										"special_bonus_unique_custom_doom_bringer_3"
+        "Ability13"										"special_bonus_unique_custom_doom_bringer_4"
+        "Ability14"										"special_bonus_unique_custom_doom_bringer_5"
+        "Ability15"										"special_bonus_unique_custom_doom_bringer_6"
+        "Ability16"										"special_bonus_unique_custom_doom_bringer_7"
+        "Ability17"										"special_bonus_unique_custom_doom_bringer_8"
 
 	}
 
@@ -213,14 +213,14 @@
 		"Ability3"				                        "tusk_tag_team"
 		"Ability4"				                        "tusk_channeled_snowball"
 
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_tusk_1"
+        "Ability11"										"special_bonus_unique_custom_tusk_2"
+        "Ability12"										"special_bonus_unique_custom_tusk_3"
+        "Ability13"										"special_bonus_unique_custom_tusk_4"
+        "Ability14"										"special_bonus_unique_custom_tusk_5"
+        "Ability15"										"special_bonus_unique_custom_tusk_6"
+        "Ability16"										"special_bonus_unique_custom_tusk_7"
+        "Ability17"										"special_bonus_unique_custom_tusk_8"
 
 	}
 
@@ -232,14 +232,14 @@
 		// Replace Shukuchi (Ability2) with custom Cucaracha
 		"Ability2"                                      "weaver_cucaracha"
 
-        "Ability10"										"special_bonus_gold_200"
-        "Ability11"										"special_bonus_gold_200"
-        "Ability12"										"special_bonus_gold_200"
-        "Ability13"										"special_bonus_gold_200"
-        "Ability14"										"special_bonus_gold_200"
-        "Ability15"										"special_bonus_gold_200"
-        "Ability16"										"special_bonus_gold_200"
-        "Ability17"										"special_bonus_gold_200"
+        "Ability10"										"special_bonus_unique_custom_weaver_1"
+        "Ability11"										"special_bonus_unique_custom_weaver_2"
+        "Ability12"										"special_bonus_unique_custom_weaver_3"
+        "Ability13"										"special_bonus_unique_custom_weaver_4"
+        "Ability14"										"special_bonus_unique_custom_weaver_5"
+        "Ability15"										"special_bonus_unique_custom_weaver_6"
+        "Ability16"										"special_bonus_unique_custom_weaver_7"
+        "Ability17"										"special_bonus_unique_custom_weaver_8"
 	}
 
 	 

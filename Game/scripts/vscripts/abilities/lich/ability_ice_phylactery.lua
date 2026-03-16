@@ -74,8 +74,7 @@ function modifier_ability_ice_phylactery:OnCreated()
     
     local caster = self:GetCaster()
     
-    local radius = ability:GetSpecialValueFor("aura_radius")
-    local origin = parent:GetAbsOrigin()
+    local radius = self:GetAuraRadius()
 
     -- Инициализируем систему HP и пипсов
     self.Pips = ability:GetSpecialValueFor("max_hero_attacks")
@@ -85,16 +84,18 @@ function modifier_ability_ice_phylactery:OnCreated()
         parent:SetMaxHealth(self.AttacksToDestroy)
         parent:SetHealth(self.AttacksToDestroy)
         
+        self.think_interval = 1 / 24
+        
         -- Проверяем наличие Aghanim's Shard для движения шпиля
         if caster and not caster:IsNull() and caster:HasModifier("modifier_item_aghanims_shard") then
             self.has_shard = true
             self.move_speed = ability:GetSpecialValueFor("shard_spire_move_speed")
             self.follow_distance = ability:GetSpecialValueFor("shard_spire_follow_distance")
-            self.think_interval = 1 / 24
-            self:StartIntervalThink(self.think_interval)
         else
             self.has_shard = false
         end
+        
+        self:StartIntervalThink(self.think_interval)
     end
     
     self.HeroesAttacksMult = 2
@@ -102,61 +103,45 @@ function modifier_ability_ice_phylactery:OnCreated()
     self.aura_radius = radius
 
     -- Создаём партикл шпиля
-    self.effect_cast = self:CreateSpireParticle(parent, origin, radius)
+    self.effect_cast = ParticleManager:CreateParticle("particles/items_fx/aura_shivas.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
+    ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(radius, radius, radius))
 end
 
--- Создаёт новый партикл и удаляет старый (двойная буферизация — без мигания)
-function modifier_ability_ice_phylactery:CreateSpireParticle(parent, pos, radius)
-    local new_particle = ParticleManager:CreateParticle("particles/items_fx/aura_shivas.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
-    ParticleManager:SetParticleControl(new_particle, 1, Vector(radius, radius, radius))
-    return new_particle
-end
-
--- Think функция для движения шпиля за Личём (только с Aghanim's Shard)
 function modifier_ability_ice_phylactery:OnIntervalThink()
     if not IsServer() then return end
-    if not self.has_shard then return end
     
     local parent = self:GetParent()
-    local caster = self:GetCaster()
-    
     if not parent or parent:IsNull() then return end
-    if not caster or caster:IsNull() then return end
     
-    -- Шпиль следует за кастером даже после его смерти? Нет - остаётся на месте
-    if not caster:IsAlive() then return end
-    
-    local spire_pos = parent:GetAbsOrigin()
-    local caster_pos = caster:GetAbsOrigin()
-    
-    -- Вычисляем расстояние до кастера
-    local direction = caster_pos - spire_pos
-    local distance = direction:Length2D()
-    
-    -- Если шпиль уже достаточно близко - не двигаемся
-    if distance <= self.follow_distance then
-        return
+    local current_radius = self:GetAuraRadius()
+    if current_radius ~= self.aura_radius then
+        self.aura_radius = current_radius
+        ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(current_radius, current_radius, current_radius))
     end
     
-    -- Нормализуем направление
-    direction.z = 0
-    direction = direction:Normalized()
-    
-    -- Вычисляем новую позицию (движемся со скоростью move_speed)
-    local move_distance = self.move_speed * self.think_interval
-    
-    -- Не перелетаем через цель
-    if move_distance > (distance - self.follow_distance) then
-        move_distance = distance - self.follow_distance
+    -- Движение шпиля за Личём (только с Aghanim's Shard)
+    if self.has_shard then
+        local caster = self:GetCaster()
+        if caster and not caster:IsNull() and caster:IsAlive() then
+            local spire_pos = parent:GetAbsOrigin()
+            local caster_pos = caster:GetAbsOrigin()
+            
+            local direction = caster_pos - spire_pos
+            local distance = direction:Length2D()
+            
+            if distance > self.follow_distance then
+                direction.z = 0
+                direction = direction:Normalized()
+                
+                local move_distance = self.move_speed * self.think_interval
+                if move_distance > (distance - self.follow_distance) then
+                    move_distance = distance - self.follow_distance
+                end
+                
+                parent:SetAbsOrigin(spire_pos + direction * move_distance)
+            end
+        end
     end
-    
-    local new_pos = spire_pos + direction * move_distance
-    
-    -- Перемещаем шпиль
-    parent:SetAbsOrigin(new_pos)
-    
-    -- Пересоздаём партикл на новой позиции (двойная буферизация)
-    self.effect_cast = self:CreateSpireParticle(parent, new_pos, self.aura_radius)
 end
 
 function modifier_ability_ice_phylactery:OnDestroy()
