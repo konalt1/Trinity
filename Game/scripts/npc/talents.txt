@@ -1,107 +1,905 @@
-// Dota Heroes File
+// Dota Heroes File - 8 unique +200 gold talents per hero
 "DOTAAbilities"
 {
+    // Phantom Assassin
+    "special_bonus_unique_custom_phantom_assassin_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_phantom_assassin_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
+    // Techies
+    "special_bonus_unique_custom_techies_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_techies_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
+    // Juggernaut
+    "special_bonus_unique_custom_juggernaut_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_juggernaut_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
+    // Lich
     "special_bonus_unique_custom_lich_1"
     {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                        "special_bonus_undefined"
-        "ScriptFile"                    "abilities/lich/talents/bonus"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lich_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
     }
 
+    // Tinker
+    "special_bonus_unique_custom_tinker_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tinker_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
+    // Ogre Magi
+    "special_bonus_unique_custom_ogre_magi_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ogre_magi_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
+    // Lycan
+    "special_bonus_unique_custom_lycan_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_lycan_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
+    // Omniknight
     "special_bonus_unique_custom_omniknight_1"
     {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                      "special_bonus_undefined"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "AbilityValues"
         {
-            "bonus_ms"
-            {
-                "value"                  "15"
-            }
-            "duration"
-            {
-                "value"                  "5"
-            }
-            "min_heal"
-            {
-                "value"                  "50"
-            }
+            "value"                     "200"
         }
     }
-
     "special_bonus_unique_custom_omniknight_2"
     {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                      "special_bonus_undefined"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
-    }
-
-    "special_bonus_unique_custom_omniknight_3"
-    {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                      "special_bonus_undefined"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "AbilityValues"
         {
-            "overheal_to_barrier_coef"
-            {
-                "value"                  "1"
-            }
-            "barrier_duration"
-            {
-                "value"                  "10"
-            }
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_omniknight_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_omniknight_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_omniknight_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_omniknight_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_omniknight_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_omniknight_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
         }
     }
 
-    "special_bonus_unique_custom_omniknight_4"
+    // Doom Bringer
+    "special_bonus_unique_custom_doom_bringer_1"
     {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                      "special_bonus_undefined"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_doom_bringer_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
     }
 
-    "special_bonus_unique_custom_omniknight_5"
+    // Tusk
+    "special_bonus_unique_custom_tusk_1"
     {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                      "special_bonus_undefined"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_tusk_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
     }
 
-    "special_bonus_unique_custom_omniknight_6"
+    // Weaver
+    "special_bonus_unique_custom_weaver_1"
     {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                      "special_bonus_undefined"
-        "AbilityType"                    "ABILITY_TYPE_ATTRIBUTES"
-        "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_weaver_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
     }
 }

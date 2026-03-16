@@ -15,6 +15,3 @@ GameEvents.Subscribe("draw_game_event", ({
 });
   
 // TEST 
-$.Schedule(3, function(){ 
-    GameEvents.SendEventClientSide("draw_game_event", {text_token: "Roshan zaspawnilsya : )", duration: 3, color: "#aa39aa"})
-})  

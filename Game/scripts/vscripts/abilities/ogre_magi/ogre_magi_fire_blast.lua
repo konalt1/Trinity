@@ -1,3 +1,5 @@
+LinkLuaModifier("modifier_ogre_fire_blast_stun", "abilities/ogre_magi/ogre_magi_fire_blast", LUA_MODIFIER_MOTION_NONE)
+
 ogre_magi_fire_blast = class({})
 
 function ogre_magi_fire_blast:Precache(context)
@@ -149,6 +151,10 @@ function ogre_magi_fire_blast:ExecuteSpell()
     -- Play impact sound (TO REPLACE: impact/smash sound)
     EmitGlobalSound("Hero_OgreMagi.Fireblast.Target")
     
+    -- Shard: Fire Blast пробивает БКБ
+    local has_shard = caster:HasModifier("modifier_item_aghanims_shard")
+    local unit_target_flags = has_shard and DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES or DOTA_UNIT_TARGET_FLAG_NONE
+
     -- Find all units in radius
     local units = FindUnitsInRadius(
         caster:GetTeamNumber(),
@@ -157,7 +163,7 @@ function ogre_magi_fire_blast:ExecuteSpell()
         radius,
         DOTA_UNIT_TARGET_TEAM_ENEMY,
         DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_NONE,
+        unit_target_flags,
         FIND_ANY_ORDER,
         false
     )
@@ -176,22 +182,24 @@ function ogre_magi_fire_blast:ExecuteSpell()
         print("[DEBUG] Unit: " .. unit:GetUnitName() .. ", distance: " .. tostring(distance) .. ", factor: " .. tostring(distance_factor))
         print("[DEBUG] Scaled damage: " .. tostring(scaled_damage) .. ", scaled stun: " .. tostring(scaled_stun))
         
-        -- Apply damage
+        -- Apply damage (Pure при шарде пробивает БКБ)
+        local damage_type = has_shard and DAMAGE_TYPE_PURE or DAMAGE_TYPE_MAGICAL
         local damageTable = {
             victim = unit,
             attacker = caster,
             damage = scaled_damage,
-            damage_type = DAMAGE_TYPE_MAGICAL,
+            damage_type = damage_type,
             ability = self,
             damage_flags = DOTA_DAMAGE_FLAG_NONE
         }
         ApplyDamage(damageTable)
         
-        -- Apply stun
+        -- Apply stun (кастомный модификатор при шарде пробивает БКБ)
+        local stun_modifier = has_shard and "modifier_ogre_fire_blast_stun" or "modifier_stunned"
         unit:AddNewModifier(
             caster,
             self,
-            "modifier_stunned",
+            stun_modifier,
             { duration = scaled_stun }
         )
         
@@ -290,4 +298,39 @@ function modifier_ogre_fire_blast_anim_slow:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_ANIMATION_RATE
     }
+end
+
+--------------------------------------------------------------------------------
+-- Custom stun modifier (Shard: пробивает БКБ)
+--------------------------------------------------------------------------------
+modifier_ogre_fire_blast_stun = class({})
+
+function modifier_ogre_fire_blast_stun:IsHidden()
+    return false
+end
+
+function modifier_ogre_fire_blast_stun:IsPurgable()
+    return true
+end
+
+function modifier_ogre_fire_blast_stun:IsDebuff()
+    return true
+end
+
+function modifier_ogre_fire_blast_stun:GetAttributes()
+    return MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE
+end
+
+function modifier_ogre_fire_blast_stun:CheckState()
+    return {
+        [MODIFIER_STATE_STUNNED] = true,
+    }
+end
+
+function modifier_ogre_fire_blast_stun:GetEffectName()
+    return "particles/generic_gameplay/generic_stunned.vpcf"
+end
+
+function modifier_ogre_fire_blast_stun:GetEffectAttachType()
+    return PATTACH_OVERHEAD_FOLLOW
 end

@@ -36,6 +36,8 @@ end
 
 function modifier_juggernaut_bloodlust:OnCreated(kv)
     if IsServer() then
+        self.attack_records = {}
+
         -- Create first flame particle effect immediately
         self.flame_particle_1 = ParticleManager:CreateParticle("particles/units/heroes/hero_mars/mars_arena_of_blood_heal_flame.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent())
         
@@ -120,7 +122,9 @@ end
 function modifier_juggernaut_bloodlust:DeclareFunctions()
     local funcs = {
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_EVENT_ON_ATTACK_RECORD,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY,
     }
     return funcs
 end
@@ -129,40 +133,72 @@ function modifier_juggernaut_bloodlust:GetModifierAttackSpeedBonus_Constant()
     return self:GetAbility():GetSpecialValueFor("attack_speed_bonus")
 end
 
-function modifier_juggernaut_bloodlust:OnAttackLanded(params)
-    if IsServer() then
-        local attacker = params.attacker
-        local ability = self:GetAbility()
-        
-        -- Check if the attacker is the modifier owner
-        if attacker == self:GetParent() then
-            local heal_base = ability:GetSpecialValueFor("heal_per_attack")
-            local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_heal_multiplier")
-            
-            -- Get caster's mind power
-            local mind_power = 0
-            local mind_power_modifier = attacker:FindModifierByName("modifier_mind_power")
-            if mind_power_modifier then
-                mind_power = mind_power_modifier:GetStackCount()
-            end
-            
-            -- Calculate total healing with mind power scaling
-            local total_heal = heal_base + (mind_power * mind_power_multiplier)
-            
-            -- Heal the caster
-            if total_heal > 0 then
-                attacker:Heal(total_heal, ability)
-                
-                -- Create healing particle effect
-                local heal_particle = ParticleManager:CreateParticle("particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, attacker)
-                ParticleManager:SetParticleControl(heal_particle, 0, attacker:GetAbsOrigin())
-                ParticleManager:ReleaseParticleIndex(heal_particle)
-                
-                -- Show healing number
-                SendOverheadEventMessage(nil, OVERHEAD_ALERT_HEAL, attacker, total_heal, nil)
-            end
-        end
+function modifier_juggernaut_bloodlust:OnAttackRecord(params)
+    if not IsServer() then
+        return
     end
+
+    if params.attacker == self:GetParent() then
+        self.attack_records[params.record] = true
+    end
+end
+
+function modifier_juggernaut_bloodlust:OnTakeDamage(params)
+    if not IsServer() then
+        return
+    end
+
+    local attacker = self:GetParent()
+    local ability = self:GetAbility()
+
+    if not ability or params.attacker ~= attacker then
+        return
+    end
+
+    if params.damage <= 0 or params.damage_category ~= DOTA_DAMAGE_CATEGORY_ATTACK then
+        return
+    end
+
+    if not params.record or not self.attack_records[params.record] then
+        return
+    end
+
+    self.attack_records[params.record] = nil
+
+    local heal_base = ability:GetSpecialValueFor("heal_per_attack")
+    local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_heal_multiplier")
+
+    -- Get caster's mind power
+    local mind_power = 0
+    local mind_power_modifier = attacker:FindModifierByName("modifier_mind_power")
+    if mind_power_modifier then
+        mind_power = mind_power_modifier:GetStackCount()
+    end
+
+    -- Calculate total healing with mind power scaling
+    local total_heal = heal_base + (mind_power * mind_power_multiplier)
+
+    if total_heal <= 0 then
+        return
+    end
+
+    attacker:Heal(total_heal, ability)
+
+    -- Create healing particle effect
+    local heal_particle = ParticleManager:CreateParticle("particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, attacker)
+    ParticleManager:SetParticleControl(heal_particle, 0, attacker:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(heal_particle)
+
+    -- Show healing number
+    SendOverheadEventMessage(nil, OVERHEAD_ALERT_HEAL, attacker, total_heal, nil)
+end
+
+function modifier_juggernaut_bloodlust:OnAttackRecordDestroy(params)
+    if not IsServer() then
+        return
+    end
+
+    self.attack_records[params.record] = nil
 end
 
 function modifier_juggernaut_bloodlust:GetTexture()

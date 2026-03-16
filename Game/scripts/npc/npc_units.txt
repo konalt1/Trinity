@@ -1937,7 +1937,7 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
 		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
@@ -2035,7 +2035,7 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
 		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
@@ -2132,8 +2132,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -2229,8 +2229,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -2325,7 +2325,7 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"750"		// Range of vision during day light.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
 		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
@@ -2423,8 +2423,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -2521,8 +2521,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"650"		// Range of vision during day light.
-		"VisionNighttimeRange"		"450"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -2617,8 +2617,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -2714,8 +2714,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -2812,7 +2812,7 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
 		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
@@ -2910,7 +2910,7 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
 		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
@@ -3007,8 +3007,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -3106,8 +3106,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -3203,8 +3203,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"1200"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"500"		// Range of vision during day light.
+		"VisionNighttimeRange"		"500"		// Range of vision at night time.
 
 		"AttackRangeActivityModifiers"
 		{
@@ -5100,8 +5100,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"3.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.7"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
-		"AttackRange"				"690"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"400"		// Range within a target can be acquired.
+		"AttackRange"				"400"		// Range within a target can be attacked (меньше чем у башни 450-500).
 		"ProjectileModel"			"particles/base_attacks/ranged_siege_good.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1100"		// Speed of projectile.
 
@@ -5193,8 +5193,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"3.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.7"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
-		"AttackRange"				"690"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"400"		// Range within a target can be acquired.
+		"AttackRange"				"400"		// Range within a target can be attacked (меньше чем у башни 450-500).
 		"ProjectileModel"			"particles/base_attacks/ranged_siege_good.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1100"		// Speed of projectile.
 
@@ -5286,8 +5286,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"3.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.7"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
-		"AttackRange"				"690"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"400"		// Range within a target can be acquired.
+		"AttackRange"				"400"		// Range within a target can be attacked (меньше чем у башни 450-500).
 		"ProjectileModel"			"particles/base_attacks/ranged_siege_good.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1100"		// Speed of projectile.
 
@@ -5379,8 +5379,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"3.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.7"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
-		"AttackRange"				"690"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"400"		// Range within a target can be acquired.
+		"AttackRange"				"400"		// Range within a target can be attacked (меньше чем у башни 450-500).
 		"ProjectileModel"			"particles/base_attacks/ranged_siege_bad.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1100"		// Speed of projectile.
 
@@ -5472,8 +5472,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"3.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.7"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
-		"AttackRange"				"690"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"400"		// Range within a target can be acquired.
+		"AttackRange"				"400"		// Range within a target can be attacked (меньше чем у башни 450-500).
 		"ProjectileModel"			"particles/base_attacks/ranged_siege_bad.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1100"		// Speed of projectile.
 
@@ -5565,8 +5565,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"3.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.7"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
-		"AttackRange"				"690"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"400"		// Range within a target can be acquired.
+		"AttackRange"				"400"		// Range within a target can be attacked (меньше чем у башни 450-500).
 		"ProjectileModel"			"particles/base_attacks/ranged_siege_bad.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1100"		// Speed of projectile.
 
@@ -5655,8 +5655,8 @@
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 		"AttackRate"				"0.15"		// Speed of attack.
 		"AttackAnimationPoint"		"0.0"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"1200"		// Range within a target can be acquired.
-		"AttackRange"				"1200"		// Range within a target can be attacked. (was 690)
+		"AttackAcquisitionRange"	"1400"		// Range within a target can be acquired.
+		"AttackRange"				"1400"		// Range within a target can be attacked. (was 690)
 		"ProjectileModel"			"particles/base_attacks/fountain_attack.vpcf" // Particle system model for projectile.
 		"ProjectileSpeed"			"1400"		// Speed of projectile.
 

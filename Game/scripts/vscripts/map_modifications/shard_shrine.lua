@@ -268,7 +268,7 @@ local function ActivateLake()
     color = "#a1e4ff",
     duration = 3,
     sound_event = "_game_events.template_sound_event",
-    text_token = "#text_localization_token"
+    text_token = "#shard_pool_active"
 })
     -- Оповещаем всех о доступности (используем систему с КД)
     -- Сбрасываем КД чтобы следующий вход гарантированно сработал
@@ -424,7 +424,11 @@ function LakeThink()
     -- 6. Увеличиваем прогресс
     -- Сообщение при начале захвата (первый тик прогресса)
     if state.capture_progress == 0 then
-        ShowShardMessage(CONFIG.MSG_CAPTURE_STARTED)
+        FireGameEvent("draw_game_event", {
+            color = "#a1e4ff",
+            duration = 3,
+            sound_event = "_game_events.template_sound_event",
+            text_token = "#shard_pool_capture})    
     end
     state.capture_progress = state.capture_progress + dt
     
