@@ -4,6 +4,21 @@ LinkLuaModifier("modifier_spell_lifesteal_custom", "abilities/lich/ability_ice_p
   
 ability_ice_phylactery = class({})
 
+function ability_ice_phylactery:GetCurrentAuraRadius()
+    local radius = self:GetSpecialValueFor("aura_radius")
+    local aoe_radius = self:GetAOERadius()
+
+    if aoe_radius and aoe_radius > 0 then
+        radius = aoe_radius
+    end
+
+    return radius
+end
+
+function ability_ice_phylactery:GetAOERadius()
+    return self:GetSpecialValueFor("aura_radius")
+end
+
 function ability_ice_phylactery:OnSpellStart(event)
     CreateUnitByNameAsync(
         "npc_dota_lich_ice_spire",
@@ -34,7 +49,7 @@ modifier_ability_ice_phylactery = class({
     IsAura                  = function(self) return true end,
     GetModifierAura         = function(self) return "modifier_ability_ice_phylactery_buff" end,
     GetAuraSearchTeam       = function(self) return DOTA_UNIT_TARGET_TEAM_BOTH end,
-    GetAuraRadius           = function(self) return self:GetAbility():GetSpecialValueFor("aura_radius") end,
+    GetAuraRadius           = function(self) return self:GetAbility():GetCurrentAuraRadius() end,
     GetAuraDuration         = function(self) return self:GetAbility():GetSpecialValueFor("slow_duration") end,
     GetAuraSearchType       = function(self) return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end,
     GetAuraEntityReject     = function(self, target) 
@@ -74,7 +89,7 @@ function modifier_ability_ice_phylactery:OnCreated()
     
     local caster = self:GetCaster()
     
-    local radius = self:GetAuraRadius()
+    local radius = ability:GetCurrentAuraRadius()
 
     -- Инициализируем систему HP и пипсов
     self.Pips = ability:GetSpecialValueFor("max_hero_attacks")
@@ -104,7 +119,7 @@ function modifier_ability_ice_phylactery:OnCreated()
 
     -- Создаём партикл шпиля
     self.effect_cast = ParticleManager:CreateParticle("particles/items_fx/aura_shivas.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
-    ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(radius, radius, radius))
+    ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(radius, 0, 0))
 end
 
 function modifier_ability_ice_phylactery:OnIntervalThink()
@@ -116,7 +131,7 @@ function modifier_ability_ice_phylactery:OnIntervalThink()
     local current_radius = self:GetAuraRadius()
     if current_radius ~= self.aura_radius then
         self.aura_radius = current_radius
-        ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(current_radius, current_radius, current_radius))
+        ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(current_radius, 0, 0))
     end
     
     -- Движение шпиля за Личём (только с Aghanim's Shard)
@@ -172,7 +187,7 @@ function modifier_ability_ice_phylactery:OnTakeDamage(params)
     local ability = self:GetAbility()
     if not ability then return end
     
-    local radius = ability:GetSpecialValueFor("aura_radius")
+    local radius = ability:GetCurrentAuraRadius()
     
     -- Проверяем, что жертва - враг
     if victim:GetTeamNumber() == caster:GetTeamNumber() then
