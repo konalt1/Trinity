@@ -1,11 +1,18 @@
 LinkLuaModifier("modifier_coup_de_foudre", "abilities/phantom_assassin/ability_coup_de_foudre", 0)
 LinkLuaModifier("modifier_coup_de_foudre_buff", "abilities/phantom_assassin/ability_coup_de_foudre", 0)
+LinkLuaModifier("modifier_phantom_assassin_contract_tracker", "abilities/phantom_assassin/ability_coup_de_foudre", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_phantom_assassin_contract_target", "abilities/phantom_assassin/ability_coup_de_foudre", LUA_MODIFIER_MOTION_NONE)
+
+local PA_CONTRACT_TALENT_NAME = "special_bonus_unique_custom_phantom_assassin_3"
+local PA_LOW_HP_SENSE_TALENT_NAME = "special_bonus_unique_custom_phantom_assassin_1"
+local PA_TRACK_EFFECT = "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_shield.vpcf"
 
 ability_coup_de_foudre = ability_coup_de_foudre or class({})
 
 function ability_coup_de_foudre:Precache(context)
     -- Precache custom sounds
     PrecacheResource("soundfile", "soundevents/trinity_sounds.vsndevts", context)
+    PrecacheResource("particle", PA_TRACK_EFFECT, context)
 end
 
 function ability_coup_de_foudre:GetIntrinsicModifierName()
@@ -28,6 +35,8 @@ function modifier_coup_de_foudre:OnCreated(_)
     -- Reset state to prevent issues on respawn/reconnect
     self.timer = nil
     self.modifier = nil
+    self.contract_tracker = nil
+    self.talent_low_hp_crit_pending = false
 
     self:StartIntervalThink(0.1)
 end
@@ -48,13 +57,110 @@ function modifier_coup_de_foudre:OnDestroy()
         self.modifier:Destroy()
         self.modifier = nil
     end
+
+    if self.contract_tracker and not self.contract_tracker:IsNull() then
+        self.contract_tracker:Destroy()
+        self.contract_tracker = nil
+    end
 end
 
 function modifier_coup_de_foudre:DeclareFunctions()
     return {
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
         MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
     }  
+end
+
+function modifier_coup_de_foudre:HasLowHpSenseTalent(attacker)
+    if not attacker or attacker:IsNull() then
+        return false
+    end
+    local talent = attacker:FindAbilityByName(PA_LOW_HP_SENSE_TALENT_NAME)
+    return talent and not talent:IsNull() and talent:GetLevel() > 0
+end
+
+function modifier_coup_de_foudre:IsEligibleLowHpHeroTarget(attacker, target)
+    if not attacker or attacker:IsNull() or not target or target:IsNull() then
+        return false
+    end
+    if target:IsBuilding() or target:IsOther() or target:GetTeam() == attacker:GetTeam() then
+        return false
+    end
+    if not target:IsHero() then
+        return false
+    end
+    local max_hp = target:GetMaxHealth()
+    if max_hp <= 0 then
+        return false
+    end
+    if target:GetHealth() / max_hp >= 0.5 then
+        return false
+    end
+    return true
+end
+
+function modifier_coup_de_foudre:GetModifierPreAttack_CriticalStrike(params)
+    if not IsServer() then
+        return
+    end
+
+    self.talent_low_hp_crit_pending = false
+
+    local parent = self:GetParent()
+    if parent:PassivesDisabled() then
+        return
+    end
+
+    local pa = params.attacker
+    if pa ~= parent then
+        return
+    end
+
+    if pa:HasModifier("modifier_coup_de_foudre_buff") then
+        return
+    end
+
+    if not self:HasLowHpSenseTalent(pa) then
+        return
+    end
+
+    local target = params.target
+    if not self:IsEligibleLowHpHeroTarget(pa, target) then
+        return
+    end
+
+    local ability = self:GetAbility()
+    if not ability or ability:IsNull() then
+        return
+    end
+
+    self.talent_low_hp_crit_pending = true
+    return ability:GetSpecialValueFor("crit_bonus")
+end
+
+function modifier_coup_de_foudre:OnAttackLanded(params)
+    if not IsServer() then
+        return
+    end
+    if params.attacker ~= self:GetParent() then
+        return
+    end
+    if not self.talent_low_hp_crit_pending then
+        return
+    end
+
+    if params.ranged_attack then
+        return
+    end
+
+    self.talent_low_hp_crit_pending = false
+    EmitSoundOnLocationWithCaster(
+        params.target:GetAbsOrigin(),
+        "Hero_PhantomAssassin.CoupDeGrace",
+        self:GetCaster()
+    )
 end
 
 function modifier_coup_de_foudre:IsPurgable()
@@ -127,6 +233,16 @@ function modifier_coup_de_foudre:OnTakeDamage(params)
         
         -- Remove the snapshot after use
         self:RemoveSnapshot(victim)
+        self.talent_low_hp_crit_pending = false
+    elseif self.talent_low_hp_crit_pending
+        and self:HasLowHpSenseTalent(attacker)
+        and self:IsEligibleLowHpHeroTarget(attacker, victim) then
+        EmitSoundOnLocationWithCaster(
+            victim:GetAbsOrigin(),
+            "Hero_PhantomAssassin.CoupDeGrace",
+            attacker
+        )
+        self.talent_low_hp_crit_pending = false
     end
 end
 
@@ -178,6 +294,8 @@ function modifier_coup_de_foudre:OnIntervalThink()
     
     local unit = self:GetCaster()
     if not unit or unit:IsNull() then return end
+
+    self:UpdateContractTracker()
     
     local canBeSeen = unit:CanBeSeenByAnyOpposingTeam()
     local hasBlurActive = unit:HasModifier("modifier_phantom_assassin_blur_custom_active")
@@ -223,6 +341,43 @@ function modifier_coup_de_foudre:AddBuff(unit)
         Timers:RemoveTimer(self.timer)
         self.timer = nil
     end 
+end
+
+function modifier_coup_de_foudre:UpdateContractTracker()
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then
+        return
+    end
+
+    if self.contract_tracker and self.contract_tracker:IsNull() then
+        self.contract_tracker = nil
+    end
+
+    if parent:IsIllusion() then
+        if self.contract_tracker then
+            self.contract_tracker:Destroy()
+            self.contract_tracker = nil
+        end
+        return
+    end
+
+    local talent = parent:FindAbilityByName(PA_CONTRACT_TALENT_NAME)
+    if not talent or talent:IsNull() or talent:GetLevel() <= 0 then
+        if self.contract_tracker then
+            self.contract_tracker:Destroy()
+            self.contract_tracker = nil
+        end
+        return
+    end
+
+    if not self.contract_tracker then
+        self.contract_tracker = parent:AddNewModifier(
+            parent,
+            talent,
+            "modifier_phantom_assassin_contract_tracker",
+            {}
+        )
+    end
 end
 
 modifier_coup_de_foudre_buff = modifier_coup_de_foudre_buff or class({})
@@ -317,4 +472,329 @@ function modifier_coup_de_foudre_buff:OnAttackLanded(params)
 
         self.is_crit = false
     end
+end
+
+modifier_phantom_assassin_contract_tracker = class({})
+
+function modifier_phantom_assassin_contract_tracker:IsHidden()
+    return true
+end
+
+function modifier_phantom_assassin_contract_tracker:IsPurgable()
+    return false
+end
+
+function modifier_phantom_assassin_contract_tracker:RemoveOnDeath()
+    return false
+end
+
+function modifier_phantom_assassin_contract_tracker:OnCreated()
+    self.current_target = nil
+    self.contract_end_time = 0
+    self.next_roll_time = 0
+    self.last_damage_time = -math.huge
+
+    self:RefreshTalentValues()
+
+    if not IsServer() then
+        return
+    end
+
+    self.next_roll_time = GameRules:GetGameTime()
+    self:StartIntervalThink(0.25)
+end
+
+function modifier_phantom_assassin_contract_tracker:OnRefresh()
+    self:RefreshTalentValues()
+end
+
+function modifier_phantom_assassin_contract_tracker:OnDestroy()
+    if not IsServer() then
+        return
+    end
+
+    self:ClearCurrentTarget()
+end
+
+function modifier_phantom_assassin_contract_tracker:RefreshTalentValues()
+    local ability = self:GetAbility()
+
+    self.contract_duration = 60
+    self.bonus_gold = 300
+    self.assist_window = 13
+
+    if ability and not ability:IsNull() then
+        self.contract_duration = ability:GetSpecialValueFor("contract_duration") or self.contract_duration
+        self.bonus_gold = ability:GetSpecialValueFor("bonus_gold") or self.bonus_gold
+        self.assist_window = ability:GetSpecialValueFor("assist_window") or self.assist_window
+    end
+end
+
+function modifier_phantom_assassin_contract_tracker:DeclareFunctions()
+    return {
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_EVENT_ON_DEATH,
+    }
+end
+
+function modifier_phantom_assassin_contract_tracker:OnIntervalThink()
+    if not IsServer() then
+        return
+    end
+
+    local parent = self:GetParent()
+    local ability = self:GetAbility()
+    if not parent or parent:IsNull() then
+        self:Destroy()
+        return
+    end
+
+    if parent:IsIllusion() or parent:IsTempestDouble() then
+        self:Destroy()
+        return
+    end
+
+    if not ability or ability:IsNull() or ability:GetLevel() <= 0 then
+        self:Destroy()
+        return
+    end
+
+    self:RefreshTalentValues()
+
+    local current_time = GameRules:GetGameTime()
+
+    if self.current_target and self.current_target:IsNull() then
+        self.current_target = nil
+    end
+
+    if self.current_target then
+        if current_time >= self.contract_end_time then
+            self:FailCurrentContract(false)
+            return
+        end
+
+        self:EnsureTargetMarker()
+        return
+    end
+
+    if current_time >= self.next_roll_time then
+        self:AssignNewTarget()
+    end
+end
+
+function modifier_phantom_assassin_contract_tracker:OnTakeDamage(params)
+    if not IsServer() then
+        return
+    end
+
+    if not self.current_target or self.current_target:IsNull() then
+        return
+    end
+
+    if params.unit ~= self.current_target then
+        return
+    end
+
+    if params.damage <= 0 then
+        return
+    end
+
+    if self:IsParentOwnedAttacker(params.attacker) then
+        self.last_damage_time = GameRules:GetGameTime()
+    end
+end
+
+function modifier_phantom_assassin_contract_tracker:OnDeath(params)
+    if not IsServer() then
+        return
+    end
+
+    if not self.current_target or self.current_target:IsNull() then
+        return
+    end
+
+    if params.unit ~= self.current_target then
+        return
+    end
+
+    if self:IsSuccessfulKill(params.attacker) or self:DidParentAssist() then
+        self:CompleteCurrentContract()
+        return
+    end
+
+    self:FailCurrentContract(true)
+end
+
+function modifier_phantom_assassin_contract_tracker:IsSuccessfulKill(attacker)
+    return self:IsParentOwnedAttacker(attacker)
+end
+
+function modifier_phantom_assassin_contract_tracker:DidParentAssist()
+    return (GameRules:GetGameTime() - self.last_damage_time) <= self.assist_window
+end
+
+function modifier_phantom_assassin_contract_tracker:IsParentOwnedAttacker(attacker)
+    local parent = self:GetParent()
+    if not attacker or attacker:IsNull() or not parent or parent:IsNull() then
+        return false
+    end
+
+    if attacker == parent then
+        return true
+    end
+
+    if attacker:GetOwner() == parent then
+        return true
+    end
+
+    local parent_player_id = parent:GetPlayerOwnerID()
+    local attacker_player_id = attacker:GetPlayerOwnerID()
+    if parent_player_id ~= nil and parent_player_id ~= -1 and attacker_player_id == parent_player_id then
+        return true
+    end
+
+    return false
+end
+
+function modifier_phantom_assassin_contract_tracker:IsValidTarget(hero)
+    local parent = self:GetParent()
+
+    if not hero or hero:IsNull() then
+        return false
+    end
+
+    if hero == parent then
+        return false
+    end
+
+    if not hero:IsRealHero() or hero:IsIllusion() or hero:IsTempestDouble() then
+        return false
+    end
+
+    if not hero:IsAlive() or hero:IsOutOfGame() then
+        return false
+    end
+
+    if hero:GetTeamNumber() == parent:GetTeamNumber() then
+        return false
+    end
+
+    return true
+end
+
+function modifier_phantom_assassin_contract_tracker:AssignNewTarget()
+    local candidates = {}
+
+    for _, hero in ipairs(HeroList:GetAllHeroes()) do
+        if self:IsValidTarget(hero) then
+            table.insert(candidates, hero)
+        end
+    end
+
+    if #candidates == 0 then
+        self.next_roll_time = GameRules:GetGameTime() + 1.0
+        return
+    end
+
+    local target = candidates[RandomInt(1, #candidates)]
+    self.current_target = target
+    self.contract_end_time = GameRules:GetGameTime() + self.contract_duration
+    self.next_roll_time = self.contract_end_time
+    self.last_damage_time = -math.huge
+
+    self:EnsureTargetMarker()
+end
+
+function modifier_phantom_assassin_contract_tracker:EnsureTargetMarker()
+    if not self.current_target or self.current_target:IsNull() then
+        return
+    end
+
+    local duration = math.max(self.contract_end_time - GameRules:GetGameTime(), 0.1)
+    local marker = self.current_target:FindModifierByNameAndCaster(
+        "modifier_phantom_assassin_contract_target",
+        self:GetParent()
+    )
+
+    if marker then
+        marker:SetDuration(duration, true)
+        return
+    end
+
+    self.current_target:AddNewModifier(
+        self:GetParent(),
+        self:GetAbility(),
+        "modifier_phantom_assassin_contract_target",
+        { duration = duration }
+    )
+end
+
+function modifier_phantom_assassin_contract_tracker:ClearCurrentTarget()
+    if self.current_target and not self.current_target:IsNull() then
+        local marker = self.current_target:FindModifierByNameAndCaster(
+            "modifier_phantom_assassin_contract_target",
+            self:GetParent()
+        )
+
+        if marker then
+            marker:Destroy()
+        end
+    end
+
+    self.current_target = nil
+    self.contract_end_time = 0
+    self.last_damage_time = -math.huge
+end
+
+function modifier_phantom_assassin_contract_tracker:GrantContractGold()
+    local parent = self:GetParent()
+    local player = PlayerResource:GetPlayer(parent:GetPlayerOwnerID())
+
+    parent:ModifyGold(self.bonus_gold, true, DOTA_ModifyGold_Unspecified)
+
+    if player then
+        SendOverheadEventMessage(player, OVERHEAD_ALERT_GOLD, parent, self.bonus_gold, nil)
+    end
+end
+
+function modifier_phantom_assassin_contract_tracker:CompleteCurrentContract()
+    self:GrantContractGold()
+    self:ClearCurrentTarget()
+    self.next_roll_time = GameRules:GetGameTime() + FrameTime()
+end
+
+function modifier_phantom_assassin_contract_tracker:FailCurrentContract(wait_until_end_of_contract)
+    local next_roll_time = GameRules:GetGameTime() + FrameTime()
+    if wait_until_end_of_contract and self.contract_end_time > GameRules:GetGameTime() then
+        next_roll_time = self.contract_end_time
+    end
+
+    self:ClearCurrentTarget()
+    self.next_roll_time = next_roll_time
+end
+
+modifier_phantom_assassin_contract_target = class({})
+
+function modifier_phantom_assassin_contract_target:IsHidden()
+    return true
+end
+
+function modifier_phantom_assassin_contract_target:IsDebuff()
+    return true
+end
+
+function modifier_phantom_assassin_contract_target:IsPurgable()
+    return false
+end
+
+function modifier_phantom_assassin_contract_target:RemoveOnDeath()
+    return true
+end
+
+function modifier_phantom_assassin_contract_target:GetEffectName()
+    return PA_TRACK_EFFECT
+end
+
+function modifier_phantom_assassin_contract_target:GetEffectAttachType()
+    return PATTACH_OVERHEAD_FOLLOW
 end
