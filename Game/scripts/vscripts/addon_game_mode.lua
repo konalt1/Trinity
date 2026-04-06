@@ -22,6 +22,7 @@ require ("items/item_mage_slayer")
 require ("lich/frost_shield/lich_frost_shield_lua")
 
 require ("abilities/ogre_magi/ogre_magi_reroll")
+require ("abilities/ogre_magi/ogre_magi_berserker_rage")
 require ("lich/frost_blast/lich_frost_blast_lua")
 
 -- Загружаем способности Tusk

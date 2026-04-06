@@ -86,7 +86,9 @@
 		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"				"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТИ:"
 		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ:"
 
-
+		// Ogre Berserker Rage (Aghanim's Scepter)
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"							"Ярость берсерка"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Даруется Aghanim's Scepter. Каждые 10 попаданий по врагам заряжают следующую атаку: на цель накладывается случайный эффект из набора чужих способностей."
 
 		//Omniknight
 		// Custom Purification
@@ -169,6 +171,15 @@
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Description"		"Джаггернаут становится неуязвимым и стремительно перемещается между врагами, нанося им удары."
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_slash_radius"		"РАДИУС ПОИСКА ЦЕЛЕЙ:"
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	"Дополнительная способность Omnislash: 3.5 сек. неуязвимых прыжков с ударами по врагам (отдельный кулдаун и мана)."
+
+		// Omnislash (Aghanim's Scepter)
+		"DOTA_Tooltip_ability_juggernaut_omni_slash"						"Omnislash"
+		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Даруется Aghanim's Scepter. Джаггернаут становится неуязвимым и в течение 3.5 сек. прыгает между врагами, нанося удары. Уровень способности совпадает с уровнем Swift Slash."
+		"DOTA_Tooltip_ability_juggernaut_omni_slash_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_juggernaut_omni_slash_slash_radius"			"РАДИУС ПОИСКА ЦЕЛЕЙ:"
+		"DOTA_Tooltip_modifier_juggernaut_omni_slash"						"Omnislash"
+		"DOTA_Tooltip_modifier_juggernaut_omni_slash_Description"			"Неуязвим. Без столкновения с юнитами."
 
 		//Phantom Assassin
 		// Blur
@@ -187,6 +198,7 @@
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus_creeps"			"%КРИТИЧЕСКИЙ УРОН ПО КРИПАМ:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_activation_delay"			"ЗАДЕРЖКА СНЯТИЯ ЭФФЕКТА:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_shard_description"			"Даёт способность Призрачная Туча."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_scepter_description"		"Убийство вражеского героя мгновенно снимает перезаряд со всех способностей Phantom Assassin."
 
 		// Phantom Cloud (Aghanim's Shard)
 		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud"					"Призрачная Туча"
@@ -256,14 +268,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_phantom_assassin_6"	"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_phantom_assassin_7"	"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_phantom_assassin_8"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_1"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_2"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_3"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_4"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_5"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_6"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_7"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_8"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_1"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_2"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_3"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_4"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_5"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_6"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_7"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_8"			"+200"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_juggernaut_1"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_juggernaut_2"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_juggernaut_3"		"Заглушка"
@@ -338,6 +350,56 @@
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи Ткач становится невидимым. Невидимость проявляется через 1 сек. после применения способности и снимается при атаке или использовании способностей."
+
+		// Techies
+		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
+		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Течис начинает стрелять ракетами, с помощью чего наносит противникам больш урона, стреляет дальше и наносит урон по площади. Дополнительный урон со способности увеличивается с Силой Магии."
+		"DOTA_Tooltip_ability_ability_fireworks_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ability_fireworks_splash_radius"					"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_ability_fireworks_bonus_magic_damage"				"МАГИЧЕСКИЙ УРОН ПО ЦЕЛИ:"
+		"DOTA_Tooltip_ability_ability_fireworks_bonus_attack_range"				"БОНУС ДАЛЬНОСТИ АТАКИ:"
+		"DOTA_Tooltip_ability_ability_fireworks_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_ability_fireworks_splash_attack_damage_pct"		"%ФИЗ. УРОНА ОТ АТАКИ ВО ВСПЛЕСКЕ:"
+		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Атаки с всплеском поджигают врагов, нанося дополнительный магический урон в течение нескольких секунд. Урон от поджога усиливается Силой Магии."
+
+		"DOTA_Tooltip_ability_ability_reactive_tazer"							"Реактивная защита"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_Description"				"Герой окружает себя зарядом электричества, ненадолго повышая его скорость передвижения. Атака по заряженной цели нанесёт обидчику урон, а также применит на него бессилие и нормальное развеивание. Заряд взрывается в конце действия, накладывая бессилие на всех врагов вокруг. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_ability_reactive_tazer_buff_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_disarm_duration"			"ОБЕЗОРУЖИВАНИЕ:"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_bonus_movespeed_pct"		"%БОНУС СКОРОСТИ:"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_explosion_radius"			"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_ability_reactive_tazer_countdown_lead"			"ПРЕДУПРЕЖДЕНИЕ ПЕРЕД ВЗРЫВОМ:"
+
+		"DOTA_Tooltip_ability_techies_suicide_custom"							"Взлёт"
+		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Течис прыгает к выбранной точке и при приземлении взрывается, нанося магический урон и оглушая врагов в области. Урон взрыва усиливается Силой Магии. Наносит себе чистый урон в размере части текущего здоровья. Взрыв действует на врагов с магическим иммунитетом."
+		"DOTA_Tooltip_ability_techies_suicide_custom_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_techies_suicide_custom_damage"					"БАЗОВЫЙ УРОН:"
+		"DOTA_Tooltip_ability_techies_suicide_custom_stun_duration"				"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_techies_suicide_custom_hp_cost"					"%ТЕКУЩЕГО ЗДОРОВЬЯ В УРОН СЕБЕ:"
+		"DOTA_Tooltip_ability_techies_suicide_custom_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		"DOTA_Tooltip_ability_ability_chain_bomb"								"Ядерные мины"
+		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Течис устанавливает в выбранную точку зелёную мину. Течис может взорвать мину, нанеся ей физический или магический урон, при этом ядерная мина взорвётся, нанося урон всем вокруг. Ядерные мины невидимы для противника"
+		"DOTA_Tooltip_ability_ability_chain_bomb_damage"						"УРОН ВЗРЫВА:"
+		"DOTA_Tooltip_ability_ability_chain_bomb_radius"						"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_ability_chain_bomb_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_ability_chain_bomb_building_damage_pct"			"%УРОНА ПО СТРОЕНИЯМ:"
+		"DOTA_Tooltip_ability_ability_chain_bomb_fade_delay"					"ЗАДЕРЖКА НЕВИДИМОСТИ:"
+		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_description"			"Все зелёные мины могут передвигаться."
+		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_mine_movespeed"		"СКОРОСТЬ МИН:"
+		"DOTA_Tooltip_ability_ability_chain_bomb_shard_description"			"Пока ядерная мина жива, ваша команда получает обзор вокруг неё."
+		"DOTA_Tooltip_ability_ability_chain_bomb_shard_vision_radius"			"РАДИУС ОБЗОРА МИНЫ:"
+
+		
+
+		
+
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"	"+100 к радиусу взрыва Фейерверка"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"	"+ к скорости зелёных мин со Скипетром"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"	"Зелёные мины появляются уже подвижными"
+
 		// =============================================
 		// Aghanim's Shard Descriptions
 		// =============================================
@@ -346,9 +408,6 @@
 		"DOTA_Tooltip_ability_doom_soul_devour_shard_description"			"Позволяет использовать Поглощение Души на вражеских героях с здоровьем ниже 666. Поглощение героя даёт утроенную Силу Магии и мгновенно убивает цель."
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold"		"ПОРОГ ЗДОРОВЬЯ ГЕРОЯ:"
 		"DOTA_Tooltip_ability_doom_soul_devour_hero_soul_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ ОТ ГЕРОЯ:"
-
-		// Techies - Shard upgrade for Fireworks
-		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Атаки с всплеском поджигают врагов, нанося дополнительный магический урон в течение нескольких секунд. Урон от поджога усиливается Силой Магии."
 
 		// Tinker - Shard upgrade for Rearm Custom
 		"DOTA_Tooltip_ability_tinker_rearm_custom_shard_description"		"Во время действия Перезарядки Тинкер получает магический щит, поглощающий входящий магический урон. Сила щита зависит от текущей маны Тинкера."

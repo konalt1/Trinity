@@ -22,23 +22,23 @@ end
 -- Модификатор ауры на Думе
 modifier_doom_ultimate_aura = class({})
 
-function modifier_doom_ultimate_aura:IsAura() return true end
+function modifier_doom_ultimate_aura:IsAura() return false end
 function modifier_doom_ultimate_aura:IsPurgable() return false end
 function modifier_doom_ultimate_aura:IsBuff() return true end
-function modifier_doom_ultimate_aura:GetAuraRadius() 
+function modifier_doom_ultimate_aura:GetEffectRadius()
     local ability = self:GetAbility()
+    if not ability then return 0 end
+
     local base_radius = ability:GetSpecialValueFor("aura_radius")
     local caster = self:GetCaster()
-    
+    if not caster then return base_radius end
+
     -- Учитываем бонусы к радиусу заклинаний
     local spell_radius_bonus = caster:GetSpellAmplification(false) * 100 -- Преобразуем в проценты
     local total_radius = base_radius * (1 + spell_radius_bonus / 100)
-    
+
     return total_radius
 end
-function modifier_doom_ultimate_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
-function modifier_doom_ultimate_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
-function modifier_doom_ultimate_aura:GetModifierAura() return "modifier_doom_ultimate_aura_debuff" end
 function modifier_doom_ultimate_aura:GetEffectName() 
     return "" -- Эффект создается вручную в OnCreated()
 end
@@ -50,27 +50,80 @@ end
 function modifier_doom_ultimate_aura:OnCreated()
     if not IsServer() then return end
     self:GetParent():EmitSound("Hero_DoomBringer.ScorchedEarth")
+    self.debuff_refresh_interval = 0.2
+    self.applied_targets = {}
     
     -- Отладочная информация о радиусе ауры
     local ability = self:GetAbility()
-    local base_radius = ability:GetSpecialValueFor("aura_radius")
-    local caster = self:GetCaster()
-    local spell_radius_bonus = caster:GetSpellAmplification(false) * 100
-    local total_radius = base_radius * (1 + spell_radius_bonus / 100)
+    local total_radius = self:GetEffectRadius()
     
-    print("Doom Aura - Base radius:", base_radius, "Spell amp:", spell_radius_bonus, "Total radius:", total_radius)
+    print("Doom Aura - Total radius:", total_radius)
     
     -- Создаем кастомную частицу с правильным радиусом
+    local caster = self:GetCaster()
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_doom_bringer/doom_bringer_doom_aura.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
     ParticleManager:SetParticleControl(particle, 1, Vector(total_radius, total_radius, total_radius))
     ParticleManager:SetParticleControl(particle, 2, Vector(total_radius, total_radius, total_radius))
     self.particle = particle
+
+    self:ApplyDebuffInRadius()
+    self:StartIntervalThink(self.debuff_refresh_interval)
 end
 
 function modifier_doom_ultimate_aura:DeclareFunctions()
     return {
         MODIFIER_EVENT_ON_DEATH,
     }
+end
+
+function modifier_doom_ultimate_aura:OnIntervalThink()
+    if not IsServer() then return end
+    self:ApplyDebuffInRadius()
+end
+
+function modifier_doom_ultimate_aura:ApplyDebuffInRadius()
+    local parent = self:GetParent()
+    local ability = self:GetAbility()
+    if not parent or not ability then return end
+
+    local enemies = FindUnitsInRadius(
+        parent:GetTeamNumber(),
+        parent:GetAbsOrigin(),
+        nil,
+        self:GetEffectRadius(),
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        FIND_ANY_ORDER,
+        false
+    )
+
+    local current_targets = {}
+
+    for _, enemy in pairs(enemies) do
+        local target_index = enemy:entindex()
+        current_targets[target_index] = enemy
+
+        if not self.applied_targets[target_index] then
+            enemy:AddNewModifier(parent, ability, "modifier_doom_ultimate_aura_debuff", { duration = self:GetRemainingTime() + 0.1 })
+            self.applied_targets[target_index] = enemy
+        else
+            local modifier = enemy:FindModifierByNameAndCaster("modifier_doom_ultimate_aura_debuff", parent)
+            if not modifier then
+                enemy:AddNewModifier(parent, ability, "modifier_doom_ultimate_aura_debuff", { duration = self:GetRemainingTime() + 0.1 })
+            end
+        end
+    end
+
+    for target_index, target in pairs(self.applied_targets) do
+        if not current_targets[target_index] then
+            if target and IsValidEntity(target) then
+                target:RemoveModifierByNameAndCaster("modifier_doom_ultimate_aura_debuff", parent)
+            end
+
+            self.applied_targets[target_index] = nil
+        end
+    end
 end
 
 function modifier_doom_ultimate_aura:OnDeath( params )
@@ -92,6 +145,12 @@ function modifier_doom_ultimate_aura:OnDestroy()
     if parent then
         parent:StopSound("Hero_DoomBringer.ScorchedEarth")
     end
+
+    for _, target in pairs(self.applied_targets or {}) do
+        if target and IsValidEntity(target) then
+            target:RemoveModifierByNameAndCaster("modifier_doom_ultimate_aura_debuff", self:GetParent())
+        end
+    end
     
     -- Уничтожаем кастомную частицу
     if self.particle then
@@ -106,6 +165,10 @@ modifier_doom_ultimate_aura_debuff = class({})
 
 function modifier_doom_ultimate_aura_debuff:IsPurgable() return false end
 function modifier_doom_ultimate_aura_debuff:IsDebuff() return true end
+
+function modifier_doom_ultimate_aura_debuff:GetAttributes()
+	return MODIFIER_ATTRIBUTE_IGNORE_DEBUFF_IMMUNITY
+end
 
 function modifier_doom_ultimate_aura_debuff:OnCreated()
     if not IsServer() then return end

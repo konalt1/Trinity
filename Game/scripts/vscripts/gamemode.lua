@@ -414,6 +414,12 @@ function GameMode:OnNPCSpawned(data)
            end
        end
    end
+
+   if npc:IsRealHero() and not npc:IsIllusion() and npc:GetUnitName() == "npc_dota_hero_chen" then
+       if not npc:HasModifier("modifier_chen_holy_persuasion_mind_hp") then
+           npc:AddNewModifier(npc, nil, "modifier_chen_holy_persuasion_mind_hp", {})
+       end
+   end
    
    -- Отслеживаем спавн лейн крипов
    if npc:IsCreep() and not npc:IsNeutralUnitType() and not GameMode.lane_creeps_spawned then

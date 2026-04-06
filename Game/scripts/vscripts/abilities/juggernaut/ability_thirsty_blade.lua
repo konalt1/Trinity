@@ -52,14 +52,14 @@ function modifier_ability_thirsty_blade:OnAttackLanded( params )
 			 if reduceCoolodwn ~= 0 then 
 			 	local omniAbility = parent:FindAbilityByName("juggernaut_omni_slash")
 
-			 	if omniAbility:GetLevel() ~= 0 and not omniAbility:IsCooldownReady() then
+			 	if omniAbility and not omniAbility:IsNull() and omniAbility:GetLevel() ~= 0 and not omniAbility:IsCooldownReady() then
 			        local abilityTime = omniAbility:GetCooldownTimeRemaining()
 			        omniAbility:EndCooldown()
 			        omniAbility:StartCooldown(abilityTime - reduceCoolodwn)
 		   		end
-			 	local swiftAbility = parent:FindAbilityByName("juggernaut_swift_slash")
+			 	local swiftAbility = parent:FindAbilityByName("juggernaut_swift_slash_lua")
 
-			 	if swiftAbility:GetLevel() ~= 0 and not swiftAbility:IsCooldownReady() then
+			 	if swiftAbility and not swiftAbility:IsNull() and swiftAbility:GetLevel() ~= 0 and not swiftAbility:IsCooldownReady() then
 			        local abilityTime = swiftAbility:GetCooldownTimeRemaining()
 			        swiftAbility:EndCooldown()
 			        swiftAbility:StartCooldown(abilityTime - reduceCoolodwn)

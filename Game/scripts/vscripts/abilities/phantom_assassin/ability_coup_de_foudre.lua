@@ -54,6 +54,7 @@ function modifier_coup_de_foudre:DeclareFunctions()
     return {
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
         MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_EVENT_ON_DEATH,
     }  
 end
 
@@ -130,6 +131,22 @@ function modifier_coup_de_foudre:OnTakeDamage(params)
     end
 end
 
+function modifier_coup_de_foudre:OnDeath(params)
+    if not IsServer() then return end
+
+    local parent = self:GetParent()
+    local victim = params.unit
+    local attacker = params.attacker
+
+    if not parent or parent:IsNull() or parent:IsIllusion() then return end
+    if not victim or victim:IsNull() or not victim:IsRealHero() then return end
+    if not attacker or attacker:IsNull() or attacker ~= parent then return end
+    if victim:GetTeamNumber() == parent:GetTeamNumber() then return end
+    if not parent:HasScepter() then return end
+
+    self:ResetHeroAbilityCooldowns()
+end
+
 function modifier_coup_de_foudre:FindSnapshot(target)
     if not target or target:IsNull() then return nil end
     
@@ -166,6 +183,23 @@ function modifier_coup_de_foudre:CleanupOldSnapshots()
         if (current_time - snapshot.time) > 5.0 or 
            not snapshot.target or snapshot.target:IsNull() then
             table.remove(self.dagger_snapshots, i)
+        end
+    end
+end
+
+function modifier_coup_de_foudre:ResetHeroAbilityCooldowns()
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then return end
+
+    for slot = 0, 23 do
+        local ability = parent:GetAbilityByIndex(slot)
+
+        if ability
+            and not ability:IsNull()
+            and not ability:IsItem()
+            and ability:GetAbilityName() ~= "generic_hidden"
+            and ability:GetCooldownTimeRemaining() > 0 then
+            ability:EndCooldown()
         end
     end
 end

@@ -254,12 +254,12 @@
     }
 	"npc_dota3_chainbomb"
     {
-        "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"// Model.
+        "Model"						"models/heroes/techies/fx_techies_remotebomb.vmdl"
 		"BaseClass"                 "npc_dota_creature"
-		"SoundSet"                  "0"			// Name of sound set.
+		"SoundSet"                  ""
 		"Level"                     "1"
-		"ModelScale"                "1.0"
-        "MinimapIcon"               "minimap_death"		
+		"ModelScale"                "0.75"
+        "MinimapIcon"               "minimap_death"
         "MinimapIconSize"           "450"
 
 		// Abilities
@@ -271,7 +271,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"0"			// Physical protection.
+		"ArmorPhysical"				"0"
+        "MagicalResistance"         "0"
 
 		// Attack
 		//----------------------------------------------------------------
@@ -287,35 +288,87 @@
 
 		// Bounds
 		//----------------------------------------------------------------
+        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
 		"HealthBarOffset"			"140"
 
 		// Bounty
 		//----------------------------------------------------------------
-		"BountyXP"					"6"	// Experience earn.
-		"BountyGoldMin"				"10"		// Gold earned min.
-		"BountyGoldMax"				"10"		// Gold earned max.
+		"BountyXP"					"0"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
 
-		// Movement
+		// Movement (GROUND нужен для клиента; фактическую неподвижность без Aghanim's Scepter даёт ROOT в Lua)
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"0"		// Speed.
-		"MovementTurnRate"			"0"		// Turning rate.
+		"MovementSpeed"				"100"
+		"MovementTurnRate"			"1.0"
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"1"		// Base health.
-		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusHealth"				"10"
+		"StatusHealthRegen"			"0"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
 
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"700"		// Range of vision during day light.
-		"VisionNighttimeRange"		"700"		// Range of vision at night time.
+		"VisionDaytimeRange"		"300"
+		"VisionNighttimeRange"		"300"
 
 		// Team
 		//----------------------------------------------------------------
-		"TeamName"					"DOTA_TEAM_NEUTRALS"							// Team name.
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
+
+	"npc_dota_omniknight_sticky_grenade"
+	{
+		"Model"						"models/heroes/sniper/concussive_grenade.vmdl"
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					""
+		"Level"						"1"
+		"ModelScale"				"2.0"
+
+		"Ability1"					""
+		"Ability2"					""
+		"Ability3"					""
+		"Ability4"					""
+
+		"ArmorPhysical"				"0"
+		"MagicalResistance"			"0"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"
+		"AttackRate"				"1.0"
+		"AttackAnimationPoint"		"0.0"
+		"AttackAcquisitionRange"	"0"
+		"AttackRange"				"0"
+		"ProjectileModel"			""
+		"ProjectileSpeed"			"0"
+
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"
+		"HealthBarOffset"			"140"
+
+		"BountyXP"					"0"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"100"
+		"MovementTurnRate"			"1.0"
+
+		"StatusHealth"				"10"
+		"StatusHealthRegen"			"0"
+		"StatusMana"				"0"
+		"StatusManaRegen"			"0"
+
+		"VisionDaytimeRange"		"300"
+		"VisionNighttimeRange"		"300"
+
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	}
     
     "npc_dota_lycan_wolf5"
     {       
@@ -726,6 +779,220 @@
         "TeamName"                  "DOTA_TEAM_NEUTRALS"
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_HERO"
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_HERO"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_barrack"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_summon_melee"
+        "Ability2"                  "chen_barrack_summon_ranged"
+        "Ability3"                  "chen_barrack_summon_siege"
+        "Ability4"                  ""
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_barrack_melee"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
+        "SoundSet"                  "n_creep_Melee"
+        "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
+        "Level"                     "1"
+        "ModelScale"                "0.95"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  ""
+        "Ability2"                  ""
+        "Ability3"                  ""
+        "Ability4"                  ""
+
+        "ArmorPhysical"             "4"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackDamageMin"           "38"
+        "AttackDamageMax"           "44"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.5"
+        "AttackAcquisitionRange"    "600"
+        "AttackRange"               "100"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
+        "HealthBarOffset"           "140"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "325"
+        "MovementTurnRate"          "0.6"
+
+        "StatusHealth"              "550"
+        "StatusHealthRegen"         "1"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "800"
+        "VisionNighttimeRange"      "800"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_barrack_ranged"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
+        "SoundSet"                  "Creep_Good_Range"
+        "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
+        "Level"                     "1"
+        "ModelScale"                "0.85"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  ""
+        "Ability2"                  ""
+        "Ability3"                  ""
+        "Ability4"                  ""
+
+        "ArmorPhysical"             "2"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackDamageMin"           "30"
+        "AttackDamageMax"           "36"
+        "AttackRate"                "1.15"
+        "AttackAnimationPoint"      "0.35"
+        "AttackAcquisitionRange"    "800"
+        "AttackRange"               "550"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "900"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
+        "HealthBarOffset"           "140"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "310"
+        "MovementTurnRate"          "0.6"
+
+        "StatusHealth"              "420"
+        "StatusHealthRegen"         "1"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "800"
+        "VisionNighttimeRange"      "800"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_barrack_siege"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
+        "SoundSet"                  "n_creep_Melee"
+        "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
+        "Level"                     "1"
+        "ModelScale"                "1.2"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  ""
+        "Ability2"                  ""
+        "Ability3"                  ""
+        "Ability4"                  ""
+
+        "ArmorPhysical"             "6"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackDamageMin"           "70"
+        "AttackDamageMax"           "84"
+        "AttackRate"                "1.6"
+        "AttackAnimationPoint"      "0.6"
+        "AttackAcquisitionRange"    "900"
+        "AttackRange"               "650"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "750"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
+        "HealthBarOffset"           "160"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "280"
+        "MovementTurnRate"          "0.4"
+
+        "StatusHealth"              "900"
+        "StatusHealthRegen"         "2"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "900"
+        "VisionNighttimeRange"      "900"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
 

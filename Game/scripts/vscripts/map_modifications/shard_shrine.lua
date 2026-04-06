@@ -256,6 +256,13 @@ local function ActivateLake()
     state.is_active = true
     state.capture_progress = 0.0
     state.capturing_team = nil
+
+    FireGameEvent("draw_game_event", {
+        color = "#a1e4ff",
+        duration = 3,
+        sound_event = "_game_events.template_sound_event",
+        text_token = "#shard_pool_active",
+    })
     
     -- Оповещаем всех о доступности (используем систему с КД)
     -- Сбрасываем КД чтобы следующий вход гарантированно сработал

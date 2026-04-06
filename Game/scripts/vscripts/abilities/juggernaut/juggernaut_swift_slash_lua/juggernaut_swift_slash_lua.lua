@@ -1,6 +1,38 @@
 juggernaut_swift_slash_lua = class({})
 LinkLuaModifier( "modifier_juggernaut_swift_slash_lua", "abilities/juggernaut/juggernaut_swift_slash_lua/modifier_juggernaut_swift_slash_lua", LUA_MODIFIER_MOTION_NONE )
 
+--- Phantom Assassin (и ваниль): активный Blur делает цель невалидной для ударов — как в доте, омни не цепляется.
+local SLASH_INVALID_BLUR_MODIFIERS = {
+	"modifier_phantom_assassin_blur_custom_active",
+	"modifier_phantom_assassin_blur_active",
+}
+
+--- Цель подходит, только если команда кастера её видит (туман/инвиз) и она не в активном Blur.
+function juggernaut_swift_slash_lua:IsSlashTargetValid(caster, unit)
+	if not unit or not unit:IsAlive() or not IsValidEntity(unit) then
+		return false
+	end
+	if not caster:CanEntityBeSeenByMyTeam(unit) then
+		return false
+	end
+	for _, mod in ipairs(SLASH_INVALID_BLUR_MODIFIERS) do
+		if unit:HasModifier(mod) then
+			return false
+		end
+	end
+	return true
+end
+
+function juggernaut_swift_slash_lua:OnUpgrade()
+	if not IsServer() then return end
+	local caster = self:GetCaster()
+	if not caster or caster:IsNull() or not caster:IsRealHero() then return end
+	local omni = caster:FindAbilityByName("juggernaut_omni_slash")
+	if omni and not omni:IsNull() then
+		omni:SyncLevelWithSwiftSlash()
+	end
+end
+
 --------------------------------------------------------------------------------
 -- Ability Start
 function juggernaut_swift_slash_lua:OnSpellStart()
@@ -45,7 +77,20 @@ end
 
 function juggernaut_swift_slash_lua:PerformSlash(caster, target, data)
 	if not target or not target:IsAlive() then return end
-	
+
+	if not self:IsSlashTargetValid(caster, target) then
+		local elapsed_time = GameRules:GetGameTime() - data.start_time
+		if elapsed_time < data.duration and caster and IsValidEntity(caster) and caster:IsAlive() then
+			Timers:CreateTimer(data.jump_delay, function()
+				if caster and IsValidEntity(caster) and caster:IsAlive() then
+					local next_target = self:FindNextTarget(caster, target, data)
+					self:PerformSlash(caster, next_target, data)
+				end
+			end)
+		end
+		return
+	end
+
 	data.current_slashes = data.current_slashes + 1
 
 	-- teleport to target and face them
@@ -108,7 +153,7 @@ function juggernaut_swift_slash_lua:FindNextTarget(caster, current_target, data)
 	local creeps = {}
 	
 	for _, enemy in pairs(enemies) do
-		if enemy:IsAlive() then
+		if enemy:IsAlive() and self:IsSlashTargetValid(caster, enemy) then
 			if enemy:IsConsideredHero() then
 				table.insert(heroes, enemy)
 			else
@@ -119,16 +164,23 @@ function juggernaut_swift_slash_lua:FindNextTarget(caster, current_target, data)
 
 	-- probability-based target selection
 	local roll = RandomFloat(0, 100)
-	local next_target = current_target -- default to current target
+	local next_target = nil
+	if self:IsSlashTargetValid(caster, current_target) then
+		next_target = current_target
+	end
 	
 	-- 60% chance to jump to a hero (if heroes available)
 	if roll <= 60 and #heroes > 0 then
 		next_target = heroes[RandomInt(1, #heroes)]
-	-- 10% chance to jump to a creep (if creeps available and no hero selected)
 	elseif roll <= 70 and #creeps > 0 then
 		next_target = creeps[RandomInt(1, #creeps)]
+	elseif roll > 70 and not next_target then
+		if #heroes > 0 then
+			next_target = heroes[RandomInt(1, #heroes)]
+		elseif #creeps > 0 then
+			next_target = creeps[RandomInt(1, #creeps)]
+		end
 	end
-	-- otherwise stay on current target (30% chance + fallback)
-	
+
 	return next_target
 end 

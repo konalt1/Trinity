@@ -143,6 +143,12 @@ modifier_item_mage_slayer_debuff = class({
     RemoveOnDeath = function(self) return true end,
 })
 
+function modifier_item_mage_slayer_debuff:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_TOOLTIP
+    }
+end
+
 function modifier_item_mage_slayer_debuff:GetTexture()
     return "item_mage_slayer"
 end
@@ -151,9 +157,10 @@ function modifier_item_mage_slayer_debuff:OnCreated()
     local ability = self:GetAbility()
     self.mind_power_debuff = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_debuff") or 40
     local msg = "[Mage Slayer Debuff] OnCreated: " .. self:GetParent():GetUnitName() .. " MP-" .. (self.mind_power_debuff or 0)
-    print(msg)
     if MAGE_SLAYER_DEBUG_SCREEN and IsServer() and ShowMessage then ShowMessage(msg) end
     if not IsServer() then return end
+    local dps = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("dps") or 0
+    self:SetStackCount(math.max(0, math.floor(dps)))
     self:StartIntervalThink(1.0)
 end
 
@@ -161,9 +168,10 @@ function modifier_item_mage_slayer_debuff:OnRefresh()
     local ability = self:GetAbility()
     self.mind_power_debuff = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_debuff") or 40
     local msg = "[Mage Slayer Debuff] OnRefresh: " .. self:GetParent():GetUnitName() .. " MP-" .. (self.mind_power_debuff or 0)
-    print(msg)
     if MAGE_SLAYER_DEBUG_SCREEN and IsServer() and ShowMessage then ShowMessage(msg) end
     if not IsServer() then return end
+    local dps = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("dps") or 0
+    self:SetStackCount(math.max(0, math.floor(dps)))
     self:StartIntervalThink(1.0)
 end
 
@@ -181,7 +189,7 @@ function modifier_item_mage_slayer_debuff:OnIntervalThink()
     if not parent or parent:IsNull() then return end
 
     local ability = self:GetAbility()
-    local dps = ability and ability:GetSpecialValueFor("dps") or 0
+    local dps = self:GetStackCount()
 
     if dps > 0 then
         print("[Mage Slayer Buff] OnIntervalThink: DPS " .. dps .. " to " .. parent:GetUnitName())
@@ -210,11 +218,14 @@ if Timers then
         local gm = GameRules and GameRules:GetGameModeEntity()
         if gm and gm.SetDamageFilter then
             gm:SetDamageFilter(MageSlayer_DamageFilter, nil)
-            print("[Mage Slayer] DamageFilter registered")
             if MAGE_SLAYER_DEBUG_SCREEN and ShowMessage then ShowMessage("[Mage Slayer] DamageFilter OK") end
         else
             print("[Mage Slayer] ERROR: SetDamageFilter not available")
         end
         return nil
     end)
+end
+
+function modifier_item_mage_slayer_debuff:OnTooltip()
+    return self:GetStackCount()
 end

@@ -67,13 +67,29 @@
 		volume = 15.0
 	}
 
+	techies.fireworks.fuse =
+	{
+		type = "dota_src1_3d"
+		volume = 80
+		pitch = 1
+		vsnd_files = "sounds/techies/fuse.vsnd"
+		vsnd_duration = 10.0
+		volume_fade_out = 0.2
+	}
+
+	techies.fireworks.shot =
+	{
+		type = "dota_src1_3d"
+		volume = 20
+		pitch = 1
+		vsnd_files = "sounds/techies/fireworks_shot.vsnd"
+	}
+
 	_game_events.template_sound_event =
 	{
 		type = "dota_src1_3d"
 		volume = 1
 		pitch = 1
-		vsnd_files = [
-			"sounds\Holy_ambient.mp3",
-		]
+		vsnd_files = "sounds/holy_ambient.vsnd"
 	}
 }
