@@ -11,12 +11,14 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "FightRecapLevel"               "1"
-        "HasScepterUpgrade"             "0"
+        "HasScepterUpgrade"             "1"
+        "HasShardUpgrade"               "0"
+        "IsGrantedByScepter"            "0"
 
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
@@ -35,7 +37,7 @@
             "heal_amount"               "200 300 400 500"
             "cast_range"                "300"
             "aghanim_hp_threshold"      "666"
-            "hero_soul_multiplier"      "3"
+            "aghanim_hero_mind_power_bonus" "10"
         }
 
         "precache"
@@ -519,8 +521,51 @@
 
     "ability_sinister_gaze"
     {
-        "BaseClass"                     "ability_datadriven"
-        "HasScepterUpgrade"               "0"
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lich/ability_sinister_gaze"
+        "AbilityTextureName"            "lich_sinister_gaze"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "IsGrantedByScepter"            "1"
+        "HasScepterUpgrade"             "0"
+
+        "AbilityCastRange"              "700"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityChannelTime"            "2.4"
+        "AbilityDuration"               "2.4"
+
+        "AbilityCooldown"               "25"
+        "AbilityManaCost"               "150"
+
+        "AbilitySound"                  "Hero_Lich.SinisterGaze.Cast"
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+            "particle"      "particles/units/heroes/hero_lich/lich_sinister_gaze.vpcf"
+            "particle"      "particles/units/heroes/hero_lich/lich_dark_ritual.vpcf"
+            "particle"      "particles/status_fx/status_effect_frost_lich.vpcf"
+        }
+
+        "AbilityValues"
+        {
+            "gaze_duration"             "2.4"
+            "pull_speed"                "350"
+            "pull_distance"             "200"
+            "illusion_duration"         "20"
+            "illusion_incoming_damage"  "150"
+            "illusion_outgoing_damage"  "100"
+        }
     }
 
 "lich_spark_wraith"
@@ -1089,6 +1134,10 @@
 			{
 				"value"					"4 5 6 7"
 			}
+			"magic_damage_reduction"
+			{
+				"value"					"60"
+			}
 			"heal_amount"
 			{
 				"value"					"80 120 160 200"
@@ -1536,17 +1585,18 @@
         }
     }
 //Techies
-    "techies_sticky_bomb"
+    "omniknight_holy_grenade"
     {
         // General
         //-------------------------------------------------------------------------------------------------------------
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/techies/techies_sticky_bomb"
+        "ScriptFile"                    "abilities/omniknight/omniknight_holy_grenade"
+        "AbilityTextureName"            "Holy_grenade"
         "IsGrantedByScepter"            "1"
         "HasScepterUpgrade"             "0"
         "MaxLevel"                      "1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
         "FightRecapLevel"               "1"
@@ -1559,11 +1609,11 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "16 13 10 7"
+        "AbilityCooldown"               "20"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "100 115 130 145"
+        "AbilityManaCost"               "100"
 
         // Stats
         //-------------------------------------------------------------------------------------------------------------
@@ -1578,22 +1628,32 @@
                 "radius"                "300"
                 "damage"                
                 {
-                    "value" "80 160 240 320"
+                    "value" "500"
                 }
-                "slow"                  "25 35 45 55"
-                "secondary_slow"        "15 25 35 45"
-                "secondary_slow_duration"       "3"
-                "explosion_radius"      "350"
+                "slow"                  "0"
+                "secondary_slow"        "0"
+                "secondary_slow_duration"       "0"
+                "explosion_radius"      "400"
+                "explosion_particle_radius_scale"
+                {
+                    "value"             "1"
+                }
+                "mind_power_multiplier"
+                {
+                    "value"             "3.0"
+                }
                 "speed"                 "500.0"
                 "acceleration"          "2000"
                 "pre_chase_time"        "0.1"
                 "max_chase_time"        "4"
-                "bonus_damage_creep_pct"       "200"
         }
 
         "precache"
         {
             "model"     "models/heroes/sniper/concussive_grenade.vmdl"
+            "soundfile" "soundevents/trinity_sounds.vsndevts"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+            "particle"  "particles/events/crownfall/artillery/artillery_explosion_flash.vpcf"
         }
     }
  

@@ -85,6 +85,22 @@
 		vsnd_files = "sounds/techies/fireworks_shot.vsnd"
 	}
 
+	Doom.SoulDevour.FailHP =
+	{
+		type = "dota_src1_3d"
+		volume = 400.0
+		vsnd_files = "sounds/doom_soul_devour_fail_hp.vsnd"
+	}
+
+	Omniknight.StickyGrenade.Land =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/holy_grenade.vsnd"
+		volume = 40.0
+		vsnd_distance_min = 50.0
+		vsnd_distance_max = 8000.0
+	}
+
 	_game_events.template_sound_event =
 	{
 		type = "dota_src1_3d"

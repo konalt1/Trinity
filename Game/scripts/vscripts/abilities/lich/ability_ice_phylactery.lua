@@ -91,15 +91,16 @@ function modifier_ability_ice_phylactery:OnCreated()
     
     local radius = ability:GetCurrentAuraRadius()
 
-    -- Инициализируем систему HP и пипсов
-    self.Pips = ability:GetSpecialValueFor("max_hero_attacks")
-    self.AttacksToDestroy = ability:GetSpecialValueFor("max_creep_attacks")
+    -- Шпиль должен умирать за фиксированное число любых атак.
+    self.AttacksToDestroy = ability:GetSpecialValueFor("attacks_to_destroy")
+    self.Pips = self.AttacksToDestroy
     
     if IsServer() then 
+        parent:SetBaseMaxHealth(self.AttacksToDestroy)
         parent:SetMaxHealth(self.AttacksToDestroy)
         parent:SetHealth(self.AttacksToDestroy)
         
-        self.think_interval = 1 / 24
+        self.think_interval = 1 / 60
         
         -- Проверяем наличие Aghanim's Shard для движения шпиля
         if caster and not caster:IsNull() and caster:HasModifier("modifier_item_aghanims_shard") then
@@ -113,12 +114,19 @@ function modifier_ability_ice_phylactery:OnCreated()
         self:StartIntervalThink(self.think_interval)
     end
     
-    self.HeroesAttacksMult = 2
-    self.HealthPerPips = self.AttacksToDestroy / self.AttacksToDestroy
     self.aura_radius = radius
 
     -- Создаём партикл шпиля
-    self.effect_cast = ParticleManager:CreateParticle("particles/items_fx/aura_shivas.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
+    self.effect_cast = ParticleManager:CreateParticle("particles/aura_shivas.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
+    self:UpdateAuraParticleRadius()
+end
+
+function modifier_ability_ice_phylactery:UpdateAuraParticleRadius()
+    if not self.effect_cast then return end
+
+    local radius = self:GetAuraRadius()
+    self.aura_radius = radius
+
     ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(radius, 0, 0))
 end
 
@@ -130,8 +138,7 @@ function modifier_ability_ice_phylactery:OnIntervalThink()
     
     local current_radius = self:GetAuraRadius()
     if current_radius ~= self.aura_radius then
-        self.aura_radius = current_radius
-        ParticleManager:SetParticleControl(self.effect_cast, 1, Vector(current_radius, 0, 0))
+        self:UpdateAuraParticleRadius()
     end
     
     -- Движение шпиля за Личём (только с Aghanim's Shard)
@@ -222,9 +229,7 @@ function modifier_ability_ice_phylactery:OnAttacked(keys)
     if not target or not attacker or not parent or parent:IsNull() then return end
     if target ~= parent then return end
     
-    -- Рассчитываем урон: герои х2, крипы х1
-    local damage = self.HealthPerPips * (attacker:IsRealHero() and self.HeroesAttacksMult or 1)
-    local HealthsDiff = math.floor(parent:GetHealth() - damage)
+    local HealthsDiff = parent:GetHealth() - 1
     
     -- Эффект попадания
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_crystalmaiden/maiden_ice_hit.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)

@@ -3,6 +3,12 @@ LinkLuaModifier("modifier_ability_chain_bomb_mine_immobile", "abilities/techies/
 
 ability_chain_bomb = ability_chain_bomb or class({})
 
+local CHAIN_BOMB_MODEL = "models/heroes/techies/fx_techies_remotebomb.vmdl"
+
+function ability_chain_bomb:Precache(context)
+    PrecacheResource("model", CHAIN_BOMB_MODEL, context)
+end
+
 function ability_chain_bomb:OnSpellStart()
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
@@ -65,8 +71,8 @@ function ability_chain_bomb:SetupMine(mine)
     mine:SetBaseMaxHealth(10)
     mine:SetMaxHealth(10)
     mine:SetHealth(10)
-    mine:SetModel("models/heroes/techies/fx_techies_remotebomb.vmdl")
-    mine:SetOriginalModel("models/heroes/techies/fx_techies_remotebomb.vmdl")
+    mine:SetModel(CHAIN_BOMB_MODEL)
+    mine:SetOriginalModel(CHAIN_BOMB_MODEL)
     mine:SetModelScale(0.75)
     mine:SetRenderColor(80, 255, 80)
     mine.chain_bomb_owner_entindex = caster:entindex()

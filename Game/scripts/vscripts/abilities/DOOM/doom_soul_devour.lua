@@ -1,44 +1,81 @@
 -- Doom Soul Devour Ability
--- Позволяет Doom поглощать души крипов и героев для увеличения Mind Power
+-- Позволяет Doom поглощать души крипов, а со скипетром добивать героев.
 
 doom_soul_devour = class({})
 LinkLuaModifier("modifier_doom_soul_devour", "abilities/DOOM/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_mind_power_local_buff", "abilities/DOOM/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_mind_power_local_buff", "abilities/mind_power_local_buff", LUA_MODIFIER_MOTION_NONE)
+
+local DEVOUR_FAIL_SOUND = "General.CastFail_InvalidTarget_Hero"
+local DEVOUR_FAIL_HP_SOUND = "Doom.SoulDevour.FailHP"
 
 --------------------------------------------------------------------------------
 -- Ability Start
 function doom_soul_devour:OnSpellStart()
+    if not IsServer() then
+        return
+    end
+
     local caster = self:GetCaster()
     local target = self:GetCursorTarget()
-    
+
     if not target then
-        print("Doom Soul Devour: No target selected")
         return
     end
-    
-    -- Проверяем, что цель валидна
+
     if not self:IsValidTarget(target) then
-        print("Doom Soul Devour: Invalid target")
         return
     end
-    
-    -- Получаем параметры способности
-    local soul_power = self:GetSpecialValueFor("soul_power") or 1
-    local heal_amount = self:GetSpecialValueFor("heal_amount") or 0
-    local hero_soul_multiplier = self:GetSpecialValueFor("hero_soul_multiplier") or 3
-    
-    print("Doom Soul Devour: soul_power = " .. soul_power .. ", heal_amount = " .. heal_amount .. ", hero_soul_multiplier = " .. hero_soul_multiplier)
-    
-    -- Обрабатываем убийство героя (с Aghanim's Scepter)
-    if target:IsRealHero() and self:GetCaster():HasScepter() then
-        self:ProcessHeroKill(caster, target, soul_power, hero_soul_multiplier)
-    else
-        -- Обрабатываем убийство крипа
-        self:ProcessCreepKill(caster, target, soul_power, heal_amount)
+
+    if target:IsHero() and target:TriggerSpellAbsorb(self) then
+        return
     end
-    
-    -- Воспроизводим эффекты
+
+    if target:IsHero() then
+        self:ProcessHeroTarget(caster, target)
+        return
+    end
+
+    self:ProcessCreepKill(
+        caster,
+        target,
+        self:GetSpecialValueFor("soul_power") or 1,
+        self:GetSpecialValueFor("heal_amount") or 0
+    )
     self:PlayEffects(target)
+end
+
+--------------------------------------------------------------------------------
+function doom_soul_devour:CastFilterResultTarget(target)
+    local caster = self:GetCaster()
+    local result = UnitFilter(
+        target,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS,
+        caster:GetTeamNumber()
+    )
+
+    if result ~= UF_SUCCESS then
+        return result
+    end
+
+    if target:IsHero() and not caster:HasScepter() then
+        return UF_FAIL_CUSTOM
+    end
+
+    if not target:IsHero() and not target:IsCreep() then
+        return UF_FAIL_CUSTOM
+    end
+
+    return UF_SUCCESS
+end
+
+function doom_soul_devour:GetCustomCastErrorTarget(target)
+    if target and target:IsHero() and not self:GetCaster():HasScepter() then
+        return "#dota_hud_error_doom_devour_scepter_required"
+    end
+
+    return ""
 end
 
 --------------------------------------------------------------------------------
@@ -59,7 +96,7 @@ function doom_soul_devour:IsValidTarget(target)
     end
     
     -- Проверяем, что это крип или герой (с Aghanim's Scepter)
-    if target:IsRealHero() then
+    if target:IsHero() then
         return self:GetCaster():HasScepter()
     else
         return target:IsCreep()
@@ -67,34 +104,38 @@ function doom_soul_devour:IsValidTarget(target)
 end
 
 --------------------------------------------------------------------------------
--- Обработка убийства героя
-function doom_soul_devour:ProcessHeroKill(caster, target, soul_power, hero_soul_multiplier)
-    print("Doom Soul Devour: Processing hero kill with Aghanim")
-    
-    -- Убиваем героя
+-- Обработка применения на героя
+function doom_soul_devour:ProcessHeroTarget(caster, target)
+    local hp_threshold = self:GetSpecialValueFor("aghanim_hp_threshold") or 666
+    local hero_mind_power_bonus = self:GetSpecialValueFor("aghanim_hero_mind_power_bonus") or 10
+
+    if target:GetHealth() > hp_threshold then
+        self:PlayFailEffects(caster, DEVOUR_FAIL_HP_SOUND)
+        return
+    end
+
+    if target:IsMagicImmune() or target:IsIllusion() or not target:IsRealHero() then
+        self:PlayFailEffects(caster)
+        return
+    end
+
     target:Kill(self, caster)
-    
-    -- Воспроизводим эффекты
-    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
-    ParticleManager:ReleaseParticleIndex(particle)
-    
-    caster:EmitSound("Hero_DoomBringer.Doom")
-    Timers:CreateTimer(0.1, function()
-        caster:StopSound("Hero_DoomBringer.Doom")
-    end)
-    
-    -- Увеличиваем Mind Power
-    self:IncreaseMindPower(caster, soul_power * hero_soul_multiplier) -- Герои дают больше души
+
+    if target:IsAlive() then
+        self:PlayFailEffects(caster)
+        return
+    end
+
+    self:IncreaseMindPower(caster, hero_mind_power_bonus)
+    self:PlayHeroKillEffects(caster, target)
 end
 
 --------------------------------------------------------------------------------
 -- Обработка убийства крипа
 function doom_soul_devour:ProcessCreepKill(caster, target, soul_power, heal_amount)
-    print("Doom Soul Devour: Processing creep kill")
-    
     -- Убиваем крипа
     target:Kill(self, caster)
-    
+
     -- Лечим кастера
     if heal_amount > 0 then
         caster:Heal(heal_amount, self)
@@ -102,37 +143,23 @@ function doom_soul_devour:ProcessCreepKill(caster, target, soul_power, heal_amou
     
     -- Увеличиваем Mind Power
     self:IncreaseMindPower(caster, soul_power)
-    
-    print("Doom Soul Devour: Creep killed successfully")
 end
 
 --------------------------------------------------------------------------------
 -- Увеличение Mind Power
 function doom_soul_devour:IncreaseMindPower(caster, soul_power)
-    print("Doom Soul Devour: Attempting to increase Mind Power by " .. soul_power)
-    
     local mind_power_buff = caster:FindModifierByName("modifier_mind_power_local_buff")
-    
+
     if mind_power_buff then
-        -- Если модификатор уже есть, увеличиваем его
-        local current_bonus = mind_power_buff:GetStackCount()
-        local new_bonus = current_bonus + soul_power
-        mind_power_buff:SetStackCount(new_bonus)
-        print("Doom Soul Devour: Mind power buff increased from " .. current_bonus .. " to " .. new_bonus)
-    else
-        -- Создаем новый постоянный модификатор
-        print("Doom Soul Devour: Creating new permanent mind power buff with +" .. soul_power)
-        print("Doom Soul Devour: Caster = " .. caster:GetUnitName())
-        print("Doom Soul Devour: Ability = " .. self:GetAbilityName())
-        
-        local new_buff = caster:AddNewModifier(caster, self, "modifier_mind_power_local_buff", {duration = -1, soul_power = soul_power})
-        if new_buff then
-            new_buff:SetStackCount(soul_power)
-            print("Doom Soul Devour: Created permanent mind power buff with +" .. soul_power)
-        else
-            print("Doom Soul Devour: Failed to create mind power buff")
-            print("Doom Soul Devour: Check if modifier is properly registered")
-        end
+        mind_power_buff:SetStackCount(mind_power_buff:GetStackCount() + soul_power)
+        mind_power_buff:ForceRefresh()
+        return
+    end
+
+    local new_buff = caster:AddNewModifier(caster, self, "modifier_mind_power_local_buff", {})
+    if new_buff then
+        new_buff:SetStackCount(soul_power)
+        new_buff:ForceRefresh()
     end
 end
 
@@ -175,6 +202,30 @@ function doom_soul_devour:PlayEffects(target)
     -- Воспроизводим звуки
     EmitSoundOn(sound_cast, self:GetCaster())
     EmitSoundOn(sound_target, target)
+end
+
+function doom_soul_devour:PlayHeroKillEffects(caster, target)
+    self:PlayEffects(target)
+
+    local particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf",
+        PATTACH_ABSORIGIN_FOLLOW,
+        target
+    )
+    ParticleManager:ReleaseParticleIndex(particle)
+
+    EmitSoundOn("Hero_DoomBringer.Doom", caster)
+end
+
+function doom_soul_devour:PlayFailEffects(caster, sound_name)
+    local fail_sound = sound_name or DEVOUR_FAIL_SOUND
+    local player = caster:GetPlayerOwner()
+    if player then
+        EmitSoundOnClient(fail_sound, player)
+        return
+    end
+
+    EmitSoundOn(fail_sound, caster)
 end
 
 --------------------------------------------------------------------------------
@@ -227,74 +278,3 @@ end
 function modifier_doom_soul_devour:GetModifierConstantHealthRegen()
     return self.heal_amount or 0
 end
-
---------------------------------------------------------------------------------
--- Mind Power Local Buff Modifier
-modifier_mind_power_local_buff = class({})
-
-function modifier_mind_power_local_buff:IsHidden()
-    return false
-end
-
-function modifier_mind_power_local_buff:IsDebuff()
-    return false
-end
-
-function modifier_mind_power_local_buff:IsPurgable()
-    return false
-end
-
-function modifier_mind_power_local_buff:GetAttributes()
-    return MODIFIER_ATTRIBUTE_MULTIPLE
-end
-
-function modifier_mind_power_local_buff:RemoveOnDeath()
-    return false
-end
-
-function modifier_mind_power_local_buff:IsPermanent()
-    return true
-end
-
-function modifier_mind_power_local_buff:OnCreated(kv)
-    print("Mind Power Local Buff: OnCreated called")
-    if not IsServer() then 
-        print("Mind Power Local Buff: Not server, returning")
-        return 
-    end
-    
-    -- Получаем начальное значение из параметров или из стека
-    self.mind_power_bonus = kv.soul_power or self:GetStackCount()
-    print("Mind Power Local Buff: Created with +" .. self.mind_power_bonus .. " for " .. self:GetParent():GetUnitName())
-end
-
-function modifier_mind_power_local_buff:OnRefresh()
-    if not IsServer() then return end
-    
-    self.mind_power_bonus = self:GetStackCount()
-    print("Mind Power Local Buff: Updated to +" .. self.mind_power_bonus .. " for " .. self:GetParent():GetUnitName())
-end
-
-function modifier_mind_power_local_buff:GetModifierMindPowerBonus()
-    return self:GetStackCount()
-end
-
-function modifier_mind_power_local_buff:GetTexture()
-    return "doom_bringer_devour"
-end
-
-function modifier_mind_power_local_buff:GetEffectName()
-    return "particles/units/heroes/hero_doom_bringer/doom_bringer_devour.vpcf"
-end
-
-function modifier_mind_power_local_buff:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_mind_power_local_buff:GetModifierDisplayName()
-    return "Soul Power"
-end
-
-function modifier_mind_power_local_buff:GetModifierDescription()
-    return "Increases Mind Power by " .. self:GetStackCount() .. " through devoured souls."
-end 

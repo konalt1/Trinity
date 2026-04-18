@@ -35,10 +35,10 @@
 		//Doom
 		// Doom Soul Devour
 		"DOTA_Tooltip_ability_doom_soul_devour"						"Поглощение Души"
-		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom поглощает выбранного крипа, излечивая себя и получая постоянный бонус к Силе Магии"
+		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom поглощает выбранного врага. Крипы исцеляют его и дают постоянную Силу Магии. Со скипетром Aghanim's Scepter способность можно применять на героев."
 		"DOTA_Tooltip_ability_doom_soul_devour_soul_power"				"СИЛА МАГИИ ЗА КРИПА:"
 		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount"				"ИСЦЕЛЕНИЕ:"
-		"DOTA_Tooltip_ability_doom_soul_devour_hero_soul_multiplier"		"МНОЖИТЕЛЬ ДЛЯ ГЕРОЯ:"
+		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hero_mind_power_bonus"		"СИЛА МАГИИ ЗА ГЕРОЯ:"
 
 		// Doom Scorched Earth
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua"								"Выжженная Земля"
@@ -88,7 +88,7 @@
 
 		// Ogre Berserker Rage (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"							"Ярость берсерка"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Даруется Aghanim's Scepter. Каждые 10 попаданий по врагам заряжают следующую атаку: на цель накладывается случайный эффект из набора чужих способностей."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Даруется Aghanim's Scepter. Каждые 10 попаданий по врагам: случайный эффект из набора чужих способностей сразу применяется к цели этой атаки; если способность действует только по союзникам — к вам."
 
 		//Omniknight
 		// Custom Purification
@@ -98,21 +98,32 @@
 		"DOTA_Tooltip_ability_custom_purification_radius"					"РАДИУС УРОНА:"
 		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_custom_purification_shard_bonus_radius"		"БОНУС К РАДИУСУ:"
-		"DOTA_Tooltip_ability_custom_purification_shard_description"		"Увеличивает радиус Очищения. Способность также исцеляет всех союзных юнитов в радиусе действия."
+		"DOTA_Tooltip_ability_custom_purification_shard_description"		"Увеличивает радиус Очищения. Способность исцеляет всех союзных юнитов в радиусе действия."
 
 		// Omniknight Repel
 		"DOTA_Tooltip_ability_omniknight_repel_lua"							"Отпор"
-		"DOTA_Tooltip_ability_omniknight_repel_lua_Description"				"Омникнайт дарует союзнику иммунитет к магии и мгновенно исцеляет его. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Description"				"Омникнайт дарует союзнику эффект, дающий ему невосприимчивость к эффектам, уменьшающий получаемый магический урон на 60%, и мгновенно исцеляет его. Исцеление усиливается Силой Магии."
 		"DOTA_Tooltip_ability_omniknight_repel_lua_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_omniknight_repel_lua_magic_damage_reduction"	"СНИЖЕНИЕ МАГИЧЕСКОГО УРОНА:"
 		"DOTA_Tooltip_ability_omniknight_repel_lua_heal_amount"				"БАЗОВОЕ ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_omniknight_repel_lua_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_omniknight_repel_lua"							"Отпор"
+		"DOTA_Tooltip_modifier_omniknight_repel_lua_Description"				"Защищает от большинства негативных эффектов и уменьшает получаемый магический урон."
 
 		// Omniknight Innate (Passive)
 		"DOTA_Tooltip_ability_omniknight_innate_oaa"						"Молот Чистоты"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"			"Пассивная способность. Когда Омникнайт исцеляет союзников, он накапливает бонусный урон. Стаки урона исчезают через некоторое время."
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"		"%УРОН ЗА ИСЦЕЛЕНИЕ:"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"ДЛИТЕЛЬНОСТЬ СТАКОВ:"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_max_bonus_damage"	"МАКС. БОНУСНЫЙ УРОН:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"			"Атаки Омнинайта усиливаются за каждую единицу ХП, излеченную союзникам.
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"		"УРОН ЗА ИСЦЕЛЕНИЕ:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"ДЛИТЕЛЬНОСТЬ БОНУСА:"
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_max_bonus_damage"	"МАКСИМАЛЬНЫЙ БОНУСНЫЙ УРОН:"
+
+		// Omniknight Holy Grenade (Aghanim's Scepter)
+		"DOTA_Tooltip_ability_omniknight_holy_grenade"						"Святая граната"
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_Description"			"Омнинайт бросает святую гранату в указанную область. После короткой задержки она взрывается, исцеляя союзников и нанося чистый урон врагам. Урон и исцелени усиливается Силой Магии."
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_damage"				"БАЗОВЫЙ ЭФФЕКТ:"
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_countdown"			"ЗАДЕРЖКА ДО ВЗРЫВА:"
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_explosion_radius"	"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 
 		// Holy Ground
 		"DOTA_Tooltip_ability_holy_ground"									"Святая Земля"
@@ -228,6 +239,17 @@
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration"					"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_slow_movespeed"				"%ЗАМЕДЛЕНИЕ:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_mind_power_damage_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
+		// Sinister Gaze (Aghanim's Scepter)
+		"DOTA_Tooltip_ability_ability_sinister_gaze"								"Зловещий Взор"
+		"DOTA_Tooltip_ability_ability_sinister_gaze_Description"					" Лич приковывает взгляд к вражескому герою и тянет его к себе Если цель погибает во время действия эффекта, Лич получает её контроль над её телом."
+		"DOTA_Tooltip_ability_ability_sinister_gaze_gaze_duration"				"ДЛИТЕЛЬНОСТЬ ВЗОРА:"
+		"DOTA_Tooltip_ability_ability_sinister_gaze_pull_speed"					"СКОРОСТЬ ПРИТЯЖЕНИЯ:"
+		"DOTA_Tooltip_ability_ability_sinister_gaze_illusion_duration"			"ДЛИТЕЛЬНОСТЬ ИЛЛЮЗИИ:"
+		"DOTA_Tooltip_ability_ability_sinister_gaze_illusion_incoming_damage"		"%ВХОДЯЩИЙ УРОН ИЛЛЮЗИИ:"
+		"DOTA_Tooltip_ability_ability_sinister_gaze_illusion_outgoing_damage"		"%ИСХОДЯЩИЙ УРОН ИЛЛЮЗИИ:"
+		"DOTA_Tooltip_modifier_ability_sinister_gaze_illusion"					"Похищенный Образ"
+		"DOTA_Tooltip_modifier_ability_sinister_gaze_illusion_Description"		"Сильная иллюзия, созданная Зловещим Взором."
 
 		// Spark Wraith
 		"DOTA_Tooltip_ability_lich_spark_wraith"								"Неупокоенная Душа"
@@ -404,10 +426,11 @@
 		// Aghanim's Shard Descriptions
 		// =============================================
 
-		// Doom - Shard upgrade for Soul Devour
-		"DOTA_Tooltip_ability_doom_soul_devour_shard_description"			"Позволяет использовать Поглощение Души на вражеских героях с здоровьем ниже 666. Поглощение героя даёт утроенную Силу Магии и мгновенно убивает цель."
+		// Doom - Scepter upgrade for Soul Devour
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description"			"Позволяет использовать Поглощение Души на вражеских героях. Если у цели 666 здоровья или меньше, она мгновенно погибает и Doom получает постоянные 10 Mind Power. На иллюзиях эффект не срабатывает."
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold"		"ПОРОГ ЗДОРОВЬЯ ГЕРОЯ:"
-		"DOTA_Tooltip_ability_doom_soul_devour_hero_soul_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ ОТ ГЕРОЯ:"
+
+		"dota_hud_error_doom_devour_scepter_required"					"Требуется Aghanim's Scepter"
 
 		// Tinker - Shard upgrade for Rearm Custom
 		"DOTA_Tooltip_ability_tinker_rearm_custom_shard_description"		"Во время действия Перезарядки Тинкер получает магический щит, поглощающий входящий магический урон. Сила щита зависит от текущей маны Тинкера."

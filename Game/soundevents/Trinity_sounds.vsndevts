@@ -1,0 +1,104 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	Holy_Ground.Cast = 
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/deus_vult.vsnd"
+		volume = 1.0
+	}
+	
+	Holy_Ground.Bell =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/bell.vsnd"
+		volume = 1.0
+	}
+	
+	Holy_Ground.Ambient =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/holy_ambient.vsnd"
+		volume = 10
+		vsnd_duration = 0.0
+	}
+	Assassins_sense.ambient =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/assassin_sense.vsnd"
+		volume = 15.0
+		vsnd_duration = 30.0
+		volume_fade_out = 0.3
+	}
+	
+	Jugger_mom.sound =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/jugger_mom.vsnd"
+		volume = 4.0
+		vsnd_distance_max = 1000.0
+		vsnd_distance_min = 500.0
+	}
+	
+	Ogre_fart.sound =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/ogre_fart.vsnd"
+		volume = 1.0
+	}
+	
+	Ogre_roar.sound =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/ogre's_roar.vsnd"
+		volume = 15.0
+	}
+
+	Wheel.tuntunsahur =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/tuntunsahur.vsnd"
+		volume = 15.0
+	}	
+
+	Wheel.pudge =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/pudge.vsnd"
+		volume = 15.0
+	}
+
+	techies.fireworks.fuse =
+	{
+		type = "dota_src1_3d"
+		volume = 80
+		pitch = 1
+		vsnd_files = "sounds/techies/fuse.vsnd"
+		vsnd_duration = 10.0
+		volume_fade_out = 0.2
+	}
+
+	techies.fireworks.shot =
+	{
+		type = "dota_src1_3d"
+		volume = 20
+		pitch = 1
+		vsnd_files = "sounds/techies/fireworks_shot.vsnd"
+	}
+
+	Omniknight.StickyGrenade.Land =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/holy_grenade.vsnd"
+		volume = 40.0
+		vsnd_distance_min = 50.0
+		vsnd_distance_max = 8000.0
+	}
+
+	_game_events.template_sound_event =
+	{
+		type = "dota_src1_3d"
+		volume = 1
+		pitch = 1
+		vsnd_files = "sounds/holy_ambient.vsnd"
+	}
+}

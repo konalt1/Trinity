@@ -17,6 +17,8 @@ end
 --------------------------------------------------------------------------------
 -- Initializations
 function modifier_omniknight_repel_lua:OnCreated( kv )
+	self.magic_damage_reduction = self:GetAbility():GetSpecialValueFor("magic_damage_reduction")
+
 	if IsServer() then
 		-- Play Effects
 		self.sound_cast = "Hero_Omniknight.Repel"
@@ -25,7 +27,7 @@ function modifier_omniknight_repel_lua:OnCreated( kv )
 end
 
 function modifier_omniknight_repel_lua:OnRefresh( kv )
-	
+	self.magic_damage_reduction = self:GetAbility():GetSpecialValueFor("magic_damage_reduction")
 end
 
 function modifier_omniknight_repel_lua:OnDestroy( kv )
@@ -38,25 +40,15 @@ end
 -- Modifier Effects
 function modifier_omniknight_repel_lua:DeclareFunctions()
 	local funcs = {
-		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
 	}
 
 	return funcs
 end
 
-function modifier_omniknight_repel_lua:GetAbsoluteNoDamageMagical()
-	return 1
+function modifier_omniknight_repel_lua:GetModifierMagicalResistanceBonus()
+	return self.magic_damage_reduction or 0
 end
---------------------------------------------------------------------------------
--- Status Effects
-function modifier_omniknight_repel_lua:CheckState()
-	local state = {
-	[MODIFIER_STATE_MAGIC_IMMUNE] = true,
-	}
-
-	return state
-end
-
 --------------------------------------------------------------------------------
 -- Graphics & Animations
 function modifier_omniknight_repel_lua:GetEffectName()

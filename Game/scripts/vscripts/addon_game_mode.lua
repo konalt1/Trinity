@@ -20,6 +20,7 @@ require ("items/item_mage_slayer")
 
 -- Загружаем способности Лича
 require ("lich/frost_shield/lich_frost_shield_lua")
+require ("abilities/lich/ability_sinister_gaze")
 
 require ("abilities/ogre_magi/ogre_magi_reroll")
 require ("abilities/ogre_magi/ogre_magi_berserker_rage")

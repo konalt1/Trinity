@@ -85,7 +85,7 @@
 		"Ability2"				                        "lich_frost_shield_lua"
 		"Ability3"				                        "lich_spark_wraith"
         "Ability4"                                      "generic_hidden"
-        "Ability5"                                      "generic_hidden"
+        "Ability5"                                      "ability_sinister_gaze"   // Aghanim's Scepter
 		"Ability6"				                        "ability_ice_phylactery"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
@@ -173,7 +173,7 @@
 		"Ability2"                                      "omniknight_repel_lua"
         "Ability3"				                        "omniknight_innate_oaa"
 		"Ability4"				                        "generic_hidden"
-        "Ability5"                                      "techies_sticky_bomb"
+        "Ability5"                                      "omniknight_holy_grenade"
 		"Ability6"			                            "holy_ground"
 		
         "Ability10"										"special_bonus_unique_custom_omniknight_1"

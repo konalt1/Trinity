@@ -8,6 +8,7 @@ LinkLuaModifier('modifier_ogre_magi_berserker_rage_magic_resist', 'abilities/ogr
 LinkLuaModifier('modifier_ogre_magi_berserker_rage_lifesteal', 'abilities/ogre_magi/ogre_magi_berserker_rage', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_ogre_magi_berserker_rage_cooldown', 'abilities/ogre_magi/ogre_magi_berserker_rage', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_ogre_magi_berserker_rage_armor', 'abilities/ogre_magi/ogre_magi_berserker_rage', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_ogre_berserker_rage_borrowed_cast', 'abilities/ogre_magi/ogre_magi_berserker_rage', LUA_MODIFIER_MOTION_NONE)
 
 ogre_magi_berserker_rage = class({})
 
@@ -96,12 +97,12 @@ function ogre_magi_berserker_rage:GetRandomBuff()
 		{
 			name = "Double Edge",
 			ability = "centaur_double_edge",
-			duration = 0
+			duration = 1
 		},
 		{
 			name = "Chaos Bolt",
 			ability = "chaos_knight_chaos_bolt",
-			duration = 0
+			duration = 2
 		},
 		{
 			name = "Penitence",
@@ -121,7 +122,8 @@ function ogre_magi_berserker_rage:GetRandomBuff()
 		{
 			name = "Shallow Grave",
 			ability = "dazzle_shallow_grave",
-			duration = 5
+			duration = 5,
+			ally_only = true,
 		},
 		{
 			name = "Spirit Siphon",
@@ -131,17 +133,12 @@ function ogre_magi_berserker_rage:GetRandomBuff()
 		{
 			name = "Glimpse",
 			ability = "disruptor_glimpse",
-			duration = 0
+			duration = 2
 		},
 		{
 			name = "Phantom Embrace",
 			ability = "grimstroke_phantom_embrace",
 			duration = 5
-		},
-		{
-			name = "Homing Missile",
-			ability = "gyrocopter_homing_missile",
-			duration = 0
 		},
 		{
 			name = "X Marks the Spot",
@@ -156,17 +153,13 @@ function ogre_magi_berserker_rage:GetRandomBuff()
 		{
 			name = "Mystic Snake",
 			ability = "medusa_mystic_snake",
-			duration = 0
+			duration = 5
 		},
-		{
-			name = "Sprout",
-			ability = "furion_sprout",
-			duration = 6
-		},
+
 		{
 			name = "Fortune's End",
 			ability = "oracle_fortunes_end",
-			duration = 0
+			duration = 3
 		},
 		{
 			name = "Astral Imprisonment",
@@ -176,6 +169,35 @@ function ogre_magi_berserker_rage:GetRandomBuff()
 	}
 	
 	return abilities[RandomInt(1, #abilities)]
+end
+
+--------------------------------------------------------------------------------
+-- Временно «одалживаем» ванильную способность на героя; манакост обнуляется (как у reroll), без dummy.
+modifier_ogre_berserker_rage_borrowed_cast = class({
+	IsHidden = function() return true end,
+	IsPurgable = function() return false end,
+	IsDebuff = function() return false end,
+	RemoveOnDeath = function() return true end,
+	DeclareFunctions = function()
+		return { MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING }
+	end,
+})
+
+function modifier_ogre_berserker_rage_borrowed_cast:OnCreated(kv)
+	if IsServer() then
+		self.borrowed = kv.borrowed or ""
+	end
+end
+
+function modifier_ogre_berserker_rage_borrowed_cast:GetModifierPercentageManacostStacking(params)
+	local ab = params.ability
+	if not ab or not self.borrowed or self.borrowed == "" then
+		return 0
+	end
+	if ab:GetAbilityName() == self.borrowed then
+		return 100
+	end
+	return 0
 end
 
 --------------------------------------------------------------------------------
@@ -194,14 +216,13 @@ modifier_ogre_magi_berserker_rage = class({
 function modifier_ogre_magi_berserker_rage:OnCreated()
 	if IsServer() then
 		self.attack_count = 0
-		self.attacks_needed = 10
-		self.next_attack_charged = false
-		self.charged_buff = nil
-		
-		-- Устанавливаем начальный стек для отображения
+		local ab = self:GetAbility()
+		self.attacks_needed = ab and ab:GetSpecialValueFor("attacks_needed") or 10
+		if self.attacks_needed <= 0 then
+			self.attacks_needed = 10
+		end
 		self:SetStackCount(self.attack_count)
 	else
-		-- На клиенте получаем значения из стеков
 		self.attack_count = self:GetStackCount()
 		self.attacks_needed = 10
 	end
@@ -219,7 +240,6 @@ function modifier_ogre_magi_berserker_rage:OnAttackLanded(event)
 	if not IsServer() then return end
 	
 	local parent = self:GetParent()
-	local ability = self:GetAbility()
 	local target = event.target
 	local attacker = event.attacker
 	
@@ -248,19 +268,7 @@ function modifier_ogre_magi_berserker_rage:OnAttackLanded(event)
 		return
 	end
 	
-	-- Проверяем, заряжена ли следующая атака
-	if self.next_attack_charged and self.charged_buff then
-		-- Применяем заряженный эффект на цель
-		self:ApplyChargedEffectToTarget(target)
-		self.next_attack_charged = false
-		self.charged_buff = nil
-		return
-	end
-	
-	-- Увеличиваем счётчик
 	self.attack_count = self.attack_count + 1
-	
-	-- Обновляем визуальный счётчик
 	self:SetStackCount(self.attack_count)
 	
 	-- Определяем тип цели для логирования
@@ -276,43 +284,19 @@ function modifier_ogre_magi_berserker_rage:OnAttackLanded(event)
 	-- Отображаем прогресс
 	print("Ogre Berserker Rage: " .. self.attack_count .. "/" .. self.attacks_needed .. " attacks vs " .. target:GetUnitName() .. " (" .. target_type .. ")")
 	
-	-- Показываем эффект при атаке (только каждую 2-ю атаку, чтобы не спамить)
-	if self.attack_count % 2 == 0 or self.attack_count >= self.attacks_needed then
-		local particle = ParticleManager:CreateParticle(
-			"particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
-			PATTACH_OVERHEAD_FOLLOW,
-			parent
-		)
-		ParticleManager:SetParticleControl(particle, 1, Vector(self.attack_count, 0, 0))
-		ParticleManager:ReleaseParticleIndex(particle)
-	end
-	
-	-- Если достигли нужного количества атак
 	if self.attack_count >= self.attacks_needed then
-		self:TriggerBerserkerRage()
+		self.attack_count = 0
+		self:SetStackCount(0)
+		self:PlayBerserkerRageProcEffects()
+		self:DispatchStolenSpellFromAttack(target)
 	end
 end
 
-function modifier_ogre_magi_berserker_rage:TriggerBerserkerRage()
+function modifier_ogre_magi_berserker_rage:PlayBerserkerRageProcEffects()
 	if not IsServer() then return end
-	
 	local parent = self:GetParent()
-	local ability = self:GetAbility()
-	
-	-- Сброс счётчика атак
-	self.attack_count = 0
-	self:SetStackCount(self.attack_count)
-	
-	-- Получаем случайный бафф и заряжаем следующую атаку
-	local random_buff = ability:GetRandomBuff()
-	self.next_attack_charged = true
-	self.charged_buff = random_buff
-	
-	-- Большой эффект активации на огре
 	EmitSoundOn("Hero_OgreMagi.Fireblast.Target", parent)
 	EmitSoundOn("Hero_OgreMagi.Multicast.x3", parent)
-	
-	-- Яркий particle effect при активации
 	local particle = ParticleManager:CreateParticle(
 		"particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
 		PATTACH_ABSORIGIN_FOLLOW,
@@ -328,68 +312,111 @@ function modifier_ogre_magi_berserker_rage:TriggerBerserkerRage()
 		true
 	)
 	ParticleManager:ReleaseParticleIndex(particle)
-	
-	-- Дополнительный эффект взрыва
 	local explosion_particle = ParticleManager:CreateParticle(
 		"particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust_cast.vpcf",
 		PATTACH_ABSORIGIN_FOLLOW,
 		parent
 	)
 	ParticleManager:ReleaseParticleIndex(explosion_particle)
-	
-	print("Ogre Berserker Rage charged! Next attack will apply: " .. random_buff.name)
 end
 
-function modifier_ogre_magi_berserker_rage:ApplyChargedEffectToTarget(target)
+-- Каст с героя: временная ванильная способность + модификатор с нулевым манакостом (см. ogre_magi_reroll).
+-- SetHidden(true) нельзя: движок не выполняет DOTA_UNIT_ORDER_CAST_* для скрытой способности (invalid order 60).
+function modifier_ogre_magi_berserker_rage:DispatchStolenSpellFromAttack(attack_target)
 	if not IsServer() then return end
-	
 	local parent = self:GetParent()
-	local ability = self:GetAbility()
-	local selected_ability = self.charged_buff
-	
-	-- Создаем временную способность для применения
-	local temp_ability = parent:AddAbility(selected_ability.ability)
-	if temp_ability then
-		temp_ability:SetLevel(1)
-		
-		-- Применяем способность на цель
-		if temp_ability:CanAbilityBeUpgraded() then
-			temp_ability:CastAbility()
-		else
-			-- Для таргетных способностей
-			parent:SetCursorCastTarget(target)
-			temp_ability:OnSpellStart()
-		end
-		
-		-- Удаляем временную способность
-		Timers:CreateTimer(0.1, function()
-			if temp_ability and IsValidEntity(temp_ability) then
-				parent:RemoveAbility(selected_ability.ability)
-			end
-		end)
+	local src_ability = self:GetAbility()
+	if not src_ability or not attack_target or not IsValidEntity(attack_target) then
+		return
 	end
-	
-	-- Эффекты применения на цель
-	EmitSoundOn("Hero_OgreMagi.Fireblast.Target", target)
-	
-	-- Визуальный эффект на цели
-	local particle = ParticleManager:CreateParticle(
-		"particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
-		PATTACH_ABSORIGIN_FOLLOW,
-		target
-	)
-	ParticleManager:SetParticleControlEnt(
-		particle,
-		0,
-		target,
-		PATTACH_POINT_FOLLOW,
-		"attach_hitloc",
-		target:GetOrigin(),
-		true
-	)
-	ParticleManager:ReleaseParticleIndex(particle)
-	
-	print("Applied charged ability '" .. selected_ability.name .. "' to " .. target:GetUnitName())
+
+	local entry = src_ability:GetRandomBuff()
+	local ability_key = entry.ability
+	local cast_type = entry.cast or "target"
+	local cast_target = entry.ally_only and parent or attack_target
+
+	if cast_type ~= "position" then
+		if not cast_target or not IsValidEntity(cast_target) or not cast_target:IsAlive() then
+			return
+		end
+	end
+
+	parent:AddNewModifier(parent, src_ability, "modifier_ogre_berserker_rage_borrowed_cast", { borrowed = ability_key })
+
+	local borrowed = parent:AddAbility(ability_key)
+	if not borrowed then
+		parent:RemoveModifierByName("modifier_ogre_berserker_rage_borrowed_cast")
+		return
+	end
+	borrowed:SetLevel(4)
+
+	local issuer = parent:GetPlayerOwnerID()
+	local function issue_cast_order()
+		if not IsValidEntity(parent) then
+			return
+		end
+		if cast_type == "position" then
+			if not IsValidEntity(attack_target) then
+				return
+			end
+		else
+			if not IsValidEntity(cast_target) or not cast_target:IsAlive() then
+				return
+			end
+		end
+		local ab = parent:FindAbilityByName(ability_key)
+		if not ab then
+			return
+		end
+		local order = {
+			UnitIndex = parent:entindex(),
+			AbilityIndex = ab:entindex(),
+			Queue = false,
+		}
+		if cast_type == "position" then
+			order.OrderType = DOTA_UNIT_ORDER_CAST_POSITION
+			order.Position = attack_target:GetAbsOrigin()
+		else
+			order.OrderType = DOTA_UNIT_ORDER_CAST_TARGET
+			order.TargetIndex = cast_target:entindex()
+		end
+		if issuer >= 0 then
+			order.IssuerPlayerID = issuer
+		end
+		ExecuteOrderFromTable(order)
+	end
+
+	Timers:CreateTimer(0, issue_cast_order)
+	Timers:CreateTimer(1.5, function()
+		if IsValidEntity(parent) then
+			if parent:HasAbility(ability_key) then
+				parent:RemoveAbility(ability_key)
+			end
+			parent:RemoveModifierByName("modifier_ogre_berserker_rage_borrowed_cast")
+		end
+	end)
+
+	local fx_unit = (cast_type == "position") and attack_target or cast_target
+	if fx_unit and IsValidEntity(fx_unit) then
+		EmitSoundOn("Hero_OgreMagi.Fireblast.Target", fx_unit)
+		local particle = ParticleManager:CreateParticle(
+			"particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
+			PATTACH_ABSORIGIN_FOLLOW,
+			fx_unit
+		)
+		ParticleManager:SetParticleControlEnt(
+			particle,
+			0,
+			fx_unit,
+			PATTACH_POINT_FOLLOW,
+			"attach_hitloc",
+			fx_unit:GetOrigin(),
+			true
+		)
+		ParticleManager:ReleaseParticleIndex(particle)
+	end
+
+	print("Ogre Berserker Rage proc: " .. entry.name .. " -> " .. (cast_target and cast_target:GetUnitName() or "?"))
 end
 
 --------------------------------------------------------------------------------

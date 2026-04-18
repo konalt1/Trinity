@@ -29,7 +29,7 @@ function modifier_techies_sticky_bomb_bonus:GetModifierTotalDamageOutgoing_Perce
     local attacker = event.attacker
     local ability = event.inflictor
 
-	if attacker == parent and ability and not ability:IsNull() and ability:GetName() == "techies_sticky_bomb" then 
+	if attacker == parent and ability and not ability:IsNull() and ability:GetName() == "omniknight_holy_grenade" then
   		if event.target:IsCreep() then 
   			return ability:GetSpecialValueFor("bonus_damage_creep_pct") - 100
   		end
