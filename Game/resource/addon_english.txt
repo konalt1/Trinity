@@ -112,14 +112,14 @@
 
 		// Omniknight Innate (Passive)
 		"DOTA_Tooltip_ability_omniknight_innate_oaa"						"Молот Чистоты"
-		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"			"Атаки Омнинайта усиливаются за каждую единицу ХП, излеченную союзникам.
+		"DOTA_Tooltip_ability_omniknight_innate_oaa_Description"			"Атаки Омнинайта усиливаются за каждую единицу ХП, излеченную союзникам."
 		"DOTA_Tooltip_ability_omniknight_innate_oaa_damage_per_heal"		"УРОН ЗА ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_omniknight_innate_oaa_stack_duration"		"ДЛИТЕЛЬНОСТЬ БОНУСА:"
 		"DOTA_Tooltip_ability_omniknight_innate_oaa_max_bonus_damage"	"МАКСИМАЛЬНЫЙ БОНУСНЫЙ УРОН:"
 
 		// Omniknight Holy Grenade (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_omniknight_holy_grenade"						"Святая граната"
-		"DOTA_Tooltip_ability_omniknight_holy_grenade_Description"			"Омнинайт бросает святую гранату в указанную область. После короткой задержки она взрывается, исцеляя союзников и нанося чистый урон врагам. Урон и исцелени усиливается Силой Магии."
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_Description"			"Омнинайт бросает святую гранату в указанную область. После короткой задержки она взрывается, исцеляя союзников и нанося чистый урон врагам. Урон и исцеление усиливаются Силой Магии."
 		"DOTA_Tooltip_ability_omniknight_holy_grenade_damage"				"БАЗОВЫЙ ЭФФЕКТ:"
 		"DOTA_Tooltip_ability_omniknight_holy_grenade_countdown"			"ЗАДЕРЖКА ДО ВЗРЫВА:"
 		"DOTA_Tooltip_ability_omniknight_holy_grenade_explosion_radius"	"РАДИУС ВЗРЫВА:"
@@ -290,14 +290,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_phantom_assassin_6"	"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_phantom_assassin_7"	"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_phantom_assassin_8"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_1"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_2"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_3"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_4"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_5"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_6"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_7"			"+200"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_8"			"+200"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_1"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_2"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_3"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_4"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_5"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_6"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_7"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_techies_8"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_juggernaut_1"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_juggernaut_2"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_juggernaut_3"		"Заглушка"
@@ -375,7 +375,10 @@
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
-		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Течис начинает стрелять ракетами, с помощью чего наносит противникам больш урона, стреляет дальше и наносит урон по площади. Дополнительный урон со способности увеличивается с Силой Магии."
+		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Течис стреляет ракетами, увеличивая дальность атаки и нанося дополнительный урон по области.
+Попадания по цели наносят бонусный магический урон.
+
+Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_ability_fireworks_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_ability_fireworks_splash_radius"					"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_fireworks_bonus_magic_damage"				"МАГИЧЕСКИЙ УРОН ПО ЦЕЛИ:"
@@ -385,7 +388,12 @@
 		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Атаки с всплеском поджигают врагов, нанося дополнительный магический урон в течение нескольких секунд. Урон от поджога усиливается Силой Магии."
 
 		"DOTA_Tooltip_ability_ability_reactive_tazer"							"Реактивная защита"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_Description"				"Герой окружает себя зарядом электричества, ненадолго повышая его скорость передвижения. Атака по заряженной цели нанесёт обидчику урон, а также применит на него бессилие и нормальное развеивание. Заряд взрывается в конце действия, накладывая бессилие на всех врагов вокруг. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_ability_reactive_tazer_Description"				"Герой заряжается электричеством, получая бонус к скорости передвижения.
+Атаки по заряженной цели наносят обидчику магический урон и накладывают бессилие.
+
+По окончании действия заряд взрывается, нанося урон и накладывая бессилие на всех врагов вокруг.
+
+Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_ability_reactive_tazer_buff_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_ability_reactive_tazer_disarm_duration"			"ОБЕЗОРУЖИВАНИЕ:"
 		"DOTA_Tooltip_ability_ability_reactive_tazer_bonus_movespeed_pct"		"%БОНУС СКОРОСТИ:"
@@ -481,8 +489,7 @@
 		"DOTA_Tooltip_ability_item_sange_and_yasha_bonus_agility"				"+ к ловкости"
 
 		// Kaya and Sange
-		"DOTA_Tooltip_item__mind_power_bonus"						"+ Сила Магии"
-		"dota_ability_variable_mind_power_bonus"								"Сила магии"
+		"DOTA_Tooltip_item_kaya_and_sange_Description"							""
 		"DOTA_Tooltip_ability_item_kaya_and_sange_mind_power_bonus"									"+$mind_power_bonus"
 
 		// Yasha and Kaya
