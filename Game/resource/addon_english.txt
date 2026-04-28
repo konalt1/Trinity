@@ -403,7 +403,10 @@
 		"DOTA_Tooltip_ability_ability_reactive_tazer_countdown_lead"			"ПРЕДУПРЕЖДЕНИЕ ПЕРЕД ВЗРЫВОМ:"
 
 		"DOTA_Tooltip_ability_techies_suicide_custom"							"Взлёт"
-		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Течис прыгает к выбранной точке и при приземлении взрывается, нанося магический урон и оглушая врагов в области. Урон взрыва усиливается Силой Магии. Наносит себе чистый урон в размере части текущего здоровья. Взрыв действует на врагов с магическим иммунитетом."
+		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Течис прыгает в выбранную точку и при приземлении взрывается, нанося магический урон и оглушая врагов в области.
+
+
+Герой также получает чистый урон, равный части его текущего здоровья."
 		"DOTA_Tooltip_ability_techies_suicide_custom_radius"					"РАДИУС:"
 		"DOTA_Tooltip_ability_techies_suicide_custom_damage"					"БАЗОВЫЙ УРОН:"
 		"DOTA_Tooltip_ability_techies_suicide_custom_stun_duration"				"ОГЛУШЕНИЕ:"
@@ -411,17 +414,18 @@
 		"DOTA_Tooltip_ability_techies_suicide_custom_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 
 		"DOTA_Tooltip_ability_ability_chain_bomb"								"Ядерные мины"
-		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Течис устанавливает в выбранную точку зелёную мину. Течис может взорвать мину, нанеся ей физический или магический урон, при этом ядерная мина взорвётся, нанося урон всем вокруг. Ядерные мины невидимы для противника"
+		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Течис устанавливает в выбранной точке зелёную мину.
+
+Он может взорвать её, нанеся ей физический или магический урон. При этом ядерная мина детонирует и наносит урон всем противникам поблизости.
+
+Ядерные мины невидимы для противника."
+
 		"DOTA_Tooltip_ability_ability_chain_bomb_damage"						"УРОН ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_radius"						"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_building_damage_pct"			"%УРОНА ПО СТРОЕНИЯМ:"
-		"DOTA_Tooltip_ability_ability_chain_bomb_fade_delay"					"ЗАДЕРЖКА НЕВИДИМОСТИ:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_description"			"Все зелёные мины могут передвигаться."
-		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_mine_movespeed"		"СКОРОСТЬ МИН:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_shard_description"			"Пока ядерная мина жива, ваша команда получает обзор вокруг неё."
-		"DOTA_Tooltip_ability_ability_chain_bomb_shard_vision_radius"			"РАДИУС ОБЗОРА МИНЫ:"
-
 		
 
 		

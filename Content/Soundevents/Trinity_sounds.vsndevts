@@ -80,7 +80,7 @@
 	techies.fireworks.shot =
 	{
 		type = "dota_src1_3d"
-		volume = 20
+		volume = 10
 		pitch = 1
 		vsnd_files = "sounds/techies/fireworks_shot.vsnd"
 	}

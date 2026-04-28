@@ -1404,7 +1404,7 @@
             "affected_by_aoe_increase"             "1"
           }
           "bonus_magic_damage"          "20 40 60 80"
-          "bonus_attack_range"          "80 100 120 140"
+          "bonus_attack_range"          "120 140 180 220"
           "mind_power_multiplier"       "0.5"
           "splash_attack_damage_pct"    "50"
         }
@@ -1506,7 +1506,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastRange"              "200 300 400"
+        "AbilityCastRange"              "500 600 700"
         "AbilityCastPoint"              "0.45 0.45 0.45"
 
         // Time
@@ -1521,13 +1521,13 @@
         //-------------------------------------------------------------------------------------------------------------
         "AbilityValues"
         {
-            "damage"                    "150 350 550"
+            "damage"                    "250 350 450"
             "radius"                    "200 300 400"
-            "mind_power_multiplier"     "2"
+            "mind_power_multiplier"     "3"
             "building_damage_pct"       "50"
-            "fade_delay"                "1"
-            "scepter_mine_movespeed"    "100"
-            "mine_vision_radius"        "50"
+            "fade_delay"                "0.5"
+            "scepter_mine_movespeed"    "150"
+            "mine_vision_radius"        "0"
             "shard_vision_radius"
             {
                 "value"                 "400"
