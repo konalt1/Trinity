@@ -248,5 +248,14 @@
         "Ability17"										"special_bonus_unique_custom_weaver_8"
 	}
 
+	"npc_dota_hero_silencer"
+	{
+		"override_hero"                                 "npc_dota_hero_silencer"
+		"Facets" ""
+		"Ability1"                                      "silencer_arcane_curse_custom"
+		"Ability3"                                      "focus"
+		"Ability6"                                      "silent_square"
+	}
+
 	 
 }

@@ -59,6 +59,17 @@
 		"DOTA_Tooltip_ability_doom_ultimate_aura_shard_move_slow"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_shard_description"			"Вестник Рока дополнительно замедляет скорость передвижения всех врагов в радиусе ауры."
 
+		// Silencer
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom"						"ARCANE CURSE"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_Description"			"Наводит сглаз на врагов в выбранной области, нанося начальный и периодический урон, а также замедляя их передвижение. Каждая примененная жертвой способность увеличивает длительность эффекта. Когда на жертву действует безмолвие, отсчет времени действия приостанавливается. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_damage"				"УРОН:"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_initial_damage"		"НАЧАЛЬНЫЙ УРОН:"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_base_duration"		"БАЗОВАЯ ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_slow_pct"				"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_penalty_duration"		"ДОБАВОЧНАЯ ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+
 		//Ogre
 		// Ogre Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"							"Бдышь"
@@ -87,8 +98,8 @@
 		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ:"
 
 		// Ogre Berserker Rage (Aghanim's Scepter)
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"							"Ярость берсерка"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Даруется Aghanim's Scepter. Каждые 10 попаданий по врагам: случайный эффект из набора чужих способностей сразу применяется к цели этой атаки; если способность действует только по союзникам — к вам."
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"							"Аганимная дубинка"
+		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Каждая десятая атака по герою противника вызывает применение случайного заклинания"
 
 		//Omniknight
 		// Custom Purification

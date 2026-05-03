@@ -1,0 +1,112 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf65:version{48e806a9-c210-4cd8-811a-38b5ef63b195} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_nMaxParticles = 0
+	m_nBehaviorVersion = 12
+	m_nFirstMultipleOverride_BackwardCompat = 5
+	m_bEnableNamedValues = true
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_angOffset = [ 0.0, 45.0, 0.0 ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 700.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 2
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 4
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 5
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 6
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+			]
+			m_previewState = 
+			{
+				m_previewModel = "models/heroes/faceless_void/faceless_void.vmdl"
+				m_nModSpecificData = 15
+				m_sequenceName = "idle"
+				m_hitboxSetName = "default"
+			}
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_ground_warp.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/silencer/faceless_void_chronocube_ground_fill.vpcf"
+			m_flDelay = 0.01
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_model.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_markers.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_model_cage.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_stars.vpcf"
+		},
+	]
+	m_NamedValueLocals = 
+	[
+		{
+			m_Name = "CP0 origin and direction"
+			m_DefaultConfig = 
+			{
+				m_ConfigName = ""
+				m_ConfigValue = 0.0
+				m_BoundValuePath = ""
+				m_iAttachType = "PATTACH_WORLDORIGIN"
+				m_strEntityScope = "self"
+				m_strAttachmentName = ""
+			}
+			m_ValueType = "PVAL_FLOAT"
+		},
+		{
+			m_Name = "CP1x radius"
+			m_DefaultConfig = 
+			{
+				m_ConfigName = ""
+				m_ConfigValue = 0.0
+				m_BoundValuePath = ""
+				m_iAttachType = "PATTACH_WORLDORIGIN"
+				m_strEntityScope = "self"
+				m_strAttachmentName = ""
+			}
+			m_ValueType = "PVAL_FLOAT"
+		},
+	]
+}
