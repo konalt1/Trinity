@@ -14,3 +14,4 @@ sqlite3
 *.sqlite3-wal
 *.sqlite3-shm
 *.sqlite3-journal
+Game/tools_thumbnail_cache.sqlite3
