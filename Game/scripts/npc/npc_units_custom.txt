@@ -24,242 +24,15 @@
             "BlockNeutralCamps"         "0"
         }
     }
-    "npc_guardian_good"
-    {
-        "BaseClass"                     "npc_dota_creature"
-        "Model"                         "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
-        "Level"                         "1"
-        "ModelScale"                    "2.0"
-        
-        // Armor
-        "ArmorPhysical"                 "50"
-        "MagicalResistance"             "50"
-        
-        // Attack
-        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
-        "AttackDamageMin"               "500"
-        "AttackDamageMax"               "600"
-        "AttackRate"                    "1.0"
-        "AttackAnimationPoint"          "0.5"
-        "AttackAcquisitionRange"        "600"
-        "AttackRange"                   "128"
-        
-        // Movement
-        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
-        "MovementSpeed"                 "350"
-        "MovementTurnRate"              "0.6"
-        
-        // Status
-        "StatusHealth"                  "10000"
-        "StatusHealthRegen"             "10"
-        "StatusMana"                    "0"
-        "StatusManaRegen"               "0"
-        
-        // Vision
-        "VisionDaytimeRange"            "800"
-        "VisionNighttimeRange"          "800"
-        
-        // Bounty
-        "BountyXP"                      "100"
-        "BountyGoldMin"                 "50"
-        "BountyGoldMax"                 "75"
-        
-        // Team - будет задана при спавне
-
-        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-    }
-
-    "npc_guardian_bad"
-    {
-        "BaseClass"                     "npc_dota_creature"
-        "Model"                         "models/items/broodmother/spiderling/the_glacial_creeper_creepling/the_glacial_creeper_creepling_dpc.vmdl"
-        "Level"                         "1"
-        "ModelScale"                    "2.0"
-        
-        // Armor
-        "ArmorPhysical"                 "50"
-        "MagicalResistance"             "50"
-        
-        // Attack
-        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
-        "AttackDamageMin"               "500"
-        "AttackDamageMax"               "600"
-        "AttackRate"                    "1.0"
-        "AttackAnimationPoint"          "0.5"
-        "AttackAcquisitionRange"        "600"
-        "AttackRange"                   "128"
-        
-        // Movement
-        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
-        "MovementSpeed"                 "350"
-        "MovementTurnRate"              "0.6"
-        
-        // Status
-        "StatusHealth"                  "10000"
-        "StatusHealthRegen"             "10"
-        "StatusMana"                    "0"
-        "StatusManaRegen"               "0"
-        
-        // Vision
-        "VisionDaytimeRange"            "800"
-        "VisionNighttimeRange"          "800"
-        
-        // Bounty
-        "BountyXP"                      "100"
-        "BountyGoldMin"                 "50"
-        "BountyGoldMax"                 "75"
-        
-        // Team - будет задана при спавне
-
-        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-    }
-
-    "npc_tract"
-    {   
-        "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"
-		"BaseClass"                 "npc_dota_creature"
-        "Level"                     "1"
-        "ModelScale"                "0.001"
-        
-        // AI Script - спавнит рошанов
-        "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
-        
-        // Armor - неуязвимый
-        "ArmorPhysical"             "100"
-        "MagicalResistance"         "100"
-        
-        // Attack
-        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
-        
-        // Movement
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
-        "MovementSpeed"             "0"
-        
-        // Status
-        "StatusHealth"              "99999"
-        "StatusHealthRegen"         "1000"
-        
-        // Vision
-        "VisionDaytimeRange"        "800"
-        "VisionNighttimeRange"      "800"
-        
-        // Team
-        "TeamName"                  "DOTA_TEAM_NEUTRALS"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-    }
-
-    // Спавнер рошанов - создаёт рошанов каждые 30 секунд
-    "npc_roshan_spawner"
-    {
-        "BaseClass"                 "npc_dota_creature"
-        "Model"                     "models/heroes/techies/fx_techiesfx_mine.vmdl"
-        "SoundSet"                  ""
-        "Level"                     "1"
-        "ModelScale"                "0,005"
-        
-        // AI Script - спавнит рошанов
-        "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
-        
-        // Abilities
-        "Ability1"                  ""
-        "Ability2"                  ""
-        "Ability3"                  ""
-        "Ability4"                  ""
-        
-        // Armor
-        "ArmorPhysical"             "100"
-        "MagicalResistance"         "100"
-        
-        // Attack
-        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
-        
-        // Bounds
-        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
-        "HealthBarOffset"           "140"
-        
-        // Movement
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
-        "MovementSpeed"             "0"
-        
-        // Status
-        "StatusHealth"              "99999"
-        "StatusHealthRegen"         "1000"
-        "StatusMana"                "0"
-        "StatusManaRegen"           "0"
-        
-        // Vision
-        "VisionDaytimeRange"        "800"
-        "VisionNighttimeRange"      "800"
-        
-        // Team
-        "TeamName"                  "DOTA_TEAM_NEUTRALS"
-        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-    }
-
-    // Кастомный слушатель спавна рун
-    // Размещается на карте и запускает логику из vscript
-    "npc_custom_rune_spawner_listener"
-    {
-        "BaseClass"                 "npc_dota_creature"
-        "Model"                     "models/heroes/techies/fx_techiesfx_mine.vmdl"
-        "SoundSet"                  ""
-        "Level"                     "1"
-        "ModelScale"                "0.005"
-
-        // Rune spawner logic
-        "vscripts"                  "map_modifications/runes/custom_rune_spawner_listener.lua"
-
-        // Abilities
-        "Ability1"                  ""
-        "Ability2"                  ""
-        "Ability3"                  ""
-        "Ability4"                  ""
-
-        // Armor
-        "ArmorPhysical"             "100"
-        "MagicalResistance"         "100"
-
-        // Attack
-        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
-
-        // Bounds
-        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
-        "HealthBarOffset"           "140"
-
-        // Movement
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
-        "MovementSpeed"             "0"
-
-        // Status
-        "StatusHealth"              "99999"
-        "StatusHealthRegen"         "1000"
-        "StatusMana"                "0"
-        "StatusManaRegen"           "0"
-
-        // Vision
-        "VisionDaytimeRange"        "400"
-        "VisionNighttimeRange"      "400"
-
-        // Team
-        "TeamName"                  "DOTA_TEAM_NEUTRALS"
-        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-    }
+    
 	"npc_dota3_chainbomb"
     {
-        "Model"						"models/heroes/techies/fx_techies_remotebomb.vmdl"
+        "Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"// Model.
 		"BaseClass"                 "npc_dota_creature"
-		"SoundSet"                  ""
+		"SoundSet"                  "0"			// Name of sound set.
 		"Level"                     "1"
-		"ModelScale"                "0.75"
-        "MinimapIcon"               "minimap_death"
+		"ModelScale"                "1.0"
+        "MinimapIcon"               "minimap_death"		
         "MinimapIconSize"           "450"
 
 		// Abilities
@@ -271,8 +44,7 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"0"
-        "MagicalResistance"         "0"
+		"ArmorPhysical"				"0"			// Physical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -288,87 +60,35 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
 		"HealthBarOffset"			"140"
 
 		// Bounty
 		//----------------------------------------------------------------
-		"BountyXP"					"0"
-		"BountyGoldMin"				"0"
-		"BountyGoldMax"				"0"
+		"BountyXP"					"6"	// Experience earn.
+		"BountyGoldMin"				"10"		// Gold earned min.
+		"BountyGoldMax"				"10"		// Gold earned max.
 
-		// Movement (GROUND нужен для клиента; фактическую неподвижность без Aghanim's Scepter даёт ROOT в Lua)
+		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"100"
-		"MovementTurnRate"			"1.0"
+		"MovementSpeed"				"0"		// Speed.
+		"MovementTurnRate"			"0"		// Turning rate.
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"10"
-		"StatusHealthRegen"			"0"
-        "StatusMana"                "0"
-        "StatusManaRegen"           "0"
+		"StatusHealth"				"1"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"300"
-		"VisionNighttimeRange"		"300"
+		"VisionDaytimeRange"		"700"		// Range of vision during day light.
+		"VisionNighttimeRange"		"700"		// Range of vision at night time.
 
 		// Team
 		//----------------------------------------------------------------
-		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"TeamName"					"DOTA_TEAM_NEUTRALS"							// Team name.
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
-
-	"npc_dota_omniknight_sticky_grenade"
-	{
-		"Model"						"models/heroes/sniper/concussive_grenade.vmdl"
-		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					""
-		"Level"						"1"
-		"ModelScale"				"2.0"
-
-		"Ability1"					""
-		"Ability2"					""
-		"Ability3"					""
-		"Ability4"					""
-
-		"ArmorPhysical"				"0"
-		"MagicalResistance"			"0"
-
-		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
-		"AttackDamageMin"			"0"
-		"AttackDamageMax"			"0"
-		"AttackRate"				"1.0"
-		"AttackAnimationPoint"		"0.0"
-		"AttackAcquisitionRange"	"0"
-		"AttackRange"				"0"
-		"ProjectileModel"			""
-		"ProjectileSpeed"			"0"
-
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"
-		"HealthBarOffset"			"140"
-
-		"BountyXP"					"0"
-		"BountyGoldMin"				"0"
-		"BountyGoldMax"				"0"
-
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"100"
-		"MovementTurnRate"			"1.0"
-
-		"StatusHealth"				"10"
-		"StatusHealthRegen"			"0"
-		"StatusMana"				"0"
-		"StatusManaRegen"			"0"
-
-		"VisionDaytimeRange"		"300"
-		"VisionNighttimeRange"		"300"
-
-		"TeamName"					"DOTA_TEAM_NEUTRALS"
-		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-	}
     
     "npc_dota_lycan_wolf5"
     {       
@@ -545,8 +265,6 @@
         "AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
     }
 
-    
-
     "npc_gold_lama"   
     {
         // General
@@ -620,6 +338,9 @@
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
+<<<<<<< Updated upstream
+}
+=======
 
     "npc_dota_roshan_custom"
     {
@@ -764,8 +485,8 @@
 
         // Status
         //----------------------------------------------------------------
-        "StatusHealth"              "2000"
-        "StatusHealthRegen"         "20"
+        "StatusHealth"              "500"
+        "StatusHealthRegen"         "5"
         "StatusMana"                "0"
         "StatusManaRegen"           "0"
 
@@ -793,7 +514,7 @@
         "Ability1"                  "chen_barrack_summon_melee"
         "Ability2"                  "chen_barrack_summon_ranged"
         "Ability3"                  "chen_barrack_summon_siege"
-        "Ability4"                  ""
+        "Ability4"                  "chen_barrack_self_destruct"
 
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
@@ -1126,3 +847,4 @@
         "BountyGoldMax"             "20"        // Gold earned max.
     }
 }
+>>>>>>> Stashed changes
