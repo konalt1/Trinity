@@ -79,7 +79,7 @@ function modifier_chen_martyr_mark_creep:ForceAttackTarget()
 	end
 
 	if parent.SetForceAttackTarget then
-		parent:SetForceAttackTarget(target)
+		parent:SetForceAttackTarget(nil)
 	end
 
 	ExecuteOrderFromTable({

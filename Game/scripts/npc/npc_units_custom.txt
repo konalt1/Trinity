@@ -338,9 +338,6 @@
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
-<<<<<<< Updated upstream
-}
-=======
 
     "npc_dota_roshan_custom"
     {
@@ -847,4 +844,3 @@
         "BountyGoldMax"             "20"        // Gold earned max.
     }
 }
->>>>>>> Stashed changes
