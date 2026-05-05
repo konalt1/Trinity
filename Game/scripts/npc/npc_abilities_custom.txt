@@ -2471,22 +2471,20 @@
         {
             "bonus_health"              "700 1100 1500"
             "minimum_barrack_health"    "1200 1700 2200"
-            "max_barracks"              "1"
-            "scepter_max_barracks"      "2"
         }
 
         "precache"
         {
             "model"         "models/props_structures/good_barracks_melee001.vmdl"
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
-            "particle"      "particles/units/heroes/hero_chen/chen_penitence.vpcf"
             "particle"      "particles/econ/events/ti6/hero_transform_dust.vpcf"
             "particle"      "particles/items_fx/aegis_respawn.vpcf"
             "soundfile"     "soundevents/sounds_ui_buildings.vsndevts"
         }
     }
 
-    "chen_barrack_summon_melee"
+    // T1 — Малый крип семейства
+    "chen_barrack_spawn_t1"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
@@ -2495,13 +2493,11 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "FightRecapLevel"               "1"
         "MaxLevel"                      "1"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
         "AbilityCooldown"               "0.5"
         "AbilityManaCost"               "0"
-
         "AbilityValues"
         {
             "gold_cost"                 "75"
@@ -2510,7 +2506,8 @@
         }
     }
 
-    "chen_barrack_summon_ranged"
+    // T2 — Средний крип семейства (улта ур.2+)
+    "chen_barrack_spawn_t2"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
@@ -2519,22 +2516,21 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "FightRecapLevel"               "1"
         "MaxLevel"                      "1"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
         "AbilityCooldown"               "0.5"
         "AbilityManaCost"               "0"
-
         "AbilityValues"
         {
-            "gold_cost"                 "125"
-            "production_time"           "16"
+            "gold_cost"                 "150"
+            "production_time"           "18"
             "spawn_distance"            "200"
         }
     }
 
-    "chen_barrack_summon_siege"
+    // T3 — Сильный крип семейства (улта ур.3)
+    "chen_barrack_spawn_t3"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
@@ -2543,18 +2539,40 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "FightRecapLevel"               "1"
         "MaxLevel"                      "1"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
         "AbilityCooldown"               "0.5"
         "AbilityManaCost"               "0"
-
         "AbilityValues"
         {
-            "gold_cost"                 "225"
-            "production_time"           "28"
+            "gold_cost"                 "275"
+            "production_time"           "30"
             "spawn_distance"            "220"
+        }
+    }
+
+    // T4 — Эншент (только с аганимом)
+    "chen_barrack_spawn_ancient"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_barrack"
+        "AbilityTextureName"            "chen_penitence"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "HasScepterUpgrade"             "0"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCooldown"               "0.5"
+        "AbilityManaCost"               "0"
+        "AbilityValues"
+        {
+            "gold_cost"                 "500"
+            "production_time"           "50"
+            "spawn_distance"            "250"
         }
     }
 

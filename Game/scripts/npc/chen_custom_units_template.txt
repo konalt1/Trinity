@@ -1,0 +1,63 @@
+// ============================================================
+// CHEN BARRACK - БОЛЬШЕ НЕ ТРЕБУЕТСЯ КАСТОМНЫХ ЮНИТОВ!
+// ============================================================
+// 
+// Система была упрощена:
+// - Бараки теперь призывают РАНДОМНЫХ нейтральных крипов из игры
+// - T1 призывает случайного T1 крипа (кобольд, сатир, тролль и т.д.)
+// - T2 призывает случайного T2 крипа (волк, огр, кентавр и т.д.)
+// - T3 призывает случайного T3 крипа (альфа волк, огр молотобоец и т.д.)
+// - Ancient призывает случайного эншента (гранитный голем, дракон и т.д.)
+//
+// НИЧЕГО НЕ НУЖНО ДОБАВЛЯТЬ В npc_units_custom.txt!
+// Все юниты уже есть в игре.
+//
+// ============================================================
+// ИЗМЕНЕНИЯ В СИСТЕМЕ
+// ============================================================
+//
+// 1. Убраны все кастомные юниты (npc_chen_*)
+// 2. Бараки призывают рандомных крипов из пулов
+// 3. Семьи крипов больше не влияют на призыв (все рандомно)
+// 4. Aghanim's Scepter разблокирует призыв эншентов
+// 5. Aghanim's Shard делает Кнут AoE способностью
+//
+// ============================================================
+// ПУЛЫ КРИПОВ ПО УРОВНЯМ
+// ============================================================
+//
+// T1 КРИПЫ:
+// - Кобольд (npc_dota_neutral_kobold)
+// - Сатир Трикстер (npc_dota_neutral_satyr_trickster)
+// - Тёмный Тролль (npc_dota_neutral_dark_troll)
+// - Кентавр Аутраннер (npc_dota_neutral_centaur_outrunner)
+// - Гарпия Скаут (npc_dota_neutral_harpy_scout)
+// - Вилдкин (npc_dota_neutral_wildkin)
+// - Фурболг Чемпион (npc_dota_neutral_polar_furbolg_champion)
+// - Грязевой Голем (npc_dota_neutral_mud_golem)
+//
+// T2 КРИПЫ:
+// - Гигантский Волк (npc_dota_neutral_giant_wolf)
+// - Сатир Соулстилер (npc_dota_neutral_satyr_soulstealer)
+// - Огр Маг (npc_dota_neutral_ogre_magi)
+// - Кентавр Курсер (npc_dota_neutral_centaur_courser)
+// - Гарпия Шторм (npc_dota_neutral_harpy_storm)
+// - Вилдкин Риппер (npc_dota_neutral_wildkin_ripper)
+// - Фурболг Воин (npc_dota_neutral_polar_furbolg_ursa_warrior)
+// - Каменный Голем (npc_dota_neutral_rock_golem)
+//
+// T3 КРИПЫ:
+// - Альфа Волк (npc_dota_neutral_alpha_wolf)
+// - Сатир Хеллколлер (npc_dota_neutral_satyr_hellcaller)
+// - Огр Молотобоец (npc_dota_neutral_ogre_mauler)
+// - Кентавр Хан (npc_dota_neutral_centaur_khan)
+// - Разъярённый Вилдкин (npc_dota_neutral_enraged_wildkin)
+// - Каменный Голем (npc_dota_neutral_rock_golem)
+//
+// ANCIENT КРИПЫ (требуется Aghanim's Scepter):
+// - Гранитный Голем (npc_dota_neutral_granite_golem)
+// - Чёрный Дракон (npc_dota_neutral_black_dragon)
+// - Проулер Аколит (npc_dota_neutral_prowler_acolyte)
+// - Проулер Шаман (npc_dota_neutral_prowler_shaman)
+//
+// ============================================================
