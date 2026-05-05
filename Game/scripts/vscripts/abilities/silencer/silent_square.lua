@@ -4,7 +4,7 @@ LinkLuaModifier("modifier_silent_square_thinker", "abilities/silencer/silent_squ
 LinkLuaModifier("modifier_silent_square_debuff", "abilities/silencer/silent_square", LUA_MODIFIER_MOTION_NONE)
 
 function silent_square:Precache(context)
-	PrecacheResource("particle", "particles/silencer/local_silence/faceless_void_chronocube.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_faceless_void/faceless_void_chronocube.vpcf", context)
 end
 
 function silent_square:GetAOERadius()
@@ -72,7 +72,7 @@ function modifier_silent_square_thinker:OnCreated(kv)
 	self.end_time = GameRules:GetGameTime() + (tonumber(kv.duration) or self:GetDuration() or 0)
 	self.active_debuffed_units = {}
 
-	self.zone_particle = ParticleManager:CreateParticle("particles/silencer/local_silence/faceless_void_chronocube.vpcf", PATTACH_WORLDORIGIN, nil)
+	self.zone_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_faceless_void/faceless_void_chronocube.vpcf", PATTACH_WORLDORIGIN, nil)
 	ParticleManager:SetParticleControl(self.zone_particle, 0, self:GetParent():GetAbsOrigin())
 	ParticleManager:SetParticleControl(self.zone_particle, 1, Vector(self.half_side, self.half_side, self.half_side))
 

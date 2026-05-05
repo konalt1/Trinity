@@ -60,24 +60,24 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/faceless_void_chronocube_ground_warp.vpcf"
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_ground_warp.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/silencer/faceless_void_chronocube_ground_fill.vpcf"
 			m_flDelay = 0.01
 		},
 		{
-			m_ChildRef = resource:"particles/silencer/local_silence/faceless_void_chronocube_model.vpcf"
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_model.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/silencer/local_silence/faceless_void_chronocube_markers.vpcf"
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_markers.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_model_cage.vpcf"
 			m_bDisableChild = true
 		},
 		{
-			m_ChildRef = resource:"particles/silencer/local_silence/faceless_void_chronocube_stars.vpcf"
+			m_ChildRef = resource:"particles/units/heroes/hero_faceless_void/faceless_void_chronocube_stars.vpcf"
 		},
 	]
 	m_NamedValueLocals = 

@@ -1,7 +1,5 @@
 focus = class({})
 
-local FOCUS_SHIELD_PARTICLE = "particles/silencer/focus/lotus_orb_fallrewardline_2025_shield_fallrewardline_2025.vpcf"
-
 LinkLuaModifier("modifier_focus_buff", "abilities/silencer/focus", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_focus_control_block", "abilities/silencer/focus", LUA_MODIFIER_MOTION_NONE)
 
@@ -29,29 +27,12 @@ function modifier_focus_buff:GetTexture()
 end
 
 function modifier_focus_buff:OnCreated()
-    self.max_shield = 0
-    self.current_shield = 0
+    self.attack_speed_bonus = 0
     self.block_consumed = false
-    self:SetHasCustomTransmitterData(true)
 
     local ability = self:GetAbility()
     if ability and not ability:IsNull() then
-        local base_shield = ability:GetSpecialValueFor("shield_amount")
-        local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
-        local caster = self:GetCaster()
-        local mind_power = 0
-
-        if caster and not caster:IsNull() then
-            mind_power = GetHeroMindPower and (GetHeroMindPower(caster) or 0) or (caster:GetIntellect(false) or 0)
-        end
-
-        self.max_shield = math.max(0, base_shield + mind_power * mind_power_multiplier)
-        self.current_shield = self.max_shield
-    end
-
-    if IsServer() then
-        self:SendBuffRefreshToClients()
-        self:CreateFocusParticle()
+        self.attack_speed_bonus = ability:GetSpecialValueFor("attack_speed_bonus")
     end
 end
 
@@ -61,92 +42,14 @@ end
 
 function modifier_focus_buff:DeclareFunctions()
     return {
-        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
-        MODIFIER_PROPERTY_TOOLTIP,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_EVENT_ON_STATE_CHANGED,
         MODIFIER_EVENT_ON_MODIFIER_ADDED
     }
 end
 
-function modifier_focus_buff:AddCustomTransmitterData()
-    return {
-        max_shield = self.max_shield or 0,
-        current_shield = self.current_shield or 0
-    }
-end
-
-function modifier_focus_buff:HandleCustomTransmitterData(data)
-    self.max_shield = data.max_shield or 0
-    self.current_shield = data.current_shield or 0
-end
-
-function modifier_focus_buff:GetModifierIncomingDamageConstant(params)
-    if not IsServer() then
-        if params.report_max then
-            return self.max_shield or 0
-        end
-
-        return self.current_shield or 0
-    end
-
-    if not params or params.damage_type ~= DAMAGE_TYPE_PHYSICAL then
-        return 0
-    end
-
-    local parent = self:GetParent()
-    if params.target and params.target ~= parent then
-        return 0
-    end
-
-    if not self.current_shield or self.current_shield <= 0 then
-        return 0
-    end
-
-    local blocked_damage = math.min(params.damage, self.current_shield)
-    self.current_shield = self.current_shield - blocked_damage
-    self:SendBuffRefreshToClients()
-
-    return -blocked_damage
-end
-
-function modifier_focus_buff:OnTooltip()
-    return self.current_shield or 0
-end
-
-function modifier_focus_buff:CreateFocusParticle()
-    local parent = self:GetParent()
-    if not parent or parent:IsNull() then
-        return
-    end
-
-    if self.focus_particle then
-        ParticleManager:DestroyParticle(self.focus_particle, false)
-        ParticleManager:ReleaseParticleIndex(self.focus_particle)
-    end
-
-    self.focus_particle = ParticleManager:CreateParticle(
-        FOCUS_SHIELD_PARTICLE,
-        PATTACH_ABSORIGIN_FOLLOW,
-        parent
-    )
-end
-
-function modifier_focus_buff:DestroyFocusParticle()
-    if not self.focus_particle then
-        return
-    end
-
-    ParticleManager:DestroyParticle(self.focus_particle, false)
-    ParticleManager:ReleaseParticleIndex(self.focus_particle)
-    self.focus_particle = nil
-end
-
-function modifier_focus_buff:OnDestroy()
-    if not IsServer() then
-        return
-    end
-
-    self:DestroyFocusParticle()
+function modifier_focus_buff:GetModifierAttackSpeedBonus_Constant()
+    return self.attack_speed_bonus or 0
 end
 
 function modifier_focus_buff:TriggerFocusCleanse()
@@ -156,9 +59,14 @@ function modifier_focus_buff:TriggerFocusCleanse()
     end
 
     self.block_consumed = true
-    self:DestroyFocusParticle()
     parent:Purge(false, true, false, true, true)
 
+    local block_particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_antimage/antimage_counter.vpcf",
+        PATTACH_ABSORIGIN_FOLLOW,
+        parent
+    )
+    ParticleManager:ReleaseParticleIndex(block_particle)
     parent:EmitSound("Hero_Antimage.Counterspell.Target")
 end
 
@@ -333,6 +241,10 @@ function modifier_focus_buff:OnModifierAdded(keys)
     end
 
     self:TriggerFocusCleanse()
+end
+
+function modifier_focus_buff:GetEffectName()
+    return "particles/units/heroes/hero_antimage/antimage_counterspell.vpcf"
 end
 
 function modifier_focus_buff:GetEffectAttachType()
