@@ -2469,7 +2469,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/silencer/silencer_arcane_curse_custom"
-        "AbilityTextureName"            "silencer_curse"
+        "AbilityTextureName"            "silencer_curse_of_the_silent"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"

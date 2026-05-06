@@ -24,9 +24,6 @@ function modifier_focus_buff:IsPurgable()
     return true
 end
 
-function modifier_focus_buff:GetTexture()
-    return "antimage_counterspell"
-end
 
 function modifier_focus_buff:OnCreated()
     self.max_shield = 0

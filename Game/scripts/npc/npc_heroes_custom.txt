@@ -255,6 +255,15 @@
 		"Ability1"                                      "silencer_arcane_curse_custom"
 		"Ability3"                                      "focus"
 		"Ability6"                                      "silent_square"
+
+        "Ability10"										"special_bonus_unique_custom_silencer_1"
+        "Ability11"										"special_bonus_unique_custom_silencer_2"
+        "Ability12"										"special_bonus_unique_custom_silencer_3"
+        "Ability13"										"special_bonus_unique_custom_silencer_4"
+        "Ability14"										"special_bonus_unique_custom_silencer_5"
+        "Ability15"										"special_bonus_unique_custom_silencer_6"
+        "Ability16"										"special_bonus_unique_custom_silencer_7"
+        "Ability17"										"special_bonus_unique_custom_silencer_8"
 	}
 
 	 
