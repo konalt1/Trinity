@@ -2813,7 +2813,7 @@
     // Furion (Nature's Prophet) — Custom Abilities
     //=================================================================================================================
 
-
+    "furion_teleportation"
     {
         "BaseClass"                     "furion_teleportation"
         "ScriptFile"                    "abilities/furion/furion_teleportation"
@@ -2852,8 +2852,7 @@
         }
     }
 
-
-
+    "furion_spirit_of_forest"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/furion/furion_spirit_of_forest"
@@ -2872,6 +2871,7 @@
         }
     }
 
+    "furion_nature_security"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/furion/furion_nature_security"
@@ -2898,6 +2898,7 @@
         }
     }
 
+    "furion_nature_essence"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/furion/furion_nature_essence"
