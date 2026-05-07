@@ -2355,8 +2355,6 @@
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
             "particle"      "particles/units/heroes/hero_chen/chen_penitence.vpcf"
-<<<<<<< Updated upstream
-=======
             "particle"      "particles/units/heroes/hero_enchantress/enchantress_enchant_cast.vpcf"
         }
     }
@@ -2435,7 +2433,6 @@
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
             "particle"      "particles/items4_fx/thorn_whip.vpcf"
->>>>>>> Stashed changes
         }
     }
 
@@ -2468,11 +2465,8 @@
         {
             "bonus_health"              "700 1100 1500"
             "minimum_barrack_health"    "1200 1700 2200"
-<<<<<<< Updated upstream
-=======
             "max_barracks"              "1 2 3"
             "scepter_bonus_barracks"    "1"
->>>>>>> Stashed changes
         }
 
         "precache"
@@ -2523,12 +2517,8 @@
 
         "AbilityValues"
         {
-<<<<<<< Updated upstream
-            "gold_cost"                 "125"
-=======
             "gold_cost"                 "150"
             "production_time"           "16"
->>>>>>> Stashed changes
             "spawn_distance"            "200"
         }
     }
@@ -2551,18 +2541,12 @@
 
         "AbilityValues"
         {
-<<<<<<< Updated upstream
-            "gold_cost"                 "225"
-=======
             "gold_cost"                 "300"
             "production_time"           "28"
->>>>>>> Stashed changes
             "spawn_distance"            "220"
         }
     }
 
-<<<<<<< Updated upstream
-=======
     "chen_barrack_summon_ancient"
     {
         "BaseClass"                     "ability_lua"
@@ -2716,7 +2700,6 @@
         }
     }
 
->>>>>>> Stashed changes
     "silencer_arcane_curse_custom"
     {
         "BaseClass"                     "ability_lua"
