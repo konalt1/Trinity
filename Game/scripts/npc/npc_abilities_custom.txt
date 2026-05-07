@@ -2355,6 +2355,87 @@
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
             "particle"      "particles/units/heroes/hero_chen/chen_penitence.vpcf"
+<<<<<<< Updated upstream
+=======
+            "particle"      "particles/units/heroes/hero_enchantress/enchantress_enchant_cast.vpcf"
+        }
+    }
+
+    "chen_holy_persuasion_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_holy_persuasion"
+        "AbilityTextureName"            "chen_holy_persuasion"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_TEAM_NEUTRAL"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastRange"              "600 650 700 750"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCooldown"               "30 26 22 18"
+        "AbilityManaCost"               "100 110 120 130"
+
+        "AbilityValues"
+        {
+            "bonus_health"              "250 450 650 850"
+            "bonus_damage"              "12 24 36 48"
+            "bounty_share_pct"          "35 45 55 65"
+            "fallback_bounty"           "40"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
+            "particle"      "particles/units/heroes/hero_chen/chen_holy_persuasion.vpcf"
+            "particle"      "particles/items2_fx/hand_of_midas.vpcf"
+            "particle"      "particles/items_fx/dominator.vpcf"
+        }
+    }
+
+    "chen_whip"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_whip"
+        "AbilityTextureName"            "ringmaster_tame_the_beasts"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "FightRecapLevel"               "1"
+        "HasShardUpgrade"               "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastRange"              "700"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCooldown"               "24 20 16 12"
+        "AbilityManaCost"               "70 80 90 100"
+
+        "AbilityValues"
+        {
+            "search_radius"             "900 1000 1100 1200"
+            "shard_radius"              "650"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
+            "particle"      "particles/items4_fx/thorn_whip.vpcf"
+>>>>>>> Stashed changes
         }
     }
 
@@ -2387,6 +2468,11 @@
         {
             "bonus_health"              "700 1100 1500"
             "minimum_barrack_health"    "1200 1700 2200"
+<<<<<<< Updated upstream
+=======
+            "max_barracks"              "1 2 3"
+            "scepter_bonus_barracks"    "1"
+>>>>>>> Stashed changes
         }
 
         "precache"
@@ -2396,7 +2482,7 @@
         }
     }
 
-    "chen_barrack_summon_melee"
+    "chen_barrack_summon_t1"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
@@ -2419,7 +2505,7 @@
         }
     }
 
-    "chen_barrack_summon_ranged"
+    "chen_barrack_summon_t2"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
@@ -2437,12 +2523,17 @@
 
         "AbilityValues"
         {
+<<<<<<< Updated upstream
             "gold_cost"                 "125"
+=======
+            "gold_cost"                 "150"
+            "production_time"           "16"
+>>>>>>> Stashed changes
             "spawn_distance"            "200"
         }
     }
 
-    "chen_barrack_summon_siege"
+    "chen_barrack_summon_t3"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
@@ -2460,11 +2551,172 @@
 
         "AbilityValues"
         {
+<<<<<<< Updated upstream
             "gold_cost"                 "225"
+=======
+            "gold_cost"                 "300"
+            "production_time"           "28"
+>>>>>>> Stashed changes
             "spawn_distance"            "220"
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    "chen_barrack_summon_ancient"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_barrack"
+        "AbilityTextureName"            "chen_holy_persuasion"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCooldown"               "0.5"
+        "AbilityManaCost"               "0"
+
+        "AbilityValues"
+        {
+            "gold_cost"                 "600"
+            "production_time"           "45"
+            "spawn_distance"            "250"
+        }
+    }
+
+    "chen_barrack_self_destruct"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_barrack"
+        "AbilityTextureName"            "chen_test_of_faith"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCooldown"               "1.0"
+        "AbilityManaCost"               "0"
+
+        "AbilityValues"
+        {
+            "radius"                    "400"
+            "damage"                    "300"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+            "particle"      "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+        }
+    }
+
+    //=================================================================================================================
+    // Chen — Talents
+    //=================================================================================================================
+    "special_bonus_unique_custom_chen_1"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_penitence"
+        "AbilityValues"
+        {
+            "bonus_damage"              "75"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_2"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_penitence"
+        "AbilityValues"
+        {
+            "attack_speed"              "35"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_3"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_holy_persuasion"
+        "AbilityValues"
+        {
+            "bonus_health"              "300"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_4"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_holy_persuasion"
+        "AbilityValues"
+        {
+            "bonus_damage"              "30"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_5"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_test_of_faith"
+        "AbilityValues"
+        {
+            "bonus_radius"              "300"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_6"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_test_of_faith"
+        "AbilityValues"
+        {
+            "cooldown_reduction"        "3"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_7"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_holy_persuasion"
+        "AbilityValues"
+        {
+            "barrack_health"            "300"
+        }
+    }
+
+    "special_bonus_unique_custom_chen_8"
+    {
+        "BaseClass"                     "special_bonus_base"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "chen_holy_persuasion"
+        "AbilityValues"
+        {
+            "gold_cost_reduction"       "25"
+            "production_time_reduction" "3"
+        }
+    }
+
+>>>>>>> Stashed changes
     "silencer_arcane_curse_custom"
     {
         "BaseClass"                     "ability_lua"
@@ -2574,5 +2826,145 @@
             "particle"                  "particles/silencer/focus/lotus_orb_fallrewardline_2025_shield_fallrewardline_2025.vpcf"
         }
     }
+
+
+    //=================================================================================================================
+    // Furion (Nature's Prophet) — Custom Abilities
+    //=================================================================================================================
+
+
+    {
+        "BaseClass"                     "furion_teleportation"
+        "ScriptFile"                    "abilities/furion/furion_teleportation"
+        "AbilityTextureName"            "furion_teleportation"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastRange"              "99999"
+        "AbilityCastPoint"              "0.0"
+        "AbilityChannelTime"            "3.0 3.0 3.0 3.0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCooldown"               "70 55 40 25"
+        "AbilityManaCost"               "75 100 125 150"
+
+        "AbilityValues"
+        {
+            "curse_radius"              "900"
+            "curse_duration"            "5 6 7 8"
+            "slow_pct"                  "25 30 35 40"
+            "tree_check_radius"         "250"
+            "curse_damage_base"         "20 30 40 50"
+            "curse_damage_per_tree"     "5 8 11 14"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
+            "particle"      "particles/units/heroes/hero_furion/furion_teleport_start.vpcf"
+            "particle"      "particles/units/heroes/hero_furion/furion_teleport_end.vpcf"
+        }
+    }
+
+
+
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/furion/furion_spirit_of_forest"
+        "AbilityTextureName"            "furion_force_of_nature"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityValues"
+        {
+            "tree_radius"               "250"
+            "damage_per_tree"           "4 6 8 10"
+            "attack_speed_per_tree"     "3 4 5 6"
+        }
+    }
+
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/furion/furion_nature_security"
+        "AbilityTextureName"            "furion_wrath_of_nature"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "HasScepterUpgrade"             "1"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+
+        "AbilityValues"
+        {
+            "detection_radius"          "1500 2000 2500"
+            "punishment_damage"         "80 140 200"
+            "punishment_slow_duration"  "2.0 2.5 3.0"
+            "punishment_move_slow"      "30 40 50"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
+            "particle"      "particles/units/heroes/hero_phantom_assassin_persona/pa_persona_crit_impact_bloodstain.vpcf"
+        }
+    }
+
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/furion/furion_nature_essence"
+        "AbilityTextureName"            "furion_wrath_of_nature"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "IsGrantedByScepter"            "1"
+        "HasScepterUpgrade"             "0"
+
+        "AbilityCastRange"              "800"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCooldown"               "30"
+        "AbilityManaCost"               "175"
+
+        "AbilityValues"
+        {
+            "bounce_radius"             "350"
+            "max_bounces"               "10"
+            "damage_per_bounce"         "40"
+            "projectile_speed"          "700"
+            "damage_radius"             "350"
+            "max_targets"               "3"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
+            "particle"      "particles/units/heroes/hero_furion/furion_wrath_of_nature_projectile.vpcf"
+            "particle"      "particles/units/heroes/hero_furion/furion_wrath_of_nature_explosion.vpcf"
+            "particle"      "particles/units/heroes/hero_furion/furion_sprout.vpcf"
+        }
+    }
+
+    // Furion Talents (placeholders)
+    "special_bonus_unique_custom_furion_1" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_2" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_3" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_4" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_5" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_6" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_7" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
+    "special_bonus_unique_custom_furion_8" { "BaseClass" "special_bonus_base" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityTextureName" "furion_sprout" "AbilityValues" { "value" "1" } }
 
 }
