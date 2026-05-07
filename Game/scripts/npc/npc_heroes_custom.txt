@@ -258,4 +258,31 @@
 	}
 
 	 
+
+	"npc_dota_hero_furion"
+	{
+		"override_hero"                                 "npc_dota_hero_furion"
+		"Facets"                                        ""
+		"MovementSpeed"                                 "310"
+		"Armor"                                         "2.0"
+
+		"Ability1"                                      "furion_sprout"
+		"Ability2"                                      "furion_teleportation"
+		"Ability3"                                      "furion_spirit_of_forest"
+		"Ability4"                                      "generic_hidden"
+		"Ability5"                                      "furion_nature_essence"
+		"Ability6"                                      "furion_nature_security"
+		"Ability7"                                      "generic_hidden"
+		"Ability8"                                      "generic_hidden"
+
+		"Ability10"                                     "special_bonus_unique_custom_furion_1"
+		"Ability11"                                     "special_bonus_unique_custom_furion_2"
+		"Ability12"                                     "special_bonus_unique_custom_furion_3"
+		"Ability13"                                     "special_bonus_unique_custom_furion_4"
+		"Ability14"                                     "special_bonus_unique_custom_furion_5"
+		"Ability15"                                     "special_bonus_unique_custom_furion_6"
+		"Ability16"                                     "special_bonus_unique_custom_furion_7"
+		"Ability17"                                     "special_bonus_unique_custom_furion_8"
+	}
+
 }

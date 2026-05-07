@@ -537,8 +537,180 @@
 		"shard_pool_capture"												"Противник захватывает Аганимный фонтан!"
 		"roshan_spawn"														"На карту вошёл Рошан!"
 
+		// =============================================
+		// Chen
+		// =============================================
 
-	
+		// Martyr Mark
+		"DOTA_Tooltip_ability_chen_martyr_mark"								"Метка Мученика"
+		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен помечает врага. Все союзные крипы в радиусе будут принудительно атаковать эту цель, получая бонус к скорости атаки. Наносит мгновенный урон при применении."
+
+		// Holy Persuasion
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа. Прирученный крип получает бонус к максимальному здоровью и урону от атаки. Когда крип погибает — Чен получает часть его награды в золоте."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_damage"		"БОНУС УРОНА:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bounty_share_pct"	"%ДОЛЯ НАГРАДЫ ЗА УБИЙСТВО:"
+
+		// Whip
+		"DOTA_Tooltip_ability_chen_whip"									"Кнут"
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом союзного крипа, мгновенно активируя все его способности на ближайших врагов — без затрат маны и без перезарядки. Если целью выбран вражеский юнит, крипы перенаправят свои удары на него (приоритет — герои). Мана и перезарядка крипа восстанавливаются после применения."
+		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
+		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС AOE (ШАРД):"
+		"DOTA_Tooltip_ability_chen_whip_shard_description"					"Кнут бьёт по всем союзным крипам в радиусе 650 вокруг цели одновременно — все они кастуют свои способности."
+
+		// Barrack (Ultimate)
+		"DOTA_Tooltip_ability_chen_barrack"									"Бараки"
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен превращает прирученного крипа в неподвижный Барак — здание, производящее боевых юнитов семейства исходного крипа. Уровень способности определяет доступные тиры производства и максимальное число бараков. При превышении лимита самый старый барак разрушается, а зарезервированное золото возвращается."
+		"DOTA_Tooltip_ability_chen_barrack_bonus_health"					"БОНУС HP БАРАКА:"
+		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"МИНИМУМ HP БАРАКА:"
+		"DOTA_Tooltip_ability_chen_barrack_max_barracks"					"МАКС. БАРАКОВ:"
+		"DOTA_Tooltip_ability_chen_barrack_scepter_bonus_barracks"			"БОНУС БАРАКОВ С АГАНИМОМ:"
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Увеличивает максимальное количество бараков на 1. Открывает производство Древних крипов (Tier 4) на всех бараках."
+
+		// Barrack Summon T1
+		"DOTA_Tooltip_ability_chen_barrack_summon_t1"						"Производство: Тир 1"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t1_Description"			"Заказывает крипа первого тира семейства этого барака. Доступно с 1-го уровня ультимейта."
+		"DOTA_Tooltip_ability_chen_barrack_summon_t1_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t1_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		// Barrack Summon T2
+		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Производство: Тир 2"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t2_Description"			"Заказывает крипа второго тира семейства этого барака. Требует 2-й уровень ультимейта."
+		"DOTA_Tooltip_ability_chen_barrack_summon_t2_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t2_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		// Barrack Summon T3
+		"DOTA_Tooltip_ability_chen_barrack_summon_t3"						"Производство: Тир 3"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t3_Description"			"Заказывает крипа третьего тира семейства этого барака. Требует 3-й уровень ультимейта."
+		"DOTA_Tooltip_ability_chen_barrack_summon_t3_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t3_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		// Barrack Summon Ancient
+		"DOTA_Tooltip_ability_chen_barrack_summon_ancient"					"Производство: Древний"
+		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_Description"		"Заказывает Древнего крипа семейства этого барака. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_gold_cost"		"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		// Barrack Self Destruct
+		"DOTA_Tooltip_ability_chen_barrack_self_destruct"					"Снос Барака"
+		"DOTA_Tooltip_ability_chen_barrack_self_destruct_Description"		"Барак самоуничтожается, нанося магический урон всем врагам в радиусе взрыва. Золото из очереди производства немедленно возвращается владельцу."
+		"DOTA_Tooltip_ability_chen_barrack_self_destruct_radius"			"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_chen_barrack_self_destruct_damage"			"УРОН:"
+
+		// Modifier — producing
+		"DOTA_Tooltip_modifier_chen_barrack_producing"						"Производство..."
+		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Барак производит юнита."
+
+		// Talents
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1"				"+75 урона союзным крипам"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1_Description"	"Все крипы Чена получают дополнительный урон от атаки."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2"				"+35 скорости атаки крипам"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2_Description"	"Все крипы Чена атакуют значительно быстрее."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3"				"+300 HP к Святому Убеждению"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3_Description"	"Прирученные крипы получают ещё больше бонусного здоровья."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4"				"+30 урона к Святому Убеждению"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4_Description"	"Прирученные крипы получают ещё больше бонусного урона."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5"				"+300 к радиусу поиска Кнута"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5_Description"	"Кнут принуждает крипов атаковать цели в большем радиусе."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6"				"-3 сек. к перезарядке Кнута"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6_Description"	"Кнут перезаряжается быстрее."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7"				"+300 HP Баракам"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7_Description"	"Все бараки Чена становятся прочнее."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8"				"-25 золота / -3 сек. производства"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8_Description"	"Производство юнитов в бараках дешевле и быстрее."
+
+		// HUD Errors
+		"dota_hud_error_chen_barrack_no_owner"								"Барак не имеет владельца"
+		"dota_hud_error_chen_barrack_no_unit_in_family"						"В этом семействе нет крипа данного тира"
+		"dota_hud_error_chen_barrack_low_level"								"Недостаточный уровень ультимейта для этого тира"
+		"dota_hud_error_chen_barrack_need_scepter"							"Требуется Aghanim's Scepter для производства Древних"
+		"dota_hud_error_chen_barrack_queue_full"							"Очередь производства полна (макс. 5)"
+		"dota_hud_error_chen_barrack_invalid_target"						"Цель должна быть прирученным крипом Чена"
+		"dota_hud_error_chen_barrack_self_destruct_invalid_target"			"Только барак может использовать эту способность"
+		"dota_hud_error_chen_barrack_self_destruct_dead"					"Барак уже уничтожен"
+		"dota_hud_error_chen_whip_invalid_target"							"Недопустимая цель для Кнута"
+
+		// =============================================
+		// Furion — Nature's Prophet
+		// =============================================
+
+		// Sprout
+		"DOTA_Tooltip_ability_furion_sprout"					"Побег"
+		"DOTA_Tooltip_ability_furion_sprout_Description"		"Фурион окружает цель кольцом деревьев, оцепеняя её. Пока цель находится внутри — получает периодический магический урон. Оцепенение развеивается и не проходит сквозь невосприимчивость к заклинаниям."
+		"DOTA_Tooltip_ability_furion_sprout_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_furion_sprout_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_furion_sprout_damage_per_second"	"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_furion_sprout_shard_description"	"Оцепенение нельзя развеять и оно проходит сквозь невосприимчивость к заклинаниям."
+
+		// Teleportation
+		"DOTA_Tooltip_ability_furion_teleportation"									"Телепортация"
+		"DOTA_Tooltip_ability_furion_teleportation_Description"						"Фурион мгновенно телепортируется в выбранную точку карты. После приземления накладывает проклятие на всех вражеских героев в радиусе 900: делает их видимыми в тумане войны, замедляет и наносит периодический урон. Урон в секунду зависит от числа деревьев в радиусе 250 вокруг цели."
+		"DOTA_Tooltip_ability_furion_teleportation_curse_radius"					"РАДИУС ПРОКЛЯТИЯ:"
+		"DOTA_Tooltip_ability_furion_teleportation_curse_duration"					"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_furion_teleportation_slow_pct"						"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_furion_teleportation_curse_damage_base"				"БАЗОВЫЙ УРОН В СЕК.:"
+		"DOTA_Tooltip_ability_furion_teleportation_curse_damage_per_tree"			"УРОН ЗА ДЕРЕВО:"
+		"DOTA_Tooltip_ability_furion_teleportation_tree_check_radius"				"РАДИУС УЧЁТА ДЕРЕВЬЕВ:"
+
+		// Spirit of the Forest (Passive)
+		"DOTA_Tooltip_ability_furion_spirit_of_forest"							"Дух Леса"
+		"DOTA_Tooltip_ability_furion_spirit_of_forest_Description"				"Пассивно. Фурион чувствует силу ближайших деревьев. Каждое дерево в радиусе увеличивает его урон от атаки и скорость атаки."
+		"DOTA_Tooltip_ability_furion_spirit_of_forest_tree_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_furion_spirit_of_forest_damage_per_tree"			"УРОН ЗА ДЕРЕВО:"
+		"DOTA_Tooltip_ability_furion_spirit_of_forest_attack_speed_per_tree"	"СКОРОСТЬ АТАКИ ЗА ДЕРЕВО:"
+
+		// Nature Security (Ult Passive)
+		"DOTA_Tooltip_ability_furion_nature_security"								"Стражник Природы"
+		"DOTA_Tooltip_ability_furion_nature_security_Description"					"Пассивно. Когда противник срубает дерево или убивает нейтрального крипа в радиусе вокруг Фуриона — с места преступления к нему тянется кровавый след. Дорожка видна в тумане войны и исчезает через 1 секунду."
+		"DOTA_Tooltip_ability_furion_nature_security_detection_radius"				"РАДИУС ОБНАРУЖЕНИЯ:"
+		"DOTA_Tooltip_ability_furion_nature_security_scepter_description"			"Даёт способность Сущность Природы."
+
+
+		// Curse of Old Growth (standalone ability)
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth"								"Проклятие Старого Леса"
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth_Description"					"Фурион накладывает на врага Проклятие Леса: делает его видимым в тумане войны, замедляет и наносит периодический магический урон. Урон за секунду растёт с числом деревьев в радиусе 250 вокруг цели."
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth_curse_duration"					"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth_slow_pct"						"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth_curse_damage_base"				"УРОН В СЕК. (база):"
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth_curse_damage_per_tree"			"УРОН ЗА ДЕРЕВО:"
+		"DOTA_Tooltip_ability_furion_curse_of_oldgrowth_tree_check_radius"				"РАДИУС УЧЁТА ДЕРЕВЬЕВ:"
+
+		// Nature Essence (Scepter)
+		"DOTA_Tooltip_ability_furion_nature_essence"								"Сущность Природы"
+		"DOTA_Tooltip_ability_furion_nature_essence_Description"					"Даруется Aghanim's Scepter. Фурион выпускает энергетический шар, который скачет между деревьями, накапливая урон. Достигнув финальной точки, шар взрывается и наносит весь накопленный урон вражеским героям в радиусе. Может одновременно поразить несколько целей."
+		"DOTA_Tooltip_ability_furion_nature_essence_bounce_radius"					"РАДИУС МЕЖДУ ДЕРЕВЬЯМИ:"
+		"DOTA_Tooltip_ability_furion_nature_essence_max_bounces"					"МАКС. ОТСКОКОВ:"
+		"DOTA_Tooltip_ability_furion_nature_essence_damage_per_bounce"				"УРОН ЗА ОТСКОК:"
+		"DOTA_Tooltip_ability_furion_nature_essence_damage_radius"					"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_furion_nature_essence_max_targets"					"МАКС. ЦЕЛЕЙ:"
+
+		// Modifiers
+		"DOTA_Tooltip_modifier_furion_sprout_root"									"Побег"
+		"DOTA_Tooltip_modifier_furion_sprout_root_Description"						"Оцеплен деревьями. Не может двигаться."
+		"DOTA_Tooltip_modifier_furion_teleport_curse"								"Проклятие Леса"
+		"DOTA_Tooltip_modifier_furion_teleport_curse_Description"					"Замедлен и виден в тумане войны. Получает периодический урон."
+		"DOTA_Tooltip_modifier_furion_nature_security_passive"						"Стражник Природы"
+		"DOTA_Tooltip_modifier_furion_nature_security_passive_Description"			"Отслеживает посягательства на природу в радиусе. При обнаружении — оставляет кровавый след."
+
+        // Furion modifier additions (Curse of Old Growth + Spirit of Forest fix)
+        "DOTA_Tooltip_modifier_furion_curse_of_oldgrowth"                           "Проклятие Старого Леса"
+        "DOTA_Tooltip_modifier_furion_curse_of_oldgrowth_Description"               "Замедлен. Виден в тумане войны. Получает периодический магический урон, зависящий от числа деревьев поблизости."
+        "DOTA_Tooltip_modifier_furion_spirit_of_forest"                             "Дух Леса"
+        "DOTA_Tooltip_modifier_furion_spirit_of_forest_Description"                 "Урон от атаки и скорость атаки увеличены пропорционально числу деревьев рядом."
+        // Teleportation channel time tooltip
+        "DOTA_Tooltip_ability_furion_teleportation_curse_radius"                    "РАДИУС ПРОКЛЯТИЯ:"
+        "DOTA_Tooltip_ability_furion_teleportation_AbilityChannelTime"              "ВРЕМЯ ТЕЛЕПОРТАЦИИ:"
+
+		// Talents (placeholder names)
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_2"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_3"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_4"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_5"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_6"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_7"					"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_8"					"Заглушка"
 
 	}
 }
