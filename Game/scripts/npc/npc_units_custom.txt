@@ -790,10 +790,11 @@
         "Level"                     "1"
         "UseNeutralCreepBehavior"   "0"
 
-        "Ability1"                  "chen_barrack_summon_melee"
-        "Ability2"                  "chen_barrack_summon_ranged"
-        "Ability3"                  "chen_barrack_summon_siege"
-        "Ability4"                  ""
+        "Ability1"                  "chen_barrack_summon_t1"
+        "Ability2"                  "chen_barrack_summon_t2"
+        "Ability3"                  "chen_barrack_summon_t3"
+        "Ability4"                  "chen_barrack_summon_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
 
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"

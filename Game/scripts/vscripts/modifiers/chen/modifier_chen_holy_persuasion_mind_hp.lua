@@ -35,7 +35,8 @@ function modifier_chen_holy_persuasion_mind_hp:OnAbilityExecuted(params)
 	end
 
 	local ability = params.ability
-	if not ability or ability:IsNull() or ability:GetAbilityName() ~= "chen_holy_persuasion" then
+	local abName = ability:GetAbilityName()
+	if abName ~= "chen_holy_persuasion" and abName ~= "chen_holy_persuasion_custom" then
 		return
 	end
 
