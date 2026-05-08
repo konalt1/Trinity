@@ -1,21 +1,197 @@
 chen_barrack = class({})
-<<<<<<< Updated upstream
-chen_barrack_summon_melee = class({})
-chen_barrack_summon_ranged = class({})
-chen_barrack_summon_siege = class({})
-
-local BARRACK_MODEL = "models/props_structures/good_barracks_melee001.vmdl"
-
-=======
-chen_barrack_summon_t1 = class({})
-chen_barrack_summon_t2 = class({})
-chen_barrack_summon_t3 = class({})
-chen_barrack_summon_ancient = class({})
+chen_barrack_summon = class({})
+chen_barrack_centaur_t1 = class({})
+chen_barrack_centaur_t2 = class({})
+chen_barrack_centaur_t3 = class({})
+chen_barrack_centaur_ancient = class({})
+chen_barrack_satyr_t1 = class({})
+chen_barrack_satyr_t2 = class({})
+chen_barrack_satyr_t3 = class({})
+chen_barrack_satyr_ancient = class({})
+chen_barrack_troll_t1 = class({})
+chen_barrack_troll_t2 = class({})
+chen_barrack_troll_t3 = class({})
+chen_barrack_troll_ancient = class({})
+chen_barrack_wolf_t1 = class({})
+chen_barrack_wolf_t2 = class({})
+chen_barrack_wolf_t3 = class({})
+chen_barrack_wolf_ancient = class({})
+chen_barrack_golem_t1 = class({})
+chen_barrack_golem_t2 = class({})
+chen_barrack_golem_t3 = class({})
+chen_barrack_golem_ancient = class({})
+chen_barrack_harpy_t1 = class({})
+chen_barrack_harpy_t2 = class({})
+chen_barrack_harpy_t3 = class({})
+chen_barrack_harpy_ancient = class({})
+chen_barrack_furbolg_t1 = class({})
+chen_barrack_furbolg_t2 = class({})
+chen_barrack_furbolg_t3 = class({})
+chen_barrack_furbolg_ancient = class({})
+chen_barrack_frog_t1 = class({})
+chen_barrack_frog_t2 = class({})
+chen_barrack_frog_t3 = class({})
+chen_barrack_frog_ancient = class({})
+chen_barrack_dragon_t1 = class({})
+chen_barrack_dragon_t2 = class({})
+chen_barrack_dragon_t3 = class({})
+chen_barrack_dragon_ancient = class({})
+chen_barrack_bear_t1 = class({})
+chen_barrack_bear_t2 = class({})
+chen_barrack_bear_t3 = class({})
+chen_barrack_bear_ancient = class({})
 chen_barrack_self_destruct = class({})
 modifier_chen_barrack = class({})
 modifier_chen_barrack_producing = class({})
 
 local BARRACK_MODEL = "models/props_structures/good_barracks_melee001.vmdl"
+
+--- 10 семей крипов для барака Чена
+--- Каждая семья имеет 4 уровня: т1, т2, т3, ancient (т4)
+--- Уровень барака определяет доступные уровни крипов
+--- Аганим открывает ancient уровень
+local CHEN_BARRACK_FAMILIES = {
+    { "satyr", { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_satyr_sentry" } },
+    { "frog", { "npc_dota_neutral_pollywog", "npc_dota_neutral_frog", "npc_dota_neutral_frog_elder", "npc_chen_frog_ancient" } },
+    { "troll", { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_dark_troll_warlord" } },
+    { "wolf", { "npc_dota_neutral_vhoul_assassin", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_alpha_wolf", "npc_chen_wolf_thunder" } },
+    { "centaur", { "npc_dota_neutral_kobold_foreman", "npc_dota_neutral_centaur_khan", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_brute" } },
+    { "golem", { "npc_dota_neutral_mud_golem_tiny", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_mud_golem_shard" } },
+    { "dragon", { "npc_dota_neutral_harpy_scout", "npc_dota_neutral_harpy_storm", "npc_dota_neutral_black_drake", "npc_dota_neutral_black_dragon" } },
+    { "bear", { "npc_chen_bear_wander", "npc_dota_neutral_hellbear", "npc_dota_neutral_hellbear_smasher", "npc_chen_bear_torchbearer" } },
+    { "furbolg", { "npc_chen_furbolg_treant", "npc_chen_furbolg_shroom", "npc_chen_furbolg_woodling", "npc_dota_neutral_warpine_raider" } },
+    { "harpy", { "npc_dota_neutral_wildwing", "npc_chen_harpy_bird", "npc_dota_neutral_wildwing_ripper", "npc_chen_harpy_phoenix" } },
+}
+
+-- Маппинг правильных имен юнитов для каждой семьи
+local CHEN_BARRACK_FAMILY_TARGETS = {
+    satyr = { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_satyr_sentry" },
+    frog = { "npc_dota_neutral_pollywog", "npc_dota_neutral_frog", "npc_dota_neutral_frog_elder", "npc_chen_frog_ancient" },
+    troll = { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_dark_troll_warlord" },
+    wolf = { "npc_dota_neutral_vhoul_assassin", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_alpha_wolf", "npc_chen_wolf_thunder" },
+    centaur = { "npc_dota_neutral_kobold_foreman", "npc_dota_neutral_centaur_khan", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_brute" },
+    golem = { "npc_dota_neutral_mud_golem_tiny", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_mud_golem_shard" },
+    dragon = { "npc_dota_neutral_harpy_scout", "npc_dota_neutral_harpy_storm", "npc_dota_neutral_black_drake", "npc_dota_neutral_black_dragon" },
+    bear = { "npc_chen_bear_wander", "npc_dota_neutral_hellbear", "npc_dota_neutral_hellbear_smasher", "npc_chen_bear_torchbearer" },
+    furbolg = { "npc_chen_furbolg_treant", "npc_chen_furbolg_shroom", "npc_chen_furbolg_woodling", "npc_dota_neutral_warpine_raider" },
+    harpy = { "npc_dota_neutral_wildwing", "npc_chen_harpy_bird", "npc_dota_neutral_wildwing_ripper", "npc_chen_harpy_phoenix" },
+}
+
+-- Маппинг существующих нейтральных крипов в правильные семьи (для создания барака из любых крипов)
+-- Основано на таблице кемпов:
+-- Лагерь кобольдов -> Барак Кентавров
+-- Лагерь холмовых троллей -> Барак Троллей
+-- Лагерь воулов-убийц -> барак волков
+-- Лагерь призраков -> барак сатиров
+-- Лагерь гарпий -> барак драконов
+-- Лагерь кентавров -> барак кентавров
+-- Лагерь волков -> барак волков
+-- Лагерь сатиров -> барак сатиров
+-- Лагерь огров -> барак тролей
+-- Лагерь големов -> барак големов
+-- Крупный лагерь сатиров -> барак сатиров
+-- Лагерь медведемонов -> барак медведей
+-- Лагерь дикокрылов -> барак пернатых
+-- Лагерь троллей -> лагерь троллей
+-- Лагерь сосновых налётчиков -> барак шишек
+-- Лагерь драконов -> барак драконов
+-- Крупный лагерь големов -> барак големов
+-- Лагерь ящериц -> барак волков
+-- Промёрзший лагерь -> барак тролей
+local NEUTRAL_TO_FAMILY = {
+    -- Кобольды -> Кентавры
+    ["npc_dota_neutral_kobold"] = "centaur",
+    ["npc_dota_neutral_kobold_foreman"] = "centaur",
+    ["npc_dota_neutral_kobold_taskmaster"] = "centaur",
+    ["npc_dota_neutral_kobold_soldier"] = "centaur",
+    ["npc_dota_neutral_kobold_tunneler"] = "centaur",
+    -- Холмовые тролли -> Тролли
+    ["npc_dota_neutral_forest_troll_berserker"] = "troll",
+    ["npc_dota_neutral_forest_troll_high_priest"] = "troll",
+    -- Воулы-убийцы -> Волки
+    ["npc_dota_neutral_vhoul_assassin"] = "wolf",
+    ["npc_dota_neutral_gnoll_assassin"] = "wolf",
+    -- Призраки -> Сатиры
+    ["npc_dota_neutral_ghost"] = "satyr",
+    ["npc_dota_neutral_ghost_frost"] = "satyr",
+    ["npc_dota_neutral_ghost_mage"] = "satyr",
+    -- Гарпии -> Драконы
+    ["npc_dota_neutral_harpy_scout"] = "dragon",
+    ["npc_dota_neutral_harpy_storm"] = "dragon",
+    ["npc_dota_neutral_harpy"] = "dragon",
+    -- Кентавры -> Кентавры
+    ["npc_dota_neutral_centaur_khan"] = "centaur",
+    ["npc_dota_neutral_centaur_outrunner"] = "centaur",
+    ["npc_dota_neutral_centaur_brute"] = "centaur",
+    -- Волки -> Волки
+    ["npc_dota_neutral_giant_wolf"] = "wolf",
+    ["npc_dota_neutral_alpha_wolf"] = "wolf",
+    ["npc_dota_neutral_ghost_wolf"] = "wolf",
+    -- Сатиры -> Сатиры
+    ["npc_dota_neutral_satyr_trickster"] = "satyr",
+    ["npc_dota_neutral_satyr_soulstealer"] = "satyr",
+    ["npc_dota_neutral_satyr_hellcaller"] = "satyr",
+    ["npc_dota_neutral_prowler_shaman"] = "satyr",
+    ["npc_dota_neutral_satyr_sentry"] = "satyr",
+    -- Огры -> Тролли
+    ["npc_dota_neutral_ogre_magi"] = "troll",
+    ["npc_dota_neutral_ogre_mauler"] = "troll",
+    ["npc_dota_neutral_ogre_bruiser"] = "troll",
+    -- Големы -> Големы
+    ["npc_dota_neutral_mud_golem"] = "golem",
+    ["npc_dota_neutral_mud_golem_tiny"] = "golem",
+    ["npc_dota_neutral_rock_golem"] = "golem",
+    ["npc_dota_neutral_granite_golem"] = "golem",
+    -- Медведемоны -> Медведи
+    ["npc_dota_neutral_hellbear"] = "bear",
+    ["npc_dota_neutral_hellbear_smasher"] = "bear",
+    ["npc_dota_neutral_polar_furbolg"] = "bear",
+    ["npc_dota_neutral_polar_furbolg_champion"] = "bear",
+    ["npc_dota_neutral_polar_furbolg_ursa_warrior"] = "bear",
+    -- Дикокрылы -> Пернатые
+    ["npc_dota_neutral_wildwing"] = "harpy",
+    ["npc_dota_neutral_wildwing_ripper"] = "harpy",
+    ["npc_dota_neutral_big_wildwing"] = "harpy",
+    ["npc_dota_neutral_enraged_wildkin"] = "harpy",
+    ["npc_dota_neutral_wildkin"] = "harpy",
+    -- Тролли -> Тролли
+    ["npc_dota_neutral_dark_troll"] = "troll",
+    ["npc_dota_neutral_dark_troll_warlord"] = "troll",
+    -- Сосновые налётчики -> Шишки
+    ["npc_dota_neutral_treant"] = "furbolg",
+    ["npc_dota_neutral_treant_small"] = "furbolg",
+    ["npc_dota_neutral_prowler_acolyte"] = "furbolg",
+    ["npc_dota_neutral_prowler_shaman"] = "furbolg",
+    ["npc_dota_neutral_warpine_raider"] = "furbolg",
+    ["npc_dota_neutral_polar_furbolg_ursa_warrior"] = "bear",
+    -- Драконы -> Драконы
+    ["npc_dota_neutral_black_drake"] = "dragon",
+    ["npc_dota_neutral_black_dragon"] = "dragon",
+    ["npc_dota_neutral_elder_dragon"] = "dragon",
+    -- Ящерицы -> Волки
+    ["npc_dota_neutral_dragon_spawn"] = "wolf",
+    ["npc_dota_neutral_dragon_spawn_elder"] = "wolf",
+    ["npc_dota_neutral_dragon_spawn_jungle"] = "wolf",
+    -- Промёрзший лагерь -> Тролли
+    ["npc_dota_neutral_frost_bear"] = "troll",
+    ["npc_dota_neutral_frost_bear_spawn"] = "troll",
+    ["npc_dota_neutral_frost_bear_leader"] = "troll",
+    -- Кастомные юниты Чена
+    ["npc_chen_frog_ancient"] = "frog",
+    ["npc_chen_wolf_thunder"] = "wolf",
+    ["npc_chen_bear_wander"] = "bear",
+    ["npc_chen_bear_torchbearer"] = "bear",
+    ["npc_chen_furbolg_treant"] = "furbolg",
+    ["npc_chen_furbolg_woodling"] = "furbolg",
+    ["npc_chen_furbolg_shroom"] = "furbolg",
+    ["npc_chen_furbolg_shroom_ancient"] = "furbolg",
+    ["npc_chen_harpy_bird"] = "harpy",
+    ["npc_chen_harpy_phoenix"] = "harpy",
+    -- Лягухи
+    ["npc_dota_neutral_pollywog"] = "frog",
+    ["npc_dota_neutral_frog"] = "frog",
+    ["npc_dota_neutral_frog_elder"] = "frog",
+}
 
 local function GetTalentValue(hero, talentName, valueName, fallback)
     if not hero or hero:IsNull() then
@@ -48,22 +224,6 @@ local function HasScepterUpgrade(hero)
     return hero:HasModifier("modifier_item_ultimate_scepter") or hero:HasModifier("modifier_item_ultimate_scepter_consumed")
 end
 
-local CHEN_BARRACK_FAMILIES = {
-    { "centaur", { "npc_dota_neutral_kobold_taskmaster", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_khan" } },
-    { "satyr", { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_prowler_shaman" } },
-    { "troll", { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_ice_shaman" } },
-    { "wolf", { "npc_dota_neutral_vhoul_assassin", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_alpha_wolf", "npc_dota_neutral_thunderhide" } },
-    { "golem", { "npc_dota_neutral_mud_golem_tiny", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_granite_golem" } },
-    { "harpy", { "npc_dota_neutral_harpy_scout", "npc_dota_neutral_harpy_storm", "npc_dota_neutral_black_drake", "npc_dota_neutral_black_dragon" } },
-    { "dragon", { "npc_dota_neutral_harpy_scout", "npc_dota_neutral_harpy_storm", "npc_dota_neutral_black_drake", "npc_dota_neutral_black_dragon" } },
-    { "furbolg", { nil, "npc_dota_neutral_polar_furbolg_champion", "npc_dota_neutral_polar_furbolg_ursa_warrior" } },
-    { "bear", { nil, "npc_dota_neutral_polar_furbolg_champion", "npc_dota_neutral_polar_furbolg_ursa_warrior" } },
-    { "warpine", { nil, nil, "npc_dota_neutral_warpine_raider" } },
-    { "wildkin", { "npc_dota_neutral_wildkin", nil, "npc_dota_neutral_enraged_wildkin" } },
-    { "frog", { "npc_dota_neutral_froglet", "npc_dota_neutral_grown_frog", "npc_dota_neutral_grown_frog", "npc_dota_neutral_ancient_frog" } },
-}
-
->>>>>>> Stashed changes
 local function IsChenBarrackUnit(unit)
     if not unit or unit:IsNull() then
         return false
@@ -74,15 +234,11 @@ local function IsChenBarrackUnit(unit)
 end
 
 local function IsChenTamedCreep(unit, caster)
-    if not unit or unit:IsNull() or not unit:IsAlive() then
+    if not unit or unit:IsNull() then
         return false
     end
 
-    if not unit:IsCreep() or unit:IsHero() or unit:IsAncient() then
-        return false
-    end
-
-    if IsChenBarrackUnit(unit) then
+    if not unit:IsAlive() then
         return false
     end
 
@@ -94,7 +250,12 @@ local function IsChenTamedCreep(unit, caster)
         return false
     end
 
-    return unit:GetOwnerEntity() == caster
+    -- Если крип не герой и не здание - считаем валидной целью
+    if not unit:IsHero() and not unit:IsBuilding() then
+        return true
+    end
+
+    return false
 end
 
 local function GetBarrackOwnerHero(unit)
@@ -102,11 +263,22 @@ local function GetBarrackOwnerHero(unit)
         return nil
     end
 
-    local owner = unit:GetOwnerEntity()
+    -- Сначала пробуем GetOwnerEntity
+    local owner = unit.GetOwnerEntity and unit:GetOwnerEntity()
     if owner and not owner:IsNull() and owner:IsRealHero() then
         return owner
     end
 
+    -- Если не сработало, пробуем через PlayerOwnerID найти героя
+    local playerID = unit:GetPlayerOwnerID()
+    if playerID and playerID >= 0 then
+        local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+        if hero and not hero:IsNull() and hero:IsRealHero() then
+            return hero
+        end
+    end
+
+    -- Фоллбек через entindex если он есть
     if unit.chen_barrack_owner_entindex then
         local ownerFromIndex = EntIndexToHScript(unit.chen_barrack_owner_entindex)
         if ownerFromIndex and not ownerFromIndex:IsNull() and ownerFromIndex:IsRealHero() then
@@ -138,6 +310,29 @@ local function SpendGold(hero, goldCost)
     hero:ModifyGold(-goldCost, false, DOTA_ModifyGold_Unspecified)
 end
 
+local function GiveGoldToHero(hero, goldAmount)
+    if not hero or hero:IsNull() or goldAmount <= 0 then
+        return
+    end
+
+    hero:ModifyGold(goldAmount, false, DOTA_ModifyGold_Unspecified)
+end
+
+local function RefundReservedGold(barrack)
+    if not barrack or barrack:IsNull() then
+        return
+    end
+
+    local reservedGold = barrack.chen_reserved_gold or 0
+    if reservedGold > 0 then
+        local ownerHero = GetBarrackOwnerHero(barrack)
+        if ownerHero then
+            GiveGoldToHero(ownerHero, reservedGold)
+        end
+        barrack.chen_reserved_gold = 0
+    end
+end
+
 local function LevelBarrackAbilities(barrack)
     for slot = 0, 5 do
         local ability = barrack:GetAbilityByIndex(slot)
@@ -148,20 +343,155 @@ local function LevelBarrackAbilities(barrack)
 end
 
 local function GetBarrackModel(teamNumber)
-    return BARRACK_MODEL
+    return "models/props_structures/good_barracks_melee001.vmdl"
 end
 
-<<<<<<< Updated upstream
-local function BarrackSummonCastFilter(self)
-=======
-local function GetLaneFamilyUnit(variant)
-    local units = {
-        "npc_chen_barrack_melee",
-        "npc_chen_barrack_ranged",
-        "npc_chen_barrack_siege",
+--- Маппинг способностей для каждой семьи и уровня
+local FAMILY_ABILITIES = {
+    satyr = {
+        "chen_barrack_satyr_t1",
+        "chen_barrack_satyr_t2",
+        "chen_barrack_satyr_t3",
+        "chen_barrack_satyr_ancient"
+    },
+    frog = {
+        "chen_barrack_frog_t1",
+        "chen_barrack_frog_t2",
+        "chen_barrack_frog_t3",
+        "chen_barrack_frog_ancient"
+    },
+    troll = {
+        "chen_barrack_troll_t1",
+        "chen_barrack_troll_t2",
+        "chen_barrack_troll_t3",
+        "chen_barrack_troll_ancient"
+    },
+    wolf = {
+        "chen_barrack_wolf_t1",
+        "chen_barrack_wolf_t2",
+        "chen_barrack_wolf_t3",
+        "chen_barrack_wolf_ancient"
+    },
+    centaur = {
+        "chen_barrack_centaur_t1",
+        "chen_barrack_centaur_t2",
+        "chen_barrack_centaur_t3",
+        "chen_barrack_centaur_ancient"
+    },
+    golem = {
+        "chen_barrack_golem_t1",
+        "chen_barrack_golem_t2",
+        "chen_barrack_golem_t3",
+        "chen_barrack_golem_ancient"
+    },
+    dragon = {
+        "chen_barrack_dragon_t1",
+        "chen_barrack_dragon_t2",
+        "chen_barrack_dragon_t3",
+        "chen_barrack_dragon_ancient"
+    },
+    bear = {
+        "chen_barrack_bear_t1",
+        "chen_barrack_bear_t2",
+        "chen_barrack_bear_t3",
+        "chen_barrack_bear_ancient"
+    },
+    furbolg = {
+        "chen_barrack_furbolg_t1",
+        "chen_barrack_furbolg_t2",
+        "chen_barrack_furbolg_t3",
+        "chen_barrack_furbolg_ancient"
+    },
+    harpy = {
+        "chen_barrack_harpy_t1",
+        "chen_barrack_harpy_t2",
+        "chen_barrack_harpy_t3",
+        "chen_barrack_harpy_ancient"
     }
+}
 
-    return units[variant]
+local function GetFamilyName(sourceUnitName)
+    if not sourceUnitName or sourceUnitName == "" then
+        print("[Chen Barrack GetFamilyName] Empty unit name")
+        return nil
+    end
+
+    local sourceUnitNameLower = sourceUnitName:lower()
+    print("[Chen Barrack GetFamilyName] Looking up: " .. sourceUnitNameLower)
+
+    -- Сначала ищем точное совпадение в маппинге нейтральных крипов
+    if NEUTRAL_TO_FAMILY[sourceUnitName] then
+        print("[Chen Barrack GetFamilyName] Found in NEUTRAL_TO_FAMILY (exact): " .. sourceUnitName .. " -> " .. NEUTRAL_TO_FAMILY[sourceUnitName])
+        return NEUTRAL_TO_FAMILY[sourceUnitName]
+    end
+
+    if NEUTRAL_TO_FAMILY[sourceUnitNameLower] then
+        print("[Chen Barrack GetFamilyName] Found in NEUTRAL_TO_FAMILY (lower): " .. sourceUnitNameLower .. " -> " .. NEUTRAL_TO_FAMILY[sourceUnitNameLower])
+        return NEUTRAL_TO_FAMILY[sourceUnitNameLower]
+    end
+
+    -- Сначала ищем точное совпадение в таблице целей семей
+    for familyName, unitNames in pairs(CHEN_BARRACK_FAMILY_TARGETS) do
+        for _, unitName in ipairs(unitNames) do
+            if sourceUnitNameLower == unitName:lower() then
+                return familyName
+            end
+        end
+    end
+
+    -- Если точного совпадения нет, ищем по подстроке (fallback)
+    for _, family in ipairs(CHEN_BARRACK_FAMILIES) do
+        if string.find(sourceUnitNameLower, family[1], 1, true) then
+            return family[1]
+        end
+    end
+
+    return nil
+end
+
+local function GrantFamilyAbilities(barrack, familyName, ownerHero)
+    if not barrack or barrack:IsNull() or not familyName then
+        return
+    end
+
+    local abilities = FAMILY_ABILITIES[familyName]
+    if not abilities then
+        return
+    end
+
+    local ult = ownerHero:FindAbilityByName("chen_barrack")
+    local ultLevel = ult and ult:GetLevel() or 1
+    local hasScepter = HasScepterUpgrade(ownerHero)
+
+    -- Выдаем способности семье на брак
+    for i, abilityName in ipairs(abilities) do
+        local ability = barrack:FindAbilityByName(abilityName)
+        if not ability then
+            barrack:AddAbility(abilityName)
+            ability = barrack:FindAbilityByName(abilityName)
+        end
+
+        if ability then
+            ability:SetLevel(1)
+            ability:SetHidden(false)
+            ability:SetActivated(true)
+            print("[Chen Barrack] Added ability: " .. abilityName .. " to barrack")
+        else
+            print("[Chen Barrack] Failed to add ability: " .. abilityName)
+        end
+    end
+
+    -- Добавляем способность самоуничтожения
+    local destructAbility = barrack:FindAbilityByName("chen_barrack_self_destruct")
+    if not destructAbility then
+        barrack:AddAbility("chen_barrack_self_destruct")
+        destructAbility = barrack:FindAbilityByName("chen_barrack_self_destruct")
+    end
+    if destructAbility then
+        destructAbility:SetLevel(1)
+        destructAbility:SetHidden(false)
+        destructAbility:SetActivated(true)
+    end
 end
 
 local function GetFamilyUnitName(sourceUnitName, variant)
@@ -169,8 +499,27 @@ local function GetFamilyUnitName(sourceUnitName, variant)
         return nil
     end
 
+    local sourceUnitNameLower = sourceUnitName:lower()
+
+    -- Сначала ищем точное совпадение в CHEN_BARRACK_FAMILY_TARGETS
+    for familyName, unitNames in pairs(CHEN_BARRACK_FAMILY_TARGETS) do
+        for i, unitName in ipairs(unitNames) do
+            if i == variant and sourceUnitNameLower == unitName:lower() then
+                return unitName
+            end
+        end
+    end
+
+    -- Если точного совпадения нет, ищем по имени семьи в CHEN_BARRACK_FAMILY_TARGETS
+    for familyName, unitNames in pairs(CHEN_BARRACK_FAMILY_TARGETS) do
+        if sourceUnitNameLower:find(familyName, 1, true) then
+            return unitNames[variant]
+        end
+    end
+
+    -- Fallback: ищем в CHEN_BARRACK_FAMILIES
     for _, family in ipairs(CHEN_BARRACK_FAMILIES) do
-        if string.find(sourceUnitName:lower(), family[1], 1, true) then
+        if string.find(sourceUnitNameLower, family[1], 1, true) then
             return family[2][variant]
         end
     end
@@ -183,15 +532,14 @@ local function InitBarrackState(barrack)
     barrack.chen_reserved_gold = barrack.chen_reserved_gold or 0
     barrack.chen_production_active = barrack.chen_production_active or false
     barrack.chen_is_destroyed = barrack.chen_is_destroyed or false
+    barrack.chen_active_productions = barrack.chen_active_productions or 0
 end
 
 local function GetBarrackQueuedCount(barrack)
     InitBarrackState(barrack)
 
     local count = #barrack.chen_production_queue
-    if barrack.chen_production_active then
-        count = count + 1
-    end
+    count = count + (barrack.chen_active_productions or 0)
 
     return count
 end
@@ -213,6 +561,19 @@ local function CreateProductUnit(item, spawnPosition, ownerHero, teamNumber)
     end
 
     return nil
+end
+
+local function LevelUnitAbilities(unit)
+    if not unit or unit:IsNull() then
+        return
+    end
+
+    for slot = 0, 15 do
+        local ability = unit:GetAbilityByIndex(slot)
+        if ability and ability:GetLevel() == 0 then
+            ability:SetLevel(1)
+        end
+    end
 end
 
 local function CompleteProduction(barrack, item)
@@ -245,6 +606,13 @@ local function CompleteProduction(barrack, item)
     summon.chen_barrack_spawned = true
     summon.chen_owner_entindex = ownerHero:entindex()
     LevelUnitAbilities(summon)
+
+    -- Add production visual effects
+    local particle = ParticleManager:CreateParticle("particles/econ/events/ti6/kill_effect_creep_gold.vpcf", PATTACH_ABSORIGIN_FOLLOW, summon)
+    ParticleManager:ReleaseParticleIndex(particle)
+
+    -- Play spawn sound
+    EmitSoundOn("DOTA_Item.Hand_Of_Midas", barrack)
     FindClearSpaceForUnit(summon, spawnPosition, true)
     summon:Stop()
 
@@ -261,33 +629,42 @@ StartNextProduction = function(barrack)
 
     InitBarrackState(barrack)
 
-    if barrack.chen_production_active then
-        return
-    end
-
     local item = table.remove(barrack.chen_production_queue, 1)
     if not item then
         return
     end
 
-    barrack.chen_production_active = true
+    barrack.chen_active_productions = (barrack.chen_active_productions or 0) + 1
     barrack.chen_current_order = item
 
-    -- Apply production debuff with proper duration
     local productionTime = tonumber(item.production_time) or 10
     barrack:AddNewModifier(barrack, nil, "modifier_chen_barrack_producing", { duration = productionTime, production_time = productionTime })
 
     Timers:CreateTimer(item.production_time or 1, function()
         if barrack and not barrack:IsNull() and barrack:IsAlive() and not barrack.chen_is_destroyed then
             CompleteProduction(barrack, item)
-            barrack.chen_production_active = false
+            barrack.chen_active_productions = math.max(0, (barrack.chen_active_productions or 1) - 1)
             barrack.chen_current_order = nil
             StartNextProduction(barrack)
         end
     end)
 end
 
-local function QueueBarrackUnit(self, variant)
+local function GetAbilityVariant(abilityName)
+    -- Определяем вариант (1-4) из названия способности
+    if string.find(abilityName, "_t1") then
+        return 1
+    elseif string.find(abilityName, "_t2") then
+        return 2
+    elseif string.find(abilityName, "_t3") then
+        return 3
+    elseif string.find(abilityName, "_ancient") then
+        return 4
+    end
+    return 1
+end
+
+local function QueueBarrackUnit(self)
     if not IsServer() then
         return
     end
@@ -298,13 +675,14 @@ local function QueueBarrackUnit(self, variant)
         return
     end
 
-    -- Check tier level
+    local abilityName = self:GetAbilityName()
+    local variant = GetAbilityVariant(abilityName)
+
     local ult = ownerHero:FindAbilityByName("chen_barrack")
     if not ult then return end
     
     local ultLevel = ult:GetLevel()
     if variant > ultLevel and not (variant == 4 and HasScepterUpgrade(ownerHero)) then
-        -- This should be caught by CastFilter, but safety first
         return
     end
 
@@ -326,8 +704,7 @@ local function QueueBarrackUnit(self, variant)
     local unitName = GetFamilyUnitName(sourceUnitName, variant)
 
     if not unitName then
-        -- Show error
-        CustomGameTabs:SendError(ownerHero:GetPlayerOwnerID(), "#dota_hud_error_chen_barrack_no_unit_in_family")
+        CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(ownerHero:GetPlayerOwnerID()), "show_custom_error", { message = "#dota_hud_error_chen_barrack_no_unit_in_family" })
         return
     end
 
@@ -349,17 +726,16 @@ local function QueueBarrackUnit(self, variant)
     StartNextProduction(barrack)
 end
 
-local function BarrackSummonCastFilter(self, variant)
->>>>>>> Stashed changes
+local function BarrackSummonCastFilter(self)
     local barrack = self:GetCaster()
     local ownerHero = GetBarrackOwnerHero(barrack)
     if not ownerHero or ownerHero:IsNull() then
         return UF_FAIL_CUSTOM
     end
 
-<<<<<<< Updated upstream
-=======
-    -- Check level
+    local abilityName = self:GetAbilityName()
+    local variant = GetAbilityVariant(abilityName)
+
     local ult = ownerHero:FindAbilityByName("chen_barrack")
     if not ult then return UF_FAIL_CUSTOM end
     
@@ -374,7 +750,6 @@ local function BarrackSummonCastFilter(self, variant)
         end
     end
 
-    -- Check family existence
     local sourceUnitName = barrack.chen_source_unit_name
     local unitName = GetFamilyUnitName(sourceUnitName, variant)
     if not unitName then
@@ -389,7 +764,6 @@ local function BarrackSummonCastFilter(self, variant)
     local goldCost = self:GetSpecialValueFor("gold_cost")
     goldCost = math.max(0, goldCost - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
 
->>>>>>> Stashed changes
     if not HasEnoughGold(ownerHero, goldCost) then
         return UF_FAIL_CUSTOM
     end
@@ -397,16 +771,16 @@ local function BarrackSummonCastFilter(self, variant)
     return UF_SUCCESS
 end
 
-local function BarrackSummonCastError(self, variant)
+local function BarrackSummonCastError(self)
     local barrack = self:GetCaster()
     local ownerHero = GetBarrackOwnerHero(barrack)
     if not ownerHero or ownerHero:IsNull() then
         return "#dota_hud_error_chen_barrack_no_owner"
     end
 
-<<<<<<< Updated upstream
-    if not HasEnoughGold(ownerHero, self:GetSpecialValueFor("gold_cost")) then
-=======
+    local abilityName = self:GetAbilityName()
+    local variant = GetAbilityVariant(abilityName)
+
     local ult = ownerHero:FindAbilityByName("chen_barrack")
     if not ult then return "#dota_hud_error_internal" end
     
@@ -435,49 +809,10 @@ local function BarrackSummonCastError(self, variant)
     local goldCost = math.max(0, self:GetSpecialValueFor("gold_cost") - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
 
     if not HasEnoughGold(ownerHero, goldCost) then
->>>>>>> Stashed changes
         return "#dota_hud_error_not_enough_gold"
     end
 
     return ""
-end
-
-local function SpawnBarrackUnit(self, unitName)
-    if not IsServer() then
-        return
-    end
-
-<<<<<<< Updated upstream
-    local barrack = self:GetCaster()
-    local ownerHero = GetBarrackOwnerHero(barrack)
-    if not ownerHero then
-        return
-    end
-
-    local goldCost = self:GetSpecialValueFor("gold_cost")
-    if not HasEnoughGold(ownerHero, goldCost) then
-        return
-    end
-
-    SpendGold(ownerHero, goldCost)
-
-    local playerID = ownerHero:GetPlayerOwnerID()
-    local spawnDistance = self:GetSpecialValueFor("spawn_distance")
-    local spawnPosition = barrack:GetAbsOrigin() + barrack:GetForwardVector() * spawnDistance + RandomVector(75)
-    local summon = CreateUnitByName(unitName, spawnPosition, true, ownerHero, ownerHero, ownerHero:GetTeamNumber())
-    if not summon then
-        return
-    end
-
-    summon:SetOwner(ownerHero)
-    summon:SetControllableByPlayer(playerID, true)
-    FindClearSpaceForUnit(summon, spawnPosition, true)
-
-    EmitSoundOn("Hero_Chen.TeleportLoop", summon)
-=======
-    barrack.chen_reserved_gold = 0
-    GiveGoldToHero(ownerHero, gold)
->>>>>>> Stashed changes
 end
 
 function chen_barrack:CastFilterResultTarget(target)
@@ -497,14 +832,19 @@ function chen_barrack:OnSpellStart()
         return
     end
 
+    print("[Chen Barrack] OnSpellStart called")
+
     local caster = self:GetCaster()
     local target = self:GetCursorTarget()
+    
+    print("[Chen Barrack] Caster: " .. (caster and caster:GetUnitName() or "nil"))
+    print("[Chen Barrack] Target: " .. (target and target:GetUnitName() or "nil"))
+    
     if not IsChenTamedCreep(target, caster) then
+        print("[Chen Barrack] Target is not a tamed creep")
         return
     end
 
-<<<<<<< Updated upstream
-=======
     -- Find existing barracks owned by this Chen
     local teamNumber = caster:GetTeamNumber()
     local units = FindUnitsInRadius(
@@ -546,7 +886,6 @@ function chen_barrack:OnSpellStart()
         end
     end
 
->>>>>>> Stashed changes
     local origin = target:GetAbsOrigin()
     local forward = target:GetForwardVector()
     local playerID = caster:GetPlayerOwnerID()
@@ -554,6 +893,20 @@ function chen_barrack:OnSpellStart()
     local targetMaxHealth = math.max(target:GetMaxHealth(), target:GetHealth())
     local bonusHealth = self:GetSpecialValueFor("bonus_health")
     local minimumBarrackHealth = self:GetSpecialValueFor("minimum_barrack_health")
+
+    -- Determine family from target unit name
+    local targetName = target:GetUnitName() or ""
+    local familyName = GetFamilyName(targetName)
+    
+    print("[Chen Barrack] GetFamilyName returned: " .. (familyName or "nil") .. " for unit: " .. targetName)
+
+    -- Fallback: если крип не найден в таблице, используем satyr как дефолт
+    if not familyName then
+        print("[Chen Barrack] Family not found for unit: " .. targetName .. ", using satyr as fallback")
+        familyName = "satyr"
+    end
+
+    print("[Chen Barrack] Unit: " .. targetName .. ", Family: " .. familyName)
 
     if target:IsAlive() then
         target:ForceKill(false)
@@ -566,10 +919,17 @@ function chen_barrack:OnSpellStart()
     end
 
     barrack.chen_barrack_owner_entindex = caster:entindex()
+    barrack.chen_barrack_created_time = GameRules:GetGameTime()
+    barrack.chen_source_unit_name = targetName
+    barrack.chen_family_name = familyName
     barrack:SetOwner(caster)
     barrack:SetControllableByPlayer(playerID, true)
     barrack:SetForwardVector(forward)
     barrack:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
+    barrack:AddNewModifier(caster, nil, "modifier_chen_barrack", {})
+
+    -- Выдаем способности семьи
+    GrantFamilyAbilities(barrack, familyName, caster)
 
     local barrackMaxHealth = math.max(minimumBarrackHealth, targetMaxHealth + bonusHealth)
     barrack:SetBaseMaxHealth(barrackMaxHealth)
@@ -582,68 +942,239 @@ function chen_barrack:OnSpellStart()
 
     LevelBarrackAbilities(barrack)
 
+    -- Задержка для правильной инициализации способностей
+    Timers:CreateTimer(0.1, function()
+        print("[Chen Barrack] Activating abilities for barrack")
+        for slot = 0, 15 do
+            local ability = barrack:GetAbilityByIndex(slot)
+            if ability then
+                ability:SetActivated(true)
+                ability:SetHidden(false)
+                print("[Chen Barrack] Activated ability at slot " .. slot .. ": " .. ability:GetAbilityName())
+            end
+        end
+    end)
+
     EmitSoundOn("Hero_Chen.HolyPersuasionEnemy", barrack)
 end
 
-function chen_barrack_summon_t1:CastFilterResult()
-    return BarrackSummonCastFilter(self, 1)
+function chen_barrack_summon:CastFilterResult()
+    return BarrackSummonCastFilter(self)
 end
 
-function chen_barrack_summon_t1:GetCustomCastError()
-    return BarrackSummonCastError(self, 1)
+function chen_barrack_summon:GetCustomCastError()
+    return BarrackSummonCastError(self)
 end
 
-<<<<<<< Updated upstream
-function chen_barrack_summon_melee:OnSpellStart()
-    SpawnBarrackUnit(self, "npc_chen_barrack_melee")
-=======
-function chen_barrack_summon_t1:OnSpellStart()
-    QueueBarrackUnit(self, 1)
->>>>>>> Stashed changes
+function chen_barrack_summon:OnSpellStart()
+    QueueBarrackUnit(self)
 end
 
-function chen_barrack_summon_t2:CastFilterResult()
-    return BarrackSummonCastFilter(self, 2)
+-- Generic OnSpellStart for all barrack summon abilities
+function chen_barrack_centaur_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_centaur_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_centaur_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_centaur_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_satyr_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_satyr_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_satyr_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_satyr_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_troll_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_troll_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_troll_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_troll_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_wolf_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_wolf_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_wolf_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_wolf_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_golem_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_golem_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_golem_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_golem_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_harpy_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_harpy_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_harpy_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_harpy_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_furbolg_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_furbolg_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_furbolg_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_furbolg_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_frog_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_frog_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_frog_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_frog_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_dragon_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_dragon_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_dragon_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_dragon_ancient:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_bear_t1:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_bear_t2:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_bear_t3:OnSpellStart() QueueBarrackUnit(self) end
+function chen_barrack_bear_ancient:OnSpellStart() QueueBarrackUnit(self) end
+
+-- Generic CastFilterResult for all barrack summon abilities
+function chen_barrack_centaur_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_centaur_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_centaur_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_centaur_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_satyr_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_satyr_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_satyr_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_satyr_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_troll_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_troll_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_troll_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_troll_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_wolf_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_wolf_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_wolf_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_wolf_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_golem_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_golem_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_golem_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_golem_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_harpy_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_harpy_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_harpy_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_harpy_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_furbolg_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_furbolg_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_furbolg_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_furbolg_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_frog_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_frog_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_frog_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_frog_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_dragon_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_dragon_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_dragon_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_dragon_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_bear_t1:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_bear_t2:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_bear_t3:CastFilterResult() return BarrackSummonCastFilter(self) end
+function chen_barrack_bear_ancient:CastFilterResult() return BarrackSummonCastFilter(self) end
+
+-- Generic GetCustomCastError for all barrack summon abilities
+function chen_barrack_centaur_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_centaur_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_centaur_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_centaur_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_satyr_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_satyr_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_satyr_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_satyr_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_troll_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_troll_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_troll_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_troll_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_wolf_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_wolf_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_wolf_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_wolf_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_golem_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_golem_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_golem_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_golem_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_harpy_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_harpy_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_harpy_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_harpy_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_furbolg_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_furbolg_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_furbolg_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_furbolg_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_frog_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_frog_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_frog_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_frog_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_dragon_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_dragon_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_dragon_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_dragon_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_bear_t1:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_bear_t2:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_bear_t3:GetCustomCastError() return BarrackSummonCastError(self) end
+function chen_barrack_bear_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
+
+-- Self destruct ability
+function chen_barrack_self_destruct:OnSpellStart()
+    if not IsServer() then
+        return
+    end
+
+    local barrack = self:GetCaster()
+    if not barrack or barrack:IsNull() then
+        return
+    end
+
+    -- Refund reserved gold
+    RefundReservedGold(barrack)
+
+    -- Mark as destroyed to prevent production
+    barrack.chen_is_destroyed = true
+
+    -- Create explosion effect
+    local radius = self:GetSpecialValueFor("radius")
+    local damage = self:GetSpecialValueFor("damage")
+
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf", PATTACH_ABSORIGIN, barrack)
+    ParticleManager:SetParticleControl(particle, 0, barrack:GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle, 1, Vector(radius, 0, 0))
+    ParticleManager:ReleaseParticleIndex(particle)
+
+    EmitSoundOn("Hero_Techies.RemoteMine.Detonate", barrack)
+
+    -- Deal damage to enemies
+    local teamNumber = barrack:GetTeamNumber()
+    local enemies = FindUnitsInRadius(
+        teamNumber,
+        barrack:GetAbsOrigin(),
+        nil,
+        radius,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false
+    )
+
+    for _, enemy in pairs(enemies) do
+        if enemy and not enemy:IsNull() and enemy:IsAlive() then
+            ApplyDamage({
+                victim = enemy,
+                attacker = barrack,
+                damage = damage,
+                damage_type = DAMAGE_TYPE_MAGICAL,
+                ability = self
+            })
+        end
+    end
+
+    -- Kill the barrack
+    barrack:Kill(nil, barrack)
 end
 
-function chen_barrack_summon_t2:GetCustomCastError()
-    return BarrackSummonCastError(self, 2)
+-- Modifiers
+function modifier_chen_barrack:IsHidden()
+    return true
 end
 
-<<<<<<< Updated upstream
-function chen_barrack_summon_ranged:OnSpellStart()
-    SpawnBarrackUnit(self, "npc_chen_barrack_ranged")
-=======
-function chen_barrack_summon_t2:OnSpellStart()
-    QueueBarrackUnit(self, 2)
->>>>>>> Stashed changes
+function modifier_chen_barrack:IsPurgable()
+    return false
 end
 
-function chen_barrack_summon_t3:CastFilterResult()
-    return BarrackSummonCastFilter(self, 3)
+function modifier_chen_barrack_producing:IsHidden()
+    return false
 end
 
-function chen_barrack_summon_t3:GetCustomCastError()
-    return BarrackSummonCastError(self, 3)
+function modifier_chen_barrack_producing:IsPurgable()
+    return false
 end
 
-<<<<<<< Updated upstream
-function chen_barrack_summon_siege:OnSpellStart()
-    SpawnBarrackUnit(self, "npc_chen_barrack_siege")
-=======
-function chen_barrack_summon_t3:OnSpellStart()
-    QueueBarrackUnit(self, 3)
+function modifier_chen_barrack_producing:IsStackable()
+    return true
 end
 
-function chen_barrack_summon_ancient:CastFilterResult()
-    return BarrackSummonCastFilter(self, 4)
-end
-
-function chen_barrack_summon_ancient:GetCustomCastError()
-    return BarrackSummonCastError(self, 4)
-end
-
-function chen_barrack_summon_ancient:OnSpellStart()
-    QueueBarrackUnit(self, 4)
->>>>>>> Stashed changes
+function modifier_chen_barrack_producing:GetTexture()
+    return "chen_holy_persuasion"
 end

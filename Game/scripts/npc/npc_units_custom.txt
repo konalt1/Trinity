@@ -790,19 +790,6 @@
         "Level"                     "1"
         "UseNeutralCreepBehavior"   "0"
 
-<<<<<<< Updated upstream
-        "Ability1"                  "chen_barrack_summon_melee"
-        "Ability2"                  "chen_barrack_summon_ranged"
-        "Ability3"                  "chen_barrack_summon_siege"
-        "Ability4"                  ""
-=======
-        "Ability1"                  "chen_barrack_summon_t1"
-        "Ability2"                  "chen_barrack_summon_t2"
-        "Ability3"                  "chen_barrack_summon_t3"
-        "Ability4"                  "chen_barrack_summon_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
->>>>>>> Stashed changes
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -845,50 +832,43 @@
     "npc_chen_barrack_melee"
     {
         "BaseClass"                 "npc_dota_creature"
-        "Model"                     "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
-        "SoundSet"                  "n_creep_Melee"
-        "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.95"
         "UseNeutralCreepBehavior"   "0"
 
-        "Ability1"                  ""
-        "Ability2"                  ""
-        "Ability3"                  ""
-        "Ability4"                  ""
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
 
-        "ArmorPhysical"             "4"
-        "MagicalResistance"         "0"
-
-        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
-        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
-        "AttackDamageMin"           "38"
-        "AttackDamageMax"           "44"
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
         "AttackRate"                "1.0"
-        "AttackAnimationPoint"      "0.5"
-        "AttackAcquisitionRange"    "600"
-        "AttackRange"               "100"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
         "ProjectileModel"           ""
         "ProjectileSpeed"           "0"
 
-        "BoundsHullName"            "DOTA_HULL_SIZE_SMALL"
-        "HealthBarOffset"           "140"
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
         "BountyGoldMax"             "0"
 
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
-        "MovementSpeed"             "325"
-        "MovementTurnRate"          "0.6"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
 
-        "StatusHealth"              "550"
-        "StatusHealthRegen"         "1"
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
         "StatusMana"                "0"
         "StatusManaRegen"           "0"
 
-        "VisionDaytimeRange"        "800"
-        "VisionNighttimeRange"      "800"
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
 
         "TeamName"                  "DOTA_TEAM_GOODGUYS"
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
@@ -1133,4 +1113,618 @@
         "BountyGoldMin"             "20"        // Gold earned min.
         "BountyGoldMax"             "20"        // Gold earned max.
     }
+
+    //=================================================================================
+    // Chen Barrack Creeps - Centaur Family (Ancient Warruner)
+    //=================================================================================
+    "npc_chen_centaur_warruner"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/heroes/centaur/centaur.vmdl"
+        "SoundSet"                      "Hero_Centaur"
+        "Level"                         "4"
+        "ModelScale"                    "0.9"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_relocate"
+
+        // Armor
+        "ArmorPhysical"                 "2"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "60"
+        "AttackDamageMax"               "80"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.35"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "350"
+        "MovementTurnRate"              "0.6"
+
+        // Status
+        "StatusHealth"                  "1200"
+        "StatusHealthRegen"             "2.0"
+        "StatusMana"                    "250"
+        "StatusManaRegen"               "2.0"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "120"
+        "BountyGoldMin"                 "150"
+        "BountyGoldMax"                 "200"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    //=================================================================================
+    // Chen Barrack Creeps - Wolf Family (Ancient Thunder Warruner)
+    //=================================================================================
+    "npc_chen_wolf_thunder"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/heroes/centaur/centaur.vmdl"
+        "SoundSet"                      "Hero_Centaur"
+        "Level"                         "4"
+        "ModelScale"                    "0.9"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_relocate"
+
+        // Armor
+        "ArmorPhysical"                 "2"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "60"
+        "AttackDamageMax"               "80"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.35"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "350"
+        "MovementTurnRate"              "0.6"
+
+        // Status
+        "StatusHealth"                  "1200"
+        "StatusHealthRegen"             "2.0"
+        "StatusMana"                    "250"
+        "StatusManaRegen"               "2.0"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "120"
+        "BountyGoldMin"                 "150"
+        "BountyGoldMax"                 "200"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    //=================================================================================
+    // Chen Barrack Creeps - Bear Family (Wander Bear, Hellbear, Hellbear Smasher, Torchbearer)
+    //=================================================================================
+    "npc_chen_bear_wander"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/items/lone_druid/bear/lone_druid_northland_wander_bear_2/lone_druid_northland_wander_bear_2.vmdl"
+        "SoundSet"                      "Hero_LoneDruid.Bear"
+        "Level"                         "1"
+        "ModelScale"                    "1.0"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_inner_beast"
+
+        // Armor
+        "ArmorPhysical"                 "2"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "25"
+        "AttackDamageMax"               "35"
+        "AttackRate"                    "1.2"
+        "AttackAnimationPoint"          "0.4"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "320"
+        "MovementTurnRate"              "0.6"
+
+        // Status
+        "StatusHealth"                  "500"
+        "StatusHealthRegen"             "0.75"
+        "StatusMana"                    "120"
+        "StatusManaRegen"               "1.2"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "40"
+        "BountyGoldMin"                 "45"
+        "BountyGoldMax"                 "55"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_bear_torchbearer"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/items/lone_druid/true_form/rabid_black_bear/rabid_black_bear.vmdl"
+        "SoundSet"                      "Hero_LoneDruid.Bear"
+        "Level"                         "4"
+        "ModelScale"                    "1.1"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_furry_swipes"
+
+        // Armor
+        "ArmorPhysical"                 "5"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "60"
+        "AttackDamageMax"               "80"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.35"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "350"
+        "MovementTurnRate"              "0.6"
+
+        // Status
+        "StatusHealth"                  "1200"
+        "StatusHealthRegen"             "2.0"
+        "StatusMana"                    "250"
+        "StatusManaRegen"               "2.0"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "120"
+        "BountyGoldMin"                 "150"
+        "BountyGoldMax"                 "200"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    //=================================================================================
+    // Chen Barrack Creeps - Furbolg Family (Treant, Woodling)
+    //=================================================================================
+    "npc_chen_furbolg_treant"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_beast/n_creep_beast.vmdl"
+        "SoundSet"                      "Hero_Furion.Treant"
+        "Level"                         "1"
+        "ModelScale"                    "0.9"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_spirit_forest"
+
+        // Armor
+        "ArmorPhysical"                 "2"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "25"
+        "AttackDamageMax"               "35"
+        "AttackRate"                    "1.3"
+        "AttackAnimationPoint"          "0.45"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "300"
+        "MovementTurnRate"              "0.5"
+
+        // Status
+        "StatusHealth"                  "450"
+        "StatusHealthRegen"             "0.75"
+        "StatusMana"                    "120"
+        "StatusManaRegen"               "1.2"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "35"
+        "BountyGoldMin"                 "40"
+        "BountyGoldMax"                 "50"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+
+    "npc_chen_furbolg_woodling"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_furbolg/n_creep_furbolg_disrupter.vmdl"
+        "SoundSet"                      "Hero_Furion.Treant"
+        "Level"                         "4"
+        "ModelScale"                    "1.05"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_entangle"
+
+        // Armor
+        "ArmorPhysical"                 "6"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "70"
+        "AttackDamageMax"               "90"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.35"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "290"
+        "MovementTurnRate"              "0.5"
+
+        // Status
+        "StatusHealth"                  "1400"
+        "StatusHealthRegen"             "2.5"
+        "StatusMana"                    "300"
+        "StatusManaRegen"               "2.5"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "130"
+        "BountyGoldMin"                 "160"
+        "BountyGoldMax"                 "210"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_furbolg_shroom"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_beast/n_creep_beast.vmdl"
+        "SoundSet"                      "Hero_Furion.Treant"
+        "Level"                         "2"
+        "ModelScale"                    "0.95"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_leech_seed"
+
+        // Armor
+        "ArmorPhysical"                 "3"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "40"
+        "AttackDamageMax"               "50"
+        "AttackRate"                    "1.2"
+        "AttackAnimationPoint"          "0.4"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "310"
+        "MovementTurnRate"              "0.55"
+
+        // Status
+        "StatusHealth"                  "550"
+        "StatusHealthRegen"             "1.0"
+        "StatusMana"                    "160"
+        "StatusManaRegen"               "1.5"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "55"
+        "BountyGoldMin"                 "65"
+        "BountyGoldMax"                 "80"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_furbolg_shroom_ancient"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_furbolg/n_creep_furbolg_disrupter.vmdl"
+        "SoundSet"                      "Hero_Furion.Treant"
+        "Level"                         "4"
+        "ModelScale"                    "1.05"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_entangle"
+
+        // Armor
+        "ArmorPhysical"                 "6"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "70"
+        "AttackDamageMax"               "90"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.35"
+        "AttackAcquisitionRange"        "500"
+        "AttackRange"                   "128"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "290"
+        "MovementTurnRate"              "0.5"
+
+        // Status
+        "StatusHealth"                  "1400"
+        "StatusHealthRegen"             "2.5"
+        "StatusMana"                    "300"
+        "StatusManaRegen"               "2.5"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "130"
+        "BountyGoldMin"                 "160"
+        "BountyGoldMax"                 "210"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    //=================================================================================
+    // Chen Barrack Creeps - Frog Family (Ancient Frog)
+    //=================================================================================
+    "npc_chen_frog_ancient"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_frog/n_creep_frog_mage.vmdl"
+        "SoundSet"                      "n_creep_Frog"
+        "Level"                         "4"
+        "ModelScale"                    "1.1"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_leech_seed"
+
+        // Armor
+        "ArmorPhysical"                 "4"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"               "50"
+        "AttackDamageMax"               "65"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.3"
+        "AttackAcquisitionRange"        "600"
+        "AttackRange"                   "450"
+        "ProjectileModel"               "particles/units/heroes/hero_frog/frog_base_attack.vpcf"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "340"
+        "MovementTurnRate"              "0.6"
+
+        // Status
+        "StatusHealth"                  "900"
+        "StatusHealthRegen"             "1.5"
+        "StatusMana"                    "280"
+        "StatusManaRegen"               "2.0"
+
+        // Vision
+        "VisionDaytimeRange"            "800"
+        "VisionNighttimeRange"          "800"
+
+        // Bounty
+        "BountyXP"                      "110"
+        "BountyGoldMin"                 "130"
+        "BountyGoldMax"                 "170"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    //=================================================================================
+    // Chen Barrack Creeps - Harpy Family (Bird, Phoenix)
+    //=================================================================================
+    "npc_chen_harpy_bird"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/heroes/beastmaster/beastmaster_bird.vmdl"
+        "SoundSet"                      "Hero_Beastmaster.Bird"
+        "Level"                         "2"
+        "ModelScale"                    "0.85"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        // No abilities
+
+        // Armor
+        "ArmorPhysical"                 "1"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"               "30"
+        "AttackDamageMax"               "40"
+        "AttackRate"                    "1.1"
+        "AttackAnimationPoint"          "0.3"
+        "AttackAcquisitionRange"        "600"
+        "AttackRange"                   "500"
+        "ProjectileModel"               "particles/units/heroes/hero_beastmaster/beastmaster_axe_projectile.vpcf"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_FLY | DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "380"
+        "MovementTurnRate"              "0.8"
+
+        // Status
+        "StatusHealth"                  "350"
+        "StatusHealthRegen"             "0.5"
+        "StatusMana"                    "100"
+        "StatusManaRegen"               "1.0"
+
+        // Vision
+        "VisionDaytimeRange"            "900"
+        "VisionNighttimeRange"          "900"
+
+        // Bounty
+        "BountyXP"                      "45"
+        "BountyGoldMin"                 "55"
+        "BountyGoldMax"                 "70"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_chen_harpy_phoenix"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/heroes/phoenix/phoenix_bird.vmdl"
+        "SoundSet"                      "Hero_Phoenix"
+        "Level"                         "4"
+        "ModelScale"                    "1.0"
+        "IsNeutralUnitType"             "1"
+
+        // Abilities
+        "Ability1"                      "chen_creep_tornado"
+
+        // Armor
+        "ArmorPhysical"                 "4"
+
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"               "50"
+        "AttackDamageMax"               "70"
+        "AttackRate"                    "1.0"
+        "AttackAnimationPoint"          "0.3"
+        "AttackAcquisitionRange"        "600"
+        "AttackRange"                   "550"
+        "ProjectileModel"               "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
+
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_FLY | DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "400"
+        "MovementTurnRate"              "0.8"
+
+        // Status
+        "StatusHealth"                  "800"
+        "StatusHealthRegen"             "1.5"
+        "StatusMana"                    "350"
+        "StatusManaRegen"               "2.0"
+
+        // Vision
+        "VisionDaytimeRange"            "1100"
+        "VisionNighttimeRange"          "1100"
+
+        // Bounty
+        "BountyXP"                      "100"
+        "BountyGoldMin"                 "120"
+        "BountyGoldMax"                 "160"
+
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+}
+
+// Custom Shard Mud Golem for Chen Barrack (Ancient level)
+"npc_dota_neutral_mud_golem_shard"
+{
+    "BaseClass"                     "npc_dota_creep_neutral"
+    "Model"                         "models/creeps/neutral_creeps/n_creep_golem_a/neutral_creep_golem_a.vmdl"
+    "SoundSet"                      "n_creep_Melee"
+    "Level"                         "7"
+    "IsAncient"                     "1"
+    "ModelScale"                    "1.4"
+    "IsNeutralUnitType"             "1"
+
+    // Abilities
+    "Ability1"                      "granite_golem_hp_aura"
+    "Ability2"                      "neutral_upgrade"
+    "Ability3"                      ""
+    "Ability4"                      ""
+
+    // Armor
+    "ArmorPhysical"                 "10"
+    "MagicalResistance"             "35"
+
+    // Attack
+    "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+    "AttackDamageMin"               "100"
+    "AttackDamageMax"               "110"
+    "AttackRate"                    "1.8"
+    "BaseAttackSpeed"               "150"
+    "AttackRange"                   "100"
+
+    // Movement
+    "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+    "MovementSpeed"                 "270"
+
+    // Status
+    "StatusHealth"                  "1200"
+    "StatusHealthRegen"             "1.0"
+    "StatusMana"                    "500"
+    "StatusManaRegen"               "1.5"
+
+    // Vision
+    "VisionDaytimeRange"            "900"
+    "VisionNighttimeRange"          "900"
+
+    // Bounty
+    "BountyXP"                      "155"
+    "BountyGoldMin"                 "119"
+    "BountyGoldMax"                 "119"
+
+    "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+    "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+    "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 }

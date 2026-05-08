@@ -42,8 +42,18 @@ function chen_martyr_mark:OnSpellStart()
 		return
 	end
 
+	local damage = self:GetSpecialValueFor("damage")
 	local duration = self:GetDuration()
 	local radius = self:GetSpecialValueFor("creep_search_radius")
+
+	-- Deal damage
+	ApplyDamage({
+		victim = target,
+		attacker = caster,
+		damage = damage,
+		damage_type = DAMAGE_TYPE_MAGICAL,
+		ability = self,
+	})
 
 	local allies = FindUnitsInRadius(
 		caster:GetTeamNumber(),

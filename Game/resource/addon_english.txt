@@ -543,17 +543,24 @@
 
 		// Martyr Mark
 		"DOTA_Tooltip_ability_chen_martyr_mark"								"Метка Мученика"
-		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен помечает врага. Все союзные крипы в радиусе будут принудительно атаковать эту цель, получая бонус к скорости атаки. Наносит мгновенный урон при применении."
+		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Наносит магический урон вражескому существу, замедляет его и заставляет всех союзных крипов атаковать эту цель. Союзники получают бонус к скорости атаки при атаке помеченной цели."
+		"DOTA_Tooltip_ability_chen_martyr_mark_damage"						"УРОН:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_slow_ms_pct"					"ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"БОНУС СКОРОСТИ АТАКИ КРИПОВ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_duration"						"ДЛИТЕЛЬНОСТЬ:"
 
 		// Holy Persuasion
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа. Прирученный крип получает бонус к максимальному здоровью и урону от атаки. Когда крип погибает — Чен получает часть его награды в золоте."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа, увеличивая его здоровье и урон. Чен получает часть золота за убийство прирученного крипа."
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_damage"		"БОНУС УРОНА:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bounty_share_pct"	"%ДОЛЯ НАГРАДЫ ЗА УБИЙСТВО:"
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Кнут"
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Заставляет выбранного союзного крипа применить все свои активные способности бесплатно и без перезарядки. При применении на врага способности направляются на ближайшего врага с приоритетом для героев."
+		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
+		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС ШАРДА:"
 		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом союзного крипа, мгновенно активируя все его способности на ближайших врагов — без затрат маны и без перезарядки. Если целью выбран вражеский юнит, крипы перенаправят свои удары на него (приоритет — герои). Мана и перезарядка крипа восстанавливаются после применения."
 		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
 		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС AOE (ШАРД):"
@@ -568,13 +575,10 @@
 		"DOTA_Tooltip_ability_chen_barrack_scepter_bonus_barracks"			"БОНУС БАРАКОВ С АГАНИМОМ:"
 		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Увеличивает максимальное количество бараков на 1. Открывает производство Древних крипов (Tier 4) на всех бараках."
 
-		// Barrack Summon T1
-		"DOTA_Tooltip_ability_chen_barrack_summon_t1"						"Производство: Тир 1"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t1_Description"			"Заказывает крипа первого тира семейства этого барака. Доступно с 1-го уровня ультимейта."
-		"DOTA_Tooltip_ability_chen_barrack_summon_t1_gold_cost"				"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t1_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+		// Barrack Unit
+		"npc_chen_barrack"													"Барак Чена"
 
-		// Barrack Summon T2
+		// Barrack Summon T1
 		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Производство: Тир 2"
 		"DOTA_Tooltip_ability_chen_barrack_summon_t2_Description"			"Заказывает крипа второго тира семейства этого барака. Требует 2-й уровень ультимейта."
 		"DOTA_Tooltip_ability_chen_barrack_summon_t2_gold_cost"				"СТОИМОСТЬ:"
@@ -712,5 +716,153 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_7"					"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_8"					"Заглушка"
 
-	}
+		//Chen Barrack - Centaur Family
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t1"								"Призвать Коболта"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Коболта."
+		"DOTA_Tooltip_Ability_chen_barrack_centaur_t1_SummaryDescription"			"Призвать Коболта"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t2"								"Призвать Кентавра-Бегуна"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Кентавра-Бегуна."
+		"DOTA_Tooltip_Ability_chen_barrack_centaur_t2_SummaryDescription"			"Призвать Кентавра-Бегуна"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t3"								"Призвать Кентавра-Хана"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Кентавра-Хана."
+		"DOTA_Tooltip_Ability_chen_barrack_centaur_t3_SummaryDescription"			"Призвать Кентавра-Хана"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient"							"Призвать Варрунера"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Варрунера. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_centaur_ancient_SummaryDescription"		"Призвать Варрунера"
+
+		//Chen Barrack - Satyr Family
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t1"								"Призвать Сатира-Трикстера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Сатира-Трикстера."
+		"DOTA_Tooltip_Ability_chen_barrack_satyr_t1_SummaryDescription"			"Призвать Сатира-Трикстера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t2"								"Призвать Сатира-Соулстилера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Сатира-Соулстилера."
+		"DOTA_Tooltip_Ability_chen_barrack_satyr_t2_SummaryDescription"			"Призвать Сатира-Соулстилера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t3"								"Призвать Сатира-Хеллколлера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Сатира-Хеллколлера."
+		"DOTA_Tooltip_Ability_chen_barrack_satyr_t3_SummaryDescription"			"Призвать Сатира-Хеллколлера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient"							"Призвать Шамана-Праулера"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Шамана-Праулера. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_satyr_ancient_SummaryDescription"		"Призвать Шамана-Праулера"
+
+		//Chen Barrack - Troll Family
+		"DOTA_Tooltip_ability_chen_barrack_troll_t1"								"Призвать Лесного Берзеркера"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Лесного Берзеркера."
+		"DOTA_Tooltip_Ability_chen_barrack_troll_t1_SummaryDescription"			"Призвать Лесного Берзеркера"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t2"								"Призвать Огра-Мага"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Огра-Мага."
+		"DOTA_Tooltip_Ability_chen_barrack_troll_t2_SummaryDescription"			"Призвать Огра-Мага"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t3"								"Призвать Огра-Молера"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Огра-Молера."
+		"DOTA_Tooltip_Ability_chen_barrack_troll_t3_SummaryDescription"			"Призвать Огра-Молера"
+		"DOTA_Tooltip_ability_chen_barrack_troll_ancient"							"Призвать Ледяного Шамана"
+		"DOTA_Tooltip_ability_chen_barrack_troll_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Ледяного Шамана. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_troll_ancient_SummaryDescription"		"Призвать Ледяного Шамана"
+
+		//Chen Barrack - Wolf Family
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t1"								"Призвать Вхоул-Ассасина"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Вхоул-Ассасина."
+		"DOTA_Tooltip_Ability_chen_barrack_wolf_t1_SummaryDescription"			"Призвать Вхоул-Ассасина"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t2"								"Призвать Гигантского Волка"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Гигантского Волка."
+		"DOTA_Tooltip_Ability_chen_barrack_wolf_t2_SummaryDescription"			"Призвать Гигантского Волка"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t3"								"Призвать Альфа Волка"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Альфа Волка."
+		"DOTA_Tooltip_Ability_chen_barrack_wolf_t3_SummaryDescription"			"Призвать Альфа Волка"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient"							"Призвать Древнего Варрунера"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Древнего Варрунера. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_wolf_ancient_SummaryDescription"		"Призвать Древнего Варрунера"
+
+		//Chen Barrack - Golem Family
+		"DOTA_Tooltip_ability_chen_barrack_golem_t1"								"Призвать Маленького Грязевого Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Маленького Грязевого Голема."
+		"DOTA_Tooltip_Ability_chen_barrack_golem_t1_SummaryDescription"			"Призвать Маленького Грязевого Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t2"								"Призвать Грязевого Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Грязевого Голема."
+		"DOTA_Tooltip_Ability_chen_barrack_golem_t2_SummaryDescription"			"Призвать Грязевого Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t3"								"Призвать Каменного Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Каменного Голема."
+		"DOTA_Tooltip_Ability_chen_barrack_golem_t3_SummaryDescription"			"Призвать Каменного Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_ancient"							"Призвать Гранитного Голема"
+		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призвать Гранитного Голема. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_golem_ancient_SummaryDescription"		"Призвать Гранитного Голема"
+
+		//Chen Barrack - Harpy Family
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t1"								"Призвать Вайлдвинга"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Вайлдвинга."
+		"DOTA_Tooltip_Ability_chen_barrack_harpy_t1_SummaryDescription"			"Призвать Вайлдвинга"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t2"								"Призвать Птицу"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Птицу."
+		"DOTA_Tooltip_Ability_chen_barrack_harpy_t2_SummaryDescription"			"Призвать Птицу"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t3"								"Призвать Вайлдвинга-Риппера"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Вайлдвинга-Риппера."
+		"DOTA_Tooltip_Ability_chen_barrack_harpy_t3_SummaryDescription"			"Призвать Вайлдвинга-Риппера"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient"							"Призвать Феникса"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Феникса. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_harpy_ancient_SummaryDescription"		"Призвать Феникса"
+
+		//Chen Barrack - Furbolg Family
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1"							"Призвать Трента"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Трента."
+		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t1_SummaryDescription"			"Призвать Трента"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2"							"Призвать Шрума"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Шрума."
+		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t2_SummaryDescription"			"Призвать Шрума"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3"							"Призвать Поларного Чемпиона"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Поларного Чемпиона."
+		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t3_SummaryDescription"			"Призвать Поларного Чемпиона"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient"						"Призвать Древнего Трента"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Древнего Трента. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_furbolg_ancient_SummaryDescription"		"Призвать Древнего Трента"
+
+		//Chen Barrack - Frog Family
+		"DOTA_Tooltip_ability_chen_barrack_frog_t1"								"Призвать Полливога"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Полливога."
+		"DOTA_Tooltip_Ability_chen_barrack_frog_t1_SummaryDescription"			"Призвать Полливога"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t2"								"Призвать Фроглета-Мага"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Фроглета-Мага."
+		"DOTA_Tooltip_Ability_chen_barrack_frog_t2_SummaryDescription"			"Призвать Фроглета-Мага"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t3"								"Призвать Фроглета"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Фроглета."
+		"DOTA_Tooltip_Ability_chen_barrack_frog_t3_SummaryDescription"			"Призвать Фроглета"
+		"DOTA_Tooltip_ability_chen_barrack_frog_ancient"							"Призвать Древнюю Лягушку"
+		"DOTA_Tooltip_ability_chen_barrack_frog_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Древнюю Лягушку. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_frog_ancient_SummaryDescription"		"Призвать Древнюю Лягушку"
+
+		//Chen Barrack - Dragon Family
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t1"							"Призвать Гарпию-Скаута"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Гарпию-Скаута."
+		"DOTA_Tooltip_Ability_chen_barrack_dragon_t1_SummaryDescription"			"Призвать Гарпию-Скаута"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t2"							"Призвать Гарпию-Шторм"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Гарпию-Шторм."
+		"DOTA_Tooltip_Ability_chen_barrack_dragon_t2_SummaryDescription"			"Призвать Гарпию-Шторм"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t3"							"Призвать Черного Дрейка"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Черного Дрейка."
+		"DOTA_Tooltip_Ability_chen_barrack_dragon_t3_SummaryDescription"			"Призвать Черного Дрейка"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient"						"Призвать Черного Дракона"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Черного Дракона. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_dragon_ancient_SummaryDescription"		"Призвать Черного Дракона"
+
+		//Chen Barrack - Bear Family
+		"DOTA_Tooltip_ability_chen_barrack_bear_t1"								"Призвать Вандер Бира"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Вандер Бира."
+		"DOTA_Tooltip_Ability_chen_barrack_bear_t1_SummaryDescription"			"Призвать Вандер Бира"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t2"								"Призвать Хеллбир"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Хеллбира."
+		"DOTA_Tooltip_Ability_chen_barrack_bear_t2_SummaryDescription"			"Призвать Хеллбир"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t3"								"Призвать Хеллбир Смашера"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Хеллбир Смашера."
+		"DOTA_Tooltip_Ability_chen_barrack_bear_t3_SummaryDescription"			"Призвать Хеллбир Смашера"
+		"DOTA_Tooltip_ability_chen_barrack_bear_ancient"							"Призвать Торчбирера"
+		"DOTA_Tooltip_ability_chen_barrack_bear_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Торчбирера. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_Ability_chen_barrack_bear_ancient_SummaryDescription"		"Призвать Торчбирера"
+
+		// Chen Barrack Error Messages
+		"dota_hud_error_chen_barrack_no_owner"									"Нет владельца барака"
+		"dota_hud_error_chen_barrack_need_scepter"								"Требуется Aghanim's Scepter"
+		"dota_hud_error_chen_barrack_low_level"									"Уровень ульты слишком низкий"
+		"dota_hud_error_chen_barrack_no_unit_in_family"							"Нет юнита в этой семье"
+		"dota_hud_error_chen_barrack_queue_full"									"Очередь барака заполнена"
+		"dota_hud_error_chen_barrack_invalid_target"								"Неверная цель"
+
+		// Chen Barrack New Creeps
 }
