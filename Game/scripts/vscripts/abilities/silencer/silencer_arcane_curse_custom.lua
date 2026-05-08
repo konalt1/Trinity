@@ -49,10 +49,6 @@ function modifier_silencer_arcane_curse_custom_debuff:IsPurgable()
     return true
 end
 
-function modifier_silencer_arcane_curse_custom_debuff:GetTexture()
-    return "silencer_arcane_curse"
-end
-
 function modifier_silencer_arcane_curse_custom_debuff:GetEffectName()
     return "particles/units/heroes/hero_silencer/silencer_curse.vpcf"
 end

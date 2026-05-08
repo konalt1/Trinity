@@ -5,11 +5,42 @@ local FOCUS_SHIELD_PARTICLE = "particles/silencer/focus/lotus_orb_fallrewardline
 LinkLuaModifier("modifier_focus_buff", "abilities/silencer/focus", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_focus_control_block", "abilities/silencer/focus", LUA_MODIFIER_MOTION_NONE)
 
+-- hero_for_mind_power: герой, чья Сила магии участвует в формуле (обычно кастер способности).
+local function focus_compute_physical_barrier(ability, hero_for_mind_power)
+    if not ability or ability:IsNull() or not hero_for_mind_power or hero_for_mind_power:IsNull() then
+        return 0
+    end
+    local base = ability:GetSpecialValueFor("shield_amount") or 0
+    local mult = ability:GetSpecialValueFor("mind_power_multiplier") or 0
+    local mind_power = 0
+    if GetHeroMindPower then
+        mind_power = GetHeroMindPower(hero_for_mind_power) or 0
+    else
+        mind_power = hero_for_mind_power:GetIntellect(false) or 0
+    end
+    return math.max(0, math.floor(base + mind_power * mult))
+end
+
+local function focus_modifier_sync_shield_from_server(mod, push_to_clients)
+    if not IsServer() then
+        return
+    end
+    mod:SetStackCount(math.max(0, math.floor(mod.current_shield or 0)))
+    if push_to_clients then
+        mod:SendBuffRefreshToClients()
+    end
+end
+
 function focus:OnSpellStart()
     local caster = self:GetCaster()
     local duration = self:GetSpecialValueFor("duration")
+    local shield = focus_compute_physical_barrier(self, caster)
+    self.focus_barrier_amount = shield
 
-    caster:AddNewModifier(caster, self, "modifier_focus_buff", { duration = duration })
+    caster:AddNewModifier(caster, self, "modifier_focus_buff", {
+        duration = duration,
+        shield_amount = shield,
+    })
     caster:EmitSound("Hero_Antimage.Counterspell.Cast")
 end
 
@@ -24,54 +55,69 @@ function modifier_focus_buff:IsPurgable()
     return true
 end
 
-function modifier_focus_buff:GetTexture()
-    return "antimage_counterspell"
-end
-
-function modifier_focus_buff:OnCreated()
-    self.max_shield = 0
-    self.current_shield = 0
-    self.block_consumed = false
-    self:SetHasCustomTransmitterData(true)
-
+function modifier_focus_buff:InitShieldFromKv(kv)
+    local amount = tonumber(kv and kv.shield_amount)
     local ability = self:GetAbility()
-    if ability and not ability:IsNull() then
-        local base_shield = ability:GetSpecialValueFor("shield_amount")
-        local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
-        local caster = self:GetCaster()
-        local mind_power = 0
+    local mind_hero = ability and ability:GetCaster()
 
-        if caster and not caster:IsNull() then
-            mind_power = GetHeroMindPower and (GetHeroMindPower(caster) or 0) or (caster:GetIntellect(false) or 0)
+    if not amount or amount < 0 then
+        if ability and ability.focus_barrier_amount ~= nil then
+            amount = tonumber(ability.focus_barrier_amount)
         end
-
-        self.max_shield = math.max(0, base_shield + mind_power * mind_power_multiplier)
-        self.current_shield = self.max_shield
+    end
+    if not amount or amount < 0 then
+        amount = focus_compute_physical_barrier(ability, mind_hero)
     end
 
+    self.max_shield = math.max(0, math.floor(amount))
+    self.current_shield = self.max_shield
+end
+
+function modifier_focus_buff:OnCreated(kv)
+    self.block_consumed = false
+    self.max_shield = 0
+    self.current_shield = 0
+    self:InitShieldFromKv(kv)
+
     if IsServer() then
-        self:SendBuffRefreshToClients()
+        self:SetHasCustomTransmitterData(true)
         self:CreateFocusParticle()
+        focus_modifier_sync_shield_from_server(self, true)
     end
 end
 
 function modifier_focus_buff:OnRefresh()
-    self:OnCreated()
+    local ability = self:GetAbility()
+    local mind_hero = ability and ability:GetCaster()
+    local amount = ability and tonumber(ability.focus_barrier_amount)
+
+    self.block_consumed = false
+    if not amount or amount < 0 then
+        amount = focus_compute_physical_barrier(ability, mind_hero)
+    end
+    self.max_shield = math.max(0, math.floor(amount))
+    self.current_shield = self.max_shield
+
+    if IsServer() then
+        self:SetHasCustomTransmitterData(true)
+        self:CreateFocusParticle()
+        focus_modifier_sync_shield_from_server(self, true)
+    end
 end
 
 function modifier_focus_buff:DeclareFunctions()
     return {
-        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
         MODIFIER_PROPERTY_TOOLTIP,
         MODIFIER_EVENT_ON_STATE_CHANGED,
-        MODIFIER_EVENT_ON_MODIFIER_ADDED
+        MODIFIER_EVENT_ON_MODIFIER_ADDED,
     }
 end
 
 function modifier_focus_buff:AddCustomTransmitterData()
     return {
         max_shield = self.max_shield or 0,
-        current_shield = self.current_shield or 0
+        current_shield = self.current_shield or 0,
     }
 end
 
@@ -80,16 +126,15 @@ function modifier_focus_buff:HandleCustomTransmitterData(data)
     self.current_shield = data.current_shield or 0
 end
 
-function modifier_focus_buff:GetModifierIncomingDamageConstant(params)
+function modifier_focus_buff:GetModifierIncomingPhysicalDamageConstant(params)
     if not IsServer() then
         if params.report_max then
             return self.max_shield or 0
         end
-
-        return self.current_shield or 0
+        return math.max(0, self:GetStackCount())
     end
 
-    if not params or params.damage_type ~= DAMAGE_TYPE_PHYSICAL then
+    if not params then
         return 0
     end
 
@@ -98,19 +143,18 @@ function modifier_focus_buff:GetModifierIncomingDamageConstant(params)
         return 0
     end
 
-    if not self.current_shield or self.current_shield <= 0 then
+    if (self.current_shield or 0) <= 0 then
         return 0
     end
 
-    local blocked_damage = math.min(params.damage, self.current_shield)
-    self.current_shield = self.current_shield - blocked_damage
-    self:SendBuffRefreshToClients()
-
-    return -blocked_damage
+    local blocked = math.min(params.damage, self.current_shield)
+    self.current_shield = self.current_shield - blocked
+    focus_modifier_sync_shield_from_server(self, false)
+    return -blocked
 end
 
 function modifier_focus_buff:OnTooltip()
-    return self.current_shield or 0
+    return math.max(0, self:GetStackCount())
 end
 
 function modifier_focus_buff:CreateFocusParticle()
@@ -159,6 +203,12 @@ function modifier_focus_buff:TriggerFocusCleanse()
     self:DestroyFocusParticle()
     parent:Purge(false, true, false, true, true)
 
+    local block_particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_antimage/antimage_counter.vpcf",
+        PATTACH_ABSORIGIN_FOLLOW,
+        parent
+    )
+    ParticleManager:ReleaseParticleIndex(block_particle)
     parent:EmitSound("Hero_Antimage.Counterspell.Target")
 end
 
@@ -189,13 +239,25 @@ function modifier_focus_buff:TryBlockMomSilence()
         block_feared = 0,
         block_nightmared = 0,
         block_taunted = 0,
-        block_break = 0
+        block_break = 0,
     })
 
     return true
 end
 
-function modifier_focus_buff:ApplyControlBlock(duration, block_stunned, block_silenced, block_rooted, block_disarmed, block_hexed, block_muted, block_feared, block_nightmared, block_taunted, block_break)
+function modifier_focus_buff:ApplyControlBlock(
+    duration,
+    block_stunned,
+    block_silenced,
+    block_rooted,
+    block_disarmed,
+    block_hexed,
+    block_muted,
+    block_feared,
+    block_nightmared,
+    block_taunted,
+    block_break
+)
     local parent = self:GetParent()
     if not parent or parent:IsNull() then
         return
@@ -216,7 +278,7 @@ function modifier_focus_buff:ApplyControlBlock(duration, block_stunned, block_si
         block_feared = block_feared,
         block_nightmared = block_nightmared,
         block_taunted = block_taunted,
-        block_break = block_break
+        block_break = block_break,
     })
 end
 
