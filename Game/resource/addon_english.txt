@@ -60,7 +60,7 @@
 		"DOTA_Tooltip_ability_doom_ultimate_aura_shard_description"			"Вестник Рока дополнительно замедляет скорость передвижения всех врагов в радиусе ауры."
 
 		// Silencer
-		"DOTA_Tooltip_ability_silencer_arcane_curse_custom"						"ARCANE CURSE"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom"						"Мистическое Проклятие"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_Description"			"Наводит сглаз на врагов в выбранной области, нанося начальный и периодический урон, а также замедляя их передвижение. Каждая примененная жертвой способность увеличивает длительность эффекта. Когда на жертву действует безмолвие, отсчет времени действия приостанавливается. Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_initial_damage"		"НАЧАЛЬНЫЙ УРОН:"
@@ -69,11 +69,34 @@
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_slow_pct"				"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_penalty_duration"		"ДОБАВОЧНАЯ ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_silencer_arcane_curse_custom_debuff"				"Мистическое Проклятие"
+		"DOTA_Tooltip_modifier_silencer_arcane_curse_custom_debuff_Description"	"Получает периодический урон и замедлен. Применение способностей увеличивает длительность проклятия, а безмолвие останавливает его отсчёт."
+
+		"DOTA_Tooltip_ability_silent_square"									"Тихий Омут"
+		"DOTA_Tooltip_ability_silent_square_Description"						"Сайленсер создаёт квадратную область в уоторой противники замедлены не могут применять способности.  
+		Длительность способности и размер области увеличиваются от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_silent_square_base_duration"						"БАЗОВАЯ ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_silent_square_mind_power_duration_bonus"			"ДЛИТЕЛЬНОСТЬ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_silent_square_base_side_length"					"БАЗОВАЯ ДЛИНА СТОРОНЫ:"
+		"DOTA_Tooltip_ability_silent_square_mind_power_side_bonus"				"ДЛИНА СТОРОНЫ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_silent_square_think_interval"						"ИНТЕРВАЛ ПРОВЕРКИ:"
+		"DOTA_Tooltip_ability_silent_square_move_slow_pct"						"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_modifier_silent_square_debuff"							"Квадрат Тишины"
+		"DOTA_Tooltip_modifier_silent_square_debuff_Description"				"Безмолвие. Скорость передвижения снижена."
+
+		"DOTA_Tooltip_ability_focus"											"Шит Асции"
+		"DOTA_Tooltip_ability_focus_Description"								"Щит Асции дарует Сайленсеру оберег, защищаюший его от одного эффекта контроля, и дающий ему щит, защищающий его от физического урона. Прочность щита увеличивается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_focus_duration"									"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_focus_shield_amount"								"БАЗОВАЯ ПРОЧНОСТЬ ЩИТА:"
+		"DOTA_Tooltip_ability_focus_mind_power_multiplier"						"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_focus_buff"										"Концентрация"
+		"DOTA_Tooltip_modifier_focus_buff_Description"							"Поглощает физический урон. Первый эффект контроля будет очищен."
 
 		//Ogre
 		// Ogre Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"							"Бдышь"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Огр с размаху бьёт по земле, нанося магический урон и оглушая врагов в области. Урон и радиус увеличиваются от Силы."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Огр с размаху бьёт по земле, нанося магический урон и оглушая врагов в области. 
+		Урон и радиус увеличиваются от <b>Силы</b>."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"					"БАЗОВЫЙ УРОН:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"			"ОГЛУШЕНИЕ:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"					"БАЗОВЫЙ РАДИУС:"
@@ -83,7 +106,8 @@
 
 		// Ogre Strength Boost
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost"						"Прилив Силы"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Огр впадает в ярость, получая бонус к Силе и урону от атаки. Бонус Силы усиливается от Силы Магии."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Огр впадает в ярость, получая бонус к Силе и урону от атаки. 
+		Бонус Силы усиливается от Силы Магии."
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"БАЗОВЫЙ БОНУС СИЛЫ:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"			"БОНУС К УРОНУ:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
@@ -93,7 +117,8 @@
 
 		// Ogre Reroll
 		"DOTA_Tooltip_ability_ogre_magi_reroll"								"Дикая Магия"
-		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"					"Огр получает случайную ультимативную способность на ограниченное время. Полученная способность не требует маны. Атаки по врагам уменьшают перезарядку этой способности."
+		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"					"Огр получает случайную ультимативную способность на ограниченное время. Полученная способность не требует маны. 
+		Атаки по врагам уменьшают перезарядку этой способности."
 		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"				"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТИ:"
 		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ:"
 
@@ -104,16 +129,19 @@
 		//Omniknight
 		// Custom Purification
 		"DOTA_Tooltip_ability_custom_purification"							"Очищение"
-		"DOTA_Tooltip_ability_custom_purification_Description"				"Омникнайт исцеляет союзника и наносит магический урон всем врагам вокруг цели. Урон и исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_custom_purification_Description"				"Омникнайт исцеляет союзника и наносит магический урон всем врагам вокруг цели. 
+		Урон и исцеление усиливается Силой Магии."
 		"DOTA_Tooltip_ability_custom_purification_heal"						"ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_custom_purification_radius"					"РАДИУС УРОНА:"
 		"DOTA_Tooltip_ability_custom_purification_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_custom_purification_shard_bonus_radius"		"БОНУС К РАДИУСУ:"
-		"DOTA_Tooltip_ability_custom_purification_shard_description"		"Увеличивает радиус Очищения. Способность исцеляет всех союзных юнитов в радиусе действия."
+		"DOTA_Tooltip_ability_custom_purification_shard_description"		"Увеличивает радиус Очищения. 
+		Способность исцеляет всех союзных юнитов в радиусе действия."
 
 		// Omniknight Repel
 		"DOTA_Tooltip_ability_omniknight_repel_lua"							"Отпор"
-		"DOTA_Tooltip_ability_omniknight_repel_lua_Description"				"Омникнайт дарует союзнику эффект, дающий ему невосприимчивость к эффектам, уменьшающий получаемый магический урон на 60%, и мгновенно исцеляет его. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_omniknight_repel_lua_Description"				"Омнинайт дарует союзнику эффект, дающий ему невосприимчивость к эффектам, уменьшающий получаемый магический урон на 60%, и мгновенно исцеляет его. 
+		Исцеление усиливается <b>Силой Магии</b>."
 		"DOTA_Tooltip_ability_omniknight_repel_lua_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_omniknight_repel_lua_magic_damage_reduction"	"СНИЖЕНИЕ МАГИЧЕСКОГО УРОНА:"
 		"DOTA_Tooltip_ability_omniknight_repel_lua_heal_amount"				"БАЗОВОЕ ИСЦЕЛЕНИЕ:"
@@ -130,7 +158,9 @@
 
 		// Omniknight Holy Grenade (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_omniknight_holy_grenade"						"Святая граната"
-		"DOTA_Tooltip_ability_omniknight_holy_grenade_Description"			"Омнинайт бросает святую гранату в указанную область. После короткой задержки она взрывается, исцеляя союзников и нанося чистый урон врагам. Урон и исцеление усиливаются Силой Магии."
+		"DOTA_Tooltip_ability_omniknight_holy_grenade_Description"			"Омнинайт бросает святую гранату в указанную область. 
+		После короткой задержки она взрывается, исцеляя союзников и нанося чистый урон врагам. 
+		Урон и исцеление усиливаются Силой Магии."
 		"DOTA_Tooltip_ability_omniknight_holy_grenade_damage"				"БАЗОВЫЙ ЭФФЕКТ:"
 		"DOTA_Tooltip_ability_omniknight_holy_grenade_countdown"			"ЗАДЕРЖКА ДО ВЗРЫВА:"
 		"DOTA_Tooltip_ability_omniknight_holy_grenade_explosion_radius"	"РАДИУС ВЗРЫВА:"
@@ -138,7 +168,8 @@
 
 		// Holy Ground
 		"DOTA_Tooltip_ability_holy_ground"									"Святая Земля"
-		"DOTA_Tooltip_ability_holy_ground_Description"						"Омникнайт освящает область, периодически исцеляя союзников и замедляя врагов внутри. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_holy_ground_Description"						"Омникнайт освящает область, периодически исцеляя союзников и замедляя врагов внутри. 
+		Исцеление усиливается Силой Магии."
 		"DOTA_Tooltip_ability_holy_ground_radius"							"РАДИУС:"
 		"DOTA_Tooltip_ability_holy_ground_duration"							"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_holy_ground_heal_amount"						"ИСЦЕЛЕНИЕ ЗА ТИК:"
@@ -161,7 +192,8 @@
 		//Juggernaut
 		// Blade Fury
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"					"BLADE FURY"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Джаггернаут вращается, нанося магический урон врагам вокруг и становясь невосприимчивым к магии. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Джаггернаут вращается, нанося магический урон врагам вокруг и становясь невосприимчивым к магии. 
+		Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"УРОН:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"РАДИУС:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
@@ -182,7 +214,8 @@
 
 		// Bloodlust
 		"DOTA_Tooltip_ability_juggernaut_bloodlust"							"Безумие Маски"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_Description"				"Джаггернаут входит в раж, получая бонус к скорости атаки и исцеляя себя за каждой атакой. Исцеление усиливается Силой Магии."
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_Description"				"Джаггернаут входит в раж, получая бонус к скорости атаки и исцеляя себя за каждой атакой. 
+		Исцеление усиливается Силой Магии."
 		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"		"БОНУС СКОРОСТИ АТАКИ:"
 		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			"ИСЦЕЛЕНИЕ ЗА АТАКУ:"
 		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"				"ДЛИТЕЛЬНОСТЬ:"
@@ -193,11 +226,11 @@
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Description"		"Джаггернаут становится неуязвимым и стремительно перемещается между врагами, нанося им удары."
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_slash_radius"		"РАДИУС ПОИСКА ЦЕЛЕЙ:"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	"Дополнительная способность Omnislash: 3.5 сек. неуязвимых прыжков с ударами по врагам (отдельный кулдаун и мана)."
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	"Дарует способность Omnislash"
 
 		// Omnislash (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_juggernaut_omni_slash"						"Omnislash"
-		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Даруется Aghanim's Scepter. Джаггернаут становится неуязвимым и в течение 3.5 сек. прыгает между врагами, нанося удары. Уровень способности совпадает с уровнем Swift Slash."
+		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Джаггернаут становится неуязвимым и в течение 3.5 сек. прыгает между врагами, нанося удары."
 		"DOTA_Tooltip_ability_juggernaut_omni_slash_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_omni_slash_slash_radius"			"РАДИУС ПОИСКА ЦЕЛЕЙ:"
 		"DOTA_Tooltip_modifier_juggernaut_omni_slash"						"Omnislash"
@@ -206,7 +239,9 @@
 		//Phantom Assassin
 		// Blur
 		"DOTA_Tooltip_ability_phantom_assassin_blur_custom"						"Размытие"
-		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Description"			"Фантомка становится невидимой. Эффект спадает при приближении к вражеским героям, к башням или при атаке. Также даёт бонус к скорости передвижения."
+		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_Description"			"Фантомка становится невидимой. 
+		Эффект спадает при приближении к вражеским героям, к башням или при атаке. 
+		Также даёт бонус к скорости передвижения."
 		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_radius"				"РАДИУС ОБНАРУЖЕНИЯ:"
 		"DOTA_Tooltip_ability_phantom_assassin_blur_custom_bonus_movement_speed"	"%БОНУС СКОРОСТИ:"
@@ -215,7 +250,8 @@
 
 		// Coup de Foudre (Ultimate)
 		"DOTA_Tooltip_ability_ability_coup_de_foudre"							"Чутьё Убийцы"
-		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"				"Пока враги не видят Phantom Assassin, все её атаки становятся критическими. Крит по крипам наносит пониженный урон."
+		"DOTA_Tooltip_ability_ability_coup_de_foudre_Description"				"Пока враги не видят Phantom Assassin, все её атаки становятся критическими. 
+		Крит по крипам наносит пониженный урон."
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus"					"%КРИТИЧЕСКИЙ УРОН:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_crit_bonus_creeps"			"%КРИТИЧЕСКИЙ УРОН ПО КРИПАМ:"
 		"DOTA_Tooltip_ability_ability_coup_de_foudre_activation_delay"			"ЗАДЕРЖКА СНЯТИЯ ЭФФЕКТА:"
@@ -224,8 +260,7 @@
 
 		// Phantom Cloud (Aghanim's Shard)
 		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud"					"Призрачная Туча"
-		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_Description"		"Phantom Assassin создаёт вокруг себя туман, в котором она и все союзники становятся невидимыми. Эту невидимость невозможно раскрыть и развеять."
-		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_Lore"				"Туман, сотканный из теней, скрывает охотницу и её союзников от любых глаз."
+		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_Description"		"Phantom Assassin создаёт вокруг себя туман, в котором она и все союзники становятся невидимыми."
 		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_phantom_assassin_phantom_cloud_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_modifier_phantom_assassin_phantom_cloud_invis"				"Призрачная Туча"
@@ -234,7 +269,9 @@
 		//Lich
 		// Frost Blast
 		"DOTA_Tooltip_ability_lich_frost_blast_lua"								"Ледяной Взрыв"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия, замедляя передвижение и атаку всех задетых противников на 4 сек. Основная цель получает как базовый урон, так и урон по площади. Урон усиливается Силой магии."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия, замедляя передвижение и атаку всех задетых противников на 4 сек. 
+		Основная цель получает как базовый урон, так и урон по площади. 
+		Урон усиливается Силой магии."
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"					"УРОН ПО ОБЛАСТИ:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"			"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
@@ -243,7 +280,8 @@
 
 		// Frost Shield
 		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Морозный Щит"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя урон и нанося урон врагам вокруг. Урон заклинания увеличивается Силой Магии."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя урон и нанося урон врагам вокруг. 
+		Урон заклинания увеличивается Силой Магии."
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ УРОНА:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"УРОН ВРАГАМ:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"РАДИУС:"
@@ -253,7 +291,8 @@
 
 		// Sinister Gaze (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_ability_sinister_gaze"								"Зловещий Взор"
-		"DOTA_Tooltip_ability_ability_sinister_gaze_Description"					" Лич приковывает взгляд к вражескому герою и тянет его к себе Если цель погибает во время действия эффекта, Лич получает её контроль над её телом."
+		"DOTA_Tooltip_ability_ability_sinister_gaze_Description"					"Лич приковывает взгляд к вражескому герою и тянет его к себе.
+		 Если цель погибает во время действия эффекта, Лич получает её контроль над её телом."
 		"DOTA_Tooltip_ability_ability_sinister_gaze_gaze_duration"				"ДЛИТЕЛЬНОСТЬ ВЗОРА:"
 		"DOTA_Tooltip_ability_ability_sinister_gaze_pull_speed"					"СКОРОСТЬ ПРИТЯЖЕНИЯ:"
 		"DOTA_Tooltip_ability_ability_sinister_gaze_illusion_duration"			"ДЛИТЕЛЬНОСТЬ ИЛЛЮЗИИ:"
@@ -264,7 +303,8 @@
 
 		// Spark Wraith
 		"DOTA_Tooltip_ability_lich_spark_wraith"								"Неупокоенная Душа"
-		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Лич создаёт в выбранной точке Душу. При обнаружении врага Душа летит к нему, нанося ему урон и сжигая ману. Затем Душа возвращается к Личу, нанося урон и сжигая ману у всех на пути. Душа передаёт всю сожжённую ману Личу"
+		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Лич создаёт в выбранной точке Душу. При обнаружении врага Душа летит к нему, нанося ему урон и сжигая ману. 
+	 Затем Душа возвращается к Личу, нанося урон и сжигая ману у всех на пути. Душа передаёт всю сожжённую ману Личу"
 		"DOTA_Tooltip_ability_lich_spark_wraith_spark_damage_base"				"УРОН:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_radius"							"РАДИУС ОБНАРУЖЕНИЯ:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_duration"						"ДЛИТЕЛЬНОСТЬ:"
@@ -273,7 +313,8 @@
 
 		// Ice Phylactery (Ultimate)
 		"DOTA_Tooltip_ability_ability_ice_phylactery"							"Ледяной Филактерий"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Лич создаёт ледяной Филактерий. Аура Филактерия замедляет врагов вокруг, уменьшает перезарядку способностей Лича, а также даёт ему вампиризм от заклинаний. Филактерий уничтожается после определённого количества атак."
+		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Лич создаёт ледяной Филактерий. 
+		Аура Филактерия замедляет врагов вокруг, уменьшает перезарядку способностей Лича, а также даёт ему вампиризм от заклинаний."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"РАДИУС АУРЫ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
