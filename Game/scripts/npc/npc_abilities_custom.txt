@@ -2704,7 +2704,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/silencer/silencer_arcane_curse_custom"
-        "AbilityTextureName"            "silencer_arcane_curse"
+        "AbilityTextureName"            "silencer_curse"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
@@ -2713,7 +2713,7 @@
         "FightRecapLevel"               "1"
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "1"
+        "LevelsBetweenUpgrades"         "2"
         "AbilityCastRange"              "700"
         "AbilityCastPoint"              "0.2"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
@@ -2797,14 +2797,16 @@
 
         "AbilityValues"
         {
-            "duration"                  "8"
-            "attack_speed_bonus"        "20 40 60 80"
+            "duration"                  "5 6 7 8"
+            "shield_amount"             "100 200 300 400"
+            "mind_power_multiplier"     "2"
         }
 
         "precache"
         {
             "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
             "particle"                  "particles/units/heroes/hero_antimage/antimage_counter.vpcf"
+            "particle"                  "particles/silencer/focus/lotus_orb_fallrewardline_2025_shield_fallrewardline_2025.vpcf"
         }
     }
 

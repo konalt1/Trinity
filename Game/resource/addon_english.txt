@@ -60,7 +60,7 @@
 		"DOTA_Tooltip_ability_doom_ultimate_aura_shard_description"			"Вестник Рока дополнительно замедляет скорость передвижения всех врагов в радиусе ауры."
 
 		// Silencer
-		"DOTA_Tooltip_ability_silencer_arcane_curse_custom"						"ARCANE CURSE"
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom"						"Мистическое Проклятие"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_Description"			"Наводит сглаз на врагов в выбранной области, нанося начальный и периодический урон, а также замедляя их передвижение. Каждая примененная жертвой способность увеличивает длительность эффекта. Когда на жертву действует безмолвие, отсчет времени действия приостанавливается. Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_initial_damage"		"НАЧАЛЬНЫЙ УРОН:"
@@ -69,6 +69,27 @@
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_slow_pct"				"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_penalty_duration"		"ДОБАВОЧНАЯ ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_silencer_arcane_curse_custom_debuff"				"Мистическое Проклятие"
+		"DOTA_Tooltip_modifier_silencer_arcane_curse_custom_debuff_Description"	"Получает периодический урон и замедлен. Применение способностей увеличивает длительность проклятия, а безмолвие останавливает его отсчёт."
+
+		"DOTA_Tooltip_ability_silent_square"									"Квадрат Тишины"
+		"DOTA_Tooltip_ability_silent_square_Description"						"Сайленсер создаёт квадратную область безмолвия. Враги внутри области не могут применять способности и замедлены. Длительность и размер области увеличиваются от Силы Магии."
+		"DOTA_Tooltip_ability_silent_square_base_duration"						"БАЗОВАЯ ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_silent_square_mind_power_duration_bonus"			"ДЛИТЕЛЬНОСТЬ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_silent_square_base_side_length"					"БАЗОВАЯ ДЛИНА СТОРОНЫ:"
+		"DOTA_Tooltip_ability_silent_square_mind_power_side_bonus"				"ДЛИНА СТОРОНЫ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_silent_square_think_interval"						"ИНТЕРВАЛ ПРОВЕРКИ:"
+		"DOTA_Tooltip_ability_silent_square_move_slow_pct"						"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_modifier_silent_square_debuff"							"Квадрат Тишины"
+		"DOTA_Tooltip_modifier_silent_square_debuff_Description"				"Безмолвие. Скорость передвижения снижена."
+
+		"DOTA_Tooltip_ability_focus"											"Концентрация"
+		"DOTA_Tooltip_ability_focus_Description"								"Сайленсер сосредотачивается, получая щит, который поглощает физический урон. Прочность щита увеличивается от Силы Магии. Первый наложенный эффект контроля или отключения пассивных способностей очищается."
+		"DOTA_Tooltip_ability_focus_duration"									"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_focus_shield_amount"								"БАЗОВАЯ ПРОЧНОСТЬ ЩИТА:"
+		"DOTA_Tooltip_ability_focus_mind_power_multiplier"						"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_focus_buff"										"Концентрация"
+		"DOTA_Tooltip_modifier_focus_buff_Description"							"Поглощает физический урон. Первый эффект контроля или отключения пассивных способностей будет очищен."
 
 		//Ogre
 		// Ogre Fire Blast
