@@ -2386,6 +2386,8 @@
         "AbilityValues"
         {
             "bonus_health"              "250 450 650 850"
+            "mind_power_health_multiplier" "5 6 7 8"
+            "max_creeps"                "1 2 3 4"
             "bonus_damage"              "12 24 36 48"
             "bounty_share_pct"          "35 45 55 65"
             "fallback_bounty"           "40"
@@ -2448,7 +2450,7 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
         "FightRecapLevel"               "1"

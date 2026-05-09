@@ -1,5 +1,77 @@
 chen_holy_persuasion_custom = class({})
 
+local function GetChenMindPower(hero)
+	if GetHeroMindPower then
+		return GetHeroMindPower(hero) or 0
+	end
+
+	return hero and hero:GetIntellect(false) or 0
+end
+
+local function IsValidTamedCreep(creep, caster)
+	if not creep or creep:IsNull() or not creep:IsAlive() then
+		return false
+	end
+
+	return creep.chen_tamed == true and creep.chen_owner_entindex == caster:entindex()
+end
+
+local function GetTamedCreeps(caster)
+	caster.chen_holy_persuasion_creeps = caster.chen_holy_persuasion_creeps or {}
+
+	local tamedCreeps = {}
+	local seen = {}
+
+	for _, creep in ipairs(caster.chen_holy_persuasion_creeps) do
+		if IsValidTamedCreep(creep, caster) then
+			seen[creep:entindex()] = true
+			table.insert(tamedCreeps, creep)
+		end
+	end
+
+	local units = FindUnitsInRadius(
+		caster:GetTeamNumber(),
+		caster:GetAbsOrigin(),
+		nil,
+		FIND_UNITS_EVERYWHERE,
+		DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+		DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false
+	)
+
+	for _, creep in pairs(units) do
+		if IsValidTamedCreep(creep, caster) and not seen[creep:entindex()] then
+			table.insert(tamedCreeps, creep)
+		end
+	end
+
+	table.sort(tamedCreeps, function(a, b)
+		return (a.chen_tamed_created_time or 0) < (b.chen_tamed_created_time or 0)
+	end)
+
+	caster.chen_holy_persuasion_creeps = tamedCreeps
+	return tamedCreeps
+end
+
+local function EnforceTamedCreepLimit(caster, maxCreeps)
+	if not maxCreeps or maxCreeps <= 0 then
+		return
+	end
+
+	local tamedCreeps = GetTamedCreeps(caster)
+	while #tamedCreeps > maxCreeps do
+		local oldest = table.remove(tamedCreeps, 1)
+		if oldest and not oldest:IsNull() then
+			oldest:ForceKill(false)
+			UTIL_Remove(oldest)
+		end
+	end
+
+	caster.chen_holy_persuasion_creeps = tamedCreeps
+end
+
 function chen_holy_persuasion_custom:OnSpellStart()
 	if not IsServer() then
 		return
@@ -29,6 +101,10 @@ function chen_holy_persuasion_custom:OnSpellStart()
 	local bonusDamage = self:GetSpecialValueFor("bonus_damage")
 	local bountySharePct = self:GetSpecialValueFor("bounty_share_pct")
 	local fallbackBounty = self:GetSpecialValueFor("fallback_bounty")
+	local mindPowerHealthMultiplier = self:GetSpecialValueFor("mind_power_health_multiplier")
+	local maxCreeps = self:GetSpecialValueFor("max_creeps")
+	local mindPowerHealthBonus = math.floor(GetChenMindPower(caster) * mindPowerHealthMultiplier)
+	local totalBonusHealth = math.max(0, bonusHealth + mindPowerHealthBonus)
 
 	-- Calculate bounty share
 	local targetBounty = target:GetGoldBounty() or fallbackBounty
@@ -56,9 +132,10 @@ function chen_holy_persuasion_custom:OnSpellStart()
 	FindClearSpaceForUnit(newCreep, targetOrigin, true)
 
 	-- Apply bonus stats
-	newCreep:SetBaseMaxHealth(newCreep:GetMaxHealth() + bonusHealth)
-	newCreep:SetMaxHealth(newCreep:GetMaxHealth() + bonusHealth)
-	newCreep:SetHealth(newCreep:GetMaxHealth())
+	local newMaxHealth = math.max(1, newCreep:GetMaxHealth() + totalBonusHealth)
+	newCreep:SetBaseMaxHealth(newMaxHealth)
+	newCreep:SetMaxHealth(newMaxHealth)
+	newCreep:SetHealth(newMaxHealth)
 	
 	-- Bonus damage
 	local baseDamageMin = newCreep:GetBaseDamageMin()
@@ -69,6 +146,9 @@ function chen_holy_persuasion_custom:OnSpellStart()
 	-- Mark as tamed by Chen
 	newCreep.chen_tamed = true
 	newCreep.chen_owner_entindex = caster:entindex()
+	newCreep.chen_tamed_created_time = GameRules:GetGameTime()
+	caster.chen_holy_persuasion_creeps = GetTamedCreeps(caster)
+	EnforceTamedCreepLimit(caster, maxCreeps)
 
 	-- Give gold reward immediately
 	if goldReward > 0 then
@@ -76,7 +156,7 @@ function chen_holy_persuasion_custom:OnSpellStart()
 	end
 
 	-- Level up abilities
-	for slot = 0, 15 do
+	for slot = 0, 7 do
 		local ability = newCreep:GetAbilityByIndex(slot)
 		if ability and ability:GetLevel() == 0 then
 			ability:SetLevel(1)

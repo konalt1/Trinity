@@ -44,6 +44,26 @@ chen_barrack_self_destruct = class({})
 modifier_chen_barrack = class({})
 modifier_chen_barrack_producing = class({})
 
+-- Регистрируем Lua-модификаторы, иначе движок их не найдёт
+LinkLuaModifier("modifier_chen_barrack", "abilities/chen/chen_barrack", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_chen_barrack_producing", "abilities/chen/chen_barrack", LUA_MODIFIER_MOTION_NONE)
+
+local CHEN_BARRACK_PRODUCING_MODIFIER = "modifier_chen_barrack_producing"
+
+-- Маппинг семьи к юниту барака
+local FAMILY_TO_BARRACK_UNIT = {
+    satyr = "npc_chen_barrack_satyr",
+    frog = "npc_chen_barrack_frog",
+    troll = "npc_chen_barrack_troll",
+    wolf = "npc_chen_barrack_wolf",
+    centaur = "npc_chen_barrack_centaur",
+    golem = "npc_chen_barrack_golem",
+    dragon = "npc_chen_barrack_dragon",
+    bear = "npc_chen_barrack_bear",
+    furbolg = "npc_chen_barrack_furbolg",
+    harpy = "npc_chen_barrack_harpy",
+}
+
 local BARRACK_MODEL = "models/props_structures/good_barracks_melee001.vmdl"
 
 --- 10 семей крипов для барака Чена
@@ -51,30 +71,30 @@ local BARRACK_MODEL = "models/props_structures/good_barracks_melee001.vmdl"
 --- Уровень барака определяет доступные уровни крипов
 --- Аганим открывает ancient уровень
 local CHEN_BARRACK_FAMILIES = {
-    { "satyr", { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_satyr_sentry" } },
+    { "satyr", { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_prowler_acolyte"} },
     { "frog", { "npc_dota_neutral_pollywog", "npc_dota_neutral_frog", "npc_dota_neutral_frog_elder", "npc_chen_frog_ancient" } },
-    { "troll", { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_dark_troll_warlord" } },
-    { "wolf", { "npc_dota_neutral_vhoul_assassin", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_alpha_wolf", "npc_chen_wolf_thunder" } },
-    { "centaur", { "npc_dota_neutral_kobold_foreman", "npc_dota_neutral_centaur_khan", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_brute" } },
-    { "golem", { "npc_dota_neutral_mud_golem_tiny", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_mud_golem_shard" } },
+    { "troll", { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_ice_shaman" } },
+    { "wolf", { "npc_dota_neutral_gnoll_assassin", "npc_dota_neutral_alpha_wolf", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_big_thunder_lizard" } },
+    { "centaur", { "npc_dota_neutral_kobold", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_khan", "npc_chen_centaur_warruner" } },
+    { "golem", { "npc_dota_neutral_mud_golem_split", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_granite_golem" } },
     { "dragon", { "npc_dota_neutral_harpy_scout", "npc_dota_neutral_harpy_storm", "npc_dota_neutral_black_drake", "npc_dota_neutral_black_dragon" } },
-    { "bear", { "npc_chen_bear_wander", "npc_dota_neutral_hellbear", "npc_dota_neutral_hellbear_smasher", "npc_chen_bear_torchbearer" } },
-    { "furbolg", { "npc_chen_furbolg_treant", "npc_chen_furbolg_shroom", "npc_chen_furbolg_woodling", "npc_dota_neutral_warpine_raider" } },
-    { "harpy", { "npc_dota_neutral_wildwing", "npc_chen_harpy_bird", "npc_dota_neutral_wildwing_ripper", "npc_chen_harpy_phoenix" } },
+    { "bear", { "npc_chen_bear_wander", "npc_dota_neutral_polar_furbolg_champion", "npc_dota_neutral_polar_furbolg_ursa_warrior", "npc_chen_bear_torchbearer" } },
+    { "furbolg", { "npc_dota_furion_treant", "npc_chen_furbolg_shroom", "npc_dota_neutral_warpine_raider", "npc_chen_furbolg_treant" } },
+    { "harpy", { "npc_dota_neutral_wildkin", "npc_chen_harpy_bird", "npc_dota_neutral_enraged_wildkin", "npc_chen_harpy_phoenix" } },
 }
 
 -- Маппинг правильных имен юнитов для каждой семьи
 local CHEN_BARRACK_FAMILY_TARGETS = {
-    satyr = { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_satyr_sentry" },
+    satyr = { "npc_dota_neutral_satyr_trickster", "npc_dota_neutral_satyr_soulstealer", "npc_dota_neutral_satyr_hellcaller", "npc_dota_neutral_prowler_acolyte" },
     frog = { "npc_dota_neutral_pollywog", "npc_dota_neutral_frog", "npc_dota_neutral_frog_elder", "npc_chen_frog_ancient" },
-    troll = { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_dark_troll_warlord" },
-    wolf = { "npc_dota_neutral_vhoul_assassin", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_alpha_wolf", "npc_chen_wolf_thunder" },
-    centaur = { "npc_dota_neutral_kobold_foreman", "npc_dota_neutral_centaur_khan", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_brute" },
-    golem = { "npc_dota_neutral_mud_golem_tiny", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_mud_golem_shard" },
+    troll = { "npc_dota_neutral_forest_troll_berserker", "npc_dota_neutral_ogre_magi", "npc_dota_neutral_ogre_mauler", "npc_dota_neutral_ice_shaman" },
+    wolf = { "npc_dota_neutral_gnoll_assassin", "npc_dota_neutral_alpha_wolf", "npc_dota_neutral_giant_wolf", "npc_dota_neutral_big_thunder_lizard" },
+    centaur = { "npc_dota_neutral_kobold", "npc_dota_neutral_centaur_outrunner", "npc_dota_neutral_centaur_khan", "npc_chen_centaur_warruner" },
+    golem = { "npc_dota_neutral_mud_golem_split", "npc_dota_neutral_mud_golem", "npc_dota_neutral_rock_golem", "npc_dota_neutral_granite_golem" },
     dragon = { "npc_dota_neutral_harpy_scout", "npc_dota_neutral_harpy_storm", "npc_dota_neutral_black_drake", "npc_dota_neutral_black_dragon" },
-    bear = { "npc_chen_bear_wander", "npc_dota_neutral_hellbear", "npc_dota_neutral_hellbear_smasher", "npc_chen_bear_torchbearer" },
-    furbolg = { "npc_chen_furbolg_treant", "npc_chen_furbolg_shroom", "npc_chen_furbolg_woodling", "npc_dota_neutral_warpine_raider" },
-    harpy = { "npc_dota_neutral_wildwing", "npc_chen_harpy_bird", "npc_dota_neutral_wildwing_ripper", "npc_chen_harpy_phoenix" },
+    bear = { "npc_chen_bear_wander", "npc_dota_neutral_polar_furbolg_champion", "npc_dota_neutral_polar_furbolg_ursa_warrior", "npc_chen_bear_torchbearer" },
+    furbolg = { "npc_dota_furion_treant", "npc_chen_furbolg_shroom", "npc_dota_neutral_warpine_raider", "npc_chen_furbolg_treant" },
+    harpy = { "npc_dota_neutral_wildkin", "npc_chen_harpy_bird", "npc_dota_neutral_enraged_wildkin", "npc_chen_harpy_phoenix" },
 }
 
 -- Маппинг существующих нейтральных крипов в правильные семьи (для создания барака из любых крипов)
@@ -238,53 +258,92 @@ local function IsChenTamedCreep(unit, caster)
         return false
     end
 
-    if not unit:IsAlive() then
+    local ok, alive = pcall(function() return unit:IsAlive() end)
+    if not ok or not alive then
         return false
     end
 
+    -- Герои и здания — не крипы
+    if unit:IsHero() or unit:IsBuilding() then
+        return false
+    end
+
+    -- Должен быть союзным (KV уже фильтрует DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+    -- но дополнительная проверка не помешает)
     if unit:GetTeamNumber() ~= caster:GetTeamNumber() then
         return false
     end
 
-    if unit:GetPlayerOwnerID() ~= caster:GetPlayerOwnerID() then
-        return false
-    end
-
-    -- Если крип не герой и не здание - считаем валидной целью
-    if not unit:IsHero() and not unit:IsBuilding() then
-        return true
-    end
-
-    return false
+    -- Всё — цель валидна. Строгая проверка владения делается в OnSpellStart.
+    return true
 end
+
+-- Глобальный реестр: [entindex барака] -> entindex героя-владельца
+CHEN_BARRACK_REGISTRY = CHEN_BARRACK_REGISTRY or {}
 
 local function GetBarrackOwnerHero(unit)
     if not unit or unit:IsNull() then
         return nil
     end
 
-    -- Сначала пробуем GetOwnerEntity
-    local owner = unit.GetOwnerEntity and unit:GetOwnerEntity()
-    if owner and not owner:IsNull() and owner:IsRealHero() then
-        return owner
+    local dbg = "[GetBarrackOwnerHero] eid=" .. unit:entindex() .. " "
+
+    -- Way 0: прямая ссылка
+    if unit.chen_barrack_owner_hero then
+        local ok, dead = pcall(function() return unit.chen_barrack_owner_hero:IsNull() end)
+        if ok and not dead then
+            return unit.chen_barrack_owner_hero
+        end
+        unit.chen_barrack_owner_hero = nil
+        print(dbg .. "Way0 FAIL (ok=" .. tostring(ok) .. " dead=" .. tostring(dead) .. ")")
+    else
+        print(dbg .. "Way0 SKIP (no field)")
     end
 
-    -- Если не сработало, пробуем через PlayerOwnerID найти героя
+    -- Way 1: entindex
+    if unit.chen_barrack_owner_entindex then
+        local ok, hero = pcall(EntIndexToHScript, unit.chen_barrack_owner_entindex)
+        if ok and hero and not hero:IsNull() and hero:IsRealHero() then
+            unit.chen_barrack_owner_hero = hero
+            return hero
+        end
+        print(dbg .. "Way1 FAIL entindex=" .. tostring(unit.chen_barrack_owner_entindex))
+    else
+        print(dbg .. "Way1 SKIP (no entindex field)")
+    end
+
+    -- Way 2: глобальный реестр
+    local barrackIdx = unit:entindex()
+    local ownerIdx = CHEN_BARRACK_REGISTRY and CHEN_BARRACK_REGISTRY[barrackIdx]
+    if ownerIdx then
+        local ok, hero = pcall(EntIndexToHScript, ownerIdx)
+        if ok and hero and not hero:IsNull() and hero:IsRealHero() then
+            unit.chen_barrack_owner_entindex = ownerIdx
+            unit.chen_barrack_owner_hero = hero
+            return hero
+        end
+        print(dbg .. "Way2 FAIL ownerIdx=" .. tostring(ownerIdx))
+    else
+        print(dbg .. "Way2 SKIP (not in registry)")
+    end
+
+    -- Way 3: GetPlayerOwnerID
     local playerID = unit:GetPlayerOwnerID()
-    if playerID and playerID >= 0 then
+    print(dbg .. "Way3 playerID=" .. tostring(playerID))
+    if playerID and playerID >= 0 and PlayerResource then
         local hero = PlayerResource:GetSelectedHeroEntity(playerID)
         if hero and not hero:IsNull() and hero:IsRealHero() then
             return hero
         end
+        print(dbg .. "Way3 FAIL hero=" .. tostring(hero))
     end
 
-    -- Фоллбек через entindex если он есть
-    if unit.chen_barrack_owner_entindex then
-        local ownerFromIndex = EntIndexToHScript(unit.chen_barrack_owner_entindex)
-        if ownerFromIndex and not ownerFromIndex:IsNull() and ownerFromIndex:IsRealHero() then
-            return ownerFromIndex
-        end
+    -- Way 4: GetOwnerEntity
+    local ok4, owner = pcall(function() return unit:GetOwnerEntity() end)
+    if ok4 and owner and not owner:IsNull() and owner:IsRealHero() then
+        return owner
     end
+    print(dbg .. "Way4 FAIL, returning nil")
 
     return nil
 end
@@ -299,6 +358,7 @@ local function HasEnoughGold(hero, goldCost)
         return false
     end
 
+    if not PlayerResource then return false end
     return PlayerResource:GetGold(playerID) >= goldCost
 end
 
@@ -494,32 +554,20 @@ local function GrantFamilyAbilities(barrack, familyName, ownerHero)
     end
 end
 
-local function GetFamilyUnitName(sourceUnitName, variant)
-    if not sourceUnitName or sourceUnitName == "" then
+local function GetFamilyUnitName(familyName, variant)
+    if not familyName or familyName == "" then
         return nil
     end
 
-    local sourceUnitNameLower = sourceUnitName:lower()
-
-    -- Сначала ищем точное совпадение в CHEN_BARRACK_FAMILY_TARGETS
-    for familyName, unitNames in pairs(CHEN_BARRACK_FAMILY_TARGETS) do
-        for i, unitName in ipairs(unitNames) do
-            if i == variant and sourceUnitNameLower == unitName:lower() then
-                return unitName
-            end
-        end
-    end
-
-    -- Если точного совпадения нет, ищем по имени семьи в CHEN_BARRACK_FAMILY_TARGETS
-    for familyName, unitNames in pairs(CHEN_BARRACK_FAMILY_TARGETS) do
-        if sourceUnitNameLower:find(familyName, 1, true) then
-            return unitNames[variant]
-        end
+    -- Ищем по имени семьи в CHEN_BARRACK_FAMILY_TARGETS
+    local unitNames = CHEN_BARRACK_FAMILY_TARGETS[familyName]
+    if unitNames and unitNames[variant] then
+        return unitNames[variant]
     end
 
     -- Fallback: ищем в CHEN_BARRACK_FAMILIES
     for _, family in ipairs(CHEN_BARRACK_FAMILIES) do
-        if string.find(sourceUnitNameLower, family[1], 1, true) then
+        if family[1] == familyName and family[2][variant] then
             return family[2][variant]
         end
     end
@@ -542,6 +590,68 @@ local function GetBarrackQueuedCount(barrack)
     count = count + (barrack.chen_active_productions or 0)
 
     return count
+end
+
+local function IsValidProductionModifier(modifier)
+    if not modifier then
+        return false
+    end
+
+    if modifier.IsNull then
+        return not modifier:IsNull()
+    end
+
+    return true
+end
+
+local function AddProductionModifier(barrack, item, duration)
+    if not barrack or barrack:IsNull() then
+        return nil
+    end
+
+    local kv = {
+        production_time = item and item.production_time or duration or 0,
+    }
+
+    if duration and duration > 0 then
+        kv.duration = duration
+    end
+
+    local modifier = barrack:AddNewModifier(barrack, nil, CHEN_BARRACK_PRODUCING_MODIFIER, kv)
+    if modifier and duration and duration > 0 then
+        modifier:SetDuration(duration, true)
+    end
+
+    return modifier
+end
+
+local function AddQueuedProductionModifier(barrack, item)
+    if IsValidProductionModifier(item.production_modifier) then
+        return item.production_modifier
+    end
+
+    item.production_modifier = AddProductionModifier(barrack, item, nil)
+    return item.production_modifier
+end
+
+local function StartProductionModifier(barrack, item, productionTime)
+    if IsValidProductionModifier(item.production_modifier) then
+        item.production_modifier:SetDuration(productionTime, true)
+        return item.production_modifier
+    end
+
+    item.production_modifier = AddProductionModifier(barrack, item, productionTime)
+    return item.production_modifier
+end
+
+local function DestroyProductionModifier(item)
+    if item and IsValidProductionModifier(item.production_modifier) then
+        item.production_modifier:Destroy()
+    end
+
+    if item then
+        item.production_modifier = nil
+    end
 end
 
 local function CreateProductUnit(item, spawnPosition, ownerHero, teamNumber)
@@ -568,7 +678,7 @@ local function LevelUnitAbilities(unit)
         return
     end
 
-    for slot = 0, 15 do
+    for slot = 0, 7 do
         local ability = unit:GetAbilityByIndex(slot)
         if ability and ability:GetLevel() == 0 then
             ability:SetLevel(1)
@@ -614,10 +724,8 @@ local function CompleteProduction(barrack, item)
     -- Play spawn sound
     EmitSoundOn("DOTA_Item.Hand_Of_Midas", barrack)
     FindClearSpaceForUnit(summon, spawnPosition, true)
-    summon:Stop()
 
     barrack.chen_reserved_gold = math.max(0, (barrack.chen_reserved_gold or 0) - (item.gold_cost or 0))
-    EmitSoundOn("Hero_Chen.TeleportLoop", summon)
 end
 
 local StartNextProduction
@@ -638,11 +746,12 @@ StartNextProduction = function(barrack)
     barrack.chen_current_order = item
 
     local productionTime = tonumber(item.production_time) or 10
-    barrack:AddNewModifier(barrack, nil, "modifier_chen_barrack_producing", { duration = productionTime, production_time = productionTime })
+    StartProductionModifier(barrack, item, productionTime)
 
     Timers:CreateTimer(item.production_time or 1, function()
         if barrack and not barrack:IsNull() and barrack:IsAlive() and not barrack.chen_is_destroyed then
             CompleteProduction(barrack, item)
+            DestroyProductionModifier(item)
             barrack.chen_active_productions = math.max(0, (barrack.chen_active_productions or 1) - 1)
             barrack.chen_current_order = nil
             StartNextProduction(barrack)
@@ -695,13 +804,15 @@ local function QueueBarrackUnit(self)
 
     InitBarrackState(barrack)
 
+
     local queueLimit = 5
     if GetBarrackQueuedCount(barrack) >= queueLimit then
         return
     end
 
     local sourceUnitName = barrack.chen_source_unit_name
-    local unitName = GetFamilyUnitName(sourceUnitName, variant)
+    local familyName = barrack.chen_family_name
+    local unitName = GetFamilyUnitName(familyName, variant)
 
     if not unitName then
         CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(ownerHero:GetPlayerOwnerID()), "show_custom_error", { message = "#dota_hud_error_chen_barrack_no_unit_in_family" })
@@ -714,19 +825,33 @@ local function QueueBarrackUnit(self)
     SpendGold(ownerHero, goldCost)
     barrack.chen_reserved_gold = (barrack.chen_reserved_gold or 0) + goldCost
 
-    table.insert(barrack.chen_production_queue, {
+    local productionItem = {
         unit_name = unitName,
         source_unit_name = sourceUnitName,
         gold_cost = goldCost,
         production_time = productionTime,
         spawn_distance = self:GetSpecialValueFor("spawn_distance"),
-    })
+    }
+
+    table.insert(barrack.chen_production_queue, productionItem)
+
+    if (barrack.chen_active_productions or 0) > 0 then
+        AddQueuedProductionModifier(barrack, productionItem)
+    end
 
     EmitSoundOn("General.Buy", barrack)
-    StartNextProduction(barrack)
+
+    -- Запускаем производство только если барак сейчас простаивает
+    if (barrack.chen_active_productions or 0) == 0 then
+        StartNextProduction(barrack)
+    end
 end
 
 local function BarrackSummonCastFilter(self)
+    if not IsServer() then
+        return UF_SUCCESS
+    end
+
     local barrack = self:GetCaster()
     local ownerHero = GetBarrackOwnerHero(barrack)
     if not ownerHero or ownerHero:IsNull() then
@@ -751,7 +876,8 @@ local function BarrackSummonCastFilter(self)
     end
 
     local sourceUnitName = barrack.chen_source_unit_name
-    local unitName = GetFamilyUnitName(sourceUnitName, variant)
+    local familyName = barrack.chen_family_name
+    local unitName = GetFamilyUnitName(familyName, variant)
     if not unitName then
         return UF_FAIL_CUSTOM
     end
@@ -772,6 +898,10 @@ local function BarrackSummonCastFilter(self)
 end
 
 local function BarrackSummonCastError(self)
+    if not IsServer() then
+        return ""
+    end
+
     local barrack = self:GetCaster()
     local ownerHero = GetBarrackOwnerHero(barrack)
     if not ownerHero or ownerHero:IsNull() then
@@ -796,7 +926,8 @@ local function BarrackSummonCastError(self)
     end
 
     local sourceUnitName = barrack.chen_source_unit_name
-    local unitName = GetFamilyUnitName(sourceUnitName, variant)
+    local familyName = barrack.chen_family_name
+    local unitName = GetFamilyUnitName(familyName, variant)
     if not unitName then
         return "#dota_hud_error_chen_barrack_no_unit_in_family"
     end
@@ -816,11 +947,11 @@ local function BarrackSummonCastError(self)
 end
 
 function chen_barrack:CastFilterResultTarget(target)
-    if IsChenTamedCreep(target, self:GetCaster()) then
-        return UF_SUCCESS
-    end
-
-    return UF_FAIL_CUSTOM
+    -- KV уже фильтрует по DOTA_UNIT_TARGET_TEAM_FRIENDLY + BASIC
+    -- Проверяем только что это не герой и не здание
+    if not target or target:IsNull() then return UF_FAIL_CUSTOM end
+    if target:IsHero() or target:IsBuilding() then return UF_FAIL_CUSTOM end
+    return UF_SUCCESS
 end
 
 function chen_barrack:GetCustomCastErrorTarget(target)
@@ -861,9 +992,16 @@ function chen_barrack:OnSpellStart()
 
     local existingBarracks = {}
     for _, unit in pairs(units) do
-        if unit and not unit:IsNull() and unit:IsAlive() and unit:GetUnitName() == "npc_chen_barrack" then
-            if unit.chen_barrack_owner_entindex == caster:entindex() then
-                table.insert(existingBarracks, unit)
+        if unit and not unit:IsNull() and unit:IsAlive() then
+            local unitName = unit:GetUnitName()
+            -- Проверяем все юниты бараков
+            for _, barrackUnitName in pairs(FAMILY_TO_BARRACK_UNIT) do
+                if unitName == barrackUnitName then
+                    if unit.chen_barrack_owner_entindex == caster:entindex() then
+                        table.insert(existingBarracks, unit)
+                    end
+                    break
+                end
             end
         end
     end
@@ -897,7 +1035,7 @@ function chen_barrack:OnSpellStart()
     -- Determine family from target unit name
     local targetName = target:GetUnitName() or ""
     local familyName = GetFamilyName(targetName)
-    
+
     print("[Chen Barrack] GetFamilyName returned: " .. (familyName or "nil") .. " for unit: " .. targetName)
 
     -- Fallback: если крип не найден в таблице, используем satyr как дефолт
@@ -913,39 +1051,50 @@ function chen_barrack:OnSpellStart()
     end
     UTIL_Remove(target)
 
-    local barrack = CreateUnitByName("npc_chen_barrack", origin, true, caster, caster, teamNumber)
+    -- Спавним соответствующий юнит барака для семьи
+    local barrackUnitName = FAMILY_TO_BARRACK_UNIT[familyName] or "npc_chen_barrack"
+    local barrack = CreateUnitByName(barrackUnitName, origin, true, caster, caster, teamNumber)
     if not barrack then
         return
     end
 
     barrack.chen_barrack_owner_entindex = caster:entindex()
+    barrack.chen_barrack_owner_hero = caster  -- прямая ссылка для надёжного поиска
     barrack.chen_barrack_created_time = GameRules:GetGameTime()
     barrack.chen_source_unit_name = targetName
     barrack.chen_family_name = familyName
+
+    -- Регистрируем в глобальном реестре (надёжный fallback)
+    CHEN_BARRACK_REGISTRY = CHEN_BARRACK_REGISTRY or {}
+    CHEN_BARRACK_REGISTRY[barrack:entindex()] = caster:entindex()
+    print("[Chen Barrack] Registered barrack " .. barrack:entindex() .. " -> owner " .. caster:entindex())
+
     barrack:SetOwner(caster)
     barrack:SetControllableByPlayer(playerID, true)
+    if barrack.SetPlayerID then
+        barrack:SetPlayerID(playerID)
+    end
     barrack:SetForwardVector(forward)
     barrack:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
     barrack:AddNewModifier(caster, nil, "modifier_chen_barrack", {})
 
-    -- Выдаем способности семьи
-    GrantFamilyAbilities(barrack, familyName, caster)
+    -- Способности уже заданы в KV, не нужно выдавать их вручную
+    -- GrantFamilyAbilities(barrack, familyName, caster)
 
     local barrackMaxHealth = math.max(minimumBarrackHealth, targetMaxHealth + bonusHealth)
     barrack:SetBaseMaxHealth(barrackMaxHealth)
     barrack:SetMaxHealth(barrackMaxHealth)
     barrack:SetHealth(barrackMaxHealth)
 
-    local model = GetBarrackModel(teamNumber)
-    barrack:SetModel(model)
-    barrack:SetOriginalModel(model)
+    barrack:SetModel(BARRACK_MODEL)
+    barrack:SetOriginalModel(BARRACK_MODEL)
 
     LevelBarrackAbilities(barrack)
 
     -- Задержка для правильной инициализации способностей
     Timers:CreateTimer(0.1, function()
         print("[Chen Barrack] Activating abilities for barrack")
-        for slot = 0, 15 do
+        for slot = 0, 4 do
             local ability = barrack:GetAbilityByIndex(slot)
             if ability then
                 ability:SetActivated(true)
@@ -1173,6 +1322,10 @@ end
 
 function modifier_chen_barrack_producing:IsStackable()
     return true
+end
+
+function modifier_chen_barrack_producing:GetAttributes()
+    return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
 function modifier_chen_barrack_producing:GetTexture()

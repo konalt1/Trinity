@@ -829,6 +829,548 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
 
+    // Chen Barrack - Satyr Family
+    "npc_chen_barrack_satyr"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.9"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_satyr_t1"
+        "Ability2"                  "chen_barrack_satyr_t2"
+        "Ability3"                  "chen_barrack_satyr_t3"
+        "Ability4"                  "chen_barrack_satyr_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Frog Family
+    "npc_chen_barrack_frog"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.85"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_frog_t1"
+        "Ability2"                  "chen_barrack_frog_t2"
+        "Ability3"                  "chen_barrack_frog_t3"
+        "Ability4"                  "chen_barrack_frog_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Troll Family
+    "npc_chen_barrack_troll"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1.1"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_troll_t1"
+        "Ability2"                  "chen_barrack_troll_t2"
+        "Ability3"                  "chen_barrack_troll_t3"
+        "Ability4"                  "chen_barrack_troll_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Wolf Family
+    "npc_chen_barrack_wolf"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.95"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_wolf_t1"
+        "Ability2"                  "chen_barrack_wolf_t2"
+        "Ability3"                  "chen_barrack_wolf_t3"
+        "Ability4"                  "chen_barrack_wolf_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Centaur Family
+    "npc_chen_barrack_centaur"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1.15"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_centaur_t1"
+        "Ability2"                  "chen_barrack_centaur_t2"
+        "Ability3"                  "chen_barrack_centaur_t3"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Golem Family
+    "npc_chen_barrack_golem"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1.2"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_golem_t1"
+        "Ability2"                  "chen_barrack_golem_t2"
+        "Ability3"                  "chen_barrack_golem_t3"
+        "Ability4"                  "chen_barrack_golem_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Dragon Family
+    "npc_chen_barrack_dragon"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1.0"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_dragon_t1"
+        "Ability2"                  "chen_barrack_dragon_t2"
+        "Ability3"                  "chen_barrack_dragon_t3"
+        "Ability4"                  "chen_barrack_dragon_ancient"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Bear Family
+    "npc_chen_barrack_bear"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1.1"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability2"                  "chen_barrack_bear_t2"
+        "Ability3"                  "chen_barrack_bear_t3"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Furbolg Family
+    "npc_chen_barrack_furbolg"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.9"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability3"                  "chen_barrack_furbolg_t3"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Chen Barrack - Harpy Family
+    "npc_chen_barrack_harpy"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.85"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "chen_barrack_harpy_t1"
+        "Ability3"                  "chen_barrack_harpy_t3"
+        "Ability5"                  "chen_barrack_self_destruct"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAnimationPoint"      "0.3"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+        "ProjectileModel"           ""
+        "ProjectileSpeed"           "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "120"
+        "HealthBarOffset"           "220"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
     "npc_chen_barrack_melee"
     {
         "BaseClass"                 "npc_dota_creature"
@@ -1120,7 +1662,7 @@
     "npc_chen_centaur_warruner"
     {
         "BaseClass"                     "npc_dota_creep_neutral"
-        "Model"                         "models/heroes/centaur/centaur.vmdl"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl"
         "SoundSet"                      "Hero_Centaur"
         "Level"                         "4"
         "ModelScale"                    "0.9"
@@ -1172,7 +1714,7 @@
     "npc_chen_wolf_thunder"
     {
         "BaseClass"                     "npc_dota_creep_neutral"
-        "Model"                         "models/heroes/centaur/centaur.vmdl"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_worg_large/n_creep_worg_large.vmdl"
         "SoundSet"                      "Hero_Centaur"
         "Level"                         "4"
         "ModelScale"                    "0.9"
@@ -1224,7 +1766,7 @@
     "npc_chen_bear_wander"
     {
         "BaseClass"                     "npc_dota_creep_neutral"
-        "Model"                         "models/items/lone_druid/bear/lone_druid_northland_wander_bear_2/lone_druid_northland_wander_bear_2.vmdl"
+        "Model"                         "models/heroes/lone_druid/spirit_bear.vmdl"
         "SoundSet"                      "Hero_LoneDruid.Bear"
         "Level"                         "1"
         "ModelScale"                    "1.0"
@@ -1273,7 +1815,7 @@
     "npc_chen_bear_torchbearer"
     {
         "BaseClass"                     "npc_dota_creep_neutral"
-        "Model"                         "models/items/lone_druid/true_form/rabid_black_bear/rabid_black_bear.vmdl"
+        "Model"                         "models/heroes/lone_druid/spirit_bear.vmdl"
         "SoundSet"                      "Hero_LoneDruid.Bear"
         "Level"                         "4"
         "ModelScale"                    "1.1"
@@ -1578,7 +2120,7 @@
     "npc_chen_harpy_bird"
     {
         "BaseClass"                     "npc_dota_creep_neutral"
-        "Model"                         "models/heroes/beastmaster/beastmaster_bird.vmdl"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_harpy_a/n_creep_harpy_a.vmdl"
         "SoundSet"                      "Hero_Beastmaster.Bird"
         "Level"                         "2"
         "ModelScale"                    "0.85"
@@ -1628,7 +2170,7 @@
     "npc_chen_harpy_phoenix"
     {
         "BaseClass"                     "npc_dota_creep_neutral"
-        "Model"                         "models/heroes/phoenix/phoenix_bird.vmdl"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_harpy_b/n_creep_harpy_b.vmdl"
         "SoundSet"                      "Hero_Phoenix"
         "Level"                         "4"
         "ModelScale"                    "1.0"

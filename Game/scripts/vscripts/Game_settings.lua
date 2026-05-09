@@ -326,8 +326,8 @@ function GameSettings:OnGameInProgress()
 	print("[BAREBONES] The game has officially begun")
 
 	for i=0,4 do
-		PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)		
-		PlayerResource:SetCustomBuybackCost(i, CUSTOM_BUYBACK_COST)
+		PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)
+		-- CUSTOM_BUYBACK_COST_ENABLED = false, buyback cost not overridden
 	end
 	print("Make buildings vulnerable")
     local allBuildings = Entities:FindAllByClassname('npc_dota_building')
@@ -571,13 +571,11 @@ function GameSettings:OnPlayerPickHero(keys)
 
 	local heroClass = keys.hero
 	local heroEntity = EntIndexToHScript(keys.heroindex)
-	local player = EntIndexToHScript(keys.player)
+	local player = (keys.player and keys.player >= 0) and EntIndexToHScript(keys.player) or nil
 	
 	-- Проверяем, что игрок выбрал героя
-	if heroClass and heroEntity then
+	if player and not player:IsNull() and heroClass and heroEntity then
 		print("[BAREBONES] Player " .. player:GetPlayerID() .. " picked hero: " .. heroClass)
-	else
-		print("[BAREBONES] Warning: Player " .. player:GetPlayerID() .. " did not pick a valid hero!")
 	end
 end
 

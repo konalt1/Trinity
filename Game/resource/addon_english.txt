@@ -592,8 +592,10 @@
 
 		// Holy Persuasion
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа, увеличивая его здоровье и урон. Чен получает часть золота за убийство прирученного крипа."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа, увеличивая его здоровье и урон. Бонус здоровья дополнительно усиливается Силой магии Чена. Если превышен лимит прирученных крипов, самый старый прирученный крип исчезает. Чен получает часть золота за убийство прирученного крипа."
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_max_creeps"		"МАКС. ПРИРУЧЕННЫХ КРИПОВ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_damage"		"БОНУС УРОНА:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bounty_share_pct"	"%ДОЛЯ НАГРАДЫ ЗА УБИЙСТВО:"
 
@@ -618,6 +620,127 @@
 
 		// Barrack Unit
 		"npc_chen_barrack"													"Барак Чена"
+		"npc_chen_barrack_satyr"											"Барак Сатиров"
+		"npc_chen_barrack_frog"												"Барак Лягушек"
+		"npc_chen_barrack_troll"											"Барак Троллей"
+		"npc_chen_barrack_wolf"												"Барак Волков"
+		"npc_chen_barrack_centaur"											"Барак Кентавров"
+		"npc_chen_barrack_golem"											"Барак Големов"
+		"npc_chen_barrack_dragon"											"Барак Драконов"
+		"npc_chen_barrack_bear"												"Барак Медведей"
+		"npc_chen_barrack_furbolg"											"Барак Шишек"
+		"npc_chen_barrack_harpy"											"Барак Пернатых"
+
+		// Custom Creeps
+		"npc_chen_frog_ancient"												"Древняя Лягушка"
+		"npc_chen_wolf_thunder"												"Громовой Волк"
+		"npc_chen_centaur_warruner"											"Воин Кентавр"
+		"npc_chen_bear_wander"												"Странник Медведь"
+		"npc_chen_bear_torchbearer"											"Факелоносец Медведь"
+		"npc_chen_furbolg_treant"											"Шишка Древень"
+		"npc_chen_furbolg_shroom"											"Шишка Гриб"
+		"npc_chen_harpy_bird"												"Птица Гарпия"
+		"npc_chen_harpy_phoenix"											"Феникс Гарпия"
+
+		// Satyr Family
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t1"						"Сатир-Трикстер"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t1_Description"			"Призывает Сатира-Трикстера (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t2"						"Сатир-Душегуб"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t2_Description"			"Призывает Сатира-Душегуба (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t3"						"Сатир-Адский Зов"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_t3_Description"			"Призывает Сатира-Адского Зова (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient"					"Сатир-Аколит"
+		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient_Description"		"Призывает Сатира-Аколита (Ancient)."
+
+		// Frog Family
+		"DOTA_Tooltip_ability_chen_barrack_frog_t1"						"Головастик"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t1_Description"			"Призывает Головастика (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_frog_t2"						"Лягушка"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t2_Description"			"Призывает Лягушку (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_frog_t3"						"Старая Лягушка"
+		"DOTA_Tooltip_ability_chen_barrack_frog_t3_Description"			"Призывает Старую Лягушку (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_frog_ancient"					"Древняя Лягушка"
+		"DOTA_Tooltip_ability_chen_barrack_frog_ancient_Description"		"Призывает Древнюю Лягушку (Ancient)."
+
+		// Troll Family
+		"DOTA_Tooltip_ability_chen_barrack_troll_t1"						"Берсерк Тролль"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t1_Description"			"Призывает Берсерк Тролля (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_troll_t2"						"Маг-Огр"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t2_Description"			"Призывает Мага-Огра (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_troll_t3"						"Молотник Огр"
+		"DOTA_Tooltip_ability_chen_barrack_troll_t3_Description"			"Призывает Молотника Огра (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_troll_ancient"					"Ледяной Шаман"
+		"DOTA_Tooltip_ability_chen_barrack_troll_ancient_Description"		"Призывает Ледяного Шамана (Ancient)."
+
+		// Wolf Family
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t1"						"Воул-Убийца"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t1_Description"			"Призывает Воула-Убийцу (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t2"						"Альфа Волк"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t2_Description"			"Призывает Альфа Волка (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t3"						"Гигантский Волк"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_t3_Description"			"Призывает Гигантского Волка (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient"					"Громовой Ящер"
+		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient_Description"		"Призывает Громового Ящера (Ancient)."
+
+		// Centaur Family
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t1"						"Кобольд-Надсмотрщик"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t1_Description"			"Призывает Кобольда-Надсмотрщика (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t2"						"Кентавр-Хан"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t2_Description"			"Призывает Кентавра-Хана (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t3"						"Кентавр-Бегун"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_t3_Description"			"Призывает Кентавра-Бегуна (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient"					"Воин Кентавр"
+		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient_Description"		"Призывает Воина Кентавра (Ancient)."
+
+		// Golem Family
+		"DOTA_Tooltip_ability_chen_barrack_golem_t1"						"Маленький Голем"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t1_Description"			"Призывает Маленького Голема (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_golem_t2"						"Грязевой Голем"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t2_Description"			"Призывает Грязевого Голема (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_golem_t3"						"Каменный Голем"
+		"DOTA_Tooltip_ability_chen_barrack_golem_t3_Description"			"Призывает Каменного Голема (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_golem_ancient"					"Гранитный Голем"
+		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"		"Призывает Гранитного Голема (Ancient)."
+
+		// Dragon Family
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t1"						"Гарпия-Разведчица"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t1_Description"			"Призывает Гарпию-Разведчицу (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t2"						"Гарпия-Шторм"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t2_Description"			"Призывает Гарпию-Шторм (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t3"						"Черный Дрейк"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_t3_Description"			"Призывает Черного Дрейка (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient"					"Черный Дракон"
+		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient_Description"		"Призывает Черного Дракона (Ancient)."
+
+		// Bear Family
+		"DOTA_Tooltip_ability_chen_barrack_bear_t1"						"Странник Медведь"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t1_Description"			"Призывает Странника Медведя (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_bear_t2"						"Адский Медведь"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t2_Description"			"Призывает Адского Медведя (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_bear_t3"						"Адский Медведь-Разрушитель"
+		"DOTA_Tooltip_ability_chen_barrack_bear_t3_Description"			"Призывает Адского Медведя-Разрушителя (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_bear_ancient"					"Факелоносец Медведь"
+		"DOTA_Tooltip_ability_chen_barrack_bear_ancient_Description"		"Призывает Факелоносца Медведя (Ancient)."
+
+		// Furbolg Family
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1"						"Древень Фуриона"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1_Description"			"Призывает Древень Фуриона (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2"						"Шишка Гриб"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2_Description"			"Призывает Шишку Гриб (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3"						"Варпин Райдер"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3_Description"			"Призывает Варпин Райдера (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient"					"Шишка Древень"
+		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient_Description"		"Призывает Шишку Древень (Ancient)."
+
+		// Harpy Family
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t1"						"Дикин"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t1_Description"			"Призывает Дикина (Tier 1)."
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t2"						"Птица Гарпия"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t2_Description"			"Призывает Птицу Гарпию (Tier 2)."
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t3"						"Разъяренный Дикин"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_t3_Description"			"Призывает Разъяренного Дикина (Tier 3)."
+		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient"					"Феникс Гарпия"
+		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient_Description"		"Призывает Феникса Гарпию (Ancient)."
 
 		// Barrack Summon T1
 		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Производство: Тир 2"
@@ -645,7 +768,7 @@
 
 		// Modifier — producing
 		"DOTA_Tooltip_modifier_chen_barrack_producing"						"Производство..."
-		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Барак производит юнита."
+		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Барак производит юнита. Бессрочный эффект означает, что заказ ожидает своей очереди."
 
 		// Talents
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1"				"+75 урона союзным крипам"
@@ -674,6 +797,7 @@
 		"dota_hud_error_chen_barrack_invalid_target"						"Цель должна быть прирученным крипом Чена"
 		"dota_hud_error_chen_barrack_self_destruct_invalid_target"			"Только барак может использовать эту способность"
 		"dota_hud_error_chen_barrack_self_destruct_dead"					"Барак уже уничтожен"
+		"dota_hud_error_chen_barrack_already_producing"					"Барак уже производит юнита"
 		"dota_hud_error_chen_whip_invalid_target"							"Недопустимая цель для Кнута"
 
 		// =============================================
@@ -906,4 +1030,5 @@
 		"dota_hud_error_chen_barrack_invalid_target"								"Неверная цель"
 
 		// Chen Barrack New Creeps
+}
 }
