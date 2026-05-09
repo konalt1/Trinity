@@ -2485,7 +2485,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_khan_war_stomp"
+        "AbilityTextureName"            "chen_barrack_centaur_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2511,7 +2511,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_khan_war_stomp"
+        "AbilityTextureName"            "chen_barrack_centaur_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2535,7 +2535,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_khan_hoof_stomp"
+        "AbilityTextureName"            "chen_barrack_centaur_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2559,7 +2559,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_outrunner_double_edge"
+        "AbilityTextureName"            "chen_barrack_centaur_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2584,7 +2584,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_trickster_purge"
+        "AbilityTextureName"            "chen_barrack_satyr_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2610,7 +2610,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_soulstealer_mana_burn"
+        "AbilityTextureName"            "chen_barrack_satyr_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2634,7 +2634,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_hellcaller_shockwave"
+        "AbilityTextureName"            "chen_barrack_satyr_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2658,7 +2658,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_hellcaller_shockwave"
+        "AbilityTextureName"            "chen_barrack_satyr_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2683,7 +2683,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "hill_troll_rally"
+        "AbilityTextureName"            "chen_barrack_troll_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2709,7 +2709,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "ogre_magi_fireblast"
+        "AbilityTextureName"            "chen_barrack_troll_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2733,7 +2733,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "ogre_magi_ignite"
+        "AbilityTextureName"            "chen_barrack_troll_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2757,7 +2757,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "jakiro_ice_path"
+        "AbilityTextureName"            "chen_barrack_troll_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2782,7 +2782,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_summon_wolves"
+        "AbilityTextureName"            "chen_barrack_wolf_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2808,7 +2808,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_summon_wolves"
+        "AbilityTextureName"            "chen_barrack_wolf_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2832,7 +2832,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_shapeshift"
+        "AbilityTextureName"            "chen_barrack_wolf_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2856,7 +2856,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_feral_impulse"
+        "AbilityTextureName"            "chen_barrack_wolf_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2881,7 +2881,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_fissure"
+        "AbilityTextureName"            "chen_barrack_golem_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2907,7 +2907,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_aftershock"
+        "AbilityTextureName"            "chen_barrack_golem_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2931,7 +2931,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_enchant_totem"
+        "AbilityTextureName"            "chen_barrack_golem_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2955,7 +2955,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_echo_slam"
+        "AbilityTextureName"            "chen_barrack_golem_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -2980,7 +2980,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3006,7 +3006,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3030,7 +3030,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3054,7 +3054,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3079,7 +3079,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_wrath_of_nature"
+        "AbilityTextureName"            "chen_barrack_furbolg_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3105,7 +3105,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "treant_overgrowth"
+        "AbilityTextureName"            "chen_barrack_furbolg_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3129,7 +3129,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "treant_living_armor"
+        "AbilityTextureName"            "chen_barrack_furbolg_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3153,7 +3153,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "treant_natures_grasp"
+        "AbilityTextureName"            "chen_barrack_furbolg_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3180,7 +3180,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_sprout"
+        "AbilityTextureName"            "chen_barrack_frog_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3206,7 +3206,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_teleportation"
+        "AbilityTextureName"            "chen_barrack_frog_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3230,7 +3230,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_force_of_nature"
+        "AbilityTextureName"            "chen_barrack_frog_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3254,7 +3254,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_sprout"
+        "AbilityTextureName"            "chen_barrack_frog_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3278,7 +3278,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_dragon_form"
+        "AbilityTextureName"            "chen_barrack_dragon_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3304,7 +3304,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_dragon_form"
+        "AbilityTextureName"            "chen_barrack_dragon_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3328,7 +3328,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_fireball"
+        "AbilityTextureName"            "chen_barrack_dragon_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3352,7 +3352,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_splash"
+        "AbilityTextureName"            "chen_barrack_dragon_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3376,7 +3376,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_savage_roar"
+        "AbilityTextureName"            "chen_barrack_bear_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3402,7 +3402,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_rabid"
+        "AbilityTextureName"            "chen_barrack_bear_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3426,7 +3426,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_true_form"
+        "AbilityTextureName"            "chen_barrack_bear_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3450,7 +3450,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_bear_form"
+        "AbilityTextureName"            "chen_barrack_bear_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3474,7 +3474,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "techies_remote_mines"
+        "AbilityTextureName"            "techies_focused_detonate"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -3532,7 +3532,7 @@
         "AbilityTextureName"            "chen_penitence"
         "AbilityValues"
         {
-            "bonus_damage"              "75"
+            "value"                     "0"
         }
     }
 
@@ -3544,7 +3544,7 @@
         "AbilityTextureName"            "chen_penitence"
         "AbilityValues"
         {
-            "attack_speed"              "35"
+            "value"                     "0"
         }
     }
 
@@ -3556,7 +3556,7 @@
         "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "bonus_health"              "300"
+            "value"                     "0"
         }
     }
 
@@ -3568,7 +3568,7 @@
         "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "bonus_damage"              "30"
+            "value"                     "0"
         }
     }
 
@@ -3580,7 +3580,7 @@
         "AbilityTextureName"            "chen_test_of_faith"
         "AbilityValues"
         {
-            "bonus_radius"              "300"
+            "value"                     "0"
         }
     }
 
@@ -3592,7 +3592,7 @@
         "AbilityTextureName"            "chen_divine_favor"
         "AbilityValues"
         {
-            "cooldown_reduction"        "3"
+            "value"                     "0"
         }
     }
 
@@ -3604,7 +3604,7 @@
         "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "barrack_health"            "300"
+            "value"                     "0"
         }
     }
 
@@ -3616,8 +3616,7 @@
         "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "gold_cost_reduction"       "25"
-            "production_time_reduction" "3"
+            "value"                     "0"
         }
     }
 

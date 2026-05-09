@@ -1,26 +1,5 @@
 chen_whip = class({})
 
-local function GetTalentValue(hero, talentName, valueName, fallback)
-	if not hero or hero:IsNull() then
-		return fallback or 0
-	end
-
-	local talent = hero:FindAbilityByName(talentName)
-	if not talent or talent:IsNull() or talent:GetLevel() <= 0 then
-		return fallback or 0
-	end
-
-	local value = 0
-	if valueName then
-		value = talent:GetSpecialValueFor(valueName)
-	end
-	if value == 0 then
-		value = talent:GetSpecialValueFor("value")
-	end
-
-	return value or fallback or 0
-end
-
 local function HasShardUpgrade(hero)
 	if not hero or hero:IsNull() then
 		return false
@@ -283,8 +262,7 @@ end
 
 function chen_whip:GetCooldown(level)
 	local baseCooldown = self.BaseClass.GetCooldown(self, level) or 24
-	local caster = self:GetCaster()
-	return math.max(0, baseCooldown - GetTalentValue(caster, "special_bonus_unique_custom_chen_6", "cooldown_reduction", 0))
+	return baseCooldown
 end
 
 local function CreateWhipEffect(caster, target)
@@ -367,7 +345,6 @@ function chen_whip:OnSpellStart()
 	end
 
 	local radius = self:GetSpecialValueFor("search_radius")
-	radius = radius + GetTalentValue(caster, "special_bonus_unique_custom_chen_5", "bonus_radius", 0)
 
 	local targets = { target }
 	if HasShardUpgrade(caster) then

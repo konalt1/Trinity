@@ -217,27 +217,6 @@ local NEUTRAL_TO_FAMILY = {
     ["npc_dota_neutral_frog_elder"] = "frog",
 }
 
-local function GetTalentValue(hero, talentName, valueName, fallback)
-    if not hero or hero:IsNull() then
-        return fallback or 0
-    end
-
-    local talent = hero:FindAbilityByName(talentName)
-    if not talent or talent:IsNull() or talent:GetLevel() <= 0 then
-        return fallback or 0
-    end
-
-    local value = 0
-    if valueName then
-        value = talent:GetSpecialValueFor(valueName)
-    end
-    if value == 0 then
-        value = talent:GetSpecialValueFor("value")
-    end
-
-    return value or fallback or 0
-end
-
 local function HasScepterUpgrade(hero)
     if not hero or hero:IsNull() then
         return false
@@ -366,20 +345,88 @@ local function HasEnoughGold(hero, goldCost)
     return PlayerResource:GetGold(playerID) >= goldCost
 end
 
+local function GetBarrackGoldReason()
+    return DOTA_ModifyGold_PurchaseItem or DOTA_ModifyGold_Unspecified or 0
+end
+
+local function GetPlayerGoldPart(playerID, methodName)
+    if not PlayerResource or not PlayerResource[methodName] then
+        return 0
+    end
+
+    local ok, value = pcall(function()
+        return PlayerResource[methodName](PlayerResource, playerID)
+    end)
+
+    if not ok then
+        return 0
+    end
+
+    return math.max(0, tonumber(value) or 0)
+end
+
+local function ModifyPlayerGold(playerID, goldAmount, reliable)
+    if not PlayerResource or not PlayerResource.ModifyGold then
+        return false
+    end
+
+    local ok = pcall(function()
+        PlayerResource:ModifyGold(playerID, goldAmount, reliable, GetBarrackGoldReason())
+    end)
+
+    return ok
+end
+
 local function SpendGold(hero, goldCost)
-    if goldCost <= 0 then
+    goldCost = math.floor(tonumber(goldCost) or 0)
+    if goldCost <= 0 or not hero or hero:IsNull() then
         return
     end
 
-    hero:ModifyGold(-goldCost, false, DOTA_ModifyGold_Unspecified)
+    local playerID = hero:GetPlayerOwnerID()
+    if playerID == nil or playerID < 0 then
+        hero:ModifyGold(-goldCost, false, GetBarrackGoldReason())
+        return
+    end
+
+    if PlayerResource and PlayerResource.SpendGold then
+        local ok = pcall(function()
+            PlayerResource:SpendGold(playerID, goldCost, GetBarrackGoldReason())
+        end)
+        if ok then
+            return
+        end
+    end
+
+    local remainingCost = goldCost
+    local unreliableGold = GetPlayerGoldPart(playerID, "GetUnreliableGold")
+    local unreliableSpend = math.min(unreliableGold, remainingCost)
+
+    if unreliableSpend > 0 and ModifyPlayerGold(playerID, -unreliableSpend, false) then
+        remainingCost = remainingCost - unreliableSpend
+    end
+
+    if remainingCost > 0 and ModifyPlayerGold(playerID, -remainingCost, true) then
+        return
+    end
+
+    if remainingCost > 0 then
+        hero:ModifyGold(-remainingCost, true, GetBarrackGoldReason())
+    end
 end
 
 local function GiveGoldToHero(hero, goldAmount)
+    goldAmount = math.floor(tonumber(goldAmount) or 0)
     if not hero or hero:IsNull() or goldAmount <= 0 then
         return
     end
 
-    hero:ModifyGold(goldAmount, false, DOTA_ModifyGold_Unspecified)
+    local playerID = hero:GetPlayerOwnerID()
+    if playerID ~= nil and playerID >= 0 and ModifyPlayerGold(playerID, goldAmount, false) then
+        return
+    end
+
+    hero:ModifyGold(goldAmount, false, GetBarrackGoldReason())
 end
 
 local function RefundReservedGold(barrack)
@@ -800,7 +847,6 @@ local function QueueBarrackUnit(self)
     end
 
     local goldCost = self:GetSpecialValueFor("gold_cost")
-    goldCost = math.max(0, goldCost - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
 
     if not HasEnoughGold(ownerHero, goldCost) then
         return
@@ -824,7 +870,6 @@ local function QueueBarrackUnit(self)
     end
 
     local productionTime = self:GetSpecialValueFor("production_time")
-    productionTime = math.max(1, productionTime - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "production_time_reduction", 0))
 
     SpendGold(ownerHero, goldCost)
     barrack.chen_reserved_gold = (barrack.chen_reserved_gold or 0) + goldCost
@@ -892,7 +937,6 @@ local function BarrackSummonCastFilter(self)
     end
 
     local goldCost = self:GetSpecialValueFor("gold_cost")
-    goldCost = math.max(0, goldCost - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
 
     if not HasEnoughGold(ownerHero, goldCost) then
         return UF_FAIL_CUSTOM
@@ -941,7 +985,7 @@ local function BarrackSummonCastError(self)
         return "#dota_hud_error_chen_barrack_queue_full"
     end
 
-    local goldCost = math.max(0, self:GetSpecialValueFor("gold_cost") - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
+    local goldCost = self:GetSpecialValueFor("gold_cost")
 
     if not HasEnoughGold(ownerHero, goldCost) then
         return "#dota_hud_error_not_enough_gold"
