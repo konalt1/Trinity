@@ -66,6 +66,10 @@ local FAMILY_TO_BARRACK_UNIT = {
 
 local BARRACK_MODEL = "models/props_structures/good_barracks_melee001.vmdl"
 
+function chen_barrack:Precache(context)
+    PrecacheResource("model", BARRACK_MODEL, context)
+end
+
 --- 10 семей крипов для барака Чена
 --- Каждая семья имеет 4 уровня: т1, т2, т3, ancient (т4)
 --- Уровень барака определяет доступные уровни крипов
@@ -403,7 +407,7 @@ local function LevelBarrackAbilities(barrack)
 end
 
 local function GetBarrackModel(teamNumber)
-    return "models/props_structures/good_barracks_melee001.vmdl"
+    return BARRACK_MODEL
 end
 
 --- Маппинг способностей для каждой семьи и уровня
