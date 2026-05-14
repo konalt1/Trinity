@@ -34,6 +34,8 @@ function GameMode:OnGameRulesStateChange()
 	local newState = GameRules:State_Get()
 
 	if newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		GameRules:SetTimeOfDay(0.25)
+
 		-- Множитель времени респауна (0.2 ≈ в 5 раз быстрее таймер смерти). Нужен GetGameModeEntity() и ':' для Lua.
 		GameRules:GetGameModeEntity():SetRespawnTimeScale(0.5)
 
