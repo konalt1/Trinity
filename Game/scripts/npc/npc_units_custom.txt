@@ -788,6 +788,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
+        "ModelScale"                "0.5"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -804,8 +805,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -836,15 +837,13 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.9"
+        "ModelScale"                "0.45"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_satyr_t1"
         "Ability2"                  "chen_barrack_satyr_t2"
         "Ability3"                  "chen_barrack_satyr_t3"
         "Ability4"                  "chen_barrack_satyr_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -859,8 +858,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -891,15 +890,13 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.85"
+        "ModelScale"                "0.425"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_frog_t1"
         "Ability2"                  "chen_barrack_frog_t2"
         "Ability3"                  "chen_barrack_frog_t3"
         "Ability4"                  "chen_barrack_frog_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -914,8 +911,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -946,15 +943,13 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "1.1"
+        "ModelScale"                "0.55"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_troll_t1"
         "Ability2"                  "chen_barrack_troll_t2"
         "Ability3"                  "chen_barrack_troll_t3"
         "Ability4"                  "chen_barrack_troll_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -969,8 +964,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1001,15 +996,13 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.95"
+        "ModelScale"                "0.475"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_wolf_t1"
         "Ability2"                  "chen_barrack_wolf_t2"
         "Ability3"                  "chen_barrack_wolf_t3"
         "Ability4"                  "chen_barrack_wolf_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1024,8 +1017,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1056,14 +1049,12 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "1.15"
+        "ModelScale"                "0.575"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_centaur_t1"
         "Ability2"                  "chen_barrack_centaur_t2"
         "Ability3"                  "chen_barrack_centaur_t3"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1078,8 +1069,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1110,15 +1101,13 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "1.2"
+        "ModelScale"                "0.6"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_golem_t1"
         "Ability2"                  "chen_barrack_golem_t2"
         "Ability3"                  "chen_barrack_golem_t3"
         "Ability4"                  "chen_barrack_golem_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1133,8 +1122,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1165,15 +1154,13 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "1.0"
+        "ModelScale"                "0.5"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_dragon_t1"
         "Ability2"                  "chen_barrack_dragon_t2"
         "Ability3"                  "chen_barrack_dragon_t3"
         "Ability4"                  "chen_barrack_dragon_ancient"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1188,8 +1175,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1220,13 +1207,11 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "1.1"
+        "ModelScale"                "0.55"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability2"                  "chen_barrack_bear_t2"
         "Ability3"                  "chen_barrack_bear_t3"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1241,8 +1226,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1273,12 +1258,10 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.9"
+        "ModelScale"                "0.45"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability3"                  "chen_barrack_furbolg_t3"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1293,8 +1276,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1325,13 +1308,11 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.85"
+        "ModelScale"                "0.425"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_harpy_t1"
         "Ability3"                  "chen_barrack_harpy_t3"
-        "Ability5"                  "chen_barrack_self_destruct"
-
         "ArmorPhysical"             "8"
         "MagicalResistance"         "25"
 
@@ -1346,8 +1327,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
@@ -1377,6 +1358,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
+        "ModelScale"                "0.5"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -1393,8 +1375,8 @@
         "ProjectileSpeed"           "0"
 
         "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "120"
-        "HealthBarOffset"           "220"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"

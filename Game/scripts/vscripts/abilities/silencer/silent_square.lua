@@ -72,9 +72,11 @@ function modifier_silent_square_thinker:OnCreated(kv)
 	self.end_time = GameRules:GetGameTime() + (tonumber(kv.duration) or self:GetDuration() or 0)
 	self.active_debuffed_units = {}
 
+	-- CP1.x = sphere radius; scale to square circumradius so the chronosphere encloses the debuff square.
+	local cp1_radius = self.half_side * math.sqrt(2)
 	self.zone_particle = ParticleManager:CreateParticle("particles/silencer/local_silence/faceless_void_chronocube.vpcf", PATTACH_WORLDORIGIN, nil)
 	ParticleManager:SetParticleControl(self.zone_particle, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(self.zone_particle, 1, Vector(self.half_side, self.half_side, self.half_side))
+	ParticleManager:SetParticleControl(self.zone_particle, 1, Vector(cp1_radius, cp1_radius, cp1_radius))
 
 	self:StartIntervalThink(self.think_interval)
 	self:OnIntervalThink()
@@ -98,7 +100,7 @@ function modifier_silent_square_thinker:OnIntervalThink()
 	end
 
 	local center = self:GetParent():GetAbsOrigin()
-	local vision_radius = math.ceil(self.half_side * 1.42)
+	local vision_radius = math.ceil(self.half_side * math.sqrt(2))
 	AddFOWViewer(caster:GetTeamNumber(), center, vision_radius, self.think_interval + 0.1, false)
 
 	local now = GameRules:GetGameTime()

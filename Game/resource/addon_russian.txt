@@ -92,6 +92,16 @@
 		"DOTA_Tooltip_modifier_focus_buff"										"Концентрация"
 		"DOTA_Tooltip_modifier_focus_buff_Description"							"Поглощает физический урон. Первый эффект контроля будет очищен."
 
+		// Talents
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_1"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_2"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_3"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_4"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_5"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_6"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_7"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_8"				"Заглушка"
+
 		//Ogre
 		// Ogre Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"							"Бдышь"
@@ -398,22 +408,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tusk_6"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tusk_7"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tusk_8"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_1"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_1_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_2"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_2_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_3"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_3_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_4"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_4_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_5"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_5_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_6"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_6_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_7"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_7_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_8"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_8_Description"	"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_1"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_2"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_3"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_4"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_5"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_6"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_7"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_8"			"Заглушка"
 
 		//Weaver
 		// Cucaracha
@@ -482,9 +484,9 @@
 
 		
 
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"	"+100 к радиусу взрыва Фейерверка"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"	"+ к скорости зелёных мин со Скипетром"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"	"Зелёные мины появляются уже подвижными"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"	"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"	"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"	"Заглушка"
 
 		// =============================================
 		// Aghanim's Shard Descriptions
@@ -584,96 +586,80 @@
 
 		// Martyr Mark
 		"DOTA_Tooltip_ability_chen_martyr_mark"								"Метка Мученика"
-		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Наносит магический урон вражескому существу, замедляет его и заставляет всех союзных крипов атаковать эту цель. Союзники получают бонус к скорости атаки при атаке помеченной цели."
+		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен накладывает на врага метку, которая наносит ему магический урон, сильно замедляет и принуждает всех союзных крипов атаковать жертву с повышенной скоростью."
 		"DOTA_Tooltip_ability_chen_martyr_mark_damage"						"УРОН:"
 		"DOTA_Tooltip_ability_chen_martyr_mark_slow_ms_pct"					"ЗАМЕДЛЕНИЕ:"
-		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"БОНУС СКОРОСТИ АТАКИ КРИПОВ:"
-		"DOTA_Tooltip_ability_chen_martyr_mark_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"БОНУС СКОРОСТИ АТАКИ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_duration"					"ДЛИТЕЛЬНОСТЬ:"
 
 		// Holy Persuasion
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа, увеличивая его здоровье и урон. Чен получает часть золота за убийство прирученного крипа."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Подчиняет вражеского или нейтрального крипа, увеличивая его максимальное здоровье урон и скорость передвижения, а также получая долю от золота, полагавшегося за его убийство. 
+		Чем больше Сила магии Чена, тем больше ХП получит подчинённый крип."
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_max_creeps"		"МАКС. ПРИРУЧЁННЫХ КРИПОВ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_damage"		"БОНУС УРОНА:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bounty_share_pct"	"%ДОЛЯ НАГРАДЫ ЗА УБИЙСТВО:"
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Кнут"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Заставляет выбранного союзного крипа применить все свои активные способности бесплатно и без перезарядки. При применении на врага способности направляются на ближайшего врага с приоритетом для героев."
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен хлещет кнутом по союзному крипу заставляя того использовать все свои активные способности."
 		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
-		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС ШАРДА:"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом союзного крипа, мгновенно активируя все его способности на ближайших врагов — без затрат маны и без перезарядки. Если целью выбран вражеский юнит, крипы перенаправят свои удары на него (приоритет — герои). Мана и перезарядка крипа восстанавливаются после применения."
-		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
-		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС AOE (ШАРД):"
-		"DOTA_Tooltip_ability_chen_whip_shard_description"					"Кнут бьёт по всем союзным крипам в радиусе 650 вокруг цели одновременно — все они кастуют свои способности."
+		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС ЭФФЕКТА ОСКОЛКА:"
+		"DOTA_Tooltip_ability_chen_whip_shard_description"					"Удар кнутом срывается со всех союзных крипов вокруг цели, каждый из них выполняет полный залп способностей."
 
 		// Barrack (Ultimate)
 		"DOTA_Tooltip_ability_chen_barrack"									"Бараки"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен превращает прирученного крипа в неподвижный Барак — здание, производящее боевых юнитов семейства исходного крипа. Уровень способности определяет доступные тиры производства и максимальное число бараков. При превышении лимита самый старый барак разрушается, а зарезервированное золото возвращается."
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен выбирает приручённого крипа, и заставляеи его построить барак. 
+		Это здание позволяет вам нанимать за золото бойцов семьи этого крипа."
 		"DOTA_Tooltip_ability_chen_barrack_bonus_health"					"БОНУС HP БАРАКА:"
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"МИНИМУМ HP БАРАКА:"
 		"DOTA_Tooltip_ability_chen_barrack_max_barracks"					"МАКС. БАРАКОВ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_bonus_barracks"			"БОНУС БАРАКОВ С АГАНИМОМ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Увеличивает максимальное количество бараков на 1. Открывает производство Древних крипов (Tier 4) на всех бараках."
+		"DOTA_Tooltip_ability_chen_barrack_scepter_bonus_barracks"			"БОНУС БАРАКОВ СО СКИПЕТРОМ:"
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Даруется Aghanim's Scepter. Увеличивает максимум бараков на 1 и открывает производство древних юнитов на каждом здании."
 
 		// Barrack Unit
 		"npc_chen_barrack"													"Барак Чена"
 
 		// Barrack Summon T1
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Производство: Тир 2"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_Description"			"Заказывает крипа второго тира семейства этого барака. Требует 2-й уровень ультимейта."
+		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Производство: II тир"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t2_Description"			"Ставит в очередь бойца второго тира ветки этого барака."
 		"DOTA_Tooltip_ability_chen_barrack_summon_t2_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_t2_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
 		// Barrack Summon T3
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3"						"Производство: Тир 3"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_Description"			"Заказывает крипа третьего тира семейства этого барака. Требует 3-й уровень ультимейта."
+		"DOTA_Tooltip_ability_chen_barrack_summon_t3"						"Производство: III тир"
+		"DOTA_Tooltip_ability_chen_barrack_summon_t3_Description"			"Ставит в очередь бойца третьего тира ветки этого барака."
 		"DOTA_Tooltip_ability_chen_barrack_summon_t3_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_t3_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
 		// Barrack Summon Ancient
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient"					"Производство: Древний"
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_Description"		"Заказывает Древнего крипа семейства этого барака. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_ability_chen_barrack_summon_ancient"					"Производство: древний"
+		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_Description"		"Ставит в очередь древнего воина ветки этого барака. Требуется Aghanim's Scepter."
 		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_gold_cost"		"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
 
-		// Barrack Self Destruct
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct"					"Снос Барака"
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct_Description"		"Барак самоуничтожается, нанося магический урон всем врагам в радиусе взрыва. Золото из очереди производства немедленно возвращается владельцу."
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct_radius"			"РАДИУС ВЗРЫВА:"
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct_damage"			"УРОН:"
-
 		// Modifier — producing
 		"DOTA_Tooltip_modifier_chen_barrack_producing"						"Производство..."
-		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Барак производит юнита."
+		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Барак создаёт юнита."
 
 		// Talents
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1"				"+75 урона союзным крипам"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1_Description"	"Все крипы Чена получают дополнительный урон от атаки."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2"				"+35 скорости атаки крипам"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2_Description"	"Все крипы Чена атакуют значительно быстрее."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3"				"+300 HP к Святому Убеждению"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3_Description"	"Прирученные крипы получают ещё больше бонусного здоровья."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4"				"+30 урона к Святому Убеждению"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4_Description"	"Прирученные крипы получают ещё больше бонусного урона."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5"				"+300 к радиусу поиска Кнута"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5_Description"	"Кнут принуждает крипов атаковать цели в большем радиусе."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6"				"-3 сек. к перезарядке Кнута"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6_Description"	"Кнут перезаряжается быстрее."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7"				"+300 HP Баракам"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7_Description"	"Все бараки Чена становятся прочнее."
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8"				"-25 золота / -3 сек. производства"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8_Description"	"Производство юнитов в бараках дешевле и быстрее."
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8"				"Заглушка"
 
 		// HUD Errors
 		"dota_hud_error_chen_barrack_no_owner"								"Барак не имеет владельца"
 		"dota_hud_error_chen_barrack_no_unit_in_family"						"В этом семействе нет крипа данного тира"
-		"dota_hud_error_chen_barrack_low_level"								"Недостаточный уровень ультимейта для этого тира"
 		"dota_hud_error_chen_barrack_need_scepter"							"Требуется Aghanim's Scepter для производства Древних"
 		"dota_hud_error_chen_barrack_queue_full"							"Очередь производства полна (макс. 5)"
 		"dota_hud_error_chen_barrack_invalid_target"						"Цель должна быть прирученным крипом Чена"
-		"dota_hud_error_chen_barrack_self_destruct_invalid_target"			"Только барак может использовать эту способность"
-		"dota_hud_error_chen_barrack_self_destruct_dead"					"Барак уже уничтожен"
 		"dota_hud_error_chen_whip_invalid_target"							"Недопустимая цель для Кнута"
 
 		// =============================================
@@ -824,7 +810,7 @@
 		"DOTA_Tooltip_ability_chen_barrack_golem_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Каменного Голема."
 		"DOTA_Tooltip_Ability_chen_barrack_golem_t3_SummaryDescription"			"Призвать Каменного Голема"
 		"DOTA_Tooltip_ability_chen_barrack_golem_ancient"							"Призвать Гранитного Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призвать Гранитного Голема. Требует Aghanim's Scepter."
+		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Гранитного Голема. Требует Aghanim's Scepter."
 		"DOTA_Tooltip_Ability_chen_barrack_golem_ancient_SummaryDescription"		"Призвать Гранитного Голема"
 
 		//Chen Barrack - Harpy Family
@@ -900,7 +886,6 @@
 		// Chen Barrack Error Messages
 		"dota_hud_error_chen_barrack_no_owner"									"Нет владельца барака"
 		"dota_hud_error_chen_barrack_need_scepter"								"Требуется Aghanim's Scepter"
-		"dota_hud_error_chen_barrack_low_level"									"Уровень ульты слишком низкий"
 		"dota_hud_error_chen_barrack_no_unit_in_family"							"Нет юнита в этой семье"
 		"dota_hud_error_chen_barrack_queue_full"									"Очередь барака заполнена"
 		"dota_hud_error_chen_barrack_invalid_target"								"Неверная цель"

@@ -40,7 +40,6 @@ chen_barrack_bear_t1 = class({})
 chen_barrack_bear_t2 = class({})
 chen_barrack_bear_t3 = class({})
 chen_barrack_bear_ancient = class({})
-chen_barrack_self_destruct = class({})
 modifier_chen_barrack = class({})
 modifier_chen_barrack_producing = class({})
 
@@ -49,7 +48,6 @@ LinkLuaModifier("modifier_chen_barrack", "abilities/chen/chen_barrack", LUA_MODI
 LinkLuaModifier("modifier_chen_barrack_producing", "abilities/chen/chen_barrack", LUA_MODIFIER_MOTION_NONE)
 
 local CHEN_BARRACK_PRODUCING_MODIFIER = "modifier_chen_barrack_producing"
-
 -- Маппинг семьи к юниту барака
 local FAMILY_TO_BARRACK_UNIT = {
     satyr = "npc_chen_barrack_satyr",
@@ -217,27 +215,6 @@ local NEUTRAL_TO_FAMILY = {
     ["npc_dota_neutral_frog_elder"] = "frog",
 }
 
-local function GetTalentValue(hero, talentName, valueName, fallback)
-    if not hero or hero:IsNull() then
-        return fallback or 0
-    end
-
-    local talent = hero:FindAbilityByName(talentName)
-    if not talent or talent:IsNull() or talent:GetLevel() <= 0 then
-        return fallback or 0
-    end
-
-    local value = 0
-    if valueName then
-        value = talent:GetSpecialValueFor(valueName)
-    end
-    if value == 0 then
-        value = talent:GetSpecialValueFor("value")
-    end
-
-    return value or fallback or 0
-end
-
 local function HasScepterUpgrade(hero)
     if not hero or hero:IsNull() then
         return false
@@ -247,6 +224,8 @@ local function HasScepterUpgrade(hero)
     end
     return hero:HasModifier("modifier_item_ultimate_scepter") or hero:HasModifier("modifier_item_ultimate_scepter_consumed")
 end
+
+
 
 local function IsChenBarrackUnit(unit)
     if not unit or unit:IsNull() then
@@ -352,6 +331,66 @@ local function GetBarrackOwnerHero(unit)
     return nil
 end
 
+--- Уровень ульты chen_barrack: определяет ступень цены/времени в AbilityValues способностей производства.
+local function GetBarrackProductionScalingLevel(ownerHero)
+    if not ownerHero or ownerHero:IsNull() then
+        return 1
+    end
+    local ult = ownerHero:FindAbilityByName("chen_barrack")
+    if not ult or ult:IsNull() then
+        return 1
+    end
+    local n = ult:GetLevel()
+    if n < 1 then
+        n = 1
+    end
+    return n
+end
+
+--- Читает gold_cost / production_time / spawn_distance для «ступени» ульты (без опоры на уровень способности на юните).
+local function GetBarrackSummonValue(summonAbility, ownerHero, key)
+    if not summonAbility or summonAbility:IsNull() then
+        return 0
+    end
+    local lv = GetBarrackProductionScalingLevel(ownerHero)
+    local maxLv = summonAbility:GetMaxLevel()
+    if maxLv and maxLv > 0 then
+        lv = math.min(lv, maxLv)
+    end
+    return summonAbility:GetLevelSpecialValueFor(key, lv)
+end
+
+local function ForEachBarrackOwnedByHero(hero, fn)
+    if not hero or hero:IsNull() or not fn then
+        return
+    end
+    local teamNumber = hero:GetTeamNumber()
+    local units = FindUnitsInRadius(
+        teamNumber,
+        hero:GetAbsOrigin(),
+        nil,
+        FIND_UNITS_EVERYWHERE,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false
+    )
+    for _, unit in pairs(units) do
+        if unit and not unit:IsNull() and unit:IsAlive() then
+            local unitName = unit:GetUnitName()
+            for _, barrackUnitName in pairs(FAMILY_TO_BARRACK_UNIT) do
+                if unitName == barrackUnitName then
+                    if unit.chen_barrack_owner_entindex == hero:entindex() then
+                        fn(unit)
+                    end
+                    break
+                end
+            end
+        end
+    end
+end
+
 local function HasEnoughGold(hero, goldCost)
     if not hero or hero:IsNull() then
         return false
@@ -366,20 +405,88 @@ local function HasEnoughGold(hero, goldCost)
     return PlayerResource:GetGold(playerID) >= goldCost
 end
 
+local function GetBarrackGoldReason()
+    return DOTA_ModifyGold_PurchaseItem or DOTA_ModifyGold_Unspecified or 0
+end
+
+local function GetPlayerGoldPart(playerID, methodName)
+    if not PlayerResource or not PlayerResource[methodName] then
+        return 0
+    end
+
+    local ok, value = pcall(function()
+        return PlayerResource[methodName](PlayerResource, playerID)
+    end)
+
+    if not ok then
+        return 0
+    end
+
+    return math.max(0, tonumber(value) or 0)
+end
+
+local function ModifyPlayerGold(playerID, goldAmount, reliable)
+    if not PlayerResource or not PlayerResource.ModifyGold then
+        return false
+    end
+
+    local ok = pcall(function()
+        PlayerResource:ModifyGold(playerID, goldAmount, reliable, GetBarrackGoldReason())
+    end)
+
+    return ok
+end
+
 local function SpendGold(hero, goldCost)
-    if goldCost <= 0 then
+    goldCost = math.floor(tonumber(goldCost) or 0)
+    if goldCost <= 0 or not hero or hero:IsNull() then
         return
     end
 
-    hero:ModifyGold(-goldCost, false, DOTA_ModifyGold_Unspecified)
+    local playerID = hero:GetPlayerOwnerID()
+    if playerID == nil or playerID < 0 then
+        hero:ModifyGold(-goldCost, false, GetBarrackGoldReason())
+        return
+    end
+
+    if PlayerResource and PlayerResource.SpendGold then
+        local ok = pcall(function()
+            PlayerResource:SpendGold(playerID, goldCost, GetBarrackGoldReason())
+        end)
+        if ok then
+            return
+        end
+    end
+
+    local remainingCost = goldCost
+    local unreliableGold = GetPlayerGoldPart(playerID, "GetUnreliableGold")
+    local unreliableSpend = math.min(unreliableGold, remainingCost)
+
+    if unreliableSpend > 0 and ModifyPlayerGold(playerID, -unreliableSpend, false) then
+        remainingCost = remainingCost - unreliableSpend
+    end
+
+    if remainingCost > 0 and ModifyPlayerGold(playerID, -remainingCost, true) then
+        return
+    end
+
+    if remainingCost > 0 then
+        hero:ModifyGold(-remainingCost, true, GetBarrackGoldReason())
+    end
 end
 
 local function GiveGoldToHero(hero, goldAmount)
+    goldAmount = math.floor(tonumber(goldAmount) or 0)
     if not hero or hero:IsNull() or goldAmount <= 0 then
         return
     end
 
-    hero:ModifyGold(goldAmount, false, DOTA_ModifyGold_Unspecified)
+    local playerID = hero:GetPlayerOwnerID()
+    if playerID ~= nil and playerID >= 0 and ModifyPlayerGold(playerID, goldAmount, false) then
+        return
+    end
+
+    hero:ModifyGold(goldAmount, false, GetBarrackGoldReason())
 end
 
 local function RefundReservedGold(barrack)
@@ -398,10 +505,18 @@ local function RefundReservedGold(barrack)
 end
 
 local function LevelBarrackAbilities(barrack)
-    for slot = 0, 5 do
+    if not barrack or barrack:IsNull() then
+        return
+    end
+    local ownerHero = GetBarrackOwnerHero(barrack)
+    local lv = GetBarrackProductionScalingLevel(ownerHero)
+    for slot = 0, 15 do
         local ability = barrack:GetAbilityByIndex(slot)
-        if ability and ability:GetLevel() == 0 then
-            ability:SetLevel(1)
+        if ability and not ability:IsNull() then
+            local maxLv = ability:GetMaxLevel()
+            if maxLv and maxLv > 0 then
+                ability:SetLevel(math.min(lv, maxLv))
+            end
         end
     end
 end
@@ -523,10 +638,6 @@ local function GrantFamilyAbilities(barrack, familyName, ownerHero)
         return
     end
 
-    local ult = ownerHero:FindAbilityByName("chen_barrack")
-    local ultLevel = ult and ult:GetLevel() or 1
-    local hasScepter = HasScepterUpgrade(ownerHero)
-
     -- Выдаем способности семье на брак
     for i, abilityName in ipairs(abilities) do
         local ability = barrack:FindAbilityByName(abilityName)
@@ -543,18 +654,6 @@ local function GrantFamilyAbilities(barrack, familyName, ownerHero)
         else
             print("[Chen Barrack] Failed to add ability: " .. abilityName)
         end
-    end
-
-    -- Добавляем способность самоуничтожения
-    local destructAbility = barrack:FindAbilityByName("chen_barrack_self_destruct")
-    if not destructAbility then
-        barrack:AddAbility("chen_barrack_self_destruct")
-        destructAbility = barrack:FindAbilityByName("chen_barrack_self_destruct")
-    end
-    if destructAbility then
-        destructAbility:SetLevel(1)
-        destructAbility:SetHidden(false)
-        destructAbility:SetActivated(true)
     end
 end
 
@@ -702,7 +801,7 @@ local function CompleteProduction(barrack, item)
 
     local playerID = ownerHero:GetPlayerOwnerID()
     local teamNumber = ownerHero:GetTeamNumber()
-    local spawnDistance = item.spawn_distance or 200
+    local spawnDistance = item.spawn_distance or 400
     local spawnPosition = barrack:GetAbsOrigin() + barrack:GetForwardVector() * spawnDistance + RandomVector(80)
     local summon = CreateProductUnit(item, spawnPosition, ownerHero, teamNumber)
 
@@ -720,6 +819,9 @@ local function CompleteProduction(barrack, item)
     summon.chen_barrack_spawned = true
     summon.chen_owner_entindex = ownerHero:entindex()
     LevelUnitAbilities(summon)
+
+    local summonLifetime = math.max(1, tonumber(item.summon_lifetime) or 60)
+    summon:AddNewModifier(ownerHero, ownerHero:FindAbilityByName("chen_barrack"), "modifier_kill", { duration = summonLifetime })
 
     -- Add production visual effects
     local particle = ParticleManager:CreateParticle("particles/econ/events/ti6/kill_effect_creep_gold.vpcf", PATTACH_ABSORIGIN_FOLLOW, summon)
@@ -782,72 +884,74 @@ local function QueueBarrackUnit(self)
         return
     end
 
-    local barrack = self:GetCaster()
-    local ownerHero = GetBarrackOwnerHero(barrack)
-    if not ownerHero then
-        return
-    end
+    repeat
+        local barrack = self:GetCaster()
+        local ownerHero = GetBarrackOwnerHero(barrack)
+        if not ownerHero then
+            break
+        end
 
-    local abilityName = self:GetAbilityName()
-    local variant = GetAbilityVariant(abilityName)
+        local abilityName = self:GetAbilityName()
+        local variant = GetAbilityVariant(abilityName)
 
-    local ult = ownerHero:FindAbilityByName("chen_barrack")
-    if not ult then return end
-    
-    local ultLevel = ult:GetLevel()
-    if variant > ultLevel and not (variant == 4 and HasScepterUpgrade(ownerHero)) then
-        return
-    end
+        if not ownerHero:FindAbilityByName("chen_barrack") then
+            break
+        end
+        if variant == 4 and not HasScepterUpgrade(ownerHero) then
+            break
+        end
 
-    local goldCost = self:GetSpecialValueFor("gold_cost")
-    goldCost = math.max(0, goldCost - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
+        local goldCost = GetBarrackSummonValue(self, ownerHero, "gold_cost")
 
-    if not HasEnoughGold(ownerHero, goldCost) then
-        return
-    end
+        if not HasEnoughGold(ownerHero, goldCost) then
+            break
+        end
 
-    InitBarrackState(barrack)
+        InitBarrackState(barrack)
 
+        local queueLimit = 5
+        if GetBarrackQueuedCount(barrack) >= queueLimit then
+            break
+        end
 
-    local queueLimit = 5
-    if GetBarrackQueuedCount(barrack) >= queueLimit then
-        return
-    end
+        local sourceUnitName = barrack.chen_source_unit_name
+        local familyName = barrack.chen_family_name
+        local unitName = GetFamilyUnitName(familyName, variant)
 
-    local sourceUnitName = barrack.chen_source_unit_name
-    local familyName = barrack.chen_family_name
-    local unitName = GetFamilyUnitName(familyName, variant)
+        if not unitName then
+            CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(ownerHero:GetPlayerOwnerID()), "show_custom_error", { message = "#dota_hud_error_chen_barrack_no_unit_in_family" })
+            break
+        end
 
-    if not unitName then
-        CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(ownerHero:GetPlayerOwnerID()), "show_custom_error", { message = "#dota_hud_error_chen_barrack_no_unit_in_family" })
-        return
-    end
+        local productionTime = GetBarrackSummonValue(self, ownerHero, "production_time")
 
-    local productionTime = self:GetSpecialValueFor("production_time")
-    productionTime = math.max(1, productionTime - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "production_time_reduction", 0))
+        SpendGold(ownerHero, goldCost)
+        barrack.chen_reserved_gold = (barrack.chen_reserved_gold or 0) + goldCost
 
-    SpendGold(ownerHero, goldCost)
-    barrack.chen_reserved_gold = (barrack.chen_reserved_gold or 0) + goldCost
+        local productionItem = {
+            unit_name = unitName,
+            source_unit_name = sourceUnitName,
+            gold_cost = goldCost,
+            production_time = productionTime,
+            spawn_distance = GetBarrackSummonValue(self, ownerHero, "spawn_distance"),
+            summon_lifetime = GetBarrackSummonValue(self, ownerHero, "summon_lifetime"),
+        }
 
-    local productionItem = {
-        unit_name = unitName,
-        source_unit_name = sourceUnitName,
-        gold_cost = goldCost,
-        production_time = productionTime,
-        spawn_distance = self:GetSpecialValueFor("spawn_distance"),
-    }
+        table.insert(barrack.chen_production_queue, productionItem)
 
-    table.insert(barrack.chen_production_queue, productionItem)
+        if (barrack.chen_active_productions or 0) > 0 then
+            AddQueuedProductionModifier(barrack, productionItem)
+        end
 
-    if (barrack.chen_active_productions or 0) > 0 then
-        AddQueuedProductionModifier(barrack, productionItem)
-    end
+        EmitSoundOn("General.Buy", barrack)
 
-    EmitSoundOn("General.Buy", barrack)
+        if (barrack.chen_active_productions or 0) == 0 then
+            StartNextProduction(barrack)
+        end
+    until true
 
-    -- Запускаем производство только если барак сейчас простаивает
-    if (barrack.chen_active_productions or 0) == 0 then
-        StartNextProduction(barrack)
+    if self and not self:IsNull() then
+        self:EndCooldown()
     end
 end
 
@@ -867,16 +971,9 @@ local function BarrackSummonCastFilter(self)
 
     local ult = ownerHero:FindAbilityByName("chen_barrack")
     if not ult then return UF_FAIL_CUSTOM end
-    
-    local ultLevel = ult:GetLevel()
-    if variant > ultLevel then
-        if variant == 4 then
-            if not HasScepterUpgrade(ownerHero) then
-                return UF_FAIL_CUSTOM
-            end
-        else
-            return UF_FAIL_CUSTOM
-        end
+
+    if variant == 4 and not HasScepterUpgrade(ownerHero) then
+        return UF_FAIL_CUSTOM
     end
 
     local sourceUnitName = barrack.chen_source_unit_name
@@ -891,8 +988,7 @@ local function BarrackSummonCastFilter(self)
         return UF_FAIL_CUSTOM
     end
 
-    local goldCost = self:GetSpecialValueFor("gold_cost")
-    goldCost = math.max(0, goldCost - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
+    local goldCost = GetBarrackSummonValue(self, ownerHero, "gold_cost")
 
     if not HasEnoughGold(ownerHero, goldCost) then
         return UF_FAIL_CUSTOM
@@ -917,16 +1013,9 @@ local function BarrackSummonCastError(self)
 
     local ult = ownerHero:FindAbilityByName("chen_barrack")
     if not ult then return "#dota_hud_error_internal" end
-    
-    local ultLevel = ult:GetLevel()
-    if variant > ultLevel then
-        if variant == 4 then
-            if not HasScepterUpgrade(ownerHero) then
-                return "#dota_hud_error_chen_barrack_need_scepter"
-            end
-        else
-            return "#dota_hud_error_chen_barrack_low_level"
-        end
+
+    if variant == 4 and not HasScepterUpgrade(ownerHero) then
+        return "#dota_hud_error_chen_barrack_need_scepter"
     end
 
     local sourceUnitName = barrack.chen_source_unit_name
@@ -941,13 +1030,26 @@ local function BarrackSummonCastError(self)
         return "#dota_hud_error_chen_barrack_queue_full"
     end
 
-    local goldCost = math.max(0, self:GetSpecialValueFor("gold_cost") - GetTalentValue(ownerHero, "special_bonus_unique_custom_chen_8", "gold_cost_reduction", 0))
+    local goldCost = GetBarrackSummonValue(self, ownerHero, "gold_cost")
 
     if not HasEnoughGold(ownerHero, goldCost) then
         return "#dota_hud_error_not_enough_gold"
     end
 
     return ""
+end
+
+function chen_barrack:OnUpgrade()
+    if not IsServer() then
+        return
+    end
+    local hero = self:GetCaster()
+    if not hero or hero:IsNull() then
+        return
+    end
+    ForEachBarrackOwnedByHero(hero, function(b)
+        LevelBarrackAbilities(b)
+    end)
 end
 
 function chen_barrack:CastFilterResultTarget(target)
@@ -1248,64 +1350,6 @@ function chen_barrack_bear_t1:GetCustomCastError() return BarrackSummonCastError
 function chen_barrack_bear_t2:GetCustomCastError() return BarrackSummonCastError(self) end
 function chen_barrack_bear_t3:GetCustomCastError() return BarrackSummonCastError(self) end
 function chen_barrack_bear_ancient:GetCustomCastError() return BarrackSummonCastError(self) end
-
--- Self destruct ability
-function chen_barrack_self_destruct:OnSpellStart()
-    if not IsServer() then
-        return
-    end
-
-    local barrack = self:GetCaster()
-    if not barrack or barrack:IsNull() then
-        return
-    end
-
-    -- Refund reserved gold
-    RefundReservedGold(barrack)
-
-    -- Mark as destroyed to prevent production
-    barrack.chen_is_destroyed = true
-
-    -- Create explosion effect
-    local radius = self:GetSpecialValueFor("radius")
-    local damage = self:GetSpecialValueFor("damage")
-
-    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf", PATTACH_ABSORIGIN, barrack)
-    ParticleManager:SetParticleControl(particle, 0, barrack:GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(radius, 0, 0))
-    ParticleManager:ReleaseParticleIndex(particle)
-
-    EmitSoundOn("Hero_Techies.RemoteMine.Detonate", barrack)
-
-    -- Deal damage to enemies
-    local teamNumber = barrack:GetTeamNumber()
-    local enemies = FindUnitsInRadius(
-        teamNumber,
-        barrack:GetAbsOrigin(),
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_ALL,
-        DOTA_UNIT_TARGET_FLAG_NONE,
-        FIND_ANY_ORDER,
-        false
-    )
-
-    for _, enemy in pairs(enemies) do
-        if enemy and not enemy:IsNull() and enemy:IsAlive() then
-            ApplyDamage({
-                victim = enemy,
-                attacker = barrack,
-                damage = damage,
-                damage_type = DAMAGE_TYPE_MAGICAL,
-                ability = self
-            })
-        end
-    end
-
-    -- Kill the barrack
-    barrack:Kill(nil, barrack)
-end
 
 -- Modifiers
 function modifier_chen_barrack:IsHidden()

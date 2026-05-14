@@ -1,4 +1,4 @@
-#base "talents.txt"
+﻿#base "talents.txt"
 // Dota Heroes File
 "DOTAAbilities"
 {
@@ -2485,25 +2485,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_khan_war_stomp"
+        "AbilityTextureName"            "chen_barrack_centaur_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -2511,23 +2512,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_khan_war_stomp"
+        "AbilityTextureName"            "chen_barrack_centaur_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -2535,23 +2537,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_khan_hoof_stomp"
+        "AbilityTextureName"            "chen_barrack_centaur_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -2559,23 +2562,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "centaur_outrunner_double_edge"
+        "AbilityTextureName"            "chen_barrack_centaur_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -2584,25 +2588,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_trickster_purge"
+        "AbilityTextureName"            "chen_barrack_satyr_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -2610,23 +2615,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_soulstealer_mana_burn"
+        "AbilityTextureName"            "chen_barrack_satyr_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -2634,23 +2640,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_hellcaller_shockwave"
+        "AbilityTextureName"            "chen_barrack_satyr_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -2658,23 +2665,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "satyr_hellcaller_shockwave"
+        "AbilityTextureName"            "chen_barrack_satyr_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -2683,25 +2691,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "hill_troll_rally"
+        "AbilityTextureName"            "chen_barrack_troll_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -2709,23 +2718,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "ogre_magi_fireblast"
+        "AbilityTextureName"            "chen_barrack_troll_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -2733,23 +2743,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "ogre_magi_ignite"
+        "AbilityTextureName"            "chen_barrack_troll_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -2757,23 +2768,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "jakiro_ice_path"
+        "AbilityTextureName"            "chen_barrack_troll_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -2782,25 +2794,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_summon_wolves"
+        "AbilityTextureName"            "chen_barrack_wolf_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -2808,23 +2821,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_summon_wolves"
+        "AbilityTextureName"            "chen_barrack_wolf_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -2832,23 +2846,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_shapeshift"
+        "AbilityTextureName"            "chen_barrack_wolf_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -2856,23 +2871,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lycan_feral_impulse"
+        "AbilityTextureName"            "chen_barrack_wolf_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -2881,25 +2897,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_fissure"
+        "AbilityTextureName"            "chen_barrack_golem_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -2907,23 +2924,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_aftershock"
+        "AbilityTextureName"            "chen_barrack_golem_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -2931,23 +2949,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_enchant_totem"
+        "AbilityTextureName"            "chen_barrack_golem_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -2955,23 +2974,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "earthshaker_echo_slam"
+        "AbilityTextureName"            "chen_barrack_golem_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -2980,25 +3000,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -3006,23 +3027,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -3030,23 +3052,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -3054,23 +3077,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "harpy_storm_chain_lightning"
+        "AbilityTextureName"            "chen_barrack_harpy_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -3079,25 +3103,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_wrath_of_nature"
+        "AbilityTextureName"            "chen_barrack_furbolg_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -3105,23 +3130,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "treant_overgrowth"
+        "AbilityTextureName"            "chen_barrack_furbolg_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -3129,23 +3155,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "treant_living_armor"
+        "AbilityTextureName"            "chen_barrack_furbolg_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "18"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -3153,23 +3180,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "treant_natures_grasp"
+        "AbilityTextureName"            "chen_barrack_furbolg_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -3180,25 +3208,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_sprout"
+        "AbilityTextureName"            "chen_barrack_frog_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -3206,23 +3235,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_teleportation"
+        "AbilityTextureName"            "chen_barrack_frog_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -3230,23 +3260,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_force_of_nature"
+        "AbilityTextureName"            "chen_barrack_frog_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "16"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -3254,23 +3285,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "furion_sprout"
+        "AbilityTextureName"            "chen_barrack_frog_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -3278,25 +3310,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_dragon_form"
+        "AbilityTextureName"            "chen_barrack_dragon_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -3304,23 +3337,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_dragon_form"
+        "AbilityTextureName"            "chen_barrack_dragon_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -3328,23 +3362,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_fireball"
+        "AbilityTextureName"            "chen_barrack_dragon_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "16"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -3352,23 +3387,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "dragon_knight_splash"
+        "AbilityTextureName"            "chen_barrack_dragon_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -3376,25 +3412,26 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_savage_roar"
+        "AbilityTextureName"            "chen_barrack_bear_t1"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "8"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
         "IsOnCastBar"                   "1"
         "IsOnLearnBar"                  "1"
 
         "AbilityValues"
         {
-            "gold_cost"                 "75"
-            "production_time"           "10"
-            "spawn_distance"            "180"
+            "gold_cost"                 "40 30 20"
+            "production_time"           "7 6 5"
+            "spawn_distance"            "360 360 360"
+            "summon_lifetime"           "75 90 105"
         }
     }
 
@@ -3402,23 +3439,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_rabid"
+        "AbilityTextureName"            "chen_barrack_bear_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "150"
-            "production_time"           "16"
-            "spawn_distance"            "200"
+            "gold_cost"                 "100 80 60"
+            "production_time"           "10 8 6"
+            "spawn_distance"            "400 400 400"
+            "summon_lifetime"           "65 80 95"
         }
     }
 
@@ -3426,23 +3464,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_true_form"
+        "AbilityTextureName"            "chen_barrack_bear_t3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "16"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "300"
-            "production_time"           "28"
-            "spawn_distance"            "220"
+            "gold_cost"                 "150 120 90"
+            "production_time"           "15 12 9"
+            "spawn_distance"            "440 440 440"
+            "summon_lifetime"           "70 85 100"
         }
     }
 
@@ -3450,52 +3489,24 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "lone_druid_bear_form"
+        "AbilityTextureName"            "chen_barrack_bear_ancient"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "0.5"
+        "AbilityCooldown"               "0"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "gold_cost"                 "600"
-            "production_time"           "45"
-            "spawn_distance"            "250"
-        }
-    }
-
-    "chen_barrack_self_destruct"
-    {
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "techies_remote_mines"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
-        "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "1.0"
-        "AbilityManaCost"               "0"
-
-        "AbilityValues"
-        {
-            "radius"                    "400"
-            "damage"                    "300"
-        }
-
-        "precache"
-        {
-            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
-            "particle"      "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+            "gold_cost"                 "200 180 160"
+            "production_time"           "20 18 16"
+            "spawn_distance"            "500 500 500"
+            "summon_lifetime"           "110 120 130"
         }
     }
 
@@ -3522,102 +3533,184 @@
     }
 
     //=================================================================================================================
-    // Chen — Talents
+    // Chen — Talents (stubs)
     //=================================================================================================================
     "special_bonus_unique_custom_chen_1"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_penitence"
         "AbilityValues"
         {
-            "bonus_damage"              "75"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_2"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_penitence"
         "AbilityValues"
         {
-            "attack_speed"              "35"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_3"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "bonus_health"              "300"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_4"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "bonus_damage"              "30"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_5"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_test_of_faith"
         "AbilityValues"
         {
-            "bonus_radius"              "300"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_6"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_divine_favor"
         "AbilityValues"
         {
-            "cooldown_reduction"        "3"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_7"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "barrack_health"            "300"
+            "value"                     "0"
         }
     }
 
     "special_bonus_unique_custom_chen_8"
     {
-        "BaseClass"                     "special_bonus_base"
+        "BaseClass"                     "special_bonus_undefined"
         "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-        "AbilityTextureName"            "chen_holy_persuasion"
         "AbilityValues"
         {
-            "gold_cost_reduction"       "25"
-            "production_time_reduction" "3"
+            "value"                     "0"
+        }
+    }
+
+    //=================================================================================================================
+    // Silencer — Talents (stubs)
+    //=================================================================================================================
+    "special_bonus_unique_custom_silencer_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
+        }
+    }
+
+    "special_bonus_unique_custom_silencer_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "0"
         }
     }
 
@@ -3625,7 +3718,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/silencer/silencer_arcane_curse_custom"
-        "AbilityTextureName"            "silencer_curse"
+        "AbilityTextureName"            "silencer_curse_of_the_silent"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
@@ -3664,7 +3757,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/silencer/silent_square"
-        "AbilityTextureName"            "silencer_global_silence"
+        "AbilityTextureName"            "silencer/bts_silencer_ability/silencer_curse_of_the_silent"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
@@ -3702,7 +3795,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/silencer/focus"
-        "AbilityTextureName"            "antimage_counterspell"
+        "AbilityTextureName"            "silencer/silencer_ti10_immortal_ability_icon/silencer_ti10_immortal_arcane_curse"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
