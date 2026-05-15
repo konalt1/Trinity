@@ -10,7 +10,7 @@ function lich_spark_wraith:Precache(context)
 	if self:GetCaster() and self:GetCaster():IsIllusion() then return end
 
 	PrecacheResource( "particle", "particles/units/heroes/hero_arc_warden/arc_warden_wraith_cast.vpcf", context )
-	PrecacheResource( "particle", "particles/units/heroes/hero_arc_warden/arc_warden_wraith.vpcf", context )
+	PrecacheResource( "particle", "particles/lich/lost_soul/arc_warden_wraith.vpcf", context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_arc_warden/arc_warden_wraith_prj.vpcf", context )
 	PrecacheResource( "sound", "Hero_ArcWarden.SparkWraith.Cast", context )
 	PrecacheResource( "sound", "Hero_ArcWarden.SparkWraith.Appear", context )
