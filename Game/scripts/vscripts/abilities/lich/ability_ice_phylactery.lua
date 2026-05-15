@@ -4,6 +4,13 @@ LinkLuaModifier("modifier_spell_lifesteal_custom", "abilities/lich/ability_ice_p
   
 ability_ice_phylactery = class({})
 
+function ability_ice_phylactery:Precache(context)
+	PrecacheResource("particle", "particles/aura_shivas.vpcf", context)
+	PrecacheResource("particle", "particles/generic_gameplay/generic_mana_gain.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_crystalmaiden/maiden_ice_hit.vpcf", context)
+	PrecacheResource("particle", "particles/items3_fx/octarine_core_lifesteal.vpcf", context)
+end
+
 function ability_ice_phylactery:GetCurrentAuraRadius()
     local radius = self:GetSpecialValueFor("aura_radius")
     local aoe_radius = self:GetAOERadius()

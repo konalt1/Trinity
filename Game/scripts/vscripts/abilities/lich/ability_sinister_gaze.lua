@@ -1,5 +1,9 @@
 LinkLuaModifier("modifier_ability_sinister_gaze_debuff", "abilities/lich/ability_sinister_gaze", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ability_sinister_gaze_illusion", "abilities/lich/ability_sinister_gaze", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ability_sinister_gaze_channel_animation", "abilities/lich/ability_sinister_gaze", LUA_MODIFIER_MOTION_NONE)
+
+local LICH_SINISTER_GAZE_CAST_ACTIVITY = ACT_DOTA_CAST_ABILITY_4
+local LICH_SINISTER_GAZE_CHANNEL_ACTIVITY = ACT_DOTA_CHANNEL_ABILITY_4 or ACT_DOTA_CAST_ABILITY_4
 
 ability_sinister_gaze = class({})
 
@@ -63,6 +67,22 @@ function ability_sinister_gaze:GetCustomCastErrorTarget(target)
 	end
 
 	return ""
+end
+
+function ability_sinister_gaze:OnAbilityPhaseStart()
+	local caster = self:GetCaster()
+	if caster and not caster:IsNull() and LICH_SINISTER_GAZE_CAST_ACTIVITY then
+		caster:StartGesture(LICH_SINISTER_GAZE_CAST_ACTIVITY)
+	end
+
+	return true
+end
+
+function ability_sinister_gaze:OnAbilityPhaseInterrupted()
+	local caster = self:GetCaster()
+	if caster and not caster:IsNull() and LICH_SINISTER_GAZE_CAST_ACTIVITY then
+		caster:FadeGesture(LICH_SINISTER_GAZE_CAST_ACTIVITY)
+	end
 end
 
 function ability_sinister_gaze:OnSpellStart()
@@ -170,11 +190,19 @@ function modifier_ability_sinister_gaze_debuff:OnCreated()
 	self.ability = self:GetAbility()
 	self.caster_origin = self.caster:GetAbsOrigin()
 	self.illusion_spawned = false
+	self.channel_animation_modifier = nil
 	self.chain_particle = nil
 	self.scepter_target_particle = nil
 	self.scepter_ground_particle = nil
 
 	if self.caster and not self.caster:IsNull() and self.parent and not self.parent:IsNull() then
+		self.channel_animation_modifier = self.caster:AddNewModifier(
+			self.caster,
+			self.ability,
+			"modifier_ability_sinister_gaze_channel_animation",
+			{ duration = self:GetDuration() }
+		)
+
 		self.chain_particle = ParticleManager:CreateParticle(
 			"particles/econ/items/lich/lich_ti10_immortal_head/lich_ti10_immortal_gaze_chain_02.vpcf",
 			PATTACH_ABSORIGIN_FOLLOW,
@@ -224,6 +252,11 @@ end
 
 function modifier_ability_sinister_gaze_debuff:OnDestroy()
 	if not IsServer() then return end
+
+	if self.channel_animation_modifier and not self.channel_animation_modifier:IsNull() then
+		self.channel_animation_modifier:Destroy()
+		self.channel_animation_modifier = nil
+	end
 
 	if self.chain_particle then
 		ParticleManager:DestroyParticle(self.chain_particle, false)
@@ -330,4 +363,28 @@ end
 
 function modifier_ability_sinister_gaze_illusion:GetTexture()
 	return "lich_sinister_gaze"
+end
+
+modifier_ability_sinister_gaze_channel_animation = class({})
+
+function modifier_ability_sinister_gaze_channel_animation:IsHidden()
+	return true
+end
+
+function modifier_ability_sinister_gaze_channel_animation:IsPurgable()
+	return false
+end
+
+function modifier_ability_sinister_gaze_channel_animation:RemoveOnDeath()
+	return true
+end
+
+function modifier_ability_sinister_gaze_channel_animation:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+	}
+end
+
+function modifier_ability_sinister_gaze_channel_animation:GetOverrideAnimation()
+	return LICH_SINISTER_GAZE_CHANNEL_ACTIVITY
 end
