@@ -1,0 +1,195 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf65:version{48e806a9-c210-4cd8-811a-38b5ef63b195} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 0
+	m_flConstantRadius = 1.0
+	m_flNoDrawTimeToGoToSleep = -1.0
+	m_nConstantSequenceNumber1 = 2
+	m_nFirstMultipleOverride_BackwardCompat = 1
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 4
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_PreEmissionOperators = 
+	[
+		{
+			_class = "C_OP_SetControlPointRotation"
+			m_flRotRate = 25.0
+			m_nCP = 3
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 1.0
+			}
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_CreateWithinSphereTransform"
+			m_fRadiusMax = 10.0
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ 0.0, 0.0, 50.0 ]
+			m_OffsetMax = [ 0.0, 0.0, 50.0 ]
+			m_bDisableOperator = true
+		},
+	]
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_Decay"
+			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
+		},
+		{
+			_class = "C_OP_BasicMovement"
+			m_fDrag = 0.1
+			m_Gravity = [ 0.0, 0.0, -200.0 ]
+		},
+		{
+			_class = "C_OP_SetChildControlPoints"
+			m_nFirstControlPoint = 3
+		},
+		{
+			_class = "C_OP_BasicMovement"
+			m_Gravity = [ 0.0, 0.0, -2000.0 ]
+			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
+		},
+		{
+			_class = "C_OP_EndCapTimedDecay"
+			m_flDecayTime = 0.25
+		},
+		{
+			_class = "C_OP_RemapVelocityToVector"
+			m_nFieldOutput = 21
+		},
+	]
+	m_ForceGenerators = 
+	[
+		{
+			_class = "C_OP_TurbulenceForce"
+			m_flNoiseCoordScale0 = 0.5
+			m_vecNoiseAmount0 = [ 500.0, 500.0, 500.0 ]
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_AttractToControlPoint"
+			m_fForceAmount = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = -250.0
+			}
+			m_fFalloffPower = 0.1
+		},
+		{
+			_class = "C_OP_AttractToControlPoint"
+			m_fForceAmount = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = -500.0
+			}
+			m_fFalloffPower = 0.25
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_TwistAroundAxis"
+			m_fForceAmount = 100.0
+		},
+	]
+	m_Constraints = 
+	[
+		{
+			_class = "C_OP_ConstrainDistance"
+			m_fMinDistance = 10.0
+			m_fMaxDistance = 50.0
+			m_CenterOffset = [ 0.0, 0.0, 75.0 ]
+		},
+	]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderDeferredLight"
+			m_flRadiusScale = 100.0
+			m_flAlphaScale = 10.0
+			m_bDisableOperator = true
+			m_vecColorScale = 
+			{
+				m_nType = "PVEC_TYPE_LITERAL_COLOR"
+				m_LiteralColor = [ 194, 165, 255 ]
+			}
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/lich/lost_soul/arc_warden_wraith_ripple.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/lich/lost_soul/arc_warden_wraith_glow.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_arc_warden/arc_warden_wraith_arc_pnt.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/lich/lost_soul/arc_warden_wraith_core.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/lich/lost_soul/arc_warden_wraith_swirl.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/lich/lost_soul/arc_warden_wraith_ember.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_arc_warden/arc_warden_wraith_ring.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_arc_warden/arc_warden_wraith_sphere_edge.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_arc_warden/arc_warden_wraith_light.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_arc_warden/arc_warden_wraith_model.vpcf"
+			m_flDelay = 1.5
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_arc_warden/arc_warden_wraith_beams_start.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/lich/lost_soul/arc_warden_wraith_flash.vpcf"
+		},
+	]
+}

@@ -263,7 +263,7 @@ function modifier_lich_spark_wraith_thinker:OnCreated(table)
 
 	self.parent:EmitSound("Hero_ArcWarden.SparkWraith.Loop")
 
-	local particle_name = "particles/units/heroes/hero_arc_warden/arc_warden_wraith.vpcf"
+	local particle_name = "particles/lich/lost_soul/arc_warden_wraith.vpcf"
 	self.wraith_particle = ParticleManager:CreateParticle(particle_name, PATTACH_ABSORIGIN_FOLLOW, self.parent)
 	ParticleManager:SetParticleControl(self.wraith_particle, 1, Vector(self.radius, 1, 1))
 	self:AddParticle(self.wraith_particle, false, false, -1, false, false)

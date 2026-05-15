@@ -16,6 +16,7 @@ function ability_sinister_gaze:Precache(context)
 	PrecacheResource("particle", "particles/units/heroes/hero_lich/lich_dark_ritual.vpcf", context)
 	PrecacheResource("particle", "particles/econ/items/lich/lich_ti10_immortal_head/lich_ti10_immortal_gaze_target_head.vpcf", context)
 	PrecacheResource("particle", "particles/econ/items/lich/lich_ti10_immortal_head/lich_ti10_immortal_gaze_ground_rings.vpcf", context)
+	PrecacheResource("particle", "particles/econ/items/lich/lich_ti10_immortal_head/lich_ti10_immortal_gaze_chain_02.vpcf", context)
 	PrecacheResource("particle", "particles/status_fx/status_effect_frost_lich.vpcf", context)
 end
 
@@ -24,7 +25,7 @@ function ability_sinister_gaze:GetChannelTime()
 end
 
 function ability_sinister_gaze:GetBehavior()
-	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_CHANNELLED
 end
 
 function ability_sinister_gaze:CastFilterResultTarget(target)
@@ -169,8 +170,19 @@ function modifier_ability_sinister_gaze_debuff:OnCreated()
 	self.ability = self:GetAbility()
 	self.caster_origin = self.caster:GetAbsOrigin()
 	self.illusion_spawned = false
+	self.chain_particle = nil
 	self.scepter_target_particle = nil
 	self.scepter_ground_particle = nil
+
+	if self.caster and not self.caster:IsNull() and self.parent and not self.parent:IsNull() then
+		self.chain_particle = ParticleManager:CreateParticle(
+			"particles/econ/items/lich/lich_ti10_immortal_head/lich_ti10_immortal_gaze_chain_02.vpcf",
+			PATTACH_ABSORIGIN_FOLLOW,
+			self.caster
+		)
+		ParticleManager:SetParticleControlEnt(self.chain_particle, 1, self.parent, PATTACH_ABSORIGIN_FOLLOW, nil, self.parent:GetAbsOrigin(), true)
+		ParticleManager:SetParticleControlEnt(self.chain_particle, 3, self.caster, PATTACH_ABSORIGIN_FOLLOW, nil, self.caster:GetAbsOrigin(), true)
+	end
 
 	if self.caster and not self.caster:IsNull() and self.caster:HasScepter() then
 		self.scepter_target_particle = ParticleManager:CreateParticle(
@@ -191,7 +203,10 @@ end
 
 function modifier_ability_sinister_gaze_debuff:OnIntervalThink()
 	if not IsServer() then return end
-	if not self.parent or self.parent:IsNull() or not self.parent:IsAlive() then return end
+	if not self.parent or self.parent:IsNull() or not self.parent:IsAlive() then
+		self:Destroy()
+		return
+	end
 	if not self.caster or self.caster:IsNull() or not self.caster:IsAlive() then
 		self:Destroy()
 		return
@@ -209,6 +224,12 @@ end
 
 function modifier_ability_sinister_gaze_debuff:OnDestroy()
 	if not IsServer() then return end
+
+	if self.chain_particle then
+		ParticleManager:DestroyParticle(self.chain_particle, false)
+		ParticleManager:ReleaseParticleIndex(self.chain_particle)
+		self.chain_particle = nil
+	end
 
 	if self.scepter_target_particle then
 		ParticleManager:DestroyParticle(self.scepter_target_particle, false)

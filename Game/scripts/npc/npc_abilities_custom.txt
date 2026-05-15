@@ -423,7 +423,7 @@
         "BaseClass"						"ability_lua"
         "ScriptFile"					"abilities/lich/frost_blast/lich_frost_blast_lua"
         "AbilityTextureName"			"lich_frost_nova"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL"
         "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
         "AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -475,7 +475,7 @@
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/lich/frost_shield/lich_frost_shield_lua"
         "AbilityTextureName"            "lich_frost_armor"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -544,8 +544,8 @@
         "AbilityChannelTime"            "2.4"
         "AbilityDuration"               "2.4"
 
-        "AbilityCooldown"               "25"
-        "AbilityManaCost"               "150"
+        "AbilityCooldown"               "15"
+        "AbilityManaCost"               "100"
 
         "AbilitySound"                  "Hero_Lich.SinisterGaze.Cast"
 
@@ -573,7 +573,7 @@
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/lich/spark_wraith/Lich_spark_wraith_custom"
         "AbilityTextureName"            "arc_warden_spark_wraith"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -628,7 +628,7 @@
             }
             "base_activation_delay"
             {
-                "value"                 "2"
+                "value"                 "1.5"
             }
             "think_interval"
             {
@@ -704,7 +704,7 @@
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "HasShardUpgrade"               "1"
 
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL"
         "SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
         "AbilitySound"					"Ability.FrostNova"
@@ -3801,6 +3801,9 @@
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
+        "HasScepterUpgrade"             "1"
+        "HasShardUpgrade"               "0"
+        "IsGrantedByScepter"            "0"
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
@@ -3814,6 +3817,7 @@
             "duration"                  "5 6 7 8"
             "shield_amount"             "100 200 300 400"
             "mind_power_multiplier"     "2"
+            "scepter_ally_radius"       "400"
         }
 
         "precache"

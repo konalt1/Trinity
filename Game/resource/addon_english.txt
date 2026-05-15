@@ -89,6 +89,8 @@
 		"DOTA_Tooltip_ability_focus_duration"									"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_focus_shield_amount"								"БАЗОВАЯ ПРОЧНОСТЬ ЩИТА:"
 		"DOTA_Tooltip_ability_focus_mind_power_multiplier"						"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_focus_scepter_ally_radius"						"РАДИУС (С СКИПЕТРОМ):"
+		"DOTA_Tooltip_ability_focus_scepter_description"						"Also applies the effect to allied heroes within %scepter_ally_radius% radius of Silencer. Shield values are the same as the caster's."
 		"DOTA_Tooltip_modifier_focus_buff"										"Концентрация"
 		"DOTA_Tooltip_modifier_focus_buff_Description"							"Поглощает физический урон. Первый эффект контроля будет очищен."
 
@@ -328,6 +330,7 @@
 		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"РАДИУС АУРЫ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction"			"%УМЕНЬШЕНИЕ ПЕРЕЗАРЯДКИ ЗАКЛИНАНИЙ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_attacks_to_destroy"		"АТАК ДЛЯ УНИЧТОЖЕНИЯ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_duration"					"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_spire_move_speed"	"СКОРОСТЬ ШПИЛЯ:"

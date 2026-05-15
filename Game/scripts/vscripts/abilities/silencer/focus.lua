@@ -37,10 +37,38 @@ function focus:OnSpellStart()
     local shield = focus_compute_physical_barrier(self, caster)
     self.focus_barrier_amount = shield
 
-    caster:AddNewModifier(caster, self, "modifier_focus_buff", {
-        duration = duration,
-        shield_amount = shield,
-    })
+    local function apply_focus_target(target)
+        if not target or target:IsNull() or not target:IsAlive() or not target:IsHero() then
+            return
+        end
+
+        target:AddNewModifier(caster, self, "modifier_focus_buff", {
+            duration = duration,
+            shield_amount = shield,
+        })
+    end
+
+    if caster:HasScepter() then
+        local radius = self:GetSpecialValueFor("scepter_ally_radius")
+        local allies = FindUnitsInRadius(
+            caster:GetTeamNumber(),
+            caster:GetAbsOrigin(),
+            nil,
+            radius,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_ANY_ORDER,
+            false
+        )
+
+        for _, ally in ipairs(allies) do
+            apply_focus_target(ally)
+        end
+    else
+        apply_focus_target(caster)
+    end
+
     caster:EmitSound("Hero_Antimage.Counterspell.Cast")
 end
 
