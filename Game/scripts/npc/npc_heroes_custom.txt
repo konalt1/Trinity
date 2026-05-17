@@ -305,4 +305,21 @@
 		"Ability17"                                     "special_bonus_unique_custom_furion_8"
 	}
 
+	"npc_dota_hero_ringmaster"
+	{
+		"override_hero"                                 "npc_dota_hero_ringmaster"
+		"Facets"                                        ""
+		"MovementSpeed"                                 "300"
+		"Armor"                                         "3.0"
+
+		"Ability1"                                      "ringmaster_tame_the_beasts_custom"
+		"Ability2"                                      "ringmaster_knives_out_custom"
+		"Ability3"                                      "ringmaster_box_game_custom"
+		"Ability4"                                      "ringmaster_krugger_custom"
+		"Ability5"                                      "generic_hidden"
+		"Ability6"                                      "generic_hidden"
+		"Ability7"                                      "generic_hidden"
+		"Ability8"                                      "generic_hidden"
+	}
+
 }

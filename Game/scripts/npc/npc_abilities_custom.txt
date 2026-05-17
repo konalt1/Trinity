@@ -4120,4 +4120,162 @@
         }
     }
 
+    "ringmaster_tame_the_beasts_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ringmaster/ringmaster_prototype"
+        "AbilityTextureName"            "ringmaster_tame_the_beasts"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityCastRange"              "700"
+        "AbilityCastPoint"              "0.2"
+        "AbilityChannelTime"            "1.0"
+        "AbilityCooldown"               "16 14 12 10"
+        "AbilityManaCost"               "90 100 110 120"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityValues"
+        {
+            "max_channel_time"          "1.0"
+            "min_damage"                "70 100 130 160"
+            "max_damage"                "140 210 280 350"
+            "mind_power_damage"         "1.4 1.6 1.8 2.0"
+            "min_fear"                  "0.4"
+            "max_fear"                  "1.0 1.2 1.4 1.6"
+            "max_radius"                "450"
+            "min_radius"                "230"
+        }
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_ringmaster.vsndevts"
+            "model"                     "models/heroes/ringmaster/ringmaster.vmdl"
+            "model"                     "models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl"
+            "particle"                  "particles/basic_explosion/basic_explosion.vpcf"
+            "particle"                  "particles/basic_ambient/basic_ambient.vpcf"
+        }
+    }
+
+    "ringmaster_knives_out_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ringmaster/ringmaster_prototype"
+        "AbilityTextureName"            "ringmaster_impalement"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityCastRange"              "1200"
+        "AbilityCastPoint"              "0.25"
+        "AbilityCooldown"               "13 11 9 7"
+        "AbilityManaCost"               "80 90 100 110"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityValues"
+        {
+            "range"                     "1200"
+            "speed"                     "1600"
+            "width"                     "95"
+            "impact_damage"             "75 120 165 210"
+            "move_slow_pct"             "25 30 35 40"
+            "slow_duration"             "1.2"
+            "bleed_duration"            "4"
+            "hero_bleed_pct"            "2.0 2.5 3.0 3.5"
+            "creep_bleed_damage"        "20 30 40 50"
+        }
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_ringmaster.vsndevts"
+            "model"                     "models/heroes/ringmaster/ringmaster.vmdl"
+            "model"                     "models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl"
+            "particle"                  "particles/basic_projectile/basic_projectile.vpcf"
+            "particle"                  "particles/basic_trail/basic_trail.vpcf"
+        }
+    }
+
+    "ringmaster_box_game_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ringmaster/ringmaster_prototype"
+        "AbilityTextureName"            "ringmaster_escape_act"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "HasShardUpgrade"               "1"
+        "HasScepterUpgrade"             "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityCastRange"              "900"
+        "AbilityCastPoint"              "0.25"
+        "AbilityCooldown"               "24 21 18 15"
+        "AbilityManaCost"               "90 100 110 120"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityValues"
+        {
+            "box_duration"              "12"
+            "trigger_radius"            "220"
+            "capture_duration"          "1.6 1.9 2.2 2.5"
+            "capture_damage"            "90 140 190 240"
+            "forced_move_break_distance" "170"
+            "forced_move_damage"        "120 170 220 270"
+            "teleport_select_radius"    "300"
+            "shard_damage_cooldown"     "3"
+            "scepter_knives_required"   "4"
+            "scepter_control_duration"  "5"
+        }
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_ringmaster.vsndevts"
+            "model"                     "models/heroes/ringmaster/ringmaster.vmdl"
+            "model"                     "models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl"
+            "particle"                  "particles/basic_ambient/basic_ambient.vpcf"
+            "particle"                  "particles/omniknight/pulse_main.vpcf"
+        }
+    }
+
+    "ringmaster_krugger_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ringmaster/ringmaster_prototype"
+        "AbilityTextureName"            "ringmaster_wheel"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCooldown"               "110 95 80"
+        "AbilityManaCost"               "150 200 250"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityValues"
+        {
+            "duration"                  "5 6 7"
+            "bonus_speed"               "160 210 260"
+            "turn_rate_slow_pct"        "70"
+            "vision_range"              "700 900 1100"
+            "grab_radius"               "150"
+            "grab_duration"             "3"
+            "grab_damage"               "180 280 380"
+        }
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_ringmaster.vsndevts"
+            "model"                     "models/heroes/ringmaster/ringmaster.vmdl"
+            "model"                     "models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl"
+            "particle"                  "particles/slark_shard_depth_shroud.vpcf"
+        }
+    }
 }

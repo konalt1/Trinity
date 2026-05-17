@@ -1,0 +1,36 @@
+<!-- dmx encoding keyvalues2 4 format sfm_settings 22 -->
+"DmElement"
+{
+	"id" "elementid" "a2d9f84d-9331-4533-bfe8-9d57cbef5d6c"
+	"name" "string" "renderSettings"
+	"width" "int" "1280"
+	"height" "int" "720"
+	"frameRate" "float" "24"
+	"ambientOcclusionMode" "int" "1"
+	"showAmbientOcclusion" "int" "0"
+	"drawGameRenderablesMask" "int" "63"
+	"drawToolRenderablesMask" "int" "31"
+	"toneMapScale" "float" "1"
+	"globalLightShadowEnabled" "bool" "1"
+	"playbackClampFrameCount" "int" "5"
+	"ignoreAlphaFade" "bool" "1"
+	"ProgressiveRefinement" "DmElement"
+	{
+		"id" "elementid" "81e6112b-f751-4ee9-9a86-7e8cded82b74"
+		"name" "string" "ProgressiveRefinementSettings"
+		"on" "bool" "1"
+		"useDepthOfField" "bool" "1"
+		"overrideDepthOfFieldSamples" "bool" "0"
+		"overrideDepthOfFieldSamplesValue" "int" "64"
+		"useMotionBlur" "bool" "1"
+		"overrideMotionBlurSamples" "bool" "0"
+		"overrideMotionBlurSamplesValue" "int" "8"
+		"useAntialiasing" "bool" "1"
+		"overrideShutterSpeed" "bool" "0"
+		"overrideShutterSpeedValue" "float" "0.0208000001"
+	}
+
+	"exrCompressionType" "int" "3"
+	"showShotIDOverlay" "bool" "0"
+}
+

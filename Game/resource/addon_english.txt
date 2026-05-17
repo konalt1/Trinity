@@ -1029,6 +1029,27 @@
 		"dota_hud_error_chen_barrack_queue_full"									"Очередь барака заполнена"
 		"dota_hud_error_chen_barrack_invalid_target"								"Неверная цель"
 
+		// Ringmaster prototype
+		"DOTA_Tooltip_ability_ringmaster_tame_the_beasts_custom"					"Tame the Beasts"
+		"DOTA_Tooltip_ability_ringmaster_tame_the_beasts_custom_Description"		"Channels a whip strike on the target area. Longer channel increases damage and fear duration, but reduces radius."
+		"DOTA_Tooltip_Ability_ringmaster_tame_the_beasts_custom_SummaryDescription"	"Charge a whip strike. Longer charge means more damage and fear, but a smaller hit area."
+		"DOTA_Tooltip_ability_ringmaster_knives_out_custom"						"Knives Out"
+		"DOTA_Tooltip_ability_ringmaster_knives_out_custom_Description"			"Throws a knife in a line. The first enemy hit takes damage, is slowed, and bleeds each second."
+		"DOTA_Tooltip_Ability_ringmaster_knives_out_custom_SummaryDescription"		"Throw a knife that damages, slows, and applies bleeding."
+		"DOTA_Tooltip_ability_ringmaster_box_game_custom"							"Box Game"
+		"DOTA_Tooltip_ability_ringmaster_box_game_custom_Description"				"Creates a box trap. The first nearby enemy is held and damaged. Forced movement breaks the hold and deals extra damage. Shard: target an existing box to teleport to it if Ringmaster has not taken damage recently. Scepter: four Knives Out hits on a boxed enemy give temporary control."
+		"DOTA_Tooltip_Ability_ringmaster_box_game_custom_SummaryDescription"		"Place a trap box that catches and damages a nearby enemy."
+		"DOTA_Tooltip_ability_ringmaster_krugger_custom"							"Krugger"
+		"DOTA_Tooltip_ability_ringmaster_krugger_custom_Description"				"Ringmaster becomes invulnerable, fast, and hard to turn. Colliding with an enemy hero grabs and carries them for a short time."
+		"DOTA_Tooltip_Ability_ringmaster_krugger_custom_SummaryDescription"			"Become a fast, invulnerable horror that can grab and carry an enemy hero."
+		"DOTA_Tooltip_modifier_ringmaster_krugger"									"Krugger"
+		"DOTA_Tooltip_modifier_ringmaster_krugger_Description"						"Invulnerable, faster, and harder to turn."
+		"DOTA_Tooltip_Ability_ringmaster_funhouse_mirror_SummaryDescription"		"Hidden."
+		"DOTA_Tooltip_Ability_ringmaster_strongman_tonic_SummaryDescription"		"Hidden."
+		"DOTA_Tooltip_Ability_ringmaster_whoopee_cushion_SummaryDescription"		"Hidden."
+		"DOTA_Tooltip_Ability_high_five_custom"										"High Five"
+		"DOTA_Tooltip_Ability_high_five_custom_SummaryDescription"					"High five an ally."
+
 		// Chen Barrack New Creeps
 }
 }

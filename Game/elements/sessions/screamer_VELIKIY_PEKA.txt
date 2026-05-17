@@ -1,0 +1,30 @@
+"Z:\SteamLibrary\steamapps\common\dota 2 beta\game\bin\win64\dota2.exe" -addon trinity -tools -steam
+
+Z:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_addons\trinity\elements\sessions\screamer.dmx#0
+
+1280x720 @24.00 fps
+motion blur samples:    per-camera settings
+depth of field samples: 64
+
+Frame  	Frame  	Total  	Shot                   	Map                    	DoF    	MBlur  	Total
+Number 	Time   	Time   	Name                   	Name                   	Count  	Count  	Count
+      0	  2.048	      2	shot1                 	maps/dota.vmap        	   64	    8	   64
+      1	  1.018	      3	shot1                 	maps/dota.vmap        	   64	    8	   64
+      2	  1.047	      4	shot1                 	maps/dota.vmap        	   64	    8	   64
+      3	  1.000	      5	shot1                 	maps/dota.vmap        	   64	    8	   64
+      4	  1.005	      6	shot1                 	maps/dota.vmap        	   64	    8	   64
+      5	  1.015	      7	shot1                 	maps/dota.vmap        	   64	    8	   64
+      6	  1.046	      8	shot1                 	maps/dota.vmap        	   64	    8	   64
+      7	  1.108	      9	shot1                 	maps/dota.vmap        	   64	    8	   64
+      8	  1.178	     10	shot1                 	maps/dota.vmap        	   64	    8	   64
+      9	  1.180	     12	shot1                 	maps/dota.vmap        	   64	    8	   64
+     10	  1.227	     13	shot1                 	maps/dota.vmap        	   64	    8	   64
+     11	  1.214	     14	shot1                 	maps/dota.vmap        	   64	    8	   64
+     12	  2.205	     16	shot1                 	maps/dota.vmap        	   64	    8	   64
+     13	  1.978	     18	shot1                 	maps/dota.vmap        	   64	    8	   64
+     14	  1.927	     20	shot1                 	maps/dota.vmap        	   64	    8	   64
+     15	  2.103	     22	shot1                 	maps/dota.vmap        	   64	    8	   64
+     16	  1.061	     23	shot1                 	maps/dota.vmap        	   64	    8	   64
+     17	  1.087	     24	shot1                 	maps/dota.vmap        	   64	    8	   64
+
+finished rendering 18 frames
