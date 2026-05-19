@@ -115,7 +115,17 @@ function ability_chain_bomb:DetonateMine(mine, source_attacker)
     local owner_team = mine.chain_bomb_owner_team or caster:GetTeamNumber()
     local enemy_team = owner_team == DOTA_TEAM_GOODGUYS and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
     local origin = mine:GetAbsOrigin()
-    local radius = self:GetSpecialValueFor("radius")
+    local hero_for_aoe = caster
+    local owner_index = mine.chain_bomb_owner_entindex
+    if owner_index then
+        local owner = EntIndexToHScript(owner_index)
+        if owner and not owner:IsNull() and owner:IsHero() then
+            hero_for_aoe = owner
+        end
+    end
+    local base_radius = self:GetSpecialValueFor("radius")
+    local aoe_flat = GetHeroBonusSpellAoE and GetHeroBonusSpellAoE(hero_for_aoe) or 0
+    local radius = base_radius + aoe_flat
     local damage = self:GetMineDamage()
     local building_damage_pct = self:GetSpecialValueFor("building_damage_pct") * 0.01
     local neutral_attacker = source_attacker or mine

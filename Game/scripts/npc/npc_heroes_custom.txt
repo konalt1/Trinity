@@ -8,8 +8,8 @@
 		"MovementSpeed"									"309"
         "Armor"                                         "4.5"
         "Ability3"				                        "phantom_assassin_blur_custom"
-        "Ability4"                                      "generic_hidden"
-		"Ability5"                                      "phantom_assassin_phantom_cloud"  // Aghanim's Shard ability
+		"Ability4"                                      "phantom_assassin_phantom_cloud"  // Aghanim's Shard ability
+		"Ability5"                                      "generic_hidden"
         "Ability6"		                                "ability_coup_de_foudre"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
@@ -253,7 +253,7 @@
 		"override_hero"                                 "npc_dota_hero_silencer"
 		"Facets" ""
 		"Ability1"                                      "silencer_arcane_curse_custom"
-		"Ability3"                                      "focus"
+		"Ability3"                                      "silencer_last_word_custom"
 		"Ability6"                                      "silent_square"
 
 		"Ability10"                                     "special_bonus_unique_custom_silencer_1"

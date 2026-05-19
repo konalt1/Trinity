@@ -40,6 +40,11 @@ function modifier_juggernaut_blade_fury_lua:OnRefresh( kv )
 end
 
 function modifier_juggernaut_blade_fury_lua:OnDestroy( kv )
+	local parent = self:GetParent()
+	if IsServer() and parent then
+		parent:Purge(false, true, false, false, false)
+	end
+
 	-- Stop effects
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"
 	StopSoundOn( sound_cast, self:GetParent() )

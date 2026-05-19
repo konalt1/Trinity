@@ -8,6 +8,10 @@ function juggernaut_blade_fury_lua:OnSpellStart()
 	-- unit identifier
 	local caster = self:GetCaster()
 
+	if IsServer() then
+		caster:Purge(false, true, false, false, false)
+	end
+
 	-- load data
 	local bDuration = self:GetSpecialValueFor("duration")
 

@@ -347,6 +347,14 @@ local function GetBarrackProductionScalingLevel(ownerHero)
     return n
 end
 
+local function GetBarrackSummonedUnitAbilityLevel(ownerHero)
+    if HasScepterUpgrade(ownerHero) then
+        return 4
+    end
+
+    return GetBarrackProductionScalingLevel(ownerHero)
+end
+
 --- Читает gold_cost / production_time / spawn_distance для «ступени» ульты (без опоры на уровень способности на юните).
 local function GetBarrackSummonValue(summonAbility, ownerHero, key)
     if not summonAbility or summonAbility:IsNull() then
@@ -776,15 +784,20 @@ local function CreateProductUnit(item, spawnPosition, ownerHero, teamNumber)
     return nil
 end
 
-local function LevelUnitAbilities(unit)
+local function LevelUnitAbilities(unit, ownerHero)
     if not unit or unit:IsNull() then
         return
     end
 
+    local level = GetBarrackSummonedUnitAbilityLevel(ownerHero)
+
     for slot = 0, 7 do
         local ability = unit:GetAbilityByIndex(slot)
-        if ability and ability:GetLevel() == 0 then
-            ability:SetLevel(1)
+        if ability and not ability:IsNull() then
+            local maxLevel = ability:GetMaxLevel()
+            if maxLevel and maxLevel > 0 then
+                ability:SetLevel(math.min(level, maxLevel))
+            end
         end
     end
 end
@@ -818,7 +831,7 @@ local function CompleteProduction(barrack, item)
     end
     summon.chen_barrack_spawned = true
     summon.chen_owner_entindex = ownerHero:entindex()
-    LevelUnitAbilities(summon)
+    LevelUnitAbilities(summon, ownerHero)
 
     local summonLifetime = math.max(1, tonumber(item.summon_lifetime) or 60)
     summon:AddNewModifier(ownerHero, ownerHero:FindAbilityByName("chen_barrack"), "modifier_kill", { duration = summonLifetime })

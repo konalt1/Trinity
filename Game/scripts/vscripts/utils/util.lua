@@ -95,6 +95,31 @@ function GetHeroMindPower(hero)
     return total
 end
 
+-- Плоский бонус к радиусу заклинаний с предметов (AbilityValues: bonus_aoe, aoe_bonus).
+-- Итерация слотов как у GetHeroMindPower (0–8).
+function GetHeroBonusSpellAoE(hero)
+    if not hero or hero:IsNull() then
+        return 0
+    end
+
+    local total = 0
+    for i = 0, 8 do
+        local item = hero:GetItemInSlot(i)
+        if item and not item:IsNull() then
+            local bonus_aoe = item:GetSpecialValueFor("bonus_aoe")
+            if bonus_aoe and bonus_aoe > 0 then
+                total = total + bonus_aoe
+            end
+            local aoe_bonus = item:GetSpecialValueFor("aoe_bonus")
+            if aoe_bonus and aoe_bonus > 0 then
+                total = total + aoe_bonus
+            end
+        end
+    end
+
+    return total
+end
+
 function CalculateDirection(point1, point2)
     local direction = (point1 - point2):Normalized()
     return direction

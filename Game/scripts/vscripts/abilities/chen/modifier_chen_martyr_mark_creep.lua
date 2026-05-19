@@ -13,12 +13,10 @@ function modifier_chen_martyr_mark_creep:IsPurgable()
 end
 
 function modifier_chen_martyr_mark_creep:OnCreated(kv)
-	self.as_bonus = 0
 	self.target = nil
 
 	local ability = self:GetAbility()
 	if ability and not ability:IsNull() then
-		self.as_bonus = ability:GetSpecialValueFor("creep_bonus_as")
 		self.interval = ability:GetSpecialValueFor("attack_refresh_interval")
 	end
 
@@ -40,7 +38,6 @@ end
 function modifier_chen_martyr_mark_creep:OnRefresh(kv)
 	local ability = self:GetAbility()
 	if ability and not ability:IsNull() then
-		self.as_bonus = ability:GetSpecialValueFor("creep_bonus_as")
 		self.interval = ability:GetSpecialValueFor("attack_refresh_interval")
 	end
 	local ent = kv and kv.target_entindex
@@ -67,14 +64,4 @@ function modifier_chen_martyr_mark_creep:OnIntervalThink()
 	end
 
 	parent:MoveToTargetToAttack(target)
-end
-
-function modifier_chen_martyr_mark_creep:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-	}
-end
-
-function modifier_chen_martyr_mark_creep:GetModifierAttackSpeedBonus_Constant()
-	return self.as_bonus or 0
 end

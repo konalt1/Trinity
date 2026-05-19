@@ -318,7 +318,11 @@
 		// Team
 		//----------------------------------------------------------------
 		"TeamName"					"DOTA_TEAM_NEUTRALS"
-		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+		"CustomData"
+		{
+			"BlockNeutralCamps"		"0"
+		}
     }
 
 	"npc_dota_omniknight_sticky_grenade"
@@ -788,7 +792,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.5"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -837,7 +841,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.45"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_satyr_t1"
@@ -890,7 +894,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.425"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_frog_t1"
@@ -943,7 +947,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.55"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_troll_t1"
@@ -996,7 +1000,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.475"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_wolf_t1"
@@ -1049,7 +1053,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.575"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_centaur_t1"
@@ -1101,7 +1105,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.6"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_golem_t1"
@@ -1154,7 +1158,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.5"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_dragon_t1"
@@ -1207,7 +1211,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.55"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability2"                  "chen_barrack_bear_t2"
@@ -1258,7 +1262,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.45"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability3"                  "chen_barrack_furbolg_t3"
@@ -1308,7 +1312,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.425"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  "chen_barrack_harpy_t1"
@@ -1358,7 +1362,7 @@
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
-        "ModelScale"                "0.5"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -1407,7 +1411,7 @@
         "SoundSet"                  "Creep_Good_Range"
         "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
         "Level"                     "1"
-        "ModelScale"                "0.85"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  ""
@@ -1461,7 +1465,7 @@
         "SoundSet"                  "n_creep_Melee"
         "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
         "Level"                     "1"
-        "ModelScale"                "1.2"
+        "ModelScale"                "0.7"
         "UseNeutralCreepBehavior"   "0"
 
         "Ability1"                  ""
