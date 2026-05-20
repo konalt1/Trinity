@@ -662,6 +662,8 @@
 		"dota_hud_error_chen_barrack_invalid_target"						"Target must be one of Chen's persuaded creeps"
 		"dota_hud_error_chen_barrack_already_producing"					"This barracks is already producing a unit"
 		"dota_hud_error_chen_whip_invalid_target"							"Invalid target for Whip"
+		"dota_hud_error_chen_holy_persuasion_invalid_target"				"This unit cannot be persuaded."
+		"dota_hud_error_chen_holy_persuasion_friendly_target"				"Cannot persuade allied units."
 
 		// =============================================
 		// Furion — Nature's Prophet

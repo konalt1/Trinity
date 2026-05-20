@@ -30,6 +30,7 @@
         "Model"                         "models/creeps/lane_creeps/creep_2021_radiant/creep_2021_radiant_flagbearer_melee_mega.vmdl"
         "Level"                         "1"
         "ModelScale"                    "2.0"
+        "CanBeDominated"                "0"
         
         // Armor
         "ArmorPhysical"                 "50"
@@ -77,6 +78,7 @@
         "Model"                         "models/items/broodmother/spiderling/the_glacial_creeper_creepling/the_glacial_creeper_creepling_dpc.vmdl"
         "Level"                         "1"
         "ModelScale"                    "2.0"
+        "CanBeDominated"                "0"
         
         // Armor
         "ArmorPhysical"                 "50"
@@ -635,6 +637,7 @@
         "ModelScale"                "1.2"
         "Level"                     "30"
         "IsAncient"                 "1"
+        "CanBeDominated"            "0"
         
         // AI Script
         //----------------------------------------------------------------
@@ -718,6 +721,7 @@
         "ModelScale"                "1.0"
         "Level"                     "15"
         "IsAncient"                 "1"
+        "CanBeDominated"            "0"
         
         // AI Script
         //----------------------------------------------------------------
@@ -784,6 +788,11 @@
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_HERO"
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_HERO"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_dota_lich_ice_spire"
+    {
+        "CanBeDominated"            "0"
     }
 
     "npc_chen_barrack"

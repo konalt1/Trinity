@@ -1,5 +1,26 @@
 chen_holy_persuasion_custom = class({})
 
+local UNDOMINATABLE_UNITS = {
+	["npc_guardian_good"] = true,
+	["npc_guardian_bad"] = true,
+	["npc_dota_roshan"] = true,
+	["npc_dota_roshan_custom"] = true,
+	["npc_dota_roshan_pathway"] = true,
+	["npc_dota_lich_ice_spire"] = true,
+}
+
+local function IsUndominatableTarget(target)
+	if not target or target:IsNull() then
+		return true
+	end
+
+	if target:IsHero() or target:IsBuilding() or target:IsAncient() or target:IsOther() then
+		return true
+	end
+
+	return UNDOMINATABLE_UNITS[target:GetUnitName()] == true
+end
+
 local function GetChenMindPower(hero)
 	if GetHeroMindPower then
 		return GetHeroMindPower(hero) or 0
@@ -81,6 +102,10 @@ function chen_holy_persuasion_custom:OnSpellStart()
 	local target = self:GetCursorTarget()
 	
 	if not target or target:IsNull() or not target:IsAlive() then
+		return
+	end
+
+	if IsUndominatableTarget(target) then
 		return
 	end
 
@@ -174,7 +199,7 @@ function chen_holy_persuasion_custom:CastFilterResultTarget(target)
 		return UF_FAIL_CUSTOM
 	end
 
-	if target:IsHero() or target:IsBuilding() or target:IsAncient() then
+	if IsUndominatableTarget(target) then
 		return UF_FAIL_CUSTOM
 	end
 
@@ -186,7 +211,7 @@ function chen_holy_persuasion_custom:CastFilterResultTarget(target)
 end
 
 function chen_holy_persuasion_custom:GetCustomCastErrorTarget(target)
-	if target:IsHero() or target:IsBuilding() or target:IsAncient() then
+	if IsUndominatableTarget(target) then
 		return "#dota_hud_error_chen_holy_persuasion_invalid_target"
 	end
 	

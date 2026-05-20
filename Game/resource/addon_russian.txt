@@ -689,6 +689,8 @@
 		"dota_hud_error_chen_barrack_queue_full"							"Очередь производства полна (макс. 5)"
 		"dota_hud_error_chen_barrack_invalid_target"						"Цель должна быть прирученным крипом Чена"
 		"dota_hud_error_chen_whip_invalid_target"							"Недопустимая цель для Кнута"
+		"dota_hud_error_chen_holy_persuasion_invalid_target"				"Эту цель нельзя подчинить."
+		"dota_hud_error_chen_holy_persuasion_friendly_target"				"Нельзя подчинять союзных крипов."
 
 		// =============================================
 		// Furion — Nature's Prophet
