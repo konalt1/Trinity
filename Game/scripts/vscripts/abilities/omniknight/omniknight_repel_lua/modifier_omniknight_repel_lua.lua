@@ -14,6 +14,12 @@ function modifier_omniknight_repel_lua:IsPurgable()
 	return false
 end
 
+function modifier_omniknight_repel_lua:CheckState()
+	return {
+		[MODIFIER_STATE_DEBUFF_IMMUNE] = true,
+	}
+end
+
 --------------------------------------------------------------------------------
 -- Initializations
 function modifier_omniknight_repel_lua:OnCreated( kv )

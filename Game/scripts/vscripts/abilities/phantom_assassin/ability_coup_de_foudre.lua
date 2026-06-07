@@ -330,7 +330,7 @@ function modifier_coup_de_foudre_buff:GetModifierPreAttack_CriticalStrike(params
     end
 
     local crit_bonus
-    if target:IsHero() then
+    if target:IsRealHero() then
         crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus")
     else
         crit_bonus = self:GetAbility():GetSpecialValueFor("crit_bonus_creeps")

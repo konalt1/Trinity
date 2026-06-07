@@ -293,8 +293,12 @@ function modifier_ogre_magi_reroll_passive:OnAttackLanded(event)
 		local ability = self:GetAbility()
 		if not ability then return end
 		
-		-- Уменьшаем кулдаун в зависимости от уровня способности (3/4/5 секунд)
-		local cooldownReduction = ability:GetSpecialValueFor("cooldown_reduction_per_attack")
+		local is_reduced_target = target:IsCreep()
+			or target:IsNeutralUnitType()
+			or (target:IsBuilding() and not target:IsFort() and string.find(target:GetUnitName(), "tower"))
+		local cooldownReduction = is_reduced_target
+			and ability:GetSpecialValueFor("cooldown_reduction_per_attack_creep")
+			or ability:GetSpecialValueFor("cooldown_reduction_per_attack")
 		
 		local currentCooldown = ability:GetCooldownTimeRemaining()
 		if currentCooldown > 0 then

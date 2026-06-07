@@ -1,0 +1,128 @@
+// Trinity — doom_bringer abilities
+"DOTAAbilities"
+{
+ "doom_soul_devour"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/DOOM/doom_soul_devour"
+        "AbilityTextureName"            "doom_bringer_devour"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+        "HasScepterUpgrade"             "1"
+        "HasShardUpgrade"               "0"
+        "IsGrantedByScepter"            "0"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastRange"              "300"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+
+        "AbilityCooldown"               "40"
+        "AbilityManaCost"               "40 50 60 70"
+
+        "AbilityValues"
+        {
+            "soul_power"                "1 2 3 4"
+            "heal_amount"               "200 300 400 500"
+            "cast_range"                "300"
+            "aghanim_hp_threshold"      "666"
+            "aghanim_hero_mind_power_bonus" "10"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_doombringer.vsndevts"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_bringer_devour.vpcf"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf"
+            "particle"      "particles/generic_gameplay/screen_gold.vpcf"
+        }
+    }
+
+    "doom_scorched_earth_lua"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/DOOM/doom_scorched_earth_lua"
+        "AbilityTextureName"            "doom_bringer_scorched_earth"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+
+        "AbilityCastRange"              "600 600 600 600"
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+
+        "AbilityCooldown"               "35 30 25 20"
+        "AbilityManaCost"               "60 65 70 75"
+
+        "AbilityValues"
+        {
+            "damage_per_second"         "20 30 40 50"
+            "radius"                    "600 600 600 600"
+            "bonus_movement_speed_pct"  "11 12 13 14"
+            "duration"                  "7 9 11 13"
+            "mind_power_damage_multiplier" "0.5 0.6 0.7 0.8"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_doombringer.vsndevts"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_scorched_earth.vpcf"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_bringer_scorched_earth_buff.vpcf"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_bringer_scorched_earth_debuff.vpcf"
+        }
+    }
+
+    "doom_ultimate_aura"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/DOOM/doom_ultimate_aura"
+        "AbilityTextureName"            "doom_bringer_doom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "HasShardUpgrade"               "1"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        "AbilityCooldown"               "100 90 80"
+        "AbilityManaCost"               "150 200 250"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityDuration"               "10.0"
+        "AbilityValues"
+        {
+            "aura_radius"               "400 450 500"
+            "damage_per_second"         "40 60 80"
+            "duration"                  "10.0"
+            "mind_power_multiplier"     "0.6 0.65 0.7"
+            "shard_move_slow"
+            {
+                "value"                 "40"
+                "RequiresShard"         "1"
+            }
+        }
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_doombringer.vsndevts"
+            "particle"      "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf"
+        }
+    }
+}

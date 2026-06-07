@@ -22,7 +22,9 @@ function GameMode:InitGameMode()
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
-	ListenToGameEvent('dota_inventory_item_added', Dynamic_Wrap(self, 'OnInventoryUpdate'), self)	
+	ListenToGameEvent('dota_inventory_item_added', Dynamic_Wrap(self, 'OnInventoryUpdate'), self)
+	ListenToGameEvent('dota_player_drop_item', Dynamic_Wrap(self, 'OnChenInventoryChanged'), self)
+	ListenToGameEvent('dota_item_picked_up', Dynamic_Wrap(self, 'OnChenInventoryChanged'), self)
 
 	CustomGameEventManager:RegisterListener('chat_wheel_select', Dynamic_Wrap(self, 'OnChatWheelSelect'))	
  
@@ -398,7 +400,9 @@ function GameMode:OnNPCSpawned(data)
  	
  	if npc and npc:GetUnitName() then
  		-- Если это башня - регистрируем её (с проверкой на дубликаты внутри)
- 		if npc:IsBuilding() and not npc:IsFort() and string.find(npc:GetUnitName(), "tower") then
+ 		local unitName = npc:GetUnitName() or ""
+ 		if npc:IsBuilding() and not npc:IsFort() and string.find(unitName, "tower")
+ 			and not string.find(unitName, "npc_chen_building") then
  			GameMode:RegisterTower(npc)
  		end
  	end
@@ -424,6 +428,14 @@ function GameMode:OnNPCSpawned(data)
        if not npc:HasModifier("modifier_chen_holy_persuasion_mind_hp") then
            npc:AddNewModifier(npc, nil, "modifier_chen_holy_persuasion_mind_hp", {})
        end
+       if ChenWorkerBuild and ChenWorkerBuild.SyncScepterForHero then
+           Timers:CreateTimer(0, function()
+               if npc and not npc:IsNull() then
+                   ChenWorkerBuild.SyncScepterForHero(npc)
+               end
+               return nil
+           end)
+       end
    end
    
    -- Отслеживаем спавн лейн крипов
@@ -433,8 +445,28 @@ function GameMode:OnNPCSpawned(data)
    end
 end
 
+function GameMode:OnChenInventoryChanged(data)
+	if not data then
+		return
+	end
+
+	local hero = PlayerResource:GetSelectedHeroEntity(data.PlayerID or data.player_id)
+	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_chen" then
+		if ChenWorkerBuild and ChenWorkerBuild.SyncScepterForHero then
+			ChenWorkerBuild.SyncScepterForHero(hero)
+		end
+	end
+end
+
 function GameMode:OnInventoryUpdate(data)
 	local item = EntIndexToHScript(data.item_entindex)
+	local hero = item and not item:IsNull() and item:GetCaster() or nil
+
+	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_chen" then
+		if ChenWorkerBuild and ChenWorkerBuild.SyncScepterForHero then
+			ChenWorkerBuild.SyncScepterForHero(hero)
+		end
+	end
 
  	if item:GetItemSlot() == 16 and string.sub(item:GetName(), 0,9) ~= "item_tier" then 
  		local freeSlot 
@@ -455,7 +487,18 @@ end
 
 function GameMode:ModifyGoldFilter(data)
 	if data.reason_const == DOTA_ModifyGold_HeroKill  then data.gold = data.gold * 2 end
+	if ChenBarrackGold and ChenBarrackGold.ModifyGoldFilter then
+		return ChenBarrackGold.ModifyGoldFilter(data)
+	end
 	print(data.reason_const)
+	return true
+end
+
+function GameMode:ExecuteOrderFilter(data)
+	if ChenBarrackWorkerHandleOrder then
+		return ChenBarrackWorkerHandleOrder(data)
+	end
+
 	return true
 end
 

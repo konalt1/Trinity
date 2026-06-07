@@ -1,0 +1,170 @@
+// Trinity — ogre_magi abilities
+"DOTAAbilities"
+{
+ "ogre_magi_fire_blast"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_fire_blast"
+        "AbilityTextureName"            "ogre_magi_bonk"
+        "HasShardUpgrade"               "1"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "AbilityCastRange"              "600"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCooldown"               "14"
+        "AbilityManaCost"               "60 70 80 90"
+        "AbilityValues"
+        {
+            "damage"                    "60 120 180 240"
+            "stun_duration"             "1.5"
+            "radius"                    "300"
+            "delay"                     "0.8"
+            "strength_damage_bonus"     "3.0"
+            "strength_radius_bonus"     "2.0"
+            "channel_time"              "0.1"
+        }
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts"
+            "particle"      "particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf"
+            "particle"      "particles/items_fx/meteor_hammer_aoe.vpcf"
+            "particle"      "particles/items_fx/meteor_hammer_cast.vpcf"
+            "particle"      "particles/items_fx/meteor_hammer_marker.vpcf"
+        }
+    }
+
+    "ogre_magi_aghanim_club"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_aghanim_club"
+        "AbilityTextureName"            "Wild Magic"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1" 
+        "LevelsBetweenUpgrades"         "1"
+        "IsGrantedByScepter"            "1"
+        "HasScepterUpgrade"             "0"
+        
+        "AbilityValues"
+        {
+            "attacks_needed"            "8"
+            "buff_duration"             "8"
+        }
+        
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ancient_apparition.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_bane.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_crystal_maiden.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_dark_willow.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_dazzle.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_grimstroke.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_oracle.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_silencer.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_enigma.vsndevts"
+            "particle"      "particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf"
+            "particle"      "particles/units/heroes/hero_ancient_apparition/ancient_apparition_cold_feet.vpcf"
+            "particle"      "particles/units/heroes/hero_axe/axe_battle_hunger.vpcf"
+            "particle"      "particles/units/heroes/hero_bane/bane_nightmare.vpcf"
+            "particle"      "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf"
+            "particle"      "particles/units/heroes/hero_chaos_knight/chaos_knight_chaos_bolt.vpcf"
+            "particle"      "particles/units/heroes/hero_chen/chen_penitence.vpcf"
+            "particle"      "particles/units/heroes/hero_crystal_maiden/maiden_frostbite.vpcf"
+            "particle"      "particles/units/heroes/hero_crystal_maiden/maiden_crystal_nova.vpcf"
+            "particle"      "particles/units/heroes/hero_dark_willow/dark_willow_cursed_crown.vpcf"
+            "particle"      "particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf"
+            "particle"      "particles/units/heroes/hero_death_prophet/death_prophet_spirit_siphon.vpcf"
+            "particle"      "particles/units/heroes/hero_enigma/enigma_malefice.vpcf"
+            "particle"      "particles/units/heroes/hero_disruptor/disruptor_glimpse.vpcf"
+            "particle"      "particles/units/heroes/hero_grimstroke/grimstroke_phantom_embrace.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_homing_missile.vpcf"
+            "particle"      "particles/units/heroes/hero_sven/sven_spell_storm_bolt.vpcf"
+            "particle"      "particles/units/heroes/hero_silencer/silencer_last_word.vpcf"
+            "particle"      "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf"
+            "particle"      "particles/units/heroes/hero_medusa/medusa_mystic_snake.vpcf"
+            "particle"      "particles/units/heroes/hero_furion/furion_sprout.vpcf"
+            "particle"      "particles/units/heroes/hero_oracle/oracle_fortunes_end.vpcf"
+            "particle"      "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_astral_imprisonment.vpcf"
+            "particle"      "particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf"
+            "particle"      "particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf"
+        }
+    }
+
+    "ogre_magi_strength_boost"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_strength_boost"
+        "AbilityTextureName"            "ogre_magi_strength_boost"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCooldown"               "12"
+        "AbilityManaCost"               "50"
+        
+        "AbilityValues"
+        {
+            "base_strength_bonus"       "8 16 24 32"
+            "bonus_damage"              "20 40 60 80"
+            "mind_power_multiplier"     "1.5"
+            "duration"                  "8"
+            "move_speed_slow_pct"       "10"
+        }
+        
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_alchemist.vsndevts"
+        }
+    }
+
+    "ogre_magi_reroll" 
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/ogre_magi/ogre_magi_reroll"
+        "AbilityTextureName"            "Wild Magic"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        
+        "AbilityManaCost"               "0"
+        "AbilityCooldown"               "100"
+
+        "AbilityValues"
+        {     
+          "ability_duration"              "20"
+          "manacost_reduction"              "100"
+          "cooldown_reduction_per_attack"    "5 6 7"
+          "cooldown_reduction_per_attack_creep" "1"
+        }
+    }
+}

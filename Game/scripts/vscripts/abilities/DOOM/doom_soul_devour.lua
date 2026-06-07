@@ -3,7 +3,10 @@
 
 doom_soul_devour = class({})
 LinkLuaModifier("modifier_doom_soul_devour", "abilities/DOOM/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_doom_soul_devour_hero_fx", "abilities/DOOM/doom_soul_devour", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_mind_power_local_buff", "abilities/mind_power_local_buff", LUA_MODIFIER_MOTION_NONE)
+
+local DEVOUR_HERO_DOOM_FX_DURATION = 2.5
 
 local DEVOUR_FAIL_SOUND = "General.CastFail_InvalidTarget_Hero"
 local DEVOUR_FAIL_HP_SOUND = "Doom.SoulDevour.FailHP"
@@ -119,9 +122,13 @@ function doom_soul_devour:ProcessHeroTarget(caster, target)
         return
     end
 
+    target:AddNewModifier(caster, self, "modifier_doom_soul_devour_hero_fx", {
+        duration = DEVOUR_HERO_DOOM_FX_DURATION,
+    })
     target:Kill(self, caster)
 
     if target:IsAlive() then
+        target:RemoveModifierByName("modifier_doom_soul_devour_hero_fx")
         self:PlayFailEffects(caster)
         return
     end
@@ -206,14 +213,6 @@ end
 
 function doom_soul_devour:PlayHeroKillEffects(caster, target)
     self:PlayEffects(target)
-
-    local particle = ParticleManager:CreateParticle(
-        "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf",
-        PATTACH_ABSORIGIN_FOLLOW,
-        target
-    )
-    ParticleManager:ReleaseParticleIndex(particle)
-
     EmitSoundOn("Hero_DoomBringer.Doom", caster)
 end
 
@@ -277,4 +276,46 @@ end
 
 function modifier_doom_soul_devour:GetModifierConstantHealthRegen()
     return self.heal_amount or 0
+end
+
+--------------------------------------------------------------------------------
+-- Визуал Doom на жертве (Aghanim): партикл снимается в OnDestroy
+modifier_doom_soul_devour_hero_fx = class({})
+
+function modifier_doom_soul_devour_hero_fx:IsHidden()
+    return true
+end
+
+function modifier_doom_soul_devour_hero_fx:IsDebuff()
+    return true
+end
+
+function modifier_doom_soul_devour_hero_fx:IsPurgable()
+    return false
+end
+
+function modifier_doom_soul_devour_hero_fx:RemoveOnDeath()
+    return false
+end
+
+function modifier_doom_soul_devour_hero_fx:OnCreated()
+    if not IsServer() then
+        return
+    end
+
+    self.particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf",
+        PATTACH_ABSORIGIN_FOLLOW,
+        self:GetParent()
+    )
+end
+
+function modifier_doom_soul_devour_hero_fx:OnDestroy()
+    if not IsServer() or not self.particle then
+        return
+    end
+
+    ParticleManager:DestroyParticle(self.particle, false)
+    ParticleManager:ReleaseParticleIndex(self.particle)
+    self.particle = nil
 end

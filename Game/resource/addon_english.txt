@@ -129,11 +129,14 @@
 
 		// Ogre Strength Boost
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost"						"Surge of Strength"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Ogre Magi bellows himself into frenzy, gaining bonus Strength and attack damage while the buff lasts. The Strength bonus scales with Spell Power."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Ogre Magi bellows himself into frenzy, gaining bonus Strength and attack damage but slowing himself by %dota_ability_ogre_magi_strength_boost_move_speed_slow_pct%% for the duration. The Strength bonus scales with Spell Power."
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"BASE STRENGTH BONUS:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"			"BONUS ATTACK DAMAGE:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"			"DURATION:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_move_speed_slow_pct"	"MOVE SPEED SLOW:"
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost"						"Surge of Strength"
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"			"Strength and attack damage increased. Movement speed reduced by %dMODIFIER_PROPERTY_TOOLTIP2%%."
 
 
 
@@ -141,11 +144,12 @@
 		"DOTA_Tooltip_ability_ogre_magi_reroll"								"Wild Magic"
 		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"					"Ogre Magi copies a random ultimate from the hero pool that lasts briefly and costs him no mana. Each attack against enemies trims the borrowed spell's cooldown."
 		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"				"BORROWED SPELL DURATION:"
-		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"COOLDOWN REDUCTION PER HIT:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"COOLDOWN REDUCTION PER HERO HIT:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack_creep"	"COOLDOWN REDUCTION PER CREEP OR TOWER HIT:"
 
-		// Ogre Berserker Rage (Aghanim's Scepter)
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"							"Aghanim's Club"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Every tenth attack on an enemy hero instantly fires a random spell from Ogre Magi's chaotic kit."
+		// Ogre Aghanim's Club (Aghanim's Scepter)
+		"DOTA_Tooltip_ability_ogre_magi_aghanim_club"							"Aghanim's Club"
+		"DOTA_Tooltip_ability_ogre_magi_aghanim_club_Description"				"Every tenth attack on an enemy hero instantly fires a random spell from Ogre Magi's chaotic kit."
 
 		//Omniknight
 		// Custom Purification
@@ -199,15 +203,11 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_6"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_7"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_8"		"Placeholder"
-		"DOTA_Tooltip_modifier_omniknight_talent_heal_movespeed"			"Blessing of Light"
-		"DOTA_Tooltip_modifier_omniknight_talent_heal_movespeed_Description"	"Bonus movement speed."
-		"DOTA_Tooltip_modifier_omniknight_talent_overheal_barrier"			"Barrier of Light"
-		"DOTA_Tooltip_modifier_omniknight_talent_overheal_barrier_Description"	"Absorbs physical damage."
 
 		//Juggernaut
 		// Blade Fury
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"					"BLADE FURY"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Juggernaut storms in a raging cyclone that deals magical damage nearby while cloaking himself in immunity to spells. Tick damage scales with Spell Power."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Juggernaut spins, dealing magical damage around him. He can still be targeted, but control effects do not apply. Tick damage scales with Spell Power."
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"DAMAGE:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"RADIUS:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			"DURATION:"
@@ -433,15 +433,13 @@
 		"DOTA_Tooltip_ability_ability_fireworks_splash_attack_damage_pct"		"%PRIMARY ATTACK FED INTO SPLASH:"
 		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Splashed foes burn for lingering magic damage; burn damage scales with Spell Power."
 
-		"DOTA_Tooltip_ability_ability_reactive_tazer"							"Reactive Tazer"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_Description"				"The hero charges up with electricity, gaining bonus movement speed.\nAttacks against the charged target deal magical damage to the attacker and disarm them.\nWhen the effect ends, the charge explodes, damaging and disarming nearby enemies.\nDamage scales with Spell Power."
-		"DOTA_Tooltip_ability_ability_reactive_tazer_buff_duration"				"BUFF DURATION:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_disarm_duration"			"DISARM DURATION:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_bonus_movespeed_pct"		"%MOVE SPEED BONUS:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_explosion_radius"			"EXPLOSION RADIUS:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_damage"					"BURST DAMAGE:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_mind_power_multiplier"		"SPELL POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_countdown_lead"			"POP WARNING TIME:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast"						"Parry Blast"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_Description"			"Instantly detonates around Techies, dealing magical damage to nearby enemies.\nFor a brief moment Techies gains massive armor to parry incoming attacks and projectiles.\nEnemies that hit Techies during this window are disarmed."
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_explosion_radius"		"EXPLOSION RADIUS:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_damage"				"EXPLOSION DAMAGE:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_buff_duration"			"PARRY WINDOW:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_bonus_armor"			"PARRY ARMOR:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_disarm_duration"		"DISARM DURATION:"
 
 		"DOTA_Tooltip_ability_techies_suicide_custom"							"Liftoff"
 		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Techies rockets into a pinpoint and detonates on impact to deal AoE magical damage plus a short stun.\nTechies also suffers Pure self-damage keyed to current health."
@@ -586,63 +584,130 @@
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Whip"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Chen snaps a whip at an allied creep, which instantly fires every active ability in its kit without spending mana or triggering real cooldowns, grabbing targets within search range. If the spell is cast on an enemy unit, the burst prefers that victim—heroes first. After the flurry, the creep's mana and cooldowns return to how they were before the whip."
-		"DOTA_Tooltip_ability_chen_whip_search_radius"						"SEARCH RADIUS:"
-		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"SHARD RADIUS:"
-		"DOTA_Tooltip_ability_chen_whip_shard_description"					"The whip lashes every allied creep around the target; each one performs a full ability burst."
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Chen lashes the whip at the target point, dealing %dota_ability_chen_whip_damage% damage to all enemies in the area.
+
+Every tamed creep in the radius instantly casts its active abilities. After the burst, each creep's mana and cooldowns return to how they were before the whip."
+		"DOTA_Tooltip_ability_chen_whip_damage"								"DAMAGE:"
+		"DOTA_Tooltip_ability_chen_whip_radius"								"RADIUS:"
+		"DOTA_Tooltip_ability_chen_whip_search_radius"						"CREEP TARGET SEARCH RADIUS:"
+
+		// Ultimate Aura (Aghanim's Shard)
+		"DOTA_Tooltip_ability_chen_ultimate_aura"							"Ultimate Aura"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_Description"				"Chen empowers all allied heroes and creeps around him, increasing their maximum health and attack damage.
+		The bonus grows with Chen's Spell Power."
+		"DOTA_Tooltip_ability_chen_ultimate_aura_aura_radius"				"RADIUS:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_bonus_health"				"BONUS HEALTH:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_mind_power_health_multiplier"	"HEALTH PER SPELL POWER:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_bonus_damage"				"BONUS DAMAGE:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_mind_power_damage_multiplier"	"DAMAGE PER SPELL POWER:"
+		"DOTA_Tooltip_modifier_chen_ultimate_aura_buff"					"Ultimate Aura"
+		"DOTA_Tooltip_modifier_chen_ultimate_aura_buff_Description"			"Maximum health and attack damage increased."
 
 		// Barrack (Ultimate)
 		"DOTA_Tooltip_ability_chen_barrack"									"Barracks"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Chen sacrifices a persuaded creep to raise a stationary barracks for his team. The structure inherits that creep's unit line and can train stronger tiers as the ultimate levels. Only so many barracks may stand at once—exceeding the cap demolishes the oldest one and refunds its reserved gold."
-		"DOTA_Tooltip_ability_chen_barrack_bonus_health"					"BARRACKS BONUS HP:"
-		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"MIN BARRACKS HP:"
-		"DOTA_Tooltip_ability_chen_barrack_max_barracks"					"MAX BARRACKS:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_bonus_barracks"			"BONUS BARRACKS (SCEPTER):"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Granted by Aghanim's Scepter. Increases the barracks cap by 1 and unlocks Ancient-tier training at every structure."
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Chen raises a stationary barracks at the target point. The barracks stores its own gold, shown above the structure, and can only spend it on hiring units or building construction. Barracks units with shared gold also grant Chen the full kill bounty; carrier units deliver gold only to the barracks. Chen may control only one barracks—casting again focuses your camera on it. If destroyed, the killer steals a portion of the gold inside."
+		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"BARRACKS HP:"
+		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% GOLD TO KILLER ON DESTRUCTION:"
+		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"GOLD DELIVERY RADIUS:"
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Barracks workers gain three construction abilities: tower, thunderhide barracks, and black dragon barracks. Cost is paid from the main barracks' gold when the worker reaches the site and construction begins."
+
+		"DOTA_Tooltip_ability_chen_barrack_farmland"							"Farmland"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"Passive: a random tree near the barracks blooms. A creep trained by this barracks can stand near it to gather gold. If the bloom expires unharvested, nearby trees within the barracks radius bloom instead."
+		"DOTA_Tooltip_ability_chen_barrack_farmland_bloom_radius"			"BLOOM RADIUS:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_spread_radius"			"SPREAD RADIUS:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_bloom_duration"			"BLOOM DURATION:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_tree_gold"				"GOLD PER TREE:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_gather_time"				"GATHER TIME:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_gather_trigger_radius"	"GATHER RADIUS:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker"					"Summon Worker"
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_Description"		"Queues a combat worker. The first worker is free if you have no living workers. Cost is paid from this barracks' gold."
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_production_time"	"PRODUCTION TIME:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter"					"Summon Hunter"
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_Description"		"Queues a ranged hunter. Kill gold is carried to the barracks; on delivery Chen and the barracks both receive it. Cost is paid from this barracks' gold."
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_production_time"	"PRODUCTION TIME:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_summon_lifetime"	"LIFETIME:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer"					"Summon Healer"
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_Description"		"Queues a troll healer. Heals wounded nearby allies (autocast). Kill gold works like the hunter. Cost is paid from this barracks' gold."
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_production_time"	"PRODUCTION TIME:"
+
+		"DOTA_Tooltip_ability_chen_barrack_heal"							"Heal"
+		"DOTA_Tooltip_ability_chen_barrack_heal_Description"				"Restores %dota_ability_chen_barrack_heal_heal_amount% health to an allied target. Autocast: heals wounded allies within %dota_ability_chen_barrack_heal_search_radius% (below %dota_ability_chen_barrack_heal_wound_threshold_pct%% HP), heroes first, then creeps; does not heal self."
+		"DOTA_Tooltip_ability_chen_barrack_heal_heal_amount"				"HEAL:"
+		"DOTA_Tooltip_ability_chen_barrack_heal_search_radius"				"SEARCH RADIUS:"
+		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"		"WOUND THRESHOLD:"
+
+		"DOTA_Tooltip_ability_chen_barrack_hunter_focus"						"Hunter's Focus"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_focus_Description"			"For %dota_ability_chen_barrack_hunter_focus_buff_duration% seconds, attacks deal bonus damage to creeps (lane and neutral). Autocast: with toggle on, applies the buff before attacking a creep when off cooldown."
+		"DOTA_Tooltip_ability_chen_barrack_hunter_focus_buff_duration"		"DURATION:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_focus_bonus_damage"		"BONUS DAMAGE VS CREEPS:"
+		"DOTA_Tooltip_modifier_chen_barrack_hunter_focus"					"Hunter's Focus"
+		"DOTA_Tooltip_modifier_chen_barrack_hunter_focus_Description"		"Attacks deal bonus damage to creeps."
+
+		"npc_chen_barrack_hunter"											"Barracks Hunter"
+		"npc_chen_barrack_healer"											"Barracks Healer"
+
+		"DOTA_Tooltip_ability_chen_worker_gather"							"Gather"
+		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"Autocast: the worker gathers gold from blooming trees, then returns it to the barracks. Move, attack, stop, and hold-position orders pause auto-gather for 15 seconds."
+
+		"DOTA_Tooltip_ability_chen_worker_build_tower"						"Build Tower"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_Description"			"The worker walks to the target point and begins building a tower. Cost is deducted from the main barracks' gold when construction starts.
+
+While the worker stays within %dota_ability_chen_worker_build_tower_worker_radius% range, construction health grows by %dota_ability_chen_worker_build_tower_build_rate% per second. If the worker leaves or dies, progress freezes. Enemies can attack the site — destroyed construction does not refund gold."
+		"DOTA_Tooltip_ability_chen_worker_build_tower_gold_cost"				"COST:"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_max_hp"					"CONSTRUCTION HP:"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"BUILD RATE:"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"WORKER RADIUS:"
+
+		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack"			"Build Thunderhide Barracks"
+		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_Description"	"The worker walks to the target point and begins building a thunderhide barracks. Cost is deducted from the main barracks' gold when construction starts.
+
+The finished barracks can queue Ancient Thunderhide using the main barracks' gold. Progress freezes if the worker leaves or dies."
+		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_gold_cost"		"COST:"
+		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_max_hp"			"CONSTRUCTION HP:"
+		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_build_rate"		"BUILD RATE:"
+		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_worker_radius"	"WORKER RADIUS:"
+
+		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack"				"Build Black Dragon Pit"
+		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_Description"		"The worker walks to the target point and begins building a black dragon barracks. Cost is deducted from the main barracks' gold when construction starts.
+
+The finished barracks can queue Ancient Black Dragon using the main barracks' gold. Progress freezes if the worker leaves or dies."
+		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_max_hp"				"CONSTRUCTION HP:"
+		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_build_rate"			"BUILD RATE:"
+		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_worker_radius"		"WORKER RADIUS:"
+
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide"				"Summon Ancient Thunderhide"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_Description"		"Queues an Ancient Thunderhide. Paid from Chen's main barracks gold."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_production_time"	"PRODUCTION TIME:"
+
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon"					"Summon Ancient Black Dragon"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_Description"			"Queues an Ancient Black Dragon. Paid from Chen's main barracks gold."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_gold_cost"				"COST:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_production_time"		"PRODUCTION TIME:"
+
+		"DOTA_Tooltip_modifier_chen_building_construction"					"Under Construction"
+		"DOTA_Tooltip_modifier_chen_building_construction_Description"			"This structure is being built. The assigned worker must stay nearby."
+
+		"npc_chen_building_tower"												"Chen's Tower"
+		"npc_chen_building_thunderhide_barrack"									"Thunderhide Barracks"
+		"npc_chen_building_dragon_barrack"										"Black Dragon Pit"
+		"npc_chen_ancient_thunderhide"											"Ancient Thunderhide"
+		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
 
 		// Barrack Unit
 		"npc_chen_barrack"													"Chen's Barracks"
-		"npc_chen_barrack_satyr"											"Satyr Barracks"
-		"npc_chen_barrack_frog"												"Frog Barracks"
-		"npc_chen_barrack_troll"											"Troll Barracks"
-		"npc_chen_barrack_wolf"												"Wolf Barracks"
-		"npc_chen_barrack_centaur"											"Centaur Barracks"
-		"npc_chen_barrack_golem"											"Golem Barracks"
-		"npc_chen_barrack_dragon"											"Dragon Camp Barracks"
-		"npc_chen_barrack_bear"												"Bear Barracks"
-		"npc_chen_barrack_furbolg"											"Furbolg Barracks"
-		"npc_chen_barrack_harpy"											"Harpy Barracks"
-
-		// Custom Creeps
-		"npc_chen_frog_ancient"												"Ancient Frog"
-		"npc_chen_wolf_thunder"												"Thunder Wolf"
-		"npc_chen_centaur_warruner"											"Centaur Warrunner"
-		"npc_chen_bear_wander"												"Wandering Bear"
-		"npc_chen_bear_torchbearer"											"Bear Torchbearer"
-		"npc_chen_furbolg_treant"											"Treant Furbolg"
-		"npc_chen_furbolg_shroom"											"Shroomcap Furbolg"
-		"npc_chen_harpy_bird"												"Harpy Bird"
-		"npc_chen_harpy_phoenix"											"Harpy Phoenix"
-
-		// Barrack Summon (tier gates)
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Training: Tier II"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_Description"			"Queues a tier-II fighter from this barracks' line. Requires ultimate level 2."
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_gold_cost"				"COST:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_production_time"		"BUILD TIME:"
-
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3"						"Training: Tier III"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_Description"			"Queues a tier-III fighter from this barracks' line. Requires ultimate level 3."
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_gold_cost"				"COST:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_production_time"		"BUILD TIME:"
-
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient"					"Training: Ancient"
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_Description"		"Queues an Ancient-tier warrior from this barracks' line. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_gold_cost"		"COST:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_production_time"	"BUILD TIME:"
+		"npc_chen_barrack_worker"											"Barracks Worker"
 
 		// Modifier — producing
 		"DOTA_Tooltip_modifier_chen_barrack_producing"						"Producing..."
-		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"This barracks is forging a unit or waiting in the production queue."
+		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Time remaining: %dMODIFIER_PROPERTY_TOOLTIP% sec. (0 — queued)"
 
 		// Talents
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1"				"Placeholder"
@@ -654,14 +719,22 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7"				"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8"				"Placeholder"
 
+		"DOTA_Tooltip_modifier_chen_barrack_gold_display"					"Barracks Gold"
+		"DOTA_Tooltip_modifier_chen_barrack_gold_display_Description"			"Gold stored in this barracks. Spent only on hiring and construction."
+		"DOTA_Tooltip_modifier_chen_worker_gather_ai"						"Gather"
+		"DOTA_Tooltip_modifier_chen_worker_gather_ai_Description"			"This worker is automatically gathering gold from blooming trees."
+
 		// HUD Errors
 		"dota_hud_error_chen_barrack_no_owner"								"This barracks has no owner"
-		"dota_hud_error_chen_barrack_no_unit_in_family"						"No unit of that tier exists in this line"
-		"dota_hud_error_chen_barrack_need_scepter"							"Aghanim's Scepter is required to train Ancients"
 		"dota_hud_error_chen_barrack_queue_full"							"Production queue is full (max 5)"
-		"dota_hud_error_chen_barrack_invalid_target"						"Target must be one of Chen's persuaded creeps"
+		"dota_hud_error_chen_barrack_not_enough_gold"						"Not enough gold in the barracks"
+		"dota_hud_error_chen_barrack_invalid_target"						"Cannot place barracks here"
+		"dota_hud_error_chen_worker_build_busy"								"This worker is already building"
+		"dota_hud_error_chen_worker_build_no_scepter"						"Requires Aghanim's Scepter"
+		"dota_hud_error_chen_worker_build_invalid_position"					"Cannot build at this location"
+		"dota_hud_error_chen_sub_barrack_under_construction"					"This barracks is still under construction"
 		"dota_hud_error_chen_barrack_already_producing"					"This barracks is already producing a unit"
-		"dota_hud_error_chen_whip_invalid_target"							"Invalid target for Whip"
+		"dota_hud_error_chen_whip_no_tamed_creeps"							"No tamed creeps in radius"
 		"dota_hud_error_chen_holy_persuasion_invalid_target"				"This unit cannot be persuaded."
 		"dota_hud_error_chen_holy_persuasion_friendly_target"				"Cannot persuade allied units."
 
@@ -744,147 +817,6 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_6"					"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_7"					"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_8"					"Placeholder"
-
-		// Chen barracks — training orders (per line)
-		// Centaur line
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t1"								"Train Kobold Foreman"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Kobold Foreman."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_t1_SummaryDescription"			"Train Kobold Foreman"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t2"								"Train Centaur Runner"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Centaur Runner."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_t2_SummaryDescription"			"Train Centaur Runner"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t3"								"Train Centaur Khan"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Centaur Khan."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_t3_SummaryDescription"			"Train Centaur Khan"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient"							"Train Centaur Warrunner"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains a Centaur Warrunner. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_ancient_SummaryDescription"		"Train Centaur Warrunner"
-
-		// Satyr line
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t1"								"Train Satyr Trickster"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Satyr Trickster."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_t1_SummaryDescription"			"Train Satyr Trickster"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t2"								"Train Satyr Soulstealer"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Satyr Soulstealer."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_t2_SummaryDescription"			"Train Satyr Soulstealer"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t3"								"Train Satyr Hellcaller"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Satyr Hellcaller."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_t3_SummaryDescription"			"Train Satyr Hellcaller"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient"							"Train Prowler Shaman"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains a Prowler Shaman. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_ancient_SummaryDescription"		"Train Prowler Shaman"
-
-		// Troll line
-		"DOTA_Tooltip_ability_chen_barrack_troll_t1"								"Train Forest Berserker"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Forest Berserker."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_t1_SummaryDescription"			"Train Forest Berserker"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t2"								"Train Ogre Magi"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains an Ogre Magi."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_t2_SummaryDescription"			"Train Ogre Magi"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t3"								"Train Ogre Mauler"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains an Ogre Mauler."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_t3_SummaryDescription"			"Train Ogre Mauler"
-		"DOTA_Tooltip_ability_chen_barrack_troll_ancient"							"Train Ice Shaman"
-		"DOTA_Tooltip_ability_chen_barrack_troll_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains an Ice Shaman. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_ancient_SummaryDescription"		"Train Ice Shaman"
-
-		// Wolf line
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t1"								"Train Wolf Assassin"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Wolf Assassin."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_t1_SummaryDescription"			"Train Wolf Assassin"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t2"								"Train Giant Wolf"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Giant Wolf."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_t2_SummaryDescription"			"Train Giant Wolf"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t3"								"Train Alpha Wolf"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains an Alpha Wolf."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_t3_SummaryDescription"			"Train Alpha Wolf"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient"							"Train Ancient Thunder Lizard"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains an Ancient Thunder Lizard. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_ancient_SummaryDescription"		"Train Ancient Thunder Lizard"
-
-		// Golem line
-		"DOTA_Tooltip_ability_chen_barrack_golem_t1"								"Train Mud Golem Runty"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a small Mud Golem."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_t1_SummaryDescription"			"Train Mud Golem Runty"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t2"								"Train Mud Golem"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Mud Golem."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_t2_SummaryDescription"			"Train Mud Golem"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t3"								"Train Rock Golem"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Rock Golem."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_t3_SummaryDescription"			"Train Rock Golem"
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient"							"Train Granite Golem"
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains a Granite Golem. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_ancient_SummaryDescription"		"Train Granite Golem"
-
-		// Harpy line
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t1"								"Train Wildwing Hatchling"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Wildwing Hatchling."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_t1_SummaryDescription"			"Train Wildwing Hatchling"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t2"								"Train Harpy Scout"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Harpy Scout."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_t2_SummaryDescription"			"Train Harpy Scout"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t3"								"Train Enraged Wildwing"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains an Enraged Wildwing."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_t3_SummaryDescription"			"Train Enraged Wildwing"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient"							"Train Harpy Phoenix"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains a Harpy Phoenix. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_ancient_SummaryDescription"		"Train Harpy Phoenix"
-
-		// Furbolg line
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1"							"Train Furbolg Treant"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Furbolg Treant."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t1_SummaryDescription"			"Train Furbolg Treant"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2"							"Train Furbolg Mushling"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Furbolg Mushling."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t2_SummaryDescription"			"Train Furbolg Mushling"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3"							"Train Polar Furbolg Champion"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Polar Furbolg Champion."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t3_SummaryDescription"			"Train Polar Furbolg Champion"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient"						"Train Elder Treant Furbolg"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains an Elder Treant Furbolg. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_ancient_SummaryDescription"		"Train Elder Treant Furbolg"
-
-		// Frog line
-		"DOTA_Tooltip_ability_chen_barrack_frog_t1"								"Train Polliwog"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Polliwog."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_t1_SummaryDescription"			"Train Polliwog"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t2"								"Train Froglet Mage"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Froglet Mage."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_t2_SummaryDescription"			"Train Froglet Mage"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t3"								"Train Froglet Bruiser"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Froglet Bruiser."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_t3_SummaryDescription"			"Train Froglet Bruiser"
-		"DOTA_Tooltip_ability_chen_barrack_frog_ancient"							"Train Ancient Frog"
-		"DOTA_Tooltip_ability_chen_barrack_frog_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains an Ancient Frog. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_ancient_SummaryDescription"		"Train Ancient Frog"
-
-		// Dragon camp line
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t1"							"Train Harpy Skirmisher"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Harpy Skirmisher."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_t1_SummaryDescription"			"Train Harpy Skirmisher"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t2"							"Train Harpy Stormcaller"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Harpy Stormcaller."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_t2_SummaryDescription"			"Train Harpy Stormcaller"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t3"							"Train Black Drake"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Black Drake."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_t3_SummaryDescription"			"Train Black Drake"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient"						"Train Black Dragon"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains a Black Dragon. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_ancient_SummaryDescription"		"Train Black Dragon"
-
-		// Bear line
-		"DOTA_Tooltip_ability_chen_barrack_bear_t1"								"Train Wandering Bear"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t1_Description"					"Cost: 75 gold. Build time: 10 sec. Trains a Wandering Bear."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_t1_SummaryDescription"			"Train Wandering Bear"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t2"								"Train Hellbear"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t2_Description"					"Cost: 150 gold. Build time: 16 sec. Trains a Hellbear."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_t2_SummaryDescription"			"Train Hellbear"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t3"								"Train Hellbear Smasher"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t3_Description"					"Cost: 300 gold. Build time: 28 sec. Trains a Hellbear Smasher."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_t3_SummaryDescription"			"Train Hellbear Smasher"
-		"DOTA_Tooltip_ability_chen_barrack_bear_ancient"							"Train Bear Torchbearer"
-		"DOTA_Tooltip_ability_chen_barrack_bear_ancient_Description"				"Cost: 600 gold. Build time: 45 sec. Trains a Bear Torchbearer. Requires Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_ancient_SummaryDescription"		"Train Bear Torchbearer"
 
 	}
 }

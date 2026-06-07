@@ -1,0 +1,204 @@
+// Trinity — techies abilities
+"DOTAAbilities"
+{
+    "ability_fireworks" {
+        "BaseClass"						"ability_lua"
+        "ScriptFile"                    "abilities/techies/ability_fireworks"
+        "AbilityTextureName"            "fireworks"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCooldown"               "20 18 16 14"
+        "AbilityManaCost"               "100"
+
+        "AbilityValues"
+        {
+          "duration"                    "5 6 7 8"
+          "splash_radius"
+          {
+            "value"                               "300 400 500 600"
+            "special_bonus_unique_techies_fireworks_radius"        "+100"
+            "affected_by_aoe_increase"             "1"
+          }
+          "bonus_magic_damage"          "20 40 60 80"
+          "bonus_attack_range"          "120 140 180 220"
+          "mind_power_multiplier"       "0.5"
+          "splash_attack_damage_pct"    "50"
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+            "particle"  "particles/units/heroes/hero_techies/techies_base_attack.vpcf"
+            "particle"  "particles/units/heroes/hero_techies/techies_tazer_ambient_arcs_wrap.vpcf"
+        }
+    }
+
+    "ability_techies_parry_blast"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/techies/ability_techies_parry_blast"
+        "AbilityTextureName"            "techies_blast_off"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0"
+        "AbilityCharges"                "2 3 4 5"
+        "AbilityChargeRestoreTime"      "30"
+        "AbilityManaCost"               "20"
+
+        "AbilityValues"
+        {
+            "explosion_radius"          "450"
+            "damage"                    "25 50 75 100"
+            "buff_duration"             "0.3"
+            "bonus_armor"               "1000"
+            "disarm_duration"           "2"
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_techies/techies_tazer_explode.vpcf"
+            "particle"  "particles/units/heroes/hero_techies/techies_tazer_ambient.vpcf"
+        }
+    }
+
+    "techies_suicide_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/techies/techies_suicide_custom"
+        "AbilityTextureName"            "techies_suicide"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCastRange"              "1000"
+        "AbilityCastPoint"              "1.0"
+        "AbilityCooldown"               "35 30 25 20"
+        "AbilityManaCost"               "100"
+        "MaxLevel"                      "4"
+
+        "AbilityValues"
+        {
+            "radius"                    "400"
+            "damage"                    "300 400 500 600"
+            "stun_duration"             "1.5 1.75 2 2.25"
+            "hp_cost"                   "20 15 10 5"
+            "mind_power_multiplier"     "2"
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf"
+            "particle"  "particles/units/heroes/hero_techies/techies_suicide.vpcf"
+            "particle"  "particles/units/heroes/hero_techies/techies_blast_off.vpcf"
+        }
+    }
+
+    "ability_chain_bomb" {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/techies/ability_chain_bomb"
+        "AbilityTextureName"            "techies_remote_mines"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "HasScepterUpgrade"             "1"
+        "HasShardUpgrade"               "1"
+
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "500 600 700"
+        "AbilityCastPoint"              "0.45 0.45 0.45"
+
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0"
+        "AbilityCharges"                "3"
+        "AbilityChargeRestoreTime"      "7"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "60 100 140"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+            "damage"                    "250 350 450"
+            "radius"
+            {
+                "value"                             "400"
+                "affected_by_aoe_increase"          "1"
+            }
+            "mind_power_multiplier"     "3"
+            "building_damage_pct"       "20"
+            "fade_delay"                "0.5"
+            "scepter_mine_movespeed"    "75"
+            "mine_vision_radius"        "0"
+            "shard_vision_radius"
+            {
+                "value"                 "700"
+                "RequiresShard"         "1"
+            }
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+        }
+
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_6"
+    }
+
+    "techies_sticky_bomb_bonus"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/techies/techies_sticky_bomb_bonus"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    }
+
+    "special_bonus_unique_techies_fireworks_radius"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_techies_chain_bomb_movespeed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_techies_chain_bomb_create_move"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+}

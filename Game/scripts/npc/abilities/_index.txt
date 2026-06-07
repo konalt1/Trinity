@@ -1,0 +1,21 @@
+// Trinity — ability KV index (included from npc_abilities_custom.txt)
+#base "shared.txt"
+#base "units.txt"
+#base "chen.txt"
+#base "doom_bringer.txt"
+#base "furion.txt"
+#base "juggernaut.txt"
+#base "lich.txt"
+#base "lycan.txt"
+#base "ogre_magi.txt"
+#base "omniknight.txt"
+#base "phantom_assassin.txt"
+#base "silencer.txt"
+#base "techies.txt"
+#base "tinker.txt"
+#base "tusk.txt"
+#base "weaver.txt"
+
+"DOTAAbilities"
+{
+}

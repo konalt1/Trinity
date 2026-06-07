@@ -126,20 +126,27 @@ function modifier_techies_suicide_custom:OnDestroy()
 		radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+		DOTA_UNIT_TARGET_FLAG_NONE,
 		FIND_ANY_ORDER,
 		false
 	)
 
 	for _, unit in ipairs(units) do
-		ApplyDamage({
-			victim = unit,
-			attacker = caster,
-			ability = ability,
-			damage = damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-		})
-		unit:AddNewModifier(caster, ability, "modifier_stunned", { duration = duration * (1 - unit:GetStatusResistance()) })
+		if not unit:IsInvulnerable() then
+			ApplyDamage({
+				victim = unit,
+				attacker = caster,
+				ability = ability,
+				damage = damage,
+				damage_type = DAMAGE_TYPE_MAGICAL,
+			})
+
+			if not unit:IsMagicImmune() and not unit:IsDebuffImmune() then
+				unit:AddNewModifier(caster, ability, "modifier_stunned", {
+					duration = duration * (1 - unit:GetStatusResistance()),
+				})
+			end
+		end
 	end
 
 	ApplyDamage({

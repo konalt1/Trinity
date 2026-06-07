@@ -1,15 +1,5 @@
 chen_whip = class({})
 
-local function HasShardUpgrade(hero)
-	if not hero or hero:IsNull() then
-		return false
-	end
-	if hero.HasShard and hero:HasShard() then
-		return true
-	end
-	return hero:HasModifier("modifier_item_aghanims_shard")
-end
-
 local function GetAbilitySlotCount(unit)
 	if unit and unit.GetAbilityCount then
 		return unit:GetAbilityCount()
@@ -25,34 +15,62 @@ local function HasBehavior(ability, behavior)
 	return bit.band(ability:GetBehavior(), behavior) == behavior
 end
 
-local function IsChenBarrackUnit(unit)
-	if not unit or unit:IsNull() then
+local function IsTamedCreep(unit, caster)
+	if not unit or unit:IsNull() or not unit:IsAlive() then
 		return false
 	end
 
-	local unitName = unit:GetUnitName() or ""
-	return string.find(unitName, "npc_chen_barrack", 1, true) == 1
+	return unit.chen_tamed == true and unit.chen_owner_entindex == caster:entindex()
 end
 
-local function IsValidWhipTarget(target, caster)
-	if not target or target:IsNull() or not target:IsAlive() then
-		return false
+local function FindTamedCreepsInRadius(caster, position, radius)
+	local targets = {}
+	local units = FindUnitsInRadius(
+		caster:GetTeamNumber(),
+		position,
+		nil,
+		radius,
+		DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+		DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false
+	)
+
+	for _, unit in pairs(units) do
+		if IsTamedCreep(unit, caster) then
+			table.insert(targets, unit)
+		end
 	end
 
-	-- Allow enemy targets
-	if target:GetTeamNumber() ~= caster:GetTeamNumber() then
-		return true
-	end
+	return targets
+end
 
-	if not target:IsCreep() or target:IsHero() or target:IsBuilding() or target:IsAncient() then
-		return false
-	end
+local function ApplyWhipDamageToEnemies(caster, ability, position, radius)
+	local damage = ability:GetSpecialValueFor("damage")
+	local enemies = FindUnitsInRadius(
+		caster:GetTeamNumber(),
+		position,
+		nil,
+		radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false
+	)
 
-	if IsChenBarrackUnit(target) then
-		return false
+	for _, enemy in pairs(enemies) do
+		if enemy and not enemy:IsNull() and enemy:IsAlive() then
+			ApplyDamage({
+				victim = enemy,
+				attacker = caster,
+				damage = damage,
+				damage_type = DAMAGE_TYPE_MAGICAL,
+				ability = ability,
+			})
+		end
 	end
-
-	return true
 end
 
 local function IsCastableByWhip(ability)
@@ -64,7 +82,6 @@ local function IsCastableByWhip(ability)
 		return false
 	end
 
-	-- Allow AOE abilities
 	if DOTA_ABILITY_BEHAVIOR_TOGGLE and HasBehavior(ability, DOTA_ABILITY_BEHAVIOR_TOGGLE) then
 		return false
 	end
@@ -217,24 +234,18 @@ local function CastAbilityByWhip(caster, source, ability, radius, queue)
 		order.OrderType = DOTA_UNIT_ORDER_CAST_POSITION
 		local pos = FindBestEnemyPosition(caster, source, radius)
 		order.Position = pos
-		
-		-- Vector targeting support
+
 		if bit.band(behavior, vectorBehavior) ~= 0 then
-			-- Most vector abilities in OAA/Custom games use a "direction" which is position2 - position1
-			-- We can simulate this by providing a position that is further in the same direction
 			local direction = (pos - source:GetAbsOrigin()):Normalized()
 			order.OrderType = DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION
-			-- For some reason, the order table for vector target needs Position and VectorTargetPosition
 			order.VectorTargetPosition = pos + direction * 100
 		end
 
-		-- Add vision at the position for point-target abilities
 		AddFOWViewer(caster:GetTeamNumber(), pos, radius, 1.0, false)
 	else
 		return false
 	end
 
-	-- Grant temporary vision for unit-target abilities
 	if visionTarget and visionTarget:GetTeamNumber() ~= caster:GetTeamNumber() then
 		AddFOWViewer(caster:GetTeamNumber(), visionTarget:GetAbsOrigin(), radius, 1.0, false)
 	end
@@ -246,18 +257,6 @@ local function CastAbilityByWhip(caster, source, ability, radius, queue)
 
 	ExecuteOrderFromTable(order)
 	return true
-end
-
-function chen_whip:CastFilterResultTarget(target)
-	if IsValidWhipTarget(target, self:GetCaster()) then
-		return UF_SUCCESS
-	end
-
-	return UF_FAIL_CUSTOM
-end
-
-function chen_whip:GetCustomCastErrorTarget(target)
-	return "#dota_hud_error_chen_whip_invalid_target"
 end
 
 function chen_whip:GetCooldown(level)
@@ -303,79 +302,17 @@ function chen_whip:OnSpellStart()
 	end
 
 	local caster = self:GetCaster()
-	local target = self:GetCursorTarget()
-	
-	-- Redirection logic for enemies
-	if target:GetTeamNumber() ~= caster:GetTeamNumber() then
-		local radius = self:GetSpecialValueFor("search_radius")
-		local enemies = FindUnitsInRadius(
-			caster:GetTeamNumber(),
-			target:GetAbsOrigin(),
-			nil,
-			radius,
-			DOTA_UNIT_TARGET_TEAM_ENEMY,
-			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-			DOTA_UNIT_TARGET_FLAG_NONE,
-			FIND_CLOSEST,
-			false
-		)
-		
-		local bestEnemy = nil
-		for _, enemy in pairs(enemies) do
-			if enemy:IsRealHero() then
-				bestEnemy = enemy
-				break
-			end
-		end
-		
-		if not bestEnemy then
-			bestEnemy = enemies[1]
-		end
-		
-		if bestEnemy then
-			target = bestEnemy
-		else
-			-- No enemy found in radius, just use the original target if it's still valid
-			if not target:IsAlive() then return end
-		end
-	end
+	local position = self:GetCursorPosition()
+	local aoeRadius = self:GetSpecialValueFor("radius")
+	local searchRadius = self:GetSpecialValueFor("search_radius")
 
-	if not IsValidWhipTarget(target, caster) then
-		return
-	end
+	ApplyWhipDamageToEnemies(caster, self, position, aoeRadius)
 
-	local radius = self:GetSpecialValueFor("search_radius")
-
-	local targets = { target }
-	if HasShardUpgrade(caster) then
-		targets = {}
-		local shardRadius = self:GetSpecialValueFor("shard_radius")
-		if shardRadius <= 0 then
-			shardRadius = 600
-		end
-
-		local allies = FindUnitsInRadius(
-			caster:GetTeamNumber(),
-			target:GetAbsOrigin(),
-			nil,
-			shardRadius,
-			DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-			DOTA_UNIT_TARGET_BASIC,
-			DOTA_UNIT_TARGET_FLAG_NONE,
-			FIND_ANY_ORDER,
-			false
-		)
-
-		for _, unit in pairs(allies) do
-			if IsValidWhipTarget(unit, caster) then
-				table.insert(targets, unit)
-			end
-		end
-	end
+	local targets = FindTamedCreepsInRadius(caster, position, aoeRadius)
 
 	local totalCastCount = 0
 	for _, unit in pairs(targets) do
-		local castCount = CastAllWhippedAbilities(caster, unit, radius)
+		local castCount = CastAllWhippedAbilities(caster, unit, searchRadius)
 		if castCount > 0 then
 			totalCastCount = totalCastCount + castCount
 		end
@@ -383,7 +320,7 @@ function chen_whip:OnSpellStart()
 	end
 
 	if totalCastCount > 0 then
-		EmitSoundOn("Hero_Chen.PenitenceCast", target)
+		EmitSoundOn("Hero_Chen.PenitenceCast", targets[1])
 	else
 		EmitSoundOn("Hero_Chen.PenitenceCast", caster)
 	end

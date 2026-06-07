@@ -224,6 +224,7 @@ end
 function modifier_doom_ultimate_aura_debuff:CheckState()
     return {
         [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_MUTED] = true,
         [MODIFIER_STATE_PASSIVES_DISABLED] = true,
     }
 end

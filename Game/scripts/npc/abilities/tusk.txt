@@ -1,0 +1,38 @@
+// Trinity — tusk abilities
+"DOTAAbilities"
+{
+    "tusk_ice"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/Tusk/tusk_ice"
+        "AbilityTextureName"            "tusk_ice_shards"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "4"
+
+        "AbilityCastRange"              "1200"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "19 16 13 10"
+        "AbilityManaCost"               "100 110 120 130"
+
+        "AbilityValues"
+        {
+            "damage"                    "70 140 210 280"
+            "width"                     "200"
+            "speed"                     "900"
+            "duration"                  "7.0"
+            "radius"                    "200"
+            "angle"                     "20"
+        }
+
+        "precache"
+        {
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards.vpcf"
+            "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts"
+        }
+    }
+}

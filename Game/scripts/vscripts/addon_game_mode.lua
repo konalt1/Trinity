@@ -20,17 +20,21 @@ require ("items/item_mage_slayer")
 
 -- Загружаем способности Чена
 require ("abilities/chen/chen_holy_persuasion")
+require ("modifiers/chen/modifier_chen_holy_persuasion_mind_hp")
+require ("abilities/chen/barrack/chen_barrack_gold")
 require ("abilities/chen/chen_barrack")
+require ("abilities/chen/chen_sub_barrack")
+require ("abilities/chen/chen_worker_build")
 require ("abilities/chen/chen_whip")
 require ("abilities/chen/chen_martyr_mark")
-require ("modifiers/chen/modifier_chen_holy_persuasion_mind_hp")
+require ("abilities/chen/chen_ultimate_aura")
 
 -- Загружаем способности Лича
 require ("lich/frost_shield/lich_frost_shield_lua")
 require ("abilities/lich/ability_sinister_gaze")
 
 require ("abilities/ogre_magi/ogre_magi_reroll")
-require ("abilities/ogre_magi/ogre_magi_berserker_rage")
+require ("abilities/ogre_magi/ogre_magi_aghanim_club")
 require ("lich/frost_blast/lich_frost_blast_lua")
 
 -- Загружаем способности Tusk
@@ -59,6 +63,9 @@ function Precache( context )
 
 	PrecacheResource( "particle", "particles/econ/events/plus/high_five/high_five_impact.vpcf", context )
 	PrecacheResource( "particle", "particles/generic_gameplay/launchpad_progress_ring.vpcf", context )
+	PrecacheResource( "particle", "particles/items5_fx/repair_kit.vpcf", context )
+	PrecacheResource( "particle", "particles/base_attacks/ranged_tower_good.vpcf", context )
+	PrecacheResource( "particle", "particles/base_attacks/ranged_tower_bad.vpcf", context )
 	
 	-- Precache Trinity custom sounds
 	PrecacheResource( "soundfile", "soundevents/trinity_sounds.vsndevts", context )
@@ -96,6 +103,7 @@ function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
 	GameRules:GetGameModeEntity():SetRespawnTimeScale(1)
  	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
+	GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), GameMode)
 	
 	-- Set neutral creep spawn time to 0:00
 	GameRules:GetGameModeEntity():SetNeutralCreepSpawnTime(0.0)

@@ -1,0 +1,158 @@
+// Trinity — silencer abilities
+"DOTAAbilities"
+{
+    "silencer_arcane_curse_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/silencer/silencer_arcane_curse_custom"
+        "AbilityTextureName"            "silencer_curse_of_the_silent"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityCastRange"              "700"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityCooldown"               "20"
+        "AbilityManaCost"               "120 130 140 150"
+
+        "AbilityValues"
+        {
+            "radius"                    "350"
+            "damage"                    "16 24 32 40"
+            "initial_damage"            "20 40 60 80"
+            "base_duration"             "6"
+            "slow_pct"                  "16 19 22 25"
+            "penalty_duration"          "2"
+            "mind_power_multiplier"     "0.16 0.19 0.22 0.25"
+        }
+
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_silencer.vsndevts"
+            "particle"                  "particles/units/heroes/hero_silencer/silencer_curse_aoe.vpcf"
+            "particle"                  "particles/units/heroes/hero_silencer/silencer_curse.vpcf"
+        }
+    }
+
+    "silencer_last_word_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/silencer/silencer_last_word_custom"
+        "AbilityTextureName"            "silencer_last_word"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "HasScepterUpgrade"             "1"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityCastRange"              "900"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCooldown"               "22 18 14 10"
+        "AbilityManaCost"               "100 105 110 115"
+
+        "AbilityValues"
+        {
+            "damage"                    "120 180 240 300"
+            "debuff_duration"           "4"
+            "silence_duration"          "3 4 5 6"
+            "mind_power_multiplier"     "1"
+            "scepter_radius"            "700"
+        }
+
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_silencer.vsndevts"
+            "particle"                  "particles/units/heroes/hero_silencer/silencer_last_word_status.vpcf"
+            "particle"                  "particles/units/heroes/hero_silencer/silencer_last_word_dmg.vpcf"
+            "particle"                  "particles/generic_gameplay/generic_silenced.vpcf"
+        }
+    }
+
+    "silent_square"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/silencer/silent_square"
+        "AbilityTextureName"            "silencer/bts_silencer_ability/silencer_curse_of_the_silent"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+
+        "AbilityCastRange"              "900"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityCooldown"               "80 75 70"
+        "AbilityManaCost"               "300 200 100"
+
+        "AbilityValues"
+        {
+            "base_duration"             "5"
+            "mind_power_duration_bonus" "0.01"
+            "base_side_length"          "800"
+            "mind_power_side_bonus"     "5 6 7"
+            "think_interval"            "0.1"
+            "move_slow_pct"             "-40 -100 -160"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_silencer.vsndevts"
+            "particle"      "particles/items2_fx/gleipnir_root.vpcf"
+            "particle"      "particles/generic_gameplay/generic_silenced.vpcf"
+        }
+    }
+
+    "focus"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/silencer/focus"
+        "AbilityTextureName"            "silencer/silencer_ti10_immortal_ability_icon/silencer_ti10_immortal_arcane_curse"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "HasScepterUpgrade"             "1"
+        "HasShardUpgrade"               "0"
+        "IsGrantedByScepter"            "0"
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCooldown"               "30"
+        "AbilityManaCost"               "90 100 110 120"
+
+        "AbilityValues"
+        {
+            "duration"                  "5 6 7 8"
+            "shield_amount"             "100 200 300 400"
+            "mind_power_multiplier"     "2"
+            "scepter_ally_radius"       "400"
+        }
+
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
+            "particle"                  "particles/units/heroes/hero_antimage/antimage_counter.vpcf"
+            "particle"                  "particles/silencer/focus/lotus_orb_fallrewardline_2025_shield_fallrewardline_2025.vpcf"
+        }
+    }
+}

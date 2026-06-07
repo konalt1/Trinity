@@ -1,0 +1,297 @@
+// Trinity — omniknight abilities
+"DOTAAbilities"
+{
+	"custom_purification"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/omniknight/custom_purification"
+		"AbilityTextureName"			"omniknight_purification"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+		"HasShardUpgrade"				"1"
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
+		}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+	"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"400"
+		"AbilityCastPoint"				"0.2"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"11.0"
+		"AbilityManaCost"				"85 100 115 130"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+			"heal"
+			{
+				"value"					"100 170 240 310"
+			}
+			"radius"
+			{
+				"value"					"260"
+			}
+			"mind_power_multiplier"
+			{
+				"value"					"3.0"
+			}
+			"shard_bonus_radius"
+			{
+				"value"					"100"
+				"RequiresShard"			"1"
+			}
+		}
+	}
+
+	"omniknight_repel_lua"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/omniknight/omniknight_repel_lua/omniknight_repel_lua.lua"
+		"AbilityTextureName"			"omniknight_repel"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_repel_buff.vpcf"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_repel_cast.vpcf"
+		}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NONE"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"500"
+		"AbilityCastPoint"				"0.2"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"14.0"
+		"AbilityManaCost"				"50 60 70 80"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+			"duration"
+			{
+				"value"					"4 5 6 7"
+			}
+			"magic_damage_reduction"
+			{
+				"value"					"60"
+			}
+			"heal_amount"
+			{
+				"value"					"80 120 160 200"
+			}
+			"mind_power_multiplier"
+			{
+				"value"					"5.0"
+			}
+		
+		}
+	}
+
+    "omniknight_innate_oaa"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/omniknight/oaa_oracle_innate"
+        "AbilityTextureName"            "omniknight_hammer_of_purity"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "MaxLevel"                      "4"
+        
+
+        "AbilityValues"
+        {
+            "damage_per_heal"
+            {
+                "value"                 "0.2 0.3 0.4 0.5"
+            }
+            "stack_duration"
+            {
+                "value"                 "15.0"
+            }
+            "max_bonus_damage"          
+            {
+                "value"                 "100 200 300 400"
+            }
+        }
+    }
+
+	"holy_ground"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/omniknight/holy_ground"
+		"AbilityTextureName"			"Omniknight_Bell"
+		"FightRecapLevel"				"1"
+		"MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+			"soundfile"	"scripts/custom_game_sounds.txt"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_guardian_angel_cast.vpcf"
+			"particle"	"particles/econ/items/omniknight/omni_2021_immortal/omni_2021_immortal_buff_ring.vpcf"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
+			"particle"	"particles/units/heroes/hero_omniknight/omniknight_degen_aura_debuff.vpcf"
+		}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"600"
+		"AbilityCastPoint"				"0.3"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"100 85 70"
+		"AbilityManaCost"				"200 300 400"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+			"radius"
+			{
+				"value"					"700 800 900"
+				"affected_by_aoe_increase"	"0"
+			}
+			"duration"
+			{
+				"value"					"10"
+			}
+			"slow_percent"
+			{
+				"value"					"30 40 50"
+			}
+			"heal_amount"
+			{
+				"value"					"200 300 400"
+			}
+			"heal_interval"
+			{
+				"value"					"2.0"
+			}
+			"mind_power_multiplier"
+			{
+				"value"					"1.0"
+			}
+		}
+	}
+
+    "omniknight_holy_grenade"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/omniknight/omniknight_holy_grenade"
+        "AbilityTextureName"            "Holy_grenade"
+        "IsGrantedByScepter"            "1"
+        "HasScepterUpgrade"             "0"
+        "MaxLevel"                      "1"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_6"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "1000"
+        "AbilityCastPoint"              "0.1"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "20"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "100"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.25"  // generally used for damage only
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityValues"
+        {
+                "duration"              "1.2"
+                "countdown"             "2"
+                "radius"                "300"
+                "damage"                
+                {
+                    "value" "500"
+                }
+                "slow"                  "0"
+                "secondary_slow"        "0"
+                "secondary_slow_duration"       "0"
+                "explosion_radius"      "400"
+                "explosion_particle_radius_scale"
+                {
+                    "value"             "1"
+                }
+                "mind_power_multiplier"
+                {
+                    "value"             "3.0"
+                }
+                "speed"                 "500.0"
+                "acceleration"          "2000"
+                "pre_chase_time"        "0.1"
+                "max_chase_time"        "4"
+        }
+
+        "precache"
+        {
+            "model"     "models/heroes/sniper/concussive_grenade.vmdl"
+            "soundfile" "soundevents/trinity_sounds.vsndevts"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+            "particle"  "particles/events/crownfall/artillery/artillery_explosion_flash.vpcf"
+        }
+    }
+}

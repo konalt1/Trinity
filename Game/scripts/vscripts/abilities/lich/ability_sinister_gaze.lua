@@ -189,6 +189,8 @@ function modifier_ability_sinister_gaze_debuff:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	self.caster_origin = self.caster:GetAbsOrigin()
+	self.pull_speed = self.ability:GetSpecialValueFor("pull_speed")
+	self.pull_stop_distance = self.ability:GetSpecialValueFor("pull_distance")
 	self.illusion_spawned = false
 	self.channel_animation_modifier = nil
 	self.chain_particle = nil
@@ -248,6 +250,34 @@ function modifier_ability_sinister_gaze_debuff:OnIntervalThink()
 		self:Destroy()
 		return
 	end
+
+	self:PullTowardsCaster(FrameTime())
+end
+
+function modifier_ability_sinister_gaze_debuff:PullTowardsCaster(dt)
+	if not self.parent or self.parent:IsNull() then return end
+	if not self.caster or self.caster:IsNull() then return end
+
+	local parent_pos = self.parent:GetAbsOrigin()
+	local caster_pos = self.caster:GetAbsOrigin()
+	local offset = caster_pos - parent_pos
+	offset.z = 0
+
+	local distance = offset:Length2D()
+	if distance <= self.pull_stop_distance then
+		return
+	end
+
+	local direction = offset:Normalized()
+	local move_distance = self.pull_speed * dt
+	local remaining = distance - self.pull_stop_distance
+	if move_distance > remaining then
+		move_distance = remaining
+	end
+
+	local new_pos = parent_pos + direction * move_distance
+	self.parent:SetAbsOrigin(new_pos)
+	self.parent:SetForwardVector(direction)
 end
 
 function modifier_ability_sinister_gaze_debuff:OnDestroy()
@@ -314,6 +344,8 @@ end
 function modifier_ability_sinister_gaze_debuff:CheckState()
 	return {
 		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+		[MODIFIER_STATE_ROOTED] = true,
 	}
 end
 

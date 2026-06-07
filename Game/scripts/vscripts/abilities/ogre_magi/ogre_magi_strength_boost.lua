@@ -108,7 +108,9 @@ modifier_ogre_magi_strength_boost = class({
     {
     	MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
     	MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+    	MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
     	MODIFIER_PROPERTY_TOOLTIP,
+    	MODIFIER_PROPERTY_TOOLTIP2,
     } end,
 })
 
@@ -260,6 +262,14 @@ function modifier_ogre_magi_strength_boost:GetModifierBonusStats_Strength()
 	end
 end
 
+function modifier_ogre_magi_strength_boost:GetModifierMoveSpeedBonus_Percentage()
+	local ability = self:GetAbility()
+	if ability then
+		return -ability:GetSpecialValueFor("move_speed_slow_pct")
+	end
+	return 0
+end
+
 function modifier_ogre_magi_strength_boost:GetModifierPreAttack_BonusDamage()
 	if IsServer() then
 		return self.bonus_damage or 0
@@ -280,6 +290,14 @@ function modifier_ogre_magi_strength_boost:OnTooltip()
 		-- На клиенте получаем значение из стаков
 		return self:GetStackCount()
 	end
+end
+
+function modifier_ogre_magi_strength_boost:OnTooltip2()
+	local ability = self:GetAbility()
+	if ability then
+		return ability:GetSpecialValueFor("move_speed_slow_pct")
+	end
+	return 0
 end
 
 function modifier_ogre_magi_strength_boost:GetModifierDescription()

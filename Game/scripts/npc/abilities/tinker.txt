@@ -1,0 +1,69 @@
+// Trinity — tinker abilities
+"DOTAAbilities"
+{
+    "tinker_rearm_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tinker/tinker_rearm_custom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"       
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        
+        "AbilityTextureName"            "tinker_rearm"
+        "AbilityCooldown"               "50 45 40"
+
+        "AbilityValues"
+        {         
+            "duration"          "15"      
+            "spell_amp"
+            {
+                "value"                 "0"
+                "special_bonus_unique_tinker_rearm_spell_amp"             "+40"
+            }
+            "cooldown"
+            {
+                "value"                 "4 3 2"
+                "special_bonus_unique_tinker_rearm_cooldown"     "-0.5"
+            }     
+            "avatar"
+            {
+                "value"                 "0"
+                "special_bonus_unique_tinker_rearm_avatar"     "+1"
+            }   
+            "magic_resist"
+            {
+                "value"                 "50"
+            }        
+        }
+    }
+
+    "special_bonus_unique_tinker_rearm_cooldown"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_tinker_rearm_spell_amp"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    } 
+
+    "special_bonus_unique_tinker_rearm_avatar"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+}

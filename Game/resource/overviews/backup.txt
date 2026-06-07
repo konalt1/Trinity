@@ -1,0 +1,8 @@
+backup
+{
+	material materials/overviews/backup.vmat
+	pos_x -6720
+	pos_y 6720
+	scale 13.125
+}
+

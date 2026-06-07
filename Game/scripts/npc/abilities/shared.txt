@@ -1,0 +1,101 @@
+// Trinity — shared abilities
+"DOTAAbilities"
+{
+    "special_bonus_gold_200"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                 "200"
+        }
+    }     
+
+    "high_five_custom"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/high_five_custom"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE"
+        "AbilityCastAnimation"          "ACT_INVALID"
+        "MaxLevel"                      "1"
+        "AbilityTextureName"            "consumables/high_five"
+        "IsOnCastBar"                   "0"
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "60"
+
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityDamage"                 "0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+        "AbilityValues"
+        {
+            "think_interval"
+            {
+                "value" "0.2"
+            }
+            "acknowledge_range"
+            {
+                "value" "900"
+            }
+            "request_duration"
+            {
+                "value" "10"
+            }
+            "high_five_speed"
+            {
+                "value" "700"
+            }
+            "acknowledged_cooldown"
+            {
+                "value" "1"
+            }
+        }
+    } 
+
+    "mind_power"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/mind_power"
+        "AbilityTextureName"            "phantom_assassin_coup_de_grace"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "Innate"                        "1"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "2"
+        "AbilityLevel"                  "1"
+        
+        "AbilityValues"
+        {
+            "base_mind_power"           "0"
+        }
+    }
+
+    "empty_ability"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/empty_ability"
+        "AbilityTextureName"            "phantom_assassin_coup_de_grace"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+        "Innate"                        "1"
+    }
+}

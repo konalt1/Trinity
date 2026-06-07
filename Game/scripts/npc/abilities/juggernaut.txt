@@ -1,0 +1,295 @@
+// Trinity — juggernaut abilities
+"DOTAAbilities"
+{
+	"juggernaut_blade_fury_lua"
+	{
+		// Ability Technical Aspect
+		// base script folder	: scripts/vscripts
+		// base texture folder	: resource/flash3/images/spellicons
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/juggernaut/juggernaut_blade_fury_lua/juggernaut_blade_fury_lua"
+		"AbilityTextureName"			"juggernaut_blade_fury"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+		"HasShardUpgrade"				"1"
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+			"particle"	"particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf"
+			"particle"	"particles/units/heroes/hero_juggernaut/juggernaut_blade_fury_tgt.vpcf"
+		}
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"250"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"42 34 26 18"
+		"AbilityManaCost"				"120 110 100 90"
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+			"blade_fury_damage_tick"		"0.2"
+			"blade_fury_radius"				"250"
+			"blade_fury_damage"				"80 105 130 155"
+			"duration"						"5.0"
+			"mind_power_multiplier"			"1.5"
+			"shard_bonus_radius"
+			{
+				"value"						"100"
+				"RequiresShard"				"1"
+			}
+			"shard_movement_slow"
+			{
+				"value"						"35"
+				"RequiresShard"				"1"
+			}
+		}
+	}
+
+"ability_thirsty_blade"
+    {
+     	"BaseClass"						"ability_lua"
+        "ScriptFile"                    "abilities/juggernaut/ability_thirsty_blade"
+        "AbilityTextureName"            "juggernaut_blade_dance"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+
+		"AbilityValues"
+		{
+            "max_stacks"			"10"
+            "attack_damage"			"7 12 17 22"
+            "stack_per_slow"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_slow"           "+3"
+            }       
+            "slow_move_speed"       "-20"
+            "duration_debuff"       "2"
+            "bonus_lifesteal"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_lifesteal_up"           "+15"
+            }  
+            "reduce_cooldown_omni"
+            {
+                "value"                     "0"
+                "special_bonus_unique_thirsty_blade_cooldown_omni"           "+1"
+            }    
+		}
+    }
+
+"juggernaut_bloodlust"
+        {
+            // Ability Technical Aspect
+            //-------------------------------------------------------------------------------------------------------------
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/juggernaut/juggernaut_bloodlust"
+            "AbilityTextureName"            "juggernaut_rush"
+            
+            // Ability General
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+            "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+            "FightRecapLevel"               "1"
+            "MaxLevel"                      "4"
+            "RequiredLevel"                 "1"
+            "LevelsBetweenUpgrades"         "2"
+
+            // Casting
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityCastPoint"              "0.2"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+
+            // Time
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityCooldown"               "30 28 26 24"
+
+            // Cost
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityManaCost"               "30 40 50 60"
+            
+            // Special
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityValues"
+            {
+                "attack_speed_bonus"        "20 40 60 80"
+                "heal_per_attack"           "40 80 120 160"
+                "duration"                  "5.0"
+                "mind_power_heal_multiplier" "0.9"
+            }
+
+                    "precache"
+                {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+            "particle"      "particles/generic_gameplay/generic_lifesteal.vpcf"
+            "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_blade_dance.vpcf"
+            "particle"      "particles/units/heroes/hero_mars/mars_arena_of_blood_heal_flame.vpcf"
+                }
+        }
+
+"juggernaut_swift_slash_lua"
+        {
+            // Ability Technical Aspect
+            //-------------------------------------------------------------------------------------------------------------
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/juggernaut/juggernaut_swift_slash_lua/juggernaut_swift_slash_lua"
+            "AbilityTextureName"            "juggernaut_omni_slash"
+            
+            // Ability General
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+            "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+            "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+            "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+            "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+            "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+            "FightRecapLevel"               "2"
+            "MaxLevel"                      "3"
+            "RequiredLevel"                 "6"
+            "LevelsBetweenUpgrades"         "6"
+            "HasScepterUpgrade"             "1"
+
+            // Casting
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityCastRange"              "450"
+            "AbilityCastPoint"              "0.3"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+            
+            // Time
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityCooldown"               "45 40 35"
+
+            // Cost
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityManaCost"               "150 200 250"
+            
+            // Special
+            //-------------------------------------------------------------------------------------------------------------
+            "AbilityValues"
+            {
+                "duration"                  "1 1.25 1.5"
+                "damage"                    "0 0 0"
+                "slash_radius"              "425"
+                "max_targets"               "3"
+                "slash_delay"               "0.5"
+            }
+
+            "precache"
+            {
+                "soundfile"     "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+                "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_trail.vpcf"
+                "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_tgt.vpcf"
+            }
+        }
+
+"juggernaut_omni_slash"
+        {
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/juggernaut/juggernaut_omni_slash"
+            "AbilityTextureName"            "juggernaut_omni_slash"
+
+            "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+            "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+            "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+            "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+            "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+            "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+            "FightRecapLevel"               "2"
+            "MaxLevel"                      "3"
+            "RequiredLevel"                 "6"
+            "LevelsBetweenUpgrades"         "6"
+
+            "IsGrantedByScepter"            "1"
+            "HasScepterUpgrade"             "0"
+
+            "AbilityCastRange"              "450"
+            "AbilityCastPoint"              "0.3"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+
+            "AbilityCooldown"               "45 40 35"
+            "AbilityManaCost"               "150 200 250"
+
+            "AbilityValues"
+            {
+                "duration"                  "3.5"
+                "damage"                    "0 0 0"
+                "slash_radius"              "425"
+                "slash_delay"               "0.5"
+            }
+
+            "precache"
+            {
+                "soundfile"     "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+                "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_trail.vpcf"
+                "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_tgt.vpcf"
+                "particle"      "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_blur.vpcf"
+            }
+        }
+
+    "special_bonus_unique_thirsty_blade_slow"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_lifesteal_up"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_thirsty_blade_cooldown_omni"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_vampiric_ward_slow"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+
+    "special_bonus_unique_vampiric_ward_attack_speed"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    }
+}

@@ -69,17 +69,13 @@ function custom_purification:OnSpellStart()
 		false
 	)
 	
-	-- Check for Pure Damage talent
-	local pure_damage_talent = caster:FindAbilityByName("special_bonus_unique_custom_omniknight_5")
-	local damage_type = (pure_damage_talent and pure_damage_talent:GetLevel() > 0) and DAMAGE_TYPE_PURE or DAMAGE_TYPE_MAGICAL
-
 	-- Нанести урон врагам (базовый урон + бонус от Mind Power)
 	for _, enemy in pairs(enemies) do
 		ApplyDamage({
 			victim = enemy,
 			attacker = caster,
 			damage = total_damage,
-			damage_type = damage_type,
+			damage_type = DAMAGE_TYPE_MAGICAL,
 			ability = self
 		})
 	end

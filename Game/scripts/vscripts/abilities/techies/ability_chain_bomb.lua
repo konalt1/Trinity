@@ -11,7 +11,7 @@ end
 
 function ability_chain_bomb:OnSpellStart()
     local caster = self:GetCaster()
-    local point = self:GetCursorPosition()
+    local point = GetGroundPosition(self:GetCursorPosition(), nil)
     local mine = CreateUnitByName("npc_dota3_chainbomb", point, true, caster, caster, DOTA_TEAM_NEUTRALS)
 
     if not mine then
