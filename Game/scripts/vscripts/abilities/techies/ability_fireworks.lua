@@ -27,16 +27,18 @@ end
 
 local function fireworks_play_impact(attacker, splash_radius, origin)
     local visual_radius = splash_radius * 0.5
-    local fx = ParticleManager:CreateParticle(
+    CreateFOWParticle(
         "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf",
         PATTACH_WORLDORIGIN,
-        nil
+        nil,
+        origin,
+        function(fx)
+            ParticleManager:SetParticleControl(fx, 0, origin)
+            ParticleManager:SetParticleControl(fx, 1, Vector(visual_radius, visual_radius, visual_radius))
+        end
     )
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, Vector(visual_radius, visual_radius, visual_radius))
-    ParticleManager:ReleaseParticleIndex(fx)
 
-    EmitSoundOnLocationWithCaster(origin, "Hero_Techies.RemoteMine.Detonate", attacker)
+    EmitFOWSoundAtLocation(origin, "Hero_Techies.RemoteMine.Detonate")
 end
 
 local function fireworks_apply_proc_damage(params)
@@ -200,24 +202,11 @@ function modifier_fireworks:CreateFireworksChargeParticles()
         return
     end
 
-    self:DestroyFireworksChargeParticles()
-    self.charge_particles = {}
-
     local idx = ParticleManager:CreateParticle(FIREWORKS_CHARGE_ARC, PATTACH_ABSORIGIN_FOLLOW, parent)
-    table.insert(self.charge_particles, idx)
+    self:AddParticle(idx, false, false, -1, false, false)
 end
 
 function modifier_fireworks:DestroyFireworksChargeParticles()
-    if not self.charge_particles then
-        return
-    end
-    for _, pidx in ipairs(self.charge_particles) do
-        if pidx then
-            ParticleManager:DestroyParticle(pidx, false)
-            ParticleManager:ReleaseParticleIndex(pidx)
-        end
-    end
-    self.charge_particles = nil
 end
 
 function modifier_fireworks:IsHidden()
@@ -259,7 +248,7 @@ function modifier_fireworks:OnAttack(params)
     if params.attacker ~= parent then
         return
     end
-    EmitSoundOn(SOUND_SHOT, parent)
+    EmitFOWSoundOnUnit(parent, SOUND_SHOT)
 end
 
 function modifier_fireworks:OnAttackRecord(params)

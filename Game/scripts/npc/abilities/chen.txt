@@ -33,7 +33,7 @@
             "creep_bonus_as"            "35 50 65 80"
             "chen_creep_bonus_ms_pct"   "20 25 30 35"
             "chen_creep_haste_duration" "1.5"
-            "creep_search_radius"       "20000"
+            "creep_search_radius"       "900"
             "attack_refresh_interval"   "0.4"
         }
 

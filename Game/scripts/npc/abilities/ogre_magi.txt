@@ -23,8 +23,8 @@
             "stun_duration"             "1.5"
             "radius"                    "300"
             "delay"                     "0.8"
-            "strength_damage_bonus"     "3.0"
-            "strength_radius_bonus"     "2.0"
+            "strength_damage_bonus"     "2.5"
+            "strength_radius_bonus"     "1.4"
             "channel_time"              "0.1"
         }
         "precache"
@@ -132,9 +132,9 @@
         {
             "base_strength_bonus"       "8 16 24 32"
             "bonus_damage"              "20 40 60 80"
-            "mind_power_multiplier"     "1.5"
+            "mind_power_multiplier"     "1.3"
             "duration"                  "8"
-            "move_speed_slow_pct"       "10"
+            "move_speed_slow_pct"       "20"
         }
         
         "precache"

@@ -425,6 +425,8 @@ function GetLivingBarrackForHero(hero)
     return found
 end
 
+ChenBarrackGold.FindLivingBarrackForHero = GetLivingBarrackForHero
+
 local function LevelBarrackAbilities(barrack)
     if not barrack or barrack:IsNull() then
         return
@@ -565,8 +567,9 @@ local function RecalculateBarrackProductionTimers(barrack)
         deadline = now + remaining
         currentOrder.spawn_at = deadline
 
-        if IsValidProductionModifier(currentOrder.production_modifier) then
-            SyncProductionModifierTimer(currentOrder.production_modifier, deadline - now)
+        local currentModifier = EnsureProductionModifier(barrack, currentOrder)
+        if IsValidProductionModifier(currentModifier) then
+            SyncProductionModifierTimer(currentModifier, deadline - now)
         end
     end
 
@@ -575,8 +578,9 @@ local function RecalculateBarrackProductionTimers(barrack)
         deadline = deadline + productionTime
         item.spawn_at = deadline
 
-        if IsValidProductionModifier(item.production_modifier) then
-            PauseProductionModifierTimer(item.production_modifier)
+        local queueModifier = EnsureProductionModifier(barrack, item)
+        if IsValidProductionModifier(queueModifier) then
+            PauseProductionModifierTimer(queueModifier)
         end
     end
 end
@@ -590,6 +594,11 @@ local function DestroyProductionModifier(item)
         item.production_modifier = nil
     end
 end
+
+ChenBarrackProduction = ChenBarrackProduction or {}
+ChenBarrackProduction.EnsureModifier = EnsureProductionModifier
+ChenBarrackProduction.RecalculateTimers = RecalculateBarrackProductionTimers
+ChenBarrackProduction.DestroyModifier = DestroyProductionModifier
 
 local function CreateProductUnit(item, spawnPosition, ownerHero, teamNumber)
     local unitName = item.unit_name
@@ -856,7 +865,6 @@ local function QueueBarrackWorker(self)
         )
 
         if (barrack.chen_active_productions or 0) > 0 then
-            EnsureProductionModifier(barrack, productionItem)
             RecalculateBarrackProductionTimers(barrack)
         end
 
@@ -971,7 +979,6 @@ local function QueueBarrackHunter(self)
         )
 
         if (barrack.chen_active_productions or 0) > 0 then
-            EnsureProductionModifier(barrack, productionItem)
             RecalculateBarrackProductionTimers(barrack)
         end
 
@@ -1087,7 +1094,6 @@ local function QueueBarrackHealer(self)
         )
 
         if (barrack.chen_active_productions or 0) > 0 then
-            EnsureProductionModifier(barrack, productionItem)
             RecalculateBarrackProductionTimers(barrack)
         end
 
@@ -1203,7 +1209,6 @@ local function QueueBarrackBrute(self)
         )
 
         if (barrack.chen_active_productions or 0) > 0 then
-            EnsureProductionModifier(barrack, productionItem)
             RecalculateBarrackProductionTimers(barrack)
         end
 
@@ -2159,6 +2164,45 @@ function ChenBarrackKickWorkerGather(worker)
     end
 end
 
+function ChenBarrackReassignUnitsToBarrack(hero, barrack)
+    if not hero or hero:IsNull() or not IsValidBarrackEntity(barrack) then
+        return
+    end
+
+    local units = FindUnitsInRadius(
+        hero:GetTeamNumber(),
+        hero:GetAbsOrigin(),
+        nil,
+        FIND_UNITS_EVERYWHERE,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false
+    )
+
+    for _, unit in pairs(units) do
+        if ChenBarrackGold.IsBarrackUnit(unit) and unit:IsAlive() and ChenBarrackGold.GetOwnerHero(unit) == hero then
+            ChenBarrackGold.ReassignHomeBarrack(unit, barrack, hero)
+
+            if IsChenBarrackWorker(unit) then
+                unit.chen_worker_gather_target_key = nil
+                unit.chen_worker_gather_paused_until = nil
+
+                local aiModifier = unit:FindModifierByName("modifier_chen_worker_gather_ai")
+                if aiModifier then
+                    aiModifier.waitingBloomKey = nil
+                    aiModifier.lastMoveTarget = nil
+                    aiModifier.targetBloomKey = nil
+                    aiModifier.progressDist = nil
+                end
+
+                ChenBarrackKickWorkerGather(unit)
+            end
+        end
+    end
+end
+
 local function IsWorkerPauseOrder(orderType)
     return orderType == DOTA_UNIT_ORDER_MOVE_TO_POSITION
         or orderType == DOTA_UNIT_ORDER_MOVE_TO_TARGET
@@ -2257,6 +2301,7 @@ function chen_barrack:OnSpellStart()
     FindClearSpaceForUnit(barrack, point, false)
     LevelBarrackAbilities(barrack)
     ChenBarrackGold.SyncDisplay(barrack)
+    ChenBarrackReassignUnitsToBarrack(caster, barrack)
     BarrackDebug("Barrack spawned", BarrackDescribeUnit(barrack), "owner", BarrackDescribeUnit(caster))
 
     Timers:CreateTimer(0.1, function()

@@ -57,18 +57,13 @@
 
         "AbilityValues"
         {
-            "explosion_radius"          "450"
+            "explosion_radius"          "300"
             "damage"                    "25 50 75 100"
-            "buff_duration"             "0.3"
+            "buff_duration"             "0.5"
             "bonus_armor"               "1000"
             "disarm_duration"           "2"
         }
 
-        "precache"
-        {
-            "particle"  "particles/units/heroes/hero_techies/techies_tazer_explode.vpcf"
-            "particle"  "particles/units/heroes/hero_techies/techies_tazer_ambient.vpcf"
-        }
     }
 
     "techies_suicide_custom"

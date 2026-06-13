@@ -1,3 +1,47 @@
+require("utils/fow_effects")
+
+UNIT_KV_CACHE = UNIT_KV_CACHE or {}
+UNIT_KV_LOADED = UNIT_KV_LOADED or false
+
+local UNIT_KV_FILES = {
+	"scripts/npc/npc_units.txt",
+	"scripts/npc/npc_units_custom.txt",
+}
+
+local function LoadUnitKeyValues()
+	if UNIT_KV_LOADED then
+		return
+	end
+
+	UNIT_KV_LOADED = true
+
+	for _, path in ipairs(UNIT_KV_FILES) do
+		local kv = LoadKeyValues(path)
+		if kv then
+			for unitName, unitData in pairs(kv) do
+				if type(unitData) == "table" then
+					UNIT_KV_CACHE[unitName] = unitData
+				end
+			end
+		end
+	end
+end
+
+function GetUnitKeyValue(unitName, key)
+	if not unitName or not key then
+		return nil
+	end
+
+	LoadUnitKeyValues()
+
+	local unitData = UNIT_KV_CACHE[unitName]
+	if unitData then
+		return unitData[key]
+	end
+
+	return nil
+end
+
 function GiveGoldPlayers( gold )
 	for index=0 ,4 do
 		if PlayerResource:HasSelectedHero(index) then

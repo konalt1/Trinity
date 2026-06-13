@@ -139,20 +139,50 @@ function ChenBarrackGold.GetUnitGoldMode(unitName)
     return "shared"
 end
 
+local function IsUsableHomeBarrack(barrack)
+    return IsValidUnit(barrack) and barrack:IsAlive() and not barrack.chen_is_destroyed
+end
+
+function ChenBarrackGold.ReassignHomeBarrack(unit, barrack, ownerHero)
+    if not IsValidUnit(unit) or not IsUsableHomeBarrack(barrack) then
+        return false
+    end
+
+    ownerHero = ownerHero or ChenBarrackGold.GetOwnerHero(unit) or ChenBarrackGold.GetOwnerHero(barrack)
+    unit.chen_home_barrack = barrack
+    unit.chen_home_barrack_entindex = barrack:entindex()
+    if ownerHero then
+        unit.chen_owner_entindex = ownerHero:entindex()
+    end
+    return true
+end
+
 function ChenBarrackGold.GetHomeBarrack(unit)
     if not IsValidUnit(unit) then
         return nil
     end
 
-    if IsValidUnit(unit.chen_home_barrack) then
+    if IsUsableHomeBarrack(unit.chen_home_barrack) then
         return unit.chen_home_barrack
     end
+    unit.chen_home_barrack = nil
 
     if unit.chen_home_barrack_entindex then
         local ok, barrack = pcall(EntIndexToHScript, unit.chen_home_barrack_entindex)
-        if ok and IsValidUnit(barrack) then
+        if ok and IsUsableHomeBarrack(barrack) then
             unit.chen_home_barrack = barrack
             return barrack
+        end
+    end
+
+    if ChenBarrackGold.FindLivingBarrackForHero then
+        local ownerHero = ChenBarrackGold.GetOwnerHero(unit)
+        if ownerHero then
+            local living = ChenBarrackGold.FindLivingBarrackForHero(ownerHero)
+            if living then
+                ChenBarrackGold.ReassignHomeBarrack(unit, living, ownerHero)
+                return living
+            end
         end
     end
 

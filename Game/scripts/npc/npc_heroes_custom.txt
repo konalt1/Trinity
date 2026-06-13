@@ -255,6 +255,8 @@
 		"Ability1"                                      "silencer_arcane_curse_custom"
 		"Ability3"                                      "silencer_last_word_custom"
 		"Ability6"                                      "silent_square"
+		"Ability5"                                      "generic_hidden"
+		"Ability4"                                      "generic_hidden"
 
 		"Ability10"                                     "special_bonus_unique_custom_silencer_1"
 		"Ability11"                                     "special_bonus_unique_custom_silencer_2"
@@ -271,9 +273,9 @@
 		"Ability1"										"chen_martyr_mark"
 		"Ability2"										"chen_holy_persuasion_custom"
 		"Ability3"										"chen_whip"
-		"Ability6"										"chen_ultimate_aura"
+		"Ability4"										"chen_ultimate_aura"
 		"Ability5"										"generic_hidden"
-		"Ability4"										"chen_barrack"
+		"Ability6"										"chen_barrack"
 
 
 		"Ability10"										"special_bonus_unique_custom_chen_1"

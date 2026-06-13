@@ -57,7 +57,7 @@ function techies_suicide_custom:OnSpellStart()
 		activity = ACT_DOTA_OVERRIDE_ABILITY_2,
 	})
 
-	caster:EmitSound("Hero_Techies.BlastOff.Cast")
+	EmitFOWSoundOnUnit(caster, "Hero_Techies.BlastOff.Cast")
 
 	arc:SetEndCallback(function(interrupted)
 		local mod = caster:FindModifierByName("modifier_techies_suicide_custom")
@@ -111,11 +111,18 @@ function modifier_techies_suicide_custom:OnDestroy()
 	local duration = ability:GetSpecialValueFor("stun_duration")
 	local hp_cost = caster:GetHealth() / 100 * ability:GetSpecialValueFor("hp_cost")
 
-	caster:EmitSound("Hero_Techies.Suicide")
+	local landing_origin = caster:GetAbsOrigin()
+	EmitFOWSoundAtLocation(landing_origin, "Hero_Techies.Suicide")
 
-	local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_blast_off.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
-	ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:ReleaseParticleIndex(particle)
+	CreateFOWParticle(
+		"particles/units/heroes/hero_techies/techies_blast_off.vpcf",
+		PATTACH_WORLDORIGIN,
+		self:GetParent(),
+		landing_origin,
+		function(particle)
+			ParticleManager:SetParticleControl(particle, 0, landing_origin)
+		end
+	)
 
 	GridNav:DestroyTreesAroundPoint(caster:GetAbsOrigin(), radius, true)
 

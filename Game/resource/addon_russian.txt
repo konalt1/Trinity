@@ -574,8 +574,8 @@
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_agility"				"+ к ловкости"
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_intellect"				"+ к интеллекту"
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_attack_speed"			"+ к скорости атаки"
-		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"+ к множителю регенерации маны"
-		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"+ к скорости применения"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"%+ к множителю регенерации маны"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"%+ к скорости применения"
 
 		// Meteor Hammer
 		"DOTA_Tooltip_item_meteor_hammer_Description"								""
@@ -755,6 +755,14 @@
 		"npc_chen_building_dragon_barrack"										"Ущелье чёрных драконов"
 		"npc_chen_ancient_thunderhide"											"Ancient Thunderhide"
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
+
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Огненный шар"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"Каждая атака оставляет под целью горящую лужу на земле.
+
+Враги в зоне получают магический урон каждую секунду."
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_radius"			"РАДИУС:"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_damage_per_second"	"УРОН В СЕКУНДУ:"
 
 		// Barrack Unit
 		"npc_chen_barrack"													"Барак Чена"

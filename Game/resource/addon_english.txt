@@ -536,8 +536,8 @@
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_agility"				"+ Agility"
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_intellect"				"+ Intelligence"
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_attack_speed"			"+ Attack Speed"
-		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"+ Mana regeneration multiplier"
-		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"+ Cast speed bonus"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"%+Mana regeneration multiplier"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"%+Cast speed bonus"
 
 		// Meteor Hammer
 		"DOTA_Tooltip_item_meteor_hammer_Description"								""
@@ -700,6 +700,14 @@ The finished barracks can queue Ancient Black Dragon using the main barracks' go
 		"npc_chen_building_dragon_barrack"										"Black Dragon Pit"
 		"npc_chen_ancient_thunderhide"											"Ancient Thunderhide"
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
+
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Fireball"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"Each attack leaves a burning patch on the ground under the target.
+
+Enemies in the area take magical damage every second."
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_radius"			"RADIUS:"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_duration"			"DURATION:"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_damage_per_second"	"DAMAGE PER SECOND:"
 
 		// Barrack Unit
 		"npc_chen_barrack"													"Chen's Barracks"

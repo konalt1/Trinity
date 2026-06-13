@@ -73,7 +73,7 @@ function ability_chain_bomb:SetupMine(mine)
     mine:SetHealth(10)
     mine:SetModel(CHAIN_BOMB_MODEL)
     mine:SetOriginalModel(CHAIN_BOMB_MODEL)
-    mine:SetModelScale(0.75)
+    mine:SetModelScale(1.1)
     mine:SetRenderColor(80, 255, 80)
     mine.chain_bomb_owner_entindex = caster:entindex()
     mine.chain_bomb_owner_team = caster:GetTeamNumber()
@@ -82,7 +82,7 @@ function ability_chain_bomb:SetupMine(mine)
 
     self:ApplyMineMovementState(mine)
 
-    EmitSoundOnLocationWithCaster(mine:GetAbsOrigin(), "Hero_Techies.RemoteMine.Plant", caster)
+    EmitFOWSoundAtLocation(mine:GetAbsOrigin(), "Hero_Techies.RemoteMine.Plant")
 end
 
 function ability_chain_bomb:GetMineDamage()
@@ -130,16 +130,18 @@ function ability_chain_bomb:DetonateMine(mine, source_attacker)
     local building_damage_pct = self:GetSpecialValueFor("building_damage_pct") * 0.01
     local neutral_attacker = source_attacker or mine
 
-    local fx = ParticleManager:CreateParticle(
+    CreateFOWParticle(
         "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf",
         PATTACH_WORLDORIGIN,
-        nil
+        nil,
+        origin,
+        function(fx)
+            ParticleManager:SetParticleControl(fx, 0, origin)
+            ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
+        end
     )
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
-    ParticleManager:ReleaseParticleIndex(fx)
 
-    EmitSoundOnLocationWithCaster(origin, "Hero_Techies.RemoteMine.Detonate", caster)
+    EmitFOWSoundAtLocation(origin, "Hero_Techies.RemoteMine.Detonate")
 
     local enemies = FindUnitsInRadius(
         enemy_team,
@@ -260,6 +262,8 @@ function modifier_ability_chain_bomb_mine:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_DEATH,
     }
 end
@@ -316,23 +320,62 @@ function modifier_ability_chain_bomb_mine:IsFriendlyTrigger(attacker)
     return self:IsMineFromSameOwner(attacker)
 end
 
-function modifier_ability_chain_bomb_mine:GetModifierIncomingDamage_Percentage(params)
-    if not IsServer() or params.target ~= self:GetParent() then
-        return 0
+function modifier_ability_chain_bomb_mine:GetDamageEventTarget(params)
+    if not params then
+        return nil
     end
 
-    local attacker = params.attacker
+    return params.target or params.unit
+end
+
+function modifier_ability_chain_bomb_mine:ShouldBlockIncomingDamage(params)
+    if not IsServer() then
+        return false
+    end
+
+    local parent = self:GetParent()
+    local target = self:GetDamageEventTarget(params)
+
+    if target and target ~= parent then
+        return false
+    end
+
+    local attacker = params and params.attacker
 
     if self:IsFriendlyTrigger(attacker) then
-        return 0
+        return false
     end
 
-    if attacker and attacker:GetTeamNumber() == self:GetMineOwnerTeam() then
+    if attacker and not attacker:IsNull() and attacker:GetTeamNumber() == self:GetMineOwnerTeam() then
+        return true
+    end
+
+    if not params or params.damage_type == DAMAGE_TYPE_PHYSICAL then
+        return false
+    end
+
+    return true
+end
+
+function modifier_ability_chain_bomb_mine:GetModifierIncomingDamage_Percentage(params)
+    if self:ShouldBlockIncomingDamage(params) then
         return -100
     end
 
-    if params.damage_type ~= DAMAGE_TYPE_PHYSICAL then
-        return -100
+    return 0
+end
+
+function modifier_ability_chain_bomb_mine:GetAbsoluteNoDamageMagical(params)
+    if self:ShouldBlockIncomingDamage(params) and params and params.damage_type == DAMAGE_TYPE_MAGICAL then
+        return 1
+    end
+
+    return 0
+end
+
+function modifier_ability_chain_bomb_mine:GetAbsoluteNoDamagePure(params)
+    if self:ShouldBlockIncomingDamage(params) and params and params.damage_type == DAMAGE_TYPE_PURE then
+        return 1
     end
 
     return 0

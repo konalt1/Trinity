@@ -27,4 +27,11 @@
         "sound_event"   "string"
         "text_token"    "string"
     }
+
+    "trinity_kill_toast"
+    {
+        "killer_player" "short"
+        "killed_player" "short"
+        "gold"          "long"
+    }
 }

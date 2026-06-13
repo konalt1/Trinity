@@ -1,3 +1,5 @@
+require("abilities/chen/barrack/units/chen_ancient_black_dragon_fire_puddle")
+
 chen_sub_barrack_summon_thunderhide = class({})
 chen_sub_barrack_summon_dragon = class({})
 
@@ -90,19 +92,28 @@ local function StartNextProduction(subBarrack)
     subBarrack.chen_current_order = item
 
     local productionTime = math.max(0.1, tonumber(item.production_time) or 30)
-    subBarrack:AddNewModifier(subBarrack, nil, "modifier_chen_barrack_producing", {
-        duration = productionTime,
-        unit_name = item.unit_name,
-        production_time = productionTime,
-    })
+    item.production_time = productionTime
+
+    if ChenBarrackProduction then
+        ChenBarrackProduction.EnsureModifier(subBarrack, item)
+        ChenBarrackProduction.RecalculateTimers(subBarrack)
+    end
 
     Timers:CreateTimer(productionTime, function()
         if not IsValidEntity(subBarrack) or not subBarrack:IsAlive() then
+            if ChenBarrackProduction then
+                ChenBarrackProduction.DestroyModifier(item)
+            end
+            subBarrack.chen_active_productions = math.max(0, (subBarrack.chen_active_productions or 1) - 1)
+            subBarrack.chen_current_order = nil
+            StartNextProduction(subBarrack)
             return nil
         end
 
         CompleteSummon(subBarrack, item)
-        subBarrack:RemoveModifierByName("modifier_chen_barrack_producing")
+        if ChenBarrackProduction then
+            ChenBarrackProduction.DestroyModifier(item)
+        end
         subBarrack.chen_active_productions = math.max(0, (subBarrack.chen_active_productions or 1) - 1)
         subBarrack.chen_current_order = nil
         StartNextProduction(subBarrack)
@@ -150,7 +161,9 @@ local function QueueSummon(self, unitName)
     table.insert(subBarrack.chen_production_queue, item)
     EmitSoundOn("General.Buy", subBarrack)
 
-    if (subBarrack.chen_active_productions or 0) == 0 then
+    if (subBarrack.chen_active_productions or 0) > 0 and ChenBarrackProduction then
+        ChenBarrackProduction.RecalculateTimers(subBarrack)
+    elseif (subBarrack.chen_active_productions or 0) == 0 then
         StartNextProduction(subBarrack)
     end
 
@@ -306,6 +319,7 @@ function ChenSubBarrack.Precache(context)
     PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl", context)
     PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_black_dragon/n_creep_black_dragon.vmdl", context)
     PrecacheResource("particle", "particles/neutral_fx/black_dragon_attack.vpcf", context)
+    PrecacheResource("particle", "particles/units/neutral/black_dragon/black_dragon_fireball.vpcf", context)
     PrecacheResource("soundfile", "soundevents/game_sounds_creeps.vsndevts", context)
     PrecacheUnitByNameSync(THUNDERHIDE_UNIT, context)
     PrecacheUnitByNameSync(DRAGON_UNIT, context)

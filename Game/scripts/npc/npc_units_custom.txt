@@ -260,7 +260,7 @@
 		"BaseClass"                 "npc_dota_creature"
 		"SoundSet"                  ""
 		"Level"                     "1"
-		"ModelScale"                "0.75"
+		"ModelScale"                "1.5"
         "MinimapIcon"               "minimap_death"
         "MinimapIconSize"           "450"
 
@@ -917,6 +917,7 @@
         "ChenBarrackGoldMode"       "shared_carrier"
 
         "Ability1"                  "chen_barrack_hunter_focus"
+        "Ability2"                  "creep_piercing"
 
         "ArmorPhysical"             "1"
         "MagicalResistance"         "0"
@@ -970,6 +971,7 @@
         "ChenBarrackGoldMode"       "shared_carrier"
 
         "Ability1"                  "chen_barrack_heal"
+        "Ability2"                  "creep_piercing"
 
         "ArmorPhysical"             "1"
         "MagicalResistance"         "0"
@@ -1273,6 +1275,8 @@
         "UseNeutralCreepBehavior"   "0"
         "ChenBarrackGoldMode"       "shared_carrier"
 
+        "Ability1"                  "chen_ancient_black_dragon_fire_puddle"
+
         "ArmorPhysical"             "4"
         "MagicalResistance"         "30"
 
@@ -1294,7 +1298,7 @@
         "BountyGoldMin"             "0"
         "BountyGoldMax"             "0"
 
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_FLY"
         "MovementSpeed"             "300"
         "MovementTurnRate"          "0.9"
 

@@ -33,13 +33,12 @@ function ability_reactive_tazer:OnSpellStart()
 
     local duration = self:GetSpecialValueFor("buff_duration")
     caster:AddNewModifier(caster, self, "modifier_reactive_tazer_buff", { duration = duration })
-    caster:EmitSound("Hero_Techies.ReactiveTazer.Cast")
+    EmitFOWSoundOnUnit(caster, "Hero_Techies.ReactiveTazer.Cast")
 end
 
 modifier_reactive_tazer_buff = modifier_reactive_tazer_buff or class({})
 
 function modifier_reactive_tazer_buff:OnCreated()
-    self.tazer_particles = {}
     self.countdown_fx = nil
     self:OnRefresh()
     if IsServer() then
@@ -82,7 +81,7 @@ function modifier_reactive_tazer_buff:CreateTazerBuffParticles()
 
     local function add(path)
         local idx = ParticleManager:CreateParticle(path, PATTACH_ABSORIGIN_FOLLOW, parent)
-        table.insert(self.tazer_particles, idx)
+        self:AddParticle(idx, false, false, -1, false, false)
     end
 
     add(TAZER_P_AMBIENT)
@@ -91,23 +90,9 @@ end
 
 function modifier_reactive_tazer_buff:DestroyTazerBuffParticles()
     if self.countdown_fx then
-        ParticleManager:DestroyParticle(self.countdown_fx, false)
-        ParticleManager:ReleaseParticleIndex(self.countdown_fx)
+        DestroyFOWParticleForTeams(self.countdown_fx)
         self.countdown_fx = nil
     end
-
-    if not self.tazer_particles then
-        return
-    end
-
-    for _, idx in ipairs(self.tazer_particles) do
-        if idx then
-            ParticleManager:DestroyParticle(idx, false)
-            ParticleManager:ReleaseParticleIndex(idx)
-        end
-    end
-
-    self.tazer_particles = {}
 end
 
 function modifier_reactive_tazer_buff:IsHidden()
@@ -152,14 +137,18 @@ function modifier_reactive_tazer_buff:OnIntervalThink()
 
     if time_left > lead + 0.05 then
         if self.countdown_fx then
-            ParticleManager:DestroyParticle(self.countdown_fx, false)
-            ParticleManager:ReleaseParticleIndex(self.countdown_fx)
+            DestroyFOWParticleForTeams(self.countdown_fx)
             self.countdown_fx = nil
         end
     elseif time_left > 0 and time_left <= lead and not self.countdown_fx then
         local parent = self:GetParent()
         if parent and not parent:IsNull() then
-            self.countdown_fx = ParticleManager:CreateParticle(TAZER_P_COUNTDOWN, PATTACH_ABSORIGIN_FOLLOW, parent)
+            self.countdown_fx = CreateFOWParticleForTeams(
+                TAZER_P_COUNTDOWN,
+                PATTACH_ABSORIGIN_FOLLOW,
+                parent,
+                parent:GetAbsOrigin()
+            )
         end
     end
 end
@@ -216,7 +205,7 @@ function modifier_reactive_tazer_buff:OnAttacked(params)
     attacker:AddNewModifier(caster, ability, "modifier_reactive_tazer_disarm", { duration = self.disarm_duration })
     attacker:AddNewModifier(caster, ability, "modifier_reactive_tazer_attacker_arc", { duration = self.disarm_duration })
 
-    EmitSoundOn("Hero_Zuus.ArcLightning.Cast", attacker)
+    EmitFOWSoundOnUnit(attacker, "Hero_Zuus.ArcLightning.Cast")
 end
 
 function modifier_reactive_tazer_buff:OnDestroy()
@@ -257,12 +246,12 @@ function modifier_reactive_tazer_buff:OnDestroy()
     local damage = ability:GetDamage()
     local disarm_dur = ability:GetSpecialValueFor("disarm_duration")
 
-    local fx = ParticleManager:CreateParticle(TAZER_P_EXPLODE, PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
-    ParticleManager:ReleaseParticleIndex(fx)
+    CreateFOWParticle(TAZER_P_EXPLODE, PATTACH_WORLDORIGIN, nil, origin, function(fx)
+        ParticleManager:SetParticleControl(fx, 0, origin)
+        ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
+    end)
 
-    EmitSoundOnLocationWithCaster(origin, "Hero_Techies.ReactiveTazer.Detonate", parent)
+    EmitFOWSoundAtLocation(origin, "Hero_Techies.ReactiveTazer.Detonate")
 
     local enemies = FindUnitsInRadius(
         caster:GetTeamNumber(),
@@ -338,33 +327,9 @@ function modifier_reactive_tazer_attacker_arc:OnCreated()
         return
     end
 
-    self.fx = ParticleManager:CreateParticle(TAZER_P_ARCS_WRAP_INV, PATTACH_ABSORIGIN_FOLLOW, parent)
+    local idx = ParticleManager:CreateParticle(TAZER_P_ARCS_WRAP_INV, PATTACH_ABSORIGIN_FOLLOW, parent)
+    self:AddParticle(idx, false, false, -1, false, false)
 end
 
 function modifier_reactive_tazer_attacker_arc:OnRefresh()
-    if not IsServer() then
-        return
-    end
-
-    if self.fx then
-        ParticleManager:DestroyParticle(self.fx, false)
-        ParticleManager:ReleaseParticleIndex(self.fx)
-        self.fx = nil
-    end
-
-    local parent = self:GetParent()
-    if parent and not parent:IsNull() then
-        self.fx = ParticleManager:CreateParticle(TAZER_P_ARCS_WRAP_INV, PATTACH_ABSORIGIN_FOLLOW, parent)
-    end
-end
-
-function modifier_reactive_tazer_attacker_arc:OnDestroy()
-    if not IsServer() then
-        return
-    end
-
-    if self.fx then
-        ParticleManager:DestroyParticle(self.fx, false)
-        ParticleManager:ReleaseParticleIndex(self.fx)
-    end
 end

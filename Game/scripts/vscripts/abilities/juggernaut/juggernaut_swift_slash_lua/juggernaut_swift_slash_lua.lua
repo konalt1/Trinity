@@ -53,7 +53,7 @@ function juggernaut_swift_slash_lua:OnSpellStart()
 	local delay_multiplier = 1.0 -- increase this to make slashes slower
 	local jump_delay = (base_delay * delay_multiplier) / attack_speed
 
-	-- make caster spell immune during swift slash
+	-- make caster invulnerable during swift slash
 	caster:AddNewModifier(
 		caster, -- player source
 		self, -- ability source

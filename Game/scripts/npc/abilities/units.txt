@@ -86,8 +86,8 @@
             "bloom_radius"              "800"
             "spread_radius"             "100"
             "bloom_duration"            "60"
-            "tree_gold"                 "5 5 5"
-            "gather_time"               "4 3 2"
+            "tree_gold"                 "10"
+            "gather_time"               "3"
             "gather_trigger_radius"     "200"
             "think_interval"            "0.25"
         }
@@ -117,8 +117,8 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "50"
-            "production_time"           "10"
+            "gold_cost"                 "50 40 30"
+            "production_time"           "10 9 8"
             "spawn_distance"            "360"
             "manual_pause_duration"     "15"
         }
@@ -142,8 +142,8 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "50"
-            "production_time"           "10"
+            "gold_cost"                 "50 40 30"
+            "production_time"           "10 9 8"
             "spawn_distance"            "360"
             "summon_lifetime"           "0"
         }
@@ -394,7 +394,7 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "10"
+            "gold_cost"                 "1000"
             "max_hp"                    "1500"
             "build_rate"                "70"
             "worker_radius"             "300"
@@ -422,7 +422,7 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "10"
+            "gold_cost"                 "1000"
             "max_hp"                    "2000"
             "build_rate"                "70"
             "worker_radius"             "300"
@@ -450,7 +450,7 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "10"
+            "gold_cost"                 "1000"
             "max_hp"                    "2000"
             "build_rate"                "70"
             "worker_radius"             "300"
@@ -476,10 +476,52 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "10"
+            "gold_cost"                 "1000"
             "production_time"           "30"
             "spawn_distance"            "360"
         }
+    }
+
+    "chen_ancient_black_dragon_fire_puddle"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/barrack/units/chen_ancient_black_dragon_fire_puddle"
+        "AbilityTextureName"            "black_dragon_fireball"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+
+        "AbilityValues"
+        {
+            "radius"                    "300"
+            "duration"                  "8"
+            "damage_per_second"         "85"
+            "burn_interval"             "0.5"
+        }
+    }
+
+    "modifier_chen_ancient_black_dragon_fire_puddle"
+    {
+        "BaseClass"                     "modifier_lua"
+        "IsHidden"                      "1"
+        "IsPurgable"                    "0"
+        "IsDebuff"                      "0"
+        "RemoveOnDeath"                 "1"
+    }
+
+    "modifier_chen_ancient_black_dragon_fire_puddle_thinker"
+    {
+        "BaseClass"                     "modifier_lua"
+        "IsHidden"                      "1"
+        "IsPurgable"                    "0"
+        "IsDebuff"                      "0"
+        "RemoveOnDeath"                 "1"
     }
 
     "chen_sub_barrack_summon_dragon"

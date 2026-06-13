@@ -39,7 +39,7 @@ function GameMode:OnGameRulesStateChange()
 		GameRules:SetTimeOfDay(0.25)
 
 		-- Множитель времени респауна (0.2 ≈ в 5 раз быстрее таймер смерти). Нужен GetGameModeEntity() и ':' для Lua.
-		GameRules:GetGameModeEntity():SetRespawnTimeScale(0.5)
+		GameRules:GetGameModeEntity():SetRespawnTimeScale(0.7)
 
 		-- Сбрасываем флаг спавна крипов
 		GameMode.lane_creeps_spawned = false
@@ -520,6 +520,9 @@ function GameMode:SpawnLineUnits(index)
 end
 
 function GameMode:OnEntityKilled(keys)
+	if CreepBountyComeback and CreepBountyComeback.OnEntityKilled then
+		CreepBountyComeback.OnEntityKilled(keys)
+	end
 
 	local unit = EntIndexToHScript(keys.entindex_killed)
 	local unit_name = unit:GetUnitName()

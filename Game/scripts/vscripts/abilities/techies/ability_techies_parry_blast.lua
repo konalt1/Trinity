@@ -1,10 +1,13 @@
 LinkLuaModifier("modifier_techies_parry_blast_buff", "abilities/techies/ability_techies_parry_blast", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_techies_parry_blast_disarm", "abilities/techies/ability_techies_parry_blast", LUA_MODIFIER_MOTION_NONE)
 
-local PARRY_P_EXPLODE = "particles/units/heroes/hero_techies/techies_tazer_explode.vpcf"
-local PARRY_P_AMBIENT = "particles/units/heroes/hero_techies/techies_tazer_ambient.vpcf"
+local PARRY_P_EXPLODE = "particles/techies/techies_tazer_explode.vpcf"
 
 ability_techies_parry_blast = ability_techies_parry_blast or class({})
+
+function ability_techies_parry_blast:Precache(context)
+	PrecacheResource("particle", PARRY_P_EXPLODE, context)
+end
 
 function ability_techies_parry_blast:GetAOERadius()
     return self:GetSpecialValueFor("explosion_radius")
@@ -25,12 +28,12 @@ function ability_techies_parry_blast:OnSpellStart()
     local damage = self:GetSpecialValueFor("damage")
     local buff_duration = self:GetSpecialValueFor("buff_duration")
 
-    local fx = ParticleManager:CreateParticle(PARRY_P_EXPLODE, PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
-    ParticleManager:ReleaseParticleIndex(fx)
+    CreateFOWParticle(PARRY_P_EXPLODE, PATTACH_WORLDORIGIN, nil, origin, function(fx)
+        ParticleManager:SetParticleControl(fx, 0, origin)
+        ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
+    end)
 
-    EmitSoundOnLocationWithCaster(origin, "Hero_Techies.ReactiveTazer.Detonate", caster)
+    EmitFOWSoundAtLocation(origin, "Hero_Techies.ReactiveTazer.Detonate")
 
     local enemies = FindUnitsInRadius(
         caster:GetTeamNumber(),
@@ -57,7 +60,7 @@ function ability_techies_parry_blast:OnSpellStart()
     end
 
     caster:AddNewModifier(caster, self, "modifier_techies_parry_blast_buff", { duration = buff_duration })
-    caster:EmitSound("Hero_Techies.ReactiveTazer.Cast")
+    EmitFOWSoundOnUnit(caster, "Hero_Techies.ReactiveTazer.Cast")
 end
 
 modifier_techies_parry_blast_buff = modifier_techies_parry_blast_buff or class({})
@@ -90,10 +93,6 @@ function modifier_techies_parry_blast_buff:OnCreated()
 
     self.bonus_armor = ability:GetSpecialValueFor("bonus_armor")
     self.disarm_duration = ability:GetSpecialValueFor("disarm_duration")
-
-    if IsServer() then
-        self.ambient_fx = ParticleManager:CreateParticle(PARRY_P_AMBIENT, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-    end
 end
 
 function modifier_techies_parry_blast_buff:OnRefresh()
@@ -104,18 +103,6 @@ function modifier_techies_parry_blast_buff:OnRefresh()
 
     self.bonus_armor = ability:GetSpecialValueFor("bonus_armor")
     self.disarm_duration = ability:GetSpecialValueFor("disarm_duration")
-end
-
-function modifier_techies_parry_blast_buff:OnDestroy()
-    if not IsServer() then
-        return
-    end
-
-    if self.ambient_fx then
-        ParticleManager:DestroyParticle(self.ambient_fx, false)
-        ParticleManager:ReleaseParticleIndex(self.ambient_fx)
-        self.ambient_fx = nil
-    end
 end
 
 function modifier_techies_parry_blast_buff:DeclareFunctions()
@@ -172,7 +159,7 @@ function modifier_techies_parry_blast_buff:TryDisarmAttacker(attacker)
     end
 
     attacker:AddNewModifier(caster, ability, "modifier_techies_parry_blast_disarm", { duration = self.disarm_duration })
-    EmitSoundOn("Hero_Zuus.ArcLightning.Cast", attacker)
+    EmitFOWSoundOnUnit(attacker, "Hero_Zuus.ArcLightning.Cast")
 end
 
 function modifier_techies_parry_blast_buff:OnAttacked(params)

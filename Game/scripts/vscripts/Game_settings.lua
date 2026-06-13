@@ -25,7 +25,7 @@ TREE_REGROW_TIME = 180.0                 -- How long should it take individual t
 
 NEUTRAL_CREEP_SPAWN_TIME = 0.0          -- When should neutral creeps start spawning (0.0 = at game start)
 
-RECOMMENDED_BUILDS_DISABLED = true     -- Should we disable the recommened builds for heroes
+RECOMMENDED_BUILDS_DISABLED = false    -- Should we disable the recommened builds for heroes
 CAMERA_DISTANCE_OVERRIDE = -1           -- How far out should we allow the camera to go?  Use -1 for the default (1134) while still allowing for panorama camera distance changes
 
 MINIMAP_ICON_SIZE = 1                   -- What icon size should we use for our heroes?
@@ -47,7 +47,15 @@ USE_STANDARD_DOTA_BOT_THINKING = true  -- Should we have bots act like they woul
 USE_STANDARD_HERO_GOLD_BOUNTY = false    -- Should we give gold for hero kills the same as in Dota, or allow those values to be changed?
 MAXIMUM_ATTACK_SPEED = 1200
 MINIMUM_ATTACK_SPEED = 50
-Max_level=20
+Max_level=30
+
+-- Бонус к золоту за крипов для отстающей команды (линейная шкала от разницы net worth)
+CREEP_BOUNTY_COMEBACK_MAX_BONUS_PCT = 100
+CREEP_BOUNTY_COMEBACK_NW_FOR_MAX = 5000
+
+-- Бонус к опыту за крипов для отстающей команды (линейная шкала от суммы опыта героев команд)
+CREEP_XP_COMEBACK_MAX_BONUS_PCT = 100
+CREEP_XP_COMEBACK_XP_FOR_MAX = 5000
 
 ENABLE_TOWER_BACKDOOR_PROTECTION = true-- Should we enable backdoor protection for our towers?
 REMOVE_ILLUSIONS_ON_DEATH = false       -- Should we remove all illusions if the main hero dies?
