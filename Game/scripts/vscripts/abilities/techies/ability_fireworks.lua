@@ -25,8 +25,7 @@ local function fireworks_is_valid_proc_target(target)
     return target:IsHero() or target:IsCreep()
 end
 
-local function fireworks_play_impact(attacker, splash_radius, origin)
-    local visual_radius = splash_radius * 0.5
+local function fireworks_play_impact(attacker, visual_radius, origin)
     CreateFOWParticle(
         "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf",
         PATTACH_WORLDORIGIN,
@@ -82,6 +81,7 @@ local function fireworks_run_proc(attacker, ability, target, attack_dmg)
     end
 
     local splash_radius = ability:GetSpecialValueFor("splash_radius")
+    local visual_radius = ability:GetLevelSpecialValueFor("splash_radius", ability:GetLevel())
     local splash_pct = ability:GetSpecialValueFor("splash_attack_damage_pct") / 100
     local magic_bonus = ability:GetMindScaledMagicDamage()
     local splash_phys = attack_dmg * splash_pct
@@ -99,7 +99,7 @@ local function fireworks_run_proc(attacker, ability, target, attack_dmg)
         false
     )
 
-    fireworks_play_impact(attacker, splash_radius, origin)
+    fireworks_play_impact(attacker, visual_radius, origin)
 
     for _, enemy in ipairs(enemies) do
         if fireworks_is_valid_proc_target(enemy) then

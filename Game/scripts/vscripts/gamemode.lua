@@ -467,29 +467,15 @@ function GameMode:OnInventoryUpdate(data)
 			ChenWorkerBuild.SyncScepterForHero(hero)
 		end
 	end
-
- 	if item:GetItemSlot() == 16 and string.sub(item:GetName(), 0,9) ~= "item_tier" then 
- 		local freeSlot 
- 		for i=0,8 do
- 			local freeSlotItem =  item:GetCaster():GetItemInSlot(i)
-
- 			if not freeSlotItem then 
- 				freeSlot = i
- 				break
- 			end
- 		end
-
- 		if freeSlot ~= nil then 
- 			item:GetCaster():SwapItems(freeSlot, 16)
- 		end
- 	end
 end
 
 function GameMode:ModifyGoldFilter(data)
 	if data.reason_const == DOTA_ModifyGold_HeroKill  then data.gold = data.gold * 2 end
+
 	if ChenBarrackGold and ChenBarrackGold.ModifyGoldFilter then
 		return ChenBarrackGold.ModifyGoldFilter(data)
 	end
+
 	print(data.reason_const)
 	return true
 end

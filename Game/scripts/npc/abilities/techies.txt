@@ -4,7 +4,7 @@
     "ability_fireworks" {
         "BaseClass"						"ability_lua"
         "ScriptFile"                    "abilities/techies/ability_fireworks"
-        "AbilityTextureName"            "fireworks"
+        "AbilityTextureName"            "shoot_firework"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -20,7 +20,7 @@
           "duration"                    "5 6 7 8"
           "splash_radius"
           {
-            "value"                               "300 400 500 600"
+            "value"                               "300 350 400 450"
             "special_bonus_unique_techies_fireworks_radius"        "+100"
             "affected_by_aoe_increase"             "1"
           }
@@ -42,7 +42,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/techies/ability_techies_parry_blast"
-        "AbilityTextureName"            "techies_blast_off"
+        "AbilityTextureName"            "ogre_magi/antipodeanabilityicons/ogre_magi_ignite"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"

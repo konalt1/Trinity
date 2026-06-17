@@ -85,7 +85,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/silencer/silent_square"
-        "AbilityTextureName"            "silencer/bts_silencer_ability/silencer_curse_of_the_silent"
+        "AbilityTextureName"            "silencer\bts_silencer_ability\silencer_last_word"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"

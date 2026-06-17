@@ -82,7 +82,6 @@ end
 function modifier_juggernaut_blade_fury_lua:CheckState()
 	local state = {
 		[MODIFIER_STATE_DEBUFF_IMMUNE] = true,
-		[MODIFIER_STATE_DISARMED] = true,
 		[MODIFIER_STATE_SILENCED] = true,
 	}
 
