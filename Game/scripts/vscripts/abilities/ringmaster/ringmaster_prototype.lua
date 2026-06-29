@@ -1,6 +1,6 @@
-LinkLuaModifier("modifier_ringmaster_tame_fear", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ringmaster_knives_slow", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ringmaster_knives_bleed", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ringmaster_knives_charge", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ringmaster_box_thinker", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ringmaster_box_capture", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ringmaster_box_damage_tracker", "abilities/ringmaster/ringmaster_prototype", LUA_MODIFIER_MOTION_NONE)
@@ -15,13 +15,14 @@ local RINGMASTER_PARTICLES = {
 	"particles/basic_trail/basic_trail.vpcf",
 	"particles/omniknight/pulse_main.vpcf",
 	"particles/slark_shard_depth_shroud.vpcf",
+	"particles/units/heroes/hero_hoodwink/hoodwink_sharpshooter_range_finder.vpcf",
+	"particles/units/heroes/hero_ringmaster/ringmaster_impalement_projectile.vpcf",
 }
 
 local RINGMASTER_MODELS = {
 	"models/heroes/ringmaster/ringmaster.vmdl",
 	"models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl",
-	"models/heroes/ringmaster/ringmaster_whip.vmdl",
-	"particles/units/heroes/hero_ringmaster/ringmaster_particle_dagger.vmdl",
+	"models/heroes/ringmaster/ringmaster_dagger_model.vmdl",
 	"models/heroes/ringmaster/ringmaster_box.vmdl",
 }
 
@@ -44,10 +45,22 @@ local function PrecacheRingmasterPrototype(context)
 end
 
 local function SpawnRingmasterProp(caster, modelName, position, scale)
-	local prop = CreateUnitByName("npc_dota_companion", position, false, nil, nil, caster:GetTeamNumber())
+	local unitName = "npc_dummy_unit"
+	if modelName == "models/heroes/ringmaster/ringmaster_box.vmdl" then
+		unitName = "npc_ringmaster_box"
+	elseif modelName == "models/heroes/ringmaster/ringmaster_dagger_model.vmdl" then
+		unitName = "npc_ringmaster_dagger"
+	end
+
+	print("[Ringmaster Prop Debug] Spawning model: " .. tostring(modelName) .. " using unit: " .. tostring(unitName))
+
+	local prop = CreateUnitByName(unitName, position, false, nil, nil, caster:GetTeamNumber())
 	if prop then
-		prop:SetModel(modelName)
-		prop:SetOriginalModel(modelName)
+		print("[Ringmaster Prop Debug] Successfully created unit: " .. tostring(prop:GetUnitName()) .. ", index: " .. tostring(prop:GetEntityIndex()))
+		if unitName == "npc_dummy_unit" then
+			prop:SetModel(modelName)
+			prop:SetOriginalModel(modelName)
+		end
 		if scale then
 			prop:SetModelScale(scale)
 		end
@@ -55,138 +68,31 @@ local function SpawnRingmasterProp(caster, modelName, position, scale)
 		prop:AddNewModifier(caster, nil, "modifier_unselectable", {})
 		prop:AddNewModifier(caster, nil, "modifier_phased", {})
 		prop:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
+	else
+		print("[Ringmaster Prop Debug] FAILED to spawn unit: " .. tostring(unitName))
 	end
 	return prop
 end
 
-ringmaster_tame_the_beasts_custom = class({})
-
-function ringmaster_tame_the_beasts_custom:Precache(context)
-	PrecacheRingmasterPrototype(context)
-end
-
-function ringmaster_tame_the_beasts_custom:GetChannelTime()
-	return self:GetSpecialValueFor("max_channel_time")
-end
-
-function ringmaster_tame_the_beasts_custom:OnSpellStart()
-	self.target_point = self:GetCursorPosition()
-	self.channel_started = GameRules:GetGameTime()
-	local caster = self:GetCaster()
-	caster:EmitSound("Hero_Ringmaster.Tame.Cast")
-
-	-- Spawn whip prop above caster
-	local prop = SpawnRingmasterProp(caster, "models/heroes/ringmaster/ringmaster_whip.vmdl", caster:GetAbsOrigin() + Vector(0, 0, 120))
+-- Spawnирует prop и через 1 тик запускает анимацию (движку нужен 1 тик на инициализацию)
+local function SpawnRingmasterPropWithAnim(caster, modelName, position, scale, animName, callback)
+	local prop = SpawnRingmasterProp(caster, modelName, position, scale)
 	if prop then
-		prop:SetForwardVector(caster:GetForwardVector())
-		prop:StartGesture(ACT_DOTA_CAST_ABILITY_1)
-		self.whip_prop = prop
-
-		-- Keep prop at caster's position
-		Timers:CreateTimer("ringmaster_whip_timer_" .. prop:GetEntityIndex(), {
-			useGameTime = true,
-			callback = function()
-				if not self:IsNull() and self.whip_prop and not self.whip_prop:IsNull() and caster and not caster:IsNull() and caster:IsChanneling() then
-					self.whip_prop:SetAbsOrigin(caster:GetAbsOrigin() + Vector(0, 0, 120))
-					self.whip_prop:SetForwardVector(caster:GetForwardVector())
-					return 0.03
-				else
-					return nil
-				end
+		print("[Ringmaster Prop Debug] Scheduling animation reset for sequence: " .. tostring(animName))
+		Timers:CreateTimer(0.1, function()
+			if prop and not prop:IsNull() then
+				print("[Ringmaster Prop Debug] Calling ResetSequence: " .. tostring(animName) .. " on unit index: " .. tostring(prop:GetEntityIndex()))
+				prop:ResetSequence(animName)
+				prop:SetCycle(0)
+				-- Force animation to play
+				prop:SetPlaybackRate(1.0)
+				if callback then callback(prop) end
+			else
+				print("[Ringmaster Prop Debug] Cannot reset sequence, prop is nil or destroyed")
 			end
-		})
+		end)
 	end
-end
-
-function ringmaster_tame_the_beasts_custom:OnChannelFinish(interrupted)
-	local caster = self:GetCaster()
-	if self.whip_prop and not self.whip_prop:IsNull() then
-		Timers:RemoveTimer("ringmaster_whip_timer_" .. self.whip_prop:GetEntityIndex())
-		self.whip_prop:Destroy()
-		self.whip_prop = nil
-	end
-
-	if not self.target_point then return end
-
-	local max_channel = math.max(self:GetSpecialValueFor("max_channel_time"), 0.01)
-	local elapsed = math.min(GameRules:GetGameTime() - (self.channel_started or GameRules:GetGameTime()), max_channel)
-	local charge = math.max(elapsed / max_channel, 0)
-
-	local max_radius = self:GetSpecialValueFor("max_radius")
-	local min_radius = self:GetSpecialValueFor("min_radius")
-	local radius = max_radius - ((max_radius - min_radius) * charge)
-
-	local base_damage = self:GetSpecialValueFor("min_damage")
-	local max_damage = self:GetSpecialValueFor("max_damage") + (GetHeroMindPower(caster) * self:GetSpecialValueFor("mind_power_damage"))
-	local damage = base_damage + ((max_damage - base_damage) * charge)
-	local fear_duration = self:GetSpecialValueFor("min_fear") + ((self:GetSpecialValueFor("max_fear") - self:GetSpecialValueFor("min_fear")) * charge)
-
-	local particle = ParticleManager:CreateParticle("particles/basic_explosion/basic_explosion.vpcf", PATTACH_WORLDORIGIN, caster)
-	ParticleManager:SetParticleControl(particle, 0, self.target_point)
-	ParticleManager:SetParticleControl(particle, 1, Vector(radius, 0, 0))
-	ParticleManager:ReleaseParticleIndex(particle)
-
-	local enemies = FindUnitsInRadius(
-		caster:GetTeamNumber(),
-		self.target_point,
-		nil,
-		radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_ANY_ORDER,
-		false
-	)
-
-	for _, enemy in pairs(enemies) do
-		ApplyDamage({
-			victim = enemy,
-			attacker = caster,
-			damage = damage,
-			damage_type = self:GetAbilityDamageType(),
-			ability = self,
-		})
-		enemy:AddNewModifier(caster, self, "modifier_ringmaster_tame_fear", {
-			duration = fear_duration * (1 - enemy:GetStatusResistance()),
-			source_x = caster:GetAbsOrigin().x,
-			source_y = caster:GetAbsOrigin().y,
-		})
-	end
-
-	caster:EmitSound("Hero_Ringmaster.Tame.Impact")
-end
-
-modifier_ringmaster_tame_fear = class({})
-
-function modifier_ringmaster_tame_fear:IsDebuff() return true end
-function modifier_ringmaster_tame_fear:IsPurgable() return true end
-
-function modifier_ringmaster_tame_fear:OnCreated(kv)
-	if not IsServer() then return end
-	self.source = Vector(kv.source_x or 0, kv.source_y or 0, 0)
-	self:StartIntervalThink(0.1)
-end
-
-function modifier_ringmaster_tame_fear:OnIntervalThink()
-	local parent = self:GetParent()
-	local origin = parent:GetAbsOrigin()
-	local direction = (origin - self.source):Normalized()
-	parent:MoveToPosition(origin + direction * 450)
-end
-
-function modifier_ringmaster_tame_fear:CheckState()
-	return {
-		[MODIFIER_STATE_FEARED] = true,
-		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
-	}
-end
-
-function modifier_ringmaster_tame_fear:GetEffectName()
-	return "particles/basic_ambient/basic_ambient.vpcf"
-end
-
-function modifier_ringmaster_tame_fear:GetEffectAttachType()
-	return PATTACH_OVERHEAD_FOLLOW
+	return prop
 end
 
 ringmaster_knives_out_custom = class({})
@@ -195,27 +101,74 @@ function ringmaster_knives_out_custom:Precache(context)
 	PrecacheRingmasterPrototype(context)
 end
 
+function ringmaster_knives_out_custom:GetManaCost(level)
+	if self:GetCaster():HasModifier("modifier_ringmaster_knives_charge") then
+		return 0
+	end
+	return self.BaseClass.GetManaCost(self, level)
+end
+
+function ringmaster_knives_out_custom:GetCooldown(level)
+	return 0
+end
+
 function ringmaster_knives_out_custom:OnSpellStart()
 	local caster = self:GetCaster()
-	local point = self:GetCursorPosition()
-	local direction = (point - caster:GetAbsOrigin()):Normalized()
-	direction.z = 0
-	if direction:Length2D() == 0 then
-		direction = caster:GetForwardVector()
-		direction.z = 0
-	end
-	direction = direction:Normalized()
+	local modifier = caster:FindModifierByName("modifier_ringmaster_knives_charge")
 
+	if not modifier then
+		-- Первое нажатие: активируем режим прицеливания
+		local duration = self:GetSpecialValueFor("charge_duration") or 15.0
+		caster:AddNewModifier(caster, self, "modifier_ringmaster_knives_charge", { duration = duration })
+		caster:EmitSound("Hero_Ringmaster.Impale.Cast")
+	else
+		-- Повторное нажатие: бросаем кинжал в текущем направлении стрелки
+		local direction = modifier.current_direction or caster:GetForwardVector()
+		self:ThrowKnife(direction)
+		caster:StartGesture(ACT_DOTA_CAST_ABILITY_2)
+
+		modifier:DecrementStackCount()
+		if modifier:GetStackCount() <= 0 then
+			modifier.cooldown_triggered = true
+			modifier:Destroy()
+			local cd = self:GetLevelSpecialValueFor("AbilityCooldown", self:GetLevel() - 1)
+			self:StartCooldown(cd)
+		end
+	end
+end
+
+function ringmaster_knives_out_custom:ThrowKnife(direction)
+	local caster = self:GetCaster()
 	local speed = self:GetSpecialValueFor("speed")
-	local range = self:GetSpecialValueFor("range")
+	local range = self:GetSpecialValueFor("range") or 2000
 	local duration = range / speed
 	local spawn_origin = caster:GetAbsOrigin() + Vector(0, 0, 80)
 	local velocity = direction * speed
 
+	-- Спавним визуальную модель кинжала (без анимации)
+	local dagger_prop = SpawnRingmasterProp(caster, "models/heroes/ringmaster/ringmaster_dagger_model.vmdl", spawn_origin, 2.2)
+	if dagger_prop then
+		dagger_prop:SetForwardVector(direction)
+		-- Фиксируем на кадре 0 (никаких анимаций)
+		dagger_prop:ResetSequence("idle")
+		dagger_prop:SetCycle(0)
+
+		local start_time = GameRules:GetGameTime()
+		Timers:CreateTimer(function()
+			if not dagger_prop or dagger_prop:IsNull() then return nil end
+			local elapsed = GameRules:GetGameTime() - start_time
+			if elapsed >= duration then return nil end
+			dagger_prop:SetAbsOrigin(spawn_origin + velocity * elapsed)
+			return 0.03
+		end)
+	end
+
+	local dagger_entindex = dagger_prop and dagger_prop:GetEntityIndex() or -1
+
 	ProjectileManager:CreateLinearProjectile({
 		Ability = self,
 		EffectName = "",
-		vSpawnOrigin = caster:GetAbsOrigin(),
+		vSpawnOrigin = spawn_origin,
 		fDistance = range,
 		fStartRadius = self:GetSpecialValueFor("width"),
 		fEndRadius = self:GetSpecialValueFor("width"),
@@ -230,61 +183,24 @@ function ringmaster_knives_out_custom:OnSpellStart()
 		bProvidesVision = true,
 		iVisionRadius = self:GetSpecialValueFor("width") * 2,
 		iVisionTeamNumber = caster:GetTeamNumber(),
+		ExtraData = { dagger_entindex = dagger_entindex }
 	})
-
-	local dagger_prop = SpawnRingmasterProp(caster, "particles/units/heroes/hero_ringmaster/ringmaster_particle_dagger.vmdl", spawn_origin)
-	if dagger_prop then
-		dagger_prop:SetForwardVector(direction)
-		local trail_pfx = ParticleManager:CreateParticle("particles/basic_trail/basic_trail.vpcf", PATTACH_ABSORIGIN_FOLLOW, dagger_prop)
-		
-		local start_time = GameRules:GetGameTime()
-		
-		Timers:CreateTimer(function()
-			if dagger_prop and not dagger_prop:IsNull() then
-				local elapsed = GameRules:GetGameTime() - start_time
-				if elapsed >= duration then
-					ParticleManager:DestroyParticle(trail_pfx, false)
-					ParticleManager:ReleaseParticleIndex(trail_pfx)
-					dagger_prop:Destroy()
-					return nil
-				end
-				local new_pos = spawn_origin + velocity * elapsed
-				dagger_prop:SetAbsOrigin(new_pos)
-				return 0.03
-			else
-				if trail_pfx then
-					ParticleManager:DestroyParticle(trail_pfx, false)
-					ParticleManager:ReleaseParticleIndex(trail_pfx)
-				end
-				return nil
-			end
-		end)
-	end
 
 	caster:EmitSound("Hero_Ringmaster.Impale.Cast")
 end
 
-function ringmaster_knives_out_custom:OnProjectileHit(target, location)
-	if not target then return true end
+function ringmaster_knives_out_custom:OnProjectileHit_ExtraData(target, location, extraData)
 	local caster = self:GetCaster()
 
-	local units = FindUnitsInRadius(
-		caster:GetTeamNumber(),
-		location,
-		nil,
-		150,
-		DOTA_UNIT_TARGET_TEAM_FRIENDLY + DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_CLOSEST,
-		false
-	)
-	for _, unit in pairs(units) do
-		if unit:GetUnitName() == "npc_dota_companion" and unit:GetModelName() == "particles/units/heroes/hero_ringmaster/ringmaster_particle_dagger.vmdl" then
-			unit:Destroy()
-			break
+	-- Удаляем визуальный проп кинжала (и при попадании, и при промахе)
+	if extraData and extraData.dagger_entindex and extraData.dagger_entindex ~= -1 then
+		local prop = EntIndexToHScript(extraData.dagger_entindex)
+		if prop and not prop:IsNull() then
+			prop:Destroy()
 		end
 	end
+
+	if not target then return true end
 
 	local pfx = ParticleManager:CreateParticle("particles/basic_explosion/basic_explosion.vpcf", PATTACH_ABSORIGIN, target)
 	ParticleManager:ReleaseParticleIndex(pfx)
@@ -298,10 +214,11 @@ function ringmaster_knives_out_custom:OnProjectileHit(target, location)
 	})
 
 	target:AddNewModifier(caster, self, "modifier_ringmaster_knives_slow", {
-		duration = self:GetSpecialValueFor("slow_duration") * (1 - target:GetStatusResistance()),
+		duration = (self:GetSpecialValueFor("slow_duration") or 3.0) * (1 - target:GetStatusResistance()),
 	})
+
 	target:AddNewModifier(caster, self, "modifier_ringmaster_knives_bleed", {
-		duration = self:GetSpecialValueFor("bleed_duration") * (1 - target:GetStatusResistance()),
+		duration = (self:GetSpecialValueFor("bleed_duration") or 4.0) * (1 - target:GetStatusResistance()),
 	})
 
 	local capture = target:FindModifierByName("modifier_ringmaster_box_capture")
@@ -319,7 +236,7 @@ function modifier_ringmaster_knives_slow:IsDebuff() return true end
 function modifier_ringmaster_knives_slow:IsPurgable() return true end
 
 function modifier_ringmaster_knives_slow:OnCreated()
-	self.slow = -self:GetAbility():GetSpecialValueFor("move_slow_pct")
+	self.slow = -80
 end
 
 function modifier_ringmaster_knives_slow:DeclareFunctions()
@@ -364,6 +281,81 @@ end
 
 function modifier_ringmaster_knives_bleed:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
+end
+
+modifier_ringmaster_knives_charge = class({})
+
+function modifier_ringmaster_knives_charge:IsDebuff() return false end
+function modifier_ringmaster_knives_charge:IsPurgable() return false end
+
+function modifier_ringmaster_knives_charge:GetTexture()
+	return "ringmaster_impalement"
+end
+
+function modifier_ringmaster_knives_charge:DecrementStackCount()
+	if not IsServer() then return end
+	local current = self:GetStackCount()
+	self:SetStackCount(current - 1)
+end
+
+function modifier_ringmaster_knives_charge:OnCreated()
+	if not IsServer() then return end
+	self.caster = self:GetCaster()
+	self.ability = self:GetAbility()
+	
+	self:SetStackCount(4)
+	self.cooldown_triggered = false
+	
+	self.start_time = GameRules:GetGameTime()
+	self.sweep_speed = 3.5
+	self.current_direction = self.caster:GetForwardVector()
+	self.indicator_range = self.ability:GetSpecialValueFor("range") or 2000
+	
+	local particle_cast = "particles/units/heroes/hero_hoodwink/hoodwink_sharpshooter_range_finder.vpcf"
+	self.effect_cast = ParticleManager:CreateParticleForPlayer(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self.caster, self.caster:GetPlayerOwner())
+	ParticleManager:SetParticleControl(self.effect_cast, 0, self.caster:GetAbsOrigin())
+	ParticleManager:SetParticleControl(self.effect_cast, 1, self.caster:GetAbsOrigin() + self.current_direction * self.indicator_range)
+	ParticleManager:SetParticleControl(self.effect_cast, 15, Vector(255, 240, 80))
+	ParticleManager:SetParticleControl(self.effect_cast, 16, Vector(4, 4, 4))
+	
+	self:StartIntervalThink(0.03)
+end
+
+function modifier_ringmaster_knives_charge:OnIntervalThink()
+	if not IsServer() then return end
+	local elapsed = GameRules:GetGameTime() - self.start_time
+	
+	local forward = self.caster:GetForwardVector()
+	forward.z = 0
+	forward = forward:Normalized()
+	
+	local angle = math.sin(elapsed * self.sweep_speed) * 60.0
+	local direction = RotatePosition(Vector(0,0,0), QAngle(0, angle, 0), forward)
+	direction.z = 0
+	direction = direction:Normalized()
+	
+	self.current_direction = direction
+	
+	local startpos = self.caster:GetAbsOrigin()
+	local endpos = startpos + direction * self.indicator_range
+	ParticleManager:SetParticleControl(self.effect_cast, 0, startpos)
+	ParticleManager:SetParticleControl(self.effect_cast, 1, endpos)
+end
+
+function modifier_ringmaster_knives_charge:OnDestroy()
+	if not IsServer() then return end
+	
+	if self.effect_cast then
+		ParticleManager:DestroyParticle(self.effect_cast, true)
+		ParticleManager:ReleaseParticleIndex(self.effect_cast)
+	end
+	
+	if not self.cooldown_triggered then
+		if self.ability and not self.ability:IsNull() then
+			local cd = self.ability:GetLevelSpecialValueFor("AbilityCooldown", self.ability:GetLevel() - 1)
+			self.ability:StartCooldown(cd)
+		end
+	end
 end
 
 ringmaster_box_game_custom = class({})
@@ -450,18 +442,26 @@ function modifier_ringmaster_box_thinker:OnCreated()
 	self:AddParticle(self.particle, false, false, -1, false, false)
 
 	-- Spawn Box prop
-	local box_prop = SpawnRingmasterProp(caster, "models/heroes/ringmaster/ringmaster_box.vmdl", parent:GetAbsOrigin())
+	local box_prop = SpawnRingmasterPropWithAnim(
+		caster,
+		"models/heroes/ringmaster/ringmaster_box.vmdl",
+		parent:GetAbsOrigin(),
+		1.2,
+		"rm_box_spawn",
+		function(bp)
+			self.box_prop = bp
+			-- Wait for spawn animation to finish, then play idle
+			Timers:CreateTimer(1.0, function()
+				if bp and not bp:IsNull() then
+					bp:ResetSequence("rm_box_idle")
+					bp:SetCycle(0)
+					bp:SetPlaybackRate(1.0)
+				end
+			end)
+		end
+	)
 	if box_prop then
 		self.box_prop = box_prop
-		box_prop:StartGesture(ACT_DOTA_SPAWN)
-		
-		-- Wait for spawn animation to finish, then play idle
-		Timers:CreateTimer(0.8, function()
-			if box_prop and not box_prop:IsNull() then
-				box_prop:FadeGesture(ACT_DOTA_SPAWN)
-				box_prop:StartGesture(ACT_DOTA_IDLE)
-			end
-		end)
 	end
 
 	self:StartIntervalThink(0.1)
@@ -473,8 +473,8 @@ function modifier_ringmaster_box_thinker:OnDestroy()
 		local prop = self.box_prop
 		self.box_prop = nil
 		
-		prop:FadeGesture(ACT_DOTA_IDLE)
-		prop:StartGesture(ACT_DOTA_DIE)
+		prop:ResetSequence("rm_box_die")
+		prop:SetCycle(0)
 		
 		Timers:CreateTimer(0.8, function()
 			if prop and not prop:IsNull() then

@@ -2216,57 +2216,97 @@
         "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
         "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
-}
 
-// Custom Shard Mud Golem for Chen Barrack (Ancient level)
-"npc_dota_neutral_mud_golem_shard"
-{
-    "BaseClass"                     "npc_dota_creep_neutral"
-    "Model"                         "models/creeps/neutral_creeps/n_creep_golem_a/neutral_creep_golem_a.vmdl"
-    "SoundSet"                      "n_creep_Melee"
-    "Level"                         "7"
-    "IsAncient"                     "1"
-    "ModelScale"                    "1.4"
-    "IsNeutralUnitType"             "1"
+    // Custom Golem for Chen Shard Mud Golem (Ancient level)
+    "npc_dota_neutral_mud_golem_shard"
+    {
+        "BaseClass"                     "npc_dota_creep_neutral"
+        "Model"                         "models/creeps/neutral_creeps/n_creep_golem_a/neutral_creep_golem_a.vmdl"
+        "SoundSet"                      "n_creep_Melee"
+        "Level"                         "7"
+        "IsAncient"                     "1"
+        "ModelScale"                    "1.4"
+        "IsNeutralUnitType"             "1"
 
-    // Abilities
-    "Ability1"                      "granite_golem_hp_aura"
-    "Ability2"                      "neutral_upgrade"
-    "Ability3"                      ""
-    "Ability4"                      ""
+        // Abilities
+        "Ability1"                      "granite_golem_hp_aura"
+        "Ability2"                      "neutral_upgrade"
+        "Ability3"                      ""
+        "Ability4"                      ""
 
-    // Armor
-    "ArmorPhysical"                 "10"
-    "MagicalResistance"             "35"
+        // Armor
+        "ArmorPhysical"                 "10"
+        "MagicalResistance"             "35"
 
-    // Attack
-    "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
-    "AttackDamageMin"               "100"
-    "AttackDamageMax"               "110"
-    "AttackRate"                    "1.8"
-    "BaseAttackSpeed"               "150"
-    "AttackRange"                   "100"
+        // Attack
+        "AttackCapabilities"            "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"               "100"
+        "AttackDamageMax"               "110"
+        "AttackRate"                    "1.8"
+        "BaseAttackSpeed"               "150"
+        "AttackRange"                   "100"
 
-    // Movement
-    "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
-    "MovementSpeed"                 "270"
+        // Movement
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"                 "270"
 
-    // Status
-    "StatusHealth"                  "1200"
-    "StatusHealthRegen"             "1.0"
-    "StatusMana"                    "500"
-    "StatusManaRegen"               "1.5"
+        // Status
+        "StatusHealth"                  "1200"
+        "StatusHealthRegen"             "1.0"
+        "StatusMana"                    "500"
+        "StatusManaRegen"               "1.5"
 
-    // Vision
-    "VisionDaytimeRange"            "900"
-    "VisionNighttimeRange"          "900"
+        // Vision
+        "VisionDaytimeRange"            "900"
+        "VisionNighttimeRange"          "900"
 
-    // Bounty
-    "BountyXP"                      "155"
-    "BountyGoldMin"                 "119"
-    "BountyGoldMax"                 "119"
+        // Bounty
+        "BountyXP"                      "155"
+        "BountyGoldMin"                 "119"
+        "BountyGoldMax"                 "119"
 
-    "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-    "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-    "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+        "CombatClassAttack"             "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Ringmaster Box Prop
+    "npc_ringmaster_box"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/heroes/ringmaster/ringmaster_box.vmdl"
+        "SoundSet"                      "Hero_Ringmaster"
+        "Level"                         "1"
+        "ArmorPhysical"                 "0"
+        "MagicalResistance"             "0"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "BoundsHullName"                "DOTA_HULL_SIZE_SMALL"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "StatusHealth"                  "1"
+        "TeamName"                      "DOTA_TEAM_GOODGUYS"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+
+    // Ringmaster Dagger Prop
+    "npc_ringmaster_dagger"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/heroes/ringmaster/ringmaster_dagger_model.vmdl"
+        "SoundSet"                      "Hero_Ringmaster"
+        "Level"                         "1"
+        "ArmorPhysical"                 "0"
+        "MagicalResistance"             "0"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "BoundsHullName"                "DOTA_HULL_SIZE_SMALL"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "StatusHealth"                  "1"
+        "TeamName"                      "DOTA_TEAM_GOODGUYS"
+        "CombatClassDefend"             "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
 }

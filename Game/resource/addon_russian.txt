@@ -1,6 +1,6 @@
 "lang"
 {
-	"Language"		"english"
+	"Language"		"russian"
 	"Tokens"
 	{
 		"ADDON_GAME_NAME"		"Trinity"

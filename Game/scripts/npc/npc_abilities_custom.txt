@@ -4120,52 +4120,12 @@
         }
     }
 
-    "ringmaster_tame_the_beasts_custom"
-    {
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/ringmaster/ringmaster_prototype"
-        "AbilityTextureName"            "ringmaster_tame_the_beasts"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "2"
-        "AbilityCastRange"              "700"
-        "AbilityCastPoint"              "0.2"
-        "AbilityChannelTime"            "1.0"
-        "AbilityCooldown"               "16 14 12 10"
-        "AbilityManaCost"               "90 100 110 120"
-        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
-        "AbilityValues"
-        {
-            "max_channel_time"          "1.0"
-            "min_damage"                "70 100 130 160"
-            "max_damage"                "140 210 280 350"
-            "mind_power_damage"         "1.4 1.6 1.8 2.0"
-            "min_fear"                  "0.4"
-            "max_fear"                  "1.0 1.2 1.4 1.6"
-            "max_radius"                "450"
-            "min_radius"                "230"
-        }
-        "precache"
-        {
-            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_ringmaster.vsndevts"
-            "model"                     "models/heroes/ringmaster/ringmaster.vmdl"
-            "model"                     "models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl"
-            "particle"                  "particles/basic_explosion/basic_explosion.vpcf"
-            "particle"                  "particles/basic_ambient/basic_ambient.vpcf"
-        }
-    }
-
     "ringmaster_knives_out_custom"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/ringmaster/ringmaster_prototype"
         "AbilityTextureName"            "ringmaster_impalement"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -4173,30 +4133,31 @@
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
-        "AbilityCastRange"              "1200"
-        "AbilityCastPoint"              "0.25"
+        "AbilityCastRange"              "2000"
+        "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "13 11 9 7"
         "AbilityManaCost"               "80 90 100 110"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
         "AbilityValues"
         {
-            "range"                     "1200"
-            "speed"                     "1600"
+            "range"                     "2000"
+            "speed"                     "2400"
             "width"                     "95"
             "impact_damage"             "75 120 165 210"
-            "move_slow_pct"             "25 30 35 40"
-            "slow_duration"             "1.2"
+            "move_slow_pct"             "80"
+            "slow_duration"             "3.0"
             "bleed_duration"            "4"
             "hero_bleed_pct"            "2.0 2.5 3.0 3.5"
             "creep_bleed_damage"        "20 30 40 50"
+            "charge_duration"           "15.0"
         }
         "precache"
         {
             "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_ringmaster.vsndevts"
             "model"                     "models/heroes/ringmaster/ringmaster.vmdl"
             "model"                     "models/heroes/ringmaster/ringmaster_wheel_decoy.vmdl"
-            "particle"                  "particles/basic_projectile/basic_projectile.vpcf"
-            "particle"                  "particles/basic_trail/basic_trail.vpcf"
+            "particle"                  "particles/units/heroes/hero_ringmaster/ringmaster_impalement_projectile.vpcf"
+            "particle"                  "particles/basic_explosion/basic_explosion.vpcf"
         }
     }
 

@@ -6,12 +6,17 @@ const HIDE_IDS = [
   "StatBranchDrawer",
   "StatBranchButton",
   "StatBranchBackground",
-  "level_stats_frame",
-  "LevelStatsFrame",
+  "StatBranchGraphics",
+  "StatBranchBG",
+  "StatBranchGraphicsContainer",
+  "talent_icon",
   "InnateAbility",
   "InnateIcon",
   "innate",
   "innate_icon",
+  "InnateAbilityContainer",
+  "InnateAbilityBG",
+  "InnateAbilityGraphics",
   "Facet",
   "FacetButton",
   "FacetIcon",
@@ -61,21 +66,34 @@ function hideSlot(panel) {
 
 function hideDefaultAbilityExtras() {
   HIDE_IDS.forEach((id) => hidePanel(FindDotaHudElement(id)));
-  hideAbilityPanelLeftExtra();
+  cleanLevelStatsFrame();
 }
 
-function hideAbilityPanelLeftExtra() {
-  const abilities = FindDotaHudElement("abilities");
-  if (!abilities) return;
+// Hide ALL children of LevelStatsFrame except the "abilities" panel
+// This removes any metal arcs, borders, backgrounds, innate/talent graphics
+function cleanLevelStatsFrame() {
+  const lsf = FindDotaHudElement("LevelStatsFrame") || FindDotaHudElement("level_stats_frame");
+  if (!lsf) return;
 
-  const parent = abilities.GetParent();
-  if (!parent) return;
+  // Make sure LevelStatsFrame itself is visible
+  lsf.visible = true;
+  lsf.style.visibility = "visible";
 
-  const siblings = parent.Children();
-  const abilityIndex = siblings.indexOf(abilities);
-  if (abilityIndex <= 0) return;
+  const children = lsf.Children();
+  if (!children) return;
 
-  hidePanel(siblings[abilityIndex - 1]);
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    if (!child) continue;
+
+    // Keep the abilities panel visible, hide everything else
+    if (child.id === "abilities") {
+      child.visible = true;
+      child.style.visibility = "visible";
+    } else {
+      hidePanel(child);
+    }
+  }
 }
 
 function hideOverflowTopbarPlayers() {
@@ -98,7 +116,7 @@ function compactTopbarTeam(teamName) {
 
   if (!container) return;
 
-  container.style.width = "186px";
+  container.style.width = "183px";
   container.style.horizontalAlign = isRadiant ? "right" : "left";
   container.style.marginLeft = isRadiant ? "0px" : "20px";
   container.style.marginRight = isRadiant ? "20px" : "0px";
@@ -176,18 +194,49 @@ function spreadAbilities() {
   const children = abilities.Children();
   if (!children || children.length === 0) return;
 
-  // Apply a fixed, clean spacing (12px on each side of every skill slot)
-  const marginPerSide = 12;
-
+  // Filter visible ability panels
+  const visibleAbilities = [];
   children.forEach((child) => {
     if (child.visible) {
-      child.style.marginLeft = marginPerSide + "px";
-      child.style.marginRight = marginPerSide + "px";
+      visibleAbilities.push(child);
     } else {
       child.style.marginLeft = "0px";
       child.style.marginRight = "0px";
+      const separator = child.FindChild("SeparatorLine");
+      if (separator) {
+        separator.DeleteAsync(0);
+      }
     }
   });
+
+  // Apply a fixed, clean spacing (16px on each side of every skill slot)
+  const marginPerSide = 16;
+
+  for (let i = 0; i < visibleAbilities.length; i++) {
+    const child = visibleAbilities[i];
+    child.style.marginLeft = marginPerSide + "px";
+    child.style.marginRight = marginPerSide + "px";
+    child.style.overflow = "noclip";
+
+    // Manage separator line
+    let separator = child.FindChild("SeparatorLine");
+    if (i < visibleAbilities.length - 1) {
+      if (!separator) {
+        separator = $.CreatePanel("Panel", child, "SeparatorLine");
+        separator.style.width = "2px";
+        separator.style.height = "42px";
+        separator.style.verticalAlign = "center";
+        separator.style.horizontalAlign = "right";
+        separator.style.marginRight = "-17px";
+        separator.style.background = "gradient( linear, 0% 0%, 0% 100%, from( rgba(255,255,255,0) ), color-stop( 0.2, rgba(255,255,255,0.7) ), color-stop( 0.8, rgba(255,255,255,0.7) ), to( rgba(255,255,255,0) ) )";
+        separator.style.zIndex = "10";
+      }
+    } else {
+      if (separator) {
+        separator.DeleteAsync(0);
+      }
+    }
+  }
 }
 
 function adjustTopbarSpacings() {

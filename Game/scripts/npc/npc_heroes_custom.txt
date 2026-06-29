@@ -312,7 +312,7 @@
 		"MovementSpeed"                                 "300"
 		"Armor"                                         "3.0"
 
-		"Ability1"                                      "ringmaster_tame_the_beasts_custom"
+		"Ability1"                                      "ringmaster_tame_the_beasts"
 		"Ability2"                                      "ringmaster_knives_out_custom"
 		"Ability3"                                      "ringmaster_box_game_custom"
 		"Ability4"                                      "ringmaster_krugger_custom"
