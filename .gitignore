@@ -1,2 +1,4 @@
 *.bin
 *.vpk
+
+game/tools_thumbnail_cache*
