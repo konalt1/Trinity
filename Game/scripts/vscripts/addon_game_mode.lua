@@ -5,6 +5,7 @@ require ("game_settings")
 require ("utils/util")
 require ("test_mind_power") -- Тестовый файл для проверки функции
 require ("game_managers/creep_bounty_comeback")
+require ("game_managers/killfeed_system")
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")

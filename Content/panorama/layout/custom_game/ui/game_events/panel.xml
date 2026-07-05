@@ -7,6 +7,6 @@
     </scripts>
 
     <Panel class="GameEvents" hittest="false">
-        <Label id="GameEventTitle" text="text text title here...."/>
+        <Label id="GameEventTitle" class="GameEventTitle" text=""/>
     </Panel>
 </root>

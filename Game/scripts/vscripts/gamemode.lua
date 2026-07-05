@@ -27,6 +27,10 @@ function GameMode:InitGameMode()
 	ListenToGameEvent('dota_item_picked_up', Dynamic_Wrap(self, 'OnChenInventoryChanged'), self)
 
 	CustomGameEventManager:RegisterListener('chat_wheel_select', Dynamic_Wrap(self, 'OnChatWheelSelect'))	
+
+	if KillfeedSystem and KillfeedSystem.Init then
+		KillfeedSystem:Init()
+	end
  
 
     GameRules:SetCustomGameTeamMaxPlayers(1, 2)
@@ -397,6 +401,10 @@ end
 
 function GameMode:OnNPCSpawned(data)
  	local npc = EntIndexToHScript(data.entindex)
+
+	if KillfeedSystem and KillfeedSystem.OnNPCSpawned then
+		KillfeedSystem:OnNPCSpawned(npc)
+	end
  	
  	if npc and npc:GetUnitName() then
  		-- Если это башня - регистрируем её (с проверкой на дубликаты внутри)
@@ -470,13 +478,20 @@ function GameMode:OnInventoryUpdate(data)
 end
 
 function GameMode:ModifyGoldFilter(data)
-	if data.reason_const == DOTA_ModifyGold_HeroKill  then data.gold = data.gold * 2 end
+	if KillfeedSystem and KillfeedSystem.ModifyGoldFilter then
+		local result = KillfeedSystem:ModifyGoldFilter(data)
+		if result == false then
+			return false
+		end
+	end
 
 	if ChenBarrackGold and ChenBarrackGold.ModifyGoldFilter then
 		return ChenBarrackGold.ModifyGoldFilter(data)
 	end
 
-	print(data.reason_const)
+	if data then
+		print(data.reason_const)
+	end
 	return true
 end
 
@@ -511,7 +526,14 @@ function GameMode:OnEntityKilled(keys)
 	end
 
 	local unit = EntIndexToHScript(keys.entindex_killed)
+	if not unit or (unit.IsNull and unit:IsNull()) then
+		return
+	end
+
 	local unit_name = unit:GetUnitName()
+	if KillfeedSystem and KillfeedSystem.OnEntityKilled then
+		KillfeedSystem:OnEntityKilled(keys, unit)
+	end
 
 	-- Обработка уничтожения башен
 	if unit:IsBuilding() and not unit:IsFort() then
