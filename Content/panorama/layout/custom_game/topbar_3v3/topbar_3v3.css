@@ -1,0 +1,117 @@
+#TrinityTopBarRoot {
+  width: 100%;
+  height: 92px;
+  horizontal-align: center;
+  vertical-align: top;
+  overflow: noclip;
+}
+
+#TrinityTopBar {
+  horizontal-align: center;
+  flow-children: right;
+  height: 58px;
+  margin-top: 0px;
+}
+
+.TopBarTeam {
+  flow-children: right;
+  width: 198px;
+  height: 58px;
+}
+
+.TopBarRadiant {
+  horizontal-align: right;
+}
+
+.TopBarDire {
+  horizontal-align: left;
+}
+
+.PlayerSlot {
+  width: 66px;
+  height: 58px;
+  margin: 0px;
+  background-color: gradient(linear, 0% 0%, 0% 100%, from(#202833), color-stop(0.55, #111821), to(#070a0e));
+  border-left: 1px solid #3a4654;
+  border-right: 1px solid #05070a;
+  box-shadow: inset 0px -4px 0px 0px #00000088;
+}
+
+.TopBarRadiant .PlayerSlot {
+  border-bottom: 4px solid #78c742;
+}
+
+.TopBarDire .PlayerSlot {
+  border-bottom: 4px solid #d8672f;
+}
+
+.HeroImage {
+  width: 100%;
+  height: 47px;
+  saturation: 0.98;
+}
+
+.EmptySlot .HeroImage {
+  opacity: 0;
+}
+
+.Dead .HeroImage {
+  saturation: 0;
+  brightness: 0.35;
+}
+
+.PlayerColor {
+  width: 100%;
+  height: 4px;
+  vertical-align: bottom;
+  background-color: #444444;
+}
+
+.RespawnLabel {
+  horizontal-align: center;
+  vertical-align: center;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  text-shadow: 0px 1px 3px 2 #000000;
+  visibility: collapse;
+}
+
+.Dead .RespawnLabel {
+  visibility: visible;
+}
+
+#TopBarCenter {
+  width: 220px;
+  height: 58px;
+  flow-children: right;
+}
+
+.TopBarScore {
+  width: 48px;
+  height: 42px;
+  margin-top: 8px;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0px 1px 3px 2 #000000;
+}
+
+#TimerPlate {
+  width: 124px;
+  height: 58px;
+  background-color: gradient(linear, 0% 0%, 0% 100%, from(#3f4b5b), color-stop(0.52, #222b35), to(#121820));
+  border-left: 1px solid #59697d;
+  border-right: 1px solid #0a0d12;
+  box-shadow: inset 0px -6px 0px 0px #00000099;
+}
+
+#GameTimer {
+  horizontal-align: center;
+  vertical-align: center;
+  color: white;
+  font-size: 28px;
+  text-align: center;
+  text-shadow: 0px 1px 3px 2 #000000;
+}

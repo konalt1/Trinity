@@ -8,6 +8,8 @@
     <Panel>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hud_cleanup.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/topbar_3v3/topbar_3v3.xml"/>
 
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui/game_events/panel.xml"/>
     </Panel>

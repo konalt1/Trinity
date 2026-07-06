@@ -1,0 +1,23 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+        <include src="file://{resources}/layout/custom_game/topbar_3v3/topbar_3v3.css"/>
+    </styles>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/utils.js"/>
+        <include src="file://{resources}/layout/custom_game/topbar_3v3/topbar_3v3.js"/>
+    </scripts>
+    <Panel id="TrinityTopBarRoot" hittest="false">
+        <Panel id="TrinityTopBar">
+            <Panel id="RadiantSlots" class="TopBarTeam TopBarRadiant"/>
+            <Panel id="TopBarCenter">
+                <Label id="RadiantScore" class="TopBarScore" text="0"/>
+                <Panel id="TimerPlate">
+                    <Label id="GameTimer" class="TopBarTimer MonoNumbersFont" text="0:00"/>
+                </Panel>
+                <Label id="DireScore" class="TopBarScore" text="0"/>
+            </Panel>
+            <Panel id="DireSlots" class="TopBarTeam TopBarDire"/>
+        </Panel>
+    </Panel>
+</root>
