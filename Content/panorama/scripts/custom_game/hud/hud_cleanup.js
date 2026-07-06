@@ -25,6 +25,14 @@ const HIDE_IDS = [
   "HeroFacetButton",
   "HeroFacetIcon",
 ];
+const HIDE_CLASSES = [
+  "ShowStatBranch",
+  "RootInnateDisplay",
+  "FacetInnateDisplay",
+  "HasInnate",
+  "InnateFrame",
+  "FacetHolder",
+];
 const HIDE_TOPBAR_SLOT_IDS = [
   "TopBarRadiantPlayer4",
   "TopBarRadiantPlayer5",
@@ -50,8 +58,23 @@ function hidePanel(panel) {
   if (!panel) return;
   panel.visible = false;
   panel.style.visibility = "collapse";
+  panel.style.width = "0px";
+  panel.style.height = "0px";
   panel.style.opacity = "0";
   panel.enabled = false;
+}
+
+function hidePanelsByClass(className) {
+  if (!dotaHud || !dotaHud.FindChildrenWithClassTraverse) return;
+
+  if (dotaHud.BHasClass && dotaHud.BHasClass(className)) {
+    hidePanel(dotaHud);
+  }
+
+  const panels = dotaHud.FindChildrenWithClassTraverse(className);
+  if (!panels) return;
+
+  panels.forEach((panel) => hidePanel(panel));
 }
 
 function hideSlot(panel) {
@@ -66,6 +89,7 @@ function hideSlot(panel) {
 
 function hideDefaultAbilityExtras() {
   HIDE_IDS.forEach((id) => hidePanel(FindDotaHudElement(id)));
+  HIDE_CLASSES.forEach((className) => hidePanelsByClass(className));
   cleanLevelStatsFrame();
 }
 
@@ -209,34 +233,27 @@ function spreadAbilities() {
     }
   });
 
-  // Apply a fixed, clean spacing (16px on each side of every skill slot)
-  const marginPerSide = 16;
-
   for (let i = 0; i < visibleAbilities.length; i++) {
     const child = visibleAbilities[i];
-    child.style.marginLeft = marginPerSide + "px";
-    child.style.marginRight = marginPerSide + "px";
+
+    child.style.marginTop = "0px";
+    child.style.marginBottom = "0px";
+    child.style.marginLeft = "0px";
+    child.style.marginRight = "3px";
     child.style.overflow = "noclip";
 
-    // Manage separator line
-    let separator = child.FindChild("SeparatorLine");
-    if (i < visibleAbilities.length - 1) {
-      if (!separator) {
-        separator = $.CreatePanel("Panel", child, "SeparatorLine");
-        separator.style.width = "2px";
-        separator.style.height = "42px";
-        separator.style.verticalAlign = "center";
-        separator.style.horizontalAlign = "right";
-        separator.style.marginRight = "-17px";
-        separator.style.background = "gradient( linear, 0% 0%, 0% 100%, from( rgba(255,255,255,0) ), color-stop( 0.2, rgba(255,255,255,0.7) ), color-stop( 0.8, rgba(255,255,255,0.7) ), to( rgba(255,255,255,0) ) )";
-        separator.style.zIndex = "10";
-      }
-    } else {
-      if (separator) {
-        separator.DeleteAsync(0);
-      }
+    const separator = child.FindChild("SeparatorLine");
+    if (separator) {
+      separator.DeleteAsync(0);
     }
   }
+}
+
+function adjustAbilitiesAndStatBranch() {
+  const panel = FindDotaHudElement("AbilitiesAndStatBranch");
+  if (!panel) return;
+
+  panel.style.minWidth = "0px";
 }
 
 function adjustTopbarSpacings() {
@@ -264,6 +281,7 @@ function tickHudCleanup() {
   hideOverflowTopbarPlayers();
   hidePregamePlayerSlots();
   adjustTopbarSpacings();
+  adjustAbilitiesAndStatBranch();
   spreadAbilities();
   $.Schedule(0.25, tickHudCleanup);
 }
