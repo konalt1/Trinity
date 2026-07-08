@@ -686,12 +686,15 @@
 		"DOTA_Tooltip_ability_chen_barrack_heal_search_radius"					"РАДИУС ПОИСКА:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"				"ПОРОГ РАНЕНИЯ:"
 
-		"DOTA_Tooltip_ability_chen_barrack_hunter_focus"							"Охотничий прицел"
-		"DOTA_Tooltip_ability_chen_barrack_hunter_focus_Description"				"На %dota_ability_chen_barrack_hunter_focus_buff_duration% сек. атаки наносят дополнительный урон крипам (лейн и нейтралы). Автоприменение: при включённом тоггле бафф накладывается перед атакой по крипу (если способность не на перезарядке)."
-		"DOTA_Tooltip_ability_chen_barrack_hunter_focus_buff_duration"			"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_chen_barrack_hunter_focus_bonus_damage"				"ДОП. УРОН ПО КРИПАМ:"
-		"DOTA_Tooltip_modifier_chen_barrack_hunter_focus"						"Охотничий прицел"
-		"DOTA_Tooltip_modifier_chen_barrack_hunter_focus_Description"			"Атаки наносят дополнительный урон крипам."
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn"					"Mana Burn"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn_Description"		"Каждая атака сжигает у жертвы %dota_ability_chen_barrack_anti_creep_mana_burn_mana_burn% маны."
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn_mana_burn"		"СЖИГАНИЕ МАНЫ:"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash"						"Dash"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_Description"			"Увеличивает скорость передвижения крипа на %dota_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct%%% на %dota_ability_chen_barrack_anti_creep_dash_buff_duration% сек. Автоприменение: используется при погоне за врагами."
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_buff_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct"	"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash"						"Dash"
+		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash_Description"			"Скорость передвижения увеличена."
 
 		"DOTA_Tooltip_ability_chen_barrack_brute_rally"							"Боевой дух"
 		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"				"На %dota_ability_chen_barrack_brute_rally_buff_duration% сек. увеличивает скорость атаки всех союзников в радиусе %dota_ability_chen_barrack_brute_rally_radius%. Автоприменение: при включённом тоггле активируется, когда бруту наносят физический урон (если способность не на перезарядке)."
@@ -703,7 +706,7 @@
 		"DOTA_Tooltip_modifier_chen_barrack_brute_rally_aura"					"Боевой дух"
 		"DOTA_Tooltip_modifier_chen_barrack_brute_rally_aura_Description"		"Распространяет ускорение атаки на союзников рядом."
 
-		"npc_chen_barrack_hunter"												"Охотник барака"
+		"npc_chen_barrack_hunter"												"Anti Creep"
 		"npc_chen_barrack_healer"												"Целитель барака"
 		"npc_chen_barrack_brute"												"Брут барака"
 

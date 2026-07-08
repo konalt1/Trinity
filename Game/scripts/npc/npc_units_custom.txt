@@ -907,17 +907,17 @@
     "npc_chen_barrack_hunter"
     {
         "BaseClass"                 "npc_dota_creep_neutral"
-        "Model"                     "models/creeps/neutral_creeps/n_creep_gnoll/n_creep_gnoll.vmdl"
-        "SoundSet"                  "n_creep_Ranged"
-        "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
+        "Model"                     "models/heroes/antimage/antimage.vmdl"
+        "SoundSet"                  "Hero_Antimage"
+        "GameSoundsFile"            "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
         "Level"                     "1"
-        "ModelScale"                "0.9"
+        "ModelScale"                "0.45"
         "IsNeutralUnitType"         "1"
         "UseNeutralCreepBehavior"   "0"
         "ChenBarrackGoldMode"       "shared_carrier"
 
-        "Ability1"                  "chen_barrack_hunter_focus"
-        "Ability2"                  "creep_piercing"
+        "Ability1"                  "chen_barrack_anti_creep_mana_burn"
+        "Ability2"                  "chen_barrack_anti_creep_dash"
 
         "ArmorPhysical"             "1"
         "MagicalResistance"         "0"
@@ -946,7 +946,7 @@
 
         "StatusHealth"              "380"
         "StatusHealthRegen"         "1"
-        "StatusMana"                "0"
+        "StatusMana"                "100"
         "StatusManaRegen"           "0"
 
         "VisionDaytimeRange"        "800"
