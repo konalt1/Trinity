@@ -1,48 +1,194 @@
 chen_barrack_brute_rally = class({})
-modifier_chen_barrack_brute_rally = class({})
-modifier_chen_barrack_brute_rally_aura = class({})
 modifier_chen_barrack_brute_rally_autocast = class({})
 
 local SCRIPT_PATH = "abilities/chen/barrack/units/chen_barrack_brute_rally"
-local RALLY_AURA_MODIFIER = "modifier_chen_barrack_brute_rally_aura"
-local RALLY_ABILITY_NAME = "chen_barrack_brute_rally"
+local COOLDOWN_ABILITY_NAME = "chen_barrack_brute_rally"
+local CHRONOMANCER_UNIT_NAME = "npc_chen_barrack_brute"
+local MAX_ABILITY_SLOTS = 24
 
-LinkLuaModifier("modifier_chen_barrack_brute_rally", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_chen_barrack_brute_rally_aura", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_brute_rally_autocast", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 
 local function IsValidUnit(unit)
     return unit and not unit:IsNull() and unit:IsAlive()
 end
 
-local function ApplyBruteRally(ability, caster, startCooldown)
-    if not IsServer() or not ability or ability:IsNull() or not IsValidUnit(caster) then
+local function IsHeroOrCreep(unit)
+    if not IsValidUnit(unit) then
         return false
     end
 
-    if not ability:IsFullyCastable() then
+    if unit:IsHero() then
+        return true
+    end
+
+    if unit.IsCreep and unit:IsCreep() then
+        return true
+    end
+
+    return unit.IsCreature and unit:IsCreature()
+end
+
+local function IsChronomancerUnit(unit)
+    return IsValidUnit(unit) and unit:GetUnitName() == CHRONOMANCER_UNIT_NAME
+end
+
+local function IsValidCooldownTarget(caster, target)
+    if not IsValidUnit(caster) or not IsValidUnit(target) or target == caster then
         return false
     end
 
-    if caster:IsSilenced() or caster:IsStunned() or caster:IsHexed() then
+    if target:GetTeamNumber() ~= caster:GetTeamNumber() then
         return false
     end
 
-    local duration = ability:GetSpecialValueFor("buff_duration")
-    local existing = caster:FindModifierByName(RALLY_AURA_MODIFIER)
-    if existing then
-        existing:SetDuration(duration, true)
-    else
-        caster:AddNewModifier(caster, ability, RALLY_AURA_MODIFIER, {
-            duration = duration,
-        })
+    if target:IsBuilding() or target:IsInvulnerable() then
+        return false
     end
 
-    caster:EmitSound("Hero_Ursa.Enrage")
+    return IsHeroOrCreep(target)
+end
 
-    if startCooldown then
-        ability:StartCooldown(ability:GetCooldown(ability:GetLevel() - 1))
+local function GetUnitAbilityCount(unit)
+    if unit.GetAbilityCount then
+        local count = unit:GetAbilityCount()
+        if count and count > 0 then
+            return count
+        end
     end
+
+    return MAX_ABILITY_SLOTS
+end
+
+local function IsReducibleAbility(ability)
+    if not ability or ability:IsNull() then
+        return false
+    end
+
+    if ability:GetLevel() <= 0 then
+        return false
+    end
+
+    local name = ability:GetAbilityName()
+    if name == "attribute_bonus" or name == "generic_hidden" then
+        return false
+    end
+
+    return ability:GetCooldownTimeRemaining() > 0
+end
+
+local function HasReducibleCooldown(target)
+    if not IsValidUnit(target) then
+        return false
+    end
+
+    for index = 0, GetUnitAbilityCount(target) - 1 do
+        local ability = target:GetAbilityByIndex(index)
+        if IsReducibleAbility(ability) then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function FindAutoCooldownTarget(caster, ability)
+    if not IsValidUnit(caster) or not ability or ability:IsNull() then
+        return nil
+    end
+
+    local radius = ability:GetSpecialValueFor("search_radius")
+    local allies = FindUnitsInRadius(
+        caster:GetTeamNumber(),
+        caster:GetAbsOrigin(),
+        nil,
+        radius,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_CLOSEST,
+        false
+    )
+
+    local bestCreep
+    for _, ally in pairs(allies) do
+        if not IsChronomancerUnit(ally) and IsValidCooldownTarget(caster, ally) and HasReducibleCooldown(ally) then
+            if ally:IsRealHero() then
+                return ally
+            end
+
+            bestCreep = bestCreep or ally
+        end
+    end
+
+    return bestCreep
+end
+
+local function ReduceAbilityCooldown(ability, amount)
+    local remaining = ability:GetCooldownTimeRemaining()
+    if remaining <= 0 then
+        return false
+    end
+
+    local newCooldown = math.max(0, remaining - amount)
+    ability:EndCooldown()
+    if newCooldown > 0 then
+        ability:StartCooldown(newCooldown)
+    end
+
+    return true
+end
+
+local function PlayCooldownReductionParticle(caster, target)
+    local particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_keeper_of_the_light/keeper_chakra_magic.vpcf",
+        PATTACH_ABSORIGIN_FOLLOW,
+        caster
+    )
+    ParticleManager:SetParticleControlEnt(
+        particle,
+        0,
+        caster,
+        PATTACH_POINT_FOLLOW,
+        "attach_attack1",
+        caster:GetAbsOrigin(),
+        true
+    )
+    ParticleManager:SetParticleControlEnt(
+        particle,
+        1,
+        target,
+        PATTACH_POINT_FOLLOW,
+        "attach_hitloc",
+        target:GetAbsOrigin(),
+        true
+    )
+    ParticleManager:ReleaseParticleIndex(particle)
+end
+
+local function ReduceTargetCooldowns(caster, target, ability)
+    if not IsValidCooldownTarget(caster, target) or not ability or ability:IsNull() then
+        return false
+    end
+
+    local cooldownReduction = ability:GetSpecialValueFor("cooldown_reduction")
+    if cooldownReduction <= 0 then
+        return false
+    end
+
+    local reducedAny = false
+    for index = 0, GetUnitAbilityCount(target) - 1 do
+        local targetAbility = target:GetAbilityByIndex(index)
+        if IsReducibleAbility(targetAbility) then
+            reducedAny = ReduceAbilityCooldown(targetAbility, cooldownReduction) or reducedAny
+        end
+    end
+
+    if not reducedAny then
+        return false
+    end
+
+    PlayCooldownReductionParticle(caster, target)
+    target:EmitSound("Hero_KeeperOfTheLight.ChakraMagic.Target")
 
     return true
 end
@@ -52,20 +198,43 @@ function ChenBarrackEnableBruteAutocast(brute)
         return
     end
 
-    local ability = brute:FindAbilityByName(RALLY_ABILITY_NAME)
+    local ability = brute:FindAbilityByName(COOLDOWN_ABILITY_NAME)
     if ability and not ability:IsNull() and not ability:GetAutoCastState() then
         ability:ToggleAutoCast()
     end
 end
 
 function chen_barrack_brute_rally:Precache(context)
-    PrecacheResource("model", "models/heroes/ursa/ursa.vmdl", context)
-    PrecacheResource("particle", "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf", context)
-    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_keeper_of_the_light/keeper_chakra_magic.vpcf", context)
+    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts", context)
 end
 
 function chen_barrack_brute_rally:GetIntrinsicModifierName()
     return "modifier_chen_barrack_brute_rally_autocast"
+end
+
+function chen_barrack_brute_rally:CastFilterResultTarget(target)
+    if not IsServer() then
+        return UF_SUCCESS
+    end
+
+    if not IsValidCooldownTarget(self:GetCaster(), target) then
+        return UF_FAIL_CUSTOM
+    end
+
+    if not HasReducibleCooldown(target) then
+        return UF_FAIL_CUSTOM
+    end
+
+    return UF_SUCCESS
+end
+
+function chen_barrack_brute_rally:GetCustomCastErrorTarget(target)
+    if not IsValidCooldownTarget(self:GetCaster(), target) then
+        return "#dota_hud_error_cant_cast_on_other"
+    end
+
+    return "#dota_hud_error_no_abilities_on_cooldown"
 end
 
 function chen_barrack_brute_rally:OnSpellStart()
@@ -73,7 +242,7 @@ function chen_barrack_brute_rally:OnSpellStart()
         return
     end
 
-    ApplyBruteRally(self, self:GetCaster(), false)
+    ReduceTargetCooldowns(self:GetCaster(), self:GetCursorTarget(), self)
 end
 
 function modifier_chen_barrack_brute_rally_autocast:IsHidden()
@@ -93,130 +262,47 @@ function modifier_chen_barrack_brute_rally_autocast:OnCreated()
     if ability and not ability:IsNull() and not ability:GetAutoCastState() then
         ability:ToggleAutoCast()
     end
+
+    local interval = 0.25
+    if ability and not ability:IsNull() then
+        local thinkInterval = ability:GetSpecialValueFor("think_interval")
+        if thinkInterval and thinkInterval > 0 then
+            interval = thinkInterval
+        end
+    end
+
+    self:StartIntervalThink(interval)
 end
 
-function modifier_chen_barrack_brute_rally_autocast:DeclareFunctions()
-    return {
-        MODIFIER_EVENT_ON_TAKEN_DAMAGE,
-    }
-end
-
-function modifier_chen_barrack_brute_rally_autocast:OnTakeDamage(params)
+function modifier_chen_barrack_brute_rally_autocast:OnIntervalThink()
     if not IsServer() then
         return
     end
 
-    local parent = self:GetParent()
+    local caster = self:GetParent()
     local ability = self:GetAbility()
-    if not IsValidUnit(parent) or not ability or ability:IsNull() then
+    if not IsValidUnit(caster) or not ability or ability:IsNull() then
         return
     end
 
-    if params.unit ~= parent then
+    if not ability:GetAutoCastState() or not ability:IsFullyCastable() then
         return
     end
 
-    if not ability:GetAutoCastState() then
+    if caster:IsStunned() or caster:IsHexed() or caster:IsSilenced() then
         return
     end
 
-    if not params.damage or params.damage <= 0 then
+    local target = FindAutoCooldownTarget(caster, ability)
+    if not target then
         return
     end
 
-    if params.damage_type ~= DAMAGE_TYPE_PHYSICAL then
+    if (caster:GetAbsOrigin() - target:GetAbsOrigin()):Length2D() > ability:GetCastRange(caster:GetAbsOrigin(), target) then
         return
     end
 
-    ApplyBruteRally(ability, parent, true)
-end
-
-function modifier_chen_barrack_brute_rally_aura:IsHidden()
-    return false
-end
-
-function modifier_chen_barrack_brute_rally_aura:IsPurgable()
-    return true
-end
-
-function modifier_chen_barrack_brute_rally_aura:GetTexture()
-    return "ursa_overpower"
-end
-
-function modifier_chen_barrack_brute_rally_aura:OnCreated()
-    if not IsServer() then
-        return
+    if ReduceTargetCooldowns(caster, target, ability) then
+        ability:UseResources(false, false, false, true)
     end
-
-    local ability = self:GetAbility()
-    if ability and not ability:IsNull() then
-        self.radius = ability:GetSpecialValueFor("radius")
-    end
-
-    local particle = ParticleManager:CreateParticle(
-        "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf",
-        PATTACH_ABSORIGIN_FOLLOW,
-        self:GetParent()
-    )
-    self:AddParticle(particle, false, false, -1, false, false)
-end
-
-function modifier_chen_barrack_brute_rally_aura:IsAura()
-    return true
-end
-
-function modifier_chen_barrack_brute_rally_aura:GetAuraRadius()
-    if self.radius and self.radius > 0 then
-        return self.radius
-    end
-
-    local ability = self:GetAbility()
-    if ability and not ability:IsNull() then
-        return ability:GetSpecialValueFor("radius")
-    end
-
-    return 200
-end
-
-function modifier_chen_barrack_brute_rally_aura:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
-end
-
-function modifier_chen_barrack_brute_rally_aura:GetAuraSearchType()
-    return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
-end
-
-function modifier_chen_barrack_brute_rally_aura:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_NONE
-end
-
-function modifier_chen_barrack_brute_rally_aura:GetModifierAura()
-    return "modifier_chen_barrack_brute_rally"
-end
-
-function modifier_chen_barrack_brute_rally:IsHidden()
-    return false
-end
-
-function modifier_chen_barrack_brute_rally:IsPurgable()
-    return true
-end
-
-function modifier_chen_barrack_brute_rally:GetTexture()
-    return "ursa_overpower"
-end
-
-function modifier_chen_barrack_brute_rally:DeclareFunctions()
-    return {
-        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-    }
-end
-
-function modifier_chen_barrack_brute_rally:GetModifierAttackSpeedBonus_Constant()
-    local ability = self:GetAbility()
-    if not ability or ability:IsNull() then
-        return 0
-    end
-
-    return ability:GetSpecialValueFor("bonus_attack_speed")
 end

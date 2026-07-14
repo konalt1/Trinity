@@ -675,8 +675,8 @@
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
-		"DOTA_Tooltip_ability_chen_barrack_summon_brute"						"Призвать брута"
-		"DOTA_Tooltip_ability_chen_barrack_summon_brute_Description"			"Ставит в очередь ближнего брута. Ускоряет атаку союзников рядом. Золото с убийств — как у охотника. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute"						"Призвать хрономанта"
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_Description"			"Ставит в очередь малого мага времени. Он ускоряет способности союзных героев и крипов рядом, сокращая активные перезарядки автоприменением. Золото с убийств — как у охотника. Оплата — золото барака."
 		"DOTA_Tooltip_ability_chen_barrack_summon_brute_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_brute_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
@@ -685,6 +685,7 @@
 		"DOTA_Tooltip_ability_chen_barrack_heal_heal_amount"						"ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_search_radius"					"РАДИУС ПОИСКА:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"				"ПОРОГ РАНЕНИЯ:"
+		"dota_hud_error_no_abilities_on_cooldown"								"Нет способностей на перезарядке"
 
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn"					"Mana Burn"
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn_Description"		"Каждая атака сжигает у жертвы %dota_ability_chen_barrack_anti_creep_mana_burn_mana_burn% маны."
@@ -696,19 +697,13 @@
 		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash"						"Dash"
 		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash_Description"			"Скорость передвижения увеличена."
 
-		"DOTA_Tooltip_ability_chen_barrack_brute_rally"							"Боевой дух"
-		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"				"На %dota_ability_chen_barrack_brute_rally_buff_duration% сек. увеличивает скорость атаки всех союзников в радиусе %dota_ability_chen_barrack_brute_rally_radius%. Автоприменение: при включённом тоггле активируется, когда бруту наносят физический урон (если способность не на перезарядке)."
-		"DOTA_Tooltip_ability_chen_barrack_brute_rally_buff_duration"			"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_chen_barrack_brute_rally_radius"					"РАДИУС:"
-		"DOTA_Tooltip_ability_chen_barrack_brute_rally_bonus_attack_speed"		"СКОРОСТЬ АТАКИ:"
-		"DOTA_Tooltip_modifier_chen_barrack_brute_rally"						"Боевой дух"
-		"DOTA_Tooltip_modifier_chen_barrack_brute_rally_Description"			"Скорость атаки увеличена."
-		"DOTA_Tooltip_modifier_chen_barrack_brute_rally_aura"					"Боевой дух"
-		"DOTA_Tooltip_modifier_chen_barrack_brute_rally_aura_Description"		"Распространяет ускорение атаки на союзников рядом."
-
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally"							"Дань времени"
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"				"Искривляет время вокруг союзного героя или крипа, сокращая все активные перезарядки способностей на %dota_ability_chen_barrack_brute_rally_cooldown_reduction% сек. Автоприменение: выбирает союзников в радиусе %dota_ability_chen_barrack_brute_rally_search_radius%, если у них есть хотя бы одна способность на перезарядке; приоритет — герои, затем крипы."
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_cooldown_reduction"		"СОКРАЩЕНИЕ ПЕРЕЗАРЯДКИ:"
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_search_radius"			"РАДИУС ПОИСКА:"
 		"npc_chen_barrack_hunter"												"Anti Creep"
 		"npc_chen_barrack_healer"												"Целитель барака"
-		"npc_chen_barrack_brute"												"Брут барака"
+		"npc_chen_barrack_brute"												"Хрономант барака"
 
 		"DOTA_Tooltip_ability_chen_worker_gather"							"Сбор"
 		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"Автоприменение: рабочий собирает золото с цветущих деревьев и сдаёт его бараку. Приказы движения, атаки, остановки и удержания позиции отключают автосбор на 15 сек."

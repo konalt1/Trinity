@@ -16,6 +16,37 @@ local function IsValidUnit(unit)
     return unit and not unit:IsNull()
 end
 
+local function GetManaBurnValue(ability)
+    if not ability or ability:IsNull() then
+        return 0
+    end
+
+    local value = ability:GetSpecialValueFor("mana_burn")
+    if value and value > 0 then
+        return value
+    end
+
+    return math.max(0, ability:GetLevelSpecialValueFor("mana_burn", 0))
+end
+
+local function BurnMana(target, amount, ability)
+    local currentMana = target:GetMana()
+    local manaToBurn = math.min(amount, currentMana)
+    if manaToBurn <= 0 then
+        return 0
+    end
+
+    if target.Script_ReduceMana then
+        target:Script_ReduceMana(manaToBurn, ability)
+    elseif target.ReduceMana then
+        target:ReduceMana(manaToBurn)
+    else
+        target:SetMana(math.max(0, currentMana - manaToBurn))
+    end
+
+    return manaToBurn
+end
+
 local function CanUseDash(caster, ability)
     if not IsValidUnit(caster) or not ability or ability:IsNull() then
         return false
@@ -26,6 +57,18 @@ local function CanUseDash(caster, ability)
     end
 
     return not caster:IsSilenced() and not caster:IsStunned() and not caster:IsHexed()
+end
+
+local function IsValidDashTarget(caster, target)
+    if not IsValidUnit(caster) or not IsValidUnit(target) then
+        return false
+    end
+
+    if not target:IsAlive() or target:IsBuilding() or target:GetTeamNumber() == caster:GetTeamNumber() then
+        return false
+    end
+
+    return true
 end
 
 local function ApplyDash(caster, ability, startCooldown)
@@ -44,8 +87,38 @@ local function ApplyDash(caster, ability, startCooldown)
     return true
 end
 
+local function TryUseDashOnTarget(caster, ability, target)
+    if not CanUseDash(caster, ability) or not IsValidDashTarget(caster, target) then
+        return false
+    end
+
+    local distance = (target:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D()
+    local attackRange = caster:Script_GetAttackRange()
+    if distance <= attackRange then
+        return false
+    end
+
+    local searchRadius = ability:GetSpecialValueFor("autocast_search_radius")
+    if searchRadius > 0 and distance > searchRadius then
+        return false
+    end
+
+    return ApplyDash(caster, ability, true)
+end
+
 function chen_barrack_anti_creep_mana_burn:GetIntrinsicModifierName()
     return MANA_BURN_MODIFIER
+end
+
+function chen_barrack_anti_creep_mana_burn:OnUpgrade()
+    if not IsServer() then
+        return
+    end
+
+    local caster = self:GetCaster()
+    if IsValidUnit(caster) and not caster:HasModifier(MANA_BURN_MODIFIER) then
+        caster:AddNewModifier(caster, self, MANA_BURN_MODIFIER, {})
+    end
 end
 
 function chen_barrack_anti_creep_dash:GetIntrinsicModifierName()
@@ -66,6 +139,17 @@ end
 
 function modifier_chen_barrack_anti_creep_mana_burn:IsPurgable()
     return false
+end
+
+function modifier_chen_barrack_anti_creep_mana_burn:OnCreated()
+    if not IsServer() then
+        return
+    end
+
+    local ability = self:GetAbility()
+    if ability and not ability:IsNull() and ability:GetLevel() <= 0 then
+        ability:SetLevel(1)
+    end
 end
 
 function modifier_chen_barrack_anti_creep_mana_burn:DeclareFunctions()
@@ -90,16 +174,19 @@ function modifier_chen_barrack_anti_creep_mana_burn:OnAttackLanded(params)
         return
     end
 
-    if target:IsBuilding() or target:IsOther() or target:GetTeamNumber() == parent:GetTeamNumber() then
+    if target:IsBuilding() or target:GetTeamNumber() == parent:GetTeamNumber() then
         return
     end
 
-    local manaBurn = math.max(0, ability:GetSpecialValueFor("mana_burn"))
+    local manaBurn = GetManaBurnValue(ability)
     if manaBurn <= 0 or target:GetMana() <= 0 then
         return
     end
 
-    target:ReduceMana(math.min(manaBurn, target:GetMana()))
+    local burned = BurnMana(target, manaBurn, ability)
+    if burned > 0 then
+        target:EmitSound("Hero_Antimage.ManaBreak")
+    end
 end
 
 function modifier_chen_barrack_anti_creep_dash_autocast:IsHidden()
@@ -140,26 +227,13 @@ function modifier_chen_barrack_anti_creep_dash_autocast:OnAttackStart(params)
         return
     end
 
-    if not ability:GetAutoCastState() or not CanUseDash(parent, ability) then
+    if not ability:GetAutoCastState() then
         return
     end
 
-    local target = params.target
-    if not IsValidUnit(target) or target:GetTeamNumber() == parent:GetTeamNumber() then
-        return
-    end
+    TryUseDashOnTarget(parent, ability, params.target)
 
-    local distance = (target:GetAbsOrigin() - parent:GetAbsOrigin()):Length2D()
-    if distance <= parent:Script_GetAttackRange() then
-        return
-    end
-
-    local searchRadius = ability:GetSpecialValueFor("autocast_search_radius")
-    if searchRadius > 0 and distance > searchRadius then
-        return
-    end
-
-    ApplyDash(parent, ability, true)
+    -- Не дашить, если мы уже в диапазоне атаки
 end
 
 function modifier_chen_barrack_anti_creep_dash_autocast:OnIntervalThink()
@@ -169,39 +243,12 @@ function modifier_chen_barrack_anti_creep_dash_autocast:OnIntervalThink()
 
     local parent = self:GetParent()
     local ability = self:GetAbility()
-    if not ability or ability:IsNull() or not ability:GetAutoCastState() or not CanUseDash(parent, ability) then
+    if not ability or ability:IsNull() or not ability:GetAutoCastState() then
         return
     end
 
-    local searchRadius = ability:GetSpecialValueFor("autocast_search_radius")
-    if searchRadius <= 0 then
-        return
-    end
+    TryUseDashOnTarget(parent, ability, parent:GetAttackTarget())
 
-    local enemies = FindUnitsInRadius(
-        parent:GetTeamNumber(),
-        parent:GetAbsOrigin(),
-        nil,
-        searchRadius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_NO_INVIS,
-        FIND_CLOSEST,
-        false
-    )
-
-    local target = enemies and enemies[1]
-    if not IsValidUnit(target) then
-        return
-    end
-
-    local attackRange = parent:Script_GetAttackRange()
-    local distance = (target:GetAbsOrigin() - parent:GetAbsOrigin()):Length2D()
-    if distance <= attackRange then
-        return
-    end
-
-    ApplyDash(parent, ability, true)
 end
 
 function modifier_chen_barrack_anti_creep_dash:IsHidden()

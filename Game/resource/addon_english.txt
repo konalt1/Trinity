@@ -636,11 +636,17 @@ Every tamed creep in the radius instantly casts its active abilities. After the 
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer_gold_cost"			"COST:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer_production_time"	"PRODUCTION TIME:"
 
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute"					"Summon Chronomancer"
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_Description"		"Queues a small time mage. It accelerates allied hero or creep abilities nearby, trimming active cooldowns with autocast. Kill gold works like the hunter. Cost is paid from this barracks' gold."
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_production_time"	"PRODUCTION TIME:"
+
 		"DOTA_Tooltip_ability_chen_barrack_heal"							"Heal"
 		"DOTA_Tooltip_ability_chen_barrack_heal_Description"				"Restores %dota_ability_chen_barrack_heal_heal_amount% health to an allied target. Autocast: heals wounded allies within %dota_ability_chen_barrack_heal_search_radius% (below %dota_ability_chen_barrack_heal_wound_threshold_pct%% HP), heroes first, then creeps; does not heal self."
 		"DOTA_Tooltip_ability_chen_barrack_heal_heal_amount"				"HEAL:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_search_radius"				"SEARCH RADIUS:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"		"WOUND THRESHOLD:"
+		"dota_hud_error_no_abilities_on_cooldown"							"No abilities are on cooldown"
 
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn"				"Mana Burn"
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn_Description"	"Each attack burns %dota_ability_chen_barrack_anti_creep_mana_burn_mana_burn% mana from the victim."
@@ -652,8 +658,14 @@ Every tamed creep in the radius instantly casts its active abilities. After the 
 		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash"					"Dash"
 		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash_Description"		"Movement speed increased."
 
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally"						"Time Tithe"
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"			"Bends time around an allied hero or creep, reducing every active ability cooldown by %dota_ability_chen_barrack_brute_rally_cooldown_reduction% seconds. Autocast: targets nearby allies within %dota_ability_chen_barrack_brute_rally_search_radius% that have at least one ability on cooldown; heroes first, then creeps."
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_cooldown_reduction"	"COOLDOWN REDUCTION:"
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_search_radius"		"SEARCH RADIUS:"
+
 		"npc_chen_barrack_hunter"											"Anti Creep"
 		"npc_chen_barrack_healer"											"Barracks Healer"
+		"npc_chen_barrack_brute"											"Barracks Chronomancer"
 
 		"DOTA_Tooltip_ability_chen_worker_gather"							"Gather"
 		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"Autocast: the worker gathers gold from blooming trees, then returns it to the barracks. Move, attack, stop, and hold-position orders pause auto-gather for 15 seconds."

@@ -178,7 +178,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "Ogre_Bruiser_icon_dota2_gameasset"
+        "AbilityTextureName"            "faceless_void_time_dilation"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -310,30 +310,33 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/barrack/units/chen_barrack_brute_rally"
-        "AbilityTextureName"            "Ogre_Bruiser_icon_dota2_gameasset"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
+        "AbilityTextureName"            "faceless_void_time_dilation"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
         "FightRecapLevel"               "1"
         "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
-        "AbilityCooldown"               "15"
+        "AbilityCastRange"              "800"
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "5"
         "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "buff_duration"             "8"
-            "radius"                    "200 300 400"
-            "bonus_attack_speed"        "30 60 90"
+            "cooldown_reduction"        "1"
+            "search_radius"             "800"
+            "think_interval"            "0.25"
         }
 
         "precache"
         {
-            "model"         "models/heroes/ursa/ursa.vmdl"
-            "particle"      "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf"
-            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts"
+            "particle"      "particles/units/heroes/hero_keeper_of_the_light/keeper_chakra_magic.vpcf"
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts"
         }
     }
 
@@ -344,26 +347,6 @@
         "IsPurgable"                    "0"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
-    }
-
-    "modifier_chen_barrack_brute_rally_aura"
-    {
-        "BaseClass"                     "modifier_lua"
-        "IsHidden"                      "0"
-        "IsPurgable"                    "1"
-        "IsDebuff"                      "0"
-        "RemoveOnDeath"                 "1"
-        "TextureName"                   "Ogre_Bruiser_icon_dota2_gameasset"
-    }
-
-    "modifier_chen_barrack_brute_rally"
-    {
-        "BaseClass"                     "modifier_lua"
-        "IsHidden"                      "0"
-        "IsPurgable"                    "1"
-        "IsDebuff"                      "0"
-        "RemoveOnDeath"                 "1"
-        "TextureName"                   "Ogre_Bruiser_icon_dota2_gameasset"
     }
 
     "chen_worker_gather"
@@ -644,7 +627,7 @@
         "IsPurgable"                    "0"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
-        "TextureName"                   "Ogre_Bruiser_icon_dota2_gameasset"
+        "TextureName"                   "faceless_void_time_dilation"
     }
 
     "modifier_chen_worker_gather_ai"
