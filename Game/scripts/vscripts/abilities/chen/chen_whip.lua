@@ -1,5 +1,7 @@
 chen_whip = class({})
 
+local WHIP_PARTICLE = "particles/items4_fx/thorn_whip.vpcf"
+
 local function GetAbilitySlotCount(unit)
 	if unit and unit.GetAbilityCount then
 		return unit:GetAbilityCount()
@@ -264,14 +266,36 @@ function chen_whip:GetCooldown(level)
 	return baseCooldown
 end
 
-local function CreateWhipEffect(caster, target)
-	if not caster or caster:IsNull() or not target or target:IsNull() then
+function chen_whip:Precache(context)
+	PrecacheResource("particle", WHIP_PARTICLE, context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts", context)
+end
+
+local function GetAttachmentPosition(unit, attachmentName, fallbackHeight)
+	if not unit or unit:IsNull() then
+		return nil
+	end
+
+	if unit.ScriptLookupAttachment and unit.GetAttachmentOrigin then
+		local attachment = unit:ScriptLookupAttachment(attachmentName)
+		if attachment and attachment > 0 then
+			return unit:GetAttachmentOrigin(attachment)
+		end
+	end
+
+	return unit:GetAbsOrigin() + Vector(0, 0, fallbackHeight or 0)
+end
+
+local function CreateWhipEffect(caster, endPosition)
+	if not caster or caster:IsNull() or not endPosition then
 		return
 	end
 
-	local particle = ParticleManager:CreateParticle("particles/items4_fx/thorn_whip.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
-	ParticleManager:SetParticleControlEnt(particle, 0, caster, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", caster:GetAbsOrigin(), true)
-	ParticleManager:SetParticleControlEnt(particle, 1, target, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
+	local startPosition = GetAttachmentPosition(caster, "attach_attack1", 96) or caster:GetAbsOrigin()
+	local particle = ParticleManager:CreateParticle(WHIP_PARTICLE, PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(particle, 0, startPosition)
+	ParticleManager:SetParticleControl(particle, 1, endPosition)
+	ParticleManager:SetParticleControl(particle, 2, endPosition)
 	ParticleManager:ReleaseParticleIndex(particle)
 end
 
@@ -306,6 +330,7 @@ function chen_whip:OnSpellStart()
 	local aoeRadius = self:GetSpecialValueFor("radius")
 	local searchRadius = self:GetSpecialValueFor("search_radius")
 
+	CreateWhipEffect(caster, position)
 	ApplyWhipDamageToEnemies(caster, self, position, aoeRadius)
 
 	local targets = FindTamedCreepsInRadius(caster, position, aoeRadius)
@@ -316,7 +341,7 @@ function chen_whip:OnSpellStart()
 		if castCount > 0 then
 			totalCastCount = totalCastCount + castCount
 		end
-		CreateWhipEffect(caster, unit)
+		CreateWhipEffect(caster, GetAttachmentPosition(unit, "attach_hitloc", 64))
 	end
 
 	if totalCastCount > 0 then

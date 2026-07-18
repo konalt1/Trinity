@@ -6,6 +6,7 @@
 #base "furion.txt"
 #base "juggernaut.txt"
 #base "lich.txt"
+#base "lion.txt"
 #base "lycan.txt"
 #base "ogre_magi.txt"
 #base "omniknight.txt"

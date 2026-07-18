@@ -57,7 +57,7 @@ ChenBarrackGold.UNIT_GOLD_MODES[CHEN_BARRACK_WORKER_UNIT] = "carrier"
 ChenBarrackGold.UNIT_GOLD_MODES[CHEN_BARRACK_HUNTER_UNIT] = "shared_carrier"
 ChenBarrackGold.UNIT_GOLD_MODES[CHEN_BARRACK_HEALER_UNIT] = "shared_carrier"
 ChenBarrackGold.UNIT_GOLD_MODES[CHEN_BARRACK_BRUTE_UNIT] = "shared_carrier"
-ChenBarrackGold.UNIT_GOLD_MODES["npc_chen_ancient_thunderhide"] = "shared_carrier"
+ChenBarrackGold.UNIT_GOLD_MODES["npc_chen_giant_courier"] = "shared_carrier"
 ChenBarrackGold.UNIT_GOLD_MODES["npc_chen_ancient_black_dragon"] = "shared_carrier"
 
 CHEN_BARRACK_REGISTRY = CHEN_BARRACK_REGISTRY or {}

@@ -1,11 +1,12 @@
 require("abilities/chen/barrack/units/chen_ancient_black_dragon_fire_puddle")
+require("abilities/chen/barrack/units/chen_giant_courier_transport")
 
-chen_sub_barrack_summon_thunderhide = class({})
+chen_sub_barrack_summon_giant_courier = class({})
 chen_sub_barrack_summon_dragon = class({})
 
 ChenSubBarrack = ChenSubBarrack or {}
 
-local THUNDERHIDE_UNIT = "npc_chen_ancient_thunderhide"
+local GIANT_COURIER_UNIT = "npc_chen_giant_courier"
 local DRAGON_UNIT = "npc_chen_ancient_black_dragon"
 
 local function IsValidEntity(entity)
@@ -238,7 +239,7 @@ function ChenSubBarrack.DisableProduction(subBarrack)
 end
 
 local SUB_BARRACK_SUMMON_ABILITIES = {
-    thunderhide = "chen_sub_barrack_summon_thunderhide",
+    courier = "chen_sub_barrack_summon_giant_courier",
     dragon = "chen_sub_barrack_summon_dragon",
 }
 
@@ -291,16 +292,16 @@ function ChenSubBarrack.EnableProduction(subBarrack)
     end
 end
 
-function chen_sub_barrack_summon_thunderhide:CastFilterResult()
+function chen_sub_barrack_summon_giant_courier:CastFilterResult()
     return SummonCastFilter(self)
 end
 
-function chen_sub_barrack_summon_thunderhide:GetCustomCastError()
+function chen_sub_barrack_summon_giant_courier:GetCustomCastError()
     return SummonCastError(self)
 end
 
-function chen_sub_barrack_summon_thunderhide:OnSpellStart()
-    QueueSummon(self, THUNDERHIDE_UNIT)
+function chen_sub_barrack_summon_giant_courier:OnSpellStart()
+    QueueSummon(self, GIANT_COURIER_UNIT)
 end
 
 function chen_sub_barrack_summon_dragon:CastFilterResult()
@@ -316,16 +317,16 @@ function chen_sub_barrack_summon_dragon:OnSpellStart()
 end
 
 function ChenSubBarrack.Precache(context)
-    PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl", context)
+    PrecacheResource("model", "models/courier/baby_rosh/babyroshan_ti9_flying.vmdl", context)
     PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_black_dragon/n_creep_black_dragon.vmdl", context)
     PrecacheResource("particle", "particles/neutral_fx/black_dragon_attack.vpcf", context)
     PrecacheResource("particle", "particles/units/neutral/black_dragon/black_dragon_fireball.vpcf", context)
     PrecacheResource("soundfile", "soundevents/game_sounds_creeps.vsndevts", context)
-    PrecacheUnitByNameSync(THUNDERHIDE_UNIT, context)
+    PrecacheUnitByNameSync(GIANT_COURIER_UNIT, context)
     PrecacheUnitByNameSync(DRAGON_UNIT, context)
 end
 
-function chen_sub_barrack_summon_thunderhide:Precache(context)
+function chen_sub_barrack_summon_giant_courier:Precache(context)
     ChenSubBarrack.Precache(context)
 end
 

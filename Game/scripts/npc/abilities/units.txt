@@ -128,7 +128,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "chen_barrack_wolf_t1"
+        "AbilityTextureName"            "chen_barrack_satyr_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -178,7 +178,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_barrack"
-        "AbilityTextureName"            "faceless_void_time_dilation"
+        "AbilityTextureName"            "chen_barrack_troll_t2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -415,11 +415,11 @@
         }
     }
 
-    "chen_worker_build_thunderhide_barrack"
+    "chen_worker_build_courier_barrack"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_worker_build"
-        "AbilityTextureName"            "chen_barrack_centaur_t1"
+        "AbilityTextureName"            "courier_burst"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -471,11 +471,11 @@
         }
     }
 
-    "chen_sub_barrack_summon_thunderhide"
+    "chen_sub_barrack_summon_giant_courier"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_sub_barrack"
-        "AbilityTextureName"            "centaur_khan_war_stomp"
+        "AbilityTextureName"            "courier_burst"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -493,6 +493,66 @@
             "production_time"           "30"
             "spawn_distance"            "360"
         }
+    }
+
+    "chen_giant_courier_transport_load"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/barrack/units/chen_giant_courier_transport"
+        "AbilityTextureName"            "courier_take_stash_items"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "1"
+        "AbilityManaCost"               "0"
+
+        "AbilityValues"
+        {
+            "load_radius"               "450"
+            "max_passengers"            "6"
+        }
+    }
+
+    "chen_giant_courier_transport_unload"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/barrack/units/chen_giant_courier_transport"
+        "AbilityTextureName"            "courier_return_stash_items"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "1"
+        "AbilityManaCost"               "0"
+    }
+
+    "modifier_chen_giant_courier_transport"
+    {
+        "BaseClass"                     "modifier_lua"
+        "IsHidden"                      "1"
+        "IsPurgable"                    "0"
+        "IsDebuff"                      "0"
+        "RemoveOnDeath"                 "1"
+    }
+
+    "modifier_chen_giant_courier_passenger"
+    {
+        "BaseClass"                     "modifier_lua"
+        "IsHidden"                      "1"
+        "IsPurgable"                    "0"
+        "IsDebuff"                      "0"
+        "RemoveOnDeath"                 "1"
     }
 
     "chen_ancient_black_dragon_fire_puddle"
@@ -607,7 +667,7 @@
         "IsPurgable"                    "0"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
-        "TextureName"                   "antimage_mana_break"
+        "TextureName"                   "chen_barrack_satyr_t2"
     }
 
     "modifier_chen_barrack_producing_healer"
@@ -627,7 +687,7 @@
         "IsPurgable"                    "0"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
-        "TextureName"                   "faceless_void_time_dilation"
+        "TextureName"                   "chen_barrack_troll_t2"
     }
 
     "modifier_chen_worker_gather_ai"

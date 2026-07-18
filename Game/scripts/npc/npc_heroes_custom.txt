@@ -102,6 +102,23 @@
         "Ability17"										"special_bonus_unique_custom_lich_8"
 	}
 
+	"npc_dota_hero_lion"
+	{
+		"override_hero"                                 "npc_dota_hero_lion"
+		"Facets" ""
+        "VoiceFile"                                    "soundevents/voscripts/game_sounds_vo_lion.vsndevts"
+        "ArmorPhysical"                                 "2.0"
+		"MovementSpeed"									"290"
+		"Ability1"				                        "lion_impale_custom"
+		"Ability2"				                        "lion_soul_collector"
+		"Ability3"				                        "lion_spirit_siphon_custom"
+        "Ability4"                                      "generic_hidden"
+        "Ability5"                                      "generic_hidden"
+		"Ability6"				                        "lion_finger_of_death_custom"
+        "Ability7"                                      "generic_hidden"
+        "Ability8"                                      "generic_hidden"
+	}
+
 	"npc_dota_hero_tinker"
 	{	
 		"ArmorPhysical"                                         "4.8"

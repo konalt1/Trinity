@@ -609,7 +609,7 @@ Every tamed creep in the radius instantly casts its active abilities. After the 
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"BARRACKS HP:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% GOLD TO KILLER ON DESTRUCTION:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"GOLD DELIVERY RADIUS:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Barracks workers gain three construction abilities: tower, thunderhide barracks, and black dragon barracks. Cost is paid from the main barracks' gold when the worker reaches the site and construction begins."
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Barracks workers gain three construction abilities: tower, courier hangar, and black dragon barracks. Cost is paid from the main barracks' gold when the worker reaches the site and construction begins."
 
 		"DOTA_Tooltip_ability_chen_barrack_farmland"							"Farmland"
 		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"Passive: a random tree near the barracks blooms. A creep trained by this barracks can stand near it to gather gold. If the bloom expires unharvested, nearby trees within the barracks radius bloom instead."
@@ -679,14 +679,14 @@ While the worker stays within %dota_ability_chen_worker_build_tower_worker_radiu
 		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"BUILD RATE:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"WORKER RADIUS:"
 
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack"			"Build Thunderhide Barracks"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_Description"	"The worker walks to the target point and begins building a thunderhide barracks. Cost is deducted from the main barracks' gold when construction starts.
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack"				"Build Courier Hangar"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_Description"	"The worker walks to the target point and begins building a courier hangar. Cost is deducted from the main barracks' gold when construction starts.
 
-The finished barracks can queue Ancient Thunderhide using the main barracks' gold. Progress freezes if the worker leaves or dies."
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_gold_cost"		"COST:"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_max_hp"			"CONSTRUCTION HP:"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_build_rate"		"BUILD RATE:"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_worker_radius"	"WORKER RADIUS:"
+The finished hangar can queue Giant Couriers using the main barracks' gold. Progress freezes if the worker leaves or dies."
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_gold_cost"			"COST:"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_max_hp"				"CONSTRUCTION HP:"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_build_rate"			"BUILD RATE:"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_worker_radius"		"WORKER RADIUS:"
 
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack"				"Build Black Dragon Pit"
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_Description"		"The worker walks to the target point and begins building a black dragon barracks. Cost is deducted from the main barracks' gold when construction starts.
@@ -697,10 +697,17 @@ The finished barracks can queue Ancient Black Dragon using the main barracks' go
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_build_rate"			"BUILD RATE:"
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_worker_radius"		"WORKER RADIUS:"
 
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide"				"Summon Ancient Thunderhide"
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_Description"		"Queues an Ancient Thunderhide. Paid from Chen's main barracks gold."
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_gold_cost"			"COST:"
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_production_time"	"PRODUCTION TIME:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier"				"Summon Giant Courier"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_Description"		"Queues a flying giant courier transport. Paid from Chen's main barracks gold."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_gold_cost"		"COST:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_production_time"	"PRODUCTION TIME:"
+
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load"					"Load Allies"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_Description"			"Loads up to %dota_ability_chen_giant_courier_transport_load_max_passengers% allied owner-controlled creeps near the courier. Loaded units are hidden and out of play; if the courier dies, they die with it."
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_load_radius"			"LOAD RADIUS:"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_max_passengers"		"MAX PASSENGERS:"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload"					"Unload All"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload_Description"		"Unloads all passengers around the courier."
 
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon"					"Summon Ancient Black Dragon"
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_Description"			"Queues an Ancient Black Dragon. Paid from Chen's main barracks gold."
@@ -711,9 +718,9 @@ The finished barracks can queue Ancient Black Dragon using the main barracks' go
 		"DOTA_Tooltip_modifier_chen_building_construction_Description"			"This structure is being built. The assigned worker must stay nearby."
 
 		"npc_chen_building_tower"												"Chen's Tower"
-		"npc_chen_building_thunderhide_barrack"									"Thunderhide Barracks"
+		"npc_chen_building_courier_barrack"										"Courier Hangar"
 		"npc_chen_building_dragon_barrack"										"Black Dragon Pit"
-		"npc_chen_ancient_thunderhide"											"Ancient Thunderhide"
+		"npc_chen_giant_courier"												"Giant Courier"
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
 
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Fireball"
@@ -756,6 +763,8 @@ Enemies in the area take magical damage every second."
 		"dota_hud_error_chen_worker_build_no_scepter"						"Requires Aghanim's Scepter"
 		"dota_hud_error_chen_worker_build_invalid_position"					"Cannot build at this location"
 		"dota_hud_error_chen_sub_barrack_under_construction"					"This barracks is still under construction"
+		"dota_hud_error_chen_giant_courier_full"								"Courier is full"
+		"dota_hud_error_chen_giant_courier_empty"								"No passengers aboard"
 		"dota_hud_error_chen_barrack_already_producing"					"This barracks is already producing a unit"
 		"dota_hud_error_chen_whip_no_tamed_creeps"							"No tamed creeps in radius"
 		"dota_hud_error_chen_holy_persuasion_invalid_target"				"This unit cannot be persuaded."
@@ -830,6 +839,37 @@ Enemies in the area take magical damage every second."
         // Teleportation channel time tooltip
         "DOTA_Tooltip_ability_furion_teleportation_curse_radius"                    "CURSE RADIUS:"
         "DOTA_Tooltip_ability_furion_teleportation_AbilityChannelTime"              "TELEPORT WINDUP:"
+
+		// Lion
+		"DOTA_Tooltip_ability_lion_impale_custom"									"Earth Spike"
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Lion sends a row of spikes through the earth, damaging and stunning enemies in a line. Damage increases with Spell Power."
+		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"DAMAGE:"
+		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"STUN DURATION:"
+		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"SPELL POWER DAMAGE:"
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"With Aghanim's Shard, Earth Spike releases multiple spike lines in a cone in front of Lion."
+
+		"DOTA_Tooltip_ability_lion_soul_collector"									"Soul Collector"
+		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Passive: killing a creep grants temporary Spell Power. Killing a hero grants permanent Spell Power."
+		"DOTA_Tooltip_ability_lion_soul_collector_creep_mind_power"					"SPELL POWER PER CREEP:"
+		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"CREEP BONUS DURATION:"
+		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"SPELL POWER PER HERO:"
+
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Spirit Siphon"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Lion links to an enemy, draining mana each second and damaging them for half of the mana drained. Lion receives the drained mana and heals for the health drained. Mana drained per second increases with Spell Power."
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"MANA DRAIN PER SECOND:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"SPELL POWER MANA DRAIN:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%HEALTH DRAIN FROM MANA:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"DURATION:"
+
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Finger of Death"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Lion blasts a single enemy for heavy magical damage that increases with Spell Power. If this ability kills a hero, Lion gains a permanent Rebirth stack, reducing his respawn time."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"DAMAGE:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"SPELL POWER DAMAGE:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_respawn_reduction_pct"	"%RESPAWN REDUCTION PER STACK:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"EMPOWER DURATION:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"SCEPTER ATTACK RANGE:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%CLEAVE DAMAGE:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"With Aghanim's Scepter, casting Finger of Death empowers Lion's hand for %scepter_buff_duration% seconds: he becomes melee with %scepter_attack_range% attack range, gains cleave, and gains bonus attack damage equal to his Spell Power."
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Placeholder"

@@ -71,6 +71,7 @@ function Precache( context )
 	
 	-- Precache Trinity custom sounds
 	PrecacheResource( "soundfile", "soundevents/trinity_sounds.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_lion.vsndevts", context )
 
 	-- Phantom Assassin Phantom Cloud (Aghanim's Shard)
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts", context )

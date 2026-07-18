@@ -1,0 +1,143 @@
+// Trinity - Lion abilities
+"DOTAAbilities"
+{
+    "lion_impale_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "AbilityTextureName"            "lion_impale"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NONE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "HasShardUpgrade"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityCastGestureSlot"        "DEFAULT"
+        "AbilityCastRange"              "575 600 625 650"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "14 13 12 11"
+        "AbilityManaCost"               "90 110 130 150"
+
+        "AbilityValues"
+        {
+            "damage"                    "105 170 235 300"
+            "stun_duration"             "1.3 1.6 1.9 2.2"
+            "length"                    "825"
+            "width"                     "125"
+            "speed"                     "2800"
+            "shard_cone_angle"          "30"
+            "shard_spike_count"         "3"
+            "mind_power_multiplier"     "1.2"
+            "knockup_height"            "220"
+            "knockup_duration"          "0.45"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+            "particle"      "particles/units/heroes/hero_lion/lion_spell_impale.vpcf"
+        }
+    }
+
+    "lion_soul_collector"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "AbilityTextureName"            "lion_soul_collector"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "4"
+
+        "AbilityValues"
+        {
+            "creep_mind_power"          "4 6 8 10"
+            "creep_duration"            "25"
+            "hero_mind_power"           "10"
+        }
+    }
+
+    "lion_spirit_siphon_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "AbilityTextureName"            "lion_mana_drain"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NONE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCastRange"              "300"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCooldown"               "24 20 16 12"
+        "AbilityManaCost"               "80 90 100 110"
+
+        "AbilityValues"
+        {
+            "duration"                  "2"
+            "break_distance"            "500"
+            "mana_drain_per_second"     "35 55 75 95"
+            "mind_power_multiplier"     "0.8"
+            "health_drain_pct"          "50"
+            "tick_interval"             "0.25"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts"
+            "particle"      "particles/units/heroes/hero_death_prophet/death_prophet_spiritsiphon.vpcf"
+        }
+    }
+
+    "lion_finger_of_death_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "AbilityTextureName"            "lion_finger_of_death"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NONE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "2"
+        "HasScepterUpgrade"             "1"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityCastRange"              "900"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "100 60 20"
+        "AbilityManaCost"               "200 420 650"
+
+        "AbilityValues"
+        {
+            "damage"                    "400 500 600"
+            "mind_power_multiplier"     "4"
+            "respawn_reduction_pct"     "5"
+            "scepter_buff_duration"     "30"
+            "scepter_attack_range"      "250"
+            "scepter_cleave_damage_pct" "50"
+            "scepter_cleave_start_width" "150"
+            "scepter_cleave_end_width"  "360"
+            "scepter_cleave_distance"   "650"
+        }
+
+        "precache"
+        {
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+            "particle"      "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf"
+        }
+    }
+}

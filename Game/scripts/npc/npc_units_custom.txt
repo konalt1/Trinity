@@ -802,6 +802,7 @@
         "SoundSet"                  ""
         "Level"                     "1"
         "ModelScale"                "0.7"
+        "ConsideredHero"            "1"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -862,7 +863,7 @@
 
         "Ability1"                  "chen_worker_gather"
         "Ability2"                  "chen_worker_build_tower"
-        "Ability3"                  "chen_worker_build_thunderhide_barrack"
+        "Ability3"                  "chen_worker_build_courier_barrack"
         "Ability4"                  "chen_worker_build_dragon_barrack"
 
         "ArmorPhysical"             "2"
@@ -1122,13 +1123,14 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_TOWER"
     }
 
-    "npc_chen_building_thunderhide_barrack"
+    "npc_chen_building_courier_barrack"
     {
         "BaseClass"                 "npc_dota_creature"
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
         "ModelScale"                "0.7"
+        "ConsideredHero"            "1"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -1166,7 +1168,7 @@
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 
-        "Ability1"                  "chen_sub_barrack_summon_thunderhide"
+        "Ability1"                  "chen_sub_barrack_summon_giant_courier"
     }
 
     "npc_chen_building_dragon_barrack"
@@ -1176,6 +1178,7 @@
         "SoundSet"                  ""
         "Level"                     "1"
         "ModelScale"                "0.7"
+        "ConsideredHero"            "1"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -1216,38 +1219,41 @@
         "Ability1"                  "chen_sub_barrack_summon_dragon"
     }
 
-    "npc_chen_ancient_thunderhide"
+    "npc_chen_giant_courier"
     {
         "BaseClass"                 "npc_dota_creep_neutral"
-        "Model"                     "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl"
-        "SoundSet"                  "n_creep_Melee"
+        "Model"                     "models/courier/baby_rosh/babyroshan_ti9_flying.vmdl"
+        "SoundSet"                  "Courier"
         "Level"                     "5"
-        "ModelScale"                "1"
+        "ModelScale"                "1.35"
         "IsNeutralUnitType"         "1"
         "UseNeutralCreepBehavior"   "0"
         "ChenBarrackGoldMode"       "shared_carrier"
 
+        "Ability1"                  "chen_giant_courier_transport_load"
+        "Ability2"                  "chen_giant_courier_transport_unload"
+
         "ArmorPhysical"             "4"
         "MagicalResistance"         "25"
 
-        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
-        "AttackDamageMin"           "49"
-        "AttackDamageMax"           "55"
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
         "AttackRate"                "2"
         "BaseAttackSpeed"           "135"
         "AttackAnimationPoint"      "0.3"
-        "AttackAcquisitionRange"    "500"
-        "AttackRange"               "100"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
 
-        "BoundsHullName"            "DOTA_HULL_SIZE_REGULAR"
-        "HealthBarOffset"           "220"
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "HealthBarOffset"           "260"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"
         "BountyGoldMax"             "0"
 
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
-        "MovementSpeed"             "320"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_FLY"
+        "MovementSpeed"             "360"
         "MovementTurnRate"          "0.9"
 
         "StatusHealth"              "1100"

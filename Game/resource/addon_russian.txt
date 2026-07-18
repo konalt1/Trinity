@@ -648,7 +648,7 @@
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"HP БАРАКА:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает три способности строительства: вышку, барак громозавров и барак чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает три способности строительства: вышку, курьерский ангар и барак чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
 
 		"DOTA_Tooltip_ability_chen_barrack_farmland"							"Пашни"
 		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"Случайное дерево в радиусе получает «Цветение». Рабочий барака собирает с него золото. Радиус цветения растёт с уровнем способности."
@@ -717,14 +717,14 @@
 		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"СКОРОСТЬ СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"РАДИУС РАБОЧЕГО:"
 
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack"			"Построить барак громозавров"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_Description"	"Рабочий идёт к выбранной точке и начинает строительство барака громозавров. Стоимость списывается с золота основного барака при начале стройки.
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack"					"Построить курьерский ангар"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство курьерского ангара. Стоимость списывается с золота основного барака при начале стройки.
 
-Готовый барак призывает Ancient Thunderhide за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_gold_cost"		"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_max_hp"			"HP СТРОЙКИ:"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_build_rate"		"СКОРОСТЬ СТРОЙКИ:"
-		"DOTA_Tooltip_ability_chen_worker_build_thunderhide_barrack_worker_radius"	"РАДИУС РАБОЧЕГО:"
+Готовый ангар призывает огромных курьеров за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_gold_cost"			"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_max_hp"			"HP СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_build_rate"		"СКОРОСТЬ СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
 
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack"				"Построить ущелье чёрных драконов"
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство барака чёрных драконов. Стоимость списывается с золота основного барака при начале стройки.
@@ -735,10 +735,17 @@
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_build_rate"			"СКОРОСТЬ СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
 
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide"				"Призвать Ancient Thunderhide"
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_Description"		"Ставит в очередь Ancient Thunderhide. Оплата — золото основного барака Чена."
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_gold_cost"			"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_thunderhide_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier"				"Призвать огромного курьера"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_Description"	"Ставит в очередь летающего огромного курьера-транспорт. Оплата — золото основного барака Чена."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_gold_cost"		"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load"					"Взять на борт"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_Description"		"Берёт на борт до %dota_ability_chen_giant_courier_transport_load_max_passengers% союзных подконтрольных крипов рядом с курьером. Пассажиры скрыты и вне игры; если курьер погибает, они погибают вместе с ним."
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_load_radius"		"РАДИУС ЗАГРУЗКИ:"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_max_passengers"		"МАКС. ПАССАЖИРОВ:"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload"					"Высадить всех"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload_Description"		"Высаживает всех пассажиров рядом с курьером."
 
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon"					"Призвать Ancient Black Dragon"
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_Description"			"Ставит в очередь Ancient Black Dragon. Оплата — золото основного барака Чена."
@@ -749,9 +756,9 @@
 		"DOTA_Tooltip_modifier_chen_building_construction_Description"			"Объект строится. Рядом должен находиться рабочий, начавший стройку."
 
 		"npc_chen_building_tower"												"Вышка Чена"
-		"npc_chen_building_thunderhide_barrack"									"Барак громозавров"
+		"npc_chen_building_courier_barrack"										"Курьерский ангар"
 		"npc_chen_building_dragon_barrack"										"Ущелье чёрных драконов"
-		"npc_chen_ancient_thunderhide"											"Ancient Thunderhide"
+		"npc_chen_giant_courier"													"Огромный курьер"
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
 
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Огненный шар"
@@ -793,6 +800,8 @@
 		"dota_hud_error_chen_worker_build_no_scepter"						"Требуется Aghanim's Scepter"
 		"dota_hud_error_chen_worker_build_invalid_position"					"Нельзя строить в этой точке"
 		"dota_hud_error_chen_sub_barrack_under_construction"					"Барак ещё строится"
+		"dota_hud_error_chen_giant_courier_full"								"Курьер заполнен"
+		"dota_hud_error_chen_giant_courier_empty"								"На борту нет пассажиров"
 		"dota_hud_error_chen_whip_no_tamed_creeps"							"Нет приручённых крипов в радиусе"
 		"dota_hud_error_chen_holy_persuasion_invalid_target"				"Эту цель нельзя подчинить."
 		"dota_hud_error_chen_holy_persuasion_friendly_target"				"Нельзя подчинять союзных крипов."
@@ -867,6 +876,37 @@
         // Teleportation channel time tooltip
         "DOTA_Tooltip_ability_furion_teleportation_curse_radius"                    "РАДИУС ПРОКЛЯТИЯ:"
         "DOTA_Tooltip_ability_furion_teleportation_AbilityChannelTime"              "ВРЕМЯ ТЕЛЕПОРТАЦИИ:"
+
+		// Lion
+		"DOTA_Tooltip_ability_lion_impale_custom"									"Земляной шип"
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Lion выпускает линию шипов, нанося урон и оглушая врагов. Урон увеличивается от силы магии."
+		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"УРОН:"
+		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"УРОН ОТ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"С Aghanim's Shard Земляной шип выпускает несколько линий шипов конусом перед Lion."
+
+		"DOTA_Tooltip_ability_lion_soul_collector"									"Собиратель душ"
+		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Пассивно: убийство крипа временно дает силу магии. Убийство героя дает силу магии до конца игры."
+		"DOTA_Tooltip_ability_lion_soul_collector_creep_mind_power"					"СИЛА МАГИИ ЗА КРИПА:"
+		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"ДЛИТЕЛЬНОСТЬ БОНУСА ЗА КРИПА:"
+		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"СИЛА МАГИИ ЗА ГЕРОЯ:"
+
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Вытягивание духа"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Lion связывается с врагом, вытягивая ману каждую секунду и нанося урон здоровью, равный половине вытянутой маны. Lion получает вытянутую ману и исцеляется на величину вытянутого здоровья. Вытягивание маны растет от силы магии."
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"МАНА В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"МАНА ОТ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%ЗДОРОВЬЯ ОТ МАНЫ:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"ДЛИТЕЛЬНОСТЬ:"
+
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Палец смерти"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Lion наносит большой магический урон одной цели. Урон увеличивается от силы магии. Если способность убивает героя, Lion получает постоянный стак перерождения, уменьшающий время возрождения."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"УРОН ОТ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_respawn_reduction_pct"	"%СОКРАЩЕНИЯ ВОЗРОЖДЕНИЯ ЗА СТАК:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"ДЛИТЕЛЬНОСТЬ УСИЛЕНИЯ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"ДАЛЬНОСТЬ АТАКИ СО СКИПЕТРОМ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%УРОН ПРОРУБАНИЯ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"С Aghanim's Scepter после применения Палец смерти рука Lion усиливается на %scepter_buff_duration% сек.: он переходит в ближний бой с дальностью атаки %scepter_attack_range%, получает прорубание и бонусный урон от атак, равный своей Силе Магии."
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"

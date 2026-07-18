@@ -1,7 +1,7 @@
 require("abilities/chen/chen_sub_barrack")
 
 chen_worker_build_tower = class({})
-chen_worker_build_thunderhide_barrack = class({})
+chen_worker_build_courier_barrack = class({})
 chen_worker_build_dragon_barrack = class({})
 chen_building_tower_attack = class({})
 modifier_chen_worker_build_runner = class({})
@@ -75,7 +75,7 @@ end
 
 local WORKER_BUILD_ABILITIES = {
     "chen_worker_build_tower",
-    "chen_worker_build_thunderhide_barrack",
+    "chen_worker_build_courier_barrack",
     "chen_worker_build_dragon_barrack",
 }
 
@@ -86,12 +86,12 @@ local BUILD_CONFIG = {
         max_hp_key = "max_hp",
         is_tower = true,
     },
-    chen_worker_build_thunderhide_barrack = {
-        unit_name = "npc_chen_building_thunderhide_barrack",
+    chen_worker_build_courier_barrack = {
+        unit_name = "npc_chen_building_courier_barrack",
         gold_cost_key = "gold_cost",
         max_hp_key = "max_hp",
         is_sub_barrack = true,
-        sub_barrack_type = "thunderhide",
+        sub_barrack_type = "courier",
     },
     chen_worker_build_dragon_barrack = {
         unit_name = "npc_chen_building_dragon_barrack",
@@ -161,6 +161,100 @@ local function IsPassableBuildPosition(position)
         return false
     end
     return true
+end
+
+local function GetUnitHullRadius(unit, fallback)
+    if not IsValidEntity(unit) or not unit.GetHullRadius then
+        return fallback
+    end
+
+    local ok, radius = pcall(function()
+        return unit:GetHullRadius()
+    end)
+    if ok and radius and radius > 0 then
+        return radius
+    end
+
+    return fallback
+end
+
+local function RotateDirection2D(direction, degrees)
+    local radians = math.rad(degrees)
+    local cos = math.cos(radians)
+    local sin = math.sin(radians)
+    return Vector(
+        direction.x * cos - direction.y * sin,
+        direction.x * sin + direction.y * cos,
+        0
+    )
+end
+
+local function StopWorkerMovement(worker)
+    if not IsValidEntity(worker) then
+        return
+    end
+
+    worker.chen_worker_ai_order = true
+    ExecuteOrderFromTable({
+        UnitIndex = worker:entindex(),
+        OrderType = DOTA_UNIT_ORDER_STOP,
+        Queue = false,
+    })
+    worker.chen_worker_ai_order = nil
+end
+
+local function ClearWorkerFromBuilding(worker, building, maxDistance)
+    if not IsValidEntity(worker) or not IsValidEntity(building) or not worker:IsAlive() then
+        return
+    end
+
+    local buildingOrigin = building:GetAbsOrigin()
+    local workerOrigin = worker:GetAbsOrigin()
+    local direction = workerOrigin - buildingOrigin
+    direction.z = 0
+
+    if direction:Length2D() < 1 then
+        direction = worker:GetForwardVector()
+        direction.z = 0
+    end
+    if direction:Length2D() < 1 then
+        direction = Vector(1, 0, 0)
+    end
+    direction = direction:Normalized()
+
+    local buildingHull = GetUnitHullRadius(building, 160)
+    local workerHull = GetUnitHullRadius(worker, 24)
+    local clearDistance = buildingHull + workerHull + 64
+    local cappedDistance = tonumber(maxDistance)
+    if cappedDistance and cappedDistance > 0 then
+        clearDistance = math.min(clearDistance, math.max(workerHull + 64, cappedDistance * 0.9))
+    end
+
+    local angleOffsets = { 0, 45, -45, 90, -90, 135, -135, 180 }
+    local distanceOffsets = { 0, 48, 96 }
+    local bestPosition = GetGroundPosition(buildingOrigin + direction * clearDistance, worker)
+
+    for _, distanceOffset in ipairs(distanceOffsets) do
+        local distance = clearDistance + distanceOffset
+        if cappedDistance and cappedDistance > 0 then
+            distance = math.min(distance, math.max(workerHull + 64, cappedDistance * 0.9))
+        end
+
+        for _, angleOffset in ipairs(angleOffsets) do
+            local testDirection = RotateDirection2D(direction, angleOffset)
+            local testPosition = GetGroundPosition(buildingOrigin + testDirection * distance, worker)
+            if IsPassableBuildPosition(testPosition) then
+                FindClearSpaceForUnit(worker, testPosition, true)
+                StopWorkerMovement(worker)
+                BuildDebug("Worker cleared from building", DescribeUnit(worker), "building=", DescribeUnit(building))
+                return
+            end
+        end
+    end
+
+    FindClearSpaceForUnit(worker, bestPosition, true)
+    StopWorkerMovement(worker)
+    BuildDebug("Worker clear fallback", DescribeUnit(worker), "building=", DescribeUnit(building))
 end
 
 local function ClearWorkerAssignment(worker)
@@ -472,23 +566,23 @@ function chen_worker_build_tower:OnSpellStart()
     SharedBuildOnSpellStart(self)
 end
 
-function chen_worker_build_thunderhide_barrack:CastFilterResult()
+function chen_worker_build_courier_barrack:CastFilterResult()
     return SharedBuildCastFilter(self)
 end
 
-function chen_worker_build_thunderhide_barrack:CastFilterResultLocation(location)
+function chen_worker_build_courier_barrack:CastFilterResultLocation(location)
     return SharedBuildCastFilterLocation(self, location)
 end
 
-function chen_worker_build_thunderhide_barrack:GetCustomCastError()
+function chen_worker_build_courier_barrack:GetCustomCastError()
     return SharedBuildCastError(self)
 end
 
-function chen_worker_build_thunderhide_barrack:GetCustomCastErrorLocation(location)
+function chen_worker_build_courier_barrack:GetCustomCastErrorLocation(location)
     return SharedBuildCastErrorLocation(self, location)
 end
 
-function chen_worker_build_thunderhide_barrack:OnSpellStart()
+function chen_worker_build_courier_barrack:OnSpellStart()
     SharedBuildOnSpellStart(self)
 end
 
@@ -667,16 +761,19 @@ function modifier_chen_worker_build_runner:BeginConstruction()
 
     AssignWorkerToBuilding(worker, building)
     ChenWorkerBuild.PauseGatherForWorker(worker)
+    local workerRadius = GetBuildValue(ability, "worker_radius", 100)
 
     building:AddNewModifier(worker, ability, "modifier_chen_building_construction", {
         max_hp = maxHp,
         worker_entindex = worker:entindex(),
         gold_cost = goldCost,
         build_rate = GetBuildValue(ability, "build_rate", 70),
-        worker_radius = GetBuildValue(ability, "worker_radius", 100),
+        worker_radius = workerRadius,
         is_tower = config.is_tower and 1 or 0,
         is_sub_barrack = config.is_sub_barrack and 1 or 0,
     })
+
+    ClearWorkerFromBuilding(worker, building, workerRadius)
 
     BuildDebug(
         "6) Стройка началась",
@@ -908,6 +1005,7 @@ function modifier_chen_building_construction:CompleteConstruction()
     local worker = self:GetAssignedWorker()
     if worker then
         ChenWorkerBuild.ReleaseWorker(worker)
+        ClearWorkerFromBuilding(worker, parent)
     end
 
     if self.repair_particle then
@@ -1163,15 +1261,15 @@ function ChenWorkerBuild.Precache(context)
 
     PrecacheResource("model", "models/props_structures/tower_good.vmdl", context)
     PrecacheResource("model", "models/props_structures/good_barracks_melee001.vmdl", context)
-    PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl", context)
+    PrecacheResource("model", "models/courier/baby_rosh/babyroshan_ti9_flying.vmdl", context)
     PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_black_dragon/n_creep_black_dragon.vmdl", context)
 
     PrecacheResource("soundfile", "soundevents/game_sounds_creeps.vsndevts", context)
 
     PrecacheUnitByNameSync("npc_chen_building_tower", context)
-    PrecacheUnitByNameSync("npc_chen_building_thunderhide_barrack", context)
+    PrecacheUnitByNameSync("npc_chen_building_courier_barrack", context)
     PrecacheUnitByNameSync("npc_chen_building_dragon_barrack", context)
-    PrecacheUnitByNameSync("npc_chen_ancient_thunderhide", context)
+    PrecacheUnitByNameSync("npc_chen_giant_courier", context)
     PrecacheUnitByNameSync("npc_chen_ancient_black_dragon", context)
 end
 
@@ -1179,7 +1277,7 @@ function chen_worker_build_tower:Precache(context)
     ChenWorkerBuild.Precache(context)
 end
 
-function chen_worker_build_thunderhide_barrack:Precache(context)
+function chen_worker_build_courier_barrack:Precache(context)
     ChenWorkerBuild.Precache(context)
 end
 
