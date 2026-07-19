@@ -1,7 +1,7 @@
 KillfeedSystem = KillfeedSystem or {}
 
 -- Reward config. Change these values here, not in gamemode.lua.
-KillfeedSystem.HERO_KILL_GOLD_MODE = KillfeedSystem.HERO_KILL_GOLD_MODE or "level" -- "level" or "fixed"
+KillfeedSystem.HERO_KILL_GOLD_MODE = KillfeedSystem.HERO_KILL_GOLD_MODE or "fixed" -- "level" or "fixed"
 KillfeedSystem.FIXED_HERO_KILL_GOLD = KillfeedSystem.FIXED_HERO_KILL_GOLD or 1
 KillfeedSystem.LEVEL_GOLD_BASE = KillfeedSystem.LEVEL_GOLD_BASE or 0
 KillfeedSystem.LEVEL_GOLD_PER_LEVEL = KillfeedSystem.LEVEL_GOLD_PER_LEVEL or 1
