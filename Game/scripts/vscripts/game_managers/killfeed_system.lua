@@ -1,14 +1,16 @@
 KillfeedSystem = KillfeedSystem or {}
 
 -- Reward config. Change these values here, not in gamemode.lua.
-KillfeedSystem.HERO_KILL_GOLD_MODE = KillfeedSystem.HERO_KILL_GOLD_MODE or "fixed" -- "level" or "fixed"
-KillfeedSystem.FIXED_HERO_KILL_GOLD = KillfeedSystem.FIXED_HERO_KILL_GOLD or 1
+KillfeedSystem.HERO_KILL_GOLD_MODE = KillfeedSystem.HERO_KILL_GOLD_MODE or "formula" -- "fixed", "level", or "formula"
+KillfeedSystem.FIXED_HERO_KILL_GOLD = KillfeedSystem.FIXED_HERO_KILL_GOLD or 1000
 KillfeedSystem.LEVEL_GOLD_BASE = KillfeedSystem.LEVEL_GOLD_BASE or 0
 KillfeedSystem.LEVEL_GOLD_PER_LEVEL = KillfeedSystem.LEVEL_GOLD_PER_LEVEL or 1
 KillfeedSystem.LEVEL_GOLD_MIN = KillfeedSystem.LEVEL_GOLD_MIN or 1
 KillfeedSystem.LEVEL_GOLD_MAX = KillfeedSystem.LEVEL_GOLD_MAX or nil
 KillfeedSystem.HERO_KILL_GOLD_BY_LEVEL = KillfeedSystem.HERO_KILL_GOLD_BY_LEVEL or {}
-KillfeedSystem.HERO_KILL_NET_WORTH_BONUS_MULTIPLIER = KillfeedSystem.HERO_KILL_NET_WORTH_BONUS_MULTIPLIER or 0.3
+KillfeedSystem.FORMULA_GOLD_PER_VICTIM_LEVEL = KillfeedSystem.FORMULA_GOLD_PER_VICTIM_LEVEL or 8
+KillfeedSystem.FORMULA_VICTIM_NET_WORTH_PERCENT = KillfeedSystem.FORMULA_VICTIM_NET_WORTH_PERCENT or 2
+KillfeedSystem.FIRST_HERO_KILL_BONUS_GOLD = KillfeedSystem.FIRST_HERO_KILL_BONUS_GOLD or 150
 
 KillfeedSystem.ASSIST_WINDOW = KillfeedSystem.ASSIST_WINDOW or 10.0
 KillfeedSystem.ASSIST_FROM_DAMAGE = KillfeedSystem.ASSIST_FROM_DAMAGE ~= false
@@ -16,31 +18,25 @@ KillfeedSystem.ASSIST_FROM_RADIUS = KillfeedSystem.ASSIST_FROM_RADIUS ~= false
 KillfeedSystem.ASSIST_RADIUS = KillfeedSystem.ASSIST_RADIUS or 1200
 KillfeedSystem.ASSIST_RADIUS_INCLUDE_DEAD = KillfeedSystem.ASSIST_RADIUS_INCLUDE_DEAD == true
 KillfeedSystem.ASSIST_FROM_DEBUFFS = KillfeedSystem.ASSIST_FROM_DEBUFFS ~= false
-KillfeedSystem.HERO_ASSIST_GOLD_MODE = KillfeedSystem.HERO_ASSIST_GOLD_MODE or "fixed" -- "fixed", "level", or "none"
+KillfeedSystem.HERO_ASSIST_GOLD_MODE = KillfeedSystem.HERO_ASSIST_GOLD_MODE or "formula" -- "fixed", "level", "formula", or "none"
 KillfeedSystem.FIXED_HERO_ASSIST_GOLD = KillfeedSystem.FIXED_HERO_ASSIST_GOLD or 1
 KillfeedSystem.LEVEL_ASSIST_GOLD_BASE = KillfeedSystem.LEVEL_ASSIST_GOLD_BASE or 0
 KillfeedSystem.LEVEL_ASSIST_GOLD_PER_LEVEL = KillfeedSystem.LEVEL_ASSIST_GOLD_PER_LEVEL or 1
 KillfeedSystem.LEVEL_ASSIST_GOLD_MIN = KillfeedSystem.LEVEL_ASSIST_GOLD_MIN or 1
 KillfeedSystem.LEVEL_ASSIST_GOLD_MAX = KillfeedSystem.LEVEL_ASSIST_GOLD_MAX or nil
 KillfeedSystem.HERO_ASSIST_GOLD_BY_LEVEL = KillfeedSystem.HERO_ASSIST_GOLD_BY_LEVEL or {}
-KillfeedSystem.HERO_ASSIST_NET_WORTH_BONUS_MULTIPLIER = KillfeedSystem.HERO_ASSIST_NET_WORTH_BONUS_MULTIPLIER or 0.5
+KillfeedSystem.FORMULA_ASSIST_FLAT_GOLD = KillfeedSystem.FORMULA_ASSIST_FLAT_GOLD or 15
+KillfeedSystem.FORMULA_ASSIST_POOL_BASE_GOLD = KillfeedSystem.FORMULA_ASSIST_POOL_BASE_GOLD or 50
+KillfeedSystem.FORMULA_ASSIST_VICTIM_NET_WORTH_MULTIPLIER = KillfeedSystem.FORMULA_ASSIST_VICTIM_NET_WORTH_MULTIPLIER or 0.05
 
 -- Set to a number or function(killedHero, killerHero, actualGold) if the killfeed must show a custom value.
 -- Leave nil to show the same gold that the killer receives.
 KillfeedSystem.KILLFEED_DISPLAY_GOLD_OVERRIDE = KillfeedSystem.KILLFEED_DISPLAY_GOLD_OVERRIDE or nil
 
-KillfeedSystem.DEBUG = KillfeedSystem.DEBUG == true
 KillfeedSystem._allowedHeroKillGold = KillfeedSystem._allowedHeroKillGold or {}
 KillfeedSystem._damageRecords = KillfeedSystem._damageRecords or {}
 KillfeedSystem._initialized = KillfeedSystem._initialized or false
-
-function KillfeedSystem:Debug(message)
-	if not self.DEBUG then
-		return
-	end
-
-	Msg("[KillfeedSystem] " .. tostring(message) .. "\n")
-end
+KillfeedSystem._firstHeroKillAwarded = KillfeedSystem._firstHeroKillAwarded == true
 
 function KillfeedSystem:IsValidEntity(entity)
 	return entity ~= nil and (not entity.IsNull or not entity:IsNull())
@@ -186,25 +182,27 @@ function KillfeedSystem:GetGoldForLevel(level, byLevelTable, baseGold, goldPerLe
 end
 
 function KillfeedSystem:GetHeroKillGoldReward(killedHero, killerHero)
-	local baseGold = 0
-	if self.HERO_KILL_GOLD_MODE == "fixed" then
-		baseGold = self:NormalizeGold(self.FIXED_HERO_KILL_GOLD)
-	else
-		baseGold = self:GetHeroKillGoldForLevel(self:GetHeroLevel(killedHero))
+	local mode = string.lower(tostring(self.HERO_KILL_GOLD_MODE or ""))
+	if mode == "fixed" then
+		return self:NormalizeGold(self.FIXED_HERO_KILL_GOLD)
+	end
+	if mode == "formula" then
+		local levelGold = self:GetHeroLevel(killedHero) * (tonumber(self.FORMULA_GOLD_PER_VICTIM_LEVEL) or 0)
+		local netWorthGold = self:GetHeroNetWorth(killedHero)
+			* (tonumber(self.FORMULA_VICTIM_NET_WORTH_PERCENT) or 0) / 100
+		return self:NormalizeGold(levelGold + netWorthGold)
 	end
 
-	local netWorthBonus = self:GetHeroNetWorth(killedHero) * (tonumber(self.HERO_KILL_NET_WORTH_BONUS_MULTIPLIER) or 0)
-	return self:NormalizeGold(baseGold + netWorthBonus)
+	return self:GetHeroKillGoldForLevel(self:GetHeroLevel(killedHero))
 end
 
-function KillfeedSystem:GetHeroAssistGoldReward(killedHero, assisterHero, killerHero)
-	if self.HERO_ASSIST_GOLD_MODE == "none" then
+function KillfeedSystem:GetHeroAssistGoldReward(killedHero, assisterHero, killerHero, participatingHeroCount)
+	local mode = string.lower(tostring(self.HERO_ASSIST_GOLD_MODE or ""))
+	if mode == "none" then
 		return 0
 	end
-
-	local baseGold = 0
-	if self.HERO_ASSIST_GOLD_MODE == "level" then
-		baseGold = self:GetGoldForLevel(
+	if mode == "level" then
+		return self:GetGoldForLevel(
 			self:GetHeroLevel(killedHero),
 			self.HERO_ASSIST_GOLD_BY_LEVEL,
 			self.LEVEL_ASSIST_GOLD_BASE,
@@ -212,12 +210,17 @@ function KillfeedSystem:GetHeroAssistGoldReward(killedHero, assisterHero, killer
 			self.LEVEL_ASSIST_GOLD_MIN,
 			self.LEVEL_ASSIST_GOLD_MAX
 		)
-	else
-		baseGold = self:NormalizeGold(self.FIXED_HERO_ASSIST_GOLD)
+	end
+	if mode == "formula" then
+		local heroCount = math.max(1, math.floor(tonumber(participatingHeroCount) or 1))
+		local sharedGold = (tonumber(self.FORMULA_ASSIST_POOL_BASE_GOLD) or 0)
+			+ self:GetHeroNetWorth(killedHero)
+				* (tonumber(self.FORMULA_ASSIST_VICTIM_NET_WORTH_MULTIPLIER) or 0)
+		local reward = (tonumber(self.FORMULA_ASSIST_FLAT_GOLD) or 0) + sharedGold / heroCount
+		return self:NormalizeGold(reward)
 	end
 
-	local netWorthBonus = self:GetHeroNetWorth(killedHero) * (tonumber(self.HERO_ASSIST_NET_WORTH_BONUS_MULTIPLIER) or 0)
-	return self:NormalizeGold(baseGold + netWorthBonus)
+	return self:NormalizeGold(self.FIXED_HERO_ASSIST_GOLD)
 end
 
 function KillfeedSystem:GetKillfeedGoldReward(killedHero, killerHero, actualGold)
@@ -245,6 +248,12 @@ function KillfeedSystem:SetLevelHeroKillGold(baseGold, goldPerLevel, minGold, ma
 	self.LEVEL_GOLD_MAX = maxGold ~= nil and tonumber(maxGold) or nil
 end
 
+function KillfeedSystem:SetFormulaHeroKillGold(goldPerVictimLevel, victimNetWorthPercent)
+	self.HERO_KILL_GOLD_MODE = "formula"
+	self.FORMULA_GOLD_PER_VICTIM_LEVEL = tonumber(goldPerVictimLevel) or 8
+	self.FORMULA_VICTIM_NET_WORTH_PERCENT = tonumber(victimNetWorthPercent) or 0.2
+end
+
 function KillfeedSystem:SetHeroKillGoldByLevel(level, gold)
 	level = math.floor(tonumber(level) or 0)
 	if level < 1 then
@@ -266,6 +275,13 @@ function KillfeedSystem:SetLevelHeroAssistGold(baseGold, goldPerLevel, minGold, 
 	self.LEVEL_ASSIST_GOLD_PER_LEVEL = tonumber(goldPerLevel) or 0
 	self.LEVEL_ASSIST_GOLD_MIN = minGold ~= nil and tonumber(minGold) or nil
 	self.LEVEL_ASSIST_GOLD_MAX = maxGold ~= nil and tonumber(maxGold) or nil
+end
+
+function KillfeedSystem:SetFormulaHeroAssistGold(flatGold, poolBaseGold, victimNetWorthMultiplier)
+	self.HERO_ASSIST_GOLD_MODE = "formula"
+	self.FORMULA_ASSIST_FLAT_GOLD = tonumber(flatGold) or 15
+	self.FORMULA_ASSIST_POOL_BASE_GOLD = tonumber(poolBaseGold) or 50
+	self.FORMULA_ASSIST_VICTIM_NET_WORTH_MULTIPLIER = tonumber(victimNetWorthMultiplier) or 0.05
 end
 
 function KillfeedSystem:SetHeroAssistGoldByLevel(level, gold)
@@ -599,11 +615,9 @@ function KillfeedSystem:ModifyGoldFilter(data)
 	local gold = tonumber(data.gold) or 0
 
 	if self:ConsumeAllowedHeroKillGold(playerID, gold) then
-		self:Debug("allowed custom hero kill gold player=" .. tostring(playerID) .. " gold=" .. tostring(gold))
 		return true
 	end
 
-	self:Debug("blocked native hero kill gold player=" .. tostring(playerID) .. " gold=" .. tostring(gold))
 	data.gold = 0
 	return true
 end
@@ -635,18 +649,19 @@ end
 
 function KillfeedSystem:GrantHeroAssistGold(killedHero, killerHero, killerPlayerID)
 	local assistPlayerIDs = self:GetAssistPlayerIDs(killedHero, killerPlayerID)
-	if #assistPlayerIDs <= 0 then
-		return 0, 0
-	end
-
-	local assistGold = self:GetHeroAssistGoldReward(killedHero, nil, killerHero)
+	local participatingHeroCount = #assistPlayerIDs + 1
+	local assistGold = self:GetHeroAssistGoldReward(killedHero, killerHero, killerHero, participatingHeroCount)
 	if assistGold <= 0 then
 		return 0, 0
 	end
 
+	self:AllowHeroKillGold(killerPlayerID, assistGold)
+	killerHero:ModifyGold(assistGold, true, DOTA_ModifyGold_HeroKill)
+	self:ClearAllowedHeroKillGold(killerPlayerID)
+
 	for _, playerID in pairs(assistPlayerIDs) do
 		local assistHero = self:GetPlayerHero(playerID)
-		local reward = self:GetHeroAssistGoldReward(killedHero, assistHero, killerHero)
+		local reward = self:GetHeroAssistGoldReward(killedHero, assistHero, killerHero, participatingHeroCount)
 		if reward > 0 and self:IsRealHero(assistHero) then
 			self:AllowHeroKillGold(playerID, reward)
 			assistHero:ModifyGold(reward, true, DOTA_ModifyGold_HeroKill)
@@ -706,7 +721,13 @@ function KillfeedSystem:GrantHeroKillGold(keys, killedHero)
 		return
 	end
 
-	local reward = self:GetHeroKillGoldReward(killedHero, killerHero)
+	local firstKillBonus = 0
+	if not self._firstHeroKillAwarded then
+		self._firstHeroKillAwarded = true
+		firstKillBonus = self:NormalizeGold(self.FIRST_HERO_KILL_BONUS_GOLD)
+	end
+
+	local reward = self:NormalizeGold(self:GetHeroKillGoldReward(killedHero, killerHero) + firstKillBonus)
 	if reward <= 0 then
 		return
 	end
@@ -718,14 +739,6 @@ function KillfeedSystem:GrantHeroKillGold(keys, killedHero)
 	local assistGold, assistCount = self:GrantHeroAssistGold(killedHero, killerHero, killerPlayerID)
 	self:SendKillfeedEvent(killerHero, killedHero, reward, assistGold, assistCount)
 	self:ClearDamageRecord(killedHero)
-	self:Debug(
-		"hero kill reward killer=" .. tostring(killerPlayerID)
-		.. " killed=" .. tostring(killedPlayerID)
-		.. " killed_level=" .. tostring(self:GetHeroLevel(killedHero))
-		.. " gold=" .. tostring(reward)
-		.. " assist_gold=" .. tostring(assistGold)
-		.. " assists=" .. tostring(assistCount)
-	)
 end
 
 function KillfeedSystem:OnEntityKilled(keys, killedUnit)
@@ -745,7 +758,6 @@ function KillfeedSystem:Init()
 		KillfeedSystem:OnPlayerGainedLevel(keys)
 	end, nil)
 
-	self:Debug("loaded")
 end
 
 return KillfeedSystem

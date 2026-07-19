@@ -307,6 +307,9 @@ flowchart TD
 - Init: `require("kill_feed/init")` → `InitKillFeed()` в `addon_game_mode.lua`
 - Net table: `kill_feed_debug`
 - Custom events: см. `custom.gameevents`
+- `KillfeedSystem.HERO_KILL_GOLD_MODE = "formula"`: награда за убийство = `8 × уровень жертвы + 0,2% net worth жертвы`
+- Первое валидное убийство вражеского героя в матче даёт убийце дополнительные `150` золота (`FIRST_HERO_KILL_BONUS_GOLD`)
+- `KillfeedSystem.HERO_ASSIST_GOLD_MODE = "formula"`: убийце и каждому ассистенту = `15 + (50 + net worth жертвы × 0,05) / число участвовавших героев`; убийца также получает отдельное золото за килл
 - **Статус:** модуль подключён в entry point; при отсутствии файлов `Game/scripts/vscripts/kill_feed/` игра упадёт при загрузке — проверять наличие перед работой
 
 ### Chat Wheel
