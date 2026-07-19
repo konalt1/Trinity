@@ -32,27 +32,15 @@ require ("abilities/chen/chen_martyr_mark")
 require ("abilities/chen/chen_ultimate_aura")
 
 -- Загружаем способности Лича
-require ("lich/frost_shield/lich_frost_shield_lua")
+require ("abilities/lich/frost_shield/lich_frost_shield_lua")
 require ("abilities/lich/ability_sinister_gaze")
 
 require ("abilities/ogre_magi/ogre_magi_reroll")
 require ("abilities/ogre_magi/ogre_magi_aghanim_club")
-require ("lich/frost_blast/lich_frost_blast_lua")
-
--- Загружаем способности Tusk
-print("=== LOADING TUSK ABILITIES ===")
-require ("Tusk/test_tusk")
-require ("Tusk/tusk_channeled_snowball")
-print("=== TUSK ABILITIES LOADED ===")
+require ("abilities/lich/frost_blast/lich_frost_blast_lua")
 
 -- Загружаем модификаторы
 require ("modifiers/modifier_leash_to_spawn")
-
--- Загружаем AI Рошана
-require ("ai_roshan_custom")
-
--- Загружаем спавнер Pathway Roshan
-require ("map_modifications/roshan_pathway_spawner")
 
 function Precache( context )
 	--[[
@@ -302,12 +290,17 @@ CAddonTemplateGameMode = CAddonTemplateGameMode or class({})
 
 function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
- 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
+	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
+	if Warning then
+		Warning("[GOLD DEBUG] modify-gold filter registered\n")
+	else
+		print("[GOLD DEBUG] modify-gold filter registered")
+	end
+	if GameMode and GameMode.InstallGoldDebugHooks then
+		GameMode:InstallGoldDebugHooks()
+	end
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), GameMode)
 	
-	-- Set neutral creep spawn time to 0:00
-	GameRules:GetGameModeEntity():SetNeutralCreepSpawnTime(0.0)
-
 	GameRules:SetGoldTickTime(1)
 	GameRules:SetGoldPerTick(2)
 
@@ -316,9 +309,6 @@ function CAddonTemplateGameMode:InitGameMode()
 	end
 
 	InitGameManagers()
-	
-	-- Инициализация спавнера Pathway Roshan
-	InitRoshanPathwaySpawner()
 	
 	-- Создаём спавнер рошанов при старте игры (раскомментируйте и укажите нужные координаты)
 	-- Timers:CreateTimer(5, function()
