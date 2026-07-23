@@ -649,6 +649,12 @@
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
 		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает три способности строительства: вышку, курьерский ангар и барак чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
+		"DOTA_Tooltip_ability_chen_barrack_takeoff"						"Взлёт барака"
+		"DOTA_Tooltip_ability_chen_barrack_takeoff_Description"			"Переносит камеру к бараку и поднимает его в воздух. Летающий барак передвигается со скоростью 200, но не может производить юнитов или использовать пашни."
+		"DOTA_Tooltip_ability_chen_barrack_land"						"Посадить барак"
+		"DOTA_Tooltip_ability_chen_barrack_land_Description"				"Приказывает бараку подлететь к выбранной точке и сесть. Посадка возможна только на свободной проходимой площадке. После успешной посадки способность уходит на перезарядку на 120 секунд."
+		"DOTA_Tooltip_modifier_chen_barrack_flying"					"Барак в полёте"
+		"DOTA_Tooltip_modifier_chen_barrack_flying_Description"			"Барак летает и может передвигаться, но производство и пашни остановлены."
 
 		"DOTA_Tooltip_ability_chen_barrack_farmland"							"Пашни"
 		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"Случайное дерево в радиусе получает «Цветение». Рабочий барака собирает с него золото. Радиус цветения растёт с уровнем способности."
@@ -660,7 +666,7 @@
 		"DOTA_Tooltip_ability_chen_barrack_farmland_gather_trigger_radius"	"РАДИУС СБОРА:"
 
 		"DOTA_Tooltip_ability_chen_barrack_summon_worker"					"Призвать рабочего"
-		"DOTA_Tooltip_ability_chen_barrack_summon_worker_Description"			"Ставит в очередь рабочего. Первый рабочий бесплатен, если у вас нет живых рабочих. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_Description"			"Ставит в очередь рабочего. Первый рабочий бесплатен, если у вас нет живых рабочих. Оплата — золото барака. Максимум рабочих: %max_workers%."
 		"DOTA_Tooltip_ability_chen_barrack_summon_worker_gold_cost"			"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_worker_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
@@ -794,11 +800,15 @@
 		// HUD Errors
 		"dota_hud_error_chen_barrack_no_owner"								"Барак не имеет владельца"
 		"dota_hud_error_chen_barrack_queue_full"							"Очередь производства полна (макс. 5)"
+		"dota_hud_error_chen_barrack_worker_limit"						"Достигнут лимит рабочих"
 		"dota_hud_error_chen_barrack_not_enough_gold"						"Недостаточно золота в бараке"
 		"dota_hud_error_chen_barrack_invalid_target"						"Нельзя поставить барак здесь"
+		"dota_hud_error_chen_barrack_invalid_landing"					"Здесь нет места для посадки барака"
+		"dota_hud_error_chen_barrack_not_flying"						"Барак не находится в воздухе"
 		"dota_hud_error_chen_worker_build_busy"								"Рабочий уже занят стройкой"
 		"dota_hud_error_chen_worker_build_no_scepter"						"Требуется Aghanim's Scepter"
 		"dota_hud_error_chen_worker_build_invalid_position"					"Нельзя строить в этой точке"
+		"dota_hud_error_chen_building_too_close"						"Слишком близко к другой постройке"
 		"dota_hud_error_chen_sub_barrack_under_construction"					"Барак ещё строится"
 		"dota_hud_error_chen_giant_courier_full"								"Курьер заполнен"
 		"dota_hud_error_chen_giant_courier_empty"								"На борту нет пассажиров"

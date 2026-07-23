@@ -47,8 +47,8 @@
         "AbilityCastRange"              "700"
         "AbilityCastPoint"              "0.3"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
-        "AbilityCooldown"               "90 75 60"
-        "AbilityManaCost"               "100 150 200"
+        "AbilityCooldown"               "120"
+        "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
@@ -58,12 +58,55 @@
             "gold_cost"                 "10"
             "build_rate"                "70"
             "worker_radius"             "100"
+            "building_min_distance"     "800"
         }
 
         "precache"
         {
             "soundfile"     "soundevents/game_sounds_heroes/game_sounds_chen.vsndevts"
             "particle"      "particles/units/heroes/hero_chen/chen_penitence.vpcf"
+        }
+    }
+
+    "chen_barrack_takeoff"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_barrack"
+        "AbilityTextureName"            "chen_barrack_takeoff"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+    }
+
+    "chen_barrack_land"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/chen/chen_barrack"
+        "AbilityTextureName"            "chen_barrack_land"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        "AbilityCastRange"              "99999"
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+
+        "AbilityValues"
+        {
+            "building_min_distance"     "800"
         }
     }
 
@@ -86,7 +129,7 @@
             "bloom_radius"              "800"
             "spread_radius"             "100"
             "bloom_duration"            "60"
-            "tree_gold"                 "10"
+            "tree_gold"                 "10 15 20"
             "gather_time"               "3"
             "gather_trigger_radius"     "200"
             "think_interval"            "0.25"
@@ -121,6 +164,7 @@
             "production_time"           "10 9 8"
             "spawn_distance"            "360"
             "manual_pause_duration"     "15"
+            "max_workers"               "10 15 20"
         }
     }
 
@@ -412,6 +456,7 @@
             "build_rate"                "70"
             "worker_radius"             "300"
             "arrive_radius"             "80"
+            "building_min_distance"     "500"
         }
     }
 
@@ -440,6 +485,7 @@
             "build_rate"                "70"
             "worker_radius"             "300"
             "arrive_radius"             "80"
+            "building_min_distance"     "500"
         }
     }
 
@@ -468,6 +514,7 @@
             "build_rate"                "70"
             "worker_radius"             "300"
             "arrive_radius"             "80"
+            "building_min_distance"     "500"
         }
     }
 
@@ -615,7 +662,7 @@
 
         "AbilityValues"
         {
-            "gold_cost"                 "10"
+            "gold_cost"                 "400"
             "production_time"           "30"
             "spawn_distance"            "360"
         }

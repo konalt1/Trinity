@@ -372,15 +372,19 @@ function ChenBarrackGold.OnEntityKilled(event)
         return
     end
 
-    local killed = EntIndexToHScript(event.entindex_killed)
-    local attacker = EntIndexToHScript(event.entindex_attacker)
+    local killed = event.entindex_killed and EntIndexToHScript(event.entindex_killed) or nil
+    local attacker = event.entindex_attacker and EntIndexToHScript(event.entindex_attacker) or nil
 
-    if not IsValidUnit(killed) or not IsValidUnit(attacker) then
+    if not IsValidUnit(killed) then
         return
     end
 
     if ChenBarrackGold.IsChenBarrackBuilding and ChenBarrackGold.IsChenBarrackBuilding(killed) then
         ChenBarrackGold.OnBarrackDestroyed(killed, attacker)
+        return
+    end
+
+    if not IsValidUnit(attacker) then
         return
     end
 
@@ -420,6 +424,11 @@ function ChenBarrackGold.OnBarrackDestroyed(barrack, killer)
 
     barrack.chen_barrack_destroy_handled = true
     barrack.chen_is_destroyed = true
+
+    local ownerHero = ChenBarrackGold.GetBarrackOwnerHero and ChenBarrackGold.GetBarrackOwnerHero(barrack) or nil
+    if ChenBarrackResetUltimate and ownerHero then
+        ChenBarrackResetUltimate(ownerHero)
+    end
 
     local gold = ChenBarrackGold.Get(barrack)
     local percent = ChenBarrackGold.GetDestroyedGoldPercent(barrack)

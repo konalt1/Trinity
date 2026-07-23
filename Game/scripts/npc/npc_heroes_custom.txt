@@ -277,7 +277,7 @@
 		"Ability1"                                      "silencer_arcane_curse_custom"
 		"Ability3"                                      "silencer_last_word_custom"
 		"Ability6"                                      "silent_square"
-		"Ability5"                                      "generic_hidden"
+		"Ability5"                                      "silencer_global_silence" // Aghanim's Scepter
 		"Ability4"                                      "generic_hidden"
 
 		"Ability10"                                     "special_bonus_unique_custom_silencer_1"

@@ -2,6 +2,7 @@ silent_square = class({})
 
 LinkLuaModifier("modifier_silent_square_thinker", "abilities/silencer/silent_square", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_silent_square_debuff", "abilities/silencer/silent_square", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_silent_square_silence", "abilities/silencer/silent_square", LUA_MODIFIER_MOTION_NONE)
 
 function silent_square:Precache(context)
 	PrecacheResource("particle", "particles/silencer/local_silence/faceless_void_chronocube.vpcf", context)
@@ -70,7 +71,8 @@ function modifier_silent_square_thinker:OnCreated(kv)
 	self.think_interval = tonumber(kv.think_interval) or ability:GetSpecialValueFor("think_interval")
 	self.move_slow_pct = tonumber(kv.move_slow_pct) or ability:GetSpecialValueFor("move_slow_pct")
 	self.end_time = GameRules:GetGameTime() + (tonumber(kv.duration) or self:GetDuration() or 0)
-	self.active_debuffed_units = {}
+	self.active_slowed_units = {}
+	self.active_silenced_units = {}
 
 	-- CP1.x = sphere radius; scale to square circumradius so the chronosphere encloses the debuff square.
 	local cp1_radius = self.half_side * math.sqrt(2)
@@ -117,30 +119,51 @@ function modifier_silent_square_thinker:OnIntervalThink()
 		vision_radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE,
+		DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
 		FIND_ANY_ORDER,
 		false
 	)
 
 	local units_inside = {}
 	for _, enemy in pairs(enemies) do
-		if enemy and not enemy:IsNull() and enemy:IsAlive() and (not enemy:IsMagicImmune()) and self:IsInsideSquare(enemy:GetAbsOrigin()) then
+		if enemy and not enemy:IsNull() and enemy:IsAlive() and self:IsInsideSquare(enemy:GetAbsOrigin()) then
 			local entindex = enemy:entindex()
 			units_inside[entindex] = enemy
 
-			local active_modifier = self.active_debuffed_units[entindex]
-			if not active_modifier or active_modifier:IsNull() then
-				self.active_debuffed_units[entindex] = enemy:AddNewModifier(caster, ability, "modifier_silent_square_debuff", {
+			local active_slow = self.active_slowed_units[entindex]
+			if not active_slow or active_slow:IsNull() then
+				self.active_slowed_units[entindex] = enemy:AddNewModifier(caster, ability, "modifier_silent_square_debuff", {
 					duration = remaining_duration,
 					move_slow_pct = self.move_slow_pct
+				})
+			end
+
+			local active_silence = self.active_silenced_units[entindex]
+			if enemy:IsMagicImmune() or enemy:IsDebuffImmune() then
+				if active_silence and not active_silence:IsNull() then
+					active_silence:Destroy()
+				end
+				self.active_silenced_units[entindex] = nil
+			elseif not active_silence or active_silence:IsNull() then
+				self.active_silenced_units[entindex] = enemy:AddNewModifier(caster, ability, "modifier_silent_square_silence", {
+					duration = remaining_duration
 				})
 			end
 		end
 	end
 
-	for entindex, active_modifier in pairs(self.active_debuffed_units) do
+	for entindex, active_modifier in pairs(self.active_slowed_units) do
 		if not units_inside[entindex] then
-			self.active_debuffed_units[entindex] = nil
+			self.active_slowed_units[entindex] = nil
+			if active_modifier and not active_modifier:IsNull() then
+				active_modifier:Destroy()
+			end
+		end
+	end
+
+	for entindex, active_modifier in pairs(self.active_silenced_units) do
+		if not units_inside[entindex] then
+			self.active_silenced_units[entindex] = nil
 			if active_modifier and not active_modifier:IsNull() then
 				active_modifier:Destroy()
 			end
@@ -157,13 +180,15 @@ function modifier_silent_square_thinker:OnDestroy()
 		self.zone_particle = nil
 	end
 
-	for entindex, _ in pairs(self.active_debuffed_units or {}) do
-		local active_modifier = self.active_debuffed_units[entindex]
-		if active_modifier and not active_modifier:IsNull() then
-			active_modifier:Destroy()
+	for _, modifier_table in pairs({ self.active_slowed_units, self.active_silenced_units }) do
+		for _, active_modifier in pairs(modifier_table or {}) do
+			if active_modifier and not active_modifier:IsNull() then
+				active_modifier:Destroy()
+			end
 		end
 	end
-	self.active_debuffed_units = {}
+	self.active_slowed_units = {}
+	self.active_silenced_units = {}
 end
 
 modifier_silent_square_debuff = class({})
@@ -188,12 +213,6 @@ function modifier_silent_square_debuff:OnRefresh(kv)
 	self.move_slow_pct = tonumber(kv.move_slow_pct) or self.move_slow_pct or 0
 end
 
-function modifier_silent_square_debuff:CheckState()
-	return {
-		[MODIFIER_STATE_SILENCED] = true
-	}
-end
-
 function modifier_silent_square_debuff:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
@@ -204,10 +223,30 @@ function modifier_silent_square_debuff:GetModifierMoveSpeedBonus_Percentage()
 	return self.move_slow_pct
 end
 
-function modifier_silent_square_debuff:GetEffectName()
+modifier_silent_square_silence = class({})
+
+function modifier_silent_square_silence:IsHidden()
+	return false
+end
+
+function modifier_silent_square_silence:IsDebuff()
+	return true
+end
+
+function modifier_silent_square_silence:IsPurgable()
+	return true
+end
+
+function modifier_silent_square_silence:CheckState()
+	return {
+		[MODIFIER_STATE_SILENCED] = true
+	}
+end
+
+function modifier_silent_square_silence:GetEffectName()
 	return "particles/generic_gameplay/generic_silenced.vpcf"
 end
 
-function modifier_silent_square_debuff:GetEffectAttachType()
+function modifier_silent_square_silence:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW
 end

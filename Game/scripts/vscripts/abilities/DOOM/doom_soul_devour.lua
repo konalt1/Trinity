@@ -33,6 +33,18 @@ function doom_soul_devour:OnSpellStart()
         return
     end
 
+    -- Creep heroes require Scepter, but are still devoured as creeps.
+    if target:IsCreepHero() then
+        self:ProcessCreepKill(
+            caster,
+            target,
+            self:GetSpecialValueFor("soul_power") or 1,
+            self:GetSpecialValueFor("heal_amount") or 0
+        )
+        self:PlayEffects(target)
+        return
+    end
+
     if target:IsHero() then
         self:ProcessHeroTarget(caster, target)
         return
@@ -62,11 +74,11 @@ function doom_soul_devour:CastFilterResultTarget(target)
         return result
     end
 
-    if target:IsHero() and not caster:HasScepter() then
+    if (target:IsHero() or target:IsCreepHero()) and not caster:HasScepter() then
         return UF_FAIL_CUSTOM
     end
 
-    if not target:IsHero() and not target:IsCreep() then
+    if not target:IsHero() and not target:IsCreepHero() and not target:IsCreep() then
         return UF_FAIL_CUSTOM
     end
 
@@ -74,7 +86,7 @@ function doom_soul_devour:CastFilterResultTarget(target)
 end
 
 function doom_soul_devour:GetCustomCastErrorTarget(target)
-    if target and target:IsHero() and not self:GetCaster():HasScepter() then
+    if target and (target:IsHero() or target:IsCreepHero()) and not self:GetCaster():HasScepter() then
         return "#dota_hud_error_doom_devour_scepter_required"
     end
 
@@ -99,11 +111,11 @@ function doom_soul_devour:IsValidTarget(target)
     end
     
     -- Проверяем, что это крип или герой (с Aghanim's Scepter)
-    if target:IsHero() then
+    if target:IsHero() or target:IsCreepHero() then
         return self:GetCaster():HasScepter()
-    else
-        return target:IsCreep()
     end
+
+    return target:IsCreep()
 end
 
 --------------------------------------------------------------------------------

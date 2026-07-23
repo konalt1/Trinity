@@ -11,6 +11,8 @@ KillfeedSystem.HERO_KILL_GOLD_BY_LEVEL = KillfeedSystem.HERO_KILL_GOLD_BY_LEVEL 
 KillfeedSystem.FORMULA_GOLD_PER_VICTIM_LEVEL = KillfeedSystem.FORMULA_GOLD_PER_VICTIM_LEVEL or 8
 KillfeedSystem.FORMULA_VICTIM_NET_WORTH_PERCENT = KillfeedSystem.FORMULA_VICTIM_NET_WORTH_PERCENT or 2
 KillfeedSystem.FIRST_HERO_KILL_BONUS_GOLD = KillfeedSystem.FIRST_HERO_KILL_BONUS_GOLD or 150
+KillfeedSystem.HERO_KILL_NET_WORTH_MAX_ADJUSTMENT_PCT = KillfeedSystem.HERO_KILL_NET_WORTH_MAX_ADJUSTMENT_PCT or 50
+KillfeedSystem.HERO_KILL_NET_WORTH_DIFFERENCE_FOR_MAX_PCT = KillfeedSystem.HERO_KILL_NET_WORTH_DIFFERENCE_FOR_MAX_PCT or 50
 
 KillfeedSystem.ASSIST_WINDOW = KillfeedSystem.ASSIST_WINDOW or 10.0
 KillfeedSystem.ASSIST_FROM_DAMAGE = KillfeedSystem.ASSIST_FROM_DAMAGE ~= false
@@ -108,6 +110,57 @@ function KillfeedSystem:GetHeroNetWorth(hero)
 	return 0
 end
 
+function KillfeedSystem:GetTeamAverageNetWorth(team)
+	if team == nil or not PlayerResource or not PlayerResource.GetTeam then
+		return 0
+	end
+
+	local totalNetWorth = 0
+	local playerCount = 0
+	local maxPlayers = DOTA_MAX_PLAYERS or 64
+	for playerID = 0, maxPlayers - 1 do
+		local isActivePlayer = not PlayerResource.IsValidPlayer or PlayerResource:IsValidPlayer(playerID)
+		if isActivePlayer and self:IsValidPlayerID(playerID) and PlayerResource:GetTeam(playerID) == team then
+			local netWorth = PlayerResource.GetNetWorth and tonumber(PlayerResource:GetNetWorth(playerID)) or 0
+			totalNetWorth = totalNetWorth + math.max(0, netWorth or 0)
+			playerCount = playerCount + 1
+		end
+	end
+
+	if playerCount == 0 then
+		return 0
+	end
+
+	return totalNetWorth / playerCount
+end
+
+function KillfeedSystem:GetHeroKillNetWorthMultiplier(killerHero, opponentTeam)
+	if not self:IsRealHero(killerHero) then
+		return 1
+	end
+
+	local averageOpponentNetWorth = self:GetTeamAverageNetWorth(opponentTeam)
+	if averageOpponentNetWorth <= 0 then
+		return 1
+	end
+
+	local differenceForMaxPct = math.max(
+		0,
+		tonumber(self.HERO_KILL_NET_WORTH_DIFFERENCE_FOR_MAX_PCT) or 0
+	)
+	local maxAdjustmentPct = math.max(0, tonumber(self.HERO_KILL_NET_WORTH_MAX_ADJUSTMENT_PCT) or 0)
+	if differenceForMaxPct <= 0 or maxAdjustmentPct <= 0 then
+		return 1
+	end
+
+	local killerNetWorth = self:GetHeroNetWorth(killerHero)
+	local netWorthDifferencePct = (averageOpponentNetWorth - killerNetWorth) / averageOpponentNetWorth * 100
+	local adjustmentPct = netWorthDifferencePct / differenceForMaxPct * maxAdjustmentPct
+	adjustmentPct = math.max(-maxAdjustmentPct, math.min(maxAdjustmentPct, adjustmentPct))
+
+	return math.max(0, 1 + adjustmentPct / 100)
+end
+
 function KillfeedSystem:NormalizeGold(gold)
 	gold = math.floor(tonumber(gold) or 0)
 	if gold < 0 then
@@ -183,17 +236,21 @@ end
 
 function KillfeedSystem:GetHeroKillGoldReward(killedHero, killerHero)
 	local mode = string.lower(tostring(self.HERO_KILL_GOLD_MODE or ""))
+	local baseReward = 0
 	if mode == "fixed" then
-		return self:NormalizeGold(self.FIXED_HERO_KILL_GOLD)
-	end
-	if mode == "formula" then
+		baseReward = self.FIXED_HERO_KILL_GOLD
+	elseif mode == "formula" then
 		local levelGold = self:GetHeroLevel(killedHero) * (tonumber(self.FORMULA_GOLD_PER_VICTIM_LEVEL) or 0)
 		local netWorthGold = self:GetHeroNetWorth(killedHero)
 			* (tonumber(self.FORMULA_VICTIM_NET_WORTH_PERCENT) or 0) / 100
-		return self:NormalizeGold(levelGold + netWorthGold)
+		baseReward = levelGold + netWorthGold
+	else
+		baseReward = self:GetHeroKillGoldForLevel(self:GetHeroLevel(killedHero))
 	end
 
-	return self:GetHeroKillGoldForLevel(self:GetHeroLevel(killedHero))
+	local opponentTeam = killedHero and killedHero.GetTeamNumber and killedHero:GetTeamNumber() or nil
+	local multiplier = self:GetHeroKillNetWorthMultiplier(killerHero, opponentTeam)
+	return self:NormalizeGold(baseReward * multiplier)
 end
 
 function KillfeedSystem:GetHeroAssistGoldReward(killedHero, assisterHero, killerHero, participatingHeroCount)

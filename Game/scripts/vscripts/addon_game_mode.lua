@@ -291,14 +291,6 @@ CAddonTemplateGameMode = CAddonTemplateGameMode or class({})
 function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
-	if Warning then
-		Warning("[GOLD DEBUG] modify-gold filter registered\n")
-	else
-		print("[GOLD DEBUG] modify-gold filter registered")
-	end
-	if GameMode and GameMode.InstallGoldDebugHooks then
-		GameMode:InstallGoldDebugHooks()
-	end
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), GameMode)
 	
 	GameRules:SetGoldTickTime(1)

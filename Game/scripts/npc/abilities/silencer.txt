@@ -53,7 +53,6 @@
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "HasScepterUpgrade"             "1"
         "MaxLevel"                      "4"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "2"
@@ -69,7 +68,6 @@
             "debuff_duration"           "4"
             "silence_duration"          "3 4 5 6"
             "mind_power_multiplier"     "1"
-            "scepter_radius"            "700"
         }
 
         "precache"
@@ -81,6 +79,24 @@
         }
     }
 
+    "silencer_global_silence"
+    {
+        "BaseClass"                     "silencer_global_silence"
+        "ScriptFile"                    "abilities/silencer/silencer_global_silence"
+        "AbilityTextureName"            "silencer_global_silence"
+        "IsGrantedByScepter"            "1"
+        "HasScepterUpgrade"             "0"
+        "MaxLevel"                      "1"
+        "RequiredLevel"                 "1"
+        "LevelsBetweenUpgrades"         "1"
+        "AbilityCooldown"               "100"
+
+        "AbilityValues"
+        {
+            "duration"                  "4"
+        }
+    }
+
     "silent_square"
     {
         "BaseClass"                     "ability_lua"
@@ -89,7 +105,7 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
         "FightRecapLevel"               "1"
         "MaxLevel"                      "3"
         "RequiredLevel"                 "6"
@@ -129,7 +145,6 @@
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "FightRecapLevel"               "1"
-        "HasScepterUpgrade"             "1"
         "HasShardUpgrade"               "0"
         "IsGrantedByScepter"            "0"
         "MaxLevel"                      "4"
@@ -145,7 +160,6 @@
             "duration"                  "5 6 7 8"
             "shield_amount"             "100 200 300 400"
             "mind_power_multiplier"     "2"
-            "scepter_ally_radius"       "400"
         }
 
         "precache"

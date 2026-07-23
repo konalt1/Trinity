@@ -48,26 +48,7 @@ function focus:OnSpellStart()
         })
     end
 
-    if caster:HasScepter() then
-        local radius = self:GetSpecialValueFor("scepter_ally_radius")
-        local allies = FindUnitsInRadius(
-            caster:GetTeamNumber(),
-            caster:GetAbsOrigin(),
-            nil,
-            radius,
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_NONE,
-            FIND_ANY_ORDER,
-            false
-        )
-
-        for _, ally in ipairs(allies) do
-            apply_focus_target(ally)
-        end
-    else
-        apply_focus_target(caster)
-    end
+    apply_focus_target(caster)
 
     caster:EmitSound("Hero_Antimage.Counterspell.Cast")
 end

@@ -1,4 +1,5 @@
 require("abilities/chen/chen_sub_barrack")
+require("abilities/chen/chen_building_placement")
 
 chen_worker_build_tower = class({})
 chen_worker_build_courier_barrack = class({})
@@ -452,6 +453,11 @@ local function SharedBuildValidate(self, targetPosition)
         return "#dota_hud_error_chen_worker_build_invalid_position"
     end
 
+    local minDistance = GetBuildValue(self, "building_min_distance", 0)
+    if targetPosition and not ChenBuildingPlacement.IsPositionClear(targetPosition, minDistance) then
+        return ChenBuildingPlacement.ERROR_KEY
+    end
+
     return nil
 end
 
@@ -713,6 +719,13 @@ function modifier_chen_worker_build_runner:BeginConstruction()
         return
     end
 
+    local minDistance = GetBuildValue(ability, "building_min_distance", 0)
+    if not ChenBuildingPlacement.IsPositionClear(self.target, minDistance) then
+        BuildDebug("FAIL) Build position is too close to another building:", DescribePosition(self.target))
+        ChenWorkerBuild.NotifyPlayerError(worker, ChenBuildingPlacement.ERROR_KEY)
+        return
+    end
+
     local goldCost = GetBuildValue(ability, config.gold_cost_key, 10)
     local maxHp = GetBuildValue(ability, config.max_hp_key, 2000)
     if not ChenBarrackGold.Has(barrack, goldCost) then
@@ -735,6 +748,13 @@ function modifier_chen_worker_build_runner:BeginConstruction()
     end
 
     FindClearSpaceForUnit(building, self.target, true)
+    if not ChenBuildingPlacement.IsPositionClear(building:GetAbsOrigin(), minDistance, building) then
+        UTIL_Remove(building)
+        ChenBarrackGold.Add(barrack, goldCost, "worker_build_refund")
+        ChenWorkerBuild.NotifyPlayerError(worker, ChenBuildingPlacement.ERROR_KEY)
+        BuildDebug("FAIL) Building was moved too close to another building:", DescribePosition(self.target))
+        return
+    end
     building:SetBaseMaxHealth(maxHp)
     building:SetMaxHealth(maxHp)
     building:SetHealth(1)

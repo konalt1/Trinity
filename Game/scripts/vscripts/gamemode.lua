@@ -10,39 +10,6 @@ GameMode.ancients = {} -- Таблица тронов
 GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
 GameMode.CHAT_WHEEL_COOLDOWN = 10
 
-local GOLD_REASON_NAMES = {
-	[0] = "unspecified",
-	[1] = "death",
-	[2] = "buyback",
-	[3] = "consumable purchase",
-	[4] = "item purchase",
-	[5] = "abandoned player redistribution",
-	[6] = "item sale",
-	[7] = "ability cost",
-	[8] = "cheat command",
-	[9] = "selection penalty",
-	[10] = "passive game tick",
-	[11] = "building bounty",
-	[12] = "hero kill",
-	[13] = "creep kill",
-	[14] = "Roshan kill",
-	[15] = "courier kill",
-	[16] = "shared gold",
-}
-
-local function GoldDebugLog(message)
-	if Warning then
-		Warning(message .. "\n")
-	else
-		print(message)
-	end
-end
-
-local function GetGoldReasonName(reasonConst)
-	reasonConst = tonumber(reasonConst) or 0
-	return GOLD_REASON_NAMES[reasonConst] or "unknown"
-end
-
 GameMode.wave_list = {
 	[1]={reward_gold=250,reward_exp=500,
 			units={["npc_line_creep_1"]=6,["npc_line_creep_2"]=2}},
@@ -59,10 +26,8 @@ function GameMode:InitGameMode()
 	ListenToGameEvent('dota_inventory_item_added', Dynamic_Wrap(self, 'OnInventoryUpdate'), self)
 	ListenToGameEvent('dota_player_drop_item', Dynamic_Wrap(self, 'OnChenInventoryChanged'), self)
 	ListenToGameEvent('dota_item_picked_up', Dynamic_Wrap(self, 'OnChenInventoryChanged'), self)
-	ListenToGameEvent('dota_player_gained_gold', Dynamic_Wrap(self, 'OnPlayerGainedGold'), self)
 
 	CustomGameEventManager:RegisterListener('chat_wheel_select', Dynamic_Wrap(self, 'OnChatWheelSelect'))	
-	self:InstallGoldDebugHooks()
 
 	if KillfeedSystem and KillfeedSystem.Init then
 		KillfeedSystem:Init()
@@ -443,8 +408,13 @@ function GameMode:OnNPCSpawned(data)
 	end
  	
  	if npc and npc:GetUnitName() then
- 		-- Если это башня - регистрируем её (с проверкой на дубликаты внутри)
+		-- Если это башня - регистрируем её (с проверкой на дубликаты внутри)
  		local unitName = npc:GetUnitName() or ""
+		if (unitName == "npc_guardian_good" or unitName == "npc_guardian_bad")
+			and not npc:HasModifier("modifier_black_king_bar_immune") then
+			npc:AddNewModifier(npc, nil, "modifier_black_king_bar_immune", {})
+		end
+
  		if npc:IsBuilding() and not npc:IsFort() and string.find(unitName, "tower")
  			and not string.find(unitName, "npc_chen_building") then
  			GameMode:RegisterTower(npc)
@@ -513,127 +483,6 @@ function GameMode:OnInventoryUpdate(data)
 	end
 end
 
-function GameMode:DebugGoldGainFromValues(playerID, gold, reasonConst, reliable, source)
-	gold = tonumber(gold) or 0
-	if gold <= 0 then
-		return
-	end
-
-	local playerName = "unknown"
-	if playerID ~= nil and PlayerResource and PlayerResource.GetPlayerName then
-		local resolvedName = PlayerResource:GetPlayerName(playerID)
-		if resolvedName and resolvedName ~= "" then
-			playerName = resolvedName
-		end
-	end
-
-	reasonConst = tonumber(reasonConst) or 0
-	local isReliable = reliable == true or reliable == 1
-	local reliability = isReliable and "reliable" or "unreliable"
-
-	GoldDebugLog(string.format(
-		"[GOLD DEBUG] player=%s (id=%s) received=+%s reason=%s (%d) type=%s source=%s",
-		playerName,
-		tostring(playerID),
-		tostring(gold),
-		GetGoldReasonName(reasonConst),
-		reasonConst,
-		reliability,
-		tostring(source or "unknown")
-	))
-end
-
-function GameMode:DebugGoldGain(data)
-	if not data then
-		return
-	end
-
-	self:DebugGoldGainFromValues(
-		data.player_id_const or data.player_id or data.PlayerID,
-		data.gold,
-		data.reason_const,
-		data.reliable,
-		"SetModifyGoldFilter"
-	)
-end
-
-function GameMode:OnPlayerGainedGold(data)
-	if not data then
-		return
-	end
-
-	self:DebugGoldGainFromValues(
-		data.player_id or data.PlayerID or data.playerid,
-		data.gold or data.gold_amount,
-		data.reason_const or data.reason,
-		data.reliable,
-		"dota_player_gained_gold"
-	)
-end
-
-function GameMode:InstallGoldDebugHooks()
-	self._goldDebugHooksInstalled = self._goldDebugHooksInstalled or {}
-
-	if not self._goldDebugHooksInstalled.heroModifyGold then
-		local heroClass = CDOTA_BaseNPC_Hero or CDOTA_BaseNPC
-		if heroClass and type(heroClass.ModifyGold) == "function" then
-			_G.__trinity_gold_debug_original_hero_modify_gold = _G.__trinity_gold_debug_original_hero_modify_gold or heroClass.ModifyGold
-			local originalHeroModifyGold = _G.__trinity_gold_debug_original_hero_modify_gold
-
-			heroClass.ModifyGold = function(hero, gold, reliable, reasonConst)
-				local result = originalHeroModifyGold(hero, gold, reliable, reasonConst)
-
-				if not _G.__trinity_gold_debug_inside_player_resource_modify_gold then
-					local playerID = hero and hero.GetPlayerOwnerID and hero:GetPlayerOwnerID() or nil
-					GameMode:DebugGoldGainFromValues(playerID, gold, reasonConst, reliable, "hero:ModifyGold")
-				end
-
-				return result
-			end
-
-			self._goldDebugHooksInstalled.heroModifyGold = true
-			GoldDebugLog("[GOLD DEBUG] hero:ModifyGold hook installed")
-		elseif not self._goldDebugHeroHookWarned then
-			self._goldDebugHeroHookWarned = true
-			GoldDebugLog("[GOLD DEBUG] hero:ModifyGold hook not available yet")
-		end
-	end
-
-	if not self._goldDebugHooksInstalled.playerResourceModifyGold then
-		if PlayerResource and type(PlayerResource.ModifyGold) == "function" then
-			_G.__trinity_gold_debug_original_player_resource_modify_gold =
-				_G.__trinity_gold_debug_original_player_resource_modify_gold or PlayerResource.ModifyGold
-			local originalPlayerResourceModifyGold = _G.__trinity_gold_debug_original_player_resource_modify_gold
-
-			local ok = pcall(function()
-				PlayerResource.ModifyGold = function(playerResource, playerID, gold, reliable, reasonConst)
-					_G.__trinity_gold_debug_inside_player_resource_modify_gold = true
-					local okResult, result = pcall(originalPlayerResourceModifyGold, playerResource, playerID, gold, reliable, reasonConst)
-					_G.__trinity_gold_debug_inside_player_resource_modify_gold = false
-
-					if not okResult then
-						error(result)
-					end
-
-					GameMode:DebugGoldGainFromValues(playerID, gold, reasonConst, reliable, "PlayerResource:ModifyGold")
-					return result
-				end
-			end)
-
-			if ok then
-				self._goldDebugHooksInstalled.playerResourceModifyGold = true
-				GoldDebugLog("[GOLD DEBUG] PlayerResource:ModifyGold hook installed")
-			elseif not self._goldDebugPlayerResourceHookWarned then
-				self._goldDebugPlayerResourceHookWarned = true
-				GoldDebugLog("[GOLD DEBUG] PlayerResource:ModifyGold hook could not be installed")
-			end
-		elseif not self._goldDebugPlayerResourceHookWarned then
-			self._goldDebugPlayerResourceHookWarned = true
-			GoldDebugLog("[GOLD DEBUG] PlayerResource:ModifyGold hook not available yet")
-		end
-	end
-end
-
 function GameMode:ModifyGoldFilter(data)
 	if KillfeedSystem and KillfeedSystem.ModifyGoldFilter then
 		local result = KillfeedSystem:ModifyGoldFilter(data)
@@ -648,7 +497,6 @@ function GameMode:ModifyGoldFilter(data)
 			return false
 		end
 	end
-	self:DebugGoldGain(data)
 	return true
 end
 

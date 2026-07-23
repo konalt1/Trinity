@@ -307,7 +307,8 @@ flowchart TD
 - Init: `require("kill_feed/init")` → `InitKillFeed()` в `addon_game_mode.lua`
 - Net table: `kill_feed_debug`
 - Custom events: см. `custom.gameevents`
-- `KillfeedSystem.HERO_KILL_GOLD_MODE = "formula"`: награда за убийство = `8 × уровень жертвы + 0,2% net worth жертвы`
+- `KillfeedSystem.HERO_KILL_GOLD_MODE = "formula"`: базовая награда за убийство = `8 × уровень жертвы + 0,2% net worth жертвы`
+- Базовая награда убийцы масштабируется относительно среднего net worth команды жертвы. При равенстве коэффициент равен `1`; по умолчанию он линейно ограничен диапазоном `0,5–1,5` и достигает границы при разнице в `50%` (`HERO_KILL_NET_WORTH_MAX_ADJUSTMENT_PCT`, `HERO_KILL_NET_WORTH_DIFFERENCE_FOR_MAX_PCT`).
 - Первое валидное убийство вражеского героя в матче даёт убийце дополнительные `150` золота (`FIRST_HERO_KILL_BONUS_GOLD`)
 - `KillfeedSystem.HERO_ASSIST_GOLD_MODE = "formula"`: убийце и каждому ассистенту = `15 + (50 + net worth жертвы × 0,05) / число участвовавших героев`; убийца также получает отдельное золото за килл
 - **Статус:** модуль подключён в entry point; при отсутствии файлов `Game/scripts/vscripts/kill_feed/` игра упадёт при загрузке — проверять наличие перед работой
@@ -546,6 +547,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | Q | `silencer_arcane_curse_custom` |
 | W | Glaives of Wisdom | Ванильная |
 | E | `silencer_last_word_custom` |
+| Scepter | `silencer_global_silence` — стандартная Global Silence |
 | R | `silent_square` — **кастом ult** |
 
 **Lua:** `abilities/silencer/`
@@ -569,6 +571,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 - Юниты: worker, hunter, healer, brute
 - Farmland, производство, сбор ресурсов
 - `chen_sub_barrack`, `chen_worker_build`
+- После постройки ульт переключается между `chen_barrack_takeoff` и `chen_barrack_land`: барак летает со скоростью 200, при посадке запускается фиксированный КД 120 секунд; производство и пашни в полёте приостановлены.
 - Экономика: `ChenBarrackGold` — фильтр золота, carrier/shared_carrier режимы
 - Order filter: `ChenBarrackWorkerHandleOrder`
 - Inventory hooks в `gamemode.lua`

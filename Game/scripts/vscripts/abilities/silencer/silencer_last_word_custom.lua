@@ -13,32 +13,6 @@ function silencer_last_word_custom:OnSpellStart()
     end
 
     local duration = self:GetSpecialValueFor("debuff_duration")
-    if caster:HasScepter() then
-        local target_point = self:GetCursorPosition()
-        local radius = self:GetSpecialValueFor("scepter_radius")
-        local enemies = FindUnitsInRadius(
-            caster:GetTeamNumber(),
-            target_point,
-            nil,
-            radius,
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            DOTA_UNIT_TARGET_FLAG_NONE,
-            FIND_ANY_ORDER,
-            false
-        )
-
-        for _, enemy in pairs(enemies) do
-            if not enemy:TriggerSpellAbsorb(self) then
-                enemy:AddNewModifier(caster, self, "modifier_silencer_last_word_custom_debuff", { duration = duration })
-                EmitSoundOn("Hero_Silencer.LastWord.Target", enemy)
-            end
-        end
-
-        EmitSoundOnLocationWithCaster(target_point, "Hero_Silencer.LastWord.Cast", caster)
-        return
-    end
-
     local target = self:GetCursorTarget()
     if not target or target:IsNull() then
         return
@@ -52,24 +26,6 @@ function silencer_last_word_custom:OnSpellStart()
 
     EmitSoundOn("Hero_Silencer.LastWord.Cast", caster)
     EmitSoundOn("Hero_Silencer.LastWord.Target", target)
-end
-
-function silencer_last_word_custom:GetBehavior()
-    local caster = self:GetCaster()
-    if caster and not caster:IsNull() and caster:HasScepter() then
-        return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
-    end
-
-    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-end
-
-function silencer_last_word_custom:GetAOERadius()
-    local caster = self:GetCaster()
-    if caster and not caster:IsNull() and caster:HasScepter() then
-        return self:GetSpecialValueFor("scepter_radius")
-    end
-
-    return 0
 end
 
 function modifier_silencer_last_word_custom_debuff:IsDebuff()
