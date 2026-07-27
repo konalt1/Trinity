@@ -54,6 +54,8 @@ local BARRACK_REDEPLOY_COOLDOWN = 120
 local BARRACK_FLYING_MOVE_SPEED = 200
 local BARRACK_FLYING_VISUAL_HEIGHT = 180
 local BARRACK_LANDING_ARRIVAL_RADIUS = 64
+local BARRACK_STARTING_WORKER_COUNT = 3
+local BARRACK_STARTING_BLOOM_COUNT = 3
 
 local CHEN_BARRACK_PRODUCING_MODIFIERS = {
     [CHEN_BARRACK_WORKER_UNIT] = "modifier_chen_barrack_producing_worker",
@@ -1821,21 +1823,39 @@ function ChenBarrackGetFarmlandBlooms(barrack)
     return nil
 end
 
+function ChenBarrackEnsureFarmlandBlooms(barrack, minimumCount)
+    if not IsValidBarrackEntity(barrack) or barrack.chen_is_flying then
+        return 0
+    end
+
+    local farmlandModifier = GetFarmlandModifier(barrack)
+    if not farmlandModifier then
+        return 0
+    end
+
+    minimumCount = math.max(0, math.floor(tonumber(minimumCount) or 0))
+    local createdCount = 0
+    while farmlandModifier:GetActiveBloomCount() < minimumCount do
+        if not farmlandModifier:BloomRandomTree() then
+            break
+        end
+        createdCount = createdCount + 1
+    end
+
+    return createdCount
+end
+
 function ChenBarrackEnsureFarmlandBloom(barrack)
     if not IsValidBarrackEntity(barrack) or barrack.chen_is_flying then
         return false
     end
 
     local farmlandModifier = GetFarmlandModifier(barrack)
-    if not farmlandModifier then
-        return false
-    end
-
-    if farmlandModifier:GetActiveBloomCount() > 0 then
+    if farmlandModifier and farmlandModifier:GetActiveBloomCount() > 0 then
         return true
     end
 
-    return farmlandModifier:BloomRandomTree()
+    return ChenBarrackEnsureFarmlandBlooms(barrack, 1) > 0
 end
 
 -- Создаёт ещё один цветок, даже если активные уже есть (нужно, когда все известные
@@ -2544,16 +2564,15 @@ function chen_barrack:OnSpellStart()
         return nil
     end)
 
-    -- Стартовый рабочий при создании барака. Бесплатен только если у Чена ещё нет
-    -- живых рабочих под контролем; дистанция спавна — штатная (из способности).
+    -- При создании барак начинает работу с тремя бессрочными рабочими и тремя
+    -- цветущими деревьями. Уже существующие или поставленные в очередь рабочие
+    -- учитываются, чтобы пересоздание барака не превышало стартовый минимум.
     Timers:CreateTimer(0.3, function()
         if not barrack or barrack:IsNull() or not barrack:IsAlive() or barrack.chen_is_destroyed then
             return nil
         end
 
-        if not IsFirstWorkerFree(caster) then
-            return nil
-        end
+        ChenBarrackEnsureFarmlandBlooms(barrack, BARRACK_STARTING_BLOOM_COUNT)
 
         local spawnDistance = 360
         local summonAbility = barrack:FindAbilityByName("chen_barrack_summon_worker")
@@ -2564,15 +2583,19 @@ function chen_barrack:OnSpellStart()
             end
         end
 
-        CompleteProduction(barrack, {
-            unit_name = CHEN_BARRACK_WORKER_UNIT,
-            gold_cost = 0,
-            production_time = 0,
-            spawn_distance = spawnDistance,
-            summon_lifetime = 0,
-            gold_mode = "carrier",
-            is_worker = true,
-        })
+        local existingWorkerCount = CountLivingWorkersForHero(caster) + CountQueuedWorkersForHero(caster)
+        local workersToCreate = math.max(0, BARRACK_STARTING_WORKER_COUNT - existingWorkerCount)
+        for _ = 1, workersToCreate do
+            CompleteProduction(barrack, {
+                unit_name = CHEN_BARRACK_WORKER_UNIT,
+                gold_cost = 0,
+                production_time = 0,
+                spawn_distance = spawnDistance,
+                summon_lifetime = 0,
+                gold_mode = "carrier",
+                is_worker = true,
+            })
+        end
         return nil
     end)
 

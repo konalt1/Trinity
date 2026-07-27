@@ -309,9 +309,9 @@
 
 		// Frost Shield
 		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Морозный Щит"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя урон и нанося урон врагам вокруг. 
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя физический урон и нанося урон врагам вокруг.
 		Урон заклинания увеличивается Силой Магии."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ УРОНА:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ ФИЗИЧЕСКОГО УРОНА:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"УРОН ВРАГАМ:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration"					"ДЛИТЕЛЬНОСТЬ:"
@@ -644,7 +644,7 @@
 
 		// Barrack (Ultimate)
 		"DOTA_Tooltip_ability_chen_barrack"									"Барак"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Ставит барак в выбранной точке. Барак копит собственное золото (отображается над зданием) и тратит его только на найм и строительство. Юниты с общим золотом делят награду за убийство с Ченом; carrier-юниты сдают золото только бараку. Одновременно может быть только один барак — повторный каст переносит камеру к нему. При уничтожении убийца забирает часть золота барака."
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Ставит барак в выбранной точке. Барак начинает работу с тремя живыми рабочими и тремя цветущими деревьями. Барак копит собственное золото (отображается над зданием) и тратит его только на найм и строительство. Юниты с общим золотом делят награду за убийство с Ченом; carrier-юниты сдают золото только бараку. Одновременно может быть только один барак — повторный каст переносит камеру к нему. При уничтожении убийца забирает часть золота барака."
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"HP БАРАКА:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
@@ -917,6 +917,10 @@
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"ДАЛЬНОСТЬ АТАКИ СО СКИПЕТРОМ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%УРОН ПРОРУБАНИЯ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"С Aghanim's Scepter после применения Палец смерти рука Lion усиливается на %scepter_buff_duration% сек.: он переходит в ближний бой с дальностью атаки %scepter_attack_range%, получает прорубание и бонусный урон от атак, равный своей Силе Магии."
+
+		// Боссы
+		"npc_mortimer_boss"											"Мортимер"
+		"npc_mortimer_boss_finale"									"Мортимер"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"

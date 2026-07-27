@@ -1457,4 +1457,98 @@
 
     //=================================================================================
 
+    "npc_mortimer_boss"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/heroes/snapfire/snapfire_customgame.vmdl"
+        "SoundSet"                  "Hero_Snapfire"
+        "GameSoundsFile"            "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts"
+        "VoiceFile"                 "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts"
+        "vscripts"                  "bosses/mortimer_boss_ai.lua"
+        "Level"                     "20"
+        "ModelScale"                "1.15"
+        "ConsideredHero"            "1"
+        "IsBoss"                    "1"
+        "IsAncient"                 "1"
+        "CanBeDominated"            "0"
+        "UseNeutralCreepBehavior"   "0"
+
+        // Snapfire's original abilities. Spit Creep is the hidden companion
+        // action used by Gobble Up after Mortimer swallows an allied creep.
+        "Ability1"                  "snapfire_gobble_up"
+        "Ability2"                  "snapfire_firesnap_cookie"
+        "Ability3"                  "snapfire_spit_creep"
+
+        "ArmorPhysical"             "20"
+        "MagicalResistance"         "40"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackDamageMin"           "130"
+        "AttackDamageMax"           "150"
+        "AttackRate"                "1.7"
+        "AttackAnimationPoint"      "0.35"
+        "AttackAcquisitionRange"    "900"
+        "AttackRange"               "500"
+        "ProjectileModel"           "particles/units/heroes/hero_snapfire/hero_snapfire_base_attack.vpcf"
+        "ProjectileSpeed"           "1800"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "RingRadius"                "80"
+        "HealthBarOffset"           "260"
+
+        "BountyXP"                  "1500"
+        "BountyGoldMin"             "500"
+        "BountyGoldMax"             "600"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "285"
+        "MovementTurnRate"          "0.7"
+
+        "StatusHealth"              "12000"
+        "StatusHealthRegen"         "15"
+        "StatusMana"                "2000"
+        "StatusManaRegen"           "20"
+
+        "VisionDaytimeRange"        "1400"
+        "VisionNighttimeRange"      "900"
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_HERO"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_HERO"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    // Short-lived, invulnerable actor used for Mortimer's post-death celebration
+    // and Mortimer Kisses retaliation. It is spawned only by the Lua manager.
+    "npc_mortimer_boss_finale"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/heroes/snapfire/snapfire_customgame.vmdl"
+        "SoundSet"                  "Hero_Snapfire"
+        "GameSoundsFile"            "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts"
+        "VoiceFile"                 "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts"
+        "Level"                     "20"
+        "ModelScale"                "1.15"
+        "CanBeDominated"            "0"
+        "UseNeutralCreepBehavior"   "0"
+        "Ability1"                  "snapfire_mortimer_kisses"
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "StatusHealth"              "1"
+        "StatusMana"                "2000"
+        "StatusManaRegen"           "100"
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "100"
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "RingRadius"                "0"
+        "HealthBarOffset"           "260"
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+        "VisionDaytimeRange"        "1400"
+        "VisionNighttimeRange"      "900"
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
 }

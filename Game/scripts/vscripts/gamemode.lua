@@ -536,6 +536,9 @@ function GameMode:OnEntityKilled(keys)
 	end
 
 	local unit_name = unit:GetUnitName()
+	if MortimerBoss and MortimerBoss.OnEntityKilled then
+		MortimerBoss:OnEntityKilled(unit)
+	end
 	if KillfeedSystem and KillfeedSystem.OnEntityKilled then
 		KillfeedSystem:OnEntityKilled(keys, unit)
 	end
@@ -647,6 +650,7 @@ function GameMode:OnChatWheelSelect(data)
 
 	CustomGameEventManager:Send_ServerToAllClients("chat_wheel_send_sound", {
       hero = hero:entindex(),
+      playerID = data.PlayerID,
       sound = sound,
 	  maxTime = data.maxTime
     });

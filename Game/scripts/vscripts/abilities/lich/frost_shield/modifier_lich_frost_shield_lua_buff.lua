@@ -162,14 +162,14 @@ end
 -- Modifier Effects
 function modifier_lich_frost_shield_lua_buff:DeclareFunctions()
 	local funcs = {
-		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+		MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE,
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 	}
 
 	return funcs
 end
 
-function modifier_lich_frost_shield_lua_buff:GetModifierIncomingDamage_Percentage()
+function modifier_lich_frost_shield_lua_buff:GetModifierIncomingPhysicalDamage_Percentage()
 	return -self.damage_reduction
 end
 
@@ -198,4 +198,4 @@ function modifier_lich_frost_shield_lua_buff:PlayPeriodicEffect()
 	if IsServer() then
 		EmitSoundOn(sound_cast, self:GetParent())
 	end
-end 
+end

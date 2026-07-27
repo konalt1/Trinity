@@ -4,7 +4,7 @@
     "lion_impale_custom"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "ScriptFile"                    "abilities/lion/lion_impale_custom"
         "AbilityTextureName"            "lion_impale"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -46,7 +46,7 @@
     "lion_soul_collector"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "ScriptFile"                    "abilities/lion/lion_soul_collector"
         "AbilityTextureName"            "lion_soul_collector"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
@@ -64,7 +64,7 @@
     "lion_spirit_siphon_custom"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "ScriptFile"                    "abilities/lion/lion_spirit_siphon_custom"
         "AbilityTextureName"            "lion_mana_drain"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -100,7 +100,7 @@
     "lion_finger_of_death_custom"
     {
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/lion/lion_abilities"
+        "ScriptFile"                    "abilities/lion/lion_finger_of_death_custom"
         "AbilityTextureName"            "lion_finger_of_death"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"

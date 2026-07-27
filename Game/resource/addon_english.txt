@@ -288,8 +288,8 @@
 
 		// Frost Shield
 		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Frost Shield"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Lich surrounds an ally with a frost shield, reducing incoming damage to the hero and damaging nearby enemies. The damage scales with Spell Power."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%DAMAGE REDUCTION:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Lich surrounds an ally with a frost shield, reducing incoming physical damage to the hero and damaging nearby enemies. The damage scales with Spell Power."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%PHYSICAL DAMAGE REDUCTION:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"DAMAGE ENEMIES TAKE:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"RADIUS:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration"					"DURATION:"
@@ -605,7 +605,7 @@ Every tamed creep in the radius instantly casts its active abilities. After the 
 
 		// Barrack (Ultimate)
 		"DOTA_Tooltip_ability_chen_barrack"									"Barracks"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Chen raises a stationary barracks at the target point. The barracks stores its own gold, shown above the structure, and can only spend it on hiring units or building construction. Barracks units with shared gold also grant Chen the full kill bounty; carrier units deliver gold only to the barracks. Chen may control only one barracks—casting again focuses your camera on it. If destroyed, the killer steals a portion of the gold inside."
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Chen raises a stationary barracks at the target point. It starts with three living workers and three blooming trees. The barracks stores its own gold, shown above the structure, and can only spend it on hiring units or building construction. Barracks units with shared gold also grant Chen the full kill bounty; carrier units deliver gold only to the barracks. Chen may control only one barracks—casting again focuses your camera on it. If destroyed, the killer steals a portion of the gold inside."
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"BARRACKS HP:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% GOLD TO KILLER ON DESTRUCTION:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"GOLD DELIVERY RADIUS:"
@@ -880,6 +880,10 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"SCEPTER ATTACK RANGE:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%CLEAVE DAMAGE:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"With Aghanim's Scepter, casting Finger of Death empowers Lion's hand for %scepter_buff_duration% seconds: he becomes melee with %scepter_attack_range% attack range, gains cleave, and gains bonus attack damage equal to his Spell Power."
+
+		// Bosses
+		"npc_mortimer_boss"											"Mortimer"
+		"npc_mortimer_boss_finale"									"Mortimer"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Placeholder"

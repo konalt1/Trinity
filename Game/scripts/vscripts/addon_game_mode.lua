@@ -9,6 +9,7 @@ require ("game_managers/killfeed_system")
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
+require ("bosses/mortimer_boss")
 
 -- Загружаем способности
 require ("abilities/mind_power")
@@ -71,6 +72,12 @@ function Precache( context )
 
 	-- Roshan sounds
 	PrecacheResource( "soundfile", "soundevents/game_sounds_creeps.vsndevts", context )
+
+	-- Mortimer boss
+	PrecacheResource( "model", "models/heroes/snapfire/snapfire_customgame.vmdl", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts", context )
+	PrecacheResource( "particle_folder", "particles/units/heroes/hero_snapfire", context )
  
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")
@@ -86,6 +93,7 @@ end
 function Activate()
 	GameRules.AddonTemplate = CAddonTemplateGameMode()
 	GameRules.AddonTemplate:InitGameMode()
+	MortimerBoss:Init()
 end
 -- ============== Copyright © 2026, DagonRanchi, All rights reserved. =============
 
@@ -290,6 +298,7 @@ CAddonTemplateGameMode = CAddonTemplateGameMode or class({})
 
 function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
+	GameRules:GetGameModeEntity():SetRespawnTimeScale(0.7)
 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), GameMode)
 	

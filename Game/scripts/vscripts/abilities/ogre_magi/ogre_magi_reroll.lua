@@ -3,6 +3,77 @@ LinkLuaModifier('modifier_ogre_magi_reroll_passive', 'abilities/ogre_magi/ogre_m
 
 ogre_magi_reroll = class({})
 
+function HideOgreBorrowedAbilityUntilCooldownEnds(ability)
+	if not ability or ability:IsNull() then
+		return
+	end
+
+	ability.ogre_cooldown_hide_id = (ability.ogre_cooldown_hide_id or 0) + 1
+	local hide_id = ability.ogre_cooldown_hide_id
+
+	-- The ability-executed event can arrive just before the engine starts cooldown.
+	Timers:CreateTimer(0, function()
+		if not ability or ability:IsNull() or ability.ogre_cooldown_hide_id ~= hide_id then
+			return
+		end
+
+		if ability:GetCooldownTimeRemaining() <= 0 then
+			ability:SetHidden(false)
+			return
+		end
+
+		ability:SetHidden(true)
+		return 0.1
+	end)
+end
+
+local function OgreBorrowedAbilityHasActiveEffect(parent, ability, named_modifier)
+	if named_modifier and parent:HasModifier(named_modifier) then
+		return true
+	end
+
+	local units = FindUnitsInRadius(
+		parent:GetTeamNumber(),
+		parent:GetAbsOrigin(),
+		nil,
+		FIND_UNITS_EVERYWHERE,
+		DOTA_UNIT_TARGET_TEAM_BOTH,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		FIND_ANY_ORDER,
+		false
+	)
+
+	for _, unit in ipairs(units) do
+		for _, modifier in ipairs(unit:FindAllModifiers()) do
+			if modifier:GetAbility() == ability then
+				return true
+			end
+		end
+	end
+
+	return false
+end
+
+local function RemoveOgreBorrowedAbilityAfterEffect(parent, ability, ability_name, named_modifier)
+	Timers:CreateTimer(0.1, function()
+		if not IsValidEntity(parent) or not ability or ability:IsNull() then
+			return
+		end
+
+		if parent:FindAbilityByName(ability_name) ~= ability then
+			return
+		end
+
+		local is_channeling = ability.IsChanneling and ability:IsChanneling()
+		if is_channeling or OgreBorrowedAbilityHasActiveEffect(parent, ability, named_modifier) then
+			return 0.1
+		end
+
+		parent:RemoveAbility(ability_name)
+	end)
+end
+
 function ogre_magi_reroll:GetIntrinsicModifierName()
 	return "modifier_ogre_magi_reroll_passive"
 end
@@ -184,6 +255,9 @@ function ogre_magi_reroll:OnSpellStart()
 	local abilityName = type(randomAbility) == "table" and randomAbility.name or randomAbility
 	self.newAbility = caster:AddAbility(abilityName)
 	self.newAbilityModifier = type(randomAbility) == "table" and randomAbility.modifier or nil
+	-- Новая копия может унаследовать кулдаун ранее удалённой способности с тем же именем.
+	-- Рефрешим только выданную способность, не затрагивая остальные скиллы и предметы героя.
+	self.newAbility:EndCooldown()
 	-- Устанавливаем уровень способности в соответствии с уровнем ульты
 	self.newAbility:SetLevel(self:GetLevel())
 	-- Отключаем возможность прокачки полученной способности
@@ -223,21 +297,22 @@ end
 function modifier_ogre_magi_reroll:OnDestroy()
 	if IsClient() then return end
 	local parent = self:GetParent()
-	local ability = self:GetAbility()
-	
-	parent:InterruptChannel()
 
-	-- Удаляем модификатор полученной способности если он есть
-	if self.newAbilityModifier then 
-		parent:RemoveModifierByName(self.newAbilityModifier) 
+	-- Сразу прячем и отключаем именно ту ульту, которую выдал этот модификатор.
+	-- Это не дает ей оставаться в панели или повторно кастоваться после истечения таймера.
+	local expiredAbilityName = self.newAbilityName
+	local expiredAbilityModifier = self.newAbilityModifier
+	local expiredAbility = expiredAbilityName and parent:FindAbilityByName(expiredAbilityName) or nil
+	if expiredAbility and not expiredAbility:IsNull() then
+		expiredAbility:SetActivated(false)
+		expiredAbility:SetHidden(true)
 	end
 
-	-- Удаляем полученную способность из слота 4
-	Timers:CreateTimer(0.1, function()
-		if ability.newAbility and IsValidEntity(ability.newAbility) then
-			parent:RemoveAbility(ability.newAbility:GetAbilityName())
-		end
-	end)
+	-- Если способность не была использована, удаляем её после окна выдачи.
+	-- Использованная способность уже ожидает завершения своего эффекта в OnAbilityExecuted.
+	if expiredAbility and not self.borrowedAbilityCleanupStarted then
+		RemoveOgreBorrowedAbilityAfterEffect(parent, expiredAbility, expiredAbilityName, expiredAbilityModifier)
+	end
 end
 
 function modifier_ogre_magi_reroll:AddCustomTransmitterData()
@@ -258,9 +333,34 @@ modifier_ogre_magi_reroll_passive = class({
 	RemoveOnDeath 			= function(self) return false end,
 	DeclareFunctions  		= function(self) return {
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
 		MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING,
 	} end,
 })
+
+function modifier_ogre_magi_reroll_passive:OnAbilityExecuted(event)
+	if not IsServer() or event.unit ~= self:GetParent() then
+		return
+	end
+
+	local borrowed = event.ability
+	local active_roll = self:GetParent():FindModifierByName("modifier_ogre_magi_reroll")
+	if not borrowed or not active_roll or borrowed:GetAbilityName() ~= active_roll.newAbilityName then
+		return
+	end
+
+	HideOgreBorrowedAbilityUntilCooldownEnds(borrowed)
+
+	if not active_roll.borrowedAbilityCleanupStarted then
+		active_roll.borrowedAbilityCleanupStarted = true
+		RemoveOgreBorrowedAbilityAfterEffect(
+			self:GetParent(),
+			borrowed,
+			active_roll.newAbilityName,
+			active_roll.newAbilityModifier
+		)
+	end
+end
 
 function modifier_ogre_magi_reroll_passive:GetModifierPercentageManacostStacking(params)
 	local ability = params.ability
@@ -310,5 +410,3 @@ function modifier_ogre_magi_reroll_passive:OnAttackLanded(event)
 		end
 	end
 end
-
- 

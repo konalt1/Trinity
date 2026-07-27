@@ -15,7 +15,7 @@
 	ForceDefaultGuide = false
 	MinimalPrecache = false
 	MinPlayers = 1
-	MaxPlayers = 8
+	MaxPlayers = 7
 	map_options = [  ]
 	PenaltiesEnabled = false
 	TeamCount = -1

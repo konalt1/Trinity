@@ -570,6 +570,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 - Юниты: worker, hunter, healer, brute
 - Farmland, производство, сбор ресурсов
+- При создании барак начинает с 3 живыми рабочими и 3 цветущими деревьями
 - `chen_sub_barrack`, `chen_worker_build`
 - После постройки ульт переключается между `chen_barrack_takeoff` и `chen_barrack_land`: барак летает со скоростью 200, при посадке запускается фиксированный КД 120 секунд; производство и пашни в полёте приостановлены.
 - Экономика: `ChenBarrackGold` — фильтр золота, carrier/shared_carrier режимы

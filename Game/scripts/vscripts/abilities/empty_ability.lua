@@ -94,7 +94,7 @@ end
 
 function modifier_empty_ability:GetModifierMoveSpeedBonus_Constant()
 
-    return self:GetStackCount() * 0.5
+    return self:GetStackCount() * 0.65
 
 end
 

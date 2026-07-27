@@ -28,13 +28,11 @@ function ogre_magi_aghanim_club:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_dazzle.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_grimstroke.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_oracle.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
@@ -55,11 +53,9 @@ function ogre_magi_aghanim_club:Precache(context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_dazzle", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_death_prophet", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_disruptor", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_grimstroke", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_sven", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_lion", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_medusa", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_oracle", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_obsidian_destroyer", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_tidehunter", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_zuus", context)
@@ -156,11 +152,6 @@ function ogre_magi_aghanim_club:GetRandomBuff()
 			hero_only = true,
 		},
 		{
-			name = "Phantom Embrace",
-			ability = "grimstroke_phantom_embrace",
-			duration = 5
-		},
-		{
 			name = "Last Word",
 			ability = "silencer_last_word",
 			duration = 6
@@ -192,12 +183,6 @@ function ogre_magi_aghanim_club:GetRandomBuff()
 			duration = 1
 		},
 		{
-			name = "Fortune's End",
-			ability = "oracle_fortunes_end",
-			duration = 3,
-			channel = 3,
-		},
-		{
 			name = "Astral Imprisonment",
 			ability = "obsidian_destroyer_astral_imprisonment",
 			duration = 4
@@ -221,7 +206,7 @@ end
 local BORROWED_ABILITY_CAST_DELAY = 0.03
 local BORROWED_ABILITY_PROC_ATTEMPTS = 6
 
--- Скрытые sub-ability (kunkka_return, bane_nightmare_end): SetHidden/RemoveAbility только по одному имени ломает слоты.
+-- Скрытые sub-ability (kunkka_return, bane_nightmare_end) обрабатываем вместе с основным скиллом, чтобы не ломать слоты.
 local BORROWED_ABILITY_LINKED = {
 	kunkka_x_marks_the_spot = { "kunkka_return" },
 	bane_nightmare = { "bane_nightmare_end" },
@@ -257,6 +242,14 @@ function ogre_magi_aghanim_club:RemoveBorrowedAbilityBundle(caster, entry_or_key
 	end
 
 	for _, name in ipairs(names) do
+		-- Ручной каст может не дать движку сразу удалить временную способность.
+		-- Поэтому по истечении её таймера сначала сразу прячем и отключаем скилл.
+		local borrowed = caster:FindAbilityByName(name)
+		if borrowed and not borrowed:IsNull() then
+			borrowed:SetActivated(false)
+			borrowed:SetHidden(true)
+		end
+
 		while caster:HasAbility(name) do
 			caster:RemoveAbility(name)
 		end
@@ -290,11 +283,7 @@ function ogre_magi_aghanim_club:GetCastTargetForEntry(caster, attack_target, ent
 
 	local cast_range = 800
 	if borrowed then
-		local level = borrowed:GetLevel()
-		if level <= 0 then
-			level = 1
-		end
-		cast_range = borrowed:GetCastRange(level)
+		cast_range = borrowed:GetCastRange(caster:GetAbsOrigin(), attack_target)
 		if cast_range <= 0 then
 			cast_range = 800
 		end
@@ -542,11 +531,22 @@ function modifier_ogre_magi_aghanim_club:PlayAghanimClubProcEffects()
 		PATTACH_ABSORIGIN_FOLLOW,
 		parent
 	)
+	-- Bloodlust cast expects a target at control point 1. Without it, the particle
+	-- uses world origin and flies from Ogre toward the center of the map.
+	ParticleManager:SetParticleControlEnt(
+		explosion_particle,
+		1,
+		parent,
+		PATTACH_ABSORIGIN_FOLLOW,
+		"attach_hitloc",
+		parent:GetAbsOrigin(),
+		true
+	)
 	ParticleManager:ReleaseParticleIndex(explosion_particle)
 end
 
 -- Каст с героя: временная ванильная способность + модификатор с нулевым манакостом (см. ogre_magi_reroll).
--- SetHidden ломает способности со скрытыми sub-ability (kunkka_return и т.п.) — не прячем одолженные скиллы.
+-- Во время действия таймера скилл видим; при cleanup весь bundle сразу скрывается и удаляется.
 
 function modifier_ogre_magi_aghanim_club:DispatchStolenSpellFromAttack(attack_target)
 	if not IsServer() then return end
@@ -556,9 +556,12 @@ function modifier_ogre_magi_aghanim_club:DispatchStolenSpellFromAttack(attack_ta
 		return
 	end
 
-	local function cleanup_borrowed(entry, mana_modifier)
+	local function cleanup_borrowed(entry, mana_modifier, expected_borrowed)
 		if IsValidEntity(parent) then
-			src_ability:RemoveBorrowedAbilityBundle(parent, entry)
+			local current_borrowed = parent:FindAbilityByName(entry.ability)
+			if not expected_borrowed or current_borrowed == expected_borrowed then
+				src_ability:RemoveBorrowedAbilityBundle(parent, entry)
+			end
 		end
 		if mana_modifier and not mana_modifier:IsNull() then
 			mana_modifier:Destroy()
@@ -583,18 +586,24 @@ function modifier_ogre_magi_aghanim_club:DispatchStolenSpellFromAttack(attack_ta
 			end
 			return
 		end
-
+		borrowed:EndCooldown()
 		local keep_duration = src_ability:GetBorrowedAbilityKeepDuration(entry)
+
+		-- Планируем удаление сразу после выдачи. Так способность не останется у Огра
+		-- навсегда, если цель умрёт или автокаст завершится ошибкой до cast_ok.
+		Timers:CreateTimer(keep_duration, function()
+			cleanup_borrowed(entry, mana_modifier, borrowed)
+		end)
 
 		Timers:CreateTimer(BORROWED_ABILITY_CAST_DELAY, function()
 			if not IsValidEntity(parent) then
-				cleanup_borrowed(entry, mana_modifier)
+				cleanup_borrowed(entry, mana_modifier, borrowed)
 				return
 			end
 
 			local ab = parent:FindAbilityByName(ability_key)
 			if not ab then
-				cleanup_borrowed(entry, mana_modifier)
+				cleanup_borrowed(entry, mana_modifier, borrowed)
 				if attempt < BORROWED_ABILITY_PROC_ATTEMPTS then
 					try_proc(attempt + 1)
 				end
@@ -611,16 +620,25 @@ function modifier_ogre_magi_aghanim_club:DispatchStolenSpellFromAttack(attack_ta
 			local cast_ok = src_ability:CastBorrowedVanillaAbility(parent, ab, entry, attack_target, resolved_target)
 			if not cast_ok then
 				print("Ogre Aghanim Club: cast failed for " .. ability_key)
-				cleanup_borrowed(entry, mana_modifier)
+				cleanup_borrowed(entry, mana_modifier, borrowed)
 				if attempt < BORROWED_ABILITY_PROC_ATTEMPTS then
 					try_proc(attempt + 1)
 				end
 				return
 			end
 
-			Timers:CreateTimer(keep_duration, function()
-				cleanup_borrowed(entry, mana_modifier)
-			end)
+			-- Ручной вызов OnSpellStart не запускает кулдаун движка автоматически.
+			-- После успешного применения к цели атаки запускаем КД и скрываем только выданный скилл.
+			local borrowed_cooldown = ab:GetCooldown(ab:GetLevel())
+			if borrowed_cooldown > 0 then
+				ab:StartCooldown(borrowed_cooldown)
+			end
+			ab:SetHidden(true)
+
+			-- Скрытие временной ability не должно снимать пассивный счётчик Аганима.
+			if not parent:HasModifier("modifier_ogre_magi_aghanim_club") then
+				parent:AddNewModifier(parent, src_ability, "modifier_ogre_magi_aghanim_club", {})
+			end
 
 			local fx_unit = resolved_target
 			if fx_unit and IsValidEntity(fx_unit) then
