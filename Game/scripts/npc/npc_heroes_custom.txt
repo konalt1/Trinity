@@ -322,4 +322,22 @@
 		"Ability8"                                      "generic_hidden"
 	}
 
+	"npc_dota_hero_ember_spirit"
+	{
+		"override_hero"                                 "npc_dota_hero_ember_spirit"
+
+		// Flame Guard заменён на пассивную версию (заряды от Fire Remnant)
+		"Ability3"                                      "ember_flame_guard_passive"
+	}
+
+	"npc_dota_hero_nevermore"
+	{
+		"override_hero"                                 "npc_dota_hero_nevermore"
+
+		// Койлы: стаки дебаффа от Силы магии, а не от числа попаданий
+		"Ability1"                                      "nevermore_shadowraze1_trinity"
+		"Ability2"                                      "nevermore_shadowraze2_trinity"
+		"Ability3"                                      "nevermore_shadowraze3_trinity"
+	}
+
 }
