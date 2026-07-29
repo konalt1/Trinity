@@ -4242,7 +4242,7 @@
 
     //=================================================================================================================
     // Ember Spirit: Flame Guard (переработка — пассивный)
-    // За каждый стоящий Fire Remnant — заряд; каждый заряд даёт щит и АоЕ урон
+    // За каждый удар героя — заряд; каждый заряд даёт щит и АоЕ урон
     //=================================================================================================================
     "ember_flame_guard_passive"
     {
@@ -4259,12 +4259,12 @@
         {
             "shield_per_charge"
             {
-                "value"                             "50 100 150 200"
-                "special_bonus_unique_ember_spirit_1"   "+55"
+                "value"                             "25 50 75 100"
+                "special_bonus_unique_ember_spirit_1"   "+33"
             }
             "damage_per_second_per_charge"
             {
-                "value"                             "10 15 20 25"
+                "value"                             "5 10 15 20"
                 "special_bonus_unique_ember_spirit_3"   "+100%"
             }
             "radius"
@@ -4272,7 +4272,8 @@
                 "value"                             "500"
                 "affected_by_aoe_increase"          "1"
             }
-            "max_charges_tooltip"       "3"
+            "max_charges"               "5"
+            "charge_duration"           "8"
             "mind_power_multiplier"     "0.5"
         }
 

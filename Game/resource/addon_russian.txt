@@ -1048,18 +1048,20 @@
 		"DOTA_Tooltip_Ability_high_five_custom_SummaryDescription"					"Дать пять союзнику."
 
 		// Pudge — переработка аганима
-		"DOTA_Tooltip_ability_pudge_meat_hook_aghanim_description"					"Meat Hook получает 2 заряда: обычная перезарядка заменяется восстановлением зарядов."
+		"DOTA_Tooltip_ability_pudge_meat_hook_scepter_description"					"Meat Hook получает 2 заряда: обычная перезарядка заменяется восстановлением зарядов."
 
 		// Ember Spirit — пассивный Flame Guard
 		"DOTA_Tooltip_ability_ember_flame_guard_passive"							"Flame Guard"
-		"DOTA_Tooltip_ability_ember_flame_guard_passive_Description"				"<b>Пассивно.</b> За каждый стоящий на карте Fire Remnant Ember Spirit получает заряд. Каждый заряд даёт щит, поглощающий магический урон, и наносит урон по площади вокруг героя каждую секунду. Новый остаток полностью восстанавливает щит. Урон по площади усиливается Силой магии."
-		"DOTA_Tooltip_Ability_ember_flame_guard_passive_SummaryDescription"			"Пассивно: за каждый Fire Remnant на карте — заряд. Каждый заряд даёт щит от магии и АоЕ урон вокруг героя."
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_Description"				"<b>Пассивно.</b> Каждый удар Ember Spirit даёт заряд (до %max_charges%). Каждый заряд даёт щит, поглощающий магический урон, и наносит урон по площади вокруг героя каждую секунду. Удары пополняют щит. Если не атаковать %charge_duration% секунд, заряды сгорают. Урон по площади усиливается Силой магии."
+		"DOTA_Tooltip_Ability_ember_flame_guard_passive_SummaryDescription"			"Пассивно: за каждый удар героя — заряд. Каждый заряд даёт щит от магии и АоЕ урон вокруг героя."
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_shield_per_charge"			"ЩИТ ЗА ЗАРЯД:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_damage_per_second_per_charge"	"УРОН В СЕКУНДУ ЗА ЗАРЯД:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_radius"						"РАДИУС:"
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_max_charges"				"МАКС. ЗАРЯДОВ:"
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_charge_duration"			"ВРЕМЯ ЖИЗНИ ЗАРЯДОВ:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_modifier_ember_flame_guard_passive"							"Flame Guard"
-		"DOTA_Tooltip_modifier_ember_flame_guard_passive_Description"				"Заряды от стоящих на карте Fire Remnant. Каждый заряд даёт щит и АоЕ урон."
+		"DOTA_Tooltip_modifier_ember_flame_guard_passive_Description"				"Заряды от ударов героя. Каждый заряд даёт щит и АоЕ урон."
 		"DOTA_Tooltip_modifier_ember_flame_guard_passive_shield"					"Огненный щит"
 		"DOTA_Tooltip_modifier_ember_flame_guard_passive_shield_Description"		"Поглощает магический урон."
 
