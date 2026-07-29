@@ -6,10 +6,10 @@
 		"override_hero"                                 "npc_dota_hero_phantom_assassin"
 		"Facets" ""
 		"MovementSpeed"									"309"
-        "ArmorPhysical"                                         "4.7"
+        "Armor"                                         "4.5"
         "Ability3"				                        "phantom_assassin_blur_custom"
-		"Ability4"                                      "phantom_assassin_phantom_cloud"  // Aghanim's Shard ability
-		"Ability5"                                      "generic_hidden"
+        "Ability4"                                      "generic_hidden"
+		"Ability5"                                      "phantom_assassin_phantom_cloud"  // Aghanim's Shard ability
         "Ability6"		                                "ability_coup_de_foudre"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
@@ -28,10 +28,10 @@
     "npc_dota_hero_techies"
     {
         "override_hero"                                 "npc_dota_hero_techies"
-        "ArmorPhysical"                                         "4.7"
+        "Armor"                                         "2"
         "Facets" ""
 		"Ability1"		                                "ability_fireworks"
-        "Ability2"                                      "ability_techies_parry_blast"
+        "Ability2"                                      "ability_reactive_tazer"
         "Ability3"                                      "techies_suicide_custom"
         "Ability4"                                      "generic_hidden"
         "Ability5"                                      "generic_hidden"
@@ -54,7 +54,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_juggernaut"
 		"Facets" ""
-        "ArmorPhysical"                                         "5.3"
+        "Armor"                                         "5.7"
 		"MovementSpeed"									"296"
 		"Ability1"		                                "juggernaut_blade_fury_lua"
 		"Ability2"		                                "juggernaut_bloodlust"
@@ -79,7 +79,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_lich"
 		"Facets" ""
-        "ArmorPhysical"                                         "1.8"
+        "Armor"                                         "1.8"
 		"MovementSpeed"									"293"
 		"Ability1"				                        "lich_frost_blast_lua"
 		"Ability2"				                        "lich_frost_shield_lua"
@@ -102,26 +102,8 @@
         "Ability17"										"special_bonus_unique_custom_lich_8"
 	}
 
-	"npc_dota_hero_lion"
-	{
-		"override_hero"                                 "npc_dota_hero_lion"
-		"Facets" ""
-        "VoiceFile"                                    "soundevents/voscripts/game_sounds_vo_lion.vsndevts"
-        "ArmorPhysical"                                 "2.0"
-		"MovementSpeed"									"290"
-		"Ability1"				                        "lion_impale_custom"
-		"Ability2"				                        "lion_soul_collector"
-		"Ability3"				                        "lion_spirit_siphon_custom"
-        "Ability4"                                      "generic_hidden"
-        "Ability5"                                      "generic_hidden"
-		"Ability6"				                        "lion_finger_of_death_custom"
-        "Ability7"                                      "generic_hidden"
-        "Ability8"                                      "generic_hidden"
-	}
-
 	"npc_dota_hero_tinker"
 	{	
-		"ArmorPhysical"                                         "4.8"
 		"Ability3"				                        "tinker_heat_seeking_missile"
 		"Facets" ""
 		"Ability6"				                        "tinker_rearm_custom"
@@ -142,17 +124,17 @@
 	{	
 		"override_hero"			"npc_dota_hero_ogre_magi"
 		"Facets" ""
-        "ArmorPhysical"                                         "6.3"
+        "Armor"                                         "6.3"
 		"MovementSpeed"									"276"
 		
 		// Измененные характеристики интеллекта
-		"AttributeBaseIntelligence"		"14"		// Базовый интеллект (было 0)
-		"AttributeIntelligenceGain"		"0.7"		// Прирост интеллекта за уровень (было 0)
+		"AttributeBaseIntelligence"		"10"		// Базовый интеллект (было 0)
+		"AttributeIntelligenceGain"		"0.5"		// Прирост интеллекта за уровень (было 0)
 		
 		"Ability1"				                        "ogre_magi_fire_blast"
 		"Ability2"				                        "ogre_magi_strength_boost"
         "Ability4"                                      "generic_hidden"         
-        "Ability5"                                      "ogre_magi_aghanim_club"   // Aghanim's Scepter
+        "Ability5"                                      "ogre_magi_berserker_rage"   // Aghanim's Scepter
     	"Ability6"	                        			"ogre_magi_reroll"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
@@ -169,7 +151,6 @@
 
 	"npc_dota_hero_lycan"
 	{	
-	"ArmorPhysical"                                         "3"
 	"Facets" ""
 		"Ability1"				                        "lycan_summon_wolves_custom"
         "Ability10"										"special_bonus_unique_custom_lycan_1"
@@ -186,7 +167,7 @@
 	{
 		"override_hero"                                 "npc_dota_hero_omniknight"
 		"Facets" ""
-        "ArmorPhysical"                                         "4.5"
+        "Armor"                                         "4.5"
 		"MovementSpeed"									"285"
 		"Ability1"				                        "custom_purification"
 		"Ability2"                                      "omniknight_repel_lua"
@@ -210,7 +191,7 @@
 		"override_hero"                                 "npc_dota_hero_doom_bringer"
 		"Facets" "generic_hidden"
 		"MovementSpeed"									"275"
-        "ArmorPhysical"                                         "3.5"
+        "armor"                                         "4.5"
 		"Ability1"				                        "doom_soul_devour"
 		"Ability2"				                        "doom_scorched_earth_lua"
 		"Ability4" 				                        "generic_hidden"
@@ -233,7 +214,6 @@
 	{
 		"override_hero"                                 "npc_dota_hero_tusk"
 		"Facets" ""
-		"ArmorPhysical"                                         "4.8"
 		"Ability1"				                        "tusk_ice"
 		"Ability2"				                        "tusk_mp_snowball"
 		"Ability3"				                        "tusk_tag_team"
@@ -254,7 +234,6 @@
 	{
 		"override_hero"                                 "npc_dota_hero_weaver"
 		"Facets" ""
-		"ArmorPhysical"                                         "3.8"
 
 		// Replace Shukuchi (Ability2) with custom Cucaracha
 		"Ability2"                                      "weaver_cucaracha"
@@ -274,30 +253,17 @@
 	{
 		"override_hero"                                 "npc_dota_hero_silencer"
 		"Facets" ""
-		"ArmorPhysical"                                         "3.7"
 		"Ability1"                                      "silencer_arcane_curse_custom"
-		"Ability3"                                      "silencer_last_word_custom"
+		"Ability3"                                      "focus"
 		"Ability6"                                      "silent_square"
-		"Ability5"                                      "silencer_global_silence" // Aghanim's Scepter
-		"Ability4"                                      "generic_hidden"
-
-		"Ability10"                                     "special_bonus_unique_custom_silencer_1"
-		"Ability11"                                     "special_bonus_unique_custom_silencer_2"
-		"Ability12"                                     "special_bonus_unique_custom_silencer_3"
-		"Ability13"                                     "special_bonus_unique_custom_silencer_4"
-		"Ability14"                                     "special_bonus_unique_custom_silencer_5"
-		"Ability15"                                     "special_bonus_unique_custom_silencer_6"
-		"Ability16"                                     "special_bonus_unique_custom_silencer_7"
-		"Ability17"                                     "special_bonus_unique_custom_silencer_8"
 	}
 	"npc_dota_hero_chen"
 	{
 		"override_hero"									"npc_dota_hero_chen"
-		"ArmorPhysical"                                         "1.5"
 		"Ability1"										"chen_martyr_mark"
 		"Ability2"										"chen_holy_persuasion_custom"
 		"Ability3"										"chen_whip"
-		"Ability4"										"chen_ultimate_aura"
+		"Ability4"										"generic_hidden"
 		"Ability5"										"generic_hidden"
 		"Ability6"										"chen_barrack"
 
@@ -319,7 +285,7 @@
 		"override_hero"                                 "npc_dota_hero_furion"
 		"Facets"                                        ""
 		"MovementSpeed"                                 "310"
-		"ArmorPhysical"                                         "2.3"
+		"Armor"                                         "2.0"
 
 		"Ability1"                                      "furion_sprout"
 		"Ability2"                                      "furion_teleportation"
@@ -338,6 +304,41 @@
 		"Ability15"                                     "special_bonus_unique_custom_furion_6"
 		"Ability16"                                     "special_bonus_unique_custom_furion_7"
 		"Ability17"                                     "special_bonus_unique_custom_furion_8"
+	}
+
+	"npc_dota_hero_ringmaster"
+	{
+		"override_hero"                                 "npc_dota_hero_ringmaster"
+		"Facets"                                        ""
+		"MovementSpeed"                                 "300"
+		"Armor"                                         "3.0"
+
+		"Ability1"                                      "ringmaster_tame_the_beasts"
+		"Ability2"                                      "ringmaster_knives_out_custom"
+		"Ability3"                                      "ringmaster_box_game_custom"
+		"Ability4"                                      "ringmaster_krugger_custom"
+		"Ability5"                                      "generic_hidden"
+		"Ability6"                                      "generic_hidden"
+		"Ability7"                                      "generic_hidden"
+		"Ability8"                                      "generic_hidden"
+	}
+
+	"npc_dota_hero_ember_spirit"
+	{
+		"override_hero"                                 "npc_dota_hero_ember_spirit"
+
+		// Flame Guard заменён на пассивную версию (заряды от Fire Remnant)
+		"Ability3"                                      "ember_flame_guard_passive"
+	}
+
+	"npc_dota_hero_nevermore"
+	{
+		"override_hero"                                 "npc_dota_hero_nevermore"
+
+		// Койлы: стаки дебаффа от Силы магии, а не от числа попаданий
+		"Ability1"                                      "nevermore_shadowraze1_trinity"
+		"Ability2"                                      "nevermore_shadowraze2_trinity"
+		"Ability3"                                      "nevermore_shadowraze3_trinity"
 	}
 
 }
