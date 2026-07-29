@@ -1,5 +1,6 @@
 LinkLuaModifier('modifier_weaver_cucaracha', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_weaver_cucaracha_invis', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_weaver_cucaracha_swarm_bug', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_weaver_cucaracha_swarm_debuff', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
 
 weaver_cucaracha = class({})
 
@@ -7,6 +8,7 @@ function weaver_cucaracha:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_weaver.vsndevts", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_weaver/weaver_shukuchi.vpcf", context)
 	PrecacheResource("particle", "particles/generic_gameplay/generic_buff.vpcf", context)
+	PrecacheUnitByNameSync("npc_dota_weaver_swarm", context)
 end
 
 function weaver_cucaracha:IsStealable()
@@ -127,10 +129,15 @@ function modifier_weaver_cucaracha:OnCreated()
 
 	self:PlayEffects()
 
-	-- Shard: применяем модификатор невидимости
+	-- Shard: continuously look for enemies close enough to receive a Swarm beetle.
 	if HasShard(parent) then
-		local duration = self:GetRemainingTime()
-		parent:AddNewModifier(caster, ability, "modifier_weaver_cucaracha_invis", { duration = duration })
+		self.swarm_radius = ability:GetSpecialValueFor("shard_swarm_radius")
+		self.swarm_search_interval = ability:GetSpecialValueFor("shard_swarm_search_interval")
+		self:AttachSwarmBeetles()
+		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
+		if not self.scale_decrement then
+			self:StartIntervalThink(self.swarm_search_interval)
+		end
 	end
 end
 
@@ -147,6 +154,17 @@ function modifier_weaver_cucaracha:OnRefresh()
 	local mind_power = GetHeroMindPower(caster)
 	self.total_agility_bonus = math.max(0, self.base_agility_bonus + (mind_power * mind_power_multiplier))
 	self:SetStackCount(math.floor(self.total_agility_bonus))
+
+	local parent = self:GetParent()
+	if HasShard(parent) and not self.swarm_search_interval then
+		self.swarm_radius = ability:GetSpecialValueFor("shard_swarm_radius")
+		self.swarm_search_interval = ability:GetSpecialValueFor("shard_swarm_search_interval")
+		self:AttachSwarmBeetles()
+		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
+		if not self.scale_decrement then
+			self:StartIntervalThink(self.swarm_search_interval)
+		end
+	end
 end
 
 function modifier_weaver_cucaracha:GetMindPower(hero)
@@ -183,8 +201,24 @@ function modifier_weaver_cucaracha:OnIntervalThink()
 
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
+
+	if HasShard(parent) and not self.swarm_search_interval then
+		local ability = self:GetAbility()
+		self.swarm_radius = ability:GetSpecialValueFor("shard_swarm_radius")
+		self.swarm_search_interval = ability:GetSpecialValueFor("shard_swarm_search_interval")
+		self:AttachSwarmBeetles()
+		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
+	end
+
+	if HasShard(parent) and GameRules:GetGameTime() >= (self.next_swarm_search or 0) then
+		self:AttachSwarmBeetles()
+		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
+	end
+
 	if not self.scale_decrement or not self.target_scale then
-		self:StartIntervalThink(-1)
+		if not HasShard(parent) then
+			self:StartIntervalThink(-1)
+		end
 		return
 	end
 
@@ -193,11 +227,79 @@ function modifier_weaver_cucaracha:OnIntervalThink()
 	if self.current_scale <= self.target_scale then
 		self.current_scale = self.target_scale
 		parent:SetModelScale(self.current_scale)
-		self:StartIntervalThink(-1)
+		self.scale_decrement = nil
+		if HasShard(parent) then
+			self:StartIntervalThink(self.swarm_search_interval)
+		else
+			self:StartIntervalThink(-1)
+		end
 		return
 	end
 
 	parent:SetModelScale(self.current_scale)
+end
+
+function modifier_weaver_cucaracha:AttachSwarmBeetles()
+	local parent = self:GetParent()
+	local swarm = parent:FindAbilityByName("weaver_the_swarm")
+	if not swarm or swarm:GetLevel() < 1 then return end
+
+	local flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+		+ DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+		+ DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE
+		+ DOTA_UNIT_TARGET_FLAG_NO_INVIS
+
+	local enemies = FindUnitsInRadius(
+		parent:GetTeamNumber(),
+		parent:GetAbsOrigin(),
+		nil,
+		self.swarm_radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		flags,
+		FIND_ANY_ORDER,
+		false
+	)
+
+	for _, enemy in pairs(enemies) do
+		if not enemy:IsCourier()
+			and not enemy:HasModifier("modifier_weaver_swarm_debuff")
+			and not enemy:HasModifier("modifier_weaver_cucaracha_swarm_debuff") then
+			self:AttachSwarmBeetle(enemy, swarm)
+		end
+	end
+end
+
+function modifier_weaver_cucaracha:AttachSwarmBeetle(target, swarm)
+	local parent = self:GetParent()
+	local duration = swarm:GetSpecialValueFor("duration")
+	local beetle = CreateUnitByName(
+		"npc_dota_weaver_swarm",
+		target:GetAbsOrigin(),
+		false,
+		parent,
+		parent,
+		parent:GetTeamNumber()
+	)
+	if not beetle then return end
+
+	beetle:SetOwner(parent)
+	beetle:FollowEntity(target, true)
+
+	local debuff = target:AddNewModifier(parent, swarm, "modifier_weaver_cucaracha_swarm_debuff", {
+		duration = duration,
+		beetle_entindex = beetle:entindex(),
+	})
+
+	if not debuff then
+		UTIL_Remove(beetle)
+		return
+	end
+
+	beetle:AddNewModifier(parent, swarm, "modifier_weaver_cucaracha_swarm_bug", {
+		duration = duration,
+		target_entindex = target:entindex(),
+	})
 end
 
 function modifier_weaver_cucaracha:GetModifierBonusStats_Agility()
@@ -237,9 +339,6 @@ function modifier_weaver_cucaracha:OnDestroy()
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
 
-	-- Удаляем модификатор невидимости при окончании Cucaracha
-	parent:RemoveModifierByName("modifier_weaver_cucaracha_invis")
-
 	local ability = self:GetAbility()
 	if ability then
 		ability:StartGrowAnimation(parent, self.current_scale or self.target_scale or 0.5)
@@ -251,142 +350,136 @@ function modifier_weaver_cucaracha:OnDestroy()
 end
 
 --------------------------------------------------------------------------------
--- Shard Modifier: Невидимость во время Cucaracha
+-- Shard: The Swarm beetle attached by Cucaracha
 --------------------------------------------------------------------------------
-modifier_weaver_cucaracha_invis = class({
-	IsHidden = function(self) return false end,
+modifier_weaver_cucaracha_swarm_bug = class({
+	IsHidden = function(self) return true end,
 	IsPurgable = function(self) return false end,
-	IsBuff = function(self) return true end,
+	IsDebuff = function(self) return false end,
 	RemoveOnDeath = function(self) return true end,
 	GetAttributes = function(self) return MODIFIER_ATTRIBUTE_NONE end,
 })
 
-function modifier_weaver_cucaracha_invis:DeclareFunctions()
+function modifier_weaver_cucaracha_swarm_bug:DeclareFunctions()
 	return {
-		MODIFIER_EVENT_ON_ATTACK,
-		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
+		MODIFIER_EVENT_ON_ATTACKED,
+		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
 	}
 end
 
-function modifier_weaver_cucaracha_invis:CheckState()
-	if self.is_visible then
-		return {}
-	end
+function modifier_weaver_cucaracha_swarm_bug:CheckState()
 	return {
-		[MODIFIER_STATE_INVISIBLE] = true,
+		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+		[MODIFIER_STATE_NO_TEAM_MOVE_TO] = true,
+		[MODIFIER_STATE_NO_TEAM_SELECT] = true,
+		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
 	}
 end
 
-function modifier_weaver_cucaracha_invis:OnCreated()
+function modifier_weaver_cucaracha_swarm_bug:OnCreated(kv)
 	if not IsServer() then return end
 
-	self.fade_time = 1.0
-	self.is_visible = true -- Начинаем видимыми, fade time до невидимости
-
-	-- Запускаем таймер для перехода в невидимость
-	self:StartFadeTimer()
+	local ability = self:GetAbility()
+	self.target = EntIndexToHScript(kv.target_entindex or -1)
+	self.attacks_to_destroy = ability and ability:GetSpecialValueFor("attacks_to_destroy") or 1
+	self.attack_progress = 0
 end
 
-function modifier_weaver_cucaracha_invis:OnRefresh()
+function modifier_weaver_cucaracha_swarm_bug:OnAttacked(event)
 	if not IsServer() then return end
-	-- При рефреше обновляем длительность, но не сбрасываем состояние
-end
+	if event.target ~= self:GetParent() then return end
 
-function modifier_weaver_cucaracha_invis:StartFadeTimer()
-	if self.fade_timer then
-		Timers:RemoveTimer(self.fade_timer)
-		self.fade_timer = nil
+	self.attack_progress = self.attack_progress + (event.attacker:IsHero() and 2 or 1)
+	if self.attack_progress >= self.attacks_to_destroy then
+		local attacker = event.attacker
+		local bug = self:GetParent()
+		bug:Kill(nil, attacker)
+		if self.target and not self.target:IsNull() then
+			self.target:RemoveModifierByName("modifier_weaver_cucaracha_swarm_debuff")
+		end
 	end
-
-	local parent = self:GetParent()
-	self.fade_timer = Timers:CreateTimer(self.fade_time, function()
-		if not self or self:IsNull() then return nil end
-		if not parent or not IsValidEntity(parent) then return nil end
-
-		self.is_visible = false
-		self:PlayInvisEffects()
-		return nil
-	end)
 end
 
-function modifier_weaver_cucaracha_invis:BreakInvisibility()
-	if not IsServer() then return end
+function modifier_weaver_cucaracha_swarm_bug:GetAbsoluteNoDamagePhysical() return 1 end
+function modifier_weaver_cucaracha_swarm_bug:GetAbsoluteNoDamageMagical() return 1 end
+function modifier_weaver_cucaracha_swarm_bug:GetAbsoluteNoDamagePure() return 1 end
 
-	-- Если уже видимы, просто перезапускаем таймер (сброс при повторных атаках)
-	if self.is_visible then
-		self:StartFadeTimer()
+function modifier_weaver_cucaracha_swarm_bug:OnDestroy()
+	if not IsServer() then return end
+	local bug = self:GetParent()
+	if bug and IsValidEntity(bug) and bug:IsAlive() then
+		UTIL_Remove(bug)
+	end
+end
+
+--------------------------------------------------------------------------------
+-- Shard: The Swarm debuff attached by Cucaracha
+--------------------------------------------------------------------------------
+modifier_weaver_cucaracha_swarm_debuff = class({
+	IsHidden = function(self) return false end,
+	IsPurgable = function(self) return false end,
+	IsDebuff = function(self) return true end,
+	RemoveOnDeath = function(self) return true end,
+})
+
+function modifier_weaver_cucaracha_swarm_debuff:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+		MODIFIER_PROPERTY_PROVIDES_FOW_POSITION,
+	}
+end
+
+function modifier_weaver_cucaracha_swarm_debuff:OnCreated(kv)
+	local ability = self:GetAbility()
+	if not ability then return end
+
+	self.damage = ability:GetSpecialValueFor("damage")
+	self.armor_reduction = ability:GetSpecialValueFor("armor_reduction")
+	self.attack_rate = ability:GetSpecialValueFor("attack_rate")
+
+	if not IsServer() then return end
+	self.beetle = EntIndexToHScript(kv.beetle_entindex or -1)
+	self:StartIntervalThink(self.attack_rate)
+	self:OnIntervalThink()
+end
+
+function modifier_weaver_cucaracha_swarm_debuff:OnIntervalThink()
+	local parent = self:GetParent()
+	local caster = self:GetCaster()
+	if not caster or caster:IsNull() or not parent:IsAlive() then
+		self:Destroy()
 		return
 	end
 
-	self.is_visible = true
-	self:StopInvisEffects()
-	self:StartFadeTimer()
+	self:IncrementStackCount()
+	ApplyDamage({
+		victim = parent,
+		attacker = caster,
+		damage = self.damage,
+		damage_type = DAMAGE_TYPE_PHYSICAL,
+		damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK,
+		ability = self:GetAbility(),
+	})
 end
 
--- Отслеживание атаки
-function modifier_weaver_cucaracha_invis:OnAttack(event)
+function modifier_weaver_cucaracha_swarm_debuff:GetModifierPhysicalArmorBonus()
+	return -(self.armor_reduction or 0) * self:GetStackCount()
+end
+
+function modifier_weaver_cucaracha_swarm_debuff:GetModifierProvidesFOWVision()
+	return 1
+end
+
+function modifier_weaver_cucaracha_swarm_debuff:OnDestroy()
 	if not IsServer() then return end
-	if event.attacker ~= self:GetParent() then return end
-
-	self:BreakInvisibility()
-end
-
--- Отслеживание применения способностей
-function modifier_weaver_cucaracha_invis:OnAbilityExecuted(event)
-	if not IsServer() then return end
-	if event.unit ~= self:GetParent() then return end
-
-	-- Проверяем, что это не предмет (предметы обрабатываются отдельно через OnInventoryContentsChanged)
-	local ability = event.ability
-	if ability and ability:IsItem() then
-		self:BreakInvisibility()
-		return
-	end
-
-	self:BreakInvisibility()
-end
-
-function modifier_weaver_cucaracha_invis:PlayInvisEffects()
-	local parent = self:GetParent()
-	if not parent or not IsValidEntity(parent) then return end
-
-	-- Стандартный эффект Shukuchi невидимости
-	if self.invis_particle then
-		ParticleManager:DestroyParticle(self.invis_particle, false)
-		ParticleManager:ReleaseParticleIndex(self.invis_particle)
-	end
-
-	self.invis_particle = ParticleManager:CreateParticle(
-		"particles/units/heroes/hero_weaver/weaver_shukuchi.vpcf",
-		PATTACH_ABSORIGIN_FOLLOW,
-		parent
-	)
-	ParticleManager:SetParticleControl(self.invis_particle, 0, parent:GetAbsOrigin())
-end
-
-function modifier_weaver_cucaracha_invis:StopInvisEffects()
-	if self.invis_particle then
-		ParticleManager:DestroyParticle(self.invis_particle, false)
-		ParticleManager:ReleaseParticleIndex(self.invis_particle)
-		self.invis_particle = nil
+	if self.beetle and not self.beetle:IsNull() and self.beetle:IsAlive() then
+		UTIL_Remove(self.beetle)
 	end
 end
 
-function modifier_weaver_cucaracha_invis:OnDestroy()
-	if not IsServer() then return end
-
-	if self.fade_timer then
-		Timers:RemoveTimer(self.fade_timer)
-		self.fade_timer = nil
-	end
-
-	self:StopInvisEffects()
-end
-
-function modifier_weaver_cucaracha_invis:GetTexture()
-	return "weaver_shukuchi"
-end
-
-function modifier_weaver_cucaracha_invis:GetEffectName()
-	return ""
+function modifier_weaver_cucaracha_swarm_debuff:GetTexture()
+	return "weaver_the_swarm"
 end

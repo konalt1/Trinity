@@ -1,5 +1,7 @@
 "use strict";
 
+const MIN_ABILITIES_WIDTH = 220;
+
 const HIDE_IDS = [
   "StatBranch",
   "StatBranchDrawer",
@@ -96,10 +98,10 @@ function spreadAbilities() {
   const abilities = FindDotaHudElement("abilities");
   if (!abilities) return;
 
-  // Reset custom width styles to default to prevent any circular layout dependencies or jumping
+  // Keep enough room for large health/mana values below the ability slots.
   abilities.style.width = null;
   abilities.style.maxWidth = null;
-  abilities.style.minWidth = null;
+  abilities.style.minWidth = MIN_ABILITIES_WIDTH + "px";
 
   // Clean up temporary debug label if it exists
   const debugLabel = FindDotaHudElement("TrinityDebugLabel");
@@ -145,7 +147,7 @@ function adjustAbilitiesAndStatBranch() {
   const panel = FindDotaHudElement("AbilitiesAndStatBranch");
   if (!panel) return;
 
-  panel.style.minWidth = "0px";
+  panel.style.minWidth = MIN_ABILITIES_WIDTH + "px";
 }
 
 function tickHudCleanup() {

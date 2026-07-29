@@ -1,23 +1,10 @@
-print("[Mage Slayer] Script loading")
 LinkLuaModifier("modifier_item_mage_slayer", "items/item_mage_slayer", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_mage_slayer_debuff", "items/item_mage_slayer", LUA_MODIFIER_MOTION_NONE)
 
--- Дебаг: true = показывать сообщения на экране (ShowMessage), false = только print в консоль
-local MAGE_SLAYER_DEBUG_SCREEN = true
-
 -- Обход: OnAttackLanded не срабатывает для intrinsic modifier предмета.
 -- Используем SetDamageFilter — вызывается при любом уроне, можно применить дебафф.
-local _mage_slayer_debug_count = 0
 function MageSlayer_DamageFilter(event)
     if not IsServer() then return true end
-    -- Дебаг: вывести ключи первых 2 событий
-    _mage_slayer_debug_count = _mage_slayer_debug_count + 1
-    if _mage_slayer_debug_count <= 2 then
-        local keys_str = ""
-        for k, v in pairs(event) do keys_str = keys_str .. tostring(k) .. "=" .. tostring(v) .. " " end
-        print("[Mage Slayer] DamageFilter #" .. _mage_slayer_debug_count .. " keys: " .. keys_str)
-        if MAGE_SLAYER_DEBUG_SCREEN and ShowMessage then ShowMessage("[Mage Slayer] DmgFilter #" .. _mage_slayer_debug_count) end
-    end
     local victim_idx = event.entindex_victim_const or event.entindex_victim
     local attacker_idx = event.entindex_attacker_const or event.entindex_attacker
     local victim = victim_idx and EntIndexToHScript(victim_idx) or nil
@@ -44,9 +31,6 @@ function MageSlayer_DamageFilter(event)
     local duration = mage_slayer:GetSpecialValueFor("duration")
     victim:AddNewModifier(attacker, mage_slayer, "modifier_item_mage_slayer_debuff", { duration = duration })
 
-    local msg = "[Mage Slayer] DamageFilter debuff -> " .. victim:GetUnitName() .. " " .. duration .. "s"
-    print(msg)
-    if MAGE_SLAYER_DEBUG_SCREEN and ShowMessage then ShowMessage(msg) end
     return true
 end
 
@@ -78,13 +62,6 @@ function modifier_item_mage_slayer:DeclareFunctions()
 end
 
 function modifier_item_mage_slayer:OnAttackLanded(params)
-    -- Дебаг: самый первый лог — вызывается ли вообще колбэк
-    local a = params.attacker and not params.attacker:IsNull() and params.attacker:GetUnitName() or "nil"
-    local t = params.target and not params.target:IsNull() and params.target:GetUnitName() or "nil"
-    local dbg = "[Mage Slayer] OnAttackLanded CALLED a=" .. a .. " t=" .. t .. " IsSrv=" .. tostring(IsServer())
-    print(dbg)
-    if MAGE_SLAYER_DEBUG_SCREEN and IsServer() and ShowMessage then ShowMessage(dbg) end
-
     if not IsServer() then return end
     if params.attacker ~= self:GetParent() then return end
 
@@ -97,9 +74,6 @@ function modifier_item_mage_slayer:OnAttackLanded(params)
     if not ability or ability:IsNull() then return end
 
     local duration = ability:GetSpecialValueFor("duration")
-    local msg = "[Mage Slayer] OnAttackLanded: debuff -> " .. target:GetUnitName() .. " " .. duration .. "s"
-    print(msg)
-    if MAGE_SLAYER_DEBUG_SCREEN and ShowMessage then ShowMessage(msg) end
     target:AddNewModifier(self:GetParent(), ability, "modifier_item_mage_slayer_debuff", { duration = duration })
 end
 
@@ -156,8 +130,6 @@ end
 function modifier_item_mage_slayer_debuff:OnCreated()
     local ability = self:GetAbility()
     self.mind_power_debuff = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_debuff") or 40
-    local msg = "[Mage Slayer Debuff] OnCreated: " .. self:GetParent():GetUnitName() .. " MP-" .. (self.mind_power_debuff or 0)
-    if MAGE_SLAYER_DEBUG_SCREEN and IsServer() and ShowMessage then ShowMessage(msg) end
     if not IsServer() then return end
     local dps = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("dps") or 0
     self:SetStackCount(math.max(0, math.floor(dps)))
@@ -167,21 +139,10 @@ end
 function modifier_item_mage_slayer_debuff:OnRefresh()
     local ability = self:GetAbility()
     self.mind_power_debuff = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_debuff") or 40
-    local msg = "[Mage Slayer Debuff] OnRefresh: " .. self:GetParent():GetUnitName() .. " MP-" .. (self.mind_power_debuff or 0)
-    if MAGE_SLAYER_DEBUG_SCREEN and IsServer() and ShowMessage then ShowMessage(msg) end
     if not IsServer() then return end
     local dps = (ability and not ability:IsNull()) and ability:GetSpecialValueFor("dps") or 0
     self:SetStackCount(math.max(0, math.floor(dps)))
     self:StartIntervalThink(1.0)
-end
-
-function modifier_item_mage_slayer_debuff:OnDestroy()
-    if IsServer() then
-        local parent = self:GetParent()
-        if parent and not parent:IsNull() then
-            print("[Mage Slayer Debuff] OnDestroy: target=" .. parent:GetUnitName())
-        end
-    end
 end
 
 function modifier_item_mage_slayer_debuff:OnIntervalThink()
@@ -192,7 +153,6 @@ function modifier_item_mage_slayer_debuff:OnIntervalThink()
     local dps = self:GetStackCount()
 
     if dps > 0 then
-        print("[Mage Slayer Buff] OnIntervalThink: DPS " .. dps .. " to " .. parent:GetUnitName())
         ApplyDamage({
             victim    = parent,
             attacker  = self:GetCaster(),
@@ -218,7 +178,6 @@ if Timers then
         local gm = GameRules and GameRules:GetGameModeEntity()
         if gm and gm.SetDamageFilter then
             gm:SetDamageFilter(MageSlayer_DamageFilter, nil)
-            if MAGE_SLAYER_DEBUG_SCREEN and ShowMessage then ShowMessage("[Mage Slayer] DamageFilter OK") end
         else
             print("[Mage Slayer] ERROR: SetDamageFilter not available")
         end

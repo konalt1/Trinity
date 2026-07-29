@@ -28,7 +28,6 @@ function Spawn(entityKeyValues)
         return SpawnRoshanLoop()
     end)
     
-    print("[RoshanSpawner] Инициализирован. Первый спавн через " .. FIRST_SPAWN_DELAY .. " сек, затем каждые " .. SPAWN_INTERVAL .. " сек.")
 end
 
 function SpawnRoshanLoop()

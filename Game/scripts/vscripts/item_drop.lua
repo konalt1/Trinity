@@ -41,8 +41,6 @@ function ItemDrop:SpawnItems()
 			point = point:GetAbsOrigin()
 			local newItem = CreateItem( item_name, nil, nil )
 			local drop = CreateItemOnPositionSync( point, newItem )
-		else
-			print("point with name "..point_name.." dont exist !")
 		end
 	end
 end

@@ -1,14 +1,16 @@
-chen_barrack_anti_creep_mana_burn = class({})
+chen_barrack_hunter_overload = class({})
 chen_barrack_anti_creep_dash = class({})
-modifier_chen_barrack_anti_creep_mana_burn = class({})
+modifier_chen_barrack_hunter_overload = class({})
 modifier_chen_barrack_anti_creep_dash = class({})
 modifier_chen_barrack_anti_creep_dash_autocast = class({})
 
 local SCRIPT_PATH = "abilities/chen/barrack/units/chen_barrack_hunter_focus"
-local MANA_BURN_MODIFIER = "modifier_chen_barrack_anti_creep_mana_burn"
+local OVERLOAD_MODIFIER = "modifier_chen_barrack_hunter_overload"
 local DASH_MODIFIER = "modifier_chen_barrack_anti_creep_dash"
+local COUNTDOWN_PARTICLE = "particles/units/heroes/hero_techies/techies_tazer_countdown.vpcf"
+local EXPLOSION_PARTICLE = "particles/units/heroes/hero_techies/techies_tazer_explode.vpcf"
 
-LinkLuaModifier("modifier_chen_barrack_anti_creep_mana_burn", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_chen_barrack_hunter_overload", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_anti_creep_dash", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_anti_creep_dash_autocast", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 
@@ -16,35 +18,20 @@ local function IsValidUnit(unit)
     return unit and not unit:IsNull()
 end
 
-local function GetManaBurnValue(ability)
-    if not ability or ability:IsNull() then
-        return 0
+local function GetOwnerHero(unit)
+    if ChenBarrackGold and ChenBarrackGold.GetOwnerHero then
+        local hero = ChenBarrackGold.GetOwnerHero(unit)
+        if IsValidUnit(hero) and hero:IsRealHero() then
+            return hero
+        end
     end
 
-    local value = ability:GetSpecialValueFor("mana_burn")
-    if value and value > 0 then
-        return value
+    local owner = unit and unit.GetOwnerEntity and unit:GetOwnerEntity() or nil
+    if IsValidUnit(owner) and owner:IsRealHero() then
+        return owner
     end
 
-    return math.max(0, ability:GetLevelSpecialValueFor("mana_burn", 0))
-end
-
-local function BurnMana(target, amount, ability)
-    local currentMana = target:GetMana()
-    local manaToBurn = math.min(amount, currentMana)
-    if manaToBurn <= 0 then
-        return 0
-    end
-
-    if target.Script_ReduceMana then
-        target:Script_ReduceMana(manaToBurn, ability)
-    elseif target.ReduceMana then
-        target:ReduceMana(manaToBurn)
-    else
-        target:SetMana(math.max(0, currentMana - manaToBurn))
-    end
-
-    return manaToBurn
+    return nil
 end
 
 local function CanUseDash(caster, ability)
@@ -106,19 +93,43 @@ local function TryUseDashOnTarget(caster, ability, target)
     return ApplyDash(caster, ability, true)
 end
 
-function chen_barrack_anti_creep_mana_burn:GetIntrinsicModifierName()
-    return MANA_BURN_MODIFIER
+function chen_barrack_hunter_overload:Precache(context)
+    PrecacheResource("particle", COUNTDOWN_PARTICLE, context)
+    PrecacheResource("particle", EXPLOSION_PARTICLE, context)
+    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts", context)
 end
 
-function chen_barrack_anti_creep_mana_burn:OnUpgrade()
+function chen_barrack_hunter_overload:GetAOERadius()
+    return self:GetSpecialValueFor("radius")
+end
+
+function chen_barrack_hunter_overload:GetDamage()
+    local ownerHero = GetOwnerHero(self:GetCaster())
+    local mindPower = 0
+    if ownerHero and GetHeroMindPower then
+        mindPower = GetHeroMindPower(ownerHero) or 0
+    end
+
+    return math.max(0,
+        self:GetSpecialValueFor("damage")
+        + mindPower * self:GetSpecialValueFor("mind_power_multiplier")
+    )
+end
+
+function chen_barrack_hunter_overload:OnSpellStart()
     if not IsServer() then
         return
     end
 
     local caster = self:GetCaster()
-    if IsValidUnit(caster) and not caster:HasModifier(MANA_BURN_MODIFIER) then
-        caster:AddNewModifier(caster, self, MANA_BURN_MODIFIER, {})
+    if not IsValidUnit(caster) or not caster:IsAlive() then
+        return
     end
+
+    caster:AddNewModifier(caster, self, OVERLOAD_MODIFIER, {
+        duration = self:GetSpecialValueFor("countdown_duration"),
+    })
+    caster:EmitSound("Hero_Techies.ReactiveTazer.Cast")
 end
 
 function chen_barrack_anti_creep_dash:GetIntrinsicModifierName()
@@ -133,60 +144,83 @@ function chen_barrack_anti_creep_dash:OnSpellStart()
     ApplyDash(self:GetCaster(), self, false)
 end
 
-function modifier_chen_barrack_anti_creep_mana_burn:IsHidden()
-    return true
-end
-
-function modifier_chen_barrack_anti_creep_mana_burn:IsPurgable()
+function modifier_chen_barrack_hunter_overload:IsHidden()
     return false
 end
 
-function modifier_chen_barrack_anti_creep_mana_burn:OnCreated()
+function modifier_chen_barrack_hunter_overload:IsPurgable()
+    return false
+end
+
+function modifier_chen_barrack_hunter_overload:GetTexture()
+    return "techies_reactive_tazer"
+end
+
+function modifier_chen_barrack_hunter_overload:OnCreated()
     if not IsServer() then
         return
     end
 
-    local ability = self:GetAbility()
-    if ability and not ability:IsNull() and ability:GetLevel() <= 0 then
-        ability:SetLevel(1)
-    end
+    self.explodeAt = GameRules:GetGameTime() + self:GetDuration()
+    local particle = ParticleManager:CreateParticle(COUNTDOWN_PARTICLE, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    self:AddParticle(particle, false, false, -1, false, false)
 end
 
-function modifier_chen_barrack_anti_creep_mana_burn:DeclareFunctions()
-    return {
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
-    }
-end
-
-function modifier_chen_barrack_anti_creep_mana_burn:OnAttackLanded(params)
+function modifier_chen_barrack_hunter_overload:OnDestroy()
     if not IsServer() then
         return
     end
 
     local parent = self:GetParent()
-    if params.attacker ~= parent then
-        return
-    end
-
-    local target = params.target
     local ability = self:GetAbility()
-    if not IsValidUnit(target) or not ability or ability:IsNull() then
+    if not IsValidUnit(parent) or not parent:IsAlive() or not ability or ability:IsNull() then
         return
     end
 
-    if target:IsBuilding() or target:GetTeamNumber() == parent:GetTeamNumber() then
+    if GameRules:GetGameTime() + 0.05 < (self.explodeAt or math.huge) then
         return
     end
 
-    local manaBurn = GetManaBurnValue(ability)
-    if manaBurn <= 0 or target:GetMana() <= 0 then
-        return
+    local position = parent:GetAbsOrigin()
+    local damage = ability:GetDamage()
+    local radius = ability:GetSpecialValueFor("radius")
+    local enemies = FindUnitsInRadius(
+        parent:GetTeamNumber(),
+        position,
+        nil,
+        radius,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false
+    )
+
+    for _, enemy in pairs(enemies) do
+        if IsValidUnit(enemy) and enemy:IsAlive() then
+            ApplyDamage({
+                victim = enemy,
+                attacker = parent,
+                damage = damage,
+                damage_type = DAMAGE_TYPE_MAGICAL,
+                ability = ability,
+            })
+        end
     end
 
-    local burned = BurnMana(target, manaBurn, ability)
-    if burned > 0 then
-        target:EmitSound("Hero_Antimage.ManaBreak")
-    end
+    local particle = ParticleManager:CreateParticle(EXPLOSION_PARTICLE, PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(particle, 0, position)
+    ParticleManager:SetParticleControl(particle, 1, Vector(radius, 0, 0))
+    ParticleManager:ReleaseParticleIndex(particle)
+    parent:EmitSound("Hero_Techies.ReactiveTazer.Detonate")
+
+    ApplyDamage({
+        victim = parent,
+        attacker = parent,
+        damage = damage,
+        damage_type = DAMAGE_TYPE_MAGICAL,
+        ability = ability,
+    })
 end
 
 function modifier_chen_barrack_anti_creep_dash_autocast:IsHidden()

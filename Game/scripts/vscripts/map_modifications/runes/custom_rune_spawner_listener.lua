@@ -106,7 +106,6 @@ local function SpawnRunesNow()
     CreateRune(origin, runeType)
     PingAllPlayers(origin)
 
-    print(string.format("[CustomRuneSpawner] Спавн #%d, тип=%s, позиция=%s", state.spawn_index, tostring(runeType), tostring(origin)))
 end
 
 function CustomRuneSpawnerThink()
@@ -147,7 +146,6 @@ function Spawn(_)
 
     thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
 
-    print("[CustomRuneSpawner] Инициализирован. Спавн на позиции слушателя.")
     thisEntity:SetContextThink("CustomRuneSpawnerThink", CustomRuneSpawnerThink, THINK_INTERVAL)
 end
 

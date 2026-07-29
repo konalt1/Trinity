@@ -137,7 +137,7 @@ local function QueueSummon(self, unitName)
         return
     end
 
-    ChenSubBarrack.EnsureSummonAbility(subBarrack)
+    ChenSubBarrack.EnsureSummonAbilities(subBarrack)
 
     InitSubBarrackState(subBarrack)
     if GetQueuedCount(subBarrack) >= 5 then
@@ -239,38 +239,27 @@ function ChenSubBarrack.DisableProduction(subBarrack)
 end
 
 local SUB_BARRACK_SUMMON_ABILITIES = {
-    courier = "chen_sub_barrack_summon_giant_courier",
-    dragon = "chen_sub_barrack_summon_dragon",
+    "chen_sub_barrack_summon_giant_courier",
+    "chen_sub_barrack_summon_dragon",
 }
 
-function ChenSubBarrack.EnsureSummonAbility(subBarrack)
+function ChenSubBarrack.EnsureSummonAbilities(subBarrack)
     if not IsValidEntity(subBarrack) then
-        return nil
+        return
     end
 
-    local abilityName = SUB_BARRACK_SUMMON_ABILITIES[subBarrack.chen_sub_barrack_type or ""]
-    if not abilityName then
-        for slot = 0, subBarrack:GetAbilityCount() - 1 do
-            local ability = subBarrack:GetAbilityByIndex(slot)
-            if ability and not ability:IsNull() then
-                return ability
-            end
+    for _, abilityName in ipairs(SUB_BARRACK_SUMMON_ABILITIES) do
+        local ability = subBarrack:FindAbilityByName(abilityName)
+        if not ability or ability:IsNull() then
+            ability = subBarrack:AddAbility(abilityName)
         end
-        return nil
-    end
 
-    local ability = subBarrack:FindAbilityByName(abilityName)
-    if not ability or ability:IsNull() then
-        ability = subBarrack:AddAbility(abilityName)
+        if ability and not ability:IsNull() then
+            ability:SetHidden(false)
+            ability:SetLevel(1)
+            ability:SetActivated(true)
+        end
     end
-
-    if ability and not ability:IsNull() then
-        ability:SetHidden(false)
-        ability:SetLevel(1)
-        ability:SetActivated(true)
-    end
-
-    return ability
 end
 
 function ChenSubBarrack.EnableProduction(subBarrack)
@@ -278,7 +267,7 @@ function ChenSubBarrack.EnableProduction(subBarrack)
         return
     end
 
-    ChenSubBarrack.EnsureSummonAbility(subBarrack)
+    ChenSubBarrack.EnsureSummonAbilities(subBarrack)
 
     for slot = 0, subBarrack:GetAbilityCount() - 1 do
         local ability = subBarrack:GetAbilityByIndex(slot)

@@ -5,8 +5,7 @@ ChenBuildingPlacement.ERROR_KEY = "#dota_hud_error_chen_building_too_close"
 local CHEN_BUILDING_UNITS = {
     npc_chen_barrack = true,
     npc_chen_building_tower = true,
-    npc_chen_building_courier_barrack = true,
-    npc_chen_building_dragon_barrack = true,
+    npc_chen_building_special_barrack = true,
 }
 
 local function IsValidEntity(entity)

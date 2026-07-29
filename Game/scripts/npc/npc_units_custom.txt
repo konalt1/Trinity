@@ -865,8 +865,7 @@
 
         "Ability1"                  "chen_worker_gather"
         "Ability2"                  "chen_worker_build_tower"
-        "Ability3"                  "chen_worker_build_courier_barrack"
-        "Ability4"                  "chen_worker_build_dragon_barrack"
+        "Ability3"                  "chen_worker_build_special_barrack"
 
         "ArmorPhysical"             "2"
         "MagicalResistance"         "0"
@@ -919,7 +918,7 @@
         "UseNeutralCreepBehavior"   "0"
         "ChenBarrackGoldMode"       "shared_carrier"
 
-        "Ability1"                  "chen_barrack_anti_creep_mana_burn"
+        "Ability1"                  "chen_barrack_hunter_overload"
         "Ability2"                  "chen_barrack_anti_creep_dash"
 
         "ArmorPhysical"             "1"
@@ -1125,7 +1124,7 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_TOWER"
     }
 
-    "npc_chen_building_courier_barrack"
+    "npc_chen_building_special_barrack"
     {
         "BaseClass"                 "npc_dota_creature"
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
@@ -1171,54 +1170,7 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 
         "Ability1"                  "chen_sub_barrack_summon_giant_courier"
-    }
-
-    "npc_chen_building_dragon_barrack"
-    {
-        "BaseClass"                 "npc_dota_creature"
-        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
-        "SoundSet"                  ""
-        "Level"                     "1"
-        "ModelScale"                "0.7"
-        "ConsideredHero"            "1"
-        "UseNeutralCreepBehavior"   "0"
-
-        "ArmorPhysical"             "8"
-        "MagicalResistance"         "25"
-
-        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
-        "AttackDamageMin"           "0"
-        "AttackDamageMax"           "0"
-        "AttackRate"                "1.0"
-        "AttackAcquisitionRange"    "0"
-        "AttackRange"               "0"
-
-        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
-        "RingRadius"                "60"
-        "HealthBarOffset"           "110"
-
-        "BountyXP"                  "0"
-        "BountyGoldMin"             "0"
-        "BountyGoldMax"             "0"
-
-        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
-        "MovementSpeed"             "0"
-        "MovementTurnRate"          "0"
-
-        "StatusHealth"              "2000"
-        "StatusHealthRegen"         "2"
-        "StatusMana"                "0"
-        "StatusManaRegen"           "0"
-
-        "VisionDaytimeRange"        "700"
-        "VisionNighttimeRange"      "700"
-
-        "TeamName"                  "DOTA_TEAM_GOODGUYS"
-        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-
-        "Ability1"                  "chen_sub_barrack_summon_dragon"
+        "Ability2"                  "chen_sub_barrack_summon_dragon"
     }
 
     "npc_chen_giant_courier"

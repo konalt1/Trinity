@@ -278,12 +278,12 @@
         }
     }
 
-    "chen_barrack_anti_creep_mana_burn"
+    "chen_barrack_hunter_overload"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/barrack/units/chen_barrack_hunter_focus"
-        "AbilityTextureName"            "antimage_mana_break"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityTextureName"            "techies_reactive_tazer"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
@@ -291,10 +291,16 @@
         "MaxLevel"                      "3"
         "RequiredLevel"                 "1"
         "LevelsBetweenUpgrades"         "1"
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "3"
+        "AbilityManaCost"               "0"
 
         "AbilityValues"
         {
-            "mana_burn"                 "10 15 20"
+            "countdown_duration"        "3"
+            "damage"                    "300"
+            "radius"                    "300"
+            "mind_power_multiplier"     "1"
         }
     }
 
@@ -322,13 +328,14 @@
         }
     }
 
-    "modifier_chen_barrack_anti_creep_mana_burn"
+    "modifier_chen_barrack_hunter_overload"
     {
         "BaseClass"                     "modifier_lua"
-        "IsHidden"                      "1"
+        "IsHidden"                      "0"
         "IsPurgable"                    "0"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
+        "TextureName"                   "techies_reactive_tazer"
     }
 
     "modifier_chen_barrack_anti_creep_dash_autocast"
@@ -460,40 +467,11 @@
         }
     }
 
-    "chen_worker_build_courier_barrack"
+    "chen_worker_build_special_barrack"
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_worker_build"
-        "AbilityTextureName"            "courier_burst"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
-        "FightRecapLevel"               "1"
-        "MaxLevel"                      "1"
-        "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "1"
-        "AbilityCastRange"              "99999"
-        "AbilityCastPoint"              "0"
-        "AbilityCooldown"               "0"
-        "AbilityManaCost"               "0"
-
-        "AbilityValues"
-        {
-            "gold_cost"                 "1000"
-            "max_hp"                    "2000"
-            "build_rate"                "70"
-            "worker_radius"             "300"
-            "arrive_radius"             "80"
-            "building_min_distance"     "500"
-        }
-    }
-
-    "chen_worker_build_dragon_barrack"
-    {
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/chen/chen_worker_build"
-        "AbilityTextureName"            "black_dragon_dragonhide_aura"
+        "AbilityTextureName"            "chen_hand_of_god"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"

@@ -79,7 +79,6 @@ end
 -- It can be used to pre-initialize any values/tables that will be needed later
 function GameSettings:InitGameSettings()
 	GameSettings = self
-	print('[BAREBONES] Starting to load Barebones GameSettings...')
 
 	-- Setup rules
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, PLAYER_COUNT_GOODGUYS )
@@ -106,9 +105,6 @@ function GameSettings:InitGameSettings()
 	GameRules:SetStartingGold(STARTING_GOLD)
 	
 	
-	print('[BAREBONES] GameRules set')
-
-
 	-- Listeners - Event Hooks
 	-- All of these events can potentially be fired by the game, though only the uncommented ones have had
 	-- Functions supplied for them.
@@ -154,10 +150,6 @@ function GameSettings:InitGameSettings()
 
 	self.bSeenWaitForPlayers = false
 
-	-- Commands can be registered for debugging purposes or as functions that can be called by the custom Scaleform UI
-	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameSettings, 'ExampleConsoleCommand'), "A console command example", 0 )
-
-	print('[BAREBONES] Done loading Barebones GameSettings!\n\n')
 end
 
 mode = nil
@@ -165,9 +157,6 @@ mode = nil
 -- This function is called 1 to 2 times as the player connects initially but before they
 -- have completely connected
 function GameSettings:PlayerConnect(keys)
-	print('[BAREBONES] PlayerConnect')
-	DeepPrintTable(keys)
-
 	if keys.bot == 1 then
 		-- This user is a Bot, so add it to the bots table
 		self.vBots[keys.userid] = 1
@@ -176,10 +165,6 @@ end
 
 -- This function is called once when the player fully connects and becomes "Ready" during Loading
 function GameSettings:OnConnectFull(keys)
-	print ('[BAREBONES] OnConnectFull')
-	DeepPrintTable(keys)
-
-
 	local entIndex = keys.index+1
 	-- The Player entity of the joining user
 	local ply = EntIndexToHScript(entIndex)
@@ -255,20 +240,6 @@ function GameSettings:CaptureGameMode()
 	end
 end
 
--- This is an example console command
-function GameSettings:ExampleConsoleCommand()
-	print( '******* Example Console Command ***************' )
-	local cmdPlayer = Convars:GetCommandClient()
-	if cmdPlayer then
-		local playerID = cmdPlayer:GetPlayerID()
-		if playerID ~= nil and playerID ~= -1 then
-			-- Do something here for the player who called this command
-			PlayerResource:ReplaceHeroWith(playerID, "npc_dota_hero_viper", 1000, 1000)
-		end
-	end
-	print( '*********************************************' )
-end
-
 --[[
   This function should be used to set up Async precache calls at the beginning of the game.  The Precache() function 
   in addon_game_mode.lua used to and may still sometimes have issues with client's appropriately precaching stuff.
@@ -283,8 +254,6 @@ end
   holdout).
 ]]
 function GameSettings:PostLoadPrecache()
-	print("[BAREBONES] Performing Post-Load precache")
-
 end
 
 --[[
@@ -292,7 +261,6 @@ end
   It can be used to initialize state that isn't initializeable in InitGameSettings() but needs to be done before everyone loads in.
 ]]
 function GameSettings:OnFirstPlayerLoaded()
-	print("[BAREBONES] First Player has loaded")
 end
 
 --[[
@@ -300,7 +268,6 @@ end
   It can be used to initialize non-hero player state or adjust the hero selection (i.e. force random etc)
 ]]
 function GameSettings:OnAllPlayersLoaded()
-	print("[BAREBONES] All Players have loaded into the game")
 end
 
 --[[
@@ -310,8 +277,6 @@ end
   The hero parameter is the hero entity that just spawned in.
 ]]
 function GameSettings:OnHeroInGame(hero)
-	print("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
-
 	-- Store a reference to the player handle inside this hero handle.
 	hero.player = PlayerResource:GetPlayer(hero:GetPlayerID())
 	-- Store the player's name inside this hero handle.
@@ -333,13 +298,10 @@ end
 	is useful for starting any game logic timers/thinkers, beginning the first round, etc.
 ]]
 function GameSettings:OnGameInProgress()
-	print("[BAREBONES] The game has officially begun")
-
 	for i=0,4 do
 		PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)
 		-- CUSTOM_BUYBACK_COST_ENABLED = false, buyback cost not overridden
 	end
-	print("Make buildings vulnerable")
     local allBuildings = Entities:FindAllByClassname('npc_dota_building')
     for i = 1, #allBuildings, 1 do
         local building = allBuildings[i]
@@ -359,9 +321,6 @@ end
 
 -- Cleanup a player when they leave
 function GameSettings:OnDisconnect(keys)
-	print('[BAREBONES] Player Disconnected ' .. tostring(keys.userid))
-	DeepPrintTable(keys)
-
 	local name = keys.name
 	local networkid = keys.networkid
 	local reason = keys.reason
@@ -370,9 +329,6 @@ end
 
 -- The overall game state has changed
 function GameSettings:OnGameRulesStateChange(keys)
-	print("[BAREBONES] GameRules State Changed")
-	DeepPrintTable(keys)
-
 	local newState = GameRules:State_Get()
 	if newState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
 		GameSettings:CaptureGameMode()
@@ -395,17 +351,12 @@ end
 -- An entity somewhere has been hurt.  This event fires very often with many units so don't do too many expensive
 -- operations here
 function GameSettings:OnEntityHurt(keys)
-	--print("[BAREBONES] Entity Hurt")
-	--DeepPrintTable(keys)
 --	local entCause = EntIndexToHScript(keys.entindex_attacker)
 --	local entVictim = EntIndexToHScript(keys.entindex_killed)
 end
 
 -- An item was picked up off the ground
 function GameSettings:OnItemPickedUp(keys)
-	print ( '[BAREBONES] OnItemPurchased' )
-	DeepPrintTable(keys)
-
 --	local heroEntity = EntIndexToHScript()
 	local unit_index = keys.HeroEntityIndex or keys.UnitEntityIndex
 	local hero = EntIndexToHScript(unit_index):GetPlayerOwner()
@@ -418,15 +369,10 @@ end
 -- A player has reconnected to the game.  This function can be used to repaint Player-based particles or change
 -- state as necessary
 function GameSettings:OnPlayerReconnect(keys)
-	print ( '[BAREBONES] OnPlayerReconnect' )
-	DeepPrintTable(keys)
 end
 
 -- An item was purchased by a player
 function GameSettings:OnItemPurchased( keys )
-	print ( '[BAREBONES] OnItemPurchased' )
-	DeepPrintTable(keys)
-
 	-- The playerID of the hero who is buying something
 	local plyID = keys.PlayerID
 	if not plyID then return end
@@ -441,9 +387,6 @@ end
 
 -- An ability was used by a player
 function GameSettings:OnAbilityUsed(keys)
-	print('[BAREBONES] AbilityUsed')
-	DeepPrintTable(keys)
-
 	local player = EntIndexToHScript(keys.PlayerID)
 	local abilityname = keys.abilityname
 	local caster = EntIndexToHScript(keys.caster_entindex)
@@ -473,35 +416,23 @@ end
 
 -- A non-player entity (necro-book, chen creep, etc) used an ability
 function GameSettings:OnNonPlayerUsedAbility(keys)
-	print('[BAREBONES] OnNonPlayerUsedAbility')
-	DeepPrintTable(keys)
-
 	local abilityname=  keys.abilityname
 end
 
 -- A player changed their name
 function GameSettings:OnPlayerChangedName(keys)
-	print('[BAREBONES] OnPlayerChangedName')
-	DeepPrintTable(keys)
-
 	local newName = keys.newname
 	local oldName = keys.oldName
 end
 
 -- A player leveled up an ability
 function GameSettings:OnPlayerLearnedAbility( keys)
-	print ('[BAREBONES] OnPlayerLearnedAbility')
-	DeepPrintTable(keys)
-
 	local player = EntIndexToHScript(keys.player)
 	local abilityname = keys.abilityname
 end
 
 -- A channelled ability finished by either completing or being interrupted
 function GameSettings:OnAbilityChannelFinished(keys)
-	print ('[BAREBONES] OnAbilityChannelFinished')
-	DeepPrintTable(keys)
-
 	local abilityname = keys.abilityname
 	local interrupted = keys.interrupted == 1
 
@@ -509,15 +440,11 @@ end
 
 -- A player leveled up
 function GameSettings:OnPlayerLevelUp(keys)
-	print ('[BAREBONES] OnPlayerLevelUp')
-	DeepPrintTable(keys)
-
 --	local player = EntIndexToHScript(keys.player)
 --	local hero = EntIndexToHScript(keys.hero_entindex)
 	local hero = PlayerResource:GetSelectedHeroEntity(keys.player_id)
 	local level = keys.level
 	local ability_point = hero:GetAbilityPoints()
-	print(level)
 	if hero and level then
 		local no_points_levels = {
 		[17] = 1,
@@ -537,9 +464,6 @@ end
 
 -- A player last hit a creep, a tower, or a hero
 function GameSettings:OnLastHit(keys)
-	print ('[BAREBONES] OnLastHit')
-	DeepPrintTable(keys)
-
 	local isFirstBlood = keys.FirstBlood == 1
 	local isHeroKill = keys.HeroKill == 1
 	local isTowerKill = keys.TowerKill == 1
@@ -548,18 +472,12 @@ end
 
 -- A tree was cut down by tango, quelling blade, etc
 function GameSettings:OnTreeCut(keys)
-	print ('[BAREBONES] OnTreeCut')
-	DeepPrintTable(keys)
-
 	local treeX = keys.tree_x
 	local treeY = keys.tree_y
 end
 
 -- A rune was activated by a player
 function GameSettings:OnRuneActivated (keys)
-	print ('[BAREBONES] OnRuneActivated')
-	DeepPrintTable(keys)
-
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
 	local rune = keys.rune
 
@@ -567,33 +485,21 @@ end
 
 -- A player took damage from a tower
 function GameSettings:OnPlayerTakeTowerDamage(keys)
-	print ('[BAREBONES] OnPlayerTakeTowerDamage')
-	DeepPrintTable(keys)
-
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
 	local damage = keys.damage
 end
 
 -- A player picked a hero
 function GameSettings:OnPlayerPickHero(keys)
-	print ('[BAREBONES] OnPlayerPickHero')
-	DeepPrintTable(keys)
-
 	local heroClass = keys.hero
 	local heroEntity = EntIndexToHScript(keys.heroindex)
 	local player = (keys.player and keys.player >= 0) and EntIndexToHScript(keys.player) or nil
 	
 	-- Проверяем, что игрок выбрал героя
-	if player and not player:IsNull() and heroClass and heroEntity then
-		print("[BAREBONES] Player " .. player:GetPlayerID() .. " picked hero: " .. heroClass)
-	end
 end
 
 -- A player killed another player in a multi-team context
 function GameSettings:OnTeamKillCredit(keys)
-	print ('[BAREBONES] OnTeamKillCredit')
-	DeepPrintTable(keys)
-
 	local killerPlayer = PlayerResource:GetPlayer(keys.killer_userid)
 	local victimPlayer = PlayerResource:GetPlayer(keys.victim_userid)
 	local numKills = keys.herokills
@@ -602,8 +508,6 @@ end
 
 -- An NPC has spawned somewhere in game.  This includes heroes
 function GameSettings:OnNPCSpawned(keys)
---	print("[BAREBONES] NPC Spawned")
---	DeepPrintTable(keys)
 	local npc = EntIndexToHScript(keys.entindex)
 	local name = npc:GetUnitName()
 	

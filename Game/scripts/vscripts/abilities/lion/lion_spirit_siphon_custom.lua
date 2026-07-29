@@ -164,9 +164,6 @@ function modifier_lion_spirit_siphon_custom:OnIntervalThink()
         damage_type = ability:GetAbilityDamageType(),
         ability = ability,
     })
-    caster:Heal(health_damage, ability)
 
     SendOverheadEventMessage(nil, OVERHEAD_ALERT_MANA_LOSS, parent, math.floor(mana_drained), nil)
-    SendOverheadEventMessage(nil, OVERHEAD_ALERT_HEAL, caster, math.floor(health_damage), nil)
 end
-

@@ -1,9 +1,6 @@
-print("=== ADDON GAME MODE LOADING ===")
-
 require ("Timers")
 require ("game_settings")
 require ("utils/util")
-require ("test_mind_power") -- Тестовый файл для проверки функции
 require ("game_managers/creep_bounty_comeback")
 require ("game_managers/killfeed_system")
 require ("gamemode")

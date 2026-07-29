@@ -55,9 +55,9 @@
 
         "AbilityValues"
         {
-            "creep_mind_power"          "4 6 8 10"
+            "creep_mind_power"          "8 10 12 14"
             "creep_duration"            "25"
-            "hero_mind_power"           "10"
+            "hero_mind_power"           "4 6 8 10"
         }
     }
 
@@ -75,17 +75,17 @@
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
         "FightRecapLevel"               "1"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
-        "AbilityCastRange"              "300"
+        "AbilityCastRange"              "400"
         "AbilityCastPoint"              "0.2"
-        "AbilityCooldown"               "24 20 16 12"
+        "AbilityCooldown"               "20 16 12 8"
         "AbilityManaCost"               "80 90 100 110"
 
         "AbilityValues"
         {
             "duration"                  "2"
-            "break_distance"            "500"
-            "mana_drain_per_second"     "35 55 75 95"
-            "mind_power_multiplier"     "0.8"
+            "break_distance"            "600"
+            "mana_drain_per_second"     "45 65 85 105"
+            "mind_power_multiplier"     "1"
             "health_drain_pct"          "50"
             "tick_interval"             "0.25"
         }

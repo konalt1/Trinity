@@ -189,5 +189,3 @@ end
 
 -- Регистрируем модификатор
 LinkLuaModifier("modifier_xp_shrine_gold_thinker", "abilities/xp_shrine_gold", LUA_MODIFIER_MOTION_NONE)
-
-print("SetBodygroup called") 

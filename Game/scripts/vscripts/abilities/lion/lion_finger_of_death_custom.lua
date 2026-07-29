@@ -76,6 +76,17 @@ end
 
 lion_finger_of_death_custom = class({})
 
+function lion_finger_of_death_custom:GetBehavior()
+    local behavior = DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+    local caster = self:GetCaster()
+
+    if caster and not caster:IsNull() and caster:HasModifier("modifier_lion_finger_scepter_claw") then
+        behavior = behavior + DOTA_ABILITY_BEHAVIOR_AUTOCAST
+    end
+
+    return behavior
+end
+
 function lion_finger_of_death_custom:GetIntrinsicModifierName()
     return "modifier_lion_finger_rebirth"
 end
@@ -144,8 +155,7 @@ function modifier_lion_finger_scepter_claw:IsBuff() return true end
 function modifier_lion_finger_scepter_claw:RemoveOnDeath() return true end
 function modifier_lion_finger_scepter_claw:GetTexture() return "lion_finger_of_death" end
 
-function modifier_lion_finger_scepter_claw:OnCreated()
-    local parent = self:GetParent()
+function modifier_lion_finger_scepter_claw:LoadSpecialValues()
     local ability = self:GetAbility()
 
     self.attack_range = ability and not ability:IsNull() and ability:GetSpecialValueFor("scepter_attack_range") or 250
@@ -153,17 +163,70 @@ function modifier_lion_finger_scepter_claw:OnCreated()
     self.cleave_start_width = ability and not ability:IsNull() and ability:GetSpecialValueFor("scepter_cleave_start_width") or 150
     self.cleave_end_width = ability and not ability:IsNull() and ability:GetSpecialValueFor("scepter_cleave_end_width") or 360
     self.cleave_distance = ability and not ability:IsNull() and ability:GetSpecialValueFor("scepter_cleave_distance") or 650
+end
 
-    if IsServer() and parent and not parent:IsNull() then
-        self.original_attack_range = self.original_attack_range or parent:Script_GetAttackRange()
-        self.original_attack_capability = self.original_attack_capability or parent:GetAttackCapability()
-        parent:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
-        self:StartIntervalThink(0.5)
+function modifier_lion_finger_scepter_claw:GetActiveAttackRecords()
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then
+        return {}
+    end
+
+    parent.lion_finger_attack_records = parent.lion_finger_attack_records or {}
+    return parent.lion_finger_attack_records
+end
+
+function modifier_lion_finger_scepter_claw:IsMeleeMode()
+    local finger = self:GetAbility()
+    return finger and not finger:IsNull() and finger:GetAutoCastState() or false
+end
+
+function modifier_lion_finger_scepter_claw:EnableFingerAutoCast()
+    if not IsServer() then
+        return
+    end
+
+    local finger = self:GetAbility()
+    if not finger or finger:IsNull() then
+        return
+    end
+
+    if not finger:GetAutoCastState() then
+        finger:ToggleAutoCast()
+    end
+    if finger.MarkAbilityButtonDirty then
+        finger:MarkAbilityButtonDirty()
     end
 end
 
+function modifier_lion_finger_scepter_claw:OnCreated()
+    self:LoadSpecialValues()
+
+    if not IsServer() then
+        return
+    end
+
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then
+        return
+    end
+
+    self.original_attack_range = parent:Script_GetAttackRange()
+    self.original_attack_capability = parent.lion_finger_pending_attack_capability or parent:GetAttackCapability()
+    self:EnableFingerAutoCast()
+    self:ApplyToggleMode()
+
+    self:StartIntervalThink(0.1)
+end
+
 function modifier_lion_finger_scepter_claw:OnRefresh()
-    self:OnCreated()
+    self:LoadSpecialValues()
+
+    if not IsServer() then
+        return
+    end
+
+    self:EnableFingerAutoCast()
+    self:ApplyToggleMode()
 end
 
 function modifier_lion_finger_scepter_claw:OnDestroy()
@@ -172,8 +235,34 @@ function modifier_lion_finger_scepter_claw:OnDestroy()
     end
 
     local parent = self:GetParent()
-    if parent and not parent:IsNull() and self.original_attack_capability then
-        parent:SetAttackCapability(self.original_attack_capability)
+    if parent and not parent:IsNull() then
+        if next(self:GetActiveAttackRecords()) then
+            -- Let an in-flight attack keep its original capability until its
+            -- record is destroyed. The permanent tracker restores it safely.
+            parent.lion_finger_pending_attack_capability = self.original_attack_capability
+        else
+            parent:ClearActivityModifiers()
+            if self.original_attack_capability then
+                parent:SetAttackCapability(self.original_attack_capability)
+            end
+            parent.lion_finger_pending_attack_capability = nil
+        end
+    end
+
+    local finger = self:GetAbility()
+    if finger and not finger:IsNull() then
+        if finger:GetAutoCastState() then
+            finger:ToggleAutoCast()
+        end
+        if finger.MarkAbilityButtonDirty then
+            finger:MarkAbilityButtonDirty()
+        end
+
+        Timers:CreateTimer(0, function()
+            if finger and not finger:IsNull() and finger.MarkAbilityButtonDirty then
+                finger:MarkAbilityButtonDirty()
+            end
+        end)
     end
 end
 
@@ -181,41 +270,72 @@ function modifier_lion_finger_scepter_claw:OnIntervalThink()
     local parent = self:GetParent()
     if not LionHasScepter(parent) then
         self:Destroy()
+        return
     end
+
+    if self.applied_melee_mode ~= self:IsMeleeMode() and not next(self:GetActiveAttackRecords()) then
+        self:ApplyToggleMode()
+    else
+        self:UpdateMindPower()
+    end
+end
+
+function modifier_lion_finger_scepter_claw:UpdateMindPower()
+    if not IsServer() then
+        return
+    end
+
+    local mind_power = self:IsMeleeMode() and math.floor(LionGetMindPower(self:GetParent())) or 0
+    if self:GetStackCount() ~= mind_power then
+        self:SetStackCount(mind_power)
+    end
+end
+
+function modifier_lion_finger_scepter_claw:ApplyToggleMode()
+    if not IsServer() then
+        return
+    end
+
+    if next(self:GetActiveAttackRecords()) then
+        return
+    end
+
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then
+        return
+    end
+
+    parent:ClearActivityModifiers()
+
+    self.applied_melee_mode = self:IsMeleeMode()
+    if self.applied_melee_mode then
+        parent:AddActivityModifier("melee")
+        parent:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
+    else
+        parent:SetAttackCapability(self.original_attack_capability or DOTA_UNIT_CAP_RANGED_ATTACK)
+    end
+
+    self:UpdateMindPower()
 end
 
 function modifier_lion_finger_scepter_claw:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-        MODIFIER_EVENT_ON_ATTACK_START,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_EVENT_ON_DEATH,
     }
 end
 
 function modifier_lion_finger_scepter_claw:GetModifierAttackRangeBonus()
+    if not self:IsMeleeMode() then
+        return 0
+    end
     return self.attack_range - (self.original_attack_range or self.attack_range)
 end
 
 function modifier_lion_finger_scepter_claw:GetModifierPreAttack_BonusDamage()
-    return LionGetMindPower(self:GetParent())
-end
-
-function modifier_lion_finger_scepter_claw:OnAttackStart(params)
-    if not IsServer() then
-        return
-    end
-
-    local parent = self:GetParent()
-    if params.attacker ~= parent then
-        return
-    end
-
-    parent:FadeGesture(ACT_DOTA_ATTACK)
-    if ACT_DOTA_ATTACK_EVENT then
-        parent:FadeGesture(ACT_DOTA_ATTACK_EVENT)
-    end
-    parent:StartGesture(ACT_DOTA_ATTACK2 or ACT_DOTA_ATTACK)
+    return self:GetStackCount()
 end
 
 function modifier_lion_finger_scepter_claw:OnAttackLanded(params)
@@ -225,7 +345,7 @@ function modifier_lion_finger_scepter_claw:OnAttackLanded(params)
 
     local parent = self:GetParent()
     local ability = self:GetAbility()
-    if params.attacker ~= parent or not params.target or params.target:IsNull() then
+    if not self:IsMeleeMode() or params.attacker ~= parent or not params.target or params.target:IsNull() then
         return
     end
     if not ability or ability:IsNull() or not LionHasScepter(parent) then
@@ -242,6 +362,30 @@ function modifier_lion_finger_scepter_claw:OnAttackLanded(params)
         self.cleave_distance or 650,
         "particles/items_fx/battlefury_cleave.vpcf"
     )
+end
+
+function modifier_lion_finger_scepter_claw:OnDeath(params)
+    if not IsServer() then
+        return
+    end
+
+    local parent = self:GetParent()
+    local ability = self:GetAbility()
+    local victim = params.unit
+
+    -- A nil inflictor identifies damage from a regular attack. Cleave and
+    -- other spell/item damage must not grant additional Finger stacks.
+    if not self:IsMeleeMode() or params.attacker ~= parent or params.inflictor ~= nil then
+        return
+    end
+    if not victim or victim:IsNull() or not victim:IsRealHero() or victim:GetTeamNumber() == parent:GetTeamNumber() then
+        return
+    end
+    if not ability or ability:IsNull() or not LionHasScepter(parent) then
+        return
+    end
+
+    ability:AddRebirthStack()
 end
 
 function lion_finger_of_death_custom:AddRebirthStack()
@@ -294,12 +438,15 @@ function modifier_lion_finger_kill_marker:OnDeath(params)
         LionFingerDebug("kill_marker_rejected", { reason = "victim_is_not_real_hero" })
         return
     end
-    if not caster or caster:IsNull() or params.attacker ~= caster then
-        LionFingerDebug("kill_marker_rejected", { reason = "attacker_is_not_caster" })
+    if not caster or caster:IsNull() then
+        LionFingerDebug("kill_marker_rejected", { reason = "caster_is_invalid" })
         return
     end
-    if params.inflictor ~= ability then
-        LionFingerDebug("kill_marker_rejected", { reason = "inflictor_is_not_finger" })
+
+    -- A direct empowered hand kill is handled by the Scepter modifier, so a
+    -- Finger marker still active on the same victim must not grant a second stack.
+    if params.attacker == caster and params.inflictor == nil and caster:HasModifier("modifier_lion_finger_scepter_claw") then
+        LionFingerDebug("kill_marker_rejected", { reason = "scepter_hand_kill" })
         return
     end
 
@@ -324,7 +471,60 @@ function modifier_lion_finger_rebirth:GetTexture() return "lion_finger_of_death"
 function modifier_lion_finger_rebirth:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_RESPAWNTIME_PERCENTAGE,
+        MODIFIER_EVENT_ON_ATTACK_RECORD,
+        MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY,
     }
+end
+
+function modifier_lion_finger_rebirth:OnAttackRecord(params)
+    if not IsServer() or params.attacker ~= self:GetParent() or params.record == nil then
+        return
+    end
+
+    local parent = self:GetParent()
+    parent.lion_finger_attack_records = parent.lion_finger_attack_records or {}
+    parent.lion_finger_attack_records[params.record] = true
+end
+
+function modifier_lion_finger_rebirth:OnAttackRecordDestroy(params)
+    if not IsServer() or params.attacker ~= self:GetParent() or params.record == nil then
+        return
+    end
+
+    local records = self:GetParent().lion_finger_attack_records
+    if records then
+        records[params.record] = nil
+    end
+
+    local parent = self:GetParent()
+    if next(records or {}) or parent.lion_finger_pending_attack_capability == nil or parent.lion_finger_restore_scheduled then
+        return
+    end
+
+    parent.lion_finger_restore_scheduled = true
+    Timers:CreateTimer(0, function()
+        if not parent or parent:IsNull() then
+            return
+        end
+
+        parent.lion_finger_restore_scheduled = nil
+        if next(parent.lion_finger_attack_records or {}) then
+            return
+        end
+
+        local capability = parent.lion_finger_pending_attack_capability
+        parent.lion_finger_pending_attack_capability = nil
+
+        -- A refreshed/new empowerment owns the attack mode now.
+        if parent:HasModifier("modifier_lion_finger_scepter_claw") then
+            return
+        end
+
+        parent:ClearActivityModifiers()
+        if capability ~= nil then
+            parent:SetAttackCapability(capability)
+        end
+    end)
 end
 
 function modifier_lion_finger_rebirth:GetModifierPercentageRespawnTime()

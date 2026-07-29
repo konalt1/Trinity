@@ -445,7 +445,7 @@
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи Ткач становится невидимым. Невидимость проявляется через 1 сек. после применения способности и снимается при атаке или использовании способностей."
+		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи постоянно прикрепляет таракана от способности «Рой» к каждому противнику в радиусе 100. Требуется изучить «Рой»."
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
@@ -603,7 +603,8 @@
 
 		// Martyr Mark
 		"DOTA_Tooltip_ability_chen_martyr_mark"								"Метка Мученика"
-		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен накладывает на врага метку, нанося магический урон и сильно замедляя его. Все союзники рядом с Ченом получают бонус к скорости атаки на время действия метки. Приручённые крипы Чена принудительно атакуют жертву и на короткое время получают дополнительную скорость передвижения."
+		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен накладывает на врага метку, нанося магический урон и замедляя его.
+		На время действия метки все союзники получают бонус к скорости атаки. Подчинённые крипы рядом с целью атакуют её и ненадолго ускоряются."
 		"DOTA_Tooltip_ability_chen_martyr_mark_damage"						"УРОН:"
 		"DOTA_Tooltip_ability_chen_martyr_mark_slow_ms_pct"					"ЗАМЕДЛЕНИЕ:"
 		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"СКОРОСТЬ АТАКИ СОЮЗНИКОВ:"
@@ -613,8 +614,8 @@
 
 		// Holy Persuasion
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Подчиняет вражеского или нейтрального крипа, увеличивая его максимальное здоровье урон и скорость передвижения, а также получая долю от золота, полагавшегося за его убийство. 
-		Чем больше Сила магии Чена, тем больше ХП получит подчинённый крип."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Чен подчиняет вражеского или нейтрального крипа, увеличивая его максимальное здоровье и урон. Чен получает часть награды, полагавшейся за убийство крипа.
+		Бонус к здоровью усиливается от <b>Силы Магии</b>."
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_max_creeps"		"МАКС. ПРИРУЧЁННЫХ КРИПОВ:"
@@ -623,17 +624,16 @@
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Кнут"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен хлещет кнутом в указанную точку, нанося %dota_ability_chen_whip_damage% урона всем врагам в радиусе.
-
-Все приручённые крипы в радиус действия мгновенно используют активные способности. Мана и кулдауны крипов после залпа возвращаются к прежнему состоянию."
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом по выбранной области, нанося магический урон всем врагам.
+		Все подчинённые крипы в области мгновенно применяют свои активные способности, не расходуя ману и не запуская перезарядку."
 		"DOTA_Tooltip_ability_chen_whip_damage"								"УРОН:"
 		"DOTA_Tooltip_ability_chen_whip_radius"								"РАДИУС:"
 		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ КРИПОВ:"
 
 		// Ultimate Aura (Aghanim's Shard)
 		"DOTA_Tooltip_ability_chen_ultimate_aura"							"Ультимативная Аура"
-		"DOTA_Tooltip_ability_chen_ultimate_aura_Description"				"Чен усиливает всех союзных героев и крипов вокруг себя, повышая им максимальное здоровье и урон атаки.
-		Чем выше Сила магии Чена, тем больше бонус."
+		"DOTA_Tooltip_ability_chen_ultimate_aura_Description"				"Чен усиливает союзных героев и крипов вокруг себя, увеличивая их максимальное здоровье и урон от атаки.
+		Бонусы усиливаются от <b>Силы Магии</b>."
 		"DOTA_Tooltip_ability_chen_ultimate_aura_aura_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_chen_ultimate_aura_bonus_health"				"БОНУС ЗДОРОВЬЯ:"
 		"DOTA_Tooltip_ability_chen_ultimate_aura_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
@@ -644,11 +644,13 @@
 
 		// Barrack (Ultimate)
 		"DOTA_Tooltip_ability_chen_barrack"									"Барак"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Ставит барак в выбранной точке. Барак начинает работу с тремя живыми рабочими и тремя цветущими деревьями. Барак копит собственное золото (отображается над зданием) и тратит его только на найм и строительство. Юниты с общим золотом делят награду за убийство с Ченом; carrier-юниты сдают золото только бараку. Одновременно может быть только один барак — повторный каст переносит камеру к нему. При уничтожении убийца забирает часть золота барака."
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен строит барак в выбранной точке. В начале у барака есть три рабочих и три цветущих дерева.
+		Барак хранит собственное золото и тратит его на найм юнитов и строительство. Юниты с общим золотом делят награду за убийство с Ченом, а переносчики сдают её бараку.
+		Одновременно может существовать только один барак. Повторное применение переносит камеру к нему. При уничтожении барака убийца забирает часть накопленного золота."
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"HP БАРАКА:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает три способности строительства: вышку, курьерский ангар и барак чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает две способности строительства: вышку и барак Аганима, производящий огромных курьеров и чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
 		"DOTA_Tooltip_ability_chen_barrack_takeoff"						"Взлёт барака"
 		"DOTA_Tooltip_ability_chen_barrack_takeoff_Description"			"Переносит камеру к бараку и поднимает его в воздух. Летающий барак передвигается со скоростью 200, но не может производить юнитов или использовать пашни."
 		"DOTA_Tooltip_ability_chen_barrack_land"						"Посадить барак"
@@ -693,9 +695,12 @@
 		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"				"ПОРОГ РАНЕНИЯ:"
 		"dota_hud_error_no_abilities_on_cooldown"								"Нет способностей на перезарядке"
 
-		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn"					"Mana Burn"
-		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn_Description"		"Каждая атака сжигает у жертвы %dota_ability_chen_barrack_anti_creep_mana_burn_mana_burn% маны."
-		"DOTA_Tooltip_ability_chen_barrack_anti_creep_mana_burn_mana_burn"		"СЖИГАНИЕ МАНЫ:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload"					"Перегрузка"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_Description"		"Запускает таймер на %countdown_duration% сек. По его окончании охотник наносит себе и всем врагам в радиусе %radius% единиц %damage% магического урона. Урон увеличивается на %mind_power_multiplier% за каждую единицу силы магии Чена."
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_damage"			"УРОН:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_radius"			"РАДИУС:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_countdown_duration"	"ТАЙМЕР:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash"						"Dash"
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_Description"			"Увеличивает скорость передвижения крипа на %dota_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct%%% на %dota_ability_chen_barrack_anti_creep_dash_buff_duration% сек. Автоприменение: используется при погоне за врагами."
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_buff_duration"			"ДЛИТЕЛЬНОСТЬ:"
@@ -723,23 +728,14 @@
 		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"СКОРОСТЬ СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"РАДИУС РАБОЧЕГО:"
 
-		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack"					"Построить курьерский ангар"
-		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство курьерского ангара. Стоимость списывается с золота основного барака при начале стройки.
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack"					"Построить барак Аганима"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство барака Аганима. Стоимость списывается с золота основного барака при начале стройки.
 
-Готовый ангар призывает огромных курьеров за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
-		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_gold_cost"			"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_max_hp"			"HP СТРОЙКИ:"
-		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_build_rate"		"СКОРОСТЬ СТРОЙКИ:"
-		"DOTA_Tooltip_ability_chen_worker_build_courier_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
-
-		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack"				"Построить ущелье чёрных драконов"
-		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство барака чёрных драконов. Стоимость списывается с золота основного барака при начале стройки.
-
-Готовый барак призывает Ancient Black Dragon за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
-		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_gold_cost"			"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_max_hp"				"HP СТРОЙКИ:"
-		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_build_rate"			"СКОРОСТЬ СТРОЙКИ:"
-		"DOTA_Tooltip_ability_chen_worker_build_dragon_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
+Готовый барак ставит в общую очередь огромных курьеров и Ancient Black Dragon за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_gold_cost"			"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_max_hp"			"HP СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_build_rate"		"СКОРОСТЬ СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
 
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier"				"Призвать огромного курьера"
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_Description"	"Ставит в очередь летающего огромного курьера-транспорт. Оплата — золото основного барака Чена."
@@ -762,8 +758,7 @@
 		"DOTA_Tooltip_modifier_chen_building_construction_Description"			"Объект строится. Рядом должен находиться рабочий, начавший стройку."
 
 		"npc_chen_building_tower"												"Вышка Чена"
-		"npc_chen_building_courier_barrack"										"Курьерский ангар"
-		"npc_chen_building_dragon_barrack"										"Ущелье чёрных драконов"
+		"npc_chen_building_special_barrack"										"Барак Аганима"
 		"npc_chen_giant_courier"													"Огромный курьер"
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
 
@@ -782,6 +777,14 @@
 		// Modifier — producing
 		"DOTA_Tooltip_modifier_chen_barrack_producing"						"Производство..."
 		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_worker"				"Производство: Рабочий"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_worker_Description"		"Рабочий производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_hunter"				"Производство: Охотник"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_hunter_Description"		"Охотник производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_healer"				"Производство: Целитель"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_healer_Description"		"Целитель производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_brute"				"Производство: Хрономант"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_brute_Description"		"Хрономант производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
 		"DOTA_Tooltip_modifier_chen_barrack_gold_display"					"Золото барака"
 		"DOTA_Tooltip_modifier_chen_barrack_gold_display_Description"			"Золото, доступное для найма в этом бараке."
 		"DOTA_Tooltip_modifier_chen_worker_gather_ai"						"Сбор"
@@ -889,34 +892,41 @@
 
 		// Lion
 		"DOTA_Tooltip_ability_lion_impale_custom"									"Земляной шип"
-		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Lion выпускает линию шипов, нанося урон и оглушая врагов. Урон увеличивается от силы магии."
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Лион выпускает по земле ряд шипов, нанося магический урон и оглушая врагов на пути.
+		Урон усиливается от <b>Силы Магии</b>."
 		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"УРОН:"
 		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"ОГЛУШЕНИЕ:"
 		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"УРОН ОТ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"С Aghanim's Shard Земляной шип выпускает несколько линий шипов конусом перед Lion."
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Земляной шип выпускает три линии шипов конусом перед Лионом."
 
 		"DOTA_Tooltip_ability_lion_soul_collector"									"Собиратель душ"
-		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Пассивно: убийство крипа временно дает силу магии. Убийство героя дает силу магии до конца игры."
+		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Каждый раз, когда вы убиваете крипа или героя с помощью способности, вы получаете силу мгии.
+		За крипа бонус даётся временно, а за героя — до конца игры."
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_mind_power"					"СИЛА МАГИИ ЗА КРИПА:"
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"ДЛИТЕЛЬНОСТЬ БОНУСА ЗА КРИПА:"
 		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"СИЛА МАГИИ ЗА ГЕРОЯ:"
 
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Вытягивание духа"
-		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Lion связывается с врагом, вытягивая ману каждую секунду и нанося урон здоровью, равный половине вытянутой маны. Lion получает вытянутую ману и исцеляется на величину вытянутого здоровья. Вытягивание маны растет от силы магии."
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Лион связывает себя с врагом и каждую секунду вытягивает у него ману. Жертва получает магический урон в размере половины вытянутой маны.
+		Количество вытягиваемой маны увеличивается от <b>Силы Магии</b>."
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"МАНА В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"МАНА ОТ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%ЗДОРОВЬЯ ОТ МАНЫ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"ДЛИТЕЛЬНОСТЬ:"
 
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Палец смерти"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Lion наносит большой магический урон одной цели. Урон увеличивается от силы магии. Если способность убивает героя, Lion получает постоянный стак перерождения, уменьшающий время возрождения."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Лион поражает одного врага, нанося огромный магический урон.
+		Урон усиливается от <b>Силы Магии</b>. 
+		Если вражеский герой погибает после применения способности, Лион получает постоянный заряд Перерождения, уменьшающий время возрождения."
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"УРОН:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"УРОН ОТ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_respawn_reduction_pct"	"%СОКРАЩЕНИЯ ВОЗРОЖДЕНИЯ ЗА СТАК:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"ДЛИТЕЛЬНОСТЬ УСИЛЕНИЯ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"ДАЛЬНОСТЬ АТАКИ СО СКИПЕТРОМ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%УРОН ПРОРУБАНИЯ:"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"С Aghanim's Scepter после применения Палец смерти рука Lion усиливается на %scepter_buff_duration% сек.: он переходит в ближний бой с дальностью атаки %scepter_attack_range%, получает прорубание и бонусный урон от атак, равный своей Силе Магии."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"После применения Пальца смерти рука Лиона усиливается на %scepter_buff_duration% сек. 
+		При этом Лион может перейти в ближний бой, его урон будет увеличен на его силу магии, а его атаки будут наносить прорубаюший урон. 
+		Убийство вражеского героя прямой атакой даёт заряд Перерождения."
 
 		// Боссы
 		"npc_mortimer_boss"											"Мортимер"

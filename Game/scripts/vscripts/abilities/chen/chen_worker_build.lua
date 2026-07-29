@@ -2,8 +2,7 @@ require("abilities/chen/chen_sub_barrack")
 require("abilities/chen/chen_building_placement")
 
 chen_worker_build_tower = class({})
-chen_worker_build_courier_barrack = class({})
-chen_worker_build_dragon_barrack = class({})
+chen_worker_build_special_barrack = class({})
 chen_building_tower_attack = class({})
 modifier_chen_worker_build_runner = class({})
 modifier_chen_building_construction = class({})
@@ -76,8 +75,7 @@ end
 
 local WORKER_BUILD_ABILITIES = {
     "chen_worker_build_tower",
-    "chen_worker_build_courier_barrack",
-    "chen_worker_build_dragon_barrack",
+    "chen_worker_build_special_barrack",
 }
 
 local BUILD_CONFIG = {
@@ -87,19 +85,11 @@ local BUILD_CONFIG = {
         max_hp_key = "max_hp",
         is_tower = true,
     },
-    chen_worker_build_courier_barrack = {
-        unit_name = "npc_chen_building_courier_barrack",
+    chen_worker_build_special_barrack = {
+        unit_name = "npc_chen_building_special_barrack",
         gold_cost_key = "gold_cost",
         max_hp_key = "max_hp",
         is_sub_barrack = true,
-        sub_barrack_type = "courier",
-    },
-    chen_worker_build_dragon_barrack = {
-        unit_name = "npc_chen_building_dragon_barrack",
-        gold_cost_key = "gold_cost",
-        max_hp_key = "max_hp",
-        is_sub_barrack = true,
-        sub_barrack_type = "dragon",
     },
 }
 
@@ -572,43 +562,23 @@ function chen_worker_build_tower:OnSpellStart()
     SharedBuildOnSpellStart(self)
 end
 
-function chen_worker_build_courier_barrack:CastFilterResult()
+function chen_worker_build_special_barrack:CastFilterResult()
     return SharedBuildCastFilter(self)
 end
 
-function chen_worker_build_courier_barrack:CastFilterResultLocation(location)
+function chen_worker_build_special_barrack:CastFilterResultLocation(location)
     return SharedBuildCastFilterLocation(self, location)
 end
 
-function chen_worker_build_courier_barrack:GetCustomCastError()
+function chen_worker_build_special_barrack:GetCustomCastError()
     return SharedBuildCastError(self)
 end
 
-function chen_worker_build_courier_barrack:GetCustomCastErrorLocation(location)
+function chen_worker_build_special_barrack:GetCustomCastErrorLocation(location)
     return SharedBuildCastErrorLocation(self, location)
 end
 
-function chen_worker_build_courier_barrack:OnSpellStart()
-    SharedBuildOnSpellStart(self)
-end
-
-function chen_worker_build_dragon_barrack:CastFilterResult()
-    return SharedBuildCastFilter(self)
-end
-
-function chen_worker_build_dragon_barrack:CastFilterResultLocation(location)
-    return SharedBuildCastFilterLocation(self, location)
-end
-
-function chen_worker_build_dragon_barrack:GetCustomCastError()
-    return SharedBuildCastError(self)
-end
-
-function chen_worker_build_dragon_barrack:GetCustomCastErrorLocation(location)
-    return SharedBuildCastErrorLocation(self, location)
-end
-
-function chen_worker_build_dragon_barrack:OnSpellStart()
+function chen_worker_build_special_barrack:OnSpellStart()
     SharedBuildOnSpellStart(self)
 end
 
@@ -768,7 +738,6 @@ function modifier_chen_worker_build_runner:BeginConstruction()
 
     if config.is_sub_barrack then
         building.chen_sub_barrack_home_entindex = barrack:entindex()
-        building.chen_sub_barrack_type = config.sub_barrack_type
     end
 
     if config.is_tower then
@@ -1287,8 +1256,7 @@ function ChenWorkerBuild.Precache(context)
     PrecacheResource("soundfile", "soundevents/game_sounds_creeps.vsndevts", context)
 
     PrecacheUnitByNameSync("npc_chen_building_tower", context)
-    PrecacheUnitByNameSync("npc_chen_building_courier_barrack", context)
-    PrecacheUnitByNameSync("npc_chen_building_dragon_barrack", context)
+    PrecacheUnitByNameSync("npc_chen_building_special_barrack", context)
     PrecacheUnitByNameSync("npc_chen_giant_courier", context)
     PrecacheUnitByNameSync("npc_chen_ancient_black_dragon", context)
 end
@@ -1297,10 +1265,6 @@ function chen_worker_build_tower:Precache(context)
     ChenWorkerBuild.Precache(context)
 end
 
-function chen_worker_build_courier_barrack:Precache(context)
-    ChenWorkerBuild.Precache(context)
-end
-
-function chen_worker_build_dragon_barrack:Precache(context)
+function chen_worker_build_special_barrack:Precache(context)
     ChenWorkerBuild.Precache(context)
 end
