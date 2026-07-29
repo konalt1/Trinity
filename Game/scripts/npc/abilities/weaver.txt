@@ -29,6 +29,8 @@
             "mind_power_multiplier"     "0.5"
             "shard_swarm_radius"        "100"
             "shard_swarm_search_interval" "0.1"
+            "shard_swarm_beetle_offset" "15"
+            "shard_swarm_beetle_hits"   "3"
         }
 
         "precache"

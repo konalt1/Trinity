@@ -1,0 +1,43 @@
+// Trinity — Ember Spirit abilities
+"DOTAAbilities"
+{
+    "ember_flame_guard_passive"
+        {
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/ember_spirit/ember_flame_guard_passive"
+            "AbilityTextureName"            "ember_spirit_flame_guard"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+            "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+            "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+            "MaxLevel"                      "4"
+    
+            "AbilityValues"
+            {
+                "shield_per_charge"
+                {
+                    "value"                             "25 50 75 100"
+                    "special_bonus_unique_ember_spirit_1"   "+33"
+                }
+                "damage_per_second_per_charge"
+                {
+                    "value"                             "5 10 15 20"
+                    "special_bonus_unique_ember_spirit_3"   "+100%"
+                }
+                "radius"
+                {
+                    "value"                             "500"
+                    "affected_by_aoe_increase"          "1"
+                }
+                "max_charges"               "5"
+                "charge_duration"           "8"
+                "mind_power_multiplier"     "0.5"
+            }
+    
+            "precache"
+            {
+                "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts"
+                "particle"      "particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf"
+            }
+        }
+}

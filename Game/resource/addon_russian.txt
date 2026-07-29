@@ -35,14 +35,16 @@
 		//Doom
 		// Doom Soul Devour
 		"DOTA_Tooltip_ability_doom_soul_devour"						"Поглощение Души"
-		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom поглощает выбранного врага. Крипы исцеляют его и дают постоянную Силу Магии. Со скипетром Aghanim's Scepter способность можно применять на героев."
+		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom пожирает вражеского крипа. 
+		Пожирание крипа навсегда увеличивает Силу Магии Дума, и исцеляет его."
 		"DOTA_Tooltip_ability_doom_soul_devour_soul_power"				"СИЛА МАГИИ ЗА КРИПА:"
 		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount"				"ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hero_mind_power_bonus"		"СИЛА МАГИИ ЗА ГЕРОЯ:"
 
 		// Doom Scorched Earth
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua"								"Выжженная Земля"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"					"Doom поджигает землю вокруг себя, нанося урон врагам и увеличивая свою скорость передвижения. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"					"Doom поджигает землю вокруг себя, нанося урон врагам и увеличивая свою скорость передвижения. 
+		Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second"			"УРОН В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct"		"%БОНУС СКОРОСТИ:"
@@ -51,7 +53,8 @@
 
 		// Doom Ultimate Aura
 		"DOTA_Tooltip_ability_doom_ultimate_aura"								"Вестник Рока"
-		"DOTA_Tooltip_ability_doom_ultimate_aura_Description"					"Doom создаёт вокруг себя ауру ада, которая наносит чистый урон врагам, отключает активные и пассивные способности, и блокирует исцеление. Урон ауры усиливается Силой Магии."
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Description"					"Doom создаёт вокруг себя ауру ада, которая наносит чистый урон врагам, отключает активные и пассивные способности, и блокирует исцеление. 
+		Урон ауры усиливается Силой Магии."
 		"DOTA_Tooltip_ability_doom_ultimate_aura_aura_radius"					"РАДИУС АУРЫ:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_damage_per_second"				"УРОН В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_duration"						"ДЛИТЕЛЬНОСТЬ:"
@@ -61,7 +64,9 @@
 
 		// Silencer
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom"						"Мистическое Проклятие"
-		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_Description"			"Наводит сглаз на врагов в выбранной области, нанося начальный и периодический урон, а также замедляя их передвижение. Каждая примененная жертвой способность увеличивает длительность эффекта. Когда на жертву действует безмолвие, отсчет времени действия приостанавливается. Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_Description"			"Наводит сглаз на врагов в выбранной области, нанося начальный и периодический урон, а также замедляя их передвижение. 
+		Каждая примененная жертвой способность увеличивает длительность эффекта. Когда на жертву действует безмолвие, отсчет времени действия приостанавливается. 
+		Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_initial_damage"		"НАЧАЛЬНЫЙ УРОН:"
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_radius"				"РАДИУС:"
@@ -71,6 +76,19 @@
 		"DOTA_Tooltip_ability_silencer_arcane_curse_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_modifier_silencer_arcane_curse_custom_debuff"				"Мистическое Проклятие"
 		"DOTA_Tooltip_modifier_silencer_arcane_curse_custom_debuff_Description"	"Получает периодический урон и замедлен. Применение способностей увеличивает длительность проклятия, а безмолвие останавливает его отсчёт."
+
+		"DOTA_Tooltip_ability_silencer_last_word_custom"							"Последнее слово"
+		"DOTA_Tooltip_ability_silencer_last_word_custom_Description"				"Зачаровывает цель, отчего она через некоторое время получит урон и будет обезмолвлена. Также даёт обзор по цели. Чары сработают раньше, если жертва применит способность. Урон дополнительно увеличивается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_silencer_last_word_custom_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_silencer_last_word_custom_debuff_duration"			"ЗАДЕРЖКА:"
+		"DOTA_Tooltip_ability_silencer_last_word_custom_silence_duration"			"ДЛИТЕЛЬНОСТЬ БЕЗМОЛВИЯ:"
+		"DOTA_Tooltip_ability_silencer_last_word_custom_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_silencer_last_word_custom_scepter_radius"			"РАДИУС СО СКИПЕТРОМ:"
+		"DOTA_Tooltip_ability_silencer_last_word_custom_scepter_description"		"С Aghanim's Scepter способность применяется по выбранной области, накладывая Последнее слово на всех врагов в радиусе %scepter_radius%."
+		"DOTA_Tooltip_modifier_silencer_last_word_custom_debuff"					"Последнее слово"
+		"DOTA_Tooltip_modifier_silencer_last_word_custom_debuff_Description"		"Чары сработают после задержки или раньше, если цель применит способность."
+		"DOTA_Tooltip_modifier_silencer_last_word_custom_silence"					"Последнее слово"
+		"DOTA_Tooltip_modifier_silencer_last_word_custom_silence_Description"		"Безмолвие. Враги получают обзор по цели."
 
 		"DOTA_Tooltip_ability_silent_square"									"Тихий Омут"
 		"DOTA_Tooltip_ability_silent_square_Description"						"Сайленсер создаёт квадратную область в уоторой противники замедлены не могут применять способности.  
@@ -89,8 +107,20 @@
 		"DOTA_Tooltip_ability_focus_duration"									"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_focus_shield_amount"								"БАЗОВАЯ ПРОЧНОСТЬ ЩИТА:"
 		"DOTA_Tooltip_ability_focus_mind_power_multiplier"						"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_focus_scepter_ally_radius"						"РАДИУС (С СКИПЕТРОМ):"
+		"DOTA_Tooltip_ability_focus_scepter_description"						"Также накладывает эффект на всех союзных героев в радиусе %scepter_ally_radius% вокруг Silencer. Значения щита такие же, как у владельца."
 		"DOTA_Tooltip_modifier_focus_buff"										"Концентрация"
 		"DOTA_Tooltip_modifier_focus_buff_Description"							"Поглощает физический урон. Первый эффект контроля будет очищен."
+
+		// Talents
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_1"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_2"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_3"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_4"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_5"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_6"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_7"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_silencer_8"				"Заглушка"
 
 		//Ogre
 		// Ogre Fire Blast
@@ -106,12 +136,14 @@
 
 		// Ogre Strength Boost
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost"						"Прилив Силы"
-		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Огр впадает в ярость, получая бонус к Силе и урону от атаки. 
-		Бонус Силы усиливается от Силы Магии."
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_Description"			"Огр впадает в ярость, получая бонус к Силе и урону от атаки, но замедляется. Бонус Силы усиливается от Силы Магии."
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_base_strength_bonus"	"БАЗОВЫЙ БОНУС СИЛЫ:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_bonus_damage"			"БОНУС К УРОНУ:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_ogre_magi_strength_boost_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ogre_magi_strength_boost_move_speed_slow_pct"	"ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost"						"Прилив Силы"
+		"DOTA_Tooltip_modifier_ogre_magi_strength_boost_Description"			"Сила и урон от атаки увеличены. Скорость передвижения снижена на %dMODIFIER_PROPERTY_TOOLTIP2%%."
 
 
 
@@ -120,11 +152,12 @@
 		"DOTA_Tooltip_ability_ogre_magi_reroll_Description"					"Огр получает случайную ультимативную способность на ограниченное время. Полученная способность не требует маны. 
 		Атаки по врагам уменьшают перезарядку этой способности."
 		"DOTA_Tooltip_ability_ogre_magi_reroll_ability_duration"				"ДЛИТЕЛЬНОСТЬ СПОСОБНОСТИ:"
-		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ ПО ГЕРОЮ:"
+		"DOTA_Tooltip_ability_ogre_magi_reroll_cooldown_reduction_per_attack_creep"	"СНИЖЕНИЕ ПЕРЕЗАРЯДКИ ЗА АТАКУ ПО КРИПАМ И ВЫШКАМ:"
 
-		// Ogre Berserker Rage (Aghanim's Scepter)
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage"							"Аганимная дубинка"
-		"DOTA_Tooltip_ability_ogre_magi_berserker_rage_Description"				"Каждая десятая атака по герою противника вызывает применение случайного заклинания"
+		// Ogre Aghanim's Club (Aghanim's Scepter)
+		"DOTA_Tooltip_ability_ogre_magi_aghanim_club"							"Аганимная дубинка"
+		"DOTA_Tooltip_ability_ogre_magi_aghanim_club_Description"				"Каждая десятая атака по герою противника вызывает применение случайного заклинания"
 
 		//Omniknight
 		// Custom Purification
@@ -184,15 +217,11 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_6"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_7"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_omniknight_8"		"Заглушка"
-		"DOTA_Tooltip_modifier_omniknight_talent_heal_movespeed"			"Благословение Света"
-		"DOTA_Tooltip_modifier_omniknight_talent_heal_movespeed_Description"	"Скорость передвижения увеличена."
-		"DOTA_Tooltip_modifier_omniknight_talent_overheal_barrier"			"Барьер Света"
-		"DOTA_Tooltip_modifier_omniknight_talent_overheal_barrier_Description"	"Поглощает только физический урон."
 
 		//Juggernaut
 		// Blade Fury
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"					"BLADE FURY"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Джаггернаут вращается, нанося магический урон врагам вокруг и становясь невосприимчивым к магии. 
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Джаггернаут вращается, нанося магический урон врагам вокруг. Остаётся целью способностей, но не получает эффекты контроля. 
 		Урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"УРОН:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"РАДИУС:"
@@ -280,9 +309,9 @@
 
 		// Frost Shield
 		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Морозный Щит"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя урон и нанося урон врагам вокруг. 
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Лич окутывает союзника ледяным щитом, снижая входящий в героя физический урон и нанося урон врагам вокруг.
 		Урон заклинания увеличивается Силой Магии."
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ УРОНА:"
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%СНИЖЕНИЕ ФИЗИЧЕСКОГО УРОНА:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"УРОН ВРАГАМ:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_duration"					"ДЛИТЕЛЬНОСТЬ:"
@@ -318,6 +347,7 @@
 		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"РАДИУС АУРЫ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
+		"DOTA_Tooltip_ability_ability_ice_phylactery_cooldown_reduction"			"%УМЕНЬШЕНИЕ ПЕРЕЗАРЯДКИ ЗАКЛИНАНИЙ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_attacks_to_destroy"		"АТАК ДЛЯ УНИЧТОЖЕНИЯ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_duration"					"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_shard_spire_move_speed"	"СКОРОСТЬ ШПИЛЯ:"
@@ -398,22 +428,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tusk_6"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tusk_7"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tusk_8"			"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_1"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_1_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_2"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_2_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_3"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_3_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_4"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_4_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_5"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_5_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_6"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_6_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_7"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_7_Description"	"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_8"			"+200 золота"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_8_Description"	"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_1"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_2"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_3"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_4"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_5"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_6"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_7"			"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_weaver_8"			"Заглушка"
 
 		//Weaver
 		// Cucaracha
@@ -423,7 +445,7 @@
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи Ткач становится невидимым. Невидимость проявляется через 1 сек. после применения способности и снимается при атаке или использовании способностей."
+		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи Ткач постоянно прикрепляет таракана из «Роя» к каждому противнику в радиусе 100. Таракан располагается перед целью, использует параметры изученного «Роя» и погибает после 3 атак. Если «Рой» не изучен, эффект не срабатывает."
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
@@ -439,20 +461,15 @@
 		"DOTA_Tooltip_ability_ability_fireworks_splash_attack_damage_pct"		"%ФИЗ. УРОНА ОТ АТАКИ ВО ВСПЛЕСКЕ:"
 		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Атаки с всплеском поджигают врагов, нанося дополнительный магический урон в течение нескольких секунд. Урон от поджога усиливается Силой Магии."
 
-		"DOTA_Tooltip_ability_ability_reactive_tazer"							"Реактивная защита"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_Description"				"Герой заряжается электричеством, получая бонус к скорости передвижения.
-Атаки по заряженной цели наносят обидчику магический урон и накладывают бессилие.
-
-По окончании действия заряд взрывается, нанося урон и накладывая бессилие на всех врагов вокруг.
-
-Урон усиливается Силой Магии."
-		"DOTA_Tooltip_ability_ability_reactive_tazer_buff_duration"				"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_disarm_duration"			"ОБЕЗОРУЖИВАНИЕ:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_bonus_movespeed_pct"		"%БОНУС СКОРОСТИ:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_explosion_radius"			"РАДИУС ВЗРЫВА:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_damage"					"УРОН:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_ability_reactive_tazer_countdown_lead"			"ПРЕДУПРЕЖДЕНИЕ ПЕРЕД ВЗРЫВОМ:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast"						"Отражающий взрыв"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_Description"			"Мгновенно взрывается вокруг Течиса, нанося магический урон врагам поблизости.
+На короткое время герой получает огромную броню, чтобы отбить входящие атаки и снаряды.
+Враги, попавшие по Течису в это окно, получают бессилие."
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_explosion_radius"		"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_damage"				"УРОН ВЗРЫВА:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_buff_duration"			"ОКНО ОТРАЖЕНИЯ:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_bonus_armor"			"БРОНЯ ОТРАЖЕНИЯ:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_disarm_duration"		"БЕССИЛИЕ:"
 
 		"DOTA_Tooltip_ability_techies_suicide_custom"							"Взлёт"
 		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Течис прыгает в выбранную точку и при приземлении взрывается, нанося магический урон и оглушая врагов в области.
@@ -466,7 +483,9 @@
 		"DOTA_Tooltip_ability_techies_suicide_custom_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 
 		"DOTA_Tooltip_ability_ability_chain_bomb"								"Ядерные мины"
-		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Течис устанавливает в выбранной точке зелёную мину.
+		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"3 заряда. Восстановление одного заряда: 7 сек.
+
+Течис устанавливает в выбранной точке зелёную мину.
 
 Он может взорвать её, нанеся ей физический или магический урон. При этом ядерная мина детонирует и наносит урон всем противникам поблизости.
 
@@ -482,9 +501,9 @@
 
 		
 
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"	"+100 к радиусу взрыва Фейерверка"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"	"+ к скорости зелёных мин со Скипетром"
-		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"	"Зелёные мины появляются уже подвижными"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_fireworks_radius"	"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_movespeed"	"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_techies_chain_bomb_create_move"	"Заглушка"
 
 		// =============================================
 		// Aghanim's Shard Descriptions
@@ -555,8 +574,8 @@
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_agility"				"+ к ловкости"
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_intellect"				"+ к интеллекту"
 		"DOTA_Tooltip_ability_item_yasha_and_kaya_bonus_attack_speed"			"+ к скорости атаки"
-		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"+ к множителю регенерации маны"
-		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"+ к скорости применения"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_mana_regen_multiplier"			"%+ к множителю регенерации маны"
+		"DOTA_Tooltip_ability_item_yasha_and_kaya_cast_speed_pct"				"%+ к скорости применения"
 
 		// Meteor Hammer
 		"DOTA_Tooltip_item_meteor_hammer_Description"								""
@@ -584,221 +603,221 @@
 
 		// Martyr Mark
 		"DOTA_Tooltip_ability_chen_martyr_mark"								"Метка Мученика"
-		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Наносит магический урон вражескому существу, замедляет его и заставляет всех союзных крипов атаковать эту цель. Союзники получают бонус к скорости атаки при атаке помеченной цели."
+		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен накладывает на врага метку, нанося магический урон и замедляя его.
+		На время действия метки все союзники получают бонус к скорости атаки. Подчинённые крипы рядом с целью атакуют её и ненадолго ускоряются."
 		"DOTA_Tooltip_ability_chen_martyr_mark_damage"						"УРОН:"
 		"DOTA_Tooltip_ability_chen_martyr_mark_slow_ms_pct"					"ЗАМЕДЛЕНИЕ:"
-		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"БОНУС СКОРОСТИ АТАКИ КРИПОВ:"
-		"DOTA_Tooltip_ability_chen_martyr_mark_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"СКОРОСТЬ АТАКИ СОЮЗНИКОВ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_chen_creep_bonus_ms_pct"		"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ КРИПОВ (КРАТКО):"
+		"DOTA_Tooltip_ability_chen_martyr_mark_chen_creep_haste_duration"	"ДЛИТЕЛЬНОСТЬ УСКОРЕНИЯ КРИПОВ:"
+		"DOTA_Tooltip_ability_chen_martyr_mark_duration"					"ДЛИТЕЛЬНОСТЬ:"
 
 		// Holy Persuasion
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Приручает вражеского или нейтрального крипа, увеличивая его здоровье и урон. Бонус здоровья дополнительно усиливается Силой магии Чена. Если превышен лимит прирученных крипов, самый старый прирученный крип исчезает. Чен получает часть золота за убийство прирученного крипа."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Чен подчиняет вражеского или нейтрального крипа, увеличивая его максимальное здоровье и урон. Чен получает часть награды, полагавшейся за убийство крипа.
+		Бонус к здоровью усиливается от <b>Силы Магии</b>."
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_max_creeps"		"МАКС. ПРИРУЧЕННЫХ КРИПОВ:"
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_max_creeps"		"МАКС. ПРИРУЧЁННЫХ КРИПОВ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_damage"		"БОНУС УРОНА:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bounty_share_pct"	"%ДОЛЯ НАГРАДЫ ЗА УБИЙСТВО:"
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Кнут"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Заставляет выбранного союзного крипа применить все свои активные способности бесплатно и без перезарядки. При применении на врага способности направляются на ближайшего врага с приоритетом для героев."
-		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
-		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС ШАРДА:"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом союзного крипа, мгновенно активируя все его способности на ближайших врагов — без затрат маны и без перезарядки. Если целью выбран вражеский юнит, крипы перенаправят свои удары на него (приоритет — герои). Мана и перезарядка крипа восстанавливаются после применения."
-		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ:"
-		"DOTA_Tooltip_ability_chen_whip_shard_radius"						"РАДИУС AOE (ШАРД):"
-		"DOTA_Tooltip_ability_chen_whip_shard_description"					"Кнут бьёт по всем союзным крипам в радиусе 650 вокруг цели одновременно — все они кастуют свои способности."
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом по выбранной области, нанося магический урон всем врагам.
+		Все подчинённые крипы в области мгновенно применяют свои активные способности, не расходуя ману и не запуская перезарядку."
+		"DOTA_Tooltip_ability_chen_whip_damage"								"УРОН:"
+		"DOTA_Tooltip_ability_chen_whip_radius"								"РАДИУС:"
+		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ КРИПОВ:"
+
+		// Ultimate Aura (Aghanim's Shard)
+		"DOTA_Tooltip_ability_chen_ultimate_aura"							"Ультимативная Аура"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_Description"				"Чен усиливает союзных героев и крипов вокруг себя, увеличивая их максимальное здоровье и урон от атаки.
+		Бонусы усиливаются от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_chen_ultimate_aura_aura_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_bonus_health"				"БОНУС ЗДОРОВЬЯ:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_bonus_damage"				"БОНУС УРОНА:"
+		"DOTA_Tooltip_ability_chen_ultimate_aura_mind_power_damage_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_modifier_chen_ultimate_aura_buff"						"Ультимативная Аура"
+		"DOTA_Tooltip_modifier_chen_ultimate_aura_buff_Description"			"Максимальное здоровье и урон атаки увеличены."
 
 		// Barrack (Ultimate)
-		"DOTA_Tooltip_ability_chen_barrack"									"Бараки"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен превращает прирученного крипа в неподвижный Барак — здание, производящее боевых юнитов семейства исходного крипа. Уровень способности определяет доступные тиры производства и максимальное число бараков. При превышении лимита самый старый барак разрушается, а зарезервированное золото возвращается."
-		"DOTA_Tooltip_ability_chen_barrack_bonus_health"					"БОНУС HP БАРАКА:"
-		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"МИНИМУМ HP БАРАКА:"
-		"DOTA_Tooltip_ability_chen_barrack_max_barracks"					"МАКС. БАРАКОВ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_bonus_barracks"			"БОНУС БАРАКОВ С АГАНИМОМ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Увеличивает максимальное количество бараков на 1. Открывает производство Древних крипов (Tier 4) на всех бараках."
+		"DOTA_Tooltip_ability_chen_barrack"									"Барак"
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен строит барак в выбранной точке. В начале у барака есть три рабочих и три цветущих дерева.
+		Барак хранит собственное золото и тратит его на найм юнитов и строительство. Юниты с общим золотом делят награду за убийство с Ченом, а переносчики сдают её бараку.
+		Одновременно может существовать только один барак. Повторное применение переносит камеру к нему. При уничтожении барака убийца забирает часть накопленного золота."
+		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"HP БАРАКА:"
+		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
+		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает две способности строительства: вышку и барак Аганима, производящий огромных курьеров и чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
+		"DOTA_Tooltip_ability_chen_barrack_takeoff"						"Взлёт барака"
+		"DOTA_Tooltip_ability_chen_barrack_takeoff_Description"			"Переносит камеру к бараку и поднимает его в воздух. Летающий барак передвигается со скоростью 200, но не может производить юнитов или использовать пашни."
+		"DOTA_Tooltip_ability_chen_barrack_land"						"Посадить барак"
+		"DOTA_Tooltip_ability_chen_barrack_land_Description"				"Приказывает бараку подлететь к выбранной точке и сесть. Посадка возможна только на свободной проходимой площадке. После успешной посадки способность уходит на перезарядку на 120 секунд."
+		"DOTA_Tooltip_modifier_chen_barrack_flying"					"Барак в полёте"
+		"DOTA_Tooltip_modifier_chen_barrack_flying_Description"			"Барак летает и может передвигаться, но производство и пашни остановлены."
+
+		"DOTA_Tooltip_ability_chen_barrack_farmland"							"Пашни"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"Случайное дерево в радиусе получает «Цветение». Рабочий барака собирает с него золото. Радиус цветения растёт с уровнем способности."
+		"DOTA_Tooltip_ability_chen_barrack_farmland_bloom_radius"			"РАДИУС ЦВЕТЕНИЯ:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_spread_radius"			"РАДИУС РАСПРОСТРАНЕНИЯ:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_bloom_duration"			"ДЛИТЕЛЬНОСТЬ ЦВЕТЕНИЯ:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_tree_gold"				"ЗОЛОТО С ДЕРЕВА:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_gather_time"				"ВРЕМЯ СБОРА:"
+		"DOTA_Tooltip_ability_chen_barrack_farmland_gather_trigger_radius"	"РАДИУС СБОРА:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker"					"Призвать рабочего"
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_Description"			"Ставит в очередь рабочего. Первый рабочий бесплатен, если у вас нет живых рабочих. Оплата — золото барака. Максимум рабочих: %max_workers%."
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_gold_cost"			"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter"						"Призвать охотника"
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_Description"			"Ставит в очередь дальнего охотника. Золото с убийств он несёт к бараку: при сдаче получают и Чен, и барак. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_summon_lifetime"		"ВРЕМЯ ЖИЗНИ:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer"						"Призвать целителя"
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_Description"			"Ставит в очередь тролля-целителя. Лечит раненых союзников рядом (автоприменение). Золото с убийств — как у охотника. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute"						"Призвать хрономанта"
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_Description"			"Ставит в очередь малого мага времени. Он ускоряет способности союзных героев и крипов рядом, сокращая активные перезарядки автоприменением. Золото с убийств — как у охотника. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		"DOTA_Tooltip_ability_chen_barrack_heal"								"Лечение"
+		"DOTA_Tooltip_ability_chen_barrack_heal_Description"					"Восстанавливает %dota_ability_chen_barrack_heal_heal_amount% здоровья союзной цели. Автоприменение: лечит раненых союзников в радиусе %dota_ability_chen_barrack_heal_search_radius% (ниже %dota_ability_chen_barrack_heal_wound_threshold_pct%% HP), приоритет — герои, затем крипы; себя не лечит."
+		"DOTA_Tooltip_ability_chen_barrack_heal_heal_amount"						"ИСЦЕЛЕНИЕ:"
+		"DOTA_Tooltip_ability_chen_barrack_heal_search_radius"					"РАДИУС ПОИСКА:"
+		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"				"ПОРОГ РАНЕНИЯ:"
+		"dota_hud_error_no_abilities_on_cooldown"								"Нет способностей на перезарядке"
+
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload"					"Перегрузка"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_Description"		"Запускает таймер на %countdown_duration% сек. По его окончании охотник наносит себе и всем врагам в радиусе %radius% единиц %damage% магического урона. Урон увеличивается на %mind_power_multiplier% за каждую единицу силы магии Чена."
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_damage"			"УРОН:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_radius"			"РАДИУС:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_countdown_duration"	"ТАЙМЕР:"
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash"						"Dash"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_Description"			"Увеличивает скорость передвижения крипа на %dota_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct%%% на %dota_ability_chen_barrack_anti_creep_dash_buff_duration% сек. Автоприменение: используется при погоне за врагами."
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_buff_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct"	"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash"						"Dash"
+		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash_Description"			"Скорость передвижения увеличена."
+
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally"							"Дань времени"
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"				"Искривляет время вокруг союзного героя или крипа, сокращая все активные перезарядки способностей на %dota_ability_chen_barrack_brute_rally_cooldown_reduction% сек. Автоприменение: выбирает союзников в радиусе %dota_ability_chen_barrack_brute_rally_search_radius%, если у них есть хотя бы одна способность на перезарядке; приоритет — герои, затем крипы."
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_cooldown_reduction"		"СОКРАЩЕНИЕ ПЕРЕЗАРЯДКИ:"
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_search_radius"			"РАДИУС ПОИСКА:"
+		"npc_chen_barrack_hunter"												"Anti Creep"
+		"npc_chen_barrack_healer"												"Целитель барака"
+		"npc_chen_barrack_brute"												"Хрономант барака"
+
+		"DOTA_Tooltip_ability_chen_worker_gather"							"Сбор"
+		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"Автоприменение: рабочий собирает золото с цветущих деревьев и сдаёт его бараку. Приказы движения, атаки, остановки и удержания позиции отключают автосбор на 15 сек."
+
+		"DOTA_Tooltip_ability_chen_worker_build_tower"						"Построить вышку"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_Description"				"Рабочий идёт к выбранной точке и начинает строительство вышки. Стоимость списывается с золота основного барака при начале стройки.
+
+Пока рабочий стоит в радиусе %dota_ability_chen_worker_build_tower_worker_radius% от объекта, здоровье стройки растёт на %dota_ability_chen_worker_build_tower_build_rate% в секунду. Если рабочий уходит или погибает, прогресс останавливается. Враги могут атаковать стройку — при уничтожении золото не возвращается."
+		"DOTA_Tooltip_ability_chen_worker_build_tower_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_max_hp"					"HP СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"СКОРОСТЬ СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"РАДИУС РАБОЧЕГО:"
+
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack"					"Построить барак Аганима"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство барака Аганима. Стоимость списывается с золота основного барака при начале стройки.
+
+Готовый барак ставит в общую очередь огромных курьеров и Ancient Black Dragon за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_gold_cost"			"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_max_hp"			"HP СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_build_rate"		"СКОРОСТЬ СТРОЙКИ:"
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
+
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier"				"Призвать огромного курьера"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_Description"	"Ставит в очередь летающего огромного курьера-транспорт. Оплата — золото основного барака Чена."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_gold_cost"		"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load"					"Взять на борт"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_Description"		"Берёт на борт до %dota_ability_chen_giant_courier_transport_load_max_passengers% союзных подконтрольных крипов рядом с курьером. Пассажиры скрыты и вне игры; если курьер погибает, они погибают вместе с ним."
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_load_radius"		"РАДИУС ЗАГРУЗКИ:"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_max_passengers"		"МАКС. ПАССАЖИРОВ:"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload"					"Высадить всех"
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload_Description"		"Высаживает всех пассажиров рядом с курьером."
+
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon"					"Призвать Ancient Black Dragon"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_Description"			"Ставит в очередь Ancient Black Dragon. Оплата — золото основного барака Чена."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_gold_cost"				"СТОИМОСТЬ:"
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
+
+		"DOTA_Tooltip_modifier_chen_building_construction"					"Строительство"
+		"DOTA_Tooltip_modifier_chen_building_construction_Description"			"Объект строится. Рядом должен находиться рабочий, начавший стройку."
+
+		"npc_chen_building_tower"												"Вышка Чена"
+		"npc_chen_building_special_barrack"										"Барак Аганима"
+		"npc_chen_giant_courier"													"Огромный курьер"
+		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
+
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Огненный шар"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"Каждая атака оставляет под целью горящую лужу на земле.
+
+Враги в зоне получают магический урон каждую секунду."
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_radius"			"РАДИУС:"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_duration"			"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_damage_per_second"	"УРОН В СЕКУНДУ:"
 
 		// Barrack Unit
 		"npc_chen_barrack"													"Барак Чена"
-		"npc_chen_barrack_satyr"											"Барак Сатиров"
-		"npc_chen_barrack_frog"												"Барак Лягушек"
-		"npc_chen_barrack_troll"											"Барак Троллей"
-		"npc_chen_barrack_wolf"												"Барак Волков"
-		"npc_chen_barrack_centaur"											"Барак Кентавров"
-		"npc_chen_barrack_golem"											"Барак Големов"
-		"npc_chen_barrack_dragon"											"Барак Драконов"
-		"npc_chen_barrack_bear"												"Барак Медведей"
-		"npc_chen_barrack_furbolg"											"Барак Шишек"
-		"npc_chen_barrack_harpy"											"Барак Пернатых"
-
-		// Custom Creeps
-		"npc_chen_frog_ancient"												"Древняя Лягушка"
-		"npc_chen_wolf_thunder"												"Громовой Волк"
-		"npc_chen_centaur_warruner"											"Воин Кентавр"
-		"npc_chen_bear_wander"												"Странник Медведь"
-		"npc_chen_bear_torchbearer"											"Факелоносец Медведь"
-		"npc_chen_furbolg_treant"											"Шишка Древень"
-		"npc_chen_furbolg_shroom"											"Шишка Гриб"
-		"npc_chen_harpy_bird"												"Птица Гарпия"
-		"npc_chen_harpy_phoenix"											"Феникс Гарпия"
-
-		// Satyr Family
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t1"						"Сатир-Трикстер"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t1_Description"			"Призывает Сатира-Трикстера (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t2"						"Сатир-Душегуб"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t2_Description"			"Призывает Сатира-Душегуба (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t3"						"Сатир-Адский Зов"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t3_Description"			"Призывает Сатира-Адского Зова (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient"					"Сатир-Аколит"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient_Description"		"Призывает Сатира-Аколита (Ancient)."
-
-		// Frog Family
-		"DOTA_Tooltip_ability_chen_barrack_frog_t1"						"Головастик"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t1_Description"			"Призывает Головастика (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_frog_t2"						"Лягушка"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t2_Description"			"Призывает Лягушку (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_frog_t3"						"Старая Лягушка"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t3_Description"			"Призывает Старую Лягушку (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_frog_ancient"					"Древняя Лягушка"
-		"DOTA_Tooltip_ability_chen_barrack_frog_ancient_Description"		"Призывает Древнюю Лягушку (Ancient)."
-
-		// Troll Family
-		"DOTA_Tooltip_ability_chen_barrack_troll_t1"						"Берсерк Тролль"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t1_Description"			"Призывает Берсерк Тролля (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_troll_t2"						"Маг-Огр"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t2_Description"			"Призывает Мага-Огра (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_troll_t3"						"Молотник Огр"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t3_Description"			"Призывает Молотника Огра (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_troll_ancient"					"Ледяной Шаман"
-		"DOTA_Tooltip_ability_chen_barrack_troll_ancient_Description"		"Призывает Ледяного Шамана (Ancient)."
-
-		// Wolf Family
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t1"						"Воул-Убийца"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t1_Description"			"Призывает Воула-Убийцу (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t2"						"Альфа Волк"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t2_Description"			"Призывает Альфа Волка (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t3"						"Гигантский Волк"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t3_Description"			"Призывает Гигантского Волка (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient"					"Громовой Ящер"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient_Description"		"Призывает Громового Ящера (Ancient)."
-
-		// Centaur Family
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t1"						"Кобольд-Надсмотрщик"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t1_Description"			"Призывает Кобольда-Надсмотрщика (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t2"						"Кентавр-Хан"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t2_Description"			"Призывает Кентавра-Хана (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t3"						"Кентавр-Бегун"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t3_Description"			"Призывает Кентавра-Бегуна (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient"					"Воин Кентавр"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient_Description"		"Призывает Воина Кентавра (Ancient)."
-
-		// Golem Family
-		"DOTA_Tooltip_ability_chen_barrack_golem_t1"						"Маленький Голем"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t1_Description"			"Призывает Маленького Голема (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_golem_t2"						"Грязевой Голем"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t2_Description"			"Призывает Грязевого Голема (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_golem_t3"						"Каменный Голем"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t3_Description"			"Призывает Каменного Голема (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient"					"Гранитный Голем"
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"		"Призывает Гранитного Голема (Ancient)."
-
-		// Dragon Family
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t1"						"Гарпия-Разведчица"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t1_Description"			"Призывает Гарпию-Разведчицу (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t2"						"Гарпия-Шторм"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t2_Description"			"Призывает Гарпию-Шторм (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t3"						"Черный Дрейк"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t3_Description"			"Призывает Черного Дрейка (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient"					"Черный Дракон"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient_Description"		"Призывает Черного Дракона (Ancient)."
-
-		// Bear Family
-		"DOTA_Tooltip_ability_chen_barrack_bear_t1"						"Странник Медведь"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t1_Description"			"Призывает Странника Медведя (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_bear_t2"						"Адский Медведь"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t2_Description"			"Призывает Адского Медведя (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_bear_t3"						"Адский Медведь-Разрушитель"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t3_Description"			"Призывает Адского Медведя-Разрушителя (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_bear_ancient"					"Факелоносец Медведь"
-		"DOTA_Tooltip_ability_chen_barrack_bear_ancient_Description"		"Призывает Факелоносца Медведя (Ancient)."
-
-		// Furbolg Family
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1"						"Древень Фуриона"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1_Description"			"Призывает Древень Фуриона (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2"						"Шишка Гриб"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2_Description"			"Призывает Шишку Гриб (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3"						"Варпин Райдер"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3_Description"			"Призывает Варпин Райдера (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient"					"Шишка Древень"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient_Description"		"Призывает Шишку Древень (Ancient)."
-
-		// Harpy Family
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t1"						"Дикин"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t1_Description"			"Призывает Дикина (Tier 1)."
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t2"						"Птица Гарпия"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t2_Description"			"Призывает Птицу Гарпию (Tier 2)."
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t3"						"Разъяренный Дикин"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t3_Description"			"Призывает Разъяренного Дикина (Tier 3)."
-		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient"					"Феникс Гарпия"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient_Description"		"Призывает Феникса Гарпию (Ancient)."
-
-		// Barrack Summon T1
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2"						"Производство: Тир 2"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_Description"			"Заказывает крипа второго тира семейства этого барака. Требует 2-й уровень ультимейта."
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_gold_cost"				"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t2_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
-
-		// Barrack Summon T3
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3"						"Производство: Тир 3"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_Description"			"Заказывает крипа третьего тира семейства этого барака. Требует 3-й уровень ультимейта."
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_gold_cost"				"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_t3_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
-
-		// Barrack Summon Ancient
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient"					"Производство: Древний"
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_Description"		"Заказывает Древнего крипа семейства этого барака. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_gold_cost"		"СТОИМОСТЬ:"
-		"DOTA_Tooltip_ability_chen_barrack_summon_ancient_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
-
-		// Barrack Self Destruct
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct"					"Снос Барака"
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct_Description"		"Барак самоуничтожается, нанося магический урон всем врагам в радиусе взрыва. Золото из очереди производства немедленно возвращается владельцу."
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct_radius"			"РАДИУС ВЗРЫВА:"
-		"DOTA_Tooltip_ability_chen_barrack_self_destruct_damage"			"УРОН:"
+		"npc_chen_barrack_worker"											"Рабочий барака"
 
 		// Modifier — producing
 		"DOTA_Tooltip_modifier_chen_barrack_producing"						"Производство..."
-		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Барак производит юнита. Бессрочный эффект означает, что заказ ожидает своей очереди."
+		"DOTA_Tooltip_modifier_chen_barrack_producing_Description"			"Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_worker"				"Производство: Рабочий"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_worker_Description"		"Рабочий производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_hunter"				"Производство: Охотник"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_hunter_Description"		"Охотник производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_healer"				"Производство: Целитель"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_healer_Description"		"Целитель производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_brute"				"Производство: Хрономант"
+		"DOTA_Tooltip_modifier_chen_barrack_producing_brute_Description"		"Хрономант производится в бараке. Осталось: %dMODIFIER_PROPERTY_TOOLTIP% сек. (0 — в очереди)"
+		"DOTA_Tooltip_modifier_chen_barrack_gold_display"					"Золото барака"
+		"DOTA_Tooltip_modifier_chen_barrack_gold_display_Description"			"Золото, доступное для найма в этом бараке."
+		"DOTA_Tooltip_modifier_chen_worker_gather_ai"						"Сбор"
+		"DOTA_Tooltip_modifier_chen_worker_gather_ai_Description"			"Рабочий автоматически собирает золото с цветущих деревьев."
 
 		// Talents
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_1_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_2_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_3_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_4_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_5_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_6_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_7_Description"	"Временно не даёт бонусов."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8"				"Заглушка"
-		"DOTA_Tooltip_ability_special_bonus_unique_custom_chen_8_Description"	"Временно не даёт бонусов."
 
 		// HUD Errors
 		"dota_hud_error_chen_barrack_no_owner"								"Барак не имеет владельца"
-		"dota_hud_error_chen_barrack_no_unit_in_family"						"В этом семействе нет крипа данного тира"
-		"dota_hud_error_chen_barrack_low_level"								"Недостаточный уровень ультимейта для этого тира"
-		"dota_hud_error_chen_barrack_need_scepter"							"Требуется Aghanim's Scepter для производства Древних"
 		"dota_hud_error_chen_barrack_queue_full"							"Очередь производства полна (макс. 5)"
-		"dota_hud_error_chen_barrack_invalid_target"						"Цель должна быть прирученным крипом Чена"
-		"dota_hud_error_chen_barrack_self_destruct_invalid_target"			"Только барак может использовать эту способность"
-		"dota_hud_error_chen_barrack_self_destruct_dead"					"Барак уже уничтожен"
-		"dota_hud_error_chen_barrack_already_producing"					"Барак уже производит юнита"
-		"dota_hud_error_chen_whip_invalid_target"							"Недопустимая цель для Кнута"
+		"dota_hud_error_chen_barrack_worker_limit"						"Достигнут лимит рабочих"
+		"dota_hud_error_chen_barrack_not_enough_gold"						"Недостаточно золота в бараке"
+		"dota_hud_error_chen_barrack_invalid_target"						"Нельзя поставить барак здесь"
+		"dota_hud_error_chen_barrack_invalid_landing"					"Здесь нет места для посадки барака"
+		"dota_hud_error_chen_barrack_not_flying"						"Барак не находится в воздухе"
+		"dota_hud_error_chen_worker_build_busy"								"Рабочий уже занят стройкой"
+		"dota_hud_error_chen_worker_build_no_scepter"						"Требуется Aghanim's Scepter"
+		"dota_hud_error_chen_worker_build_invalid_position"					"Нельзя строить в этой точке"
+		"dota_hud_error_chen_building_too_close"						"Слишком близко к другой постройке"
+		"dota_hud_error_chen_sub_barrack_under_construction"					"Барак ещё строится"
+		"dota_hud_error_chen_giant_courier_full"								"Курьер заполнен"
+		"dota_hud_error_chen_giant_courier_empty"								"На борту нет пассажиров"
+		"dota_hud_error_chen_whip_no_tamed_creeps"							"Нет приручённых крипов в радиусе"
+		"dota_hud_error_chen_holy_persuasion_invalid_target"				"Эту цель нельзя подчинить."
+		"dota_hud_error_chen_holy_persuasion_friendly_target"				"Нельзя подчинять союзных крипов."
 
 		// =============================================
 		// Furion — Nature's Prophet
@@ -871,6 +890,48 @@
         "DOTA_Tooltip_ability_furion_teleportation_curse_radius"                    "РАДИУС ПРОКЛЯТИЯ:"
         "DOTA_Tooltip_ability_furion_teleportation_AbilityChannelTime"              "ВРЕМЯ ТЕЛЕПОРТАЦИИ:"
 
+		// Lion
+		"DOTA_Tooltip_ability_lion_impale_custom"									"Земляной шип"
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Лион выпускает по земле ряд шипов, нанося магический урон и оглушая врагов на пути.
+		Урон усиливается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"УРОН:"
+		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"УРОН ОТ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Земляной шип выпускает три линии шипов конусом перед Лионом."
+
+		"DOTA_Tooltip_ability_lion_soul_collector"									"Собиратель душ"
+		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Каждый раз, когда вы убиваете крипа или героя с помощью способности, вы получаете силу мгии.
+		За крипа бонус даётся временно, а за героя — до конца игры."
+		"DOTA_Tooltip_ability_lion_soul_collector_creep_mind_power"					"СИЛА МАГИИ ЗА КРИПА:"
+		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"ДЛИТЕЛЬНОСТЬ БОНУСА ЗА КРИПА:"
+		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"СИЛА МАГИИ ЗА ГЕРОЯ:"
+
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Вытягивание духа"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Лион связывает себя с врагом и каждую секунду вытягивает у него ману. Жертва получает магический урон в размере половины вытянутой маны.
+		Количество вытягиваемой маны увеличивается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"МАНА В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"МАНА ОТ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%ЗДОРОВЬЯ ОТ МАНЫ:"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"ДЛИТЕЛЬНОСТЬ:"
+
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Палец смерти"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Лион поражает одного врага, нанося огромный магический урон.
+		Урон усиливается от <b>Силы Магии</b>. 
+		Если вражеский герой погибает после применения способности, Лион получает постоянный заряд Перерождения, уменьшающий время возрождения."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"УРОН ОТ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_respawn_reduction_pct"	"%СОКРАЩЕНИЯ ВОЗРОЖДЕНИЯ ЗА СТАК:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"ДЛИТЕЛЬНОСТЬ УСИЛЕНИЯ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"ДАЛЬНОСТЬ АТАКИ СО СКИПЕТРОМ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%УРОН ПРОРУБАНИЯ:"
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"После применения Пальца смерти рука Лиона усиливается на %scepter_buff_duration% сек. 
+		При этом Лион может перейти в ближний бой, его урон будет увеличен на его силу магии, а его атаки будут наносить прорубаюший урон. 
+		Убийство вражеского героя прямой атакой даёт заряд Перерождения."
+
+		// Боссы
+		"npc_mortimer_boss"											"Мортимер"
+		"npc_mortimer_boss_finale"									"Мортимер"
+
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_2"					"Заглушка"
@@ -880,172 +941,6 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_6"					"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_7"					"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_8"					"Заглушка"
-
-		//Chen Barrack - Centaur Family
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t1"								"Призвать Коболта"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Коболта."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_t1_SummaryDescription"			"Призвать Коболта"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t2"								"Призвать Кентавра-Бегуна"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Кентавра-Бегуна."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_t2_SummaryDescription"			"Призвать Кентавра-Бегуна"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t3"								"Призвать Кентавра-Хана"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Кентавра-Хана."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_t3_SummaryDescription"			"Призвать Кентавра-Хана"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient"							"Призвать Варрунера"
-		"DOTA_Tooltip_ability_chen_barrack_centaur_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Варрунера. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_centaur_ancient_SummaryDescription"		"Призвать Варрунера"
-
-		//Chen Barrack - Satyr Family
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t1"								"Призвать Сатира-Трикстера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Сатира-Трикстера."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_t1_SummaryDescription"			"Призвать Сатира-Трикстера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t2"								"Призвать Сатира-Соулстилера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Сатира-Соулстилера."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_t2_SummaryDescription"			"Призвать Сатира-Соулстилера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t3"								"Призвать Сатира-Хеллколлера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Сатира-Хеллколлера."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_t3_SummaryDescription"			"Призвать Сатира-Хеллколлера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient"							"Призвать Шамана-Праулера"
-		"DOTA_Tooltip_ability_chen_barrack_satyr_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Шамана-Праулера. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_satyr_ancient_SummaryDescription"		"Призвать Шамана-Праулера"
-
-		//Chen Barrack - Troll Family
-		"DOTA_Tooltip_ability_chen_barrack_troll_t1"								"Призвать Лесного Берзеркера"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Лесного Берзеркера."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_t1_SummaryDescription"			"Призвать Лесного Берзеркера"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t2"								"Призвать Огра-Мага"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Огра-Мага."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_t2_SummaryDescription"			"Призвать Огра-Мага"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t3"								"Призвать Огра-Молера"
-		"DOTA_Tooltip_ability_chen_barrack_troll_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Огра-Молера."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_t3_SummaryDescription"			"Призвать Огра-Молера"
-		"DOTA_Tooltip_ability_chen_barrack_troll_ancient"							"Призвать Ледяного Шамана"
-		"DOTA_Tooltip_ability_chen_barrack_troll_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Ледяного Шамана. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_troll_ancient_SummaryDescription"		"Призвать Ледяного Шамана"
-
-		//Chen Barrack - Wolf Family
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t1"								"Призвать Вхоул-Ассасина"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Вхоул-Ассасина."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_t1_SummaryDescription"			"Призвать Вхоул-Ассасина"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t2"								"Призвать Гигантского Волка"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Гигантского Волка."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_t2_SummaryDescription"			"Призвать Гигантского Волка"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t3"								"Призвать Альфа Волка"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Альфа Волка."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_t3_SummaryDescription"			"Призвать Альфа Волка"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient"							"Призвать Древнего Варрунера"
-		"DOTA_Tooltip_ability_chen_barrack_wolf_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Древнего Варрунера. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_wolf_ancient_SummaryDescription"		"Призвать Древнего Варрунера"
-
-		//Chen Barrack - Golem Family
-		"DOTA_Tooltip_ability_chen_barrack_golem_t1"								"Призвать Маленького Грязевого Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Маленького Грязевого Голема."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_t1_SummaryDescription"			"Призвать Маленького Грязевого Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t2"								"Призвать Грязевого Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Грязевого Голема."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_t2_SummaryDescription"			"Призвать Грязевого Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t3"								"Призвать Каменного Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Каменного Голема."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_t3_SummaryDescription"			"Призвать Каменного Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient"							"Призвать Гранитного Голема"
-		"DOTA_Tooltip_ability_chen_barrack_golem_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призвать Гранитного Голема. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_golem_ancient_SummaryDescription"		"Призвать Гранитного Голема"
-
-		//Chen Barrack - Harpy Family
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t1"								"Призвать Вайлдвинга"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Вайлдвинга."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_t1_SummaryDescription"			"Призвать Вайлдвинга"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t2"								"Призвать Птицу"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Птицу."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_t2_SummaryDescription"			"Призвать Птицу"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t3"								"Призвать Вайлдвинга-Риппера"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Вайлдвинга-Риппера."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_t3_SummaryDescription"			"Призвать Вайлдвинга-Риппера"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient"							"Призвать Феникса"
-		"DOTA_Tooltip_ability_chen_barrack_harpy_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Феникса. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_harpy_ancient_SummaryDescription"		"Призвать Феникса"
-
-		//Chen Barrack - Furbolg Family
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1"							"Призвать Трента"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Трента."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t1_SummaryDescription"			"Призвать Трента"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2"							"Призвать Шрума"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Шрума."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t2_SummaryDescription"			"Призвать Шрума"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3"							"Призвать Поларного Чемпиона"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Поларного Чемпиона."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_t3_SummaryDescription"			"Призвать Поларного Чемпиона"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient"						"Призвать Древнего Трента"
-		"DOTA_Tooltip_ability_chen_barrack_furbolg_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Древнего Трента. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_furbolg_ancient_SummaryDescription"		"Призвать Древнего Трента"
-
-		//Chen Barrack - Frog Family
-		"DOTA_Tooltip_ability_chen_barrack_frog_t1"								"Призвать Полливога"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Полливога."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_t1_SummaryDescription"			"Призвать Полливога"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t2"								"Призвать Фроглета-Мага"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Фроглета-Мага."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_t2_SummaryDescription"			"Призвать Фроглета-Мага"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t3"								"Призвать Фроглета"
-		"DOTA_Tooltip_ability_chen_barrack_frog_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Фроглета."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_t3_SummaryDescription"			"Призвать Фроглета"
-		"DOTA_Tooltip_ability_chen_barrack_frog_ancient"							"Призвать Древнюю Лягушку"
-		"DOTA_Tooltip_ability_chen_barrack_frog_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Древнюю Лягушку. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_frog_ancient_SummaryDescription"		"Призвать Древнюю Лягушку"
-
-		//Chen Barrack - Dragon Family
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t1"							"Призвать Гарпию-Скаута"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Гарпию-Скаута."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_t1_SummaryDescription"			"Призвать Гарпию-Скаута"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t2"							"Призвать Гарпию-Шторм"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Гарпию-Шторм."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_t2_SummaryDescription"			"Призвать Гарпию-Шторм"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t3"							"Призвать Черного Дрейка"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Черного Дрейка."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_t3_SummaryDescription"			"Призвать Черного Дрейка"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient"						"Призвать Черного Дракона"
-		"DOTA_Tooltip_ability_chen_barrack_dragon_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Черного Дракона. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_dragon_ancient_SummaryDescription"		"Призвать Черного Дракона"
-
-		//Chen Barrack - Bear Family
-		"DOTA_Tooltip_ability_chen_barrack_bear_t1"								"Призвать Вандер Бира"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t1_Description"					"Цена: 75 золота. Время: 10 сек. Призывает Вандер Бира."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_t1_SummaryDescription"			"Призвать Вандер Бира"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t2"								"Призвать Хеллбир"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t2_Description"					"Цена: 150 золота. Время: 16 сек. Призывает Хеллбира."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_t2_SummaryDescription"			"Призвать Хеллбир"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t3"								"Призвать Хеллбир Смашера"
-		"DOTA_Tooltip_ability_chen_barrack_bear_t3_Description"					"Цена: 300 золота. Время: 28 сек. Призывает Хеллбир Смашера."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_t3_SummaryDescription"			"Призвать Хеллбир Смашера"
-		"DOTA_Tooltip_ability_chen_barrack_bear_ancient"							"Призвать Торчбирера"
-		"DOTA_Tooltip_ability_chen_barrack_bear_ancient_Description"				"Цена: 600 золота. Время: 45 сек. Призывает Торчбирера. Требует Aghanim's Scepter."
-		"DOTA_Tooltip_Ability_chen_barrack_bear_ancient_SummaryDescription"		"Призвать Торчбирера"
-
-		// Chen Barrack Error Messages
-		"dota_hud_error_chen_barrack_no_owner"									"Нет владельца барака"
-		"dota_hud_error_chen_barrack_need_scepter"								"Требуется Aghanim's Scepter"
-		"dota_hud_error_chen_barrack_low_level"									"Уровень ульты слишком низкий"
-		"dota_hud_error_chen_barrack_no_unit_in_family"							"Нет юнита в этой семье"
-		"dota_hud_error_chen_barrack_queue_full"									"Очередь барака заполнена"
-		"dota_hud_error_chen_barrack_invalid_target"								"Неверная цель"
-
-		// Ringmaster prototype
-		"DOTA_Tooltip_ability_ringmaster_knives_out_custom"						"Ножи наголо"
-		"DOTA_Tooltip_ability_ringmaster_knives_out_custom_Description"			"Даёт 4 заряда ножей. Направление броска определяется качающейся перед героем стрелкой в секторе 120 градусов. Каждое применение расходует 1 заряд и бросает кинжал по направлению стрелки. Ножи летят на расстояние 2000 по прямой. Попадание во врага наносит урон и сильно замедляет его на 3 секунды. После расхода всех зарядов способность уходит на перезарядку."
-		"DOTA_Tooltip_Ability_ringmaster_knives_out_custom_SummaryDescription"		"Даёт 4 заряда ножей. Бросает кинжал по направлению качающейся стрелки, нанося урон и сильно замедляя цель."
-		"DOTA_Tooltip_ability_ringmaster_box_game_custom"							"Коробка с сюрпризом"
-		"DOTA_Tooltip_ability_ringmaster_box_game_custom_Description"				"Создаёт коробку-ловушку. Первый подошедший близко враг захватывается и получает урон. Принудительное перемещение ломает захват и наносит дополнительный урон. Улучшение с осколком: позволяет телепортироваться к существующей коробке, если Ringmaster недавно не получал урон. Улучшение со скипетром: четыре попадания ножами по захваченному врагу дают временный контроль над ним."
-		"DOTA_Tooltip_Ability_ringmaster_box_game_custom_SummaryDescription"		"Создает коробку-ловушку, которая ловит и наносит урон первому попавшемуся врагу."
-		"DOTA_Tooltip_ability_ringmaster_krugger_custom"							"Круггер"
-		"DOTA_Tooltip_ability_ringmaster_krugger_custom_Description"				"Ringmaster становится неуязвимым, быстрым и неповоротливым. Столкновение с вражеским героем захватывает и несёт его с собой на короткое время."
-		"DOTA_Tooltip_Ability_ringmaster_krugger_custom_SummaryDescription"			"Превращает героя в быстрого неуязвимого монстра, способного захватить и утащить вражеского героя."
-		"DOTA_Tooltip_modifier_ringmaster_krugger"									"Круггер"
-		"DOTA_Tooltip_modifier_ringmaster_krugger_Description"						"Неуязвим, передвигается быстрее и разворачивается медленнее."
-		"DOTA_Tooltip_Ability_ringmaster_funhouse_mirror_SummaryDescription"		"Скрыто."
-		"DOTA_Tooltip_Ability_ringmaster_strongman_tonic_SummaryDescription"		"Скрыто."
-		"DOTA_Tooltip_Ability_ringmaster_whoopee_cushion_SummaryDescription"		"Скрыто."
-		"DOTA_Tooltip_Ability_high_five_custom"										"Дай пять"
-		"DOTA_Tooltip_Ability_high_five_custom_SummaryDescription"					"Дать пять союзнику."
 
 		// Pudge — переработка аганима
 		"DOTA_Tooltip_ability_pudge_meat_hook_scepter_description"					"Meat Hook получает 2 заряда: обычная перезарядка заменяется восстановлением зарядов."
@@ -1093,6 +988,5 @@
 		"DOTA_Tooltip_modifier_nevermore_shadowraze_trinity_debuff"					"Shadowraze"
 		"DOTA_Tooltip_modifier_nevermore_shadowraze_trinity_debuff_Description"		"Поражён Shadowraze, усиленным Силой магии."
 
-		// Chen Barrack New Creeps
-}
+	}
 }

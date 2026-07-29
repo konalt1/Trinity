@@ -32,11 +32,17 @@ end
 
 function xp_think:OnThink()
     self.times_called = self.times_called + 1
+    local xp = self.xp_table[self.times_called]
+
+    -- The XP schedule contains 19 grants. Stop the thinker once it is exhausted
+    -- instead of passing nil to AddExperience on the next tick.
+    if xp == nil then
+        return nil
+    end
 
     for player_id = 0, (PlayerResource:GetPlayerCount() - 1) do
         local hero = PlayerResource:GetPlayer(player_id):GetAssignedHero()
         if hero ~= nil and hero:IsHero() then
-            local xp = self.xp_table[self.times_called]
             hero:AddExperience(xp, DOTA_ModifyXP_Unspecified, false, false)
         end
     end
