@@ -6,8 +6,6 @@ weaver_cucaracha = class({})
 
 function weaver_cucaracha:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_weaver.vsndevts", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_weaver/weaver_shukuchi.vpcf", context)
-	PrecacheResource("particle", "particles/generic_gameplay/generic_buff.vpcf", context)
 	PrecacheUnitByNameSync("npc_dota_weaver_swarm", context)
 end
 
@@ -91,6 +89,12 @@ modifier_weaver_cucaracha = class({
 	} end,
 })
 
+function modifier_weaver_cucaracha:CheckState()
+	return {
+		[MODIFIER_STATE_NO_HEALTH_BAR_FOR_ENEMIES] = true,
+	}
+end
+
 function modifier_weaver_cucaracha:OnCreated()
 	local ability = self:GetAbility()
 	if not ability then return end
@@ -126,8 +130,6 @@ function modifier_weaver_cucaracha:OnCreated()
 			parent:SetModelScale(self.current_scale)
 		end
 	end
-
-	self:PlayEffects()
 
 	-- Shard: continuously look for enemies close enough to receive a Swarm beetle.
 	if HasShard(parent) then
@@ -318,19 +320,6 @@ end
 
 function modifier_weaver_cucaracha:GetTexture()
 	return "weaver_shukuchi"
-end
-
-function modifier_weaver_cucaracha:PlayEffects()
-	local parent = self:GetParent()
-	if not parent or not IsValidEntity(parent) then return end
-
-	-- Визуальный эффект баффа без "хвоста"
-	local particle = ParticleManager:CreateParticle(
-		"particles/generic_gameplay/generic_buff.vpcf",
-		PATTACH_ABSORIGIN_FOLLOW,
-		parent
-	)
-	ParticleManager:ReleaseParticleIndex(particle)
 end
 
 function modifier_weaver_cucaracha:OnDestroy()

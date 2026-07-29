@@ -2903,6 +2903,22 @@ function modifier_chen_barrack_producing:OnTooltip()
     return 0
 end
 
+function modifier_chen_barrack_producing_worker:GetTexture()
+    return "Kobold_Soldier_icon_dota2_gameasset"
+end
+
+function modifier_chen_barrack_producing_hunter:GetTexture()
+    return "chen_barrack_satyr_t2"
+end
+
+function modifier_chen_barrack_producing_healer:GetTexture()
+    return "Hill_Troll_Priest_icon_dota2_gameasset"
+end
+
+function modifier_chen_barrack_producing_brute:GetTexture()
+    return "chen_barrack_troll_t2"
+end
+
 function modifier_chen_barrack_producing:IsHidden()
     return false
 end
