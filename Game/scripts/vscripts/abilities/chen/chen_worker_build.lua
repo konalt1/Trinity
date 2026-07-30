@@ -21,7 +21,7 @@ LinkLuaModifier("modifier_chen_building_tower_active", SCRIPT_PATH, LUA_MODIFIER
 
 ChenWorkerBuild = ChenWorkerBuild or {}
 
-local CHEN_WORKER_BUILD_DEBUG = true
+local CHEN_WORKER_BUILD_DEBUG = false
 
 local function BuildDebug(step, ...)
     if not CHEN_WORKER_BUILD_DEBUG then

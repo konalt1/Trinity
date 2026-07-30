@@ -6,7 +6,7 @@ require ("game_managers/killfeed_system")
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
-require ("bosses/mortimer_boss")
+require ("map_modifications/Bosses/mortimer_boss")
 
 -- Загружаем способности
 require ("abilities/mind_power")

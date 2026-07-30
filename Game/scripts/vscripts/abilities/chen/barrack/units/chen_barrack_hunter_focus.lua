@@ -7,8 +7,8 @@ modifier_chen_barrack_anti_creep_dash_autocast = class({})
 local SCRIPT_PATH = "abilities/chen/barrack/units/chen_barrack_hunter_focus"
 local OVERLOAD_MODIFIER = "modifier_chen_barrack_hunter_overload"
 local DASH_MODIFIER = "modifier_chen_barrack_anti_creep_dash"
-local COUNTDOWN_PARTICLE = "particles/units/heroes/hero_techies/techies_tazer_countdown.vpcf"
-local EXPLOSION_PARTICLE = "particles/units/heroes/hero_techies/techies_tazer_explode.vpcf"
+local COUNTDOWN_PARTICLE = "particles/units/heroes/hero_ursa/ursa_enrage_buff.vpcf"
+local EXPLOSION_PARTICLE = "particles/units/heroes/hero_ursa/ursa_earthshock.vpcf"
 
 LinkLuaModifier("modifier_chen_barrack_hunter_overload", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_anti_creep_dash", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
@@ -94,9 +94,10 @@ local function TryUseDashOnTarget(caster, ability, target)
 end
 
 function chen_barrack_hunter_overload:Precache(context)
+    PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_furbolg/n_creep_furbolg_disrupter.vmdl", context)
     PrecacheResource("particle", COUNTDOWN_PARTICLE, context)
     PrecacheResource("particle", EXPLOSION_PARTICLE, context)
-    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts", context)
+    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts", context)
 end
 
 function chen_barrack_hunter_overload:GetAOERadius()
@@ -129,7 +130,7 @@ function chen_barrack_hunter_overload:OnSpellStart()
     caster:AddNewModifier(caster, self, OVERLOAD_MODIFIER, {
         duration = self:GetSpecialValueFor("countdown_duration"),
     })
-    caster:EmitSound("Hero_Techies.ReactiveTazer.Cast")
+    caster:EmitSound("Hero_Ursa.Enrage")
 end
 
 function chen_barrack_anti_creep_dash:GetIntrinsicModifierName()
@@ -153,7 +154,7 @@ function modifier_chen_barrack_hunter_overload:IsPurgable()
 end
 
 function modifier_chen_barrack_hunter_overload:GetTexture()
-    return "techies_reactive_tazer"
+    return "ursa_enrage"
 end
 
 function modifier_chen_barrack_hunter_overload:OnCreated()
@@ -212,7 +213,7 @@ function modifier_chen_barrack_hunter_overload:OnDestroy()
     ParticleManager:SetParticleControl(particle, 0, position)
     ParticleManager:SetParticleControl(particle, 1, Vector(radius, 0, 0))
     ParticleManager:ReleaseParticleIndex(particle)
-    parent:EmitSound("Hero_Techies.ReactiveTazer.Detonate")
+    parent:EmitSound("Hero_Ursa.Earthshock")
 
     ApplyDamage({
         victim = parent,
@@ -294,7 +295,7 @@ function modifier_chen_barrack_anti_creep_dash:IsPurgable()
 end
 
 function modifier_chen_barrack_anti_creep_dash:GetTexture()
-    return "antimage_blink"
+    return "ursa_earthshock"
 end
 
 function modifier_chen_barrack_anti_creep_dash:DeclareFunctions()

@@ -282,7 +282,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/barrack/units/chen_barrack_hunter_focus"
-        "AbilityTextureName"            "techies_reactive_tazer"
+        "AbilityTextureName"            "ursa_enrage"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -308,7 +308,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/barrack/units/chen_barrack_hunter_focus"
-        "AbilityTextureName"            "antimage_blink"
+        "AbilityTextureName"            "ursa_earthshock"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
@@ -335,7 +335,7 @@
         "IsPurgable"                    "0"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
-        "TextureName"                   "techies_reactive_tazer"
+        "TextureName"                   "ursa_enrage"
     }
 
     "modifier_chen_barrack_anti_creep_dash_autocast"
@@ -354,7 +354,7 @@
         "IsPurgable"                    "1"
         "IsDebuff"                      "0"
         "RemoveOnDeath"                 "1"
-        "TextureName"                   "antimage_blink"
+        "TextureName"                   "ursa_earthshock"
     }
 
     "chen_barrack_brute_rally"

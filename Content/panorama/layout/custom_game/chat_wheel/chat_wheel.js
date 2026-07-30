@@ -211,7 +211,7 @@ const CreateVideoHeadMessage = (data) => {
 
   const newPanel = $.CreatePanel("Movie", hudRoot, "", {
     selectionpos: "auto",
-    style: "width: 120px; height: 120px;  border-radius: 50%;",
+    style: "width: 120px; height: 120px; border-radius: 50%; visibility: collapse;",
     controls: "none",
     repeat: "true",
     disableaudio: "false",
@@ -221,7 +221,10 @@ const CreateVideoHeadMessage = (data) => {
 
   const hero = data.hero;
 
-  if (!hero) return;
+  if (!hero || !Entities.IsValidEntity(hero)) {
+    newPanel.DeleteAsync(0);
+    return;
+  }
 
   const maxTime = data.maxTime;
   let time = 0;
@@ -230,26 +233,46 @@ const CreateVideoHeadMessage = (data) => {
       newPanel.DeleteAsync(0);
       return;
     }
+
+   const next = () => {
+      const frameTime = Game.GetGameFrameTime();
+      time += frameTime;
+
+      // В игре обновляем позицию каждый кадр. Во время паузы frameTime равен
+      // нулю, поэтому оставляем небольшую задержку, чтобы не перегружать Panorama.
+      const updateDelay = frameTime > 0 ? frameTime : 0.03;
+      $.Schedule(updateDelay, UpdateVideoPanels);
+    };
+
+    const hideAndRetry = () => {
+      newPanel.style.visibility = "collapse";
+      next();
+    };
+
+    const isFiniteCoordinate = (value) => typeof value === "number" && isFinite(value);
+
+    if (!Entities.IsValidEntity(hero)) {
+      newPanel.DeleteAsync(0);
+      return;
+    }
+
     const origin = Entities.GetAbsOrigin(hero);
 
     // Быстрая проверка валидности origin
-    if (!origin || origin.length < 3) return;
+    if (!origin || origin.length < 3) {
+      hideAndRetry();
+      return;
+    }
 
     // Кэшируем вычисления координат
     const posX = Game.WorldToScreenX(origin[0], origin[1], origin[2]);
     const posY = Game.WorldToScreenY(origin[0], origin[1], origin[2]);
 
     // Быстрая проверка валидности координат
-    if (isNaN(posX) || isNaN(posY)) return;
-
-    const next = () => {
-      const frameTime = Game.GetGameFrameTime();
-      time += frameTime;
-
-      $.Schedule(Game.GetGameFrameTime(), () => {
-        UpdateVideoPanels();
-      });
-    };
+    if (!isFiniteCoordinate(posX) || !isFiniteCoordinate(posY)) {
+      hideAndRetry();
+      return;
+    }
 
     if (!isHealthBarVisible(posX, posY, origin[2])) {
       // Полностью скрываем панель если она за краем экрана
@@ -276,13 +299,21 @@ const CreateVideoHeadMessage = (data) => {
     const panelY = Game.WorldToScreenY(origin[0], origin[1], origin[2] + offSet);
 
     // Проверяем валидность координат
-    if (isNaN(panelX) || isNaN(panelY)) {
+    if (!isFiniteCoordinate(panelX) || !isFiniteCoordinate(panelY)) {
+      hideAndRetry();
+      return;
+    }
+
+    const uiScaleX = newPanel.actualuiscale_x;
+    const uiScaleY = newPanel.actualuiscale_y;
+    if (!isFiniteCoordinate(uiScaleX) || !isFiniteCoordinate(uiScaleY) || uiScaleX <= 0 || uiScaleY <= 0) {
+      hideAndRetry();
       return;
     }
 
     // Позиционируем панель
-    const panelTransform = `translate3d(${(panelX - newPanel.actuallayoutwidth / 2) / newPanel.actualuiscale_x}px,${
-      (panelY - newPanel.actuallayoutheight) / newPanel.actualuiscale_y
+    const panelTransform = `translate3d(${(panelX - newPanel.actuallayoutwidth / 2) / uiScaleX}px,${
+      (panelY - newPanel.actuallayoutheight) / uiScaleY
     }px,0)`;
 
     // Обновляем transform только если он изменился

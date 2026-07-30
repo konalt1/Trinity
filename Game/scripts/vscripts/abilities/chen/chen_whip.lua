@@ -1,6 +1,13 @@
 chen_whip = class({})
 
 local WHIP_PARTICLE = "particles/items4_fx/thorn_whip.vpcf"
+local WHIP_SUICIDE_ABILITIES = {
+	["furbolg_enrage_attack_speed"] = true,
+	["furbolg_enrage_damage"] = true,
+}
+local WHIP_DIRECT_CAST_ABILITIES = {
+	["chen_barrack_hunter_overload"] = true,
+}
 
 local function GetAbilitySlotCount(unit)
 	if unit and unit.GetAbilityCount then
@@ -14,7 +21,7 @@ local function HasBehavior(ability, behavior)
 		return false
 	end
 
-	return bit.band(ability:GetBehavior(), behavior) == behavior
+	return bit.band(ability:GetBehaviorInt(), behavior) == behavior
 end
 
 local function IsTamedCreep(unit, caster)
@@ -22,7 +29,11 @@ local function IsTamedCreep(unit, caster)
 		return false
 	end
 
-	return unit.chen_tamed == true and unit.chen_owner_entindex == caster:entindex()
+	local isBarrackHunter = unit.chen_barrack_spawned == true
+		and unit:GetUnitName() == "npc_chen_barrack_hunter"
+	local isChenCreep = unit.chen_tamed == true or isBarrackHunter
+	local ownedByCaster = unit.chen_owner_entindex == caster:entindex()
+	return isChenCreep and ownedByCaster
 end
 
 local function FindTamedCreepsInRadius(caster, position, radius)
@@ -38,13 +49,11 @@ local function FindTamedCreepsInRadius(caster, position, radius)
 		FIND_ANY_ORDER,
 		false
 	)
-
 	for _, unit in pairs(units) do
 		if IsTamedCreep(unit, caster) then
 			table.insert(targets, unit)
 		end
 	end
-
 	return targets
 end
 
@@ -196,6 +205,28 @@ local function PreserveFreeCastState(source, abilities, originalMana)
 end
 
 local function CastAbilityByWhip(caster, source, ability, radius, queue)
+	-- The hellbears' Death Throe abilities are passive and only activate when
+	-- their owner dies. Treat the whip as a suicide order for these abilities.
+	if ability and not ability:IsNull() and WHIP_SUICIDE_ABILITIES[ability:GetAbilityName()] then
+		if source and not source:IsNull() and source:IsAlive() then
+			source:ForceKill(false)
+			return true
+		end
+		return false
+	end
+	-- Barrack hunters can receive another queued order before the engine starts
+	-- Overload. Invoke this no-target Lua ability immediately on whip impact.
+	if ability and not ability:IsNull() and WHIP_DIRECT_CAST_ABILITIES[ability:GetAbilityName()] then
+		if source and not source:IsNull() and source:IsAlive()
+			and IsCastableByWhip(ability) and ability.OnSpellStart
+		then
+			ability:EndCooldown()
+			ability:OnSpellStart()
+			return true
+		end
+		return false
+	end
+
 	if not IsCastableByWhip(ability) then
 		return false
 	end
@@ -220,7 +251,7 @@ local function CastAbilityByWhip(caster, source, ability, radius, queue)
 	end
 	local visionTarget = nil
 
-	local behavior = ability:GetBehavior()
+	local behavior = ability:GetBehaviorInt()
 
 	if bit.band(behavior, DOTA_ABILITY_BEHAVIOR_NO_TARGET) ~= 0 then
 		order.OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET

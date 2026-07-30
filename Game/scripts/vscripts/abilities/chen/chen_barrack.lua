@@ -76,6 +76,9 @@ CHEN_BARRACK_REGISTRY = CHEN_BARRACK_REGISTRY or {}
 local CHEN_BARRACK_DEBUG = false
 local FARMLAND_DEBUG = false
 local CHEN_GATHER_DEBUG = false
+local CHEN_SUMMON_MOVE_DEBUG = false
+local CHEN_SUMMON_MOVE_INTERVAL = 0.25
+local CHEN_SUMMON_MOVE_ARRIVAL_RADIUS = 150
 
 local function BarrackDebug(...)
     if not CHEN_BARRACK_DEBUG then
@@ -109,6 +112,19 @@ local function GatherDebug(...)
     end
 
     local parts = { "[ChenGather]" }
+    for i = 1, select("#", ...) do
+        parts[#parts + 1] = tostring(select(i, ...))
+    end
+
+    print(table.concat(parts, " "))
+end
+
+local function SummonMoveDebug(...)
+    if not CHEN_SUMMON_MOVE_DEBUG then
+        return
+    end
+
+    local parts = { "[ChenSummonMove]" }
     for i = 1, select("#", ...) do
         parts[#parts + 1] = tostring(select(i, ...))
     end
@@ -740,6 +756,108 @@ local function LevelUnitAbilities(unit, ownerHero)
     end
 end
 
+function ChenBarrackMoveSummonToOwner(summon, ownerHero)
+    if not IsServer() then
+        SummonMoveDebug("abort: not server")
+        return
+    end
+    if not summon or summon:IsNull() then
+        SummonMoveDebug("abort: summon missing")
+        return
+    end
+    if not summon:IsAlive() then
+        SummonMoveDebug("abort: summon dead", BarrackDescribeUnit(summon))
+        return
+    end
+    if not ownerHero or ownerHero:IsNull() then
+        SummonMoveDebug("abort: owner missing", BarrackDescribeUnit(summon))
+        return
+    end
+    if not ownerHero:IsAlive() then
+        SummonMoveDebug("abort: owner dead", BarrackDescribeUnit(summon), BarrackDescribeUnit(ownerHero))
+        return
+    end
+
+    summon.chen_move_to_owner_debug = true
+    summon.chen_move_to_owner_cancelled = false
+    summon.chen_move_to_owner_order_id = (summon.chen_move_to_owner_order_id or 0) + 1
+    local orderId = summon.chen_move_to_owner_order_id
+
+    local summonPosition = summon:GetAbsOrigin()
+    local ownerPosition = ownerHero:GetAbsOrigin()
+    SummonMoveDebug(
+        "issue",
+        BarrackDescribeUnit(summon),
+        "owner", BarrackDescribeUnit(ownerHero),
+        "summon_pos", tostring(summonPosition),
+        "owner_pos", tostring(ownerPosition),
+        "distance", tostring((summonPosition - ownerPosition):Length2D()),
+        "speed", tostring(summon:GetIdealSpeed()),
+        "player", tostring(summon:GetPlayerOwnerID())
+    )
+
+    Timers:CreateTimer(0, function()
+        if not summon or summon:IsNull() or not summon:IsAlive() then
+            SummonMoveDebug("follow_stop", "summon unavailable", "order_id", tostring(orderId))
+            return nil
+        end
+        if summon.chen_move_to_owner_cancelled or summon.chen_move_to_owner_order_id ~= orderId then
+            SummonMoveDebug("follow_stop", "player override", BarrackDescribeUnit(summon), "order_id", tostring(orderId))
+            return nil
+        end
+        if not ownerHero or ownerHero:IsNull() or not ownerHero:IsAlive() then
+            SummonMoveDebug("follow_stop", "owner unavailable", BarrackDescribeUnit(summon), "order_id", tostring(orderId))
+            return nil
+        end
+
+        local currentPosition = summon:GetAbsOrigin()
+        local currentOwnerPosition = ownerHero:GetAbsOrigin()
+        local distance = (currentPosition - currentOwnerPosition):Length2D()
+        if distance <= CHEN_SUMMON_MOVE_ARRIVAL_RADIUS then
+            SummonMoveDebug("follow_arrived", BarrackDescribeUnit(summon), "distance", tostring(distance))
+            return nil
+        end
+
+        SummonMoveDebug(
+            "follow_order",
+            BarrackDescribeUnit(summon),
+            "position", tostring(currentOwnerPosition),
+            "distance", tostring(distance),
+            "order_id", tostring(orderId)
+        )
+        ExecuteOrderFromTable({
+            UnitIndex = summon:entindex(),
+            OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+            Position = currentOwnerPosition,
+            Queue = false,
+        })
+        return CHEN_SUMMON_MOVE_INTERVAL
+    end)
+
+    for _, delay in ipairs({ 0, 0.1, 0.5, 1, 2 }) do
+        local checkDelay = delay
+        Timers:CreateTimer(checkDelay, function()
+            if not summon or summon:IsNull() then
+                SummonMoveDebug("check", tostring(checkDelay), "summon removed")
+                return nil
+            end
+
+            local position = summon:GetAbsOrigin()
+            local targetPosition = ownerHero and not ownerHero:IsNull() and ownerHero:GetAbsOrigin() or position
+            SummonMoveDebug(
+                "check", tostring(checkDelay),
+                BarrackDescribeUnit(summon),
+                "pos", tostring(position),
+                "distance", tostring((position - targetPosition):Length2D()),
+                "rooted", tostring(summon:IsRooted()),
+                "stunned", tostring(summon:IsStunned()),
+                "command_restricted", tostring(summon:IsCommandRestricted())
+            )
+            return nil
+        end)
+    end
+end
+
 local function CompleteProduction(barrack, item)
     BarrackDebug("CompleteProduction start", BarrackDescribeUnit(barrack), BarrackDescribeItem(item))
 
@@ -821,6 +939,9 @@ local function CompleteProduction(barrack, item)
 
    
     FindClearSpaceForUnit(summon, spawnPosition, true)
+    if not item.is_worker then
+        ChenBarrackMoveSummonToOwner(summon, ownerHero)
+    end
     BarrackDebug("CompleteProduction success", BarrackDescribeUnit(summon), "lifetime", summonLifetime)
 end
 
@@ -1524,6 +1645,7 @@ function modifier_chen_barrack_farmland:BloomTree(tree)
 
     if existing then
         existing.expiresAt = now + duration
+        existing.assignedWorkerEntindex = nil
         existing.gathererEntindex = nil
         existing.gatherCompleteAt = nil
         FarmlandDebug("refresh bloom", DescribeTree(tree), "duration", duration, "expires", existing.expiresAt)
@@ -1533,6 +1655,7 @@ function modifier_chen_barrack_farmland:BloomTree(tree)
     self.blooms[key] = {
         tree = tree,
         expiresAt = now + duration,
+        assignedWorkerEntindex = nil,
         gathererEntindex = nil,
         gatherCompleteAt = nil,
         particle = self:CreateBloomParticle(position),
@@ -1586,8 +1709,8 @@ function modifier_chen_barrack_farmland:IsEligibleGatherer(unit)
         FarmlandDebug("gatherer rejected base", BarrackDescribeUnit(unit))
         return false
     end
-    if IsChenBarrackUnit(unit) then
-        FarmlandDebug("gatherer rejected barrack", BarrackDescribeUnit(unit))
+    if not IsChenBarrackWorker(unit) then
+        FarmlandDebug("gatherer rejected non-worker", BarrackDescribeUnit(unit))
         return false
     end
 
@@ -1608,7 +1731,24 @@ function modifier_chen_barrack_farmland:IsEligibleGatherer(unit)
     return matchesEntindex
 end
 
-function modifier_chen_barrack_farmland:FindGatherer(position)
+function modifier_chen_barrack_farmland:IsWorkerCommittedToOtherBloom(unit, bloomKey)
+    if not IsValidBarrackEntity(unit) then
+        return false
+    end
+
+    local workerIndex = unit:entindex()
+    for key, record in pairs(self.blooms or {}) do
+        if key ~= bloomKey and record then
+            if record.assignedWorkerEntindex == workerIndex or record.gathererEntindex == workerIndex then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function modifier_chen_barrack_farmland:FindGatherer(position, bloomKey)
     local parent = self:GetParent()
     if not IsValidBarrackEntity(parent) then
         FarmlandDebug("find gatherer skipped invalid parent")
@@ -1630,7 +1770,7 @@ function modifier_chen_barrack_farmland:FindGatherer(position)
     )
 
     for _, unit in pairs(units) do
-        if self:IsEligibleGatherer(unit) then
+        if self:IsEligibleGatherer(unit) and not self:IsWorkerCommittedToOtherBloom(unit, bloomKey) then
             FarmlandDebug("find gatherer success", BarrackDescribeUnit(unit), "units", #units)
             return unit
         end
@@ -1690,8 +1830,24 @@ function modifier_chen_barrack_farmland:UpdateGather(key, record, now)
         return
     end
 
-    local gatherer = self:FindGatherer(position)
+    if record.assignedWorkerEntindex then
+        local assignedWorker = ResolveBarrackFromEntIndex(record.assignedWorkerEntindex)
+        if not self:IsEligibleGatherer(assignedWorker) then
+            record.assignedWorkerEntindex = nil
+        elseif (assignedWorker:GetAbsOrigin() - position):Length2D() > self:GetFarmlandValue("gather_trigger_radius", 120) then
+            return
+        end
+    end
+
+    local gatherer = nil
+    if record.assignedWorkerEntindex then
+        gatherer = ResolveBarrackFromEntIndex(record.assignedWorkerEntindex)
+    else
+        gatherer = self:FindGatherer(position, key)
+    end
+
     if gatherer then
+        record.assignedWorkerEntindex = gatherer:entindex()
         record.gathererEntindex = gatherer:entindex()
         record.gatherCompleteAt = now + self:GetFarmlandValue("gather_time", 4)
         FarmlandDebug("gather started", "key", key, "gatherer", BarrackDescribeUnit(gatherer), "complete_at", record.gatherCompleteAt)
@@ -1896,9 +2052,14 @@ local function CancelWorkerGatherClaim(worker)
     end
 
     for _, record in pairs(blooms) do
-        if record and record.gathererEntindex == workerIndex then
-            record.gathererEntindex = nil
-            record.gatherCompleteAt = nil
+        if record then
+            if record.assignedWorkerEntindex == workerIndex then
+                record.assignedWorkerEntindex = nil
+            end
+            if record.gathererEntindex == workerIndex then
+                record.gathererEntindex = nil
+                record.gatherCompleteAt = nil
+            end
         end
     end
 end
@@ -1944,6 +2105,7 @@ function chen_worker_gather:OnToggle()
 
     local caster = self:GetCaster()
     if caster and not caster:IsNull() and not self:GetAutoCastState() then
+        CancelWorkerGatherClaim(caster)
         caster.chen_worker_gather_target_key = nil
         local aiModifier = caster:FindModifierByName("modifier_chen_worker_gather_ai")
         if aiModifier then
@@ -2038,6 +2200,12 @@ function modifier_chen_worker_gather_ai:OnRefresh()
     self:StartIntervalThink(self:GetGatherValue("think_interval", 0.5))
 end
 
+function modifier_chen_worker_gather_ai:OnDestroy()
+    if IsServer() then
+        CancelWorkerGatherClaim(self:GetParent())
+    end
+end
+
 function modifier_chen_worker_gather_ai:IsAutocastActive()
     local ability = self:GetAbility()
     return ability and not ability:IsNull() and ability:GetAutoCastState()
@@ -2068,9 +2236,30 @@ function modifier_chen_worker_gather_ai:FindNearestBloom(barrack, now)
     local parentPosition = parent:GetAbsOrigin()
     local bestKey, bestRecord, bestDistance
 
+    -- If the farmland tick reserved a tree for this worker before its AI tick,
+    -- keep that reservation instead of letting the worker claim a second tree.
+    for key, record in pairs(blooms) do
+        if record and not (self.skipBlooms and self.skipBlooms[key]) then
+            if record.gathererEntindex == workerIndex or record.assignedWorkerEntindex == workerIndex then
+                local treePosition = GetTreePosition(record.tree)
+                if treePosition and IsTreeStanding(record.tree) and now < (record.expiresAt or now) then
+                    return key, record
+                end
+            end
+        end
+    end
+
     for key, record in pairs(blooms) do
         if record and not (self.skipBlooms and self.skipBlooms[key]) then
             local skip = false
+            if record.assignedWorkerEntindex and record.assignedWorkerEntindex ~= workerIndex then
+                local assignedWorker = ResolveBarrackFromEntIndex(record.assignedWorkerEntindex)
+                if farmlandModifier and farmlandModifier:IsEligibleGatherer(assignedWorker) then
+                    skip = true
+                else
+                    record.assignedWorkerEntindex = nil
+                end
+            end
             if record.gathererEntindex and record.gathererEntindex ~= workerIndex then
                 local claimer = ResolveBarrackFromEntIndex(record.gathererEntindex)
                 if farmlandModifier and farmlandModifier:IsEligibleGatherer(claimer) then
@@ -2189,6 +2378,14 @@ function modifier_chen_worker_gather_ai:IsTargetUsable(barrack, key, record, now
             return false
         end
     end
+    if record.assignedWorkerEntindex and record.assignedWorkerEntindex ~= self:GetParent():entindex() then
+        local farmlandModifier = GetFarmlandModifier(barrack)
+        local assignedWorker = ResolveBarrackFromEntIndex(record.assignedWorkerEntindex)
+        if farmlandModifier and farmlandModifier:IsEligibleGatherer(assignedWorker) then
+            return false
+        end
+        record.assignedWorkerEntindex = nil
+    end
     return true
 end
 
@@ -2203,6 +2400,9 @@ function modifier_chen_worker_gather_ai:TickGatherGold(barrack, now)
     local key = self.targetBloomKey
     local record = key and self:GetBloomRecord(barrack, key) or nil
     if not self:IsTargetUsable(barrack, key, record, now) then
+        if record and record.assignedWorkerEntindex == parent:entindex() then
+            record.assignedWorkerEntindex = nil
+        end
         key, record = self:FindNearestBloom(barrack, now)
         self.targetBloomKey = key
         self.progressDist = nil
@@ -2222,6 +2422,7 @@ function modifier_chen_worker_gather_ai:TickGatherGold(barrack, now)
         return
     end
 
+    record.assignedWorkerEntindex = parent:entindex()
     parent.chen_worker_gather_target_key = key
     local treePosition = GetTreePosition(record.tree)
     local distToTree = (parent:GetAbsOrigin() - treePosition):Length2D()
@@ -2244,6 +2445,9 @@ function modifier_chen_worker_gather_ai:TickGatherGold(barrack, now)
     elseif (now - (self.progressTime or now)) >= stuckTime then
         self.skipBlooms = self.skipBlooms or {}
         self.skipBlooms[key] = now + self:GetGatherValue("skip_duration", 15)
+        if record.assignedWorkerEntindex == parent:entindex() then
+            record.assignedWorkerEntindex = nil
+        end
         self.targetBloomKey = nil
         self.waitingBloomKey = nil
         self.progressDist = nil
@@ -2371,8 +2575,50 @@ local function IsWorkerPauseOrder(orderType)
         or orderType == DOTA_UNIT_ORDER_ATTACK_TARGET
 end
 
+local function IsSummonMoveOverrideOrder(orderType)
+    return orderType == DOTA_UNIT_ORDER_MOVE_TO_POSITION
+        or orderType == DOTA_UNIT_ORDER_MOVE_TO_TARGET
+        or orderType == DOTA_UNIT_ORDER_MOVE_TO_DIRECTION
+        or orderType == DOTA_UNIT_ORDER_ATTACK_MOVE
+end
+
 function ChenBarrackWorkerHandleOrder(data)
-    if not IsServer() or not data or not IsWorkerPauseOrder(data.order_type) then
+    if not IsServer() or not data then
+        return true
+    end
+
+    for _, unitIndex in pairs(data.units or {}) do
+        local index = tonumber(unitIndex)
+        local unit = index and EntIndexToHScript(index) or nil
+        if unit and not unit:IsNull() and unit.chen_move_to_owner_debug then
+            if CHEN_SUMMON_MOVE_DEBUG then
+                SummonMoveDebug(
+                    "order_filter",
+                    BarrackDescribeUnit(unit),
+                    "order", tostring(data.order_type),
+                    "issuer", tostring(data.issuer_player_id_const),
+                    "target", tostring(data.entindex_target),
+                    "position", tostring(data.position_x), tostring(data.position_y), tostring(data.position_z),
+                    "queue", tostring(data.queue)
+                )
+            end
+
+            if data.issuer_player_id_const ~= nil
+                and data.issuer_player_id_const >= 0
+                and IsSummonMoveOverrideOrder(data.order_type)
+            then
+                unit.chen_move_to_owner_cancelled = true
+                SummonMoveDebug(
+                    "player_override",
+                    BarrackDescribeUnit(unit),
+                    "order", tostring(data.order_type),
+                    "issuer", tostring(data.issuer_player_id_const)
+                )
+            end
+        end
+    end
+
+    if not IsWorkerPauseOrder(data.order_type) then
         return true
     end
 
@@ -2933,4 +3179,26 @@ end
 
 function modifier_chen_barrack_producing:GetAttributes()
     return MODIFIER_ATTRIBUTE_MULTIPLE
+end
+
+-- Modifier callbacks inherited through Lua class() are not consistently resolved by
+-- the engine. Bind the shared production behavior directly to every typed modifier;
+-- otherwise repeated orders of the same unit refresh one modifier instead of
+-- creating a separate visible queue entry.
+local productionModifierClasses = {
+    modifier_chen_barrack_producing_worker,
+    modifier_chen_barrack_producing_hunter,
+    modifier_chen_barrack_producing_healer,
+    modifier_chen_barrack_producing_brute,
+}
+
+for _, modifierClass in ipairs(productionModifierClasses) do
+    modifierClass.OnCreated = modifier_chen_barrack_producing.OnCreated
+    modifierClass.OnIntervalThink = modifier_chen_barrack_producing.OnIntervalThink
+    modifierClass.DeclareFunctions = modifier_chen_barrack_producing.DeclareFunctions
+    modifierClass.OnTooltip = modifier_chen_barrack_producing.OnTooltip
+    modifierClass.IsHidden = modifier_chen_barrack_producing.IsHidden
+    modifierClass.IsPurgable = modifier_chen_barrack_producing.IsPurgable
+    modifierClass.IsStackable = modifier_chen_barrack_producing.IsStackable
+    modifierClass.GetAttributes = modifier_chen_barrack_producing.GetAttributes
 end

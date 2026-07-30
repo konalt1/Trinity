@@ -76,6 +76,9 @@ local function CompleteSummon(subBarrack, item)
     summon:SetOwner(ownerHero)
     summon:SetControllableByPlayer(ownerHero:GetPlayerOwnerID(), true)
     FindClearSpaceForUnit(summon, spawnPosition, true)
+    if ChenBarrackMoveSummonToOwner then
+        ChenBarrackMoveSummonToOwner(summon, ownerHero)
+    end
 end
 
 local function StartNextProduction(subBarrack)

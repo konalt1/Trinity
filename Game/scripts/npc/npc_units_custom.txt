@@ -130,7 +130,7 @@
         "ModelScale"                "0.001"
         
         // AI Script - спавнит рошанов
-        "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
+        "vscripts"                  "map_modifications/Bosses/roshan_spawner_unit.lua"
         
         // Armor - неуязвимый
         "ArmorPhysical"             "100"
@@ -166,7 +166,7 @@
         "ModelScale"                "0,005"
         
         // AI Script - спавнит рошанов
-        "vscripts"                  "map_modifications/Roshan/roshan_spawner_unit.lua"
+        "vscripts"                  "map_modifications/Bosses/roshan_spawner_unit.lua"
         
         // Abilities
         "Ability1"                  ""
@@ -727,7 +727,7 @@
         
         // AI Script
         //----------------------------------------------------------------
-        "vscripts"                  "map_modifications/Roshan/ai_roshan_pathway.lua"
+        "vscripts"                  "map_modifications/Bosses/ai_roshan_pathway.lua"
         
         // Abilities
         //----------------------------------------------------------------
@@ -909,11 +909,11 @@
     "npc_chen_barrack_hunter"
     {
         "BaseClass"                 "npc_dota_creep_neutral"
-        "Model"                     "models/creeps/neutral_creeps/n_creep_satyr_c/n_creep_satyr_c.vmdl"
+        "Model"                     "models/creeps/neutral_creeps/n_creep_furbolg/n_creep_furbolg_disrupter.vmdl"
         "SoundSet"                  "n_creep_Melee"
         "GameSoundsFile"            "soundevents/game_sounds_creeps.vsndevts"
         "Level"                     "1"
-        "ModelScale"                "1"
+        "ModelScale"                "0.6"
         "IsNeutralUnitType"         "1"
         "UseNeutralCreepBehavior"   "0"
         "ChenBarrackGoldMode"       "shared_carrier"
@@ -1416,7 +1416,7 @@
         "SoundSet"                  "Hero_Snapfire"
         "GameSoundsFile"            "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts"
         "VoiceFile"                 "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts"
-        "vscripts"                  "bosses/mortimer_boss_ai.lua"
+        "vscripts"                  "map_modifications/Bosses/mortimer_boss_ai.lua"
         "Level"                     "20"
         "ModelScale"                "1.15"
         "ConsideredHero"            "1"
