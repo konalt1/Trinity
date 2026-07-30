@@ -1,6 +1,28 @@
 // Trinity — units abilities
 "DOTAAbilities"
 {
+    "custom_fountain_aura"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/custom_fountain_aura"
+        "AbilityTextureName"            "fountain_rejuvenation"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+
+        "AbilityValues"
+        {
+            "radius"                    "1800"
+            "vanilla_radius"            "1200"
+            "health_regen_pct"          "5"
+            "mana_regen_pct"            "6"
+            "aura_linger_duration"      "3"
+        }
+    }
+
     "xp_shrine_gold"
     {
         "BaseClass"                     "ability_lua"

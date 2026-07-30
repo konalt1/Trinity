@@ -1,7 +1,6 @@
--- Shadow Fiend: Shadowraze (переработка)
--- Дебафф стакается не от количества попаданий, а от Силы магии героя:
--- 1 стак за каждые mind_power_per_stack Силы магии.
--- Урон = базовый + стаки * stack_bonus_damage + души Некромастерии * damage_per_soul.
+-- Shadow Fiend: vanilla Shadowraze with Trinity Mind Power scaling.
+-- Damage = base damage + existing Shadowraze stacks * stack damage
+--          + caster Mind Power * mind power multiplier.
 
 LinkLuaModifier("modifier_nevermore_shadowraze_trinity_debuff", "abilities/nevermore/nevermore_shadowraze_trinity", LUA_MODIFIER_MOTION_NONE)
 
@@ -16,6 +15,13 @@ local function GetCasterMindPower(caster)
 	return 0
 end
 
+local function HasAghanimShard(unit)
+	if HasShard then
+		return HasShard(unit)
+	end
+	return unit and not unit:IsNull() and unit:HasModifier("modifier_item_aghanims_shard")
+end
+
 local function ShadowrazeSpellStart(self)
 	local caster = self:GetCaster()
 
@@ -23,26 +29,12 @@ local function ShadowrazeSpellStart(self)
 	local radius = self:GetSpecialValueFor("shadowraze_radius")
 	local base_damage = self:GetSpecialValueFor("shadowraze_damage")
 	local stack_bonus_damage = self:GetSpecialValueFor("stack_bonus_damage")
-	local mind_power_per_stack = self:GetSpecialValueFor("mind_power_per_stack")
-	local damage_per_soul = self:GetSpecialValueFor("damage_per_soul")
+	local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier")
 	local duration = self:GetSpecialValueFor("duration")
 
 	local raze_position = caster:GetAbsOrigin() + caster:GetForwardVector() * range
-
-	-- Стаки определяются Силой магии в момент применения
-	local stacks = 0
-	if mind_power_per_stack > 0 then
-		stacks = math.floor(GetCasterMindPower(caster) / mind_power_per_stack)
-	end
-
-	-- Бонус от душ Некромастерии (врождённая способность остаётся ванильной)
-	local soul_bonus = 0
-	local necromastery = caster:FindModifierByName("modifier_nevermore_necromastery")
-	if necromastery then
-		soul_bonus = necromastery:GetStackCount() * damage_per_soul
-	end
-
-	local damage = base_damage + stacks * stack_bonus_damage + soul_bonus
+	local mind_power_damage = GetCasterMindPower(caster) * mind_power_multiplier
+	local shard_hero_hits = 0
 
 	-- Эффекты
 	local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf", PATTACH_WORLDORIGIN, caster)
@@ -63,6 +55,16 @@ local function ShadowrazeSpellStart(self)
 	)
 
 	for _, enemy in pairs(enemies) do
+		if HasAghanimShard(caster) and enemy:IsRealHero() and not enemy:IsIllusion() then
+			shard_hero_hits = shard_hero_hits + 1
+		end
+
+		-- Vanilla stacking: the current hit benefits from stacks applied by
+		-- previous Shadowrazes, then adds one stack for the next hit.
+		local debuff = enemy:FindModifierByName("modifier_nevermore_shadowraze_trinity_debuff")
+		local existing_stacks = debuff and debuff:GetStackCount() or 0
+		local damage = math.max(0, base_damage + existing_stacks * stack_bonus_damage + mind_power_damage)
+
 		ApplyDamage({
 			victim = enemy,
 			attacker = caster,
@@ -71,9 +73,24 @@ local function ShadowrazeSpellStart(self)
 			ability = self,
 		})
 
-		local debuff = enemy:AddNewModifier(caster, self, "modifier_nevermore_shadowraze_trinity_debuff", { duration = duration })
-		if debuff then
-			debuff:SetStackCount(stacks)
+		local debuff_duration = duration * (1 - enemy:GetStatusResistance())
+		if debuff and not debuff:IsNull() then
+			debuff:SetDuration(debuff_duration, true)
+			debuff:SetStackCount(existing_stacks + 1)
+		else
+			debuff = enemy:AddNewModifier(caster, self, "modifier_nevermore_shadowraze_trinity_debuff", { duration = debuff_duration })
+			if debuff then
+				debuff:SetStackCount(1)
+			end
+		end
+	end
+
+	if shard_hero_hits > 0 then
+		local reduction = shard_hero_hits * self:GetSpecialValueFor("shard_cooldown_reduction")
+		local remaining = self:GetCooldownTimeRemaining()
+		self:EndCooldown()
+		if remaining > reduction then
+			self:StartCooldown(remaining - reduction)
 		end
 	end
 end
@@ -105,7 +122,7 @@ nevermore_shadowraze2_trinity.OnUpgrade = ShadowrazeSyncLevels
 nevermore_shadowraze3_trinity.OnUpgrade = ShadowrazeSyncLevels
 
 --------------------------------------------------------------------------------
--- Дебафф: показывает число стаков от Силы магии, с которым был нанесён удар
+-- Vanilla hit counter shared by all three Shadowrazes.
 --------------------------------------------------------------------------------
 
 modifier_nevermore_shadowraze_trinity_debuff = class({})
@@ -116,4 +133,27 @@ function modifier_nevermore_shadowraze_trinity_debuff:IsPurgable() return true e
 
 function modifier_nevermore_shadowraze_trinity_debuff:GetTexture()
 	return "nevermore_shadowraze1"
+end
+
+function modifier_nevermore_shadowraze_trinity_debuff:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+	}
+end
+
+function modifier_nevermore_shadowraze_trinity_debuff:GetModifierMoveSpeedBonus_Percentage()
+	local caster = self:GetCaster()
+	local ability = self:GetAbility()
+	if not ability or ability:IsNull() or not HasAghanimShard(caster) then return 0 end
+
+	return -self:GetStackCount() * ability:GetSpecialValueFor("shard_slow_per_stack")
+end
+
+function modifier_nevermore_shadowraze_trinity_debuff:GetModifierPhysicalArmorBonus()
+	local caster = self:GetCaster()
+	local ability = self:GetAbility()
+	if not ability or ability:IsNull() or not HasAghanimShard(caster) then return 0 end
+
+	return -self:GetStackCount() * ability:GetSpecialValueFor("shard_armor_reduction_per_stack")
 end

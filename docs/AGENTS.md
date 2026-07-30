@@ -334,6 +334,13 @@ flowchart TD
 
 - `map_modifications/shard_shrine.lua`
 
+### Fountain
+
+- Ванильная `modifier_fountain_aura` сохраняется в радиусе 1200; способность `custom_fountain_aura` на юните `dota_fountain` продолжает лечение до радиуса 1800 без складывания эффектов.
+- Радиус и восстановление настраиваются в `Game/scripts/npc/abilities/units.txt`; текущие значения: 1800, 5% здоровья и 6% маны в секунду.
+- Lua: `Game/scripts/vscripts/abilities/custom_fountain_aura.lua`.
+- Debug-команда: `fountain_aura_debug 1` (синяя окружность — ванильная зона, зелёная — полный кастомный радиус); `fountain_aura_debug 0` отключает отрисовку.
+
 ---
 
 ## Карта и PvE

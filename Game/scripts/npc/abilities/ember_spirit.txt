@@ -21,7 +21,7 @@
                 }
                 "damage_per_second_per_charge"
                 {
-                    "value"                             "5 10 15 20"
+                    "value"                             "2.5 5 7.5 10"
                     "special_bonus_unique_ember_spirit_3"   "+100%"
                 }
                 "radius"
@@ -29,15 +29,9 @@
                     "value"                             "500"
                     "affected_by_aoe_increase"          "1"
                 }
-                "max_charges"               "5"
+                "max_charges"               "10"
                 "charge_duration"           "8"
                 "mind_power_multiplier"     "0.5"
-            }
-    
-            "precache"
-            {
-                "soundfile"     "soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts"
-                "particle"      "particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf"
             }
         }
 }

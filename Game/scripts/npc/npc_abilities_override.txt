@@ -106,4 +106,18 @@
 			}
 		}
 	}
+
+	//=================================================================================================================
+	// Shadow Fiend: Necromastery — обычная прокачиваемая пассивка вместо innate
+	//=================================================================================================================
+	"nevermore_necromastery"
+	{
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"Innate"                        "0"
+		"MaxLevel"                      "4"
+		"AbilityLevel"                  "0"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+	}
 }

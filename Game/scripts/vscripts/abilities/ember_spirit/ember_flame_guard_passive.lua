@@ -1,12 +1,19 @@
 -- Ember Spirit: Flame Guard (переработка — пассивный)
--- За каждый удар героя копится заряд (до максимума). Если некоторое время
+-- За атаку по крипу герой получает 1 заряд, по герою — 3 (до максимума). Если некоторое время
 -- не атаковать, заряды сгорают. Каждый заряд даёт щит, поглощающий магический
 -- урон, и АоЕ урон вокруг героя. Удары пополняют щит.
 
 LinkLuaModifier("modifier_ember_flame_guard_passive", "abilities/ember_spirit/ember_flame_guard_passive", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ember_flame_guard_passive_shield", "abilities/ember_spirit/ember_flame_guard_passive", LUA_MODIFIER_MOTION_NONE)
 
+local FLAME_GUARD_PARTICLE = "particles/econ/items/ember_spirit/ember_ti9/ember_ti9_flameguard.vpcf"
+
 ember_flame_guard_passive = class({})
+
+function ember_flame_guard_passive:Precache(context)
+	PrecacheResource("particle", FLAME_GUARD_PARTICLE, context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts", context)
+end
 
 function ember_flame_guard_passive:GetIntrinsicModifierName()
 	return "modifier_ember_flame_guard_passive"
@@ -53,10 +60,10 @@ function modifier_ember_flame_guard_passive:OnAttackLanded(params)
 	if not target or target:IsBuilding() or target:IsOther() then return end
 	if target:GetTeamNumber() == parent:GetTeamNumber() then return end
 
-	self:GainCharge()
+	self:GainCharge(target:IsHero() and 3 or 1)
 end
 
-function modifier_ember_flame_guard_passive:GainCharge()
+function modifier_ember_flame_guard_passive:GainCharge(charge_count)
 	local parent = self:GetParent()
 	local ability = self:GetAbility()
 
@@ -64,7 +71,7 @@ function modifier_ember_flame_guard_passive:GainCharge()
 	local charge_duration = ability:GetSpecialValueFor("charge_duration")
 	local shield_per_charge = ability:GetSpecialValueFor("shield_per_charge")
 
-	self.charges = math.min(self.charges + 1, max_charges)
+	self.charges = math.min(self.charges + charge_count, max_charges)
 	self.expire_time = GameRules:GetGameTime() + charge_duration
 	self:SetStackCount(self.charges)
 
@@ -75,8 +82,8 @@ function modifier_ember_flame_guard_passive:GainCharge()
 		shield_modifier = parent:AddNewModifier(parent, ability, "modifier_ember_flame_guard_passive_shield", {})
 	end
 
-	-- Каждый удар пополняет щит на величину одного заряда (до текущего максимума)
-	shield_modifier:SetStackCount(math.min(shield_modifier:GetStackCount() + shield_per_charge, max_shield))
+	-- Удар пополняет щит на величину полученных зарядов (до текущего максимума)
+	shield_modifier:SetStackCount(math.min(shield_modifier:GetStackCount() + shield_per_charge * charge_count, max_shield))
 
 	self:CreateParticle()
 end
@@ -164,7 +171,7 @@ function modifier_ember_flame_guard_passive:CreateParticle()
 	local parent = self:GetParent()
 	local radius = self:GetAbility():GetSpecialValueFor("radius")
 
-	self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
+	self.particle = ParticleManager:CreateParticle(FLAME_GUARD_PARTICLE, PATTACH_ABSORIGIN_FOLLOW, parent)
 	ParticleManager:SetParticleControl(self.particle, 1, Vector(radius, radius, radius))
 end
 
@@ -198,10 +205,10 @@ function modifier_ember_flame_guard_passive_shield:GetTexture()
 end
 
 function modifier_ember_flame_guard_passive_shield:DeclareFunctions()
-	return { MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT }
+	return { MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT }
 end
 
-function modifier_ember_flame_guard_passive_shield:GetModifierIncomingDamageConstant(params)
+function modifier_ember_flame_guard_passive_shield:GetModifierIncomingSpellDamageConstant(params)
 	if IsServer() then
 		if params.damage_type ~= DAMAGE_TYPE_MAGICAL then
 			return 0

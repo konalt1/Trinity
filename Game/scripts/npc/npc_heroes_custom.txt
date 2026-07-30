@@ -258,8 +258,10 @@
 
 		// Replace Shukuchi (Ability2) with custom Cucaracha
 		"Ability2"                                      "weaver_cucaracha"
-		// Remove Threads of Fate innate.
-		"Ability4"                                      "generic_hidden"
+		// Hide inherited auxiliary ability slots 7 through 9.
+		"Ability7"                                      "generic_hidden"
+		"Ability8"                                      "generic_hidden"
+		"Ability9"                                      "generic_hidden"
 		
 
         "Ability10"										"special_bonus_unique_custom_weaver_1"
@@ -280,7 +282,6 @@
 		"Ability1"                                      "silencer_arcane_curse_custom"
 		"Ability3"                                      "silencer_last_word_custom"
 		"Ability6"                                      "silent_square"
-		"Ability5"                                      "silencer_global_silence" // Aghanim's Scepter
 		"Ability4"                                      "generic_hidden"
 
 		"Ability10"                                     "special_bonus_unique_custom_silencer_1"
@@ -326,7 +327,7 @@
 		"Ability1"                                      "furion_sprout"
 		"Ability2"                                      "furion_teleportation"
 		"Ability3"                                      "furion_spirit_of_forest"
-		"Ability4"                                      "generic_hidden"
+		"Ability5"                                      "generic_hidden"
 		"Ability5"                                      "furion_nature_essence"
 		"Ability6"                                      "furion_nature_security"
 		"Ability7"                                      "generic_hidden"
@@ -347,6 +348,13 @@
 		"override_hero"                                 "npc_dota_hero_ember_spirit"
 		// Flame Guard replaced with the passive version.
 		"Ability3"                                      "ember_flame_guard_passive"
+		"Ability5"                                      "generic_hidden"
+	}
+
+	"npc_dota_hero_pudge"
+	{
+		"override_hero"                                 "npc_dota_hero_pudge"
+		"Ability5"                                      "generic_hidden"
 	}
 
 	"npc_dota_hero_nevermore"
@@ -355,6 +363,10 @@
 		"Ability1"                                      "nevermore_shadowraze1_trinity"
 		"Ability2"                                      "nevermore_shadowraze2_trinity"
 		"Ability3"                                      "nevermore_shadowraze3_trinity"
+		"Ability4"                                      "nevermore_necromastery"
+		"Ability5"                                      "generic_hidden"
+		"Ability6"                                      "nevermore_requiem_trinity"
+		"Ability7"                                      "generic_hidden"
 	}
 
 }
