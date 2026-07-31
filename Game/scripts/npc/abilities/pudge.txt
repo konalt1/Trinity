@@ -1,0 +1,123 @@
+// Trinity — Pudge abilities
+"DOTAAbilities"
+{
+	"pudge_meat_hook_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/pudge/pudge_meat_hook_trinity"
+		"AbilityTextureName"            "pudge_meat_hook"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"FightRecapLevel"               "1"
+		"HasScepterUpgrade"             "1"
+		"HasShardUpgrade"               "1"
+
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastPoint"              "0.3"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCooldown"               "18 16 14 12"
+		"AbilityCharges"                "0"
+		"AbilityChargeRestoreTime"      "18 16 14 12"
+		"AbilityManaCost"               "110"
+
+		"AbilityValues"
+		{
+			"damage"
+			{
+				"value"                                     "150 220 290 360"
+				"special_bonus_facet_pudge_flayers_hook"    "=80 =120 =160 =200"
+				"special_bonus_unique_pudge_7"              "+150"
+			}
+			"mind_power_multiplier"       "1.0"
+			"hook_speed"
+			{
+				"value"                                     "1600"
+				"special_bonus_facet_pudge_flayers_hook"    "+0"
+			}
+			"hook_width"                   "100"
+			"AbilityCastRange"
+			{
+				"value"                                     "1300"
+				"special_bonus_facet_pudge_flayers_hook"    "+15%"
+			}
+			"vision_radius"                "500"
+			"vision_duration"              "4"
+			"hook_cooldown"
+			{
+				"value"                                     "18 16 14 12"
+				"special_bonus_unique_pudge_5"              "-4"
+			}
+			"AbilityCharges"
+			{
+				"value"                                     "0"
+				"special_bonus_scepter"                     "=2"
+			}
+			"distance_to_damage"
+			{
+				"special_bonus_shard"                       "20"
+			}
+			"min_distance_damage"
+			{
+				"special_bonus_shard"                       "10"
+			}
+			"cooldown_reduction_pct_allied_hook"
+			{
+				"special_bonus_shard"                       "50"
+			}
+		}
+
+		"precache"
+		{
+			"soundfile"                    "soundevents/game_sounds_heroes/game_sounds_pudge.vsndevts"
+			"particle"                     "particles/units/heroes/hero_pudge/pudge_meathook.vpcf"
+			"particle"                     "particles/units/heroes/hero_pudge/pudge_meathook_impact.vpcf"
+		}
+	}
+
+	"pudge_rot_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/pudge/pudge_rot_trinity"
+		"AbilityTextureName"            "pudge_rot"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"               "1"
+		"HasScepterUpgrade"             "0"
+
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastPoint"              "0"
+		"AbilityCooldown"               "0"
+		"AbilityManaCost"               "0"
+
+		"AbilityValues"
+		{
+			"rot_radius"                   "250"
+			"rot_tick"                     "0.2"
+			"rot_slow"
+			{
+				"value"                                     "-14 -20 -26 -32"
+				"special_bonus_unique_pudge_4"              "+-10"
+			}
+			"rot_damage"                   "30 60 90 120"
+			"mind_power_damage_multiplier" "1.0"
+			"mind_power_radius_multiplier" "1.5"
+		}
+
+		"precache"
+		{
+			"soundfile"                    "soundevents/game_sounds_heroes/game_sounds_pudge.vsndevts"
+			"particle"                     "particles/units/heroes/hero_pudge/pudge_rot.vpcf"
+			"particle"                     "particles/units/heroes/hero_pudge/pudge_rot_recipient.vpcf"
+		}
+	}
+}

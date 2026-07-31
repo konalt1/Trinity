@@ -180,11 +180,11 @@
             "spark_damage_base"
             {
                 "value"                 "50 100 150 200"
-                "affected_by_mind_power" "1"
+                "affected_by_mind_power" "2"
             }
             "radius"
             {
-                "value"                 "200"
+                "value"                 "300"
             }
             "duration"
             {

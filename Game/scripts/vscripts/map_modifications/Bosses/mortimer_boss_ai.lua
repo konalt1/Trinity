@@ -117,6 +117,5 @@ function MortimerBossBehavior()
         return 0.4
     end
 
-    thisEntity:MoveToTargetToAttack(enemy)
     return 0.35
 end

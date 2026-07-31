@@ -112,15 +112,11 @@ function modifier_weaver_cucaracha:OnCreated()
 
 	if not IsServer() then return end
 
-	local caster = self:GetCaster()
 	local parent = self:GetParent()
 
 	self.base_agility_bonus = ability:GetSpecialValueFor("base_agility_bonus")
 	self.target_scale = ability:GetSpecialValueFor("model_scale")
-
-	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
-	local mind_power = GetHeroMindPower(caster)
-	self.total_agility_bonus = math.max(0, self.base_agility_bonus + (mind_power * mind_power_multiplier))
+	self.total_agility_bonus = math.max(0, self.base_agility_bonus)
 
 	self:SetStackCount(math.floor(self.total_agility_bonus))
 
@@ -160,12 +156,8 @@ function modifier_weaver_cucaracha:OnRefresh()
 	local ability = self:GetAbility()
 	if not ability then return end
 
-	local caster = self:GetCaster()
-
 	self.base_agility_bonus = ability:GetSpecialValueFor("base_agility_bonus")
-	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
-	local mind_power = GetHeroMindPower(caster)
-	self.total_agility_bonus = math.max(0, self.base_agility_bonus + (mind_power * mind_power_multiplier))
+	self.total_agility_bonus = math.max(0, self.base_agility_bonus)
 	self:SetStackCount(math.floor(self.total_agility_bonus))
 
 	local parent = self:GetParent()
@@ -178,35 +170,6 @@ function modifier_weaver_cucaracha:OnRefresh()
 			self:StartIntervalThink(self.swarm_search_interval)
 		end
 	end
-end
-
-function modifier_weaver_cucaracha:GetMindPower(hero)
-	if not hero then return 0 end
-
-	local intelligence_bonus = hero:GetIntellect(false)
-
-	local item_bonus = 0
-	for i = 0, 8 do
-		local item = hero:GetItemInSlot(i)
-		if item then
-			local mind_power_bonus_value = item:GetSpecialValueFor("mind_power_bonus")
-			if mind_power_bonus_value and mind_power_bonus_value > 0 then
-				item_bonus = item_bonus + mind_power_bonus_value
-			end
-		end
-	end
-
-	local local_bonus = 0
-	for _, modifier in pairs(hero:FindAllModifiers()) do
-		if modifier.GetModifierMindPowerBonus and modifier ~= self then
-			local bonus = modifier:GetModifierMindPowerBonus()
-			if bonus and bonus > 0 then
-				local_bonus = local_bonus + bonus
-			end
-		end
-	end
-
-	return intelligence_bonus + item_bonus + local_bonus
 end
 
 function modifier_weaver_cucaracha:OnIntervalThink()

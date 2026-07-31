@@ -36,7 +36,9 @@ function modifier_ember_flame_guard_passive:GetTexture()
 end
 
 function modifier_ember_flame_guard_passive:DeclareFunctions()
-	return { MODIFIER_EVENT_ON_ATTACK_LANDED }
+	return {
+		MODIFIER_EVENT_ON_ATTACK_LANDED,
+	}
 end
 
 function modifier_ember_flame_guard_passive:OnCreated()
@@ -60,7 +62,12 @@ function modifier_ember_flame_guard_passive:OnAttackLanded(params)
 	if not target or target:IsBuilding() or target:IsOther() then return end
 	if target:GetTeamNumber() == parent:GetTeamNumber() then return end
 
-	self:GainCharge(target:IsHero() and 3 or 1)
+	local ability = self:GetAbility()
+	local charge_count = target:IsHero()
+		and ability:GetSpecialValueFor("charges_per_hero_attack")
+		or ability:GetSpecialValueFor("charges_per_creep_attack")
+
+	self:GainCharge(charge_count)
 end
 
 function modifier_ember_flame_guard_passive:GainCharge(charge_count)
@@ -205,7 +212,27 @@ function modifier_ember_flame_guard_passive_shield:GetTexture()
 end
 
 function modifier_ember_flame_guard_passive_shield:DeclareFunctions()
-	return { MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT }
+	return {
+		MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
+		MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
+	}
+end
+
+function modifier_ember_flame_guard_passive_shield:GetModifierTotalDamageOutgoing_Percentage(params)
+	params = params or {}
+	if self:GetStackCount() <= 0 then return 0 end
+	if params.attacker and params.attacker ~= self:GetParent() then return 0 end
+
+	local damage_type = params.damage_type or params.damagetype_const
+	if damage_type ~= DAMAGE_TYPE_MAGICAL then return 0 end
+
+	local ability = self:GetAbility()
+	if not ability or ability:IsNull() then return 0 end
+
+	local parent = self:GetParent()
+	local mind_power = GetHeroMindPower and (GetHeroMindPower(parent) or 0) or 0
+	local multiplier = ability:GetSpecialValueFor("magic_damage_amp_mind_power_multiplier")
+	return math.max(0, mind_power * multiplier)
 end
 
 function modifier_ember_flame_guard_passive_shield:GetModifierIncomingSpellDamageConstant(params)

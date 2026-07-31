@@ -799,12 +799,12 @@
 
     "npc_chen_barrack"
     {
-        "BaseClass"                 "npc_dota_creep_neutral"
+        "BaseClass"                 "npc_dota_building"
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
         "ModelScale"                "0.7"
-        "ConsideredHero"            "1"
+        "CanBeDominated"            "0"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -843,7 +843,7 @@
         "TeamName"                  "DOTA_TEAM_GOODGUYS"
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BARRACKS"
 
         "Ability1"                  "chen_barrack_summon_worker"
         "Ability2"                  "chen_barrack_summon_hunter"
@@ -1072,7 +1072,7 @@
     //=================================================================================
     "npc_chen_building_tower"
     {
-        "BaseClass"                 "npc_dota_creature"
+        "BaseClass"                 "npc_dota_tower"
         "Model"                     "models/props_structures/tower_good.vmdl"
         "SoundSet"                  "Tower.Water"
         "MinimapIcon"               "minimap_tower90"
@@ -1121,17 +1121,17 @@
         "TeamName"                  "DOTA_TEAM_GOODGUYS"
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_TOWER"
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_TOWER"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_TOWER"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
     }
 
     "npc_chen_building_special_barrack"
     {
-        "BaseClass"                 "npc_dota_creature"
+        "BaseClass"                 "npc_dota_building"
         "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
         "SoundSet"                  ""
         "Level"                     "1"
         "ModelScale"                "0.7"
-        "ConsideredHero"            "1"
+        "CanBeDominated"            "0"
         "UseNeutralCreepBehavior"   "0"
 
         "ArmorPhysical"             "8"
@@ -1167,7 +1167,7 @@
         "TeamName"                  "DOTA_TEAM_GOODGUYS"
         "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
         "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
-        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BARRACKS"
 
         "Ability1"                  "chen_sub_barrack_summon_giant_courier"
         "Ability2"                  "chen_sub_barrack_summon_dragon"
@@ -1503,4 +1503,25 @@
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
     }
 
+    "npc_dota_ember_spirit_remnant_trinity"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/development/invisiblebox.vmdl"
+        "Level"                         "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "StatusHealth"                  "1"
+        "StatusMana"                    "0"
+        "ArmorPhysical"                 "0"
+        "MagicalResistance"             "100"
+        "BoundsHullName"                "DOTA_HULL_SIZE_SMALL"
+        "RingRadius"                    "0"
+        "HealthBarOffset"               "0"
+        "BountyXP"                      "0"
+        "BountyGoldMin"                 "0"
+        "BountyGoldMax"                 "0"
+        "VisionDaytimeRange"            "700"
+        "VisionNighttimeRange"          "700"
+        "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+    }
 }

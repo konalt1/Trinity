@@ -1,5 +1,9 @@
 # Trinity — документация для агентов и разработчиков
 
+## Стиль ответов агента
+
+Представляй слова в диалогах как ограниченный бюджет: экономь их, сохраняя суть текста.
+
 > **Назначение:** первый файл, который нужно прочитать перед работой с репозиторием.  
 > Описывает архитектуру, конвенции и все кастомные изменения относительно ванильной Dota 2.
 
@@ -229,7 +233,7 @@ local mind_power = GetHeroMindPower(caster) or 0
 local total = base_value + mind_power * self:GetSpecialValueFor("mind_power_multiplier")
 ```
 
-Герои/способности с `mind_power_multiplier` в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Weaver, Ogre Magi, DOOM, Tusk, Chen и др.
+Герои/способности с `mind_power_multiplier` в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Tusk, Chen и др.
 
 ### Расширение через модификаторы
 
@@ -467,7 +471,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | Q | `ogre_magi_fire_blast` — **кастом** (точка + AOE, bonk) |
 | W | `ogre_magi_strength_boost` — **кастом**, масштаб от Mind Power |
 | Scepter | `ogre_magi_aghanim_club` |
-| Ult | `ogre_magi_reroll` |
+| Ult | `ogre_magi_reroll` — выдаёт одноразовую случайную ульту до её применения; удаляет её после завершения эффекта |
 | W (ван.) | Bloodlust — слот 3 ванильный, если не переопределён |
 
 **Lua:** `abilities/ogre_magi/`
@@ -575,6 +579,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 **Подсистема казарм** (`abilities/chen/chen_barrack.lua`, ~2400 строк):
 
+- Основной барак, рабочие вышки и дополнительный барак имеют настоящий тип здания (`npc_dota_building` / `npc_dota_tower`), а не крипа; полёт основного барака реализован ручным перемещением здания.
 - Юниты: worker, hunter, healer, brute
 - Farmland, производство, сбор ресурсов
 - При создании барак начинает с 3 живыми рабочими и 3 цветущими деревьями
@@ -800,3 +805,8 @@ flowchart TD
 ---
 
 *Последнее обновление документа: июнь 2026. При добавлении героев, систем или изменении конвенций — обновлять этот файл.*
+# Стиль ответов агента
+
+Представляй слова в диалогах как ограниченный бюджет: экономь их, сохраняя суть текста.
+
+---

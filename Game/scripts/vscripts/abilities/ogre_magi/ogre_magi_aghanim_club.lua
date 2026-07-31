@@ -79,6 +79,38 @@ function ogre_magi_aghanim_club:GetCooldown(level)
 	return 0
 end
 
+function ogre_magi_aghanim_club.SyncScepterForHero(hero)
+	if not hero or hero:IsNull() or hero:GetUnitName() ~= "npc_dota_hero_ogre_magi" then
+		return
+	end
+
+	local club = hero:FindAbilityByName("ogre_magi_aghanim_club")
+	if not club or club:IsNull() then
+		return
+	end
+
+	if hero:HasScepter() then
+		if club:GetLevel() < 1 then
+			club:SetLevel(1)
+		end
+		club:SetHidden(false)
+		club:SetActivated(true)
+
+		if not hero:HasModifier("modifier_ogre_magi_aghanim_club") then
+			hero:AddNewModifier(hero, club, "modifier_ogre_magi_aghanim_club", {})
+		end
+		return
+	end
+
+	club:CleanupStaleBorrowedAbilities(hero)
+	hero:RemoveModifierByName("modifier_ogre_magi_aghanim_club")
+	club:SetActivated(false)
+	club:SetHidden(true)
+	if club:GetLevel() > 0 then
+		club:SetLevel(0)
+	end
+end
+
 -- Список возможных способностей для применения на врагов
 function ogre_magi_aghanim_club:GetRandomBuff()
 	local abilities = {

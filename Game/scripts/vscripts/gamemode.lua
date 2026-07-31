@@ -451,7 +451,12 @@ function GameMode:OnNPCSpawned(data)
            end)
        end
    end
-   
+
+   if npc:IsRealHero() and not npc:IsIllusion() and npc:GetUnitName() == "npc_dota_hero_pudge"
+       and npc._trinity_pudge_hook_had_scepter == nil then
+       npc._trinity_pudge_hook_had_scepter = npc:HasScepter()
+   end
+
    -- Отслеживаем спавн лейн крипов
    if npc:IsCreep() and not npc:IsNeutralUnitType() and not GameMode.lane_creeps_spawned then
        GameMode.lane_creeps_spawned = true
@@ -470,16 +475,50 @@ function GameMode:OnChenInventoryChanged(data)
 			ChenWorkerBuild.SyncScepterForHero(hero)
 		end
 	end
+
+	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_pudge" then
+		self:SchedulePudgeHookScepterSync(hero)
+	end
+end
+
+function GameMode:SchedulePudgeHookScepterSync(hero)
+	Timers:CreateTimer(0, function()
+		if not hero or hero:IsNull() then
+			return nil
+		end
+
+		local has_scepter = hero:HasScepter()
+		if has_scepter and hero._trinity_pudge_hook_had_scepter ~= true then
+			local hook = hero:FindAbilityByName("pudge_meat_hook")
+			if hook and not hook:IsNull() and not hook:IsCooldownReady() then
+				hook:EndCooldown()
+			end
+		end
+
+		hero._trinity_pudge_hook_had_scepter = has_scepter
+		return nil
+	end)
 end
 
 function GameMode:OnInventoryUpdate(data)
-	local item = EntIndexToHScript(data.item_entindex)
+	if not data then
+		return
+	end
+
+	local item = data.item_entindex and EntIndexToHScript(data.item_entindex) or nil
 	local hero = item and not item:IsNull() and item:GetCaster() or nil
+	if (not hero or hero:IsNull()) and data.inventory_parent_entindex then
+		hero = EntIndexToHScript(data.inventory_parent_entindex)
+	end
 
 	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_chen" then
 		if ChenWorkerBuild and ChenWorkerBuild.SyncScepterForHero then
 			ChenWorkerBuild.SyncScepterForHero(hero)
 		end
+	end
+
+	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_pudge" then
+		self:SchedulePudgeHookScepterSync(hero)
 	end
 end
 

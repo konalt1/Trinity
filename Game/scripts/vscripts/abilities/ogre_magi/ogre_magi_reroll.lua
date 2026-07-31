@@ -3,28 +3,15 @@ LinkLuaModifier('modifier_ogre_magi_reroll_passive', 'abilities/ogre_magi/ogre_m
 
 ogre_magi_reroll = class({})
 
-function HideOgreBorrowedAbilityUntilCooldownEnds(ability)
+local function DisableOgreBorrowedAbility(ability)
 	if not ability or ability:IsNull() then
 		return
 	end
 
-	ability.ogre_cooldown_hide_id = (ability.ogre_cooldown_hide_id or 0) + 1
-	local hide_id = ability.ogre_cooldown_hide_id
-
-	-- The ability-executed event can arrive just before the engine starts cooldown.
-	Timers:CreateTimer(0, function()
-		if not ability or ability:IsNull() or ability.ogre_cooldown_hide_id ~= hide_id then
-			return
-		end
-
-		if ability:GetCooldownTimeRemaining() <= 0 then
-			ability:SetHidden(false)
-			return
-		end
-
-		ability:SetHidden(true)
-		return 0.1
-	end)
+	-- Заимствованная ульта одноразовая: после начала применения она больше не должна
+	-- появляться в панели, даже если её перезарядка закончится раньше действия эффекта.
+	ability:SetActivated(false)
+	ability:SetHidden(true)
 end
 
 local function OgreBorrowedAbilityHasActiveEffect(parent, ability, named_modifier)
@@ -55,7 +42,23 @@ local function OgreBorrowedAbilityHasActiveEffect(parent, ability, named_modifie
 	return false
 end
 
-local function RemoveOgreBorrowedAbilityAfterEffect(parent, ability, ability_name, named_modifier)
+local function CleanupOgreBorrowedAbilityEffects(ability)
+	if not ability or ability:IsNull() then
+		return
+	end
+
+	-- Заимствованные способности удаляются так же, как украденные у Rubick.
+	-- Этот callback даёт самой способности очистить созданные ею частицы и звуки
+	-- до того, как её handle станет невалидным после RemoveAbility.
+	if ability.OnUnStolen then
+		local success, error_message = pcall(ability.OnUnStolen, ability)
+		if not success then
+			print("[Ogre Reroll] Failed to clean borrowed ability effects: " .. tostring(error_message))
+		end
+	end
+end
+
+local function RemoveOgreBorrowedAbilityAfterEffect(parent, ability, ability_name, named_modifier, roll_modifier)
 	Timers:CreateTimer(0.1, function()
 		if not IsValidEntity(parent) or not ability or ability:IsNull() then
 			return
@@ -70,7 +73,11 @@ local function RemoveOgreBorrowedAbilityAfterEffect(parent, ability, ability_nam
 			return 0.1
 		end
 
+		CleanupOgreBorrowedAbilityEffects(ability)
 		parent:RemoveAbility(ability_name)
+		if roll_modifier and not roll_modifier:IsNull() then
+			roll_modifier:Destroy()
+		end
 	end)
 end
 
@@ -84,7 +91,6 @@ abilities = {
 	"centaur_stampede",
 	"chen_hand_of_god",
 	"crystal_maiden_freezing_field",
-	{name = "death_prophet_exorcism", modifier = "modifier_death_prophet_exorcism"},
 	"earthshaker_echo_slam",
 	"enigma_black_hole",
 	"faceless_void_chronosphere",
@@ -100,6 +106,7 @@ abilities = {
 	"oracle_false_promise",
 	"pugna_life_drain",
 	"queenofpain_sonic_wave",
+	{name = "pangolier_gyroshell", modifier = "modifier_pangolier_gyroshell"},
 	"sandking_epicenter",
 	{name =	"snapfire_mortimer_kisses", modifier = "modifier_snapfire_mortimer_kisses"},	-- "sniper_assassinate",
 	"sven_gods_strength",
@@ -136,10 +143,6 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_crystal_maiden.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_crystal_maiden.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_crystal_maiden", context)
-
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_death_prophet.vsndevts", context)
-	PrecacheResource("particle_folder", "particles/units/heroes/hero_death_prophet", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_earthshaker.vsndevts", context)
@@ -197,6 +200,10 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_queenofpain.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_queenofpain", context)
 
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_pangolier.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_pangolier.vsndevts", context)
+	PrecacheResource("particle_folder", "particles/units/heroes/hero_pangolier", context)
+
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_sandking.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_sandking.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_sandking", context)
@@ -239,6 +246,12 @@ function ogre_magi_reroll:OnSpellStart()
 	local caster = self:GetCaster()
 	local randomAbility = abilities[RandomInt(1,#abilities)]
 
+	-- Повторный ролл заменяет ещё не использованную заимствованную способность.
+	-- Сбрасываем её трекер, чтобы новый модификатор получил новые данные.
+	local previousRoll = caster:FindModifierByName("modifier_ogre_magi_reroll")
+	if previousRoll then
+		previousRoll:Destroy()
+	end
 
 	-- Найдем пустой слот (Ability4)
 	local emptySlot = caster:GetAbilityByIndex(3) -- Ability4 имеет индекс 3
@@ -247,6 +260,7 @@ function ogre_magi_reroll:OnSpellStart()
 	if emptySlot then
 		local oldAbilityName = emptySlot:GetAbilityName()
 		if oldAbilityName ~= "0" and oldAbilityName ~= "" then
+			CleanupOgreBorrowedAbilityEffects(emptySlot)
 			caster:RemoveAbility(oldAbilityName)
 		end
 	end
@@ -255,6 +269,11 @@ function ogre_magi_reroll:OnSpellStart()
 	local abilityName = type(randomAbility) == "table" and randomAbility.name or randomAbility
 	self.newAbility = caster:AddAbility(abilityName)
 	self.newAbilityModifier = type(randomAbility) == "table" and randomAbility.modifier or nil
+	-- Включаем штатный lifecycle украденной способности: при удалении движок и
+	-- OnUnStolen смогут корректно остановить принадлежащие ей эффекты.
+	if self.newAbility.SetStolen then
+		self.newAbility:SetStolen(true)
+	end
 	-- Новая копия может унаследовать кулдаун ранее удалённой способности с тем же именем.
 	-- Рефрешим только выданную способность, не затрагивая остальные скиллы и предметы героя.
 	self.newAbility:EndCooldown()
@@ -273,7 +292,9 @@ function ogre_magi_reroll:OnSpellStart()
 		true
 	)
 
-	caster:AddNewModifier(caster, self, "modifier_ogre_magi_reroll", {duration = self:GetSpecialValueFor("ability_duration")})
+	-- Модификатор только отслеживает выданную способность. Он живёт до завершения
+	-- её применения, поэтому сама способность больше не удаляется по таймеру.
+	caster:AddNewModifier(caster, self, "modifier_ogre_magi_reroll", {})
 	
 end
 
@@ -292,27 +313,6 @@ function modifier_ogre_magi_reroll:OnCreated()
 	self.newAbilityName = ability.newAbility:GetAbilityName()
 	self.newAbilityModifier = ability.newAbilityModifier
 	self:SetHasCustomTransmitterData(true);
-end
-
-function modifier_ogre_magi_reroll:OnDestroy()
-	if IsClient() then return end
-	local parent = self:GetParent()
-
-	-- Сразу прячем и отключаем именно ту ульту, которую выдал этот модификатор.
-	-- Это не дает ей оставаться в панели или повторно кастоваться после истечения таймера.
-	local expiredAbilityName = self.newAbilityName
-	local expiredAbilityModifier = self.newAbilityModifier
-	local expiredAbility = expiredAbilityName and parent:FindAbilityByName(expiredAbilityName) or nil
-	if expiredAbility and not expiredAbility:IsNull() then
-		expiredAbility:SetActivated(false)
-		expiredAbility:SetHidden(true)
-	end
-
-	-- Если способность не была использована, удаляем её после окна выдачи.
-	-- Использованная способность уже ожидает завершения своего эффекта в OnAbilityExecuted.
-	if expiredAbility and not self.borrowedAbilityCleanupStarted then
-		RemoveOgreBorrowedAbilityAfterEffect(parent, expiredAbility, expiredAbilityName, expiredAbilityModifier)
-	end
 end
 
 function modifier_ogre_magi_reroll:AddCustomTransmitterData()
@@ -338,6 +338,29 @@ modifier_ogre_magi_reroll_passive = class({
 	} end,
 })
 
+function modifier_ogre_magi_reroll_passive:OnCreated()
+	if not IsServer() then
+		return
+	end
+
+	self:StartIntervalThink(0.2)
+end
+
+function modifier_ogre_magi_reroll_passive:OnIntervalThink()
+	local parent = self:GetParent()
+	local has_scepter = parent:HasScepter()
+	local club = parent:FindAbilityByName("ogre_magi_aghanim_club")
+	local club_needs_repair = has_scepter and club and not club:IsNull()
+		and (club:GetLevel() < 1 or not parent:HasModifier("modifier_ogre_magi_aghanim_club"))
+
+	if self.ogreHadScepter ~= has_scepter or club_needs_repair then
+		self.ogreHadScepter = has_scepter
+		if ogre_magi_aghanim_club and ogre_magi_aghanim_club.SyncScepterForHero then
+			ogre_magi_aghanim_club.SyncScepterForHero(parent)
+		end
+	end
+end
+
 function modifier_ogre_magi_reroll_passive:OnAbilityExecuted(event)
 	if not IsServer() or event.unit ~= self:GetParent() then
 		return
@@ -349,7 +372,7 @@ function modifier_ogre_magi_reroll_passive:OnAbilityExecuted(event)
 		return
 	end
 
-	HideOgreBorrowedAbilityUntilCooldownEnds(borrowed)
+	DisableOgreBorrowedAbility(borrowed)
 
 	if not active_roll.borrowedAbilityCleanupStarted then
 		active_roll.borrowedAbilityCleanupStarted = true
@@ -357,7 +380,8 @@ function modifier_ogre_magi_reroll_passive:OnAbilityExecuted(event)
 			self:GetParent(),
 			borrowed,
 			active_roll.newAbilityName,
-			active_roll.newAbilityModifier
+			active_roll.newAbilityModifier,
+			active_roll
 		)
 	end
 end

@@ -161,7 +161,6 @@
 
         "AbilityValues"
         {     
-          "ability_duration"              "20"
           "manacost_reduction"              "100"
           "cooldown_reduction_per_attack"    "5 6 7"
           "cooldown_reduction_per_attack_creep" "1"

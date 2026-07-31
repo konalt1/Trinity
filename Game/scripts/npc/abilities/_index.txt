@@ -13,6 +13,7 @@
 #base "ogre_magi.txt"
 #base "omniknight.txt"
 #base "phantom_assassin.txt"
+#base "pudge.txt"
 #base "silencer.txt"
 #base "techies.txt"
 #base "tinker.txt"

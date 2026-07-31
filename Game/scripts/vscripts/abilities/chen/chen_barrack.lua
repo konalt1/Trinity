@@ -54,6 +54,7 @@ local BARRACK_REDEPLOY_COOLDOWN = 120
 local BARRACK_FLYING_MOVE_SPEED = 200
 local BARRACK_FLYING_VISUAL_HEIGHT = 180
 local BARRACK_LANDING_ARRIVAL_RADIUS = 64
+local BARRACK_FLIGHT_THINK_INTERVAL = 0.03
 local BARRACK_STARTING_WORKER_COUNT = 3
 local BARRACK_STARTING_BLOOM_COUNT = 3
 
@@ -2975,22 +2976,24 @@ function chen_barrack_land:OnSpellStart()
 
     barrack.chen_landing_order = (barrack.chen_landing_order or 0) + 1
     local orderId = barrack.chen_landing_order
-    ExecuteOrderFromTable({
-        UnitIndex = barrack:entindex(),
-        OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
-        Position = point,
-        Queue = false,
-    })
-
-    Timers:CreateTimer(0.1, function()
+    -- npc_dota_building has no locomotion component. Move the airborne barrack
+    -- explicitly so it can remain a real building while preserving redeployment.
+    Timers:CreateTimer(BARRACK_FLIGHT_THINK_INTERVAL, function()
         if not barrack or barrack:IsNull() or not barrack:IsAlive() or barrack.chen_is_destroyed then
             return nil
         end
         if not barrack.chen_is_flying or barrack.chen_landing_order ~= orderId then
             return nil
         end
-        if (barrack:GetAbsOrigin() - point):Length2D() > BARRACK_LANDING_ARRIVAL_RADIUS then
-            return 0.1
+
+        local origin = barrack:GetAbsOrigin()
+        local offset = point - origin
+        offset.z = 0
+        local distance = offset:Length2D()
+        if distance > BARRACK_LANDING_ARRIVAL_RADIUS then
+            local step = math.min(distance, BARRACK_FLYING_MOVE_SPEED * BARRACK_FLIGHT_THINK_INTERVAL)
+            barrack:SetAbsOrigin(origin + offset:Normalized() * step)
+            return BARRACK_FLIGHT_THINK_INTERVAL
         end
 
         local minDistance = self:GetSpecialValueFor("building_min_distance")

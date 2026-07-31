@@ -36,17 +36,8 @@ end
 
 function modifier_nevermore_necromastery:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_EVENT_ON_DEATH,
 	}
-end
-
-function modifier_nevermore_necromastery:GetModifierPreAttack_BonusDamage()
-	local parent = self:GetParent()
-	local ability = self:GetAbility()
-	if not ability or ability:IsNull() or parent:PassivesDisabled() then return 0 end
-
-	return self:GetStackCount() * ability:GetSpecialValueFor("damage_per_soul")
 end
 
 function modifier_nevermore_necromastery:GetMaxSouls()

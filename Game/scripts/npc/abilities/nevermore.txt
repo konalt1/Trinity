@@ -12,7 +12,6 @@
 
 		"AbilityValues"
 		{
-			"damage_per_soul"              "2 4 6 8"
 			"mind_power_per_soul"          "1 2 3 4"
 			"max_souls"                    "20"
 			"souls_per_kill"               "1"
@@ -86,7 +85,6 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
-		"HasShardUpgrade"                "1"
         "FightRecapLevel"               "1"
         "MaxLevel"                      "4"
 
@@ -128,7 +126,6 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
-		"HasShardUpgrade"                "1"
         "FightRecapLevel"               "1"
         "MaxLevel"                      "4"
 
@@ -172,6 +169,8 @@
 		"HasScepterUpgrade"             "1"
 		"FightRecapLevel"               "1"
 		"MaxLevel"                      "3"
+		"RequiredLevel"                 "6"
+		"LevelsBetweenUpgrades"         "6"
 
 		"AbilityCastPoint"              "1.67"
 		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_6"

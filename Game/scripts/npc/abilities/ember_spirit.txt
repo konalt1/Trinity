@@ -1,6 +1,36 @@
 // Trinity — Ember Spirit abilities
 "DOTAAbilities"
 {
+    "ember_searing_chains_trinity"
+        {
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/ember_spirit/ember_searing_chains_trinity"
+            "AbilityTextureName"            "ember_spirit_searing_chains"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+            "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+            "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+            "MaxLevel"                      "4"
+            "AbilityCastPoint"              "0"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+            "AbilityCooldown"               "13 12 11 10"
+            "AbilityManaCost"               "80 90 100 110"
+
+            "AbilityValues"
+            {
+                "radius"
+                {
+                    "value"                 "400"
+                    "affected_by_aoe_increase" "1"
+                }
+                "duration"                  "1.25 1.75 2.25 2.75"
+                "unit_count"                "2"
+                "damage_per_second"         "100"
+                "tick_interval"             "0.25"
+                "mind_power_multiplier"     "0.5"
+            }
+        }
+
     "ember_flame_guard_passive"
         {
             "BaseClass"                     "ability_lua"
@@ -16,12 +46,12 @@
             {
                 "shield_per_charge"
                 {
-                    "value"                             "25 50 75 100"
+                    "value"                             "5 10 15 20"
                     "special_bonus_unique_ember_spirit_1"   "+33"
                 }
                 "damage_per_second_per_charge"
                 {
-                    "value"                             "2.5 5 7.5 10"
+                    "value"                             "2 4 6 8"
                     "special_bonus_unique_ember_spirit_3"   "+100%"
                 }
                 "radius"
@@ -29,9 +59,93 @@
                     "value"                             "500"
                     "affected_by_aoe_increase"          "1"
                 }
-                "max_charges"               "10"
+                "max_charges"               "30"
+                "charges_per_hero_attack"   "3"
+                "charges_per_creep_attack"  "1"
                 "charge_duration"           "8"
                 "mind_power_multiplier"     "0.5"
+                "magic_damage_amp_mind_power_multiplier" "0.1"
+            }
+        }
+
+    "ember_spirit_fire_remnant_trinity"
+        {
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/ember_spirit/ember_fire_remnant_trinity"
+            "AbilityTextureName"            "ember_spirit_fire_remnant"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+            "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+            "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+            "HasScepterUpgrade"             "1"
+            "HasShardUpgrade"               "1"
+            "MaxLevel"                      "3"
+            "RequiredLevel"                 "6"
+            "LevelsBetweenUpgrades"         "6"
+            "AbilityCastPoint"              "0"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+            "AbilityCooldown"               "0"
+            "AbilityManaCost"               "0"
+            "AbilityCharges"                "3"
+            "AbilityChargeRestoreTime"      "38"
+
+            "AbilityValues"
+            {
+                "duration"                  "45"
+                "AbilityCastRange"
+                {
+                    "value"                 "1500"
+                    "special_bonus_scepter" "=3000"
+                }
+                "AbilityCharges"
+                {
+                    "value"                 "3"
+                    "special_bonus_scepter" "=5"
+                }
+                "AbilityChargeRestoreTime"
+                {
+                    "value"                 "38"
+                    "special_bonus_unique_ember_spirit_5" "-12"
+                }
+                "speed_multiplier"
+                {
+                    "value"                 "250"
+                    "special_bonus_scepter" "=500"
+                }
+                "shard_damage_per_second"   "45"
+                "shard_radius"              "600"
+            }
+        }
+
+    "ember_spirit_activate_fire_remnant"
+        {
+            "BaseClass"                     "ability_lua"
+            "ScriptFile"                    "abilities/ember_spirit/ember_fire_remnant_trinity"
+            "AbilityTextureName"            "ember_spirit_activate_fire_remnant"
+            "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+            "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+            "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+            "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+            "MaxLevel"                      "3"
+            "RequiredLevel"                 "6"
+            "LevelsBetweenUpgrades"         "6"
+            "AbilityCastRange"              "99999"
+            "AbilityCastPoint"              "0.1"
+            "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_5"
+            "AbilityCooldown"               "0"
+            "AbilityManaCost"               "100"
+
+            "AbilityValues"
+            {
+                "damage"                    "100 200 300"
+                "radius"
+                {
+                    "value"                 "450"
+                    "affected_by_aoe_increase" "1"
+                }
+                "speed"                     "1300"
+                "mind_power_multiplier"     "2.0"
+                "scepter_mana_cost"         "75"
             }
         }
 }

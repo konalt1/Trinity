@@ -346,14 +346,28 @@
 	"npc_dota_hero_ember_spirit"
 	{
 		"override_hero"                                 "npc_dota_hero_ember_spirit"
+		"Ability1"                                      "ember_searing_chains_trinity"
 		// Flame Guard replaced with the passive version.
 		"Ability3"                                      "ember_flame_guard_passive"
 		"Ability5"                                      "generic_hidden"
+		"Ability6"                                      "ember_spirit_fire_remnant_trinity"
+		"Ability7"                                      "ember_spirit_activate_fire_remnant"
+		"Ability8"                                      "generic_hidden"
+		"Ability10"                                     "generic_hidden"
+		"Ability11"                                     "generic_hidden"
+		"Ability12"                                     "generic_hidden"
+		"Ability13"                                     "generic_hidden"
+		"Ability14"                                     "generic_hidden"
+		"Ability15"                                     "generic_hidden"
+		"Ability16"                                     "generic_hidden"
+		"Ability17"                                     "generic_hidden"
 	}
 
 	"npc_dota_hero_pudge"
 	{
 		"override_hero"                                 "npc_dota_hero_pudge"
+		"Ability1"                                      "pudge_meat_hook_trinity"
+		"Ability2"                                      "pudge_rot_trinity"
 		"Ability5"                                      "generic_hidden"
 	}
 
