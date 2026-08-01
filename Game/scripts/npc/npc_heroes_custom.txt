@@ -374,11 +374,12 @@
 	"npc_dota_hero_nevermore"
 	{
 		"override_hero"                                 "npc_dota_hero_nevermore"
+		"Facets"                                        ""
 		"Ability1"                                      "nevermore_shadowraze1_trinity"
 		"Ability2"                                      "nevermore_shadowraze2_trinity"
 		"Ability3"                                      "nevermore_shadowraze3_trinity"
-		"Ability4"                                      "nevermore_necromastery"
-		"Ability5"                                      "generic_hidden"
+		"Ability4"                                      "nevermore_feast_of_souls"
+		"Ability5"                                      "nevermore_necromastery"
 		"Ability6"                                      "nevermore_requiem_trinity"
 		"Ability7"                                      "generic_hidden"
 	}

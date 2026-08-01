@@ -3,6 +3,11 @@ LinkLuaModifier(
 	"abilities/nevermore/nevermore_necromastery_trinity",
 	LUA_MODIFIER_MOTION_NONE
 )
+LinkLuaModifier(
+	"modifier_nevermore_necromastery_armor_aura",
+	"abilities/nevermore/nevermore_necromastery_trinity",
+	LUA_MODIFIER_MOTION_NONE
+)
 
 nevermore_necromastery = class({})
 
@@ -32,6 +37,41 @@ end
 
 function modifier_nevermore_necromastery:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
+end
+
+function modifier_nevermore_necromastery:IsAura()
+	local parent = self:GetParent()
+	local ability = self:GetAbility()
+	if not parent or parent:IsNull() or not ability or ability:IsNull() then return false end
+	if ability:GetLevel() <= 0 then return false end
+	if parent:PassivesDisabled() then return false end
+	return true
+end
+
+function modifier_nevermore_necromastery:GetModifierAura()
+	return "modifier_nevermore_necromastery_armor_aura"
+end
+
+function modifier_nevermore_necromastery:GetAuraRadius()
+	local ability = self:GetAbility()
+	if not ability or ability:IsNull() then return 0 end
+	return ability:GetSpecialValueFor("aura_radius")
+end
+
+function modifier_nevermore_necromastery:GetAuraSearchTeam()
+	return DOTA_UNIT_TARGET_TEAM_ENEMY
+end
+
+function modifier_nevermore_necromastery:GetAuraSearchType()
+	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
+end
+
+function modifier_nevermore_necromastery:GetAuraSearchFlags()
+	return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+end
+
+function modifier_nevermore_necromastery:GetAuraDuration()
+	return 0.5
 end
 
 function modifier_nevermore_necromastery:DeclareFunctions()
@@ -127,6 +167,32 @@ function modifier_nevermore_necromastery:PlaySoulEffect(dead_unit)
 		true
 	)
 	ParticleManager:ReleaseParticleIndex(particle)
+end
+
+--------------------------------------------------------------------------------
+-- Аура снижения брони (замена Presence of the Dark Lord на Некромастерии)
+--------------------------------------------------------------------------------
+
+modifier_nevermore_necromastery_armor_aura = class({})
+
+function modifier_nevermore_necromastery_armor_aura:IsHidden() return false end
+function modifier_nevermore_necromastery_armor_aura:IsDebuff() return true end
+function modifier_nevermore_necromastery_armor_aura:IsPurgable() return false end
+
+function modifier_nevermore_necromastery_armor_aura:GetTexture()
+	return "nevermore_necromastery"
+end
+
+function modifier_nevermore_necromastery_armor_aura:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+	}
+end
+
+function modifier_nevermore_necromastery_armor_aura:GetModifierPhysicalArmorBonus()
+	local ability = self:GetAbility()
+	if not ability or ability:IsNull() then return 0 end
+	return -ability:GetSpecialValueFor("armor_reduction")
 end
 
 -- GetHeroMindPower() reads custom bonuses through this registry.
