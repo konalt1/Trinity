@@ -59,11 +59,11 @@
                     "value"                             "500"
                     "affected_by_aoe_increase"          "1"
                 }
-                "max_charges"               "30"
+                "max_charges"               "4 6 8 10"
                 "charges_per_hero_attack"   "3"
                 "charges_per_creep_attack"  "1"
                 "charge_duration"           "8"
-                "mind_power_multiplier"     "0.5"
+                "mind_power_multiplier"     "0.35 0.5 0.65 0.8"
                 "magic_damage_amp_mind_power_multiplier" "0.1"
             }
         }

@@ -90,7 +90,8 @@ function modifier_ember_flame_guard_passive:GainCharge(charge_count)
 	end
 
 	-- Удар пополняет щит на величину полученных зарядов (до текущего максимума)
-	shield_modifier:SetStackCount(math.min(shield_modifier:GetStackCount() + shield_per_charge * charge_count, max_shield))
+	local current = math.min((shield_modifier.current_shield or shield_modifier:GetStackCount()) + shield_per_charge * charge_count, max_shield)
+	shield_modifier:SetShieldAmount(current, max_shield)
 
 	self:CreateParticle()
 end
@@ -196,8 +197,9 @@ function modifier_ember_flame_guard_passive:OnDestroy()
 end
 
 --------------------------------------------------------------------------------
--- Модификатор щита: StackCount = оставшийся запас щита.
--- Поглощает магический урон, отображается барьером на полосе здоровья.
+-- Модификатор щита: магический (синий) барьер на HP-баре.
+-- INCOMING_SPELL_DAMAGE_CONSTANT + CustomTransmitterData для max/current,
+-- иначе клиент не рисует полоску барьера.
 --------------------------------------------------------------------------------
 
 modifier_ember_flame_guard_passive_shield = class({})
@@ -211,6 +213,35 @@ function modifier_ember_flame_guard_passive_shield:GetTexture()
 	return "ember_spirit_flame_guard"
 end
 
+function modifier_ember_flame_guard_passive_shield:OnCreated()
+	self.max_shield = 0
+	self.current_shield = 0
+	if IsServer() then
+		self:SetHasCustomTransmitterData(true)
+	end
+end
+
+function modifier_ember_flame_guard_passive_shield:SetShieldAmount(current, max_shield)
+	self.current_shield = math.max(0, current or 0)
+	self.max_shield = math.max(0, max_shield or 0)
+	self:SetStackCount(math.floor(self.current_shield))
+	if IsServer() then
+		self:SendBuffRefreshToClients()
+	end
+end
+
+function modifier_ember_flame_guard_passive_shield:AddCustomTransmitterData()
+	return {
+		max_shield = self.max_shield,
+		current_shield = self.current_shield,
+	}
+end
+
+function modifier_ember_flame_guard_passive_shield:HandleCustomTransmitterData(data)
+	self.max_shield = data.max_shield or 0
+	self.current_shield = data.current_shield or 0
+end
+
 function modifier_ember_flame_guard_passive_shield:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
@@ -220,7 +251,7 @@ end
 
 function modifier_ember_flame_guard_passive_shield:GetModifierTotalDamageOutgoing_Percentage(params)
 	params = params or {}
-	if self:GetStackCount() <= 0 then return 0 end
+	if (self.current_shield or self:GetStackCount()) <= 0 then return 0 end
 	if params.attacker and params.attacker ~= self:GetParent() then return 0 end
 
 	local damage_type = params.damage_type or params.damagetype_const
@@ -236,21 +267,27 @@ function modifier_ember_flame_guard_passive_shield:GetModifierTotalDamageOutgoin
 end
 
 function modifier_ember_flame_guard_passive_shield:GetModifierIncomingSpellDamageConstant(params)
-	if IsServer() then
-		if params.damage_type ~= DAMAGE_TYPE_MAGICAL then
-			return 0
+	if IsClient() then
+		if params and params.report_max then
+			return self.max_shield or 0
 		end
-
-		local shield = self:GetStackCount()
-		if shield <= 0 then
-			return 0
-		end
-
-		local block = math.min(params.damage, shield)
-		self:SetStackCount(shield - block)
-		return -block
-	else
-		-- На клиенте возвращаем остаток щита — отображается барьером на HP-баре
-		return self:GetStackCount()
+		return self.current_shield or self:GetStackCount() or 0
 	end
+
+	local shield = self.current_shield or self:GetStackCount()
+	if not shield or shield <= 0 then
+		return 0
+	end
+
+	local damage = params and params.damage or 0
+	local block = math.min(damage, shield)
+	self.current_shield = shield - block
+	self:SetStackCount(math.floor(self.current_shield))
+	self:SendBuffRefreshToClients()
+
+	if self.current_shield <= 0 then
+		self:Destroy()
+	end
+
+	return -block
 end

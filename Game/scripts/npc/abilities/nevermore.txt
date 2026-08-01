@@ -61,7 +61,7 @@
                     "value"                             "35 50 65 80"
                     "special_bonus_unique_nevermore_7"  "+30"
                 }
-				"mind_power_multiplier"     "1.0"
+				"mind_power_multiplier"     "1 1.5 2 2.5"
 				"duration"                  "7"
 				"shard_cooldown_reduction"  "2"
 				"shard_slow_per_stack"      "12"
@@ -108,7 +108,7 @@
                 "value"                             "35 50 65 80"
                 "special_bonus_unique_nevermore_7"  "+30"
             }
-			"mind_power_multiplier"     "1.0"
+			"mind_power_multiplier"     "1 1.5 2 2.5"
 			"duration"                  "7"
 			"shard_cooldown_reduction"  "2"
 			"shard_slow_per_stack"      "12"
@@ -149,7 +149,7 @@
                 "value"                             "35 50 65 80"
                 "special_bonus_unique_nevermore_7"  "+30"
             }
-			"mind_power_multiplier"     "1.0"
+			"mind_power_multiplier"     "1 1.5 2 2.5"
 			"duration"                  "7"
 			"shard_cooldown_reduction"  "2"
 			"shard_slow_per_stack"      "12"
