@@ -1,0 +1,4 @@
+interface:
+  display_name: "Тексты способностей Trinity"
+  short_description: "Оформляет способности в стиле Trinity"
+  default_prompt: "Используй $write-ability-descriptions, чтобы оформить описание новой способности Trinity."

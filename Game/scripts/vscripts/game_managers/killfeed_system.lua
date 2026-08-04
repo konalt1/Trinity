@@ -84,6 +84,22 @@ function KillfeedSystem:GetPlayerHero(playerID)
 	return nil
 end
 
+function KillfeedSystem:GetTeamPlayerIDs(team)
+	local playerIDs = {}
+	if team ~= DOTA_TEAM_GOODGUYS and team ~= DOTA_TEAM_BADGUYS then
+		return playerIDs
+	end
+
+	local maxPlayers = DOTA_MAX_PLAYERS or 64
+	for playerID = 0, maxPlayers - 1 do
+		if self:IsValidPlayerID(playerID) and PlayerResource:GetTeam(playerID) == team then
+			table.insert(playerIDs, playerID)
+		end
+	end
+
+	return playerIDs
+end
+
 function KillfeedSystem:GetHeroLevel(hero)
 	if not self:IsValidEntity(hero) or not hero.GetLevel then
 		return 1
@@ -156,6 +172,35 @@ function KillfeedSystem:GetHeroKillNetWorthMultiplier(killerHero, opponentTeam)
 	local killerNetWorth = self:GetHeroNetWorth(killerHero)
 	local netWorthDifferencePct = (averageOpponentNetWorth - killerNetWorth) / averageOpponentNetWorth * 100
 	local adjustmentPct = netWorthDifferencePct / differenceForMaxPct * maxAdjustmentPct
+	adjustmentPct = math.max(-maxAdjustmentPct, math.min(maxAdjustmentPct, adjustmentPct))
+
+	return math.max(0, 1 + adjustmentPct / 100)
+end
+
+function KillfeedSystem:GetHeroKillComebackMultiplier(rewardTeam)
+	if rewardTeam ~= DOTA_TEAM_GOODGUYS and rewardTeam ~= DOTA_TEAM_BADGUYS then
+		return 1
+	end
+	if not CreepBountyComeback
+		or not CreepBountyComeback.GetOpponentTeam
+		or not CreepBountyComeback.GetTeamNetWorth then
+		return 1
+	end
+
+	local opponentTeam = CreepBountyComeback.GetOpponentTeam(rewardTeam)
+	if not opponentTeam then
+		return 1
+	end
+
+	local differenceForMax = math.max(0, tonumber(CREEP_BOUNTY_COMEBACK_NW_FOR_MAX) or 0)
+	local maxAdjustmentPct = math.max(0, tonumber(CREEP_BOUNTY_COMEBACK_MAX_BONUS_PCT) or 0)
+	if differenceForMax <= 0 or maxAdjustmentPct <= 0 then
+		return 1
+	end
+
+	local netWorthDifference = CreepBountyComeback.GetTeamNetWorth(opponentTeam)
+		- CreepBountyComeback.GetTeamNetWorth(rewardTeam)
+	local adjustmentPct = netWorthDifference * maxAdjustmentPct / differenceForMax
 	adjustmentPct = math.max(-maxAdjustmentPct, math.min(maxAdjustmentPct, adjustmentPct))
 
 	return math.max(0, 1 + adjustmentPct / 100)
@@ -234,7 +279,7 @@ function KillfeedSystem:GetGoldForLevel(level, byLevelTable, baseGold, goldPerLe
 	return self:NormalizeGold(gold)
 end
 
-function KillfeedSystem:GetHeroKillGoldReward(killedHero, killerHero)
+function KillfeedSystem:GetHeroKillGoldReward(killedHero, killerHero, rewardTeam)
 	local mode = string.lower(tostring(self.HERO_KILL_GOLD_MODE or ""))
 	local baseReward = 0
 	if mode == "fixed" then
@@ -249,8 +294,13 @@ function KillfeedSystem:GetHeroKillGoldReward(killedHero, killerHero)
 	end
 
 	local opponentTeam = killedHero and killedHero.GetTeamNumber and killedHero:GetTeamNumber() or nil
-	local multiplier = self:GetHeroKillNetWorthMultiplier(killerHero, opponentTeam)
-	return self:NormalizeGold(baseReward * multiplier)
+	if rewardTeam == nil and self:IsRealHero(killerHero) and killerHero.GetTeamNumber then
+		rewardTeam = killerHero:GetTeamNumber()
+	end
+
+	local netWorthMultiplier = self:GetHeroKillNetWorthMultiplier(killerHero, opponentTeam)
+	local comebackMultiplier = self:GetHeroKillComebackMultiplier(rewardTeam)
+	return self:NormalizeGold(baseReward * netWorthMultiplier * comebackMultiplier)
 end
 
 function KillfeedSystem:GetHeroAssistGoldReward(killedHero, assisterHero, killerHero, participatingHeroCount)
@@ -401,6 +451,31 @@ function KillfeedSystem:ResolveKillerHero(unit)
 
 	local playerID = unit.GetPlayerOwnerID and unit:GetPlayerOwnerID() or -1
 	return self:GetPlayerHero(playerID)
+end
+
+function KillfeedSystem:GetTowerKillRewardTeam(attacker, killedHero)
+	if not self:IsValidEntity(attacker) or not self:IsRealHero(killedHero) then
+		return nil
+	end
+
+	local rewardTeam = tonumber(attacker.towerKillRewardTeam)
+	local unitName = attacker.GetUnitName and attacker:GetUnitName() or ""
+	local isTower = (attacker.IsTower and attacker:IsTower())
+		or (attacker.IsBuilding and attacker:IsBuilding()
+			and string.find(unitName, "tower", 1, true) ~= nil)
+
+	if rewardTeam == nil and isTower and attacker.GetTeamNumber then
+		rewardTeam = attacker:GetTeamNumber()
+	end
+
+	if rewardTeam ~= DOTA_TEAM_GOODGUYS and rewardTeam ~= DOTA_TEAM_BADGUYS then
+		return nil
+	end
+	if killedHero.GetTeamNumber and killedHero:GetTeamNumber() == rewardTeam then
+		return nil
+	end
+
+	return rewardTeam
 end
 
 function KillfeedSystem:ApplyHeroKillBounty(hero)
@@ -729,6 +804,39 @@ function KillfeedSystem:GrantHeroAssistGold(killedHero, killerHero, killerPlayer
 	return assistGold, #assistPlayerIDs
 end
 
+function KillfeedSystem:GrantTeamHeroKillGold(killedHero, rewardTeam)
+	local playerIDs = self:GetTeamPlayerIDs(rewardTeam)
+	if #playerIDs == 0 then
+		return 0
+	end
+
+	local firstKillBonus = 0
+	if not self._firstHeroKillAwarded then
+		self._firstHeroKillAwarded = true
+		firstKillBonus = self:NormalizeGold(self.FIRST_HERO_KILL_BONUS_GOLD)
+	end
+
+	local rewardPool = self:NormalizeGold(self:GetHeroKillGoldReward(killedHero, nil, rewardTeam) + firstKillBonus)
+	if rewardPool <= 0 then
+		return 0
+	end
+
+	local baseShare = math.floor(rewardPool / #playerIDs)
+	local remainder = rewardPool - baseShare * #playerIDs
+	for index, playerID in ipairs(playerIDs) do
+		local share = baseShare + (index <= remainder and 1 or 0)
+		local hero = self:GetPlayerHero(playerID)
+		if share > 0 and self:IsRealHero(hero) then
+			self:AllowHeroKillGold(playerID, share)
+			hero:ModifyGold(share, true, DOTA_ModifyGold_HeroKill)
+			self:ClearAllowedHeroKillGold(playerID)
+		end
+	end
+
+	self:ClearDamageRecord(killedHero)
+	return rewardPool
+end
+
 function KillfeedSystem:SendKillfeedEvent(killerHero, killedHero, actualGold, assistGold, assistCount)
 	if not CustomGameEventManager then
 		return
@@ -763,6 +871,10 @@ function KillfeedSystem:GrantHeroKillGold(keys, killedHero)
 	local attacker = EntIndexToHScript(keys.entindex_attacker)
 	local killerHero = self:ResolveKillerHero(attacker)
 	if not self:IsRealHero(killerHero) then
+		local rewardTeam = self:GetTowerKillRewardTeam(attacker, killedHero)
+		if rewardTeam then
+			self:GrantTeamHeroKillGold(killedHero, rewardTeam)
+		end
 		return
 	end
 	if killerHero == killedHero then
@@ -785,13 +897,11 @@ function KillfeedSystem:GrantHeroKillGold(keys, killedHero)
 	end
 
 	local reward = self:NormalizeGold(self:GetHeroKillGoldReward(killedHero, killerHero) + firstKillBonus)
-	if reward <= 0 then
-		return
+	if reward > 0 then
+		self:AllowHeroKillGold(killerPlayerID, reward)
+		killerHero:ModifyGold(reward, true, DOTA_ModifyGold_HeroKill)
+		self:ClearAllowedHeroKillGold(killerPlayerID)
 	end
-
-	self:AllowHeroKillGold(killerPlayerID, reward)
-	killerHero:ModifyGold(reward, true, DOTA_ModifyGold_HeroKill)
-	self:ClearAllowedHeroKillGold(killerPlayerID)
 
 	local assistGold, assistCount = self:GrantHeroAssistGold(killedHero, killerHero, killerPlayerID)
 	self:SendKillfeedEvent(killerHero, killedHero, reward, assistGold, assistCount)

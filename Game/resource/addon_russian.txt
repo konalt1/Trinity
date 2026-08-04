@@ -402,6 +402,38 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_6"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_7"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_1"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_2"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_3"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_4"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_5"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_6"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_7"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_ember_spirit_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_1"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_2"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_3"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_4"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_5"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_6"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_7"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_lion_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_1"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_2"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_3"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_4"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_5"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_6"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_7"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_pudge_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_1"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_2"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_3"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_4"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_5"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_6"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_7"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_8"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Заглушка"
@@ -438,11 +470,11 @@
 		//Weaver
 		// Cucaracha
 		"DOTA_Tooltip_ability_weaver_cucaracha"									"Кукарача"
-		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач временно уменьшается в размерах, становясь маленьким и юрким тараканом, а также получает бонус к ловкости."
-		"DOTA_Tooltip_ability_weaver_cucaracha_base_agility_bonus"				"БАЗОВЫЙ БОНУС ЛОВКОСТИ:"
+		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, и его скорость передвижения становится равна %move_speed%."
+		"DOTA_Tooltip_ability_weaver_cucaracha_move_speed"					"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время Кукарачи Ткач постоянно прикрепляет таракана из «Роя» к каждому противнику в радиусе 100. Таракан располагается перед целью, использует параметры изученного «Роя» и погибает после 3 атак. Если «Рой» не изучен, эффект не срабатывает."
+		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время действия Кукарачи Ткач прикрепляет к каждому оказавшемуся рядом врагу жука из изученного «Роя». Жук использует параметры «Роя», располагается перед целью и погибает после %shard_swarm_beetle_hits% атак. Если «Рой» не изучен, эффект не срабатывает."
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
@@ -593,6 +625,7 @@
 		"shard_pool_active"												"Аганимный фонтан доступен к захвату!"
 		"shard_pool_capture"												"Противник захватывает Аганимный фонтан!"
 		"roshan_spawn"														"На карту вошёл Рошан!"
+		"mortimer_spawn"												"Мортимер вышел на охоту!"
 
 		// =============================================
 		// Chen
@@ -600,8 +633,7 @@
 
 		// Martyr Mark
 		"DOTA_Tooltip_ability_chen_martyr_mark"								"Метка Мученика"
-		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен накладывает на врага метку, нанося магический урон и замедляя его.
-		На время действия метки все союзники получают бонус к скорости атаки. Подчинённые крипы рядом с целью атакуют её и ненадолго ускоряются."
+		"DOTA_Tooltip_ability_chen_martyr_mark_Description"					"Чен поражает выбранного врага, нанося магический урон и замедляя его.\n\nНа время действия метки все союзники получают бонус к скорости атаки. Подчинённые Чену крипы рядом с целью начинают атаковать её и ненадолго ускоряются."
 		"DOTA_Tooltip_ability_chen_martyr_mark_damage"						"УРОН:"
 		"DOTA_Tooltip_ability_chen_martyr_mark_slow_ms_pct"					"ЗАМЕДЛЕНИЕ:"
 		"DOTA_Tooltip_ability_chen_martyr_mark_creep_bonus_as"				"СКОРОСТЬ АТАКИ СОЮЗНИКОВ:"
@@ -611,8 +643,7 @@
 
 		// Holy Persuasion
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom"					"Святое Убеждение"
-		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Чен подчиняет вражеского или нейтрального крипа, увеличивая его максимальное здоровье и урон. Чен получает часть награды, полагавшейся за убийство крипа.
-		Бонус к здоровью усиливается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_Description"		"Чен подчиняет выбранного вражеского или нейтрального крипа, увеличивая его максимальное здоровье и урон от атаки. Чен сразу получает часть награды за убийство цели.\n\nБонус к здоровью усиливается Силой магии."
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_bonus_health"		"БОНУС ЗДОРОВЬЯ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_chen_holy_persuasion_custom_max_creeps"		"МАКС. ПРИРУЧЁННЫХ КРИПОВ:"
@@ -621,16 +652,14 @@
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Кнут"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом по выбранной области, нанося магический урон всем врагам.
-		Все подчинённые крипы в области мгновенно применяют свои активные способности, не расходуя ману и не запуская перезарядку."
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Чен бьёт кнутом по выбранной области, нанося магический урон всем врагам.\n\nПодчинённые Чену крипы в области немедленно применяют все доступные активные способности. Это не расходует их ману и не запускает перезарядку."
 		"DOTA_Tooltip_ability_chen_whip_damage"								"УРОН:"
 		"DOTA_Tooltip_ability_chen_whip_radius"								"РАДИУС:"
 		"DOTA_Tooltip_ability_chen_whip_search_radius"						"РАДИУС ПОИСКА ЦЕЛИ КРИПОВ:"
 
 		// Ultimate Aura (Aghanim's Shard)
 		"DOTA_Tooltip_ability_chen_ultimate_aura"							"Ультимативная Аура"
-		"DOTA_Tooltip_ability_chen_ultimate_aura_Description"				"Чен усиливает союзных героев и крипов вокруг себя, увеличивая их максимальное здоровье и урон от атаки.
-		Бонусы усиливаются от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_chen_ultimate_aura_Description"				"<b>Пассивно.</b> Чен увеличивает максимальное здоровье и урон от атаки союзных героев и крипов вокруг себя.\n\nБонусы усиливаются Силой магии."
 		"DOTA_Tooltip_ability_chen_ultimate_aura_aura_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_chen_ultimate_aura_bonus_health"				"БОНУС ЗДОРОВЬЯ:"
 		"DOTA_Tooltip_ability_chen_ultimate_aura_mind_power_health_multiplier"	"ЗДОРОВЬЕ ЗА СИЛУ МАГИИ:"
@@ -641,22 +670,20 @@
 
 		// Barrack (Ultimate)
 		"DOTA_Tooltip_ability_chen_barrack"									"Барак"
-		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен строит барак в выбранной точке. В начале у барака есть три рабочих и три цветущих дерева.
-		Барак хранит собственное золото и тратит его на найм юнитов и строительство. Юниты с общим золотом делят награду за убийство с Ченом, а переносчики сдают её бараку.
-		Одновременно может существовать только один барак. Повторное применение переносит камеру к нему. При уничтожении барака убийца забирает часть накопленного золота."
+		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен строит в выбранной точке единственный барак с тремя рабочими и тремя цветущими деревьями.\n\nБарак хранит собственное золото и тратит его на производство юнитов и строительство. Боевые юниты делят награду за убийство с Ченом и доставляют свою долю бараку, а рабочие приносят ему золото с деревьев.\n\nПосле постройки способность позволяет поднимать барак в воздух и сажать его в другом месте. При уничтожении барака убийца получает часть накопленного в нём золота."
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"HP БАРАКА:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
-		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Рабочий барака получает две способности строительства: вышку и барак Аганима, производящий огромных курьеров и чёрных драконов. Стоимость списывается с золота основного барака, когда рабочий доходит до точки и начинает стройку."
+		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Даёт рабочим возможность строить вышки и бараки Аганима. Бараки Аганима используют общую очередь производства и золото основного барака для создания огромных курьеров и Ancient Black Dragon."
 		"DOTA_Tooltip_ability_chen_barrack_takeoff"						"Взлёт барака"
-		"DOTA_Tooltip_ability_chen_barrack_takeoff_Description"			"Переносит камеру к бараку и поднимает его в воздух. Летающий барак передвигается со скоростью 200, но не может производить юнитов или использовать пашни."
+		"DOTA_Tooltip_ability_chen_barrack_takeoff_Description"			"Переносит камеру к бараку и поднимает его в воздух. Во время полёта барак может передвигаться, но производство и работа пашен приостанавливаются."
 		"DOTA_Tooltip_ability_chen_barrack_land"						"Посадить барак"
-		"DOTA_Tooltip_ability_chen_barrack_land_Description"				"Приказывает бараку подлететь к выбранной точке и сесть. Посадка возможна только на свободной проходимой площадке. После успешной посадки способность уходит на перезарядку на 120 секунд."
+		"DOTA_Tooltip_ability_chen_barrack_land_Description"				"Приказывает летающему бараку добраться до выбранной точки и приземлиться. Посадка возможна только на свободной проходимой площадке. После неё взлёт становится недоступен на 120 сек."
 		"DOTA_Tooltip_modifier_chen_barrack_flying"					"Барак в полёте"
 		"DOTA_Tooltip_modifier_chen_barrack_flying_Description"			"Барак летает и может передвигаться, но производство и пашни остановлены."
 
 		"DOTA_Tooltip_ability_chen_barrack_farmland"							"Пашни"
-		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"Случайное дерево в радиусе получает «Цветение». Рабочий барака собирает с него золото. Радиус цветения растёт с уровнем способности."
+		"DOTA_Tooltip_ability_chen_barrack_farmland_Description"				"<b>Пассивно.</b> Барак заставляет случайное дерево поблизости цвести. Рабочие собирают золото с цветущих деревьев, а по окончании цветение распространяется на соседние деревья."
 		"DOTA_Tooltip_ability_chen_barrack_farmland_bloom_radius"			"РАДИУС ЦВЕТЕНИЯ:"
 		"DOTA_Tooltip_ability_chen_barrack_farmland_spread_radius"			"РАДИУС РАСПРОСТРАНЕНИЯ:"
 		"DOTA_Tooltip_ability_chen_barrack_farmland_bloom_duration"			"ДЛИТЕЛЬНОСТЬ ЦВЕТЕНИЯ:"
@@ -665,48 +692,48 @@
 		"DOTA_Tooltip_ability_chen_barrack_farmland_gather_trigger_radius"	"РАДИУС СБОРА:"
 
 		"DOTA_Tooltip_ability_chen_barrack_summon_worker"					"Призвать рабочего"
-		"DOTA_Tooltip_ability_chen_barrack_summon_worker_Description"			"Ставит в очередь рабочего. Первый рабочий бесплатен, если у вас нет живых рабочих. Оплата — золото барака. Максимум рабочих: %max_workers%."
+		"DOTA_Tooltip_ability_chen_barrack_summon_worker_Description"			"Барак ставит в очередь рабочего и оплачивает его производство своим золотом. Если живых рабочих нет, первый новый рабочий производится бесплатно."
 		"DOTA_Tooltip_ability_chen_barrack_summon_worker_gold_cost"			"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_worker_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
 		"DOTA_Tooltip_ability_chen_barrack_summon_hunter"						"Призвать охотника"
-		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_Description"			"Ставит в очередь дальнего охотника. Золото с убийств он несёт к бараку: при сдаче получают и Чен, и барак. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_Description"			"Барак ставит в очередь охотника дальнего боя и оплачивает его производство своим золотом. Охотник делит награду за убийства с Ченом и доставляет свою долю бараку."
 		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_hunter_summon_lifetime"		"ВРЕМЯ ЖИЗНИ:"
 
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer"						"Призвать целителя"
-		"DOTA_Tooltip_ability_chen_barrack_summon_healer_Description"			"Ставит в очередь тролля-целителя. Лечит раненых союзников рядом (автоприменение). Золото с убийств — как у охотника. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_healer_Description"			"Барак ставит в очередь целителя и оплачивает его производство своим золотом. Целитель автоматически лечит раненых союзников, делит награду за убийства с Ченом и доставляет свою долю бараку."
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_healer_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
 		"DOTA_Tooltip_ability_chen_barrack_summon_brute"						"Призвать хрономанта"
-		"DOTA_Tooltip_ability_chen_barrack_summon_brute_Description"			"Ставит в очередь малого мага времени. Он ускоряет способности союзных героев и крипов рядом, сокращая активные перезарядки автоприменением. Золото с убийств — как у охотника. Оплата — золото барака."
+		"DOTA_Tooltip_ability_chen_barrack_summon_brute_Description"			"Барак ставит в очередь хрономанта и оплачивает его производство своим золотом. Хрономант сокращает перезарядки союзников, делит награду за убийства с Ченом и доставляет свою долю бараку."
 		"DOTA_Tooltip_ability_chen_barrack_summon_brute_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_summon_brute_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
 		"DOTA_Tooltip_ability_chen_barrack_heal"								"Лечение"
-		"DOTA_Tooltip_ability_chen_barrack_heal_Description"					"Восстанавливает %dota_ability_chen_barrack_heal_heal_amount% здоровья союзной цели. Автоприменение: лечит раненых союзников в радиусе %dota_ability_chen_barrack_heal_search_radius% (ниже %dota_ability_chen_barrack_heal_wound_threshold_pct%% HP), приоритет — герои, затем крипы; себя не лечит."
+		"DOTA_Tooltip_ability_chen_barrack_heal_Description"					"Целитель восстанавливает здоровье выбранного союзника.\n\nПри автоприменении он ищет раненую цель поблизости, отдавая приоритет героям, а затем крипам. Целитель не может лечить себя."
 		"DOTA_Tooltip_ability_chen_barrack_heal_heal_amount"						"ИСЦЕЛЕНИЕ:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_search_radius"					"РАДИУС ПОИСКА:"
 		"DOTA_Tooltip_ability_chen_barrack_heal_wound_threshold_pct"				"ПОРОГ РАНЕНИЯ:"
 		"dota_hud_error_no_abilities_on_cooldown"								"Нет способностей на перезарядке"
 
 		"DOTA_Tooltip_ability_chen_barrack_hunter_overload"					"Перегрузка"
-		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_Description"		"Запускает таймер на %countdown_duration% сек. По его окончании охотник наносит себе и всем врагам в радиусе %radius% единиц %damage% магического урона. Урон увеличивается на %mind_power_multiplier% за каждую единицу силы магии Чена."
+		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_Description"		"Охотник запускает обратный отсчёт. По его завершении он наносит себе и всем врагам вокруг магический урон.\n\nУрон: %damage% + Сила магии Чена × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_damage"			"УРОН:"
 		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_radius"			"РАДИУС:"
 		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_countdown_duration"	"ТАЙМЕР:"
 		"DOTA_Tooltip_ability_chen_barrack_hunter_overload_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash"						"Dash"
-		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_Description"			"Увеличивает скорость передвижения крипа на %dota_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct%%% на %dota_ability_chen_barrack_anti_creep_dash_buff_duration% сек. Автоприменение: используется при погоне за врагами."
+		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_Description"			"Охотник временно увеличивает свою скорость передвижения. При автоприменении способность срабатывает во время погони за врагом."
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_buff_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_chen_barrack_anti_creep_dash_bonus_movespeed_pct"	"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
 		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash"						"Dash"
 		"DOTA_Tooltip_modifier_chen_barrack_anti_creep_dash_Description"			"Скорость передвижения увеличена."
 
 		"DOTA_Tooltip_ability_chen_barrack_brute_rally"							"Дань времени"
-		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"				"Искривляет время вокруг союзного героя или крипа, сокращая все активные перезарядки способностей на %dota_ability_chen_barrack_brute_rally_cooldown_reduction% сек. Автоприменение: выбирает союзников в радиусе %dota_ability_chen_barrack_brute_rally_search_radius%, если у них есть хотя бы одна способность на перезарядке; приоритет — герои, затем крипы."
+		"DOTA_Tooltip_ability_chen_barrack_brute_rally_Description"				"Хрономант сокращает все текущие перезарядки способностей выбранного союзного героя или крипа.\n\nПри автоприменении он выбирает поблизости союзника со способностью на перезарядке, отдавая приоритет героям."
 		"DOTA_Tooltip_ability_chen_barrack_brute_rally_cooldown_reduction"		"СОКРАЩЕНИЕ ПЕРЕЗАРЯДКИ:"
 		"DOTA_Tooltip_ability_chen_barrack_brute_rally_search_radius"			"РАДИУС ПОИСКА:"
 		"npc_chen_barrack_hunter"												"Anti Creep"
@@ -714,40 +741,36 @@
 		"npc_chen_barrack_brute"												"Хрономант барака"
 
 		"DOTA_Tooltip_ability_chen_worker_gather"							"Сбор"
-		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"Автоприменение: рабочий собирает золото с цветущих деревьев и сдаёт его бараку. Приказы движения, атаки, остановки и удержания позиции отключают автосбор на 15 сек."
+		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"<b>Автоприменение.</b> Рабочий собирает золото с цветущих деревьев и доставляет его бараку. Приказ двигаться, атаковать, остановиться или удерживать позицию временно приостанавливает автоматический сбор."
 
 		"DOTA_Tooltip_ability_chen_worker_build_tower"						"Построить вышку"
-		"DOTA_Tooltip_ability_chen_worker_build_tower_Description"				"Рабочий идёт к выбранной точке и начинает строительство вышки. Стоимость списывается с золота основного барака при начале стройки.
-
-Пока рабочий стоит в радиусе %dota_ability_chen_worker_build_tower_worker_radius% от объекта, здоровье стройки растёт на %dota_ability_chen_worker_build_tower_build_rate% в секунду. Если рабочий уходит или погибает, прогресс останавливается. Враги могут атаковать стройку — при уничтожении золото не возвращается."
+		"DOTA_Tooltip_ability_chen_worker_build_tower_Description"				"Рабочий идёт в выбранную точку и начинает строить вышку, расходуя золото основного барака.\n\nПока рабочий остаётся рядом, здоровье стройки постепенно увеличивается. Если он уходит или погибает, строительство приостанавливается. Враги могут уничтожить незавершённую вышку, не возвращая потраченное золото."
 		"DOTA_Tooltip_ability_chen_worker_build_tower_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_max_hp"					"HP СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"СКОРОСТЬ СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"РАДИУС РАБОЧЕГО:"
 
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack"					"Построить барак Аганима"
-		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_Description"		"Рабочий идёт к выбранной точке и начинает строительство барака Аганима. Стоимость списывается с золота основного барака при начале стройки.
-
-Готовый барак ставит в общую очередь огромных курьеров и Ancient Black Dragon за золото основного барака. Пока рабочий стоит рядом, здоровье стройки растёт. Если рабочий уходит или погибает, прогресс останавливается."
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_Description"		"Рабочий идёт в выбранную точку и начинает строить барак Аганима, расходуя золото основного барака.\n\nПока рабочий остаётся рядом, здоровье стройки постепенно увеличивается. Если он уходит или погибает, строительство приостанавливается. Готовый барак использует общую очередь для производства огромных курьеров и Ancient Black Dragon."
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_gold_cost"			"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_max_hp"			"HP СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_build_rate"		"СКОРОСТЬ СТРОЙКИ:"
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_worker_radius"		"РАДИУС РАБОЧЕГО:"
 
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier"				"Призвать огромного курьера"
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_Description"	"Ставит в очередь летающего огромного курьера-транспорт. Оплата — золото основного барака Чена."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_Description"	"Барак Аганима ставит в общую очередь огромного летающего курьера и оплачивает его производство золотом основного барака."
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_gold_cost"		"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_giant_courier_production_time"	"ВРЕМЯ ПРОИЗВОДСТВА:"
 
 		"DOTA_Tooltip_ability_chen_giant_courier_transport_load"					"Взять на борт"
-		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_Description"		"Берёт на борт до %dota_ability_chen_giant_courier_transport_load_max_passengers% союзных подконтрольных крипов рядом с курьером. Пассажиры скрыты и вне игры; если курьер погибает, они погибают вместе с ним."
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_Description"		"Курьер берёт на борт подконтрольных союзных крипов поблизости. Пассажиры скрыты и выведены из игры, а при гибели курьера погибают вместе с ним."
 		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_load_radius"		"РАДИУС ЗАГРУЗКИ:"
 		"DOTA_Tooltip_ability_chen_giant_courier_transport_load_max_passengers"		"МАКС. ПАССАЖИРОВ:"
 		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload"					"Высадить всех"
-		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload_Description"		"Высаживает всех пассажиров рядом с курьером."
+		"DOTA_Tooltip_ability_chen_giant_courier_transport_unload_Description"		"Курьер высаживает всех пассажиров рядом с собой."
 
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon"					"Призвать Ancient Black Dragon"
-		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_Description"			"Ставит в очередь Ancient Black Dragon. Оплата — золото основного барака Чена."
+		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_Description"			"Барак Аганима ставит в общую очередь Ancient Black Dragon и оплачивает его производство золотом основного барака."
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_gold_cost"				"СТОИМОСТЬ:"
 		"DOTA_Tooltip_ability_chen_sub_barrack_summon_dragon_production_time"		"ВРЕМЯ ПРОИЗВОДСТВА:"
 
@@ -760,9 +783,7 @@
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
 
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Огненный шар"
-		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"Каждая атака оставляет под целью горящую лужу на земле.
-
-Враги в зоне получают магический урон каждую секунду."
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"<b>Пассивно.</b> Каждая атака дракона оставляет под целью горящую лужу. Враги в ней получают магический урон каждую секунду."
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_radius"			"РАДИУС:"
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_damage_per_second"	"УРОН В СЕКУНДУ:"
@@ -889,41 +910,39 @@
 
 		// Lion
 		"DOTA_Tooltip_ability_lion_impale_custom"									"Земляной шип"
-		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Лион выпускает по земле ряд шипов, нанося магический урон и оглушая врагов на пути.
-		Урон усиливается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Лион выпускает по земле ряд шипов, которые подбрасывают врагов на пути, наносят им магический урон и оглушают их.
+		Урон растёт с Силой Магии"
 		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"УРОН:"
 		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"ОГЛУШЕНИЕ:"
 		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"УРОН ОТ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Земляной шип выпускает три линии шипов конусом перед Лионом."
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Земляной шип применяется в 30 градусном конусе"
 
 		"DOTA_Tooltip_ability_lion_soul_collector"									"Собиратель душ"
-		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Каждый раз, когда вы убиваете крипа или героя с помощью способности, вы получаете силу мгии.
-		За крипа бонус даётся временно, а за героя — до конца игры."
+		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Гибель врага от способности Лиона даёт ему Силу магии.\n\nБонусная сила магии за убийство героя способностью сохраняется до конца игры."
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_mind_power"					"СИЛА МАГИИ ЗА КРИПА:"
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"ДЛИТЕЛЬНОСТЬ БОНУСА ЗА КРИПА:"
 		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"СИЛА МАГИИ ЗА ГЕРОЯ:"
 
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Вытягивание духа"
-		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Лион связывает себя с врагом и каждую секунду вытягивает у него ману. Жертва получает магический урон в размере половины вытянутой маны.
-		Количество вытягиваемой маны увеличивается от <b>Силы Магии</b>."
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Лион связывается с выбранным врагом и высасывает его ману. Враг получает магический урон в размере части фактически потерянной маны. 
+		Связь разрывается, если цель отдаляется слишком далеко.\n\nКоличество вытягиваемой маны усиливается Силой магии."
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"МАНА В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"МАНА ОТ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%ЗДОРОВЬЯ ОТ МАНЫ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"ДЛИТЕЛЬНОСТЬ:"
 
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Палец смерти"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Лион поражает одного врага, нанося огромный магический урон.
-		Урон усиливается от <b>Силы Магии</b>. 
-		Если вражеский герой погибает после применения способности, Лион получает постоянный заряд Перерождения, уменьшающий время возрождения."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Лион поражает выбранного врага, нанося ему колоссальный магический урон.\n\nЕсли вражеский герой погибает от применения способности, Лион получает постоянный заряд Перерождения. 
+		Каждый заряд сокращает время возрождения Лиона.
+		Урон способности увеличивается с силой магии"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"УРОН:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"УРОН ОТ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_respawn_reduction_pct"	"%СОКРАЩЕНИЯ ВОЗРОЖДЕНИЯ ЗА СТАК:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"ДЛИТЕЛЬНОСТЬ УСИЛЕНИЯ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"ДАЛЬНОСТЬ АТАКИ СО СКИПЕТРОМ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%УРОН ПРОРУБАНИЯ:"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"После применения Пальца смерти рука Лиона усиливается на %scepter_buff_duration% сек. 
-		При этом Лион может перейти в ближний бой, его урон будет увеличен на его силу магии, а его атаки будут наносить прорубаюший урон. 
-		Убийство вражеского героя прямой атакой даёт заряд Перерождения."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"После применения способности Лион становится героес ближнего боя на %scepter_buff_duration% сек. 
+		\n\nВ ближнем бою атаки получают дополнительный урон, равный Силе магии, и наносят прорубающий урон. Убийство вражеского героя прямой атакой даёт заряд Перерождения."
 
 		// Боссы
 		"npc_mortimer_boss"											"Мортимер"
@@ -940,30 +959,31 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_8"					"Заглушка"
 
 		// Pudge — переработка аганима
-		"DOTA_Tooltip_ability_pudge_meat_hook_scepter_description"					"Meat Hook получает 2 заряда: обычная перезарядка заменяется восстановлением зарядов."
+		"DOTA_Tooltip_ability_pudge_meat_hook_scepter_description"					"Даёт Мясному крюку 2 заряда. Каждый заряд восстанавливается за обычное время перезарядки."
 		"DOTA_Tooltip_ability_pudge_meat_hook_trinity"						"Мясной крюк"
-		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_Description"			"Запускает окровавленный крюк, который притягивает первое задетое существо к Пуджу. Врагам наносится чистый урон, увеличенный на Силу магии.\n\nУрон: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_Description"			"Пудж запускает окровавленный крюк, который притягивает первое задетое существо или руну. Обычный вражеский крип погибает мгновенно, а остальные враги получают чистый урон.\n\nПопадание по руне возвращает ману, потраченную на применение.\n\nУрон: %damage% + Сила магии × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_damage"				"БАЗОВЫЙ УРОН:"
 		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_hook_speed"			"СКОРОСТЬ КРЮКА:"
 		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_hook_width"			"ШИРИНА КРЮКА:"
-		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_scepter_description"	"Даёт 2 заряда с обычным временем восстановления."
-		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_shard_description"		"При попадании по врагу наносит дополнительный чистый урон в размере 20% пройденной крюком дистанции. При попадании по союзнику сокращает текущую перезарядку на 50%."
+		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_scepter_description"	"Даёт 2 заряда. Каждый заряд восстанавливается за обычное время перезарядки."
+		"DOTA_Tooltip_ability_pudge_meat_hook_trinity_shard_description"		"При попадании по врагу крюк наносит дополнительный чистый урон в размере %distance_to_damage%%% пройденной дистанции, но не меньше %min_distance_damage%. При попадании по союзнику сокращает текущую перезарядку способности на %cooldown_reduction_pct_allied_hook%%%."
 
 		// Ember Spirit — пассивный Flame Guard
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity"					"Огненный остаток"
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_Description"		"Отправляет огненный остаток в выбранную точку. Скорость остатка зависит от скорости передвижения Ember Spirit. Остаток существует %duration% сек."
+		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity"					"Огненный фантом"
+		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_Description"		"Ember Spirit отправляет огненного фантома в выбранную точку. Скорость фантома зависит от скорости передвижения героя. Фантом существует ограниченное время."
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_duration"			"ВРЕМЯ ЖИЗНИ:"
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_speed_multiplier"	"СКОРОСТЬ ОСТАТКА:"
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_shard_description"	"Остатки наносят %shard_damage_per_second% магического урона в секунду врагам в радиусе %shard_radius%."
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_scepter_description"	"Увеличивает дальность применения до 3000, скорость остатка до 500%, а максимальное количество зарядов до 5. Снижает расход маны активации до 75."
-		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant"					"Активировать огненный остаток"
-		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_Description"		"Ember Spirit последовательно перемещается ко всем остаткам, заканчивая на ближайшем к выбранной точке. Враги на пути и возле каждого остатка получают магический урон.\n\nУрон: %damage% + Сила магии × %mind_power_multiplier%."
-		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_damage"			"БАЗОВЫЙ УРОН:"
-		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_radius"			"РАДИУС:"
-		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_speed_multiplier"	"СКОРОСТЬ ФАНТОМА:"
+		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_shard_description"	"Огненные фантомы каждую секунду наносят магический урон врагам вокруг."
+		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_scepter_description"	"Увеличивает дальность применения, скорость фантомов и максимальное количество зарядов. Снижает расход маны и убирает время применения активации."
+		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity"					"Активировать огненного фантома"
+		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity_Description"		"Ember Spirit последовательно перемещается ко всем огненным фантомам и завершает путь у ближайшего к выбранной точке. Каждый достигнутый фантом взрывается. Враги на пути и возле взрыва получают магический урон.\n\nУрон: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity_damage"			"БАЗОВЫЙ УРОН:"
+		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity_radius"			"РАДИУС:"
+		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity_mind_power_multiplier"	"УРОН ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_ember_searing_chains_trinity"						"Огненные оковы"
-		"DOTA_Tooltip_ability_ember_searing_chains_trinity_Description"			"Выпускает огненные бола, которые связывают случайных врагов вокруг Ember Spirit, не давая им двигаться и нанося периодический магический урон.\n\nУрон в секунду: %damage_per_second% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_ember_searing_chains_trinity_Description"			"Ember Spirit связывает случайных врагов вокруг себя огненными оковами. 
+		Оковы не дают целям двигаться и наносят им магический урон каждую секунду.\n\nУрон в секунду: %damage_per_second% + Сила магии × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_ember_searing_chains_trinity_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_ember_searing_chains_trinity_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_ember_searing_chains_trinity_unit_count"			"КОЛИЧЕСТВО ЦЕЛЕЙ:"
@@ -973,8 +993,9 @@
 		"DOTA_Tooltip_modifier_ember_searing_chains_trinity_Description"		"Цель опутана огненными цепями и не может двигаться."
 
 		"DOTA_Tooltip_ability_ember_flame_guard_passive"							"Flame Guard"
-		"DOTA_Tooltip_ability_ember_flame_guard_passive_Description"				"<b>Пассивно.</b> Атака по крипу даёт Ember Spirit 1 заряд, а атака по герою — 3 заряда (до %max_charges%). Каждый заряд даёт щит, поглощающий магический урон, и наносит урон по площади вокруг героя каждую секунду. Пока у щита остаётся прочность, исходящий магический урон увеличивается на Силу магии × %magic_damage_amp_mind_power_multiplier%%%. Удары пополняют щит. Если не атаковать %charge_duration% секунд, заряды сгорают. Урон по площади усиливается Силой магии."
-		"DOTA_Tooltip_Ability_ember_flame_guard_passive_SummaryDescription"			"Пассивно: атака по крипу даёт 1 заряд, по герою — 3. Каждый заряд даёт щит от магии и АоЕ урон вокруг героя."
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_Description"				"Атаки Ember Spirit по врагам дают заряды щита. Каждый заряд увеличивает максимальный запас магического щита и урон по области вокруг героя. 
+		Новые атаки восстанавливают щит.\n\nУрон в секунду: заряды × %damage_per_second_per_charge% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_Ability_ember_flame_guard_passive_SummaryDescription"			"Атаки дают заряды щита от магического урона и усиливают периодический урон вокруг Ember Spirit."
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_shield_per_charge"			"ЩИТ ЗА ЗАРЯД:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_damage_per_second_per_charge"	"УРОН В СЕКУНДУ ЗА ЗАРЯД:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_radius"						"РАДИУС:"
@@ -989,17 +1010,17 @@
 
 		// Shadow Fiend — койлы со стаками от Силы магии
 		"DOTA_Tooltip_ability_nevermore_necromastery"						"Некромастерия"
-		"DOTA_Tooltip_ability_nevermore_necromastery_Description"			"Герой крадёт души убитых им существ, и каждая из них увеличивает Силу магии на %mind_power_per_soul%. За обычное существо даётся одна душа, а за героя — %souls_per_hero_kill%. При смерти герой выпускает %souls_released_on_death_pct%%% из украденных душ."
-		"DOTA_Tooltip_Ability_nevermore_necromastery_SummaryDescription"	"Души убитых врагов дают Силу магии."
+		"DOTA_Tooltip_ability_nevermore_necromastery_Description"			"<b>Пассивно.</b> Shadow Fiend забирает души убитых им врагов. Каждая душа увеличивает Силу магии. За героя он получает больше душ, чем за обычное существо.\n\nПри смерти Shadow Fiend теряет часть собранных душ."
+		"DOTA_Tooltip_Ability_nevermore_necromastery_SummaryDescription"	"Убитые враги отдают Shadow Fiend души, увеличивающие Силу магии."
 		"DOTA_Tooltip_ability_nevermore_necromastery_mind_power_per_soul"	"СИЛА МАГИИ ЗА ДУШУ:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_max_souls"				"МАКСИМУМ ДУШ:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_souls_per_hero_kill"	"ДУШ ЗА ГЕРОЯ:"
 		"DOTA_Tooltip_modifier_nevermore_necromastery"						"Некромастерия"
 		"DOTA_Tooltip_modifier_nevermore_necromastery_Description"			"Собранные души усиливают Силу магии."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity"						"Shadowraze (ближний)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_Description"			"Shadow Fiend выжигает землю перед собой, нанося базовый урон плюс %mind_power_multiplier%x от Силы магии. Каждое попадание накладывает на врага эффект, увеличивающий урон последующих Shadowraze на %stack_bonus_damage%."
-		"DOTA_Tooltip_Ability_nevermore_shadowraze1_trinity_SummaryDescription"		"Выжигает землю рядом с героем. Последовательные попадания наносят больше урона."
-		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shard_description"		"Попадание по вражескому герою уменьшает перезарядку на %shard_cooldown_reduction% сек. Каждый стак замедляет на %shard_slow_per_stack%%% и снижает броню на %shard_armor_reduction_per_stack%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_Description"			"Shadow Fiend выжигает землю рядом перед собой, нанося врагам магический урон. Каждое попадание оставляет заряд, увеличивающий урон последующих Shadowraze по той же цели.\n\nУрон: %shadowraze_damage% + заряды × %stack_bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_Ability_nevermore_shadowraze1_trinity_SummaryDescription"		"Выжигает землю рядом перед Shadow Fiend. Последовательные попадания наносят больше урона."
+		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shard_description"		"Попадание по вражескому герою сокращает текущую перезарядку. Каждый заряд Shadowraze также замедляет цель и снижает её броню."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_damage"		"УРОН:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_stack_bonus_damage"		"УРОН ЗА СТАК:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
@@ -1009,16 +1030,16 @@
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_range"		"ДИСТАНЦИЯ:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_radius"		"РАДИУС:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity"						"Shadowraze (средний)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_Description"			"Shadow Fiend выжигает землю на среднем расстоянии, нанося базовый урон плюс %mind_power_multiplier%x от Силы магии. Каждое попадание накладывает на врага эффект, увеличивающий урон последующих Shadowraze на %stack_bonus_damage%."
-		"DOTA_Tooltip_Ability_nevermore_shadowraze2_trinity_SummaryDescription"		"Выжигает землю на среднем расстоянии. Последовательные попадания наносят больше урона."
+		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_Description"			"Shadow Fiend выжигает землю перед собой на среднем расстоянии, нанося врагам магический урон. Каждое попадание оставляет заряд, увеличивающий урон последующих Shadowraze по той же цели.\n\nУрон: %shadowraze_damage% + заряды × %stack_bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_Ability_nevermore_shadowraze2_trinity_SummaryDescription"		"Выжигает землю перед Shadow Fiend на среднем расстоянии. Последовательные попадания наносят больше урона."
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_damage"		"УРОН:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_stack_bonus_damage"		"УРОН ЗА СТАК:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_range"		"ДИСТАНЦИЯ:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_radius"		"РАДИУС:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity"						"Shadowraze (дальний)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_Description"			"Shadow Fiend выжигает землю на большом расстоянии, нанося базовый урон плюс %mind_power_multiplier%x от Силы магии. Каждое попадание накладывает на врага эффект, увеличивающий урон последующих Shadowraze на %stack_bonus_damage%."
-		"DOTA_Tooltip_Ability_nevermore_shadowraze3_trinity_SummaryDescription"		"Выжигает землю на большом расстоянии. Последовательные попадания наносят больше урона."
+		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_Description"			"Shadow Fiend выжигает землю перед собой на большом расстоянии, нанося врагам магический урон. Каждое попадание оставляет заряд, увеличивающий урон последующих Shadowraze по той же цели.\n\nУрон: %shadowraze_damage% + заряды × %stack_bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_Ability_nevermore_shadowraze3_trinity_SummaryDescription"		"Выжигает землю далеко перед Shadow Fiend. Последовательные попадания наносят больше урона."
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_shadowraze_damage"		"УРОН:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_stack_bonus_damage"		"УРОН ЗА СТАК:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
@@ -1028,9 +1049,9 @@
 		"DOTA_Tooltip_modifier_nevermore_shadowraze_trinity_debuff_Description"		"Каждый стак увеличивает урон следующего Shadowraze. С Aghanim's Shard также снижает скорость передвижения и броню."
 
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity"						"Реквием душ"
-		"DOTA_Tooltip_ability_nevermore_requiem_trinity_Description"			"Герой выпускает до %max_soul_release% собранных душ волнами демонической энергии. Каждая душа Некромастерии создаёт одну волну. Каждая волна наносит базовый урон плюс %mind_power_multiplier%x от Силы магии. Несколько волн могут поразить одну цель. Каждая попавшая волна добавляет %requiem_slow_duration% сек. страха, замедления и снижения сопротивления магии, вплоть до %requiem_slow_duration_max% сек. При смерти способность срабатывает автоматически вне зависимости от готовности, но посмертные волны не накладывают эффекты контроля."
-		"DOTA_Tooltip_Ability_nevermore_requiem_trinity_SummaryDescription"	"Выпускает по одной волне за каждую душу. Урон усиливается Силой магии."
-		"DOTA_Tooltip_ability_nevermore_requiem_trinity_scepter_description"	"Уменьшает перезарядку на %scepter_cooldown_reduction% сек. Волны возвращаются к герою, повторно наносят %scepter_return_damage_pct%%% урона и лечат его на %scepter_return_heal_pct%%% от фактически нанесённого на обратном пути урона. Посмертные волны не возвращаются."
+		"DOTA_Tooltip_ability_nevermore_requiem_trinity_Description"			"Shadow Fiend выпускает во все стороны волны демонической энергии — по одной за каждую душу Некромастерии. Каждая волна наносит магический урон, а одна цель может попасть под несколько волн.\n\nПопавшие волны пугают врагов, замедляют их и снижают сопротивление магии. Длительность этих эффектов складывается за каждое попадание вплоть до максимума.\n\nПри смерти Shadow Fiend применяет способность независимо от её готовности. Посмертные волны не накладывают контроль.\n\nУрон волны: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_Ability_nevermore_requiem_trinity_SummaryDescription"	"Выпускает по одной волне за каждую душу Некромастерии. Волны наносят урон и пугают врагов."
+		"DOTA_Tooltip_ability_nevermore_requiem_trinity_scepter_description"	"Сокращает перезарядку способности. Обычные волны возвращаются к Shadow Fiend, повторно наносят урон и лечат его на долю от фактически нанесённого урона. Посмертные волны не возвращаются."
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_damage"					"БАЗОВЫЙ УРОН ЗА ВОЛНУ:"
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_requiem_reduction_ms"	"ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
@@ -1050,7 +1071,7 @@
 
 		// Pudge
 		"DOTA_Tooltip_ability_pudge_rot_trinity"							"Гниль"
-		"DOTA_Tooltip_ability_pudge_rot_trinity_Description"				"Ядовитое облако наносит урон врагам и самому Пуджу, а также замедляет врагов. Урон и радиус растут с <b>Силой магии</b>."
+		"DOTA_Tooltip_ability_pudge_rot_trinity_Description"				"Пудж окружает себя ядовитым облаком, которое каждую секунду наносит магический урон ему и врагам вокруг, а также замедляет врагов. Урон от облака не может убить Пуджа.\n\nУрон и радиус облака увеличиваются Силой магии."
 		"DOTA_Tooltip_ability_pudge_rot_trinity_rot_damage"				"БАЗОВЫЙ УРОН В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_pudge_rot_trinity_rot_radius"				"БАЗОВЫЙ РАДИУС:"
 		"DOTA_Tooltip_ability_pudge_rot_trinity_rot_slow"					"ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"

@@ -1,55 +1,81 @@
 MortimerBoss = MortimerBoss or {}
 
+require("map_modifications/Bosses/mortimer_level_scaling")
+
 local BOSS_NAME = "npc_mortimer_boss"
 local FINALE_NAME = "npc_mortimer_boss_finale"
 local CELEBRATION_DURATION = 2.5
-local FINALE_DURATION = 10.0
-local TARGET_RADIUS = 3000
+local WAYPOINT_REACH_DISTANCE = 100
+
+local PATHWAY_POINTS = {
+    "Roshan_pathway",
+    "Roshan_pathway_2",
+    "Roshan_pathway_final",
+}
 
 local function IsAlive(unit)
     return unit and IsValidEntity(unit) and unit:IsAlive()
 end
 
-local function FindFinaleTarget(finale)
-    local enemies = FindUnitsInRadius(
-        finale:GetTeamNumber(),
-        finale:GetAbsOrigin(),
-        nil,
-        TARGET_RADIUS,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        FIND_CLOSEST,
-        false
-    )
-
-    for _, enemy in ipairs(enemies) do
-        if IsAlive(enemy) then
-            return enemy
-        end
+local function GetOpposingPlayerTeam(team)
+    if team == DOTA_TEAM_GOODGUYS then
+        return DOTA_TEAM_BADGUYS
+    end
+    if team == DOTA_TEAM_BADGUYS then
+        return DOTA_TEAM_GOODGUYS
     end
 
     return nil
 end
 
-local function GetKissesTargetPosition(finale, target)
-    local origin = finale:GetAbsOrigin()
-    local targetPosition = target:GetAbsOrigin()
-    local offset = targetPosition - origin
-    offset.z = 0
+local function StartFinaleRetreat(finale, waypointIndex)
+    finale:AddActivityModifier("walk")
+    finale.currentWaypointIndex = waypointIndex or 1
 
-    -- Mortimer Kisses has a minimum range. Preserve the enemy's direction when
-    -- it is standing too close so the stock ability can still begin its volley.
-    if offset:Length2D() < 700 then
-        local direction = offset:Length2D() > 0 and offset:Normalized() or finale:GetForwardVector()
-        targetPosition = origin + direction * 700
-    end
+    finale:SetContextThink("MortimerFinaleRetreat", function()
+        if not IsAlive(finale) then
+            return nil
+        end
 
-    return targetPosition
+        if GameRules:IsGamePaused() then
+            return 0.25
+        end
+
+        local waypointName = PATHWAY_POINTS[finale.currentWaypointIndex]
+        local waypoint = waypointName and Entities:FindByName(nil, waypointName) or nil
+        if not waypoint then
+            if waypointName then
+                print("[MortimerBoss] Finale pathway waypoint is missing: " .. waypointName)
+            end
+            UTIL_Remove(finale)
+            return nil
+        end
+
+        local waypointPosition = waypoint:GetAbsOrigin()
+        if (finale:GetAbsOrigin() - waypointPosition):Length2D() < WAYPOINT_REACH_DISTANCE then
+            finale.currentWaypointIndex = finale.currentWaypointIndex + 1
+            waypointName = PATHWAY_POINTS[finale.currentWaypointIndex]
+            waypoint = waypointName and Entities:FindByName(nil, waypointName) or nil
+
+            if not waypoint then
+                UTIL_Remove(finale)
+                return nil
+            end
+
+            waypointPosition = waypoint:GetAbsOrigin()
+        end
+
+        local position = finale:GetAbsOrigin()
+        AddFOWViewer(DOTA_TEAM_GOODGUYS, position, 800, 1.0, false)
+        AddFOWViewer(DOTA_TEAM_BADGUYS, position, 800, 1.0, false)
+        finale:MoveToPosition(waypointPosition)
+        return 0.35
+    end, 0)
 end
 
-function MortimerBoss:StartFinale(killedBoss)
+function MortimerBoss:StartFinale(killedBoss, targetTeam)
     local position = killedBoss:GetAbsOrigin()
+    local waypointIndex = killedBoss.currentWaypointIndex or 1
     -- Replace the corpse with the animated finale actor so two Mortimers do not
     -- overlap while the normal death animation is still visible.
     killedBoss:AddNoDraw()
@@ -68,42 +94,42 @@ function MortimerBoss:StartFinale(killedBoss)
     end
 
     finale:SetForwardVector(killedBoss:GetForwardVector())
+    MortimerLevelScaling:SetUnitLevel(finale, MortimerLevelScaling:GetLevel(killedBoss))
+    finale.towerKillRewardTeam = GetOpposingPlayerTeam(targetTeam)
     finale:AddNewModifier(finale, nil, "modifier_invulnerable", {})
     finale:AddNewModifier(finale, nil, "modifier_phased", {})
-    finale:StartGesture(ACT_DOTA_TAUNT)
+    finale:ResetSequence("snapfire_taunt")
 
     Timers:CreateTimer(CELEBRATION_DURATION, function()
         if not IsAlive(finale) then
             return nil
         end
 
-        finale:FadeGesture(ACT_DOTA_TAUNT)
-        local kisses = finale:FindAbilityByName("snapfire_mortimer_kisses")
-        local target = FindFinaleTarget(finale)
+        local kisses = finale:FindAbilityByName("mortimer_finale_kisses")
 
-        if kisses and target then
+        if kisses then
             kisses:SetLevel(math.max(1, kisses:GetMaxLevel()))
-            kisses:SetActivated(true)
-            finale:SetMana(finale:GetMaxMana())
-            local targetPosition = GetKissesTargetPosition(finale, target)
-            finale:SetForwardVector((targetPosition - finale:GetAbsOrigin()):Normalized())
-            finale:CastAbilityOnPosition(targetPosition, kisses, -1)
+            local targetPosition = kisses:GetCurrentTargetPosition(nil, targetTeam)
+            if targetPosition then
+                finale:SetForwardVector((targetPosition - finale:GetAbsOrigin()):Normalized())
+                kisses:FireVolley(targetPosition, targetTeam, function()
+                    StartFinaleRetreat(finale, waypointIndex)
+                end)
+                return nil
+            end
         end
 
-        return nil
-    end)
-
-    Timers:CreateTimer(FINALE_DURATION, function()
-        if finale and IsValidEntity(finale) then
-            UTIL_Remove(finale)
-        end
+        StartFinaleRetreat(finale, waypointIndex)
         return nil
     end)
 end
 
-function MortimerBoss:OnEntityKilled(unit)
+function MortimerBoss:OnEntityKilled(unit, event)
     if unit and unit:GetUnitName() == BOSS_NAME then
-        self:StartFinale(unit)
+        local attackerIndex = event and (event.entindex_attacker or event.entindex_attacker_const)
+        local attacker = attackerIndex and EntIndexToHScript(attackerIndex) or nil
+        local killerTeam = attacker and not attacker:IsNull() and attacker:GetTeamNumber() or nil
+        self:StartFinale(unit, GetOpposingPlayerTeam(killerTeam))
     end
 end
 

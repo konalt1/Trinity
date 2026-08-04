@@ -12,6 +12,7 @@
 
 		"AbilityValues"
 		{
+			"damage_per_soul"              "2 3 4 5"
 			"mind_power_per_soul"          "1 2 3 4"
 			"max_souls"                    "20"
 			"souls_per_kill"               "1"
@@ -62,7 +63,7 @@
                     "special_bonus_unique_nevermore_7"  "+30"
                 }
 				"mind_power_multiplier"     "1.0"
-				"duration"                  "7"
+                "duration"                  "7"
 				"shard_cooldown_reduction"  "2"
 				"shard_slow_per_stack"      "12"
 				"shard_armor_reduction_per_stack" "3"
@@ -109,7 +110,7 @@
                 "special_bonus_unique_nevermore_7"  "+30"
             }
 			"mind_power_multiplier"     "1.0"
-			"duration"                  "7"
+            "duration"                  "7"
 			"shard_cooldown_reduction"  "2"
 			"shard_slow_per_stack"      "12"
 			"shard_armor_reduction_per_stack" "3"
@@ -150,7 +151,7 @@
                 "special_bonus_unique_nevermore_7"  "+30"
             }
 			"mind_power_multiplier"     "1.0"
-			"duration"                  "7"
+            "duration"                  "7"
 			"shard_cooldown_reduction"  "2"
 			"shard_slow_per_stack"      "12"
 			"shard_armor_reduction_per_stack" "3"
@@ -204,6 +205,6 @@
 			"particle"  "particles/units/heroes/hero_nevermore/nevermore_requiemofsouls_a.vpcf"
 			"particle"  "particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf"
 			"particle"  "particles/units/heroes/hero_nevermore/nevermore_requiemofsouls_line.vpcf"
-		}
-	}
+        }
+    }
 }

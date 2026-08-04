@@ -1,6 +1,63 @@
 // Trinity — units abilities
 "DOTAAbilities"
 {
+    "mortimer_finale_kisses"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "map_modifications/Bosses/mortimer_finale_kisses"
+        "AbilityTextureName"            "snapfire_mortimer_kisses"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+
+        "AbilityValues"
+        {
+            "projectile_count"          "43"
+            "volley_duration"           "25"
+            "start_animation_delay"     "0.4"
+            "min_range"                 "0"
+            "max_range"                 "10000"
+            "min_lob_travel_time"       "0.8"
+            "max_lob_travel_time"       "1.8"
+            "projectile_vision"         "300"
+            "target_spread"             "225"
+            "impact_radius"             "300"
+            "damage_per_impact"         "500"
+            "burn_ground_duration"      "3"
+            "burn_damage"               "80"
+            "burn_interval"             "0.5"
+            "move_slow_pct"             "25"
+        }
+    }
+
+    "mortimer_gobble_up"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "map_modifications/Bosses/mortimer_gobble_up"
+        "AbilityTextureName"            "snapfire_gobble_up"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+        "AbilityCastRange"              "0"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "8"
+        "AbilityManaCost"               "0"
+
+        "AbilityValues"
+        {
+            "effect_radius"             "300"
+            "effect_offset"             "300"
+            "warning_duration"          "1"
+            "spit_delay"                "0.35"
+            "spit_min_distance"         "900"
+            "spit_max_distance"         "2400"
+            "spit_speed"                "1800"
+        }
+    }
+
     "custom_fountain_aura"
     {
         "BaseClass"                     "ability_lua"

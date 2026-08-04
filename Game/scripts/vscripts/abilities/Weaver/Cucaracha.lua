@@ -95,7 +95,7 @@ modifier_weaver_cucaracha = class({
 	GetAttributes = function(self) return MODIFIER_ATTRIBUTE_NONE end,
 	DeclareFunctions = function(self) return
 	{
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
 		MODIFIER_PROPERTY_TOOLTIP,
 	} end,
 })
@@ -114,11 +114,10 @@ function modifier_weaver_cucaracha:OnCreated()
 
 	local parent = self:GetParent()
 
-	self.base_agility_bonus = ability:GetSpecialValueFor("base_agility_bonus")
+	self.move_speed = ability:GetSpecialValueFor("move_speed")
 	self.target_scale = ability:GetSpecialValueFor("model_scale")
-	self.total_agility_bonus = math.max(0, self.base_agility_bonus)
 
-	self:SetStackCount(math.floor(self.total_agility_bonus))
+	self:SetStackCount(math.floor(self.move_speed))
 
 	if parent and parent.cucaracha_current_scale then
 		self.current_scale = parent.cucaracha_current_scale
@@ -156,9 +155,8 @@ function modifier_weaver_cucaracha:OnRefresh()
 	local ability = self:GetAbility()
 	if not ability then return end
 
-	self.base_agility_bonus = ability:GetSpecialValueFor("base_agility_bonus")
-	self.total_agility_bonus = math.max(0, self.base_agility_bonus)
-	self:SetStackCount(math.floor(self.total_agility_bonus))
+	self.move_speed = ability:GetSpecialValueFor("move_speed")
+	self:SetStackCount(math.floor(self.move_speed))
 
 	local parent = self:GetParent()
 	if HasShard(parent) and not self.swarm_search_interval then
@@ -295,16 +293,16 @@ function modifier_weaver_cucaracha:AttachSwarmBeetle(target, swarm)
 	end
 end
 
-function modifier_weaver_cucaracha:GetModifierBonusStats_Agility()
+function modifier_weaver_cucaracha:GetModifierMoveSpeed_Absolute()
 	if IsServer() then
-		return self.total_agility_bonus or 0
+		return self.move_speed or 0
 	end
 	return self:GetStackCount()
 end
 
 function modifier_weaver_cucaracha:OnTooltip()
 	if IsServer() then
-		return self.total_agility_bonus or 0
+		return self.move_speed or 0
 	end
 	return self:GetStackCount()
 end

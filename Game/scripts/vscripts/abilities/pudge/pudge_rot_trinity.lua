@@ -148,7 +148,7 @@ function modifier_pudge_rot_trinity:OnIntervalThink()
 		attacker = parent,
 		damage = ability:GetDamagePerSecond() * self.tick,
 		damage_type = DAMAGE_TYPE_MAGICAL,
-		damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION,
+		damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_NON_LETHAL,
 		ability = ability,
 	})
 end

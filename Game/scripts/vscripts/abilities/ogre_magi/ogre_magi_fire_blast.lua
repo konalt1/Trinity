@@ -149,7 +149,7 @@ function ogre_magi_fire_blast:ExecuteSpell()
     print("[DEBUG] Ground particle created: " .. tostring(ground_particle))
     
     -- Play impact sound (TO REPLACE: impact/smash sound)
-    EmitGlobalSound("Hero_OgreMagi.Fireblast.Target")
+    EmitSoundOnLocationWithCaster(target_point, "Hero_OgreMagi.Fireblast.Target", caster)
     
     -- Shard: Fire Blast пробивает БКБ
     local has_shard = caster:HasModifier("modifier_item_aghanims_shard")

@@ -5,9 +5,16 @@ LinkLuaModifier("modifier_pudge_meat_hook_trinity_pull", "abilities/pudge/pudge_
 LinkLuaModifier("modifier_pudge_meat_hook_trinity_charges", "abilities/pudge/pudge_meat_hook_trinity", LUA_MODIFIER_MOTION_NONE)
 
 local HOOK_OFFSET = Vector(0, 0, 96)
+local RUNE_CLASSNAME = "dota_item_rune"
 
 local function IsValidHookEntity(entity)
 	return entity and (not entity.IsNull or not entity:IsNull())
+end
+
+local function IsRuneEntity(entity)
+	return IsValidHookEntity(entity)
+		and entity.GetClassname
+		and entity:GetClassname() == RUNE_CLASSNAME
 end
 
 function pudge_meat_hook_trinity:GetCastRange(_, _)
@@ -130,8 +137,10 @@ function pudge_meat_hook_trinity:OnSpellStart()
 		caster = caster,
 		start_position = origin,
 		speed = speed,
+		width = width,
 		returning = false,
 		target = nil,
+		rune = nil,
 		pull_modifier = nil,
 	}
 
@@ -142,6 +151,7 @@ end
 function pudge_meat_hook_trinity:IsValidHookTarget(target)
 	if not IsValidHookEntity(target) then return false end
 	if target == self:GetCaster() then return false end
+	if not target.IsCreep or not target.IsConsideredHero then return false end
 	return target:IsCreep() or target:IsConsideredHero()
 end
 
@@ -177,8 +187,10 @@ function pudge_meat_hook_trinity:StartHookReturn(projectile, target, position)
 	state.caster:StartGesture(ACT_DOTA_CHANNEL_ABILITY_1)
 
 	local hook_position = position
-	local pulled_target = self:IsValidHookTarget(target) and target or nil
+	local pulled_rune = IsRuneEntity(target) and target or nil
+	local pulled_target = not pulled_rune and self:IsValidHookTarget(target) and target or nil
 	state.target = nil
+	state.rune = nil
 
 	if pulled_target then
 		hook_position = pulled_target:GetAbsOrigin()
@@ -231,6 +243,13 @@ function pudge_meat_hook_trinity:StartHookReturn(projectile, target, position)
 		else
 			ParticleManager:SetParticleControl(state.particle, 1, hook_position + HOOK_OFFSET)
 		end
+	elseif pulled_rune then
+		hook_position = pulled_rune:GetAbsOrigin()
+		state.rune = pulled_rune
+		ParticleManager:SetParticleControl(state.particle, 1, hook_position + HOOK_OFFSET)
+
+		local mana_cost = self:GetManaCost(-1)
+		if mana_cost > 0 then state.caster:GiveMana(mana_cost) end
 	else
 		ParticleManager:SetParticleControl(state.particle, 1, hook_position + HOOK_OFFSET)
 	end
@@ -257,6 +276,23 @@ function pudge_meat_hook_trinity:StartHookReturn(projectile, target, position)
 	self.hooks[projectile] = nil
 	state.projectile = return_projectile
 	self.hooks[return_projectile] = state
+
+	if IsRuneEntity(state.rune) then
+		state.thinker:SetContextThink("PudgeRuneHookFollow", function()
+			if not IsValidHookEntity(state.thinker)
+				or self.hooks[state.projectile] ~= state
+				or not IsRuneEntity(state.rune) then
+				return nil
+			end
+
+			local current_position = ProjectileManager:GetLinearProjectileLocation(state.projectile)
+			state.thinker:SetAbsOrigin(current_position)
+			state.rune:SetAbsOrigin(GetGroundPosition(current_position, state.rune))
+			ParticleManager:SetParticleControl(state.particle, 1, current_position + HOOK_OFFSET)
+			return FrameTime()
+		end, 0)
+	end
+
 	return true
 end
 
@@ -269,7 +305,19 @@ function pudge_meat_hook_trinity:OnProjectileThinkHandle(projectile)
 	local position = ProjectileManager:GetLinearProjectileLocation(projectile)
 	state.thinker:SetAbsOrigin(position)
 
+	if not state.returning then
+		local rune = Entities:FindByClassnameWithin(nil, RUNE_CLASSNAME, position, state.width)
+		if IsRuneEntity(rune) then
+			ProjectileManager:DestroyLinearProjectile(projectile)
+			self:StartHookReturn(projectile, rune, rune:GetAbsOrigin())
+			return
+		end
+	end
+
 	if state.returning and (not IsValidHookEntity(state.target) or not state.target:IsAlive()) then
+		if IsRuneEntity(state.rune) then
+			state.rune:SetAbsOrigin(GetGroundPosition(position, state.rune))
+		end
 		ParticleManager:SetParticleControl(state.particle, 1, position + HOOK_OFFSET)
 	elseif state.returning then
 		state.target:SetOrigin(GetGroundPosition(position, state.target))
@@ -293,6 +341,10 @@ function pudge_meat_hook_trinity:CleanupHook(projectile, place_target, destroy_p
 		if away:Length2D() < 0.01 then away = state.caster:GetForwardVector() else away = away:Normalized() end
 		local padding = state.caster:GetPaddedCollisionRadius() + state.target:GetPaddedCollisionRadius()
 		FindClearSpaceForUnit(state.target, state.start_position + away * padding, false)
+	end
+
+	if place_target and IsRuneEntity(state.rune) then
+		state.rune:SetAbsOrigin(GetGroundPosition(state.start_position, state.rune))
 	end
 
 	if IsValidHookEntity(state.thinker) then

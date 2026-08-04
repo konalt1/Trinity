@@ -117,6 +117,15 @@
 		"Ability6"				                        "lion_finger_of_death_custom"
         "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
+
+		"Ability10"                                     "special_bonus_unique_custom_lion_1"
+		"Ability11"                                     "special_bonus_unique_custom_lion_2"
+		"Ability12"                                     "special_bonus_unique_custom_lion_3"
+		"Ability13"                                     "special_bonus_unique_custom_lion_4"
+		"Ability14"                                     "special_bonus_unique_custom_lion_5"
+		"Ability15"                                     "special_bonus_unique_custom_lion_6"
+		"Ability16"                                     "special_bonus_unique_custom_lion_7"
+		"Ability17"                                     "special_bonus_unique_custom_lion_8"
 	}
 
 	"npc_dota_hero_tinker"
@@ -349,18 +358,19 @@
 		"Ability1"                                      "ember_searing_chains_trinity"
 		// Flame Guard replaced with the passive version.
 		"Ability3"                                      "ember_flame_guard_passive"
-		"Ability5"                                      "generic_hidden"
+		"Ability4"                                      "generic_hidden"
 		"Ability6"                                      "ember_spirit_fire_remnant_trinity"
-		"Ability7"                                      "ember_spirit_activate_fire_remnant"
+		"Ability5"                                      "ember_spirit_activate_fire_remnant_trinity"
 		"Ability8"                                      "generic_hidden"
-		"Ability10"                                     "generic_hidden"
-		"Ability11"                                     "generic_hidden"
-		"Ability12"                                     "generic_hidden"
-		"Ability13"                                     "generic_hidden"
-		"Ability14"                                     "generic_hidden"
-		"Ability15"                                     "generic_hidden"
-		"Ability16"                                     "generic_hidden"
-		"Ability17"                                     "generic_hidden"
+
+		"Ability10"                                     "special_bonus_unique_custom_ember_spirit_1"
+		"Ability11"                                     "special_bonus_unique_custom_ember_spirit_2"
+		"Ability12"                                     "special_bonus_unique_custom_ember_spirit_3"
+		"Ability13"                                     "special_bonus_unique_custom_ember_spirit_4"
+		"Ability14"                                     "special_bonus_unique_custom_ember_spirit_5"
+		"Ability15"                                     "special_bonus_unique_custom_ember_spirit_6"
+		"Ability16"                                     "special_bonus_unique_custom_ember_spirit_7"
+		"Ability17"                                     "special_bonus_unique_custom_ember_spirit_8"
 	}
 
 	"npc_dota_hero_pudge"
@@ -369,6 +379,15 @@
 		"Ability1"                                      "pudge_meat_hook_trinity"
 		"Ability2"                                      "pudge_rot_trinity"
 		"Ability5"                                      "generic_hidden"
+
+		"Ability10"                                     "special_bonus_unique_custom_pudge_1"
+		"Ability11"                                     "special_bonus_unique_custom_pudge_2"
+		"Ability12"                                     "special_bonus_unique_custom_pudge_3"
+		"Ability13"                                     "special_bonus_unique_custom_pudge_4"
+		"Ability14"                                     "special_bonus_unique_custom_pudge_5"
+		"Ability15"                                     "special_bonus_unique_custom_pudge_6"
+		"Ability16"                                     "special_bonus_unique_custom_pudge_7"
+		"Ability17"                                     "special_bonus_unique_custom_pudge_8"
 	}
 
 	"npc_dota_hero_nevermore"
@@ -381,6 +400,15 @@
 		"Ability5"                                      "generic_hidden"
 		"Ability6"                                      "nevermore_requiem_trinity"
 		"Ability7"                                      "generic_hidden"
+
+		"Ability10"                                     "special_bonus_unique_custom_nevermore_1"
+		"Ability11"                                     "special_bonus_unique_custom_nevermore_2"
+		"Ability12"                                     "special_bonus_unique_custom_nevermore_3"
+		"Ability13"                                     "special_bonus_unique_custom_nevermore_4"
+		"Ability14"                                     "special_bonus_unique_custom_nevermore_5"
+		"Ability15"                                     "special_bonus_unique_custom_nevermore_6"
+		"Ability16"                                     "special_bonus_unique_custom_nevermore_7"
+		"Ability17"                                     "special_bonus_unique_custom_nevermore_8"
 	}
 
 }

@@ -46,7 +46,7 @@
 **Ключевые особенности:**
 
 - Глобальная шкала **Mind Power** (масштабирует урон, хил, размер, радиусы и т.д.)
-- Кастомные способности у **15 героев** (см. раздел [Кастомные герои](#кастомные-герои))
+- Кастомные способности у **16 героев** (см. раздел [Кастомные герои](#кастомные-герои))
 - Поэтапная **неуязвимость башен и тронов**
 - **Comeback-бонусы** к золоту и опыту за крипов для отстающей команды
 - **Chen** с системой казарм и экономикой
@@ -94,7 +94,7 @@ git config core.symlinks true
 
 | Команда | Назначение |
 |---------|------------|
-| `create_roshan_spawner [x y z]` | Создать спавнер Roshan (cheat) |
+| `create_roshan_spawner [x y z]` | Создать pathway-спавнер Мортимера (legacy-имя команды, cheat) |
 | `spawn_roshan` | Спавн Roshan у героя игрока 0 |
 
 ---
@@ -144,7 +144,6 @@ flowchart TD
     C --> E[GameMode:InitGameMode]
     C --> F[InitGameManagers]
     C --> G[InitKillFeed]
-    C --> H[InitRoshanPathwaySpawner]
     F --> I[xp_think + GiveAbilitiesToAllHeroes]
 ```
 
@@ -233,7 +232,7 @@ local mind_power = GetHeroMindPower(caster) or 0
 local total = base_value + mind_power * self:GetSpecialValueFor("mind_power_multiplier")
 ```
 
-Герои/способности с `mind_power_multiplier` в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Tusk, Chen и др.
+Герои/способности с `mind_power_multiplier` в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Weaver, Ogre Magi, DOOM, Tusk, Chen и др.
 
 ### Расширение через модификаторы
 
@@ -311,10 +310,12 @@ flowchart TD
 - Init: `require("kill_feed/init")` → `InitKillFeed()` в `addon_game_mode.lua`
 - Net table: `kill_feed_debug`
 - Custom events: см. `custom.gameevents`
-- `KillfeedSystem.HERO_KILL_GOLD_MODE = "formula"`: базовая награда за убийство = `8 × уровень жертвы + 0,2% net worth жертвы`
+- `KillfeedSystem.HERO_KILL_GOLD_MODE = "formula"`: базовая награда за убийство = `8 × уровень жертвы + 2% net worth жертвы`
 - Базовая награда убийцы масштабируется относительно среднего net worth команды жертвы. При равенстве коэффициент равен `1`; по умолчанию он линейно ограничен диапазоном `0,5–1,5` и достигает границы при разнице в `50%` (`HERO_KILL_NET_WORTH_MAX_ADJUSTMENT_PCT`, `HERO_KILL_NET_WORTH_DIFFERENCE_FOR_MAX_PCT`).
+- Базовая награда за убийство получает командный rubberband-множитель по разнице суммарного net worth: линейно от `×0` при преимуществе в `5000` через `×1` при равенстве до `×2` при отставании в `5000` (`CREEP_BOUNTY_COMEBACK_MAX_BONUS_PCT`, `CREEP_BOUNTY_COMEBACK_NW_FOR_MAX`). Множитель не применяется к First Blood и золоту за ассисты.
 - Первое валидное убийство вражеского героя в матче даёт убийце дополнительные `150` золота (`FIRST_HERO_KILL_BONUS_GOLD`)
 - `KillfeedSystem.HERO_ASSIST_GOLD_MODE = "formula"`: убийце и каждому ассистенту = `15 + (50 + net worth жертвы × 0,05) / число участвовавших героев`; убийца также получает отдельное золото за килл
+- Если героя убивает вражеская башня или посмертные Kisses Мортимера, формульная награда за убийство (включая First Blood, если применимо) равномерно распределяется между всеми игроками противоположной команды; остаток по одному золоту выдаётся первым игрокам команды.
 - **Статус:** модуль подключён в entry point; при отсутствии файлов `Game/scripts/vscripts/kill_feed/` игра упадёт при загрузке — проверять наличие перед работой
 
 ### Chat Wheel
@@ -328,11 +329,19 @@ flowchart TD
 - Способность: `abilities/high_five_custom.lua` (выдаётся всем героям)
 - Panorama: `Content/panorama/layout/custom_game/high_five/`
 
-### Roshan
+### Mortimer pathway
 
-- `ai_roshan_custom.lua` — кастомный AI
-- `map_modifications/roshan_pathway_spawner.lua` — pathway spawner
-- `map_modifications/Roshan/` — юнит спавнера, AI pathway
+- Установленный на карте бывший спавнер Рошана создаёт первого `npc_mortimer_boss` на 10:00 игрового времени, затем нового босса каждые 6 минут независимо от уже живых Мортимеров.
+- Первый успешно созданный Мортимер имеет уровень 1, каждый следующий — на один выше. Уровень увеличивает здоровье, броню, урон атаки и Firesnap Cookie, дальность броска Gobble Up, а также урон и длительность посмертных Kisses; коэффициенты собраны в `mortimer_level_scaling.lua`.
+- Для уровня `L` используются формулы: здоровье `3500 + 3000 × (L − 1)`, броня `20 + 5 × (L − 1)`, урон атаки `200 + 100 × (L − 1)`, урон Cookie `+25% × (L − 1)`, максимальная дальность Gobble Up `2400 + 300 × (L − 1)`. Базовый залп Kisses длится 25 секунд; за уровень добавляются 4 снаряда, 3 секунды залпа, 100 урона попадания, 20 урона горения в секунду и 0,5 секунды огненной лужи.
+- Мортимер следует по точкам `Roshan_pathway` → `Roshan_pathway_2` → `Roshan_pathway_final`, вступает в бой при получении урона и через 15 секунд без нового урона продолжает маршрут. На финальной точке исчезает без срабатывания посмертных Kisses.
+- После гибели Мортимер проигрывает финальную фазу с Kisses, затем неуязвимый финальный актёр продолжает исходный маршрут с текущего waypoint и исчезает на конечной точке.
+- Пока у выбранной вражеской команды есть живой герой, посмертные Kisses нацеливаются на героев. При отсутствии живых героев приоритет уязвимых строений: T1 → центральная T3 (`middle_tier_2`) → боковые T3 (`top_tier_2` / `bottom_tier_2`); остальные строения целью не становятся.
+- Gobble Up, Firesnap Cookie и посмертные Kisses активируются только при наличии цели, видимой нейтральной команде Мортимера. Невидимые в тумане войны юниты и строения не запускают способности и не выбираются целями.
+- Спавнер: `Game/scripts/vscripts/map_modifications/Bosses/roshan_spawner_unit.lua`.
+- Перемещение и боевое поведение: `Game/scripts/vscripts/map_modifications/Bosses/mortimer_boss_ai.lua`.
+- Масштабирование уровней: `Game/scripts/vscripts/map_modifications/Bosses/mortimer_level_scaling.lua`.
+- `npc_dota_roshan_pathway` и `ai_roshan_pathway.lua` сохранены как legacy-реализация, но текущим спавнером не используются.
 
 ### Shard Shrine
 
@@ -413,6 +422,17 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | — | `techies_sticky_bomb_bonus` |
 
 **Lua:** `abilities/techies/`
+
+---
+
+### Pudge
+
+| Слот | Способность |
+|------|-------------|
+| Q | `pudge_meat_hook_trinity` — притягивает существ и руны; успешный хук руны возвращает потраченную ману |
+| W | `pudge_rot_trinity` — урон и радиус растут с Mind Power |
+
+**Lua:** `abilities/pudge/`
 
 ---
 
@@ -606,6 +626,19 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | R | `furion_nature_security` — детекция + наказание |
 
 **Lua:** `abilities/furion/`
+
+---
+
+### Ember Spirit
+
+| Слот | Способность |
+|------|-------------|
+| Q | `ember_searing_chains_trinity` |
+| E | `ember_flame_guard_passive` — пассивный щит; урон за заряд `1/2/3/4` в секунду + `0,25 × Mind Power` |
+| R | `ember_spirit_fire_remnant_trinity` |
+| Активация R | `ember_spirit_activate_fire_remnant_trinity` — полностью заменяет ванильную активацию в `Ability7` |
+
+**Lua:** `abilities/ember_spirit/`
 
 ---
 
@@ -805,8 +838,3 @@ flowchart TD
 ---
 
 *Последнее обновление документа: июнь 2026. При добавлении героев, систем или изменении конвенций — обновлять этот файл.*
-# Стиль ответов агента
-
-Представляй слова в диалогах как ограниченный бюджет: экономь их, сохраняя суть текста.
-
----

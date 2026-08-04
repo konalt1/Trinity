@@ -576,7 +576,7 @@ function GameMode:OnEntityKilled(keys)
 
 	local unit_name = unit:GetUnitName()
 	if MortimerBoss and MortimerBoss.OnEntityKilled then
-		MortimerBoss:OnEntityKilled(unit)
+		MortimerBoss:OnEntityKilled(unit, keys)
 	end
 	if KillfeedSystem and KillfeedSystem.OnEntityKilled then
 		KillfeedSystem:OnEntityKilled(keys, unit)

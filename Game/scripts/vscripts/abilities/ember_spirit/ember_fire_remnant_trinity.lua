@@ -15,7 +15,7 @@ local REMNANT_PARTICLE = "particles/units/heroes/hero_ember_spirit/ember_spirit_
 local HIT_PARTICLE = "particles/units/heroes/hero_ember_spirit/ember_spirit_hit.vpcf"
 local DASH_PARTICLE = "particles/units/heroes/hero_ember_spirit/ember_spirit_remnant_dash.vpcf"
 
-local ACTIVATE_ABILITY = "ember_spirit_activate_fire_remnant"
+local ACTIVATE_ABILITY = "ember_spirit_activate_fire_remnant_trinity"
 
 local function IsValidHandle(handle)
 	return handle and not handle:IsNull()
@@ -220,29 +220,29 @@ function modifier_ember_fire_remnant_trinity_remnant:OnDestroy()
 	UTIL_Remove(self.parent)
 end
 
-ember_spirit_activate_fire_remnant = class({})
+ember_spirit_activate_fire_remnant_trinity = class({})
 
-function ember_spirit_activate_fire_remnant:Precache(context)
+function ember_spirit_activate_fire_remnant_trinity:Precache(context)
 	PrecacheRemnantResources(context)
 end
 
-function ember_spirit_activate_fire_remnant:GetManaCost(level)
+function ember_spirit_activate_fire_remnant_trinity:GetManaCost(level)
 	if self:GetCaster():HasScepter() then
 		return self:GetSpecialValueFor("scepter_mana_cost")
 	end
 	return self.BaseClass.GetManaCost(self, level)
 end
 
-function ember_spirit_activate_fire_remnant:GetCastPoint()
+function ember_spirit_activate_fire_remnant_trinity:GetCastPoint()
 	if self:GetCaster():HasScepter() then return 0 end
 	return self.BaseClass.GetCastPoint(self)
 end
 
-function ember_spirit_activate_fire_remnant:OnOwnerSpawned()
+function ember_spirit_activate_fire_remnant_trinity:OnOwnerSpawned()
 	if IsServer() then self:RefreshRemnants() end
 end
 
-function ember_spirit_activate_fire_remnant:RefreshRemnants()
+function ember_spirit_activate_fire_remnant_trinity:RefreshRemnants()
 	if not IsServer() then return end
 	local remnants = GetRemnantList(self:GetCaster())
 	for index = #remnants, 1, -1 do
@@ -254,7 +254,7 @@ function ember_spirit_activate_fire_remnant:RefreshRemnants()
 	self:SetActivated(#remnants > 0 and not self.travelling)
 end
 
-function ember_spirit_activate_fire_remnant:BuildRoute(cursor_position)
+function ember_spirit_activate_fire_remnant_trinity:BuildRoute(cursor_position)
 	local remnants = GetRemnantList(self:GetCaster())
 	if #remnants == 0 then return {} end
 
@@ -280,7 +280,7 @@ function ember_spirit_activate_fire_remnant:BuildRoute(cursor_position)
 	return route
 end
 
-function ember_spirit_activate_fire_remnant:OnSpellStart()
+function ember_spirit_activate_fire_remnant_trinity:OnSpellStart()
 	if not IsServer() or self.travelling then return end
 	self:RefreshRemnants()
 	self.route = self:BuildRoute(self:GetCursorPosition())
@@ -297,7 +297,7 @@ function ember_spirit_activate_fire_remnant:OnSpellStart()
 	self:StartNextLeg()
 end
 
-function ember_spirit_activate_fire_remnant:StartNextLeg()
+function ember_spirit_activate_fire_remnant_trinity:StartNextLeg()
 	if not IsServer() then return end
 	self.route_index = self.route_index + 1
 	local remnant = self.route[self.route_index]
@@ -333,14 +333,14 @@ function ember_spirit_activate_fire_remnant:StartNextLeg()
 	})
 end
 
-function ember_spirit_activate_fire_remnant:GetDamage()
+function ember_spirit_activate_fire_remnant_trinity:GetDamage()
 	return math.max(0,
 		self:GetSpecialValueFor("damage")
 		+ GetMindPower(self:GetCaster()) * self:GetSpecialValueFor("mind_power_multiplier")
 	)
 end
 
-function ember_spirit_activate_fire_remnant:DamageTarget(target, remnant)
+function ember_spirit_activate_fire_remnant_trinity:DamageTarget(target, remnant)
 	if not IsValidHandle(target) or not IsValidHandle(remnant) then return end
 	remnant.targets_hit = remnant.targets_hit or {}
 	if remnant.targets_hit[target:entindex()] then return end
@@ -354,7 +354,7 @@ function ember_spirit_activate_fire_remnant:DamageTarget(target, remnant)
 	})
 end
 
-function ember_spirit_activate_fire_remnant:OnProjectileThink_ExtraData(location, data)
+function ember_spirit_activate_fire_remnant_trinity:OnProjectileThink_ExtraData(location, data)
 	if not self.travelling or tonumber(data.leg) ~= self.leg_serial then return end
 	local caster = self:GetCaster()
 	local remnant = self.current_remnant
@@ -375,7 +375,7 @@ function ember_spirit_activate_fire_remnant:OnProjectileThink_ExtraData(location
 	self.last_location = location
 end
 
-function ember_spirit_activate_fire_remnant:OnProjectileHit_ExtraData(_, location, data)
+function ember_spirit_activate_fire_remnant_trinity:OnProjectileHit_ExtraData(_, location, data)
 	if not self.travelling or tonumber(data.leg) ~= self.leg_serial then return true end
 	local remnant = self.current_remnant
 	if IsValidHandle(remnant) then
@@ -393,7 +393,7 @@ function ember_spirit_activate_fire_remnant:OnProjectileHit_ExtraData(_, locatio
 	return true
 end
 
-function ember_spirit_activate_fire_remnant:ExplodeRemnant(remnant)
+function ember_spirit_activate_fire_remnant_trinity:ExplodeRemnant(remnant)
 	if not IsValidHandle(remnant) or remnant.ember_exploded then return end
 	remnant.ember_exploded = true
 	local caster = self:GetCaster()
@@ -409,7 +409,7 @@ function ember_spirit_activate_fire_remnant:ExplodeRemnant(remnant)
 	remnant:RemoveModifierByName("modifier_ember_fire_remnant_trinity_remnant")
 end
 
-function ember_spirit_activate_fire_remnant:FinishTravel()
+function ember_spirit_activate_fire_remnant_trinity:FinishTravel()
 	if not IsServer() then return end
 	local caster = self:GetCaster()
 	self.travelling = false

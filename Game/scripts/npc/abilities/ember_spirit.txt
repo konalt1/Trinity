@@ -51,7 +51,7 @@
                 }
                 "damage_per_second_per_charge"
                 {
-                    "value"                             "2 4 6 8"
+                    "value"                             "1 2 3 4"
                     "special_bonus_unique_ember_spirit_3"   "+100%"
                 }
                 "radius"
@@ -63,7 +63,7 @@
                 "charges_per_hero_attack"   "3"
                 "charges_per_creep_attack"  "1"
                 "charge_duration"           "8"
-                "mind_power_multiplier"     "0.5"
+                "mind_power_multiplier"     "0.25"
                 "magic_damage_amp_mind_power_multiplier" "0.1"
             }
         }
@@ -117,7 +117,7 @@
             }
         }
 
-    "ember_spirit_activate_fire_remnant"
+    "ember_spirit_activate_fire_remnant_trinity"
         {
             "BaseClass"                     "ability_lua"
             "ScriptFile"                    "abilities/ember_spirit/ember_fire_remnant_trinity"

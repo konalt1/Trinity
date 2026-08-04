@@ -1,108 +1,71 @@
---[[
-    Roshan Spawner Unit AI
-    
-    Этот скрипт прикрепляется к юниту-спавнеру на карте
-    и создаёт рошанов по таймеру из своей позиции.
-    
-    - Первый спавн на 600 секунде (10 минута)
-    - Повторный спавн каждые 240 секунд (4 минуты)
-    - Не спавнит нового, если предыдущий ещё жив
-]]
+-- Spawns Mortimer from the map's existing Roshan pathway spawner.
 
--- Конфигурация
-local SPAWN_INTERVAL = 360                          -- Интервал спавна в секундах (6 минут)
-local FIRST_SPAWN_DELAY = 600                     -- Время первого спавна (10 минута)
-local ROSHAN_UNIT_NAME = "npc_dota_roshan_pathway"  -- Какого рошана спавним
-local VISION_DURATION = 5.0                         -- Длительность обзора при спавне
-local VISION_RADIUS = 800                           -- Радиус обзора при спавне
+require("map_modifications/Bosses/mortimer_level_scaling")
+
+local SPAWN_INTERVAL = 360
+local FIRST_SPAWN_TIME = 600
+local BOSS_UNIT_NAME = "npc_mortimer_boss"
+local VISION_DURATION = 5.0
+local VISION_RADIUS = 800
 
 function Spawn(entityKeyValues)
-    thisEntity.currentRoshan = nil
     thisEntity.spawnCount = 0
-    
-    -- Делаем спавнер неуязвимым
+    thisEntity.firstSpawnPending = true
     thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
-    
-    -- Запускаем спавн после задержки
-    Timers:CreateTimer(FIRST_SPAWN_DELAY, function()
-        return SpawnRoshanLoop()
+
+    Timers:CreateTimer(0.1, function()
+        return SpawnBossLoop()
     end)
-    
 end
 
-function SpawnRoshanLoop()
-    -- Проверяем, что спавнер ещё жив
+function SpawnBossLoop()
     if not thisEntity or not IsValidEntity(thisEntity) or not thisEntity:IsAlive() then
-        print("[RoshanSpawner] Спавнер уничтожен, прекращаем спавн.")
+        print("[MortimerSpawner] Spawner is no longer valid; stopping.")
         return nil
     end
-    
-    -- Ждём пока игра реально началась (game time >= 0)
-    if GameRules:GetDOTATime(false, false) < 0 then
-        return 1.0
+
+    local dotaTime = GameRules:GetDOTATime(false, false)
+    if thisEntity.firstSpawnPending and dotaTime < FIRST_SPAWN_TIME then
+        return math.max(0.25, FIRST_SPAWN_TIME - dotaTime)
     end
-    
-    -- Не спавним нового, если предыдущий ещё жив
-    if thisEntity.currentRoshan and IsValidEntity(thisEntity.currentRoshan) and thisEntity.currentRoshan:IsAlive() then
-        print("[RoshanSpawner] Предыдущий рошан ещё жив, пропускаем спавн.")
-        return SPAWN_INTERVAL
-    end
-    
-    -- Спавним рошана
-    local spawnPos = thisEntity:GetAbsOrigin()
-    
-    local roshan = CreateUnitByName(
-        ROSHAN_UNIT_NAME,
-        spawnPos,
-        true,   -- find clear space
-        nil,    -- owner
-        nil,    -- ability
+
+    local spawnPosition = thisEntity:GetAbsOrigin()
+    local boss = CreateUnitByName(
+        BOSS_UNIT_NAME,
+        spawnPosition,
+        true,
+        nil,
+        nil,
         DOTA_TEAM_NEUTRALS
     )
-    
-    if roshan then
-        -- Увеличиваем номер спавна и передаём его Рошану,
-        -- чтобы AI корректно посчитал прирост статов.
-        thisEntity.spawnCount = (thisEntity.spawnCount or 0) + 1
-        roshan.spawnNumber = thisEntity.spawnCount
 
-        print("[RoshanSpawner] Рошан заспавнен на позиции: " .. tostring(spawnPos))
-        
-        -- Снимаем неуязвимость (модификатор), если движок навесил
-        roshan:RemoveModifierByName("modifier_invulnerable")
-        
-        -- Оповещение о спавне рошана
-        FireGameEvent("draw_game_event", {
-            color = "#a1e4ff",
-            duration = 3,
-            sound_event = "_game_events.template_sound_event",
-            text_token = "#roshan_spawn"
-        })
-        
-        -- Сохраняем ссылку на текущего рошана
-        thisEntity.currentRoshan = roshan
-        
-        -- Поворачиваем рошана случайным образом
-        roshan:SetAngles(0, RandomFloat(0, 360), 0)
-        
-        -- === ОПОВЕЩЕНИЕ ОБЕИХ КОМАНД ===
-        
-        -- 1. Даём обзор обеим командам
-        AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPos, VISION_RADIUS, VISION_DURATION, false)
-        AddFOWViewer(DOTA_TEAM_BADGUYS, spawnPos, VISION_RADIUS, VISION_DURATION, false)
-        
-        -- 2. Пинг на миникарте для обеих команд
-        GameRules:ExecuteTeamPing(DOTA_TEAM_GOODGUYS, spawnPos.x, spawnPos.y, roshan, 0)
-        GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, spawnPos.x, spawnPos.y, roshan, 0)
-        
-        -- 3. Звук рёва рошана
-        EmitSoundOn("RoshanDT.Scream", roshan)
-
-        print("[RoshanSpawner] Номер спавна: " .. roshan.spawnNumber)
-    else
-        print("[RoshanSpawner] ОШИБКА: Не удалось создать рошана!")
+    if not boss then
+        print("[MortimerSpawner] Failed to spawn Mortimer.")
+        return SPAWN_INTERVAL
     end
-    
-    -- Возвращаем интервал для следующего спавна
+
+    thisEntity.firstSpawnPending = false
+    thisEntity.spawnCount = (thisEntity.spawnCount or 0) + 1
+
+    boss.spawnNumber = thisEntity.spawnCount
+    MortimerLevelScaling:ApplyToBoss(boss, boss.spawnNumber)
+    boss.pathwayEnabled = true
+    boss:RemoveModifierByName("modifier_invulnerable")
+    boss:SetAngles(0, RandomFloat(0, 360), 0)
+
+    FireGameEvent("draw_game_event", {
+        color = "#a1e4ff",
+        duration = 3,
+        sound_event = "_game_events.template_sound_event",
+        text_token = "#mortimer_spawn",
+    })
+
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPosition, VISION_RADIUS, VISION_DURATION, false)
+    AddFOWViewer(DOTA_TEAM_BADGUYS, spawnPosition, VISION_RADIUS, VISION_DURATION, false)
+    GameRules:ExecuteTeamPing(DOTA_TEAM_GOODGUYS, spawnPosition.x, spawnPosition.y, boss, 0)
+    GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, spawnPosition.x, spawnPosition.y, boss, 0)
+    EmitSoundOn("Hero_Snapfire.MortimerGrunt", boss)
+
+    print("[MortimerSpawner] Mortimer level " .. boss.spawnNumber .. " spawned at " .. tostring(spawnPosition))
     return SPAWN_INTERVAL
 end

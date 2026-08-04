@@ -493,6 +493,88 @@
         }
     }
 
+    // Ember Spirit
+    "special_bonus_unique_custom_ember_spirit_1"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_2"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_3"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_4"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_5"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_6"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_7"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+    "special_bonus_unique_custom_ember_spirit_8"
+    {
+        "BaseClass"                     "special_bonus_undefined"
+        "AbilityType"                   "ABILITY_TYPE_ATTRIBUTES"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityValues"
+        {
+            "value"                     "200"
+        }
+    }
+
     // Lycan
     "special_bonus_unique_custom_lycan_1"
     {
@@ -1066,4 +1148,34 @@
             "value"                     "0"
         }
     }
+
+    // Lion (stubs)
+    "special_bonus_unique_custom_lion_1" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_2" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_3" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_4" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_5" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_lion_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+
+    // Pudge (stubs)
+    "special_bonus_unique_custom_pudge_1" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_2" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_3" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_4" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_5" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_pudge_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+
+    // Nevermore (stubs)
+    "special_bonus_unique_custom_nevermore_1" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_2" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_3" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_4" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_5" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_nevermore_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
 }
