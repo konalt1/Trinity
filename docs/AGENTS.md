@@ -321,8 +321,13 @@ flowchart TD
 ### Chat Wheel
 
 - Panorama: `Content/panorama/layout/custom_game/chat_wheel/`
-- Сервер: `GameMode:OnChatWheelSelect`, cooldown 10 сек, net table `cooldown_info`
+- Сервер: `GameMode:OnChatWheelSelect`, cooldown задаётся через `GameMode.CHAT_WHEEL_COOLDOWN` и на время тестирования стикеров равен 0, net table `cooldown_info`
 - Custom event: `chat_wheel_send_sound`
+- Событие `chat_wheel_send_sound` поддерживает два варианта `.webm`-стикера: над героем-отправителем или нативно оформленной строкой стандартного чата со значком героя, цветным ником, chat-wheel icon и видео.
+- На каждом клиенте стикер выбирает только одно место показа: над героем, если тот находится в видимой области экрана в момент отправки, иначе — в чате.
+- Для каждого стикера `CHAT_STICKER_SOUNDS` в `chat_wheel.js` задаёт существующее однократное sound event Dota; звук запускается клиентом один раз независимо от места показа стикера.
+- Стикер `Choso` («Изи») использует кастомный event `Wheel.Choso` и ресурс `Content/sounds/wheel/choso.mp3`.
+- Видео находятся в `Game/panorama/videos/custom_game/` и загружаются через `file://{resources}/videos/custom_game/<sound>.webm`; регистр имени файла должен точно совпадать с полем `sound` в `chat_wheel.js`.
 
 ### High Five
 
@@ -470,15 +475,15 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 ### Tinker
 
-**Изменённые статы:** Armor 4.8, Facets отключены. Частичная замена.
+**Изменённые статы:** Armor 4.8, Facets отключены. Герой включён в `Activelist.txt`.
 
 | Слот | Способность | Статус |
 |------|-------------|--------|
-| Q, W, R | Laser, March, Shrapnel (типично) | Ванильные |
 | E | `tinker_heat_seeking_missile` | Переназначен слот |
-| Ult | `tinker_rearm_custom` | **Кастом** — замена Rearm |
+| Ult | `tinker_rearm_custom` | **Кастом** — на 15 секунд задаёт использованным способностям и предметам перезарядку 4/3/2 секунды |
+| Остальные | Наследуются из ванильного Tinker | Ванильные |
 
-**Lua:** `abilities/tinker/tinker_rearm_custom`
+**Lua:** `abilities/tinker/tinker_rearm_custom.lua`
 
 ---
 
@@ -563,9 +568,14 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | Слот | Способность | Статус |
 |------|-------------|--------|
 | W | `weaver_cucaracha` | **Кастом** — замена Shukuchi |
-| Остальное | The Swarm, Geminate, Time Lapse | Ванильные |
+| E | `weaver_geminate_attack` | Ванильная логика, **кастомный Shard** |
+| Остальное | The Swarm, Time Lapse | Ванильные |
 
 **Lua:** `abilities/Weaver/Cucaracha.lua`
+
+**Aghanim's Shard:** нативный параметр `extra_attack` у Geminate Attack получает `+1`, поэтому способность совершает две дополнительные атаки вместо одной.
+
+Во время Кукарачи нативная надголовная полоса скрывается. Союзники и наблюдатели видят компактную Panorama-полосу, масштабированную вместе с моделью; для врагов полоса остаётся скрытой. Состояние синхронизируется через net table `weaver_cucaracha`, UI находится в `Content/panorama/layout/custom_game/weaver_cucaracha_healthbar/`.
 
 ---
 
@@ -599,7 +609,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 **Подсистема казарм** (`abilities/chen/chen_barrack.lua`, ~2400 строк):
 
-- Основной барак, рабочие вышки и дополнительный барак имеют настоящий тип здания (`npc_dota_building` / `npc_dota_tower`), а не крипа; полёт основного барака реализован ручным перемещением здания.
+- Основной барак, рабочие вышки и дополнительный барак имеют настоящий тип здания (`npc_dota_building` / `npc_dota_tower`), а не крипа. Во время полёта основной барак скрывается и переводится в `OUT_OF_GAME`, а его позицию и здоровье представляет уязвимый летающий прокси `npc_chen_barrack_flying` со способностью посадки в R-слоте; при посадке состояние переносится обратно в здание.
 - Юниты: worker, hunter, healer, brute
 - Farmland, производство, сбор ресурсов
 - При создании барак начинает с 3 живыми рабочими и 3 цветущими деревьями

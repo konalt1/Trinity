@@ -19,7 +19,9 @@ require ("abilities/nevermore/nevermore_requiem_trinity")
 require ("abilities/ember_spirit/ember_searing_chains_trinity")
 require ("abilities/DOOM/doom_soul_devour")
 require ("abilities/DOOM/doom_scorched_earth_lua")
+require ("abilities/tinker/tinker_rearm_custom")
 require ("items/item_kaya_mind_power")
+require ("items/item_yasha_and_kaya")
 require ("items/item_mage_slayer")
 
 -- Загружаем способности Чена

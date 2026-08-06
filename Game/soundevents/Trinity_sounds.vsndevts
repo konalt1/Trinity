@@ -67,6 +67,13 @@
 		volume = 15.0
 	}
 
+	Wheel.Choso =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/choso.vsnd"
+		volume = 1.0
+	}
+
 	techies.fireworks.fuse =
 	{
 		type = "dota_src1_3d"

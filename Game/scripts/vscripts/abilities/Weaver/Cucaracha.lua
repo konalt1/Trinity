@@ -1,23 +1,9 @@
 LinkLuaModifier('modifier_weaver_cucaracha', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_weaver_cucaracha_swarm_bug', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_weaver_cucaracha_swarm_debuff', 'abilities/Weaver/Cucaracha', LUA_MODIFIER_MOTION_NONE)
-
-local CUCARACHA_SHARD_DEFAULT_RADIUS = 100
-local CUCARACHA_SHARD_DEFAULT_SEARCH_INTERVAL = 0.1
-local CUCARACHA_SHARD_DEFAULT_BEETLE_OFFSET = 15
-local CUCARACHA_SHARD_DEFAULT_BEETLE_HITS = 3
-
-local function GetCucarachaShardValue(ability, value_name, fallback)
-	local value = ability and ability:GetSpecialValueFor(value_name) or 0
-	if value and value > 0 then return value end
-	return fallback
-end
 
 weaver_cucaracha = class({})
 
 function weaver_cucaracha:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_weaver.vsndevts", context)
-	PrecacheUnitByNameSync("npc_dota_weaver_swarm", context)
 end
 
 function weaver_cucaracha:IsStealable()
@@ -96,19 +82,33 @@ modifier_weaver_cucaracha = class({
 	DeclareFunctions = function(self) return
 	{
 		MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
+		MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
 		MODIFIER_PROPERTY_TOOLTIP,
 	} end,
 })
 
 function modifier_weaver_cucaracha:CheckState()
 	return {
-		[MODIFIER_STATE_NO_HEALTH_BAR_FOR_ENEMIES] = true,
+		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
 	}
+end
+
+function modifier_weaver_cucaracha:UpdateHealthBarState(active)
+	if not IsServer() then return end
+
+	local parent = self:GetParent()
+	if not parent or not IsValidEntity(parent) then return end
+
+	CustomNetTables:SetTableValue("weaver_cucaracha", tostring(parent:entindex()), {
+		active = active and 1 or 0,
+		scale = self.target_scale or 1,
+	})
 end
 
 function modifier_weaver_cucaracha:OnCreated()
 	local ability = self:GetAbility()
 	if not ability then return end
+	self.crit_damage = ability:GetSpecialValueFor("crit_damage")
 
 	if not IsServer() then return end
 
@@ -116,6 +116,7 @@ function modifier_weaver_cucaracha:OnCreated()
 
 	self.move_speed = ability:GetSpecialValueFor("move_speed")
 	self.target_scale = ability:GetSpecialValueFor("model_scale")
+	self:UpdateHealthBarState(true)
 
 	self:SetStackCount(math.floor(self.move_speed))
 
@@ -137,16 +138,6 @@ function modifier_weaver_cucaracha:OnCreated()
 		end
 	end
 
-	-- Shard: continuously look for enemies close enough to receive a Swarm beetle.
-	if HasShard(parent) then
-		self.swarm_radius = GetCucarachaShardValue(ability, "shard_swarm_radius", CUCARACHA_SHARD_DEFAULT_RADIUS)
-		self.swarm_search_interval = GetCucarachaShardValue(ability, "shard_swarm_search_interval", CUCARACHA_SHARD_DEFAULT_SEARCH_INTERVAL)
-		self:AttachSwarmBeetles()
-		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
-		if not self.scale_decrement then
-			self:StartIntervalThink(self.swarm_search_interval)
-		end
-	end
 end
 
 function modifier_weaver_cucaracha:OnRefresh()
@@ -155,19 +146,12 @@ function modifier_weaver_cucaracha:OnRefresh()
 	local ability = self:GetAbility()
 	if not ability then return end
 
+	self.crit_damage = ability:GetSpecialValueFor("crit_damage")
 	self.move_speed = ability:GetSpecialValueFor("move_speed")
+	self.target_scale = ability:GetSpecialValueFor("model_scale")
+	self:UpdateHealthBarState(true)
 	self:SetStackCount(math.floor(self.move_speed))
 
-	local parent = self:GetParent()
-	if HasShard(parent) and not self.swarm_search_interval then
-		self.swarm_radius = GetCucarachaShardValue(ability, "shard_swarm_radius", CUCARACHA_SHARD_DEFAULT_RADIUS)
-		self.swarm_search_interval = GetCucarachaShardValue(ability, "shard_swarm_search_interval", CUCARACHA_SHARD_DEFAULT_SEARCH_INTERVAL)
-		self:AttachSwarmBeetles()
-		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
-		if not self.scale_decrement then
-			self:StartIntervalThink(self.swarm_search_interval)
-		end
-	end
 end
 
 function modifier_weaver_cucaracha:OnIntervalThink()
@@ -176,23 +160,8 @@ function modifier_weaver_cucaracha:OnIntervalThink()
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
 
-	if HasShard(parent) and not self.swarm_search_interval then
-		local ability = self:GetAbility()
-		self.swarm_radius = GetCucarachaShardValue(ability, "shard_swarm_radius", CUCARACHA_SHARD_DEFAULT_RADIUS)
-		self.swarm_search_interval = GetCucarachaShardValue(ability, "shard_swarm_search_interval", CUCARACHA_SHARD_DEFAULT_SEARCH_INTERVAL)
-		self:AttachSwarmBeetles()
-		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
-	end
-
-	if HasShard(parent) and GameRules:GetGameTime() >= (self.next_swarm_search or 0) then
-		self:AttachSwarmBeetles()
-		self.next_swarm_search = GameRules:GetGameTime() + self.swarm_search_interval
-	end
-
 	if not self.scale_decrement or not self.target_scale then
-		if not HasShard(parent) then
-			self:StartIntervalThink(-1)
-		end
+		self:StartIntervalThink(-1)
 		return
 	end
 
@@ -202,95 +171,11 @@ function modifier_weaver_cucaracha:OnIntervalThink()
 		self.current_scale = self.target_scale
 		parent:SetModelScale(self.current_scale)
 		self.scale_decrement = nil
-		if HasShard(parent) then
-			self:StartIntervalThink(self.swarm_search_interval)
-		else
-			self:StartIntervalThink(-1)
-		end
+		self:StartIntervalThink(-1)
 		return
 	end
 
 	parent:SetModelScale(self.current_scale)
-end
-
-function modifier_weaver_cucaracha:AttachSwarmBeetles()
-	local parent = self:GetParent()
-	local swarm = parent:FindAbilityByName("weaver_the_swarm")
-	if not swarm or swarm:GetLevel() < 1 then return end
-
-	local flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-		+ DOTA_UNIT_TARGET_FLAG_INVULNERABLE
-		+ DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE
-		+ DOTA_UNIT_TARGET_FLAG_NO_INVIS
-
-	local enemies = FindUnitsInRadius(
-		parent:GetTeamNumber(),
-		parent:GetAbsOrigin(),
-		nil,
-		self.swarm_radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		flags,
-		FIND_ANY_ORDER,
-		false
-	)
-	for _, enemy in pairs(enemies) do
-		if not enemy:IsCourier()
-			and not enemy:HasModifier("modifier_weaver_swarm_debuff")
-			and not enemy:HasModifier("modifier_weaver_cucaracha_swarm_debuff") then
-			self:AttachSwarmBeetle(enemy, swarm)
-		end
-	end
-end
-
-function modifier_weaver_cucaracha:AttachSwarmBeetle(target, swarm)
-	local parent = self:GetParent()
-	local duration = swarm:GetSpecialValueFor("duration")
-	local beetle_offset = GetCucarachaShardValue(
-		self:GetAbility(),
-		"shard_swarm_beetle_offset",
-		CUCARACHA_SHARD_DEFAULT_BEETLE_OFFSET
-	)
-	local beetle_hits = GetCucarachaShardValue(
-		self:GetAbility(),
-		"shard_swarm_beetle_hits",
-		CUCARACHA_SHARD_DEFAULT_BEETLE_HITS
-	)
-	local beetle_position = target:GetAbsOrigin() + target:GetForwardVector() * beetle_offset
-	local beetle = CreateUnitByName(
-		"npc_dota_weaver_swarm",
-		beetle_position,
-		false,
-		parent,
-		parent,
-		parent:GetTeamNumber()
-	)
-	if not beetle then return end
-
-	beetle:SetOwner(parent)
-	beetle:SetForwardVector(target:GetForwardVector())
-
-	local debuff = target:AddNewModifier(parent, swarm, "modifier_weaver_cucaracha_swarm_debuff", {
-		duration = duration,
-		beetle_entindex = beetle:entindex(),
-	})
-
-	if not debuff then
-		UTIL_Remove(beetle)
-		return
-	end
-
-	local bug_modifier = beetle:AddNewModifier(parent, swarm, "modifier_weaver_cucaracha_swarm_bug", {
-		duration = duration,
-		target_entindex = target:entindex(),
-		position_offset = beetle_offset,
-		attacks_to_destroy = beetle_hits,
-	})
-	if not bug_modifier then
-		target:RemoveModifierByName("modifier_weaver_cucaracha_swarm_debuff")
-		if not beetle:IsNull() then UTIL_Remove(beetle) end
-		return
-	end
 end
 
 function modifier_weaver_cucaracha:GetModifierMoveSpeed_Absolute()
@@ -298,6 +183,11 @@ function modifier_weaver_cucaracha:GetModifierMoveSpeed_Absolute()
 		return self.move_speed or 0
 	end
 	return self:GetStackCount()
+end
+
+function modifier_weaver_cucaracha:GetModifierPreAttack_CriticalStrike(params)
+	if params.attacker ~= self:GetParent() then return end
+	return self.crit_damage or 0
 end
 
 function modifier_weaver_cucaracha:OnTooltip()
@@ -313,6 +203,7 @@ end
 
 function modifier_weaver_cucaracha:OnDestroy()
 	if not IsServer() then return end
+	self:UpdateHealthBarState(false)
 
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
@@ -324,171 +215,4 @@ function modifier_weaver_cucaracha:OnDestroy()
 	end
 
 	EmitSoundOn("Hero_Weaver.Shukuchi.End", parent)
-end
-
---------------------------------------------------------------------------------
--- Shard: The Swarm beetle attached by Cucaracha
---------------------------------------------------------------------------------
-modifier_weaver_cucaracha_swarm_bug = class({
-	IsHidden = function(self) return true end,
-	IsPurgable = function(self) return false end,
-	IsDebuff = function(self) return false end,
-	RemoveOnDeath = function(self) return true end,
-	GetAttributes = function(self) return MODIFIER_ATTRIBUTE_NONE end,
-})
-
-function modifier_weaver_cucaracha_swarm_bug:DeclareFunctions()
-	return {
-		MODIFIER_EVENT_ON_ATTACKED,
-		MODIFIER_PROPERTY_HEALTHBAR_PIPS,
-		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
-		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-	}
-end
-
-function modifier_weaver_cucaracha_swarm_bug:CheckState()
-	return {
-		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
-		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-		[MODIFIER_STATE_NO_TEAM_MOVE_TO] = true,
-		[MODIFIER_STATE_NO_TEAM_SELECT] = true,
-		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
-	}
-end
-
-function modifier_weaver_cucaracha_swarm_bug:OnCreated(kv)
-	self.attacks_to_destroy = tonumber(kv.attacks_to_destroy) or CUCARACHA_SHARD_DEFAULT_BEETLE_HITS
-	if not IsServer() then return end
-
-	self.target = EntIndexToHScript(kv.target_entindex or -1)
-	self.attack_progress = 0
-	self.position_offset = tonumber(kv.position_offset) or CUCARACHA_SHARD_DEFAULT_BEETLE_OFFSET
-	local bug = self:GetParent()
-	bug:SetBaseMaxHealth(self.attacks_to_destroy)
-	bug:SetMaxHealth(self.attacks_to_destroy)
-	bug:SetHealth(self.attacks_to_destroy)
-	self:UpdatePosition()
-	self:StartIntervalThink(0.03)
-end
-
-function modifier_weaver_cucaracha_swarm_bug:OnIntervalThink()
-	if not self.target or self.target:IsNull() or not self.target:IsAlive() then
-		self:Destroy()
-		return
-	end
-
-	self:UpdatePosition()
-end
-
-function modifier_weaver_cucaracha_swarm_bug:UpdatePosition()
-	if not self.target or self.target:IsNull() then return end
-
-	local forward = self.target:GetForwardVector()
-	local bug = self:GetParent()
-	bug:SetAbsOrigin(self.target:GetAbsOrigin() + forward * self.position_offset)
-	bug:SetForwardVector(forward)
-end
-
-function modifier_weaver_cucaracha_swarm_bug:OnAttacked(event)
-	if not IsServer() then return end
-	if event.target ~= self:GetParent() then return end
-
-	self.attack_progress = self.attack_progress + 1
-	local health_remaining = math.max(0, self.attacks_to_destroy - self.attack_progress)
-	if self.attack_progress >= self.attacks_to_destroy then
-		local attacker = event.attacker
-		local bug = self:GetParent()
-		bug:Kill(nil, attacker)
-		if self.target and not self.target:IsNull() then
-			self.target:RemoveModifierByName("modifier_weaver_cucaracha_swarm_debuff")
-		end
-	else
-		self:GetParent():SetHealth(health_remaining)
-	end
-end
-
-function modifier_weaver_cucaracha_swarm_bug:GetModifierHealthBarPips()
-	return self.attacks_to_destroy or CUCARACHA_SHARD_DEFAULT_BEETLE_HITS
-end
-
-function modifier_weaver_cucaracha_swarm_bug:GetAbsoluteNoDamagePhysical() return 1 end
-function modifier_weaver_cucaracha_swarm_bug:GetAbsoluteNoDamageMagical() return 1 end
-function modifier_weaver_cucaracha_swarm_bug:GetAbsoluteNoDamagePure() return 1 end
-
-function modifier_weaver_cucaracha_swarm_bug:OnDestroy()
-	if not IsServer() then return end
-	local bug = self:GetParent()
-	if bug and IsValidEntity(bug) and bug:IsAlive() then
-		UTIL_Remove(bug)
-	end
-end
-
---------------------------------------------------------------------------------
--- Shard: The Swarm debuff attached by Cucaracha
---------------------------------------------------------------------------------
-modifier_weaver_cucaracha_swarm_debuff = class({
-	IsHidden = function(self) return false end,
-	IsPurgable = function(self) return false end,
-	IsDebuff = function(self) return true end,
-	RemoveOnDeath = function(self) return true end,
-})
-
-function modifier_weaver_cucaracha_swarm_debuff:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-		MODIFIER_PROPERTY_PROVIDES_FOW_POSITION,
-	}
-end
-
-function modifier_weaver_cucaracha_swarm_debuff:OnCreated(kv)
-	local ability = self:GetAbility()
-	if not ability then return end
-
-	self.damage = ability:GetSpecialValueFor("damage")
-	self.armor_reduction = ability:GetSpecialValueFor("armor_reduction")
-	self.attack_rate = ability:GetSpecialValueFor("attack_rate")
-
-	if not IsServer() then return end
-	self.beetle = EntIndexToHScript(kv.beetle_entindex or -1)
-	self:StartIntervalThink(self.attack_rate)
-	self:OnIntervalThink()
-end
-
-function modifier_weaver_cucaracha_swarm_debuff:OnIntervalThink()
-	local parent = self:GetParent()
-	local caster = self:GetCaster()
-	if not caster or caster:IsNull() or not parent:IsAlive() then
-		self:Destroy()
-		return
-	end
-
-	self:IncrementStackCount()
-	ApplyDamage({
-		victim = parent,
-		attacker = caster,
-		damage = self.damage,
-		damage_type = DAMAGE_TYPE_PHYSICAL,
-		damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK,
-		ability = self:GetAbility(),
-	})
-end
-
-function modifier_weaver_cucaracha_swarm_debuff:GetModifierPhysicalArmorBonus()
-	return -(self.armor_reduction or 0) * self:GetStackCount()
-end
-
-function modifier_weaver_cucaracha_swarm_debuff:GetModifierProvidesFOWVision()
-	return 1
-end
-
-function modifier_weaver_cucaracha_swarm_debuff:OnDestroy()
-	if not IsServer() then return end
-	if self.beetle and not self.beetle:IsNull() and self.beetle:IsAlive() then
-		UTIL_Remove(self.beetle)
-	end
-end
-
-function modifier_weaver_cucaracha_swarm_debuff:GetTexture()
-	return "weaver_the_swarm"
 end

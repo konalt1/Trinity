@@ -22,8 +22,8 @@
 		"chat_wheel_donate_sound_Watson"							"Yo, what's good?"
 		"chat_wheel_donate_sound_Neurodance"                                 "Thump thump!"
 		"chat_wheel_donate_sound_Choso"							"Easy clap!"
-		"chat_wheel_donate_sound_ArrowGo"							"Cupid shot fired"
-		"chat_wheel_donate_sound_ArrowArrive"							"Cupid seals it"
+		"chat_wheel_donate_sound_StickerOne"						"Sticker 1"
+		"chat_wheel_donate_sound_StickerTwo"						"Sticker 2"
 		"chat_wheel_donate_sound_Anime"							"Feels nice."
 		
 		
@@ -370,6 +370,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_6"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_7"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_8"			"Placeholder"
+
+		// Tinker
+		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Rearm"
+		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Tinker enters a rearming cycle. While it lasts, every used ability and item begins recharging for a fixed duration."
+		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown"				"ABILITY AND ITEM COOLDOWN:"
+		"DOTA_Tooltip_modifier_tinker_rearm_custom"						"Rearm"
+		"DOTA_Tooltip_modifier_tinker_rearm_custom_Description"			"Abilities and items recharge for a fixed duration."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_1"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_2"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_3"		"Placeholder"
@@ -450,7 +458,7 @@
 		"DOTA_Tooltip_ability_weaver_cucaracha_move_speed"					"MOVEMENT SPEED:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"MODEL SCALE:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"DURATION:"
-		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"During Cucaracha, Weaver continuously attaches a beetle from The Swarm to every enemy within 100 range. The beetle stays in front of its target, uses the learned level of The Swarm, and dies after 3 attacks. If The Swarm is unlearned, this effect does nothing."
+		"DOTA_Tooltip_ability_weaver_geminate_attack_shard_description"			"Geminate Attack performs two additional attacks instead of one."
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Fireworks Barrage"
@@ -507,13 +515,10 @@
 
 		"dota_hud_error_doom_devour_scepter_required"					"Aghanim's Scepter is required."
 
-		// Tinker - Shard upgrade for Rearm Custom
-		"DOTA_Tooltip_ability_tinker_rearm_custom_shard_description"		"During Rearm, Tinker shields himself with swirling mana wards that blunt incoming magical punishment based on standing mana."
-
 		// Tusk - Shard upgrade for Ice Shards
 		"DOTA_Tooltip_ability_tusk_ice_shard_description"					"As long as foes stay trapped behind Ice Shards they suffer ticking magical damage layered with creeping movement slow. Periodic damage ramps with Spell Power."
 
-		// Weaver - Shard upgrade for Cucaracha
+		// Weaver - Shard upgrade for Geminate Attack
 		
 
 		// Lycan - Shard upgrade for Summon Wolves

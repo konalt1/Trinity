@@ -2,13 +2,15 @@ if GameMode == nil then
 	_G.GameMode = class({})
 end
 
+local CENTRAL_TOWER_HEALTH_REDUCTION = 1000
+
 GameMode.current_units = {}
 GameMode.line_interval = {}
 GameMode.wave_number = 0
 GameMode.towers = {} -- Таблица всех башен с информацией о них
 GameMode.ancients = {} -- Таблица тронов
 GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
-GameMode.CHAT_WHEEL_COOLDOWN = 10
+GameMode.CHAT_WHEEL_COOLDOWN = 0 -- Временно отключено для тестирования стикеров
 
 GameMode.wave_list = {
 	[1]={reward_gold=250,reward_exp=500,
@@ -163,6 +165,14 @@ function GameMode:RegisterTower(tower)
 	local tier = self:GetTowerTier(unit_name)
 	local lane = self:GetTowerLane(unit_name)
 	local team = self:GetTowerTeam(unit_name)
+
+	if tier == 2 and lane == "mid" then
+		local current_health = tower:GetHealth()
+		local reduced_max_health = math.max(1, tower:GetMaxHealth() - CENTRAL_TOWER_HEALTH_REDUCTION)
+		tower:SetBaseMaxHealth(reduced_max_health)
+		tower:SetMaxHealth(reduced_max_health)
+		tower:SetHealth(math.min(current_health, reduced_max_health))
+	end
 	
 	-- Сохраняем информацию о башне
 	local tower_info = {
@@ -402,6 +412,10 @@ end
 
 function GameMode:OnNPCSpawned(data)
  	local npc = EntIndexToHScript(data.entindex)
+
+	if EnsureYashaCombinationArmor then
+		EnsureYashaCombinationArmor(npc)
+	end
 
 	if KillfeedSystem and KillfeedSystem.OnNPCSpawned then
 		KillfeedSystem:OnNPCSpawned(npc)
@@ -677,16 +691,18 @@ function GameMode:OnChatWheelSelect(data)
     local sound = data.select;
 	local hero = PlayerResource:GetSelectedHeroEntity(data.PlayerID)
 	local infoCooldown = CustomNetTables:GetTableValue("cooldown_info", tostring(data.PlayerID)) or {cooldown_chat = 0} ;
-    if infoCooldown.cooldown_chat == 1 then return end
+    if GameMode.CHAT_WHEEL_COOLDOWN > 0 and infoCooldown.cooldown_chat == 1 then return end
     if not sound then return end
     if not hero then return end
-	 
-	CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), {cooldown_chat = 1});
-    Timers:CreateTimer(GameMode.CHAT_WHEEL_COOLDOWN, function()
-         CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), { cooldown_chat = 0 });
-	end);
-	EmitSoundOn("Wheel." .. sound, hero) 
 
+	if GameMode.CHAT_WHEEL_COOLDOWN > 0 then
+		CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), {cooldown_chat = 1});
+		Timers:CreateTimer(GameMode.CHAT_WHEEL_COOLDOWN, function()
+			CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), { cooldown_chat = 0 });
+		end);
+	else
+		CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), { cooldown_chat = 0 });
+	end
 	CustomGameEventManager:Send_ServerToAllClients("chat_wheel_send_sound", {
       hero = hero:entindex(),
       playerID = data.PlayerID,

@@ -1,117 +1,93 @@
-LinkLuaModifier('modifier_tinker_rearm_custom', 'abilities/tinker/tinker_rearm_custom', LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_tinker_rearm_custom_passive', 'abilities/tinker/tinker_rearm_custom', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_tinker_rearm_custom", "abilities/tinker/tinker_rearm_custom", LUA_MODIFIER_MOTION_NONE)
 
 tinker_rearm_custom = class({})
 
-function tinker_rearm_custom:GetIntrinsicModifierName()
-	return "modifier_tinker_rearm_custom_passive"
-end
-
 function tinker_rearm_custom:OnSpellStart()
-	local caster = self:GetCaster()
+    if not IsServer() then
+        return
+    end
 
-	caster:AddNewModifier(caster, self, "modifier_tinker_rearm_custom", {duration = self:GetSpecialValueFor("duration")})
-
-	if self:GetSpecialValueFor("avatar") ~= 0 then 
-	    caster:Purge(false, true, false, true, false)
-	end
+    local caster = self:GetCaster()
+    caster:AddNewModifier(caster, self, "modifier_tinker_rearm_custom", {
+        duration = self:GetSpecialValueFor("duration"),
+    })
 end
 
-modifier_tinker_rearm_custom = class({
-	IsHidden 				= function(self) return false end,
-	IsPurgable 				= function(self) return false end,
-	-- IsBuff                  = function(self) return true end,
-	-- RemoveOnDeath 			= function(self) return true end,
-    DeclareFunctions        = function(self) return 
-    {
-    	MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
-		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
-    } end,
-    CheckState 				= function(self) return 
-    {
-    	[MODIFIER_STATE_DEBUFF_IMMUNE] = self.hasAvatar,
-    } end,
-})
+modifier_tinker_rearm_custom = class({})
+
+function modifier_tinker_rearm_custom:IsHidden()
+    return false
+end
+
+function modifier_tinker_rearm_custom:IsPurgable()
+    return false
+end
+
+function modifier_tinker_rearm_custom:IsBuff()
+    return true
+end
+
+function modifier_tinker_rearm_custom:RemoveOnDeath()
+    return true
+end
+
+function modifier_tinker_rearm_custom:DeclareFunctions()
+    return {
+        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
+    }
+end
 
 function modifier_tinker_rearm_custom:OnCreated()
-	local ability = self:GetAbility()
-	self.cooldown = ability:GetSpecialValueFor("cooldown")
-	self.hasAvatar = ability:GetSpecialValueFor("avatar") ~= 0
-	self.magicResist = ability:GetSpecialValueFor("magic_resist")
+    local ability = self:GetAbility()
+    self.cooldown = ability and ability:GetSpecialValueFor("cooldown") or 0
 
-	self:OnIntervalThink()
-	self:StartIntervalThink(1.7)
-end
+    if not IsServer() then
+        return
+    end
 
-function modifier_tinker_rearm_custom:GetEffectName()
-	if self.hasAvatar then 
-		return "particles/items_fx/black_king_bar_avatar.vpcf"
-	end
-end
- 
-function modifier_tinker_rearm_custom:GetStatusEffectName()
-	if self.hasAvatar then 
-		return "particles/status_fx/status_effect_avatar.vpcf"
-	end
-end
-
-function modifier_tinker_rearm_custom:StatusEffectPriority()
-	if self.hasAvatar then 
-    	return 99999
-	end
-end
-
-function modifier_tinker_rearm_custom:GetModifierMagicalResistanceBonus()
-	if self.hasAvatar then 
-		return self.magicResist
-	end
+    self:PlayRearmEffects()
+    self:StartIntervalThink(1.7)
 end
 
 function modifier_tinker_rearm_custom:OnAbilityFullyCast(event)
-	if IsClient() then return end 
+    if not IsServer() then
+        return
+    end
 
-	local unit = event.unit
     local parent = self:GetParent()
+    if event.unit ~= parent then
+        return
+    end
 
-    if unit ~= parent then return end
- 	
- 	local ability = event.ability
+    local ability = event.ability
+    if not ability or ability:IsNull() or ability == self:GetAbility() then
+        return
+    end
 
- 	if ability ~= self:GetAbility() then 
- 		ability:EndCooldown()
- 		ability:StartCooldown(self.cooldown)
- 	end
+    ability:EndCooldown()
+    if self.cooldown > 0 then
+        ability:StartCooldown(self.cooldown)
+    end
 end
 
 function modifier_tinker_rearm_custom:OnIntervalThink()
-	if IsClient() then return end
-	
-	local parent = self:GetParent()
-	EmitSoundOn("sounds/weapons/hero/tinker/rearm.vsnd", parent)
-
-	parent:StartGesture(ACT_DOTA_TINKER_REARM3)
+    self:PlayRearmEffects()
 end
 
- 
- modifier_tinker_rearm_custom_passive = class({
-	IsHidden 				= function(self) return true end,
-    DeclareFunctions        = function(self) return 
-    {
-    	MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
-    } end,
-})
+function modifier_tinker_rearm_custom:PlayRearmEffects()
+    if not IsServer() then
+        return
+    end
 
-function modifier_tinker_rearm_custom_passive:OnCreated()
-	self.bonusSpellAmp = self:GetAbility():GetSpecialValueFor("spell_amp")
+    local parent = self:GetParent()
+    EmitSoundOn("sounds/weapons/hero/tinker/rearm.vsnd", parent)
+    parent:StartGesture(ACT_DOTA_TINKER_REARM3)
 end
 
-function modifier_tinker_rearm_custom_passive:OnRefresh()
-	self:OnCreated()
-end
+function modifier_tinker_rearm_custom:OnDestroy()
+    if not IsServer() then
+        return
+    end
 
-function modifier_tinker_rearm_custom_passive:GetModifierSpellAmplify_Percentage()
-	if not self:GetParent():HasModifier("modifier_tinker_rearm_custom") then 
-		return self.bonusSpellAmp
-	end
+    self:GetParent():FadeGesture(ACT_DOTA_TINKER_REARM3)
 end

@@ -426,6 +426,9 @@ function ChenBarrackGold.OnBarrackDestroyed(barrack, killer)
     barrack.chen_is_destroyed = true
 
     local ownerHero = ChenBarrackGold.GetBarrackOwnerHero and ChenBarrackGold.GetBarrackOwnerHero(barrack) or nil
+    if ownerHero and ownerHero.chen_barrack_entindex == barrack:entindex() then
+        ownerHero.chen_barrack_entindex = nil
+    end
     if ChenBarrackResetUltimate and ownerHero then
         ChenBarrackResetUltimate(ownerHero)
     end

@@ -7,6 +7,19 @@ var current_button;
 let tableHero;
 let isWorkWheel = false;
 const CHAT_WHEEL_BIND_COMMAND = DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL;
+const CHAT_STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
+const CHAT_STICKER_SIZE = 120;
+const CHAT_STICKER_MESSAGE_OFFSET_X = 205;
+const CHAT_STICKER_SOUNDS = {
+  Gura: "high_five.impact",
+  NeuroHug: "Hero_Chen.HolyPersuasion",
+  Watson: "General.Buy",
+  Anime: "Hero_Juggernaut.OmniSlash",
+  Neurodance: "Hero_Weaver.Shukuchi",
+  Choso: "Wheel.Choso",
+  StickerOne: "high_five.impact",
+  StickerTwo: "General.Buy",
+};
 var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const initTableHero = () => {
   // Имя должно совпадать с видео и аудио, цифра это позиция в колесе чатов от 0 - до 7
@@ -16,8 +29,8 @@ const initTableHero = () => {
       ["3"]: { sound: "Anime", maxTime: 1.5 },
       ["4"]: { sound: "Neurodance", maxTime: 1.5 },
       ["5"]: { sound: "Choso", maxTime: 0.7},
-      ["6"]: { sound: "ArrowGo", maxTime: 1.5 },
-      ["7"]: { sound: "ArrowArrive", maxTime: 1.5 },
+      ["6"]: { sound: "StickerOne", maxTime: 1.5 },
+      ["7"]: { sound: "StickerTwo", maxTime: 1 },
 
  };
   
@@ -203,28 +216,35 @@ function isHealthBarVisible(posX, posY, originZ) {
   return !(posX < 0 || posX > Game.GetScreenWidth() || posY < 0 || posY > Game.GetScreenHeight() || originZ < -500);
 }
 
+const isFiniteCoordinate = (value) => typeof value === "number" && isFinite(value);
+
 const CreateVideoHeadMessage = (data) => {
   const hudRoot = dotaHud.FindChildTraverse("HeroRelicProgress");
+  const hero = Number(data.hero);
+
+  if (!hudRoot || !hero || !Entities.IsValidEntity(hero)) return false;
+
+  const initialOrigin = Entities.GetAbsOrigin(hero);
+  if (!initialOrigin || initialOrigin.length < 3) return false;
+
+  const initialX = Game.WorldToScreenX(initialOrigin[0], initialOrigin[1], initialOrigin[2]);
+  const initialY = Game.WorldToScreenY(initialOrigin[0], initialOrigin[1], initialOrigin[2]);
+  if (!isFiniteCoordinate(initialX) || !isFiniteCoordinate(initialY)) return false;
+  if (!isHealthBarVisible(initialX, initialY, initialOrigin[2])) return false;
+
   hudRoot.hittestchildren = true;
 
   //  hudRoot.GetChild(0)?.DeleteAsync(0);
 
   const newPanel = $.CreatePanel("Movie", hudRoot, "", {
     selectionpos: "auto",
-    style: "width: 120px; height: 120px; border-radius: 50%; visibility: collapse;",
+    style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; visibility: collapse;`,
     controls: "none",
     repeat: "true",
     disableaudio: "false",
     autoplay: "onload",
-    src: `file://{images}/custom_game/${data.sound}.webm`,
+    src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
-
-  const hero = data.hero;
-
-  if (!hero || !Entities.IsValidEntity(hero)) {
-    newPanel.DeleteAsync(0);
-    return;
-  }
 
   const maxTime = data.maxTime;
   let time = 0;
@@ -248,8 +268,6 @@ const CreateVideoHeadMessage = (data) => {
       newPanel.style.visibility = "collapse";
       next();
     };
-
-    const isFiniteCoordinate = (value) => typeof value === "number" && isFinite(value);
 
     if (!Entities.IsValidEntity(hero)) {
       newPanel.DeleteAsync(0);
@@ -325,6 +343,152 @@ const CreateVideoHeadMessage = (data) => {
   };
 
   UpdateVideoPanels();
+  return true;
 };
 
-GameEvents.Subscribe("chat_wheel_send_sound", (event) => CreateVideoHeadMessage(event));
+const chatStickerMovies = [];
+let chatStickerGuardStarted = false;
+const CHAT_STICKER_MESSAGE_INDENT = "\u00A0&#160;&#160;\t&#160;\t&#160;&#160;\t&#160;\t&#160;\t&#160;\t&#160;&#160;\t\t\t";
+
+const EscapeChatHtml = (text) => {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/'/g, "&apos;")
+    .replace(/"/g, "&quot;");
+};
+
+const StartChatStickerGuard = () => {
+  if (chatStickerGuardStarted) return;
+  chatStickerGuardStarted = true;
+
+  const UpdateChatStickerMovies = () => {
+    const chatLinesContainer = FindDotaHudElement("ChatLinesContainer");
+    const chatLinesPanel = FindDotaHudElement("ChatLinesPanel");
+    const hudChat = FindDotaHudElement("HudChat");
+
+    if (!chatLinesContainer || !chatLinesPanel || !hudChat) {
+      $.Schedule(0.5, UpdateChatStickerMovies);
+      return;
+    }
+
+    const viewHeight = 162;
+    const messageHeight = CHAT_STICKER_SIZE + 28;
+    const scrollY = chatLinesPanel.actuallayoutheight - viewHeight - chatLinesContainer.scrolloffset_y * -1;
+    const chatActive = hudChat.BHasClass("Active");
+
+    for (let i = chatStickerMovies.length - 1; i >= 0; i--) {
+      const entry = chatStickerMovies[i];
+      const message = entry.message;
+      const movie = entry.movie;
+
+      if (!message.IsValid() || !movie.IsValid()) {
+        chatStickerMovies.splice(i, 1);
+        continue;
+      }
+
+      const messageTop = message.actualyoffset - scrollY;
+      const messageBottom = messageTop + messageHeight;
+      const isVisible = messageBottom > 0 && messageTop < viewHeight;
+      const isExpired = message.GetParent()?.BHasClass("Expired");
+
+      if (!isExpired && isVisible) {
+        movie.Play();
+        continue;
+      }
+
+      if (!chatActive) {
+        movie.Stop();
+        continue;
+      }
+
+      if (isVisible) {
+        movie.Play();
+      } else {
+        movie.Stop();
+      }
+    }
+
+    $.Schedule(0.5, UpdateChatStickerMovies);
+  };
+
+  UpdateChatStickerMovies();
+};
+
+const CreateVideoChatMessage = (data) => {
+  const chatLinesPanel = FindDotaHudElement("ChatLinesPanel");
+  if (!chatLinesPanel || !data.sound) return;
+
+  const playerID = Number(data.playerID);
+  const hasValidPlayer = Players.IsValidPlayerID(playerID);
+  const playerInfo = hasValidPlayer ? Game.GetPlayerInfo(playerID) : null;
+  if (!playerInfo) return;
+
+  const playerName = EscapeChatHtml(playerInfo.player_name);
+  const playerColor = Players.GetPlayerColorHex(playerID);
+
+  const message = $.CreatePanel("Panel", chatLinesPanel, "", {
+    class: "ChatLine StickerChatMessage",
+    selectionpos: "auto",
+    hittest: "false",
+    hittestchildren: "false",
+  });
+  message.style.flowChildren = "down";
+  message.style.width = `${CHAT_STICKER_MESSAGE_OFFSET_X + CHAT_STICKER_SIZE}px`;
+  message.style.height = `${CHAT_STICKER_SIZE + 28}px`;
+  message.style.opacity = "1";
+
+  const movie = $.CreatePanel("Movie", message, "", {
+    selectionpos: "auto",
+    style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; horizontal-align: left; margin-left: ${CHAT_STICKER_MESSAGE_OFFSET_X}px;`,
+    controls: "none",
+    repeat: "true",
+    disableaudio: "false",
+    autoplay: "onload",
+    src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
+  });
+
+  const playerLine = $.CreatePanel("Label", message, "", {
+    class: "ChatLine",
+    html: "true",
+    text: "undefined",
+    selectionpos: "auto",
+    hittest: "false",
+    hittestchildren: "false",
+  });
+  playerLine.style.flowChildren = "right";
+  playerLine.style.width = `${CHAT_STICKER_MESSAGE_OFFSET_X + CHAT_STICKER_SIZE}px`;
+  playerLine.style.height = "28px";
+
+  $.CreatePanel("Panel", playerLine, "", {
+    class: "HeroBadge PlusHeroBadgeIconSmall NoTier",
+    selectionpos: "auto",
+  });
+  $.CreatePanel("Image", playerLine, "", {
+    class: "HeroIcon",
+    selectionpos: "auto",
+    src: Players.GetPortraitImage(playerID, playerInfo.player_selected_hero),
+  });
+
+  const stickerText = $.Localize(`chat_wheel_donate_sound_${data.sound}`, playerLine);
+  playerLine.text = `${CHAT_STICKER_MESSAGE_INDENT}<font color='${playerColor}'>${playerName}</font> : `
+    + "<img src='file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd' class='ChatWheelIcon' />  "
+    + stickerText;
+
+  $.Schedule(7, () => {
+    if (message.IsValid()) message.style.opacity = null;
+  });
+
+  chatStickerMovies.push({ message, movie });
+  movie.Play();
+  StartChatStickerGuard();
+};
+
+GameEvents.Subscribe("chat_wheel_send_sound", (event) => {
+  const soundEvent = CHAT_STICKER_SOUNDS[event.sound];
+  if (soundEvent) Game.EmitSound(soundEvent);
+
+  const shownAboveHero = CreateVideoHeadMessage(event);
+  if (!shownAboveHero) CreateVideoChatMessage(event);
+});

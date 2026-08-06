@@ -852,6 +852,54 @@
         "Ability5"                  "chen_barrack_farmland"
     }
 
+    "npc_chen_barrack_flying"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/props_structures/good_barracks_melee001.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "0.7"
+        "CanBeDominated"            "0"
+        "UseNeutralCreepBehavior"   "0"
+
+        "ArmorPhysical"             "8"
+        "MagicalResistance"         "25"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_BARRACKS"
+        "RingRadius"                "60"
+        "HealthBarOffset"           "110"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_FLY"
+        "MovementSpeed"             "200"
+        "MovementTurnRate"          "0.5"
+
+        "StatusHealth"              "1200"
+        "StatusHealthRegen"         "4"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "700"
+        "VisionNighttimeRange"      "700"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_BASIC"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BARRACKS"
+
+        "Ability6"                  "chen_barrack_land"
+    }
+
     "npc_chen_barrack_worker"
     {
         "BaseClass"                 "npc_dota_creep_neutral"

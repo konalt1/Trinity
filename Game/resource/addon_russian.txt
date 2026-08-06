@@ -22,8 +22,8 @@
 		"chat_wheel_donate_sound_Watson"							"Дарова"
 		"chat_wheel_donate_sound_Neurodance"                                 "Туц-туц"
 		"chat_wheel_donate_sound_Choso"							"Изи"
-		"chat_wheel_donate_sound_ArrowGo"							"Амур_1"
-		"chat_wheel_donate_sound_ArrowArrive"							"Амур_2"
+		"chat_wheel_donate_sound_StickerOne"						"Стикер 1"
+		"chat_wheel_donate_sound_StickerTwo"						"Стикер 2"
 		"chat_wheel_donate_sound_Anime"							"Довольный"
 		
 		
@@ -394,6 +394,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_6"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_7"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_8"			"Заглушка"
+
+		// Tinker
+		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Перевооружение"
+		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Тинкер входит в режим перевооружения. Пока он действует, каждая использованная способность и каждый предмет начинают перезаряжаться за фиксированное время."
+		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown"				"ПЕРЕЗАРЯДКА СПОСОБНОСТЕЙ И ПРЕДМЕТОВ:"
+		"DOTA_Tooltip_modifier_tinker_rearm_custom"						"Перевооружение"
+		"DOTA_Tooltip_modifier_tinker_rearm_custom_Description"			"Способности и предметы перезаряжаются за фиксированное время."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_1"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_2"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_3"		"Заглушка"
@@ -470,11 +478,12 @@
 		//Weaver
 		// Cucaracha
 		"DOTA_Tooltip_ability_weaver_cucaracha"									"Кукарача"
-		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, и его скорость передвижения становится равна %move_speed%."
+		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, и его скорость передвижения становится равна %move_speed%. Во время действия способности все его атаки наносят критический урон."
 		"DOTA_Tooltip_ability_weaver_cucaracha_move_speed"					"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_ability_weaver_cucaracha_crit_damage"					"%КРИТИЧЕСКИЙ УРОН:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_weaver_cucaracha_shard_description"				"Во время действия Кукарачи Ткач прикрепляет к каждому оказавшемуся рядом врагу жука из изученного «Роя». Жук использует параметры «Роя», располагается перед целью и погибает после %shard_swarm_beetle_hits% атак. Если «Рой» не изучен, эффект не срабатывает."
+		"DOTA_Tooltip_ability_weaver_geminate_attack_shard_description"			"Geminate Attack совершает две дополнительные атаки вместо одной."
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
@@ -544,13 +553,10 @@
 
 		"dota_hud_error_doom_devour_scepter_required"					"Требуется Aghanim's Scepter"
 
-		// Tinker - Shard upgrade for Rearm Custom
-		"DOTA_Tooltip_ability_tinker_rearm_custom_shard_description"		"Во время действия Перезарядки Тинкер получает магический щит, поглощающий входящий магический урон. Сила щита зависит от текущей маны Тинкера."
-
 		// Tusk - Shard upgrade for Ice Shards
 		"DOTA_Tooltip_ability_tusk_ice_shard_description"					"Враги внутри ледяной клетки получают периодический магический урон и замедление передвижения. Урон усиливается Силой Магии."
 
-		// Weaver - Shard upgrade for Cucaracha
+		// Weaver - Shard upgrade for Geminate Attack
 		
 
 		// Lycan - Shard upgrade for Summon Wolves

@@ -16,6 +16,7 @@ chen_barrack_summon_brute = class({})
 chen_worker_gather = class({})
 modifier_chen_barrack = class({})
 modifier_chen_barrack_flying = class({})
+modifier_chen_barrack_hidden_during_flight = class({})
 modifier_chen_barrack_farmland = class({})
 modifier_chen_barrack_producing = class({})
 modifier_chen_barrack_producing_worker = class(modifier_chen_barrack_producing, {})
@@ -29,6 +30,7 @@ local UNIT_SCRIPT_PATH = "abilities/chen/barrack/units/chen_barrack_unit"
 
 LinkLuaModifier("modifier_chen_barrack", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_flying", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_chen_barrack_hidden_during_flight", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_farmland", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_producing", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_producing_worker", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
@@ -44,6 +46,7 @@ ChenBarrackGold.Init()
 ChenBarrackGold.UNIT_GOLD_MODES = ChenBarrackGold.UNIT_GOLD_MODES or {}
 
 local CHEN_BARRACK_UNIT = "npc_chen_barrack"
+local CHEN_BARRACK_FLYING_UNIT = "npc_chen_barrack_flying"
 local CHEN_BARRACK_WORKER_UNIT = "npc_chen_barrack_worker"
 local CHEN_BARRACK_HUNTER_UNIT = "npc_chen_barrack_hunter"
 local CHEN_BARRACK_HEALER_UNIT = "npc_chen_barrack_healer"
@@ -54,9 +57,12 @@ local BARRACK_REDEPLOY_COOLDOWN = 120
 local BARRACK_FLYING_MOVE_SPEED = 200
 local BARRACK_FLYING_VISUAL_HEIGHT = 180
 local BARRACK_LANDING_ARRIVAL_RADIUS = 64
-local BARRACK_FLIGHT_THINK_INTERVAL = 0.03
 local BARRACK_STARTING_WORKER_COUNT = 3
 local BARRACK_STARTING_BLOOM_COUNT = 3
+
+local function CopyPosition(position)
+    return Vector(position.x, position.y, position.z)
+end
 
 local CHEN_BARRACK_PRODUCING_MODIFIERS = {
     [CHEN_BARRACK_WORKER_UNIT] = "modifier_chen_barrack_producing_worker",
@@ -75,6 +81,7 @@ ChenBarrackGold.UNIT_GOLD_MODES["npc_chen_ancient_black_dragon"] = "shared_carri
 CHEN_BARRACK_REGISTRY = CHEN_BARRACK_REGISTRY or {}
 
 local CHEN_BARRACK_DEBUG = false
+local CHEN_BARRACK_CREATE_DEBUG = false
 local FARMLAND_DEBUG = false
 local CHEN_GATHER_DEBUG = false
 local CHEN_SUMMON_MOVE_DEBUG = false
@@ -87,6 +94,19 @@ local function BarrackDebug(...)
     end
 
     local parts = { "[ChenBarrack]" }
+    for i = 1, select("#", ...) do
+        parts[#parts + 1] = tostring(select(i, ...))
+    end
+
+    print(table.concat(parts, " "))
+end
+
+local function BarrackCreateDebug(...)
+    if not CHEN_BARRACK_CREATE_DEBUG then
+        return
+    end
+
+    local parts = { "[ChenBarrackCreate]" }
     for i = 1, select("#", ...) do
         parts[#parts + 1] = tostring(select(i, ...))
     end
@@ -161,6 +181,14 @@ local function BarrackDescribeItem(item)
     )
 end
 
+local function BarrackDescribePosition(position)
+    if not position then
+        return "nil"
+    end
+
+    return string.format("(%.1f, %.1f, %.1f)", position.x, position.y, position.z)
+end
+
 local function IsValidBarrackEntity(entity)
     return entity and not entity:IsNull()
 end
@@ -227,6 +255,7 @@ end
 
 function chen_barrack:Precache(context)
     PrecacheResource("model", BARRACK_MODEL, context)
+    PrecacheUnitByNameSync(CHEN_BARRACK_FLYING_UNIT, context)
     PrecacheUnitByNameSync(CHEN_BARRACK_WORKER_UNIT, context)
     PrecacheUnitByNameSync(CHEN_BARRACK_HUNTER_UNIT, context)
     PrecacheUnitByNameSync(CHEN_BARRACK_HEALER_UNIT, context)
@@ -540,12 +569,24 @@ function GetLivingBarrackForHero(hero)
         return nil
     end
 
+    local indexedBarrack = ResolveBarrackFromEntIndex(hero.chen_barrack_entindex)
+    if indexedBarrack
+        and indexedBarrack:IsAlive()
+        and not indexedBarrack.chen_is_destroyed
+        and GetBarrackOwnerHero(indexedBarrack) == hero then
+        return indexedBarrack
+    end
+    hero.chen_barrack_entindex = nil
+
     local found
     ForEachBarrackOwnedByHero(hero, function(barrack)
         if barrack and not barrack:IsNull() and barrack:IsAlive() and not barrack.chen_is_destroyed then
             found = barrack
         end
     end)
+    if found then
+        hero.chen_barrack_entindex = found:entindex()
+    end
     return found
 end
 
@@ -2644,7 +2685,7 @@ local function SyncChenBarrackUltimateLevel(sourceAbility)
     end
 
     local hero = sourceAbility:GetCaster()
-    if not hero or hero:IsNull() then
+    if not hero or hero:IsNull() or not hero:IsRealHero() then
         return
     end
 
@@ -2731,20 +2772,36 @@ function chen_barrack:OnSpellStart()
 
     local caster = self:GetCaster()
     if not caster or caster:IsNull() then
+        BarrackCreateDebug("create aborted", "invalid caster")
         return
     end
 
+    local point = self:GetCursorPosition()
+    BarrackCreateDebug(
+        "create started",
+        "caster", BarrackDescribeUnit(caster),
+        "player", caster:GetPlayerOwnerID(),
+        "team", caster:GetTeamNumber(),
+        "ability_level", self:GetLevel(),
+        "cursor", BarrackDescribePosition(point)
+    )
+
     local existingBarrack = GetLivingBarrackForHero(caster)
     if existingBarrack then
+        BarrackCreateDebug("create redirected to existing barrack", BarrackDescribeUnit(existingBarrack))
         FocusPlayerOnBarrack(caster:GetPlayerOwnerID(), existingBarrack)
         self:EndCooldown()
         caster:GiveMana(self:GetManaCost(self:GetLevel()))
         return
     end
 
-    local point = self:GetCursorPosition()
     local placementError = ValidateBarrackPlacement(self, point)
     if placementError then
+        BarrackCreateDebug(
+            "create rejected by placement",
+            "position", BarrackDescribePosition(point),
+            "error", placementError
+        )
         self:EndCooldown()
         caster:GiveMana(self:GetManaCost(self:GetLevel()))
         ChenBuildingPlacement.NotifyError(caster, placementError)
@@ -2756,14 +2813,47 @@ function chen_barrack:OnSpellStart()
     local teamNumber = caster:GetTeamNumber()
     local barrackHealth = self:GetSpecialValueFor("minimum_barrack_health")
 
-    local barrack = CreateUnitByName(CHEN_BARRACK_UNIT, point, true, caster, caster, teamNumber)
+    BarrackCreateDebug(
+        "CreateUnitByName begin",
+        "unit", CHEN_BARRACK_UNIT,
+        "position", BarrackDescribePosition(point),
+        "health", barrackHealth,
+        "player", playerID,
+        "team", teamNumber
+    )
+    -- npc_dota_building is initially returned at the world origin and has no
+    -- locomotion component, so CreateUnitByName/FindClearSpaceForUnit cannot
+    -- place it. Position the validated building explicitly after creation.
+    local barrack = CreateUnitByName(CHEN_BARRACK_UNIT, point, false, caster, caster, teamNumber)
     if not barrack then
+        BarrackCreateDebug("CreateUnitByName failed", "unit", CHEN_BARRACK_UNIT)
         return
     end
+    BarrackCreateDebug(
+        "CreateUnitByName success",
+        BarrackDescribeUnit(barrack),
+        "position", BarrackDescribePosition(barrack:GetAbsOrigin()),
+        "is_building", tostring(barrack:IsBuilding())
+    )
 
-    FindClearSpaceForUnit(barrack, point, false)
+    local resolvedPosition = GetGroundPosition(point, barrack)
+    barrack:SetAbsOrigin(resolvedPosition)
+    ResolveNPCPositions(resolvedPosition, 128)
+    BarrackCreateDebug(
+        "SetAbsOrigin complete",
+        BarrackDescribeUnit(barrack),
+        "requested", BarrackDescribePosition(point),
+        "ground", BarrackDescribePosition(resolvedPosition),
+        "resolved", BarrackDescribePosition(barrack:GetAbsOrigin())
+    )
     local minDistance = self:GetSpecialValueFor("building_min_distance")
     if not ChenBuildingPlacement.IsLandingPositionClear(barrack:GetAbsOrigin(), minDistance, barrack) then
+        BarrackCreateDebug(
+            "create rejected after explicit placement",
+            BarrackDescribeUnit(barrack),
+            "position", BarrackDescribePosition(barrack:GetAbsOrigin()),
+            "min_distance", minDistance
+        )
         UTIL_Remove(barrack)
         self:EndCooldown()
         caster:GiveMana(self:GetManaCost(self:GetLevel()))
@@ -2775,8 +2865,15 @@ function chen_barrack:OnSpellStart()
     barrack.chen_barrack_owner_hero = caster
     barrack.chen_barrack_created_time = GameRules:GetGameTime()
     barrack.chen_barrack_gold = 0
+    caster.chen_barrack_entindex = barrack:entindex()
 
     CHEN_BARRACK_REGISTRY[barrack:entindex()] = caster:entindex()
+    BarrackCreateDebug(
+        "ownership state assigned",
+        BarrackDescribeUnit(barrack),
+        "owner_entindex", caster:entindex(),
+        "registry_owner", CHEN_BARRACK_REGISTRY[barrack:entindex()]
+    )
 
     barrack:SetOwner(caster)
     barrack:SetControllableByPlayer(playerID, true)
@@ -2786,6 +2883,12 @@ function chen_barrack:OnSpellStart()
     barrack:SetForwardVector(forward)
     barrack:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
     barrack:AddNewModifier(caster, self, "modifier_chen_barrack", {})
+    BarrackCreateDebug(
+        "control assigned",
+        BarrackDescribeUnit(barrack),
+        "player", barrack:GetPlayerOwnerID(),
+        "modifier", tostring(barrack:HasModifier("modifier_chen_barrack"))
+    )
 
     barrack:SetBaseMaxHealth(barrackHealth)
     barrack:SetMaxHealth(barrackHealth)
@@ -2793,6 +2896,14 @@ function chen_barrack:OnSpellStart()
 
     barrack:SetModel(BARRACK_MODEL)
     barrack:SetOriginalModel(BARRACK_MODEL)
+    BarrackCreateDebug(
+        "stats and model assigned",
+        BarrackDescribeUnit(barrack),
+        "health", barrack:GetHealth(),
+        "max_health", barrack:GetMaxHealth(),
+        "model", BARRACK_MODEL,
+        "position", BarrackDescribePosition(barrack:GetAbsOrigin())
+    )
 
     LevelBarrackAbilities(barrack)
     ChenBarrackGold.SyncDisplay(barrack)
@@ -2816,10 +2927,17 @@ function chen_barrack:OnSpellStart()
     -- учитываются, чтобы пересоздание барака не превышало стартовый минимум.
     Timers:CreateTimer(0.3, function()
         if not barrack or barrack:IsNull() or not barrack:IsAlive() or barrack.chen_is_destroyed then
+            BarrackCreateDebug("starting workers aborted", BarrackDescribeUnit(barrack))
             return nil
         end
 
-        ChenBarrackEnsureFarmlandBlooms(barrack, BARRACK_STARTING_BLOOM_COUNT)
+        local bloomCount = ChenBarrackEnsureFarmlandBlooms(barrack, BARRACK_STARTING_BLOOM_COUNT)
+        BarrackCreateDebug(
+            "starting farmland initialized",
+            BarrackDescribeUnit(barrack),
+            "requested", BARRACK_STARTING_BLOOM_COUNT,
+            "created", bloomCount
+        )
 
         local spawnDistance = 360
         local summonAbility = barrack:FindAbilityByName("chen_barrack_summon_worker")
@@ -2832,6 +2950,13 @@ function chen_barrack:OnSpellStart()
 
         local existingWorkerCount = CountLivingWorkersForHero(caster) + CountQueuedWorkersForHero(caster)
         local workersToCreate = math.max(0, BARRACK_STARTING_WORKER_COUNT - existingWorkerCount)
+        BarrackCreateDebug(
+            "starting workers begin",
+            BarrackDescribeUnit(barrack),
+            "existing_or_queued", existingWorkerCount,
+            "to_create", workersToCreate,
+            "spawn_distance", spawnDistance
+        )
         for _ = 1, workersToCreate do
             CompleteProduction(barrack, {
                 unit_name = CHEN_BARRACK_WORKER_UNIT,
@@ -2843,12 +2968,25 @@ function chen_barrack:OnSpellStart()
                 is_worker = true,
             })
         end
+        BarrackCreateDebug(
+            "starting workers complete",
+            BarrackDescribeUnit(barrack),
+            "living", CountLivingWorkersForHero(caster),
+            "queued", CountQueuedWorkersForHero(caster)
+        )
         return nil
     end)
 
     EmitSoundOn("Hero_Chen.HolyPersuasionEnemy", barrack)
 
     SetHeroBarrackUltimateState(caster, "chen_barrack_takeoff", BARRACK_REDEPLOY_COOLDOWN)
+    BarrackCreateDebug(
+        "create complete",
+        BarrackDescribeUnit(barrack),
+        "position", BarrackDescribePosition(barrack:GetAbsOrigin()),
+        "ultimate", "chen_barrack_takeoff",
+        "cooldown", BARRACK_REDEPLOY_COOLDOWN
+    )
 end
 
 local function PauseBarrackSystems(barrack)
@@ -2887,29 +3025,122 @@ local function ResumeBarrackSystems(barrack)
     end
 end
 
+local function GetBarrackFlightProxy(barrack)
+    if not barrack then
+        return nil
+    end
+
+    local proxy = barrack.chen_flight_proxy
+    if proxy and not proxy:IsNull() and proxy:IsAlive() then
+        return proxy
+    end
+
+    barrack.chen_flight_proxy = nil
+    return nil
+end
+
+local function ResolveBarrackFlightContext(ability)
+    local caster = ability and ability:GetCaster() or nil
+    if not caster or caster:IsNull() then
+        return nil, nil, nil
+    end
+
+    if (caster:GetUnitName() or "") == CHEN_BARRACK_FLYING_UNIT then
+        local hero = caster.chen_flight_owner_hero
+        local barrack = ResolveBarrackFromEntIndex(caster.chen_flight_barrack_entindex)
+        if not hero or hero:IsNull() or not barrack or not barrack:IsAlive() then
+            return nil, nil, nil
+        end
+        return hero, barrack, caster
+    end
+
+    local barrack = GetLivingBarrackForHero(caster)
+    return caster, barrack, barrack and GetBarrackFlightProxy(barrack) or nil
+end
+
+local function RevealBarrackAfterFlight(barrack)
+    if not barrack or barrack:IsNull() then
+        return
+    end
+
+    barrack:RemoveNoDraw()
+    barrack:RemoveModifierByName("modifier_chen_barrack_hidden_during_flight")
+end
+
+local function DestroyBarrackFromFlightProxy(proxy, attacker)
+    if not proxy or proxy:IsNull() or proxy.chen_finishing_flight then
+        return
+    end
+
+    proxy.chen_finishing_flight = true
+    local barrack = ResolveBarrackFromEntIndex(proxy.chen_flight_barrack_entindex)
+    if not barrack or not barrack:IsAlive() or barrack.chen_is_destroyed then
+        return
+    end
+
+    local deathPosition = proxy:GetAbsOrigin()
+    barrack.chen_flight_proxy = nil
+    barrack.chen_is_flying = false
+    barrack:SetAbsOrigin(GetGroundPosition(deathPosition, barrack))
+    RevealBarrackAfterFlight(barrack)
+
+    ChenBarrackGold.OnBarrackDestroyed(barrack, attacker)
+    barrack:ForceKill(false)
+end
+
 local function BeginBarrackFlight(hero, barrack)
     InitBarrackState(barrack)
     if barrack.chen_is_flying then
         return false
     end
 
+    local origin = barrack:GetAbsOrigin()
+    local proxy = CreateUnitByName(CHEN_BARRACK_FLYING_UNIT, origin, true, hero, hero, hero:GetTeamNumber())
+    if not proxy then
+        return false
+    end
+
+    proxy:SetOwner(hero)
+    proxy:SetControllableByPlayer(hero:GetPlayerOwnerID(), true)
+    if proxy.SetPlayerID then
+        proxy:SetPlayerID(hero:GetPlayerOwnerID())
+    end
+    proxy:SetForwardVector(barrack:GetForwardVector())
+    proxy:SetModel(BARRACK_MODEL)
+    proxy:SetOriginalModel(BARRACK_MODEL)
+    proxy:SetBaseMaxHealth(barrack:GetMaxHealth())
+    proxy:SetMaxHealth(barrack:GetMaxHealth())
+    proxy:SetHealth(barrack:GetHealth())
+    proxy.chen_flight_barrack_entindex = barrack:entindex()
+    proxy.chen_flight_owner_hero = hero
+    local proxyLandAbility = proxy:FindAbilityByName("chen_barrack_land")
+    local heroBarrackAbility = hero:FindAbilityByName("chen_barrack")
+    if proxyLandAbility and not proxyLandAbility:IsNull() then
+        proxyLandAbility:SetLevel(math.max(1, heroBarrackAbility and heroBarrackAbility:GetLevel() or 1))
+    end
+
+    barrack.chen_flight_proxy = proxy
     barrack.chen_is_flying = true
     PauseBarrackSystems(barrack)
     SetBarrackUnitAbilitiesEnabled(barrack, false)
-    barrack:SetMoveCapability(DOTA_UNIT_CAP_MOVE_FLY)
-    barrack:SetBaseMoveSpeed(BARRACK_FLYING_MOVE_SPEED)
-    barrack:AddNewModifier(hero, hero:FindAbilityByName("chen_barrack_takeoff"), "modifier_chen_barrack_flying", {})
+    barrack:AddNoDraw()
+    barrack:AddNewModifier(hero, nil, "modifier_chen_barrack_hidden_during_flight", {})
+    proxy:AddNewModifier(hero, hero:FindAbilityByName("chen_barrack_takeoff"), "modifier_chen_barrack_flying", {})
     SetHeroBarrackUltimateState(hero, "chen_barrack_land", 0)
     return true
 end
 
-local function FinishBarrackLanding(hero, barrack, point)
+local function FinishBarrackLanding(hero, barrack, proxy, point)
     barrack.chen_landing_order = (barrack.chen_landing_order or 0) + 1
     barrack:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
     barrack:SetBaseMoveSpeed(0)
     barrack:SetAbsOrigin(GetGroundPosition(point, barrack))
+    barrack:SetHealth(math.max(1, math.min(barrack:GetMaxHealth(), proxy:GetHealth())))
+    RevealBarrackAfterFlight(barrack)
     ResolveNPCPositions(barrack:GetAbsOrigin(), 128)
-    barrack:RemoveModifierByName("modifier_chen_barrack_flying")
+    proxy.chen_finishing_flight = true
+    barrack.chen_flight_proxy = nil
+    UTIL_Remove(proxy)
     barrack.chen_is_flying = false
     ResumeBarrackSystems(barrack)
     LevelBarrackAbilities(barrack)
@@ -2934,9 +3165,8 @@ function chen_barrack_takeoff:OnSpellStart()
 end
 
 local function ValidateBarrackLanding(ability, point)
-    local hero = ability:GetCaster()
-    local barrack = GetLivingBarrackForHero(hero)
-    if not barrack or not barrack.chen_is_flying then
+    local _, barrack, proxy = ResolveBarrackFlightContext(ability)
+    if not barrack or not barrack.chen_is_flying or not proxy then
         return "#dota_hud_error_chen_barrack_not_flying"
     end
 
@@ -2966,34 +3196,35 @@ function chen_barrack_land:OnSpellStart()
         return
     end
 
-    local hero = self:GetCaster()
-    local barrack = GetLivingBarrackForHero(hero)
-    local point = self:GetCursorPosition()
-    if not barrack or ValidateBarrackLanding(self, point) then
+    local hero, barrack, proxy = ResolveBarrackFlightContext(self)
+    local point = CopyPosition(self:GetCursorPosition())
+    if not barrack or not proxy or ValidateBarrackLanding(self, point) then
         self:EndCooldown()
         return
     end
 
     barrack.chen_landing_order = (barrack.chen_landing_order or 0) + 1
     local orderId = barrack.chen_landing_order
-    -- npc_dota_building has no locomotion component. Move the airborne barrack
-    -- explicitly so it can remain a real building while preserving redeployment.
-    Timers:CreateTimer(BARRACK_FLIGHT_THINK_INTERVAL, function()
+    ExecuteOrderFromTable({
+        UnitIndex = proxy:entindex(),
+        OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+        Position = point,
+        Queue = false,
+    })
+
+    Timers:CreateTimer(0.1, function()
         if not barrack or barrack:IsNull() or not barrack:IsAlive() or barrack.chen_is_destroyed then
             return nil
         end
         if not barrack.chen_is_flying or barrack.chen_landing_order ~= orderId then
             return nil
         end
+        if not proxy or proxy:IsNull() or not proxy:IsAlive() then
+            return nil
+        end
 
-        local origin = barrack:GetAbsOrigin()
-        local offset = point - origin
-        offset.z = 0
-        local distance = offset:Length2D()
-        if distance > BARRACK_LANDING_ARRIVAL_RADIUS then
-            local step = math.min(distance, BARRACK_FLYING_MOVE_SPEED * BARRACK_FLIGHT_THINK_INTERVAL)
-            barrack:SetAbsOrigin(origin + offset:Normalized() * step)
-            return BARRACK_FLIGHT_THINK_INTERVAL
+        if (proxy:GetAbsOrigin() - point):Length2D() > BARRACK_LANDING_ARRIVAL_RADIUS then
+            return 0.1
         end
 
         local minDistance = self:GetSpecialValueFor("building_min_distance")
@@ -3002,7 +3233,7 @@ function chen_barrack_land:OnSpellStart()
             return nil
         end
 
-        FinishBarrackLanding(hero, barrack, point)
+        FinishBarrackLanding(hero, barrack, proxy, point)
         return nil
     end)
 
@@ -3036,7 +3267,14 @@ function modifier_chen_barrack_flying:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
         MODIFIER_PROPERTY_VISUAL_Z_DELTA,
+        MODIFIER_EVENT_ON_DEATH,
     }
+end
+
+function modifier_chen_barrack_flying:OnDeath(event)
+    if IsServer() and event.unit == self:GetParent() then
+        DestroyBarrackFromFlightProxy(self:GetParent(), event.attacker)
+    end
 end
 
 function modifier_chen_barrack_flying:GetModifierMoveSpeed_Absolute()
@@ -3045,6 +3283,28 @@ end
 
 function modifier_chen_barrack_flying:GetVisualZDelta()
     return BARRACK_FLYING_VISUAL_HEIGHT
+end
+
+function modifier_chen_barrack_hidden_during_flight:IsHidden()
+    return true
+end
+
+function modifier_chen_barrack_hidden_during_flight:IsPurgable()
+    return false
+end
+
+function modifier_chen_barrack_hidden_during_flight:RemoveOnDeath()
+    return true
+end
+
+function modifier_chen_barrack_hidden_during_flight:CheckState()
+    return {
+        [MODIFIER_STATE_OUT_OF_GAME] = true,
+        [MODIFIER_STATE_INVULNERABLE] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+    }
 end
 
 function chen_barrack_summon_worker:CastFilterResult()

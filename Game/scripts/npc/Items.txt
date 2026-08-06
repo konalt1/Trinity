@@ -7870,7 +7870,7 @@
 				"bonus_agility"			"16"
 				"status_resistance"				"16"
 				"bonus_attack_speed"	"20"
-				"bonus_armor"			"10"
+				"bonus_armor"			"15"
 				
 				"hp_regen_amp"			"16"
 				"slow_resistance"		"30"
@@ -7970,7 +7970,7 @@
 			"bonus_intellect"			"16"
 			"bonus_attack_speed"	"20"
 			"mana_regen_multiplier"		"50"
-			"bonus_armor"			"20"
+			"bonus_armor"			"15"
 			"mind_power_bonus"			"25"
 			"cast_speed_pct"		"25"
 			

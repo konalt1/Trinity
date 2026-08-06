@@ -1,0 +1,9 @@
+<root>
+    <styles>
+        <include src="file://{resources}/layout/custom_game/weaver_cucaracha_healthbar/weaver_cucaracha_healthbar.css"/>
+    </styles>
+    <scripts>
+        <include src="file://{resources}/layout/custom_game/weaver_cucaracha_healthbar/weaver_cucaracha_healthbar.js"/>
+    </scripts>
+    <Panel class="CucarachaHealthBars" hittest="false" hittestchildren="false"/>
+</root>

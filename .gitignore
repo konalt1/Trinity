@@ -2,6 +2,12 @@
 *.bin
 Game/models/
 Game/panorama/
+!Game/panorama/
+Game/panorama/*
+!Game/panorama/videos/
+Game/panorama/videos/*
+!Game/panorama/videos/custom_game/
+!Game/panorama/videos/custom_game/*.webm
 Game/materials/
 Game/particles/
 Game/panorama_debugger.cfg
