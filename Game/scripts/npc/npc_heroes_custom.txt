@@ -131,7 +131,11 @@
 	"npc_dota_hero_tinker"
 	{	
 		"ArmorPhysical"                                         "4.8"
-		"Ability3"				                        "tinker_heat_seeking_missile"
+		"Ability3"				                        "tinker_deploy_turrets_custom"
+		"Ability4"										"generic_hidden"	
+		"Ability5"										"generic_hidden"
+		"Ability7"										"generic_hidden"
+		"Ability8"										"generic_hidden"
 		"Facets" ""
 		"Ability6"				                        "tinker_rearm_custom"
 

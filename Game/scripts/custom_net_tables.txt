@@ -3,6 +3,6 @@
     custom_net_tables =
     [
         "cooldown_info",
-        "weaver_cucaracha"
+        "mind_power"
     ]
 }

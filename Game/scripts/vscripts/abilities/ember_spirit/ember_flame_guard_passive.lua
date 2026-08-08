@@ -140,11 +140,7 @@ function modifier_ember_flame_guard_passive:DealAoeDamage()
 	local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
 
 	-- Бонус от Силы магии
-	local mind_power_value = 0
-	local mind_power_modifier = parent:FindModifierByName("modifier_mind_power")
-	if mind_power_modifier then
-		mind_power_value = mind_power_modifier:GetStackCount()
-	end
+	local mind_power_value = GetHeroMindPower and (GetHeroMindPower(parent) or 0) or 0
 
 	local dps = dps_per_charge * self.charges + mind_power_value * mind_power_multiplier
 	local tick_damage = dps * 0.25 -- урон за интервал думателя

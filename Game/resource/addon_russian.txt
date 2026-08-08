@@ -4,6 +4,7 @@
 	"Tokens"
 	{
 		"ADDON_GAME_NAME"		"Trinity"
+		"DOTA_Tooltip_ability_mind_power"		"Сила магии"
 		//Онбординг экраны
 		"ui.custom_loading_screen.slide_1.title" 		"Добро пожаловать!"
 		"ui.custom_loading_screen.slide_1.content"		"Ваша цель — Уничтожить Трон противника в командах 3 на 3."
@@ -396,12 +397,26 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_8"			"Заглушка"
 
 		// Tinker
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom"					"Развёртывание турелей"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Тинкер сбрасывает в выбранную точку три неуправляемые турели. При приземлении они наносят врагам магический урон и отталкивают их. Если в области находится Тинкер, его отбрасывает на большее расстояние.
+
+		Турели выпускают ракеты в сторону ближайшего вражеского героя. Ракета взрывается при столкновении, нанося урон цели и окружающим врагам."
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_delay"		"ЗАДЕРЖКА ПАДЕНИЯ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_damage"		"УРОН ПРИ ПАДЕНИИ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_aoe_radius"	"РАДИУС ПАДЕНИЯ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_knockback_distance"	"ОТТАЛКИВАНИЕ ВРАГОВ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_knockback_distance_tinker"	"ОТТАЛКИВАНИЕ ТИНКЕРА:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_turret_duration"	"ДЛИТЕЛЬНОСТЬ ТУРЕЛЕЙ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_target_range"	"ДАЛЬНОСТЬ ТУРЕЛЕЙ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_damage"	"УРОН РАКЕТЫ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_radius_explosion"	"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_splash_pct"		"%УРОН ПО ОБЛАСТИ:"
 		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Перевооружение"
-		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Тинкер входит в режим перевооружения. Пока он действует, каждая использованная способность и каждый предмет начинают перезаряжаться за фиксированное время."
+		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Тинкер мгновенно сбрасывает перезарядку всех своих способностей, кроме Перевооружения. Затем входит в режим перевооружения: пока он действует, каждая использованная способность и каждый предмет начинают перезаряжаться за фиксированное время."
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown"				"ПЕРЕЗАРЯДКА СПОСОБНОСТЕЙ И ПРЕДМЕТОВ:"
 		"DOTA_Tooltip_modifier_tinker_rearm_custom"						"Перевооружение"
-		"DOTA_Tooltip_modifier_tinker_rearm_custom_Description"			"Способности и предметы перезаряжаются за фиксированное время."
+		"DOTA_Tooltip_modifier_tinker_rearm_custom_Description"			"Использованные способности и предметы перезаряжаются за фиксированное время."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_1"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_2"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_3"		"Заглушка"
@@ -478,7 +493,7 @@
 		//Weaver
 		// Cucaracha
 		"DOTA_Tooltip_ability_weaver_cucaracha"									"Кукарача"
-		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, и его скорость передвижения становится равна %move_speed%. Во время действия способности все его атаки наносят критический урон."
+		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, проходит сквозь юнитов, и его скорость передвижения становится равна %move_speed%. Во время действия способности все его атаки наносят критический урон."
 		"DOTA_Tooltip_ability_weaver_cucaracha_move_speed"					"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_crit_damage"					"%КРИТИЧЕСКИЙ УРОН:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
@@ -1007,6 +1022,8 @@
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_max_charges"				"МАКС. ЗАРЯДОВ:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_charge_duration"			"ВРЕМЯ ЖИЗНИ ЗАРЯДОВ:"
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_mind_power_damage_bonus"	"ДОП. УРОН ПО ОБЛАСТИ В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_magic_damage_amp"		"%УСИЛЕНИЕ МАГИЧЕСКОГО УРОНА:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_magic_damage_amp_mind_power_multiplier"	"УСИЛЕНИЕ МАГ. УРОНА ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_modifier_ember_flame_guard_passive"							"Flame Guard"

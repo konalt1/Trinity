@@ -29,11 +29,7 @@ function lich_frost_blast_lua:OnSpellStart()
 	local mind_power_multiplier = self:GetSpecialValueFor("mind_power_multiplier")
 
 	-- get mind power bonus damage
-	local mind_power_modifier = caster:FindModifierByName("modifier_mind_power")
-	local mind_power_value = 0
-	if mind_power_modifier then
-		mind_power_value = mind_power_modifier:GetStackCount()
-	end
+	local mind_power_value = GetHeroMindPower and (GetHeroMindPower(caster) or 0) or 0
 
 	-- get enemies
 	local enemies = FindUnitsInRadius(

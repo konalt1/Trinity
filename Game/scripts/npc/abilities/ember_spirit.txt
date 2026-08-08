@@ -63,6 +63,8 @@
                 "charges_per_hero_attack"   "3"
                 "charges_per_creep_attack"  "1"
                 "charge_duration"           "8"
+                "mind_power_damage_bonus"   "0"
+                "magic_damage_amp"          "0"
                 "mind_power_multiplier"     "0.25"
                 "magic_damage_amp_mind_power_multiplier" "0.1"
             }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Panorama UI"
+  short_description: "Разработка и отладка Panorama UI Dota 2"
+  default_prompt: "Используй $panorama для разработки или отладки интерфейса Panorama."

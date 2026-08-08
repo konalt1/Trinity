@@ -169,11 +169,7 @@ function modifier_juggernaut_bloodlust:OnTakeDamage(params)
     local mind_power_multiplier = ability:GetSpecialValueFor("mind_power_heal_multiplier")
 
     -- Get caster's mind power
-    local mind_power = 0
-    local mind_power_modifier = attacker:FindModifierByName("modifier_mind_power")
-    if mind_power_modifier then
-        mind_power = mind_power_modifier:GetStackCount()
-    end
+    local mind_power = GetHeroMindPower and (GetHeroMindPower(attacker) or 0) or 0
 
     -- Calculate total healing with mind power scaling
     local total_heal = heal_base + (mind_power * mind_power_multiplier)
@@ -203,4 +199,4 @@ end
 
 function modifier_juggernaut_bloodlust:GetTexture()
     return "juggernaut_blade_dance"
-end 
+end

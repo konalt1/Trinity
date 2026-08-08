@@ -5,12 +5,8 @@
 LinkLuaModifier("modifier_nevermore_shadowraze_trinity_debuff", "abilities/nevermore/nevermore_shadowraze_trinity", LUA_MODIFIER_MOTION_NONE)
 
 local function GetCasterMindPower(caster)
-	local mind_power_modifier = caster:FindModifierByName("modifier_mind_power")
-	if mind_power_modifier then
-		return mind_power_modifier:GetStackCount()
-	end
 	if GetHeroMindPower then
-		return GetHeroMindPower(caster)
+		return GetHeroMindPower(caster) or 0
 	end
 	return 0
 end

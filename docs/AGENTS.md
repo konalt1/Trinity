@@ -222,6 +222,26 @@ Mind Power = Intellect(false)
 
 - Способность `mind_power` — innate-пассив, стаки модификатора = текущее значение (cap 999)
 - Выдаётся всем героям при спавне (`gamemode.lua`, `game_managers/config.lua`)
+- Полное значение героя публикуется по `entindex` в net table `mind_power`; нативный тултип получает то же значение через custom transmitter модификатора.
+
+### Динамические значения в тултипах
+
+Способности, перечисленные в `MIND_POWER_RULES` файла `Game/scripts/vscripts/game_managers/custom_ability_tooltips.lua`, получают динамические значения прямо в нативном блоке параметров Dota. Правило явно связывает параметр с его множителем:
+
+```lua
+pudge_meat_hook_trinity = {
+    damage = "mind_power_multiplier",
+},
+```
+
+Для такой связи значение считается как `базовое специальное значение способности + Mind Power × multiplier`. Положительный множитель увеличивает значение, отрицательный уменьшает; итог ограничивается нулём. `modifier_mind_power` передаёт полное значение через custom transmitter и на клиенте реализует `MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL` / `MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE`. Поэтому нативный тултип обновляется самим движком без Panorama-копии. На сервере override отключён: игровые Lua-формулы остаются источником истины и не получают повторное масштабирование. Способность юнита `chen_barrack_hunter_overload` использует отдельный скрытый intrinsic-модификатор, который передаёт Силу магии владельца.
+
+Каждая действующая Lua-формула, которая складывает базовый параметр со значением от Mind Power, должна иметь явную связь в `MIND_POWER_RULES`. Если бонус не соответствует существующему базовому параметру (например, независимый бонус урона и усиление магического урона у `ember_flame_guard_passive`), в `AbilityValues` добавляется отдельный отображаемый результирующий параметр с базовым значением `0`; множители и правила по-прежнему хранятся отдельно. Игровые формулы всегда получают полное значение через `GetHeroMindPower`, а не через `modifier_mind_power:GetStackCount()`, потому что визуальный стек ограничен 999.
+
+- Реестр и общий расчёт: `Game/scripts/vscripts/game_managers/custom_ability_tooltips.lua`
+- Клиентский override героя: `Game/scripts/vscripts/abilities/mind_power.lua`
+- Override юнита Chen: `Game/scripts/vscripts/abilities/chen/barrack/units/chen_barrack_hunter_focus.lua`
+- Net table `mind_power` сохранена для публикации полного значения по `entindex`; нативный тултип получает значение через custom transmitter модификатора.
 
 ### Использование в способностях
 
@@ -232,7 +252,7 @@ local mind_power = GetHeroMindPower(caster) or 0
 local total = base_value + mind_power * self:GetSpecialValueFor("mind_power_multiplier")
 ```
 
-Герои/способности с `mind_power_multiplier` в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Weaver, Ogre Magi, DOOM, Tusk, Chen и др.
+Герои/способности с действующим масштабированием от Mind Power в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Chen, Pudge, Ember Spirit, Lion и Shadow Fiend.
 
 ### Расширение через модификаторы
 
@@ -479,11 +499,11 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 | Слот | Способность | Статус |
 |------|-------------|--------|
-| E | `tinker_heat_seeking_missile` | Переназначен слот |
-| Ult | `tinker_rearm_custom` | **Кастом** — на 15 секунд задаёт использованным способностям и предметам перезарядку 4/3/2 секунды |
+| E (Ability3) | `tinker_deploy_turrets_custom` | **Кастом** — сбрасывает три турели, отталкивает при падении и выпускает линейные ракеты |
+| Ult | `tinker_rearm_custom` | **Кастом** — мгновенно сбрасывает КД всех способностей Тинкера, кроме самой ульты, затем на 15 секунд задаёт использованным способностям и предметам перезарядку 4/3/2 секунды |
 | Остальные | Наследуются из ванильного Tinker | Ванильные |
 
-**Lua:** `abilities/tinker/tinker_rearm_custom.lua`
+**Lua:** `abilities/tinker/tinker_deploy_turrets_custom.lua`, `abilities/tinker/tinker_rearm_custom.lua`
 
 ---
 
@@ -552,10 +572,10 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 | Слот | Способность | Статус |
 |------|-------------|--------|
-| Q | `tusk_ice` | **Кастом** |
-| W | `tusk_mp_snowball` | **Кастом** |
+| Q | `tusk_ice` | **Кастом**; Lua запрашивает отсутствующий в KV `mind_power_multiplier`, поэтому фактического масштабирования сейчас нет |
+| W | `tusk_mp_snowball` | Имя назначено герою, но определения способности в актуальном custom KV нет |
 | E | `tusk_tag_team` | Ванильное имя |
-| R | `tusk_channeled_snowball` | **Кастом** |
+| R | `tusk_channeled_snowball` | Имя назначено герою, но определения способности в актуальном custom KV нет |
 
 **Lua:** `abilities/Tusk/`
 
@@ -575,7 +595,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 **Aghanim's Shard:** нативный параметр `extra_attack` у Geminate Attack получает `+1`, поэтому способность совершает две дополнительные атаки вместо одной.
 
-Во время Кукарачи нативная надголовная полоса скрывается. Союзники и наблюдатели видят компактную Panorama-полосу, масштабированную вместе с моделью; для врагов полоса остаётся скрытой. Состояние синхронизируется через net table `weaver_cucaracha`, UI находится в `Content/panorama/layout/custom_game/weaver_cucaracha_healthbar/`.
+Во время Кукарачи Вивер проходит сквозь юнитов, а его надголовная полоса здоровья полностью скрывается для всех игроков.
 
 ---
 
@@ -692,6 +712,7 @@ Custom Net Tables (`custom_net_tables.txt`):
 
 - `cooldown_info` — chat wheel cooldown
 - `kill_feed_debug` — отладка kill feed
+- `mind_power` — актуальная Сила Магии героя по его `entindex`
 
 Custom Game Events (`custom.gameevents`): `draw_game_event`, `chat_wheel_send_sound`, события kill feed.
 
@@ -746,6 +767,8 @@ Game/scripts/npc/npc_abilities_custom.txt
         ├── units.txt
         └── <hero>.txt      (по одному файлу на героя)
 ```
+
+Для динамического значения от Силы Магии добавлять явную связь в таблицу `MIND_POWER_RULES` модуля тултипов; не добавлять служебные поля рядом с `AbilityValues` и не выводить связь автоматически только по наличию поля `mind_power_multiplier`, поскольку у разных способностей он усиливает разные характеристики. Серверная формула способности должна по-прежнему явно использовать `GetHeroMindPower`; клиентский override предназначен только для нативного отображения.
 
 ### Новый герой / способность — чеклист
 
@@ -847,4 +870,4 @@ flowchart TD
 
 ---
 
-*Последнее обновление документа: июнь 2026. При добавлении героев, систем или изменении конвенций — обновлять этот файл.*
+*Последнее обновление документа: август 2026. При добавлении героев, систем или изменении конвенций — обновлять этот файл.*

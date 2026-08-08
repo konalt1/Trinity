@@ -1,6 +1,48 @@
 // Trinity — tinker abilities
 "DOTAAbilities"
 {
+    "tinker_deploy_turrets_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tinker/tinker_deploy_turrets_custom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+
+        "MaxLevel"                      "4"
+        "AbilityTextureName"            "tinker_deploy_turrets"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCastRange"              "600"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCooldown"               "24 22 20 18"
+        "AbilityManaCost"               "100 120 140 160"
+
+        "AbilityValues"
+        {
+            "drop_aoe_radius"                   "250"
+            "drop_delay"                        "0.5"
+            "drop_damage"                       "40 80 120 160"
+            "drop_knockback_distance"           "100"
+            "drop_knockback_duration"           "0.1"
+            "drop_knockback_distance_tinker"    "400"
+            "drop_knockback_duration_tinker"    "0.3"
+            "turrets_per_drop"                  "3"
+            "turret_placement_radius"           "70"
+            "turret_duration"                   "4.5"
+            "missile_target_range"              "650 700 750 800"
+            "missile_spawn_interval"            "1.5"
+            "missile_range"                     "650 700 750 800"
+            "missile_speed"                     "1350"
+            "missile_width"                     "70"
+            "missile_damage"                    "20 40 60 80"
+            "radius_explosion"                  "200"
+            "splash_pct"                        "50"
+        }
+    }
+
     "tinker_rearm_custom"
     {
         "BaseClass"                     "ability_lua"
@@ -22,7 +64,7 @@
             "duration"                  "15"
             "cooldown"
             {
-                "value"                 "4 3 2"
+                "value"                 "3 2 1"
             }
         }
     }

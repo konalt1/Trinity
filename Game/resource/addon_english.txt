@@ -4,6 +4,7 @@
 	"Tokens"
 	{
 		"ADDON_GAME_NAME"		"Trinity"
+		"DOTA_Tooltip_ability_mind_power"		"Spell Power"
 		// Onboarding screens
 		"ui.custom_loading_screen.slide_1.title" 		"Welcome!"
 		"ui.custom_loading_screen.slide_1.content"		"Destroy the enemy Ancient in teams of three."
@@ -372,12 +373,26 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_8"			"Placeholder"
 
 		// Tinker
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom"					"Deploy Turrets"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Tinker drops three uncontrollable turrets at the target location. On landing, they deal magical damage to enemies and knock them back. If Tinker is within the area, he is knocked back farther.
+
+		The turrets launch missiles toward the nearest enemy hero. A missile explodes on contact, damaging its target and nearby enemies."
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_delay"		"DROP DELAY:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_damage"		"IMPACT DAMAGE:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_aoe_radius"	"IMPACT RADIUS:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_knockback_distance"	"ENEMY KNOCKBACK:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_knockback_distance_tinker"	"TINKER KNOCKBACK:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_turret_duration"	"TURRET DURATION:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_target_range"	"TURRET RANGE:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_damage"	"MISSILE DAMAGE:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_radius_explosion"	"EXPLOSION RADIUS:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_splash_pct"		"%SPLASH DAMAGE:"
 		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Rearm"
-		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Tinker enters a rearming cycle. While it lasts, every used ability and item begins recharging for a fixed duration."
+		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Tinker instantly resets the cooldown of all his abilities except Rearm. He then enters a rearming cycle: while it lasts, every used ability and item begins recharging for a fixed duration."
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"DURATION:"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_cooldown"				"ABILITY AND ITEM COOLDOWN:"
 		"DOTA_Tooltip_modifier_tinker_rearm_custom"						"Rearm"
-		"DOTA_Tooltip_modifier_tinker_rearm_custom_Description"			"Abilities and items recharge for a fixed duration."
+		"DOTA_Tooltip_modifier_tinker_rearm_custom_Description"			"Used abilities and items recharge for a fixed duration."
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_1"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_2"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_ogre_magi_3"		"Placeholder"
@@ -454,7 +469,7 @@
 		//Weaver
 		// Cucaracha
 		"DOTA_Tooltip_ability_weaver_cucaracha"									"La Cucaracha"
-		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Weaver shrinks into a frantic cockroach form and moves at %move_speed% speed."
+		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Weaver shrinks into a frantic cockroach form, passes through units, and moves at %move_speed% speed."
 		"DOTA_Tooltip_ability_weaver_cucaracha_move_speed"					"MOVEMENT SPEED:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"MODEL SCALE:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_duration"						"DURATION:"
@@ -973,6 +988,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_max_charges"				"МАКС. ЗАРЯДОВ:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_charge_duration"			"ВРЕМЯ ЖИЗНИ ЗАРЯДОВ:"
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_mind_power_damage_bonus"	"BONUS AREA DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_ember_flame_guard_passive_magic_damage_amp"		"%MAGICAL DAMAGE AMP:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_ember_flame_guard_passive_magic_damage_amp_mind_power_multiplier"	"MAGICAL DAMAGE AMP PER MIND POWER:"
 		"DOTA_Tooltip_modifier_ember_flame_guard_passive"							"Flame Guard"

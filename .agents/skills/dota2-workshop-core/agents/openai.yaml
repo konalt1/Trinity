@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dota 2 Workshop Core"
+  short_description: "VScript, KV и форматы Dota 2 Workshop"
+  default_prompt: "Используй $dota2-workshop-core при работе с VScript, KV и форматами Dota 2 Workshop."

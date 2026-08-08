@@ -90,19 +90,8 @@ modifier_weaver_cucaracha = class({
 function modifier_weaver_cucaracha:CheckState()
 	return {
 		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 	}
-end
-
-function modifier_weaver_cucaracha:UpdateHealthBarState(active)
-	if not IsServer() then return end
-
-	local parent = self:GetParent()
-	if not parent or not IsValidEntity(parent) then return end
-
-	CustomNetTables:SetTableValue("weaver_cucaracha", tostring(parent:entindex()), {
-		active = active and 1 or 0,
-		scale = self.target_scale or 1,
-	})
 end
 
 function modifier_weaver_cucaracha:OnCreated()
@@ -116,7 +105,6 @@ function modifier_weaver_cucaracha:OnCreated()
 
 	self.move_speed = ability:GetSpecialValueFor("move_speed")
 	self.target_scale = ability:GetSpecialValueFor("model_scale")
-	self:UpdateHealthBarState(true)
 
 	self:SetStackCount(math.floor(self.move_speed))
 
@@ -149,7 +137,6 @@ function modifier_weaver_cucaracha:OnRefresh()
 	self.crit_damage = ability:GetSpecialValueFor("crit_damage")
 	self.move_speed = ability:GetSpecialValueFor("move_speed")
 	self.target_scale = ability:GetSpecialValueFor("model_scale")
-	self:UpdateHealthBarState(true)
 	self:SetStackCount(math.floor(self.move_speed))
 
 end
@@ -203,7 +190,6 @@ end
 
 function modifier_weaver_cucaracha:OnDestroy()
 	if not IsServer() then return end
-	self:UpdateHealthBarState(false)
 
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end

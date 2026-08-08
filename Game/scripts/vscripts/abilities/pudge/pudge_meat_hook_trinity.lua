@@ -17,6 +17,28 @@ local function IsRuneEntity(entity)
 		and entity:GetClassname() == RUNE_CLASSNAME
 end
 
+local function FindRuneWithinHookRadius(position, radius)
+	local radius_squared = radius * radius
+	local nearest_rune = nil
+	local nearest_distance_squared = radius_squared
+	local rune = Entities:FindByClassname(nil, RUNE_CLASSNAME)
+
+	while rune do
+		if IsRuneEntity(rune) then
+			local offset = rune:GetAbsOrigin() - position
+			local distance_squared = offset.x * offset.x + offset.y * offset.y
+			if distance_squared <= nearest_distance_squared then
+				nearest_rune = rune
+				nearest_distance_squared = distance_squared
+			end
+		end
+
+		rune = Entities:FindByClassname(rune, RUNE_CLASSNAME)
+	end
+
+	return nearest_rune
+end
+
 function pudge_meat_hook_trinity:GetCastRange(_, _)
 	return self:GetSpecialValueFor("AbilityCastRange")
 end
@@ -306,7 +328,7 @@ function pudge_meat_hook_trinity:OnProjectileThinkHandle(projectile)
 	state.thinker:SetAbsOrigin(position)
 
 	if not state.returning then
-		local rune = Entities:FindByClassnameWithin(nil, RUNE_CLASSNAME, position, state.width)
+		local rune = FindRuneWithinHookRadius(position, state.width)
 		if IsRuneEntity(rune) then
 			ProjectileManager:DestroyLinearProjectile(projectile)
 			self:StartHookReturn(projectile, rune, rune:GetAbsOrigin())

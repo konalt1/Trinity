@@ -1384,7 +1384,7 @@
 
             // Status
         //----------------------------------------------------------------
-        "StatusHealth"              "100"       // NOTE: This is overriden by the ability
+        "StatusHealth"              "40"
         "StatusHealthRegen"         "0"     // Health regeneration rate.
         "StatusMana"                "0"         // Base mana.
         "StatusManaRegen"           "0"         // Mana regeneration rate.
@@ -1415,6 +1415,8 @@
         "AttackDamageMin"           "100"       // Damage range min.
         "AttackDamageMax"           "100"       // Damage range max.
 
+        "StatusHealth"              "80"
+
         "BountyXP"                  "10"        // Experience earn.
         "BountyGoldMin"             "10"        // Gold earned min.
         "BountyGoldMax"             "10"        // Gold earned max.
@@ -1431,6 +1433,8 @@
         //----------------------------------------------------------------
         "AttackDamageMin"           "150"       // Damage range min.
         "AttackDamageMax"           "150"       // Damage range max.
+
+        "StatusHealth"              "120"
         
         "BountyXP"                  "15"        // Experience earn.
         "BountyGoldMin"             "15"        // Gold earned min.
@@ -1448,6 +1452,8 @@
         //----------------------------------------------------------------
         "AttackDamageMin"           "200"       // Damage range min.
         "AttackDamageMax"           "200"       // Damage range max.
+
+        "StatusHealth"              "160"
 
         
         "BountyXP"                  "20"        // Experience earn.

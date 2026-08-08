@@ -8,6 +8,14 @@ function tinker_rearm_custom:OnSpellStart()
     end
 
     local caster = self:GetCaster()
+
+    for slot = 0, caster:GetAbilityCount() - 1 do
+        local ability = caster:GetAbilityByIndex(slot)
+        if ability and not ability:IsNull() and ability ~= self then
+            ability:EndCooldown()
+        end
+    end
+
     caster:AddNewModifier(caster, self, "modifier_tinker_rearm_custom", {
         duration = self:GetSpecialValueFor("duration"),
     })

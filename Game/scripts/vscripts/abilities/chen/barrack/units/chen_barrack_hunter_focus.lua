@@ -1,8 +1,11 @@
 chen_barrack_hunter_overload = class({})
 chen_barrack_anti_creep_dash = class({})
 modifier_chen_barrack_hunter_overload = class({})
+modifier_chen_barrack_hunter_overload_tooltip = class({})
 modifier_chen_barrack_anti_creep_dash = class({})
 modifier_chen_barrack_anti_creep_dash_autocast = class({})
+
+require("game_managers/custom_ability_tooltips")
 
 local SCRIPT_PATH = "abilities/chen/barrack/units/chen_barrack_hunter_focus"
 local OVERLOAD_MODIFIER = "modifier_chen_barrack_hunter_overload"
@@ -11,6 +14,7 @@ local COUNTDOWN_PARTICLE = "particles/units/heroes/hero_ursa/ursa_enrage_buff.vp
 local EXPLOSION_PARTICLE = "particles/units/heroes/hero_ursa/ursa_earthshock.vpcf"
 
 LinkLuaModifier("modifier_chen_barrack_hunter_overload", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_chen_barrack_hunter_overload_tooltip", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_anti_creep_dash", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_chen_barrack_anti_creep_dash_autocast", SCRIPT_PATH, LUA_MODIFIER_MOTION_NONE)
 
@@ -100,6 +104,10 @@ function chen_barrack_hunter_overload:Precache(context)
     PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts", context)
 end
 
+function chen_barrack_hunter_overload:GetIntrinsicModifierName()
+    return "modifier_chen_barrack_hunter_overload_tooltip"
+end
+
 function chen_barrack_hunter_overload:GetAOERadius()
     return self:GetSpecialValueFor("radius")
 end
@@ -131,6 +139,68 @@ function chen_barrack_hunter_overload:OnSpellStart()
         duration = self:GetSpecialValueFor("countdown_duration"),
     })
     caster:EmitSound("Hero_Ursa.Enrage")
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:IsHidden()
+    return true
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:IsPurgable()
+    return false
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:OnCreated()
+    self.synced_mind_power = 0
+    if not IsServer() then return end
+
+    self:SetHasCustomTransmitterData(true)
+    self:StartIntervalThink(0.1)
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:OnIntervalThink()
+    local ownerHero = GetOwnerHero(self:GetParent())
+    local mindPower = ownerHero and GetHeroMindPower and (GetHeroMindPower(ownerHero) or 0) or 0
+    if self.synced_mind_power == mindPower then return end
+
+    self.synced_mind_power = mindPower
+    self:SendBuffRefreshToClients()
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:AddCustomTransmitterData()
+    return {
+        mind_power = self.synced_mind_power or 0,
+    }
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:HandleCustomTransmitterData(data)
+    self.synced_mind_power = tonumber(data and data.mind_power) or 0
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,
+        MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE,
+    }
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:GetModifierOverrideAbilitySpecial(params)
+    if IsServer() or not params then return 0 end
+
+    return CustomAbilityTooltips:ShouldOverrideMindPowerSpecial(
+        params.ability,
+        params.ability_special_value
+    ) and 1 or 0
+end
+
+function modifier_chen_barrack_hunter_overload_tooltip:GetModifierOverrideAbilitySpecialValue(params)
+    if IsServer() or not params then return 0 end
+
+    return CustomAbilityTooltips:GetMindPowerSpecialValue(
+        params.ability,
+        params.ability_special_value,
+        params.ability_special_level,
+        self.synced_mind_power
+    ) or 0
 end
 
 function chen_barrack_anti_creep_dash:GetIntrinsicModifierName()

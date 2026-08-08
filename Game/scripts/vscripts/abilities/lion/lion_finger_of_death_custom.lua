@@ -74,6 +74,17 @@ local function LionHasScepter(unit)
     return unit:HasModifier("modifier_item_ultimate_scepter") or unit:HasModifier("modifier_item_ultimate_scepter_consumed")
 end
 
+local function LionGetAttachmentOrigin(unit, attachment_name)
+    if unit and not unit:IsNull() and unit.ScriptLookupAttachment and unit.GetAttachmentOrigin then
+        local attachment = unit:ScriptLookupAttachment(attachment_name)
+        if attachment and attachment > 0 then
+            return unit:GetAttachmentOrigin(attachment)
+        end
+    end
+
+    return unit:GetAbsOrigin()
+end
+
 lion_finger_of_death_custom = class({})
 
 function lion_finger_of_death_custom:GetBehavior()
@@ -119,6 +130,17 @@ function lion_finger_of_death_custom:OnSpellStart()
         damage = self:GetMindScaledDamage(),
     })
 
+    -- Snapshot both endpoints before damage is applied. A lethal hit can remove the
+    -- target attachment and make an entity-bound control point jump to map origin.
+    local particle = ParticleManager:CreateParticle(
+        "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf",
+        PATTACH_WORLDORIGIN,
+        caster
+    )
+    ParticleManager:SetParticleControl(particle, 0, LionGetAttachmentOrigin(caster, "attach_attack1"))
+    ParticleManager:SetParticleControl(particle, 1, LionGetAttachmentOrigin(target, "attach_hitloc"))
+    ParticleManager:ReleaseParticleIndex(particle)
+
     target:AddNewModifier(caster, self, "modifier_lion_finger_kill_marker", { duration = 3 })
 
     ApplyDamage({
@@ -134,15 +156,6 @@ function lion_finger_of_death_custom:OnSpellStart()
             duration = self:GetSpecialValueFor("scepter_buff_duration"),
         })
     end
-
-    local particle = ParticleManager:CreateParticle(
-        "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf",
-        PATTACH_ABSORIGIN_FOLLOW,
-        caster
-    )
-    ParticleManager:SetParticleControlEnt(particle, 0, caster, PATTACH_POINT_FOLLOW, "attach_attack1", caster:GetAbsOrigin(), true)
-    ParticleManager:SetParticleControlEnt(particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
-    ParticleManager:ReleaseParticleIndex(particle)
 
     EmitSoundOn("Hero_Lion.FingerOfDeath", target)
 end
