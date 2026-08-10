@@ -70,7 +70,7 @@
 		// base texture folder	: resource/flash3/images/spellicons
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"abilities/omniknight/omniknight_repel_lua/omniknight_repel_lua.lua"
+		"ScriptFile"					"abilities/omniknight/omniknight_repel_lua/omniknight_repel_lua"
 		"AbilityTextureName"			"omniknight_repel"
 		"FightRecapLevel"				"1"
 		"MaxLevel"						"4"

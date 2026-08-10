@@ -175,6 +175,11 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lycan.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_lycan.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_lycan", context)
+	-- Shapeshift uses a separate Rubick-compatible wolf model for stolen abilities.
+	-- Explicit model precache is required on a clean dedicated server; particle
+	-- folder precache does not load the model or its animation resources.
+	PrecacheResource("model", "models/heroes/lycan/lycan_wolf.vmdl", context)
+	PrecacheResource("model", "models/heroes/lycan/lycan_wolf_rubick.vmdl", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_magnataur.vsndevts", context)
@@ -203,6 +208,10 @@ function ogre_magi_reroll:Precache(context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_pangolier.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_pangolier.vsndevts", context)
 	PrecacheResource("particle_folder", "particles/units/heroes/hero_pangolier", context)
+	-- Rolling Thunder swaps the caster to one of these models. Without an
+	-- explicit precache Ogre is replaced by error.vmdl on dedicated servers.
+	PrecacheResource("model", "models/heroes/pangolier/pangolier_gyroshell.vmdl", context)
+	PrecacheResource("model", "models/heroes/pangolier/pangolier_gyroshell2.vmdl", context)
 
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_sandking.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_sandking.vsndevts", context)

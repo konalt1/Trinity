@@ -411,6 +411,7 @@
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_damage"	"УРОН РАКЕТЫ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_radius_explosion"	"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_splash_pct"		"%УРОН ПО ОБЛАСТИ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_scepter_description"	"Турели выпускают самонаводящиеся ракеты Heat-Seeking Missile вместо линейных."
 		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Перевооружение"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Тинкер мгновенно сбрасывает перезарядку всех своих способностей, кроме Перевооружения. Затем входит в режим перевооружения: пока он действует, каждая использованная способность и каждый предмет начинают перезаряжаться за фиксированное время."
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"ДЛИТЕЛЬНОСТЬ:"

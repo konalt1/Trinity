@@ -11,6 +11,7 @@ STARTING_GOLD = 600						-- What starting gold player have ?
 HERO_START_LEVEL = 1
 
 ALLOW_SAME_HERO_SELECTION = false        -- Should we let people select the same hero as each other
+ENABLE_ALTERNATE_HERO_GRIDS = false      -- Should players be allowed to use alternate hero grids (Dota+, etc.)
 FREE_COURIER_ENABLED = true
 
 HERO_SELECTION_TIME = 60.0              -- How long should we let people select their hero?
@@ -71,6 +72,8 @@ XP_PER_LEVEL_TABLE = {}
 XP_PER_LEVEL_TABLE[0] = 0
 
 -- Generated from template
+local game_settings_already_loaded = GameSettings ~= nil
+
 if GameSettings == nil then
 	GameSettings = class({})
 end
@@ -79,6 +82,11 @@ end
 -- It can be used to pre-initialize any values/tables that will be needed later
 function GameSettings:InitGameSettings()
 	GameSettings = self
+	if self._initialized or game_settings_already_loaded then
+		self._initialized = true
+		return
+	end
+	self._initialized = true
 
 	-- Setup rules
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, PLAYER_COUNT_GOODGUYS )
@@ -90,6 +98,7 @@ function GameSettings:InitGameSettings()
 	GameRules:SetHeroRespawnEnabled( ENABLE_HERO_RESPAWN )
 	GameRules:SetUseUniversalShopMode( UNIVERSAL_SHOP_MODE )
 	GameRules:SetSameHeroSelectionEnabled( ALLOW_SAME_HERO_SELECTION )
+	GameRules:SetEnableAlternateHeroGrids( ENABLE_ALTERNATE_HERO_GRIDS )
 	GameRules:SetHeroSelectionTime( HERO_SELECTION_TIME )
 	GameRules:SetStrategyTime( HERO_STRATEGY_TIME )	
 	GameRules:SetShowcaseTime( HERO_SHOWCASE_TIME )	

@@ -48,6 +48,8 @@
 
 TIMERS_THINK = 0.01
 
+local timers_already_loaded = Timers ~= nil
+
 if Timers == nil then
 	Timers = {}
 	Timers.__index = Timers
@@ -61,9 +63,21 @@ end
 
 function Timers:start()
 	Timers = self
-	self.timers = {}
+
+	-- script_reload re-executes this module, but the old thinker keeps running.
+	-- Reusing it avoids accumulating info_target entities and duplicate Think calls.
+	if self._thinker and (not self._thinker.IsNull or not self._thinker:IsNull()) then
+		self.timers = self.timers or {}
+		return
+	end
+	if timers_already_loaded and self.timers then
+		return
+	end
+
+	self.timers = self.timers or {}
 
 	local ent = Entities:CreateByClassname("info_target") -- Entities:FindByClassname(nil, 'CWorld')
+	self._thinker = ent
 	ent:SetThink("Think", self, "timers", TIMERS_THINK)
 end
 

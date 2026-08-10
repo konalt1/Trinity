@@ -177,6 +177,7 @@ flowchart TD
 | Параметр | Значение |
 |----------|----------|
 | `PLAYER_COUNT_GOODGUYS` / `BADGUYS` | 3 / 3 |
+| Alternate hero grids | Отключены (`ENABLE_ALTERNATE_HERO_GRIDS = false`) |
 | `STARTING_GOLD` | 600 |
 | `HERO_START_LEVEL` | 1 |
 | `Max_level` | 30 |
@@ -341,7 +342,7 @@ flowchart TD
 ### Chat Wheel
 
 - Panorama: `Content/panorama/layout/custom_game/chat_wheel/`
-- Сервер: `GameMode:OnChatWheelSelect`, cooldown задаётся через `GameMode.CHAT_WHEEL_COOLDOWN` и на время тестирования стикеров равен 0, net table `cooldown_info`
+- Сервер: `GameMode:OnChatWheelSelect`, cooldown задаётся через `GameMode.CHAT_WHEEL_COOLDOWN` и равен 20 секундам, net table `cooldown_info`
 - Custom event: `chat_wheel_send_sound`
 - Событие `chat_wheel_send_sound` поддерживает два варианта `.webm`-стикера: над героем-отправителем или нативно оформленной строкой стандартного чата со значком героя, цветным ником, chat-wheel icon и видео.
 - На каждом клиенте стикер выбирает только одно место показа: над героем, если тот находится в видимой области экрана в момент отправки, иначе — в чате.
@@ -499,7 +500,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 | Слот | Способность | Статус |
 |------|-------------|--------|
-| E (Ability3) | `tinker_deploy_turrets_custom` | **Кастом** — сбрасывает три турели, отталкивает при падении и выпускает линейные ракеты |
+| E (Ability3) | `tinker_deploy_turrets_custom` | **Кастом** — сбрасывает три турели, отталкивает при падении и выпускает линейные ракеты; с Aghanim's Scepter ракеты становятся самонаводящимися Heat-Seeking Missiles |
 | Ult | `tinker_rearm_custom` | **Кастом** — мгновенно сбрасывает КД всех способностей Тинкера, кроме самой ульты, затем на 15 секунд задаёт использованным способностям и предметам перезарядку 4/3/2 секунды |
 | Остальные | Наследуются из ванильного Tinker | Ванильные |
 
@@ -572,10 +573,10 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 | Слот | Способность | Статус |
 |------|-------------|--------|
-| Q | `tusk_ice` | **Кастом**; Lua запрашивает отсутствующий в KV `mind_power_multiplier`, поэтому фактического масштабирования сейчас нет |
-| W | `tusk_mp_snowball` | Имя назначено герою, но определения способности в актуальном custom KV нет |
+| Q | `tusk_ice` | **Кастом**; урон масштабируется от Mind Power через `mind_power_multiplier` |
+| W | `tusk_snowball` | Ванильная, наследуется из базового героя |
 | E | `tusk_tag_team` | Ванильное имя |
-| R | `tusk_channeled_snowball` | Имя назначено герою, но определения способности в актуальном custom KV нет |
+| R | `tusk_walrus_punch` | Ванильная, наследуется из базового героя |
 
 **Lua:** `abilities/Tusk/`
 
@@ -739,6 +740,12 @@ Custom Game Events (`custom.gameevents`): `draw_game_event`, `chat_wheel_send_so
 
 ## Конвенции разработки
 
+### Hot reload
+
+- Инициализация глобальных менеджеров должна быть идемпотентной: перед регистрацией event listeners и консольных команд использовать сохранённый флаг на таблице менеджера.
+- `Timers:start()` сохраняет единственный `info_target`-thinker и при `script_reload` повторно использует его вместе с активными таймерами.
+- Runtime-таблицы менеджеров не пересоздавать безусловно в теле модуля: глобальный scope и старые listeners переживают `script_reload`.
+
 ### Precache
 
 > **Правило проекта:** прекеш **только в Lua** (`Precache()` в `addon_game_mode.lua` или `PrecacheResource` в способности).  
@@ -753,7 +760,7 @@ Custom Game Events (`custom.gameevents`): `draw_game_event`, `chat_wheel_send_so
 
 ### Lua-способности
 
-- `BaseClass` = `ability_lua`
+- Для самостоятельной Lua-способности `BaseClass` = `ability_lua`; при намеренном расширении нативной способности допустим её класс вместе с `ScriptFile`
 - `ScriptFile` — путь от `scripts/vscripts/` без расширения
 - Модификаторы: `LinkLuaModifier` в том же файле или require
 - Mind Power: использовать `GetHeroMindPower(caster)`, не сырой `GetIntellect`

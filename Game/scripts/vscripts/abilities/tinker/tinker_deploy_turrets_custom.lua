@@ -25,6 +25,7 @@ function tinker_deploy_turrets_custom:Precache(context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_turret_drop_impact.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_turret_spawn.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_linear_missile.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_missile.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/turret_missile_explosion.vpcf", context)
 end
 
@@ -357,6 +358,23 @@ function modifier_tinker_deploy_turrets_custom:FireTurret(turret, target)
     turret:EmitSound("Hero_TinkerTurret.Missile.Spawn")
 
     local attachment = turret:ScriptLookupAttachment("attach_attack1")
+
+    if self:GetCaster():HasScepter() then
+        ProjectileManager:CreateTrackingProjectile({
+            Ability = self:GetAbility(),
+            EffectName = "particles/units/heroes/hero_tinker/tinker_missile.vpcf",
+            Source = turret,
+            Target = target,
+            vSourceLoc = turret:GetAttachmentOrigin(attachment),
+            iMoveSpeed = self.projectile_speed,
+            bDodgeable = true,
+            bProvidesVision = true,
+            iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+            iVisionRadius = self.missile_width * 2,
+        })
+        return
+    end
+
     ProjectileManager:CreateLinearProjectile({
         Ability = self:GetAbility(),
         EffectName = "particles/units/heroes/hero_tinker/tinker_linear_missile.vpcf",

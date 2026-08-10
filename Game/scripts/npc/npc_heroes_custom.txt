@@ -248,9 +248,7 @@
 		"Facets" ""
 		"ArmorPhysical"                                         "4.8"
 		"Ability1"				                        "tusk_ice"
-		"Ability2"				                        "tusk_mp_snowball"
 		"Ability3"				                        "tusk_tag_team"
-		"Ability4"				                        "tusk_channeled_snowball"
 
         "Ability10"										"special_bonus_unique_custom_tusk_1"
         "Ability11"										"special_bonus_unique_custom_tusk_2"

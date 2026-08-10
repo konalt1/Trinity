@@ -153,19 +153,4 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     }
 
-    "agility_weakness"
-    {
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/agility_weakness"
-        "AbilityTextureName"            "phantom_assassin_blur"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
-        "Innate"                        "1"
-
-        "MaxLevel"                      "4"
-        "RequiredLevel"                 "1"
-        "LevelsBetweenUpgrades"         "2"
-        "AbilityLevel"                  "1"
-    }
 }

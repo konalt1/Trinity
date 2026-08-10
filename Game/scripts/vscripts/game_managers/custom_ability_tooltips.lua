@@ -3,6 +3,9 @@ CustomAbilityTooltips = CustomAbilityTooltips or {}
 -- Keep tooltip-only metadata outside npc_abilities_custom.txt. Unknown fields in an
 -- ability definition can be consumed unpredictably by the native Dota tooltip.
 local MIND_POWER_RULES = {
+    tusk_ice = {
+        damage = "mind_power_multiplier",
+    },
     chen_holy_persuasion_custom = {
         bonus_health = "mind_power_health_multiplier",
     },

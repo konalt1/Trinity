@@ -1,16 +1,20 @@
+local game_mode_already_loaded = GameMode ~= nil
+
 if GameMode == nil then
 	_G.GameMode = class({})
 end
 
 local CENTRAL_TOWER_HEALTH_REDUCTION = 1000
 
-GameMode.current_units = {}
-GameMode.line_interval = {}
-GameMode.wave_number = 0
-GameMode.towers = {} -- Таблица всех башен с информацией о них
-GameMode.ancients = {} -- Таблица тронов
-GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
-GameMode.CHAT_WHEEL_COOLDOWN = 0 -- Временно отключено для тестирования стикеров
+GameMode.current_units = GameMode.current_units or {}
+GameMode.line_interval = GameMode.line_interval or {}
+GameMode.wave_number = GameMode.wave_number or 0
+GameMode.towers = GameMode.towers or {} -- Таблица всех башен с информацией о них
+GameMode.ancients = GameMode.ancients or {} -- Таблица тронов
+if GameMode.lane_creeps_spawned == nil then
+	GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
+end
+GameMode.CHAT_WHEEL_COOLDOWN = 20
 
 GameMode.wave_list = {
 	[1]={reward_gold=250,reward_exp=500,
@@ -22,6 +26,12 @@ GameMode.wave_list = {
 }
 
 function GameMode:InitGameMode()
+	if self._initialized or game_mode_already_loaded then
+		self._initialized = true
+		return
+	end
+	self._initialized = true
+
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 	ListenToGameEvent("npc_spawned",Dynamic_Wrap( self, 'OnNPCSpawned' ), self )
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
@@ -712,13 +722,16 @@ function GameMode:OnChatWheelSelect(data)
 end
 
 -- Консольная команда для спавна Рошана
-Convars:RegisterCommand("spawn_roshan", function()
-	local hero = PlayerResource:GetSelectedHeroEntity(0)
-	if hero then
-		local pos = hero:GetAbsOrigin() + hero:GetForwardVector() * 300
-		local roshan = CreateUnitByName("npc_dota_roshan_custom", pos, true, nil, nil, DOTA_TEAM_NEUTRALS)
-		print("[Console] Рошан заспавнен на позиции: " .. tostring(pos))
-	end
-end, "Спавнит кастомного Рошана перед героем", 0)
+if not GameMode._spawn_roshan_command_registered then
+	Convars:RegisterCommand("spawn_roshan", function()
+		local hero = PlayerResource:GetSelectedHeroEntity(0)
+		if hero then
+			local pos = hero:GetAbsOrigin() + hero:GetForwardVector() * 300
+			local roshan = CreateUnitByName("npc_dota_roshan_custom", pos, true, nil, nil, DOTA_TEAM_NEUTRALS)
+			print("[Console] Рошан заспавнен на позиции: " .. tostring(pos))
+		end
+	end, "Спавнит кастомного Рошана перед героем", 0)
+	GameMode._spawn_roshan_command_registered = true
+end
  
 GameMode:InitGameMode()

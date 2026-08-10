@@ -1,4 +1,6 @@
 
+local item_drop_already_loaded = ItemDrop ~= nil
+
 if ItemDrop == nil then
 	_G.ItemDrop = class({})
 end
@@ -21,6 +23,12 @@ ItemDrop.secret_items = {
 	["item_spawner_123"] = "item_rapier",
 }
 function ItemDrop:InitGameMode()
+	if self._initialized or item_drop_already_loaded then
+		self._initialized = true
+		return
+	end
+	self._initialized = true
+
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self)
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(self, 'OnGameRulesStateChange'), self)
 end

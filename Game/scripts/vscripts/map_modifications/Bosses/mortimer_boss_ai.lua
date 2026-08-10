@@ -22,7 +22,7 @@ local function IsUsable(ability)
     return ability and ability:GetLevel() > 0 and ability:IsFullyCastable()
 end
 
-local function FindEnemies(radius)
+local function FindClosestVisibleEnemy(radius)
     local enemies = FindUnitsInRadius(
         thisEntity:GetTeamNumber(),
         thisEntity:GetAbsOrigin(),
@@ -35,14 +35,13 @@ local function FindEnemies(radius)
         false
     )
 
-    local visibleEnemies = {}
     for _, enemy in ipairs(enemies) do
         if thisEntity:CanEntityBeSeenByMyTeam(enemy) then
-            visibleEnemies[#visibleEnemies + 1] = enemy
+            return enemy
         end
     end
 
-    return visibleEnemies
+    return nil
 end
 
 local function FindGobbleTarget()
@@ -189,8 +188,7 @@ function MortimerBossBehavior()
         end
     end
 
-    local enemies = FindEnemies(AGGRO_RADIUS)
-    local enemy = enemies[1]
+    local enemy = FindClosestVisibleEnemy(AGGRO_RADIUS)
 
     if enemy and IsUsable(thisEntity.cookie) then
         FacePosition(enemy:GetAbsOrigin())

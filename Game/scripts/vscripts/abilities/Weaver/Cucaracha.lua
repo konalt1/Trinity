@@ -22,34 +22,13 @@ function weaver_cucaracha:OnSpellStart()
 	if caster.cucaracha_growing then
 		caster.cucaracha_growing = nil
 		caster.cucaracha_scale_step = nil
-		caster.cucaracha_ability = nil
 	end
 
 	caster:AddNewModifier(caster, self, "modifier_weaver_cucaracha", { duration = duration })
 	EmitSoundOn("Hero_Weaver.Shukuchi", caster)
 end
 
--- Плавное восстановление размера после окончания эффекта
-function weaver_cucaracha:StartGrowAnimation(hero, current_scale)
-	if not hero or not IsValidEntity(hero) then return end
-	if hero.cucaracha_growing then return end
-
-	if current_scale >= 0.95 then
-		hero:SetModelScale(1.0)
-		return
-	end
-
-	hero.cucaracha_growing = true
-	hero.cucaracha_current_scale = current_scale
-	hero.cucaracha_scale_step = (1.0 - current_scale) / 15
-	hero.cucaracha_ability = self
-
-	Timers:CreateTimer(0.03, function()
-		return self:GrowAnimationThink(hero)
-	end)
-end
-
-function weaver_cucaracha:GrowAnimationThink(hero)
+local function GrowAnimationThink(hero)
 	if not hero or not IsValidEntity(hero) or not hero.cucaracha_growing then
 		return nil
 	end
@@ -62,12 +41,32 @@ function weaver_cucaracha:GrowAnimationThink(hero)
 		hero.cucaracha_growing = nil
 		hero.cucaracha_current_scale = nil
 		hero.cucaracha_scale_step = nil
-		hero.cucaracha_ability = nil
 		return nil
 	end
 
 	hero:SetModelScale(hero.cucaracha_current_scale)
 	return 0.03
+end
+
+-- Плавное восстановление размера после окончания эффекта.
+-- Не привязываем таймер к ability handle: при удалении способности или
+-- script_reload handle может сохраниться без Lua-методов класса.
+local function StartGrowAnimation(hero, current_scale)
+	if not hero or not IsValidEntity(hero) then return end
+	if hero.cucaracha_growing then return end
+
+	if current_scale >= 0.95 then
+		hero:SetModelScale(1.0)
+		return
+	end
+
+	hero.cucaracha_growing = true
+	hero.cucaracha_current_scale = current_scale
+	hero.cucaracha_scale_step = (1.0 - current_scale) / 15
+
+	Timers:CreateTimer(0.03, function()
+		return GrowAnimationThink(hero)
+	end)
 end
 
 --------------------------------------------------------------------------------
@@ -193,12 +192,7 @@ function modifier_weaver_cucaracha:OnDestroy()
 
 	local parent = self:GetParent()
 	if not parent or not IsValidEntity(parent) then return end
-	local ability = self:GetAbility()
-	if ability then
-		ability:StartGrowAnimation(parent, self.current_scale or self.target_scale or 0.5)
-	else
-		parent:SetModelScale(1.0)
-	end
+	StartGrowAnimation(parent, self.current_scale or self.target_scale or 0.5)
 
 	EmitSoundOn("Hero_Weaver.Shukuchi.End", parent)
 end

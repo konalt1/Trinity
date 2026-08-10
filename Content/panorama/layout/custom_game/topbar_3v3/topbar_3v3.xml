@@ -7,7 +7,7 @@
         <include src="file://{resources}/scripts/custom_game/utils.js"/>
         <include src="file://{resources}/layout/custom_game/topbar_3v3/topbar_3v3.js"/>
     </scripts>
-    <Panel id="TrinityTopBarRoot" hittest="false">
+    <Panel class="TrinityTopBarRoot" hittest="false">
         <Panel id="TrinityTopBar">
             <Panel id="RadiantSlots" class="TopBarTeam TopBarRadiant"/>
             <Panel id="TopBarCenter">

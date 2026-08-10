@@ -11,6 +11,7 @@
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "HasScepterUpgrade"             "1"
 
         "MaxLevel"                      "4"
         "AbilityTextureName"            "tinker_deploy_turrets"

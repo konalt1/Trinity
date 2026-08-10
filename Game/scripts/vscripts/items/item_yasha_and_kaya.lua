@@ -1,7 +1,7 @@
 LinkLuaModifier("modifier_item_yasha_and_kaya_trinity", "items/item_yasha_and_kaya", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_yasha_combination_armor", "items/item_yasha_and_kaya", LUA_MODIFIER_MOTION_NONE)
 
-local YASHA_COMBINATION_ITEMS = {
+local YASHA_ARMOR_ITEMS = {
     item_sange_and_yasha = true,
     item_yasha_and_kaya = true,
 }
@@ -11,7 +11,10 @@ function EnsureYashaCombinationArmor(hero)
         return
     end
 
-    if not hero:HasModifier("modifier_item_yasha_combination_armor") then
+    local modifier = hero:FindModifierByName("modifier_item_yasha_combination_armor")
+    if modifier then
+        modifier:ForceRefresh()
+    else
         hero:AddNewModifier(hero, nil, "modifier_item_yasha_combination_armor", {})
     end
 end
@@ -93,23 +96,57 @@ function modifier_item_yasha_combination_armor:RemoveOnDeath()
     return false
 end
 
+function modifier_item_yasha_combination_armor:OnCreated()
+    if not IsServer() then
+        return
+    end
+
+    self:UpdateArmorBonus()
+    self:StartIntervalThink(0.2)
+end
+
+function modifier_item_yasha_combination_armor:OnRefresh()
+    if IsServer() then
+        self:UpdateArmorBonus()
+        self:StartIntervalThink(0.2)
+    end
+end
+
+function modifier_item_yasha_combination_armor:OnIntervalThink()
+    self:UpdateArmorBonus()
+end
+
 function modifier_item_yasha_combination_armor:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
     }
 end
 
-function modifier_item_yasha_combination_armor:GetModifierPhysicalArmorBonus()
+function modifier_item_yasha_combination_armor:UpdateArmorBonus()
     local hero = self:GetParent()
     local total = 0
 
     -- Только основные слоты: предметы в рюкзаке не должны давать броню.
     for slot = 0, 5 do
         local item = hero:GetItemInSlot(slot)
-        if item and not item:IsNull() and YASHA_COMBINATION_ITEMS[item:GetAbilityName()] then
+        if item and not item:IsNull() and YASHA_ARMOR_ITEMS[item:GetAbilityName()] then
             total = total + item:GetSpecialValueFor("bonus_armor")
         end
     end
 
-    return total
+    if self:GetStackCount() ~= total then
+        self:SetStackCount(total)
+    end
+end
+
+function modifier_item_yasha_combination_armor:GetModifierPhysicalArmorBonus()
+    return self:GetStackCount()
+end
+
+-- При script_reload событие npc_spawned не повторяется, поэтому обновляем
+-- уже существующих героев прямо при загрузке модуля.
+if IsServer() and PlayerResource then
+    for player_id = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+        EnsureYashaCombinationArmor(PlayerResource:GetSelectedHeroEntity(player_id))
+    end
 end

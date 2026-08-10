@@ -387,6 +387,7 @@
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_damage"	"MISSILE DAMAGE:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_radius_explosion"	"EXPLOSION RADIUS:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_splash_pct"		"%SPLASH DAMAGE:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_scepter_description"	"Turrets fire homing Heat-Seeking Missiles instead of linear missiles."
 		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Rearm"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Tinker instantly resets the cooldown of all his abilities except Rearm. He then enters a rearming cycle: while it lasts, every used ability and item begins recharging for a fixed duration."
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"DURATION:"
