@@ -1,5 +1,10 @@
 LinkLuaModifier("modifier_tinker_rearm_custom", "abilities/tinker/tinker_rearm_custom", LUA_MODIFIER_MOTION_NONE)
 
+local REARM_EXEMPT_ITEMS = {
+    item_refresher = true,
+    item_refresher_shard = true,
+}
+
 tinker_rearm_custom = class({})
 
 function tinker_rearm_custom:OnSpellStart()
@@ -69,6 +74,10 @@ function modifier_tinker_rearm_custom:OnAbilityFullyCast(event)
 
     local ability = event.ability
     if not ability or ability:IsNull() or ability == self:GetAbility() then
+        return
+    end
+
+    if REARM_EXEMPT_ITEMS[ability:GetAbilityName()] then
         return
     end
 
