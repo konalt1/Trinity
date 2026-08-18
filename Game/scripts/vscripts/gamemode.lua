@@ -564,6 +564,10 @@ function GameMode:ModifyGoldFilter(data)
 end
 
 function GameMode:ExecuteOrderFilter(data)
+	if MortimerBoss and MortimerBoss.DebugAttackOrder then
+		MortimerBoss:DebugAttackOrder(data)
+	end
+
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
 	end

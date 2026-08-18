@@ -15,6 +15,16 @@ LinkLuaModifier(
     "map_modifications/Bosses/mortimer_finale_kisses",
     LUA_MODIFIER_MOTION_NONE
 )
+LinkLuaModifier(
+    "modifier_mortimer_finale_kisses_building_no_heal",
+    "map_modifications/Bosses/mortimer_finale_kisses",
+    LUA_MODIFIER_MOTION_NONE
+)
+LinkLuaModifier(
+    "modifier_mortimer_finale_kisses_tower3_armor",
+    "map_modifications/Bosses/mortimer_finale_kisses",
+    LUA_MODIFIER_MOTION_NONE
+)
 
 mortimer_finale_kisses = class({})
 
@@ -33,77 +43,245 @@ local function HasLivingPlayerHero(team)
 end
 
 local function IsVulnerableBuilding(building, targetTeam)
-    local attackImmune = building and building.IsAttackImmune and building:IsAttackImmune()
     return IsAlive(building)
+        and building.IsBuilding
         and building:IsBuilding()
         and building:GetTeamNumber() == targetTeam
         and not building:IsInvulnerable()
-        and not attackImmune
 end
 
-local function GetBuildingTargetPriority(building)
-    local entityName = string.lower(building:GetName() or "")
+local TIER3_ARMOR_REDUCTION = 8
+
+local function IsTier3Building(building)
+    if not building or building:IsNull() then
+        return false
+    end
+
+    local towers = GameMode and GameMode.towers
+    if towers then
+        local entindex = building:entindex()
+        for _, towerInfo in ipairs(towers) do
+            if towerInfo.entindex == entindex or towerInfo.entity == building then
+                return tonumber(towerInfo.tier) == 3
+            end
+        end
+    end
+
+    return string.find(string.lower(building:GetUnitName() or ""), "tower3", 1, true) ~= nil
+end
+
+local function IsThroneBuilding(building)
+    if not building or building:IsNull() then
+        return false
+    end
+
+    local ancients = GameMode and GameMode.ancients
+    if ancients then
+        local entindex = building:entindex()
+        for _, ancientInfo in ipairs(ancients) do
+            if ancientInfo.entindex == entindex or ancientInfo.entity == building then
+                return true
+            end
+        end
+    end
+
     local unitName = string.lower(building:GetUnitName() or "")
+    if string.find(unitName, "fort", 1, true) then
+        return true
+    end
 
-    if string.find(entityName, "tier_1", 1, true) then
+    return building.GetClassname and building:GetClassname() == "npc_dota_fort"
+end
+
+local function GetBuildingTargetPriority(building, towerInfo)
+    local entityName = string.lower((building and building.GetName and building:GetName()) or "")
+    local unitName = string.lower((building and building.GetUnitName and building:GetUnitName()) or "")
+    local tier = towerInfo and tonumber(towerInfo.tier)
+    local lane = string.lower(tostring((towerInfo and towerInfo.lane) or ""))
+
+    if lane ~= "top" and lane ~= "mid" and lane ~= "bot" then
+        if string.find(unitName, "mid", 1, true) or string.find(entityName, "middle_", 1, true) then
+            lane = "mid"
+        elseif string.find(unitName, "top", 1, true) or string.find(entityName, "top_", 1, true) then
+            lane = "top"
+        elseif string.find(unitName, "bot", 1, true) or string.find(entityName, "bottom_", 1, true) then
+            lane = "bot"
+        end
+    end
+
+    if not tier then
+        if string.find(entityName, "tier_1", 1, true) or string.find(unitName, "tower1", 1, true) then
+            tier = 1
+        elseif string.find(unitName, "tower2", 1, true) or string.find(entityName, "middle_tier_2", 1, true) then
+            tier = 2
+        elseif string.find(unitName, "tower3", 1, true)
+            or string.find(entityName, "top_tier_2", 1, true)
+            or string.find(entityName, "bottom_tier_2", 1, true) then
+            tier = 3
+        end
+    end
+
+    if tier == 1 then
         return 1
     end
 
-    if string.find(entityName, "middle_tier_2", 1, true) then
+    if lane == "mid" and (tier == 2 or tier == 3) then
         return 2
     end
 
-    local isSideTier3 = string.find(entityName, "top_tier_2", 1, true)
-        or string.find(entityName, "bottom_tier_2", 1, true)
-    if isSideTier3 then
+    if tier == 2 then
         return 3
     end
 
-    if string.find(unitName, "tower1", 1, true) then
-        return 1
+    if tier == 3 then
+        return 4
     end
 
-    if string.find(unitName, "tower3", 1, true)
-        and string.find(unitName, "mid", 1, true) then
-        return 2
-    end
-
-    if string.find(unitName, "tower3", 1, true)
-        and (string.find(unitName, "top", 1, true)
-            or string.find(unitName, "bot", 1, true)) then
-        return 3
+    if IsThroneBuilding(building) then
+        return 5
     end
 
     return nil
 end
 
-local function FindPriorityBuilding(caster, position, targetTeam, radius)
-    local buildings = FindUnitsInRadius(
-        caster:GetTeamNumber(),
-        position,
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_BUILDING,
-        DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        FIND_CLOSEST,
-        false
-    )
+local function ConsiderBuildingTarget(building, towerInfo, targetTeam, position, best)
+    if not IsVulnerableBuilding(building, targetTeam) then
+        return
+    end
 
-    local bestBuilding = nil
-    local bestPriority = math.huge
-    for _, building in ipairs(buildings) do
-        if caster:CanEntityBeSeenByMyTeam(building)
-            and IsVulnerableBuilding(building, targetTeam) then
-            local priority = GetBuildingTargetPriority(building)
-            if priority and priority < bestPriority then
-                bestBuilding = building
-                bestPriority = priority
-            end
+    local priority = GetBuildingTargetPriority(building, towerInfo)
+    if not priority then
+        return
+    end
+
+    local distance = (building:GetAbsOrigin() - position):Length2D()
+    if priority < best.priority or (priority == best.priority and distance < best.distance) then
+        best.building = building
+        best.priority = priority
+        best.distance = distance
+    end
+end
+
+local function FindPriorityBuilding(position, targetTeam)
+    local best = {
+        building = nil,
+        priority = math.huge,
+        distance = math.huge,
+    }
+
+    local towers = GameMode and GameMode.towers
+    if towers then
+        for _, towerInfo in ipairs(towers) do
+            ConsiderBuildingTarget(towerInfo.entity, towerInfo, targetTeam, position, best)
         end
     end
 
-    return bestBuilding
+    local ancients = GameMode and GameMode.ancients
+    if ancients then
+        for _, ancientInfo in ipairs(ancients) do
+            ConsiderBuildingTarget(ancientInfo.entity, nil, targetTeam, position, best)
+        end
+    end
+
+    if not best.building then
+        local buildings = FindUnitsInRadius(
+            DOTA_TEAM_NEUTRALS,
+            position,
+            nil,
+            FIND_UNITS_EVERYWHERE,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_BUILDING,
+            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+            FIND_ANY_ORDER,
+            false
+        )
+
+        for _, building in ipairs(buildings) do
+            ConsiderBuildingTarget(building, nil, targetTeam, position, best)
+        end
+    end
+
+    return best.building, best.priority
+end
+
+local function IsKissesDebugEnabled()
+    return MortimerBoss and MortimerBoss.kissesDebugEnabled
+end
+
+local function FormatVector(position)
+    if not position then
+        return "nil"
+    end
+
+    return string.format("%.0f,%.0f,%.0f", position.x, position.y, position.z)
+end
+
+local function DescribeKissesUnit(unit)
+    if not unit or unit:IsNull() then
+        return "none"
+    end
+
+    return string.format(
+        "%s[%d] entity=%s team=%s alive=%s invuln=%s pos=%s",
+        unit:GetUnitName() or "unknown",
+        unit:entindex(),
+        unit:GetName() or "",
+        tostring(unit:GetTeamNumber()),
+        tostring(unit:IsAlive()),
+        tostring(unit:IsInvulnerable()),
+        FormatVector(unit:GetAbsOrigin())
+    )
+end
+
+local function KissesDebug(message, ...)
+    if not IsKissesDebugEnabled() then
+        return
+    end
+
+    print("[MortimerKissesDebug] " .. string.format(message, ...))
+end
+
+local function LogTowerSnapshot(targetTeam)
+    if not IsKissesDebugEnabled() then
+        return
+    end
+
+    local towers = GameMode and GameMode.towers
+    if not towers then
+        KissesDebug("towers=missing")
+        return
+    end
+
+    for _, towerInfo in ipairs(towers) do
+        local building = towerInfo.entity
+        if building and not building:IsNull() and building:GetTeamNumber() == targetTeam then
+            KissesDebug(
+                "tower %s tier=%s lane=%s priority=%s vulnerable=%s",
+                DescribeKissesUnit(building),
+                tostring(towerInfo.tier),
+                tostring(towerInfo.lane),
+                tostring(GetBuildingTargetPriority(building, towerInfo) or "none"),
+                tostring(IsVulnerableBuilding(building, targetTeam))
+            )
+        end
+    end
+
+    local ancients = GameMode and GameMode.ancients
+    if not ancients then
+        return
+    end
+
+    for _, ancientInfo in ipairs(ancients) do
+        local building = ancientInfo.entity
+        if building and not building:IsNull() and building:GetTeamNumber() == targetTeam then
+            KissesDebug(
+                "ancient %s priority=%s vulnerable=%s",
+                DescribeKissesUnit(building),
+                tostring(GetBuildingTargetPriority(building, nil) or "none"),
+                tostring(IsVulnerableBuilding(building, targetTeam))
+            )
+        end
+    end
 end
 
 function mortimer_finale_kisses:Precache(context)
@@ -143,10 +321,22 @@ function mortimer_finale_kisses:ClampTargetPosition(position)
     return GetGroundPosition(origin + direction * distance, caster), distance
 end
 
-function mortimer_finale_kisses:GetCurrentTargetPosition(fallbackPosition, targetTeam)
+function mortimer_finale_kisses:ResolveTarget(fallbackPosition, targetTeam)
+    local result = {
+        position = fallbackPosition,
+        reason = "fallback",
+        target = nil,
+        priority = nil,
+        livingHeroes = false,
+        targetTeam = targetTeam,
+    }
+
     if not targetTeam then
-        return fallbackPosition
+        result.reason = "no_target_team"
+        return result
     end
+
+    result.livingHeroes = HasLivingPlayerHero(targetTeam)
 
     local caster = self:GetCaster()
     local heroes = FindUnitsInRadius(
@@ -166,23 +356,57 @@ function mortimer_finale_kisses:GetCurrentTargetPosition(fallbackPosition, targe
             and hero:IsRealHero()
             and hero:GetTeamNumber() == targetTeam
             and caster:CanEntityBeSeenByMyTeam(hero) then
-            return hero:GetAbsOrigin()
+            result.position = hero:GetAbsOrigin()
+            result.reason = "hero"
+            result.target = hero
+            return result
         end
     end
 
-    if not HasLivingPlayerHero(targetTeam) then
-        local building = FindPriorityBuilding(
-            caster,
-            caster:GetAbsOrigin(),
-            targetTeam,
-            self:GetSpecialValueFor("max_range")
-        )
+    if not result.livingHeroes then
+        local building, priority = FindPriorityBuilding(caster:GetAbsOrigin(), targetTeam)
         if building then
-            return building:GetAbsOrigin()
+            result.position = building:GetAbsOrigin()
+            result.reason = "building"
+            result.target = building
+            result.priority = priority
+            return result
         end
+
+        result.position = nil
+        result.reason = "no_building"
+        return result
     end
 
-    return fallbackPosition
+    result.reason = "heroes_alive_out_of_vision"
+    return result
+end
+
+function mortimer_finale_kisses:GetCurrentTargetPosition(fallbackPosition, targetTeam)
+    return self:ResolveTarget(fallbackPosition, targetTeam).position
+end
+
+function mortimer_finale_kisses:LogDecision(stage, decision, extra)
+    if not IsKissesDebugEnabled() or not decision then
+        return
+    end
+
+    extra = extra or {}
+    KissesDebug(
+        "%s team=%s living_heroes=%s reason=%s priority=%s target=%s pos=%s%s",
+        stage,
+        tostring(decision.targetTeam),
+        tostring(decision.livingHeroes),
+        tostring(decision.reason),
+        tostring(decision.priority or "none"),
+        DescribeKissesUnit(decision.target),
+        FormatVector(decision.position),
+        extra.suffix or ""
+    )
+
+    if extra.snapshot then
+        LogTowerSnapshot(decision.targetTeam)
+    end
 end
 
 function mortimer_finale_kisses:FireVolley(initialTargetPosition, targetTeam, onFinished)
@@ -197,16 +421,35 @@ function mortimer_finale_kisses:FireVolley(initialTargetPosition, targetTeam, on
     local startAnimationDelay = self:GetSpecialValueFor("start_animation_delay")
     local interval = projectileCount > 1 and volleyDuration / (projectileCount - 1) or 0
 
+    KissesDebug(
+        "volley shots=%d duration=%.1f team=%s initial_pos=%s",
+        projectileCount,
+        volleyDuration,
+        tostring(targetTeam),
+        FormatVector(initialTargetPosition)
+    )
+
     caster:ResetSequence("snapfire_blobs_cast")
 
     for shot = 1, projectileCount do
         local shotNumber = shot
         Timers:CreateTimer(startAnimationDelay + (shotNumber - 1) * interval, function()
             if not IsAlive(caster) then
+                KissesDebug("shot=%d/%d skip caster_dead", shotNumber, projectileCount)
                 return nil
             end
 
-            local targetPosition = self:GetCurrentTargetPosition(initialTargetPosition, targetTeam)
+            local decision = self:ResolveTarget(initialTargetPosition, targetTeam)
+            self:LogDecision(
+                "shot",
+                decision,
+                { suffix = string.format(" shot=%d/%d", shotNumber, projectileCount) }
+            )
+            local targetPosition = decision.position
+            if not targetPosition then
+                return nil
+            end
+
             local spread = self:GetSpecialValueFor("target_spread")
             targetPosition = targetPosition + RandomVector(RandomFloat(0, spread))
             targetPosition = self:ClampTargetPosition(targetPosition)
@@ -327,6 +570,17 @@ function mortimer_finale_kisses:OnProjectileHit_ExtraData(target, location, extr
                 damage_type = unit:IsBuilding() and DAMAGE_TYPE_PHYSICAL or DAMAGE_TYPE_MAGICAL,
                 ability = self,
             })
+            if vulnerableBuilding then
+                local burnDuration = MortimerLevelScaling:GetKissesBurnDuration(self)
+                unit:AddNewModifier(caster, self, "modifier_mortimer_finale_kisses_building_no_heal", {
+                    duration = burnDuration,
+                })
+                if IsTier3Building(unit) or IsThroneBuilding(unit) then
+                    unit:AddNewModifier(caster, self, "modifier_mortimer_finale_kisses_tower3_armor", {
+                        duration = burnDuration,
+                    })
+                end
+            end
         end
     end
 
@@ -516,4 +770,58 @@ end
 
 function modifier_mortimer_finale_kisses_burn_debuff:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
+end
+
+
+modifier_mortimer_finale_kisses_building_no_heal = class({})
+
+function modifier_mortimer_finale_kisses_building_no_heal:IsHidden()
+    return true
+end
+
+function modifier_mortimer_finale_kisses_building_no_heal:IsPurgable()
+    return false
+end
+
+function modifier_mortimer_finale_kisses_building_no_heal:IsDebuff()
+    return true
+end
+
+function modifier_mortimer_finale_kisses_building_no_heal:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_DISABLE_HEALING,
+    }
+end
+
+function modifier_mortimer_finale_kisses_building_no_heal:GetDisableHealing()
+    return 1
+end
+
+
+modifier_mortimer_finale_kisses_tower3_armor = class({})
+
+function modifier_mortimer_finale_kisses_tower3_armor:IsHidden()
+    return true
+end
+
+function modifier_mortimer_finale_kisses_tower3_armor:IsPurgable()
+    return false
+end
+
+function modifier_mortimer_finale_kisses_tower3_armor:IsDebuff()
+    return true
+end
+
+function modifier_mortimer_finale_kisses_tower3_armor:GetAttributes()
+    return MODIFIER_ATTRIBUTE_MULTIPLE
+end
+
+function modifier_mortimer_finale_kisses_tower3_armor:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+    }
+end
+
+function modifier_mortimer_finale_kisses_tower3_armor:GetModifierPhysicalArmorBonus()
+    return -TIER3_ARMOR_REDUCTION
 end

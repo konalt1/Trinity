@@ -6,6 +6,8 @@ local BOSS_NAME = "npc_mortimer_boss"
 local FINALE_NAME = "npc_mortimer_boss_finale"
 local CELEBRATION_DURATION = 2.5
 local WAYPOINT_REACH_DISTANCE = 100
+local DEBUG_VISION_RADIUS = 800
+local DEBUG_VISION_DURATION = 5
 
 local PATHWAY_POINTS = {
     "Roshan_pathway",
@@ -15,6 +17,52 @@ local PATHWAY_POINTS = {
 
 local function IsAlive(unit)
     return unit and IsValidEntity(unit) and unit:IsAlive()
+end
+
+local function SafeCall(unit, methodName, fallback, ...)
+    if not unit or not IsValidEntity(unit) then
+        return fallback
+    end
+
+    local method = unit[methodName]
+    if type(method) ~= "function" then
+        return fallback
+    end
+
+    local ok, value = pcall(method, unit, ...)
+    if not ok then
+        return fallback
+    end
+
+    return value
+end
+
+local function BoolText(value)
+    if value == nil then
+        return "unknown"
+    end
+
+    return value and "true" or "false"
+end
+
+local function DescribeUnit(unit)
+    if not unit or not IsValidEntity(unit) then
+        return "invalid"
+    end
+
+    return string.format(
+        "%s[%d] team=%s alive=%s invulnerable=%s attack_immune=%s out_of_game=%s ancient=%s neutral_type=%s boss=%s",
+        SafeCall(unit, "GetUnitName", "unknown"),
+        SafeCall(unit, "entindex", -1),
+        tostring(SafeCall(unit, "GetTeamNumber", "unknown")),
+        BoolText(SafeCall(unit, "IsAlive", nil)),
+        BoolText(SafeCall(unit, "IsInvulnerable", nil)),
+        BoolText(SafeCall(unit, "IsAttackImmune", nil)),
+        BoolText(SafeCall(unit, "IsOutOfGame", nil)),
+        BoolText(SafeCall(unit, "IsAncient", nil)),
+        BoolText(SafeCall(unit, "IsNeutralUnitType", nil)),
+        BoolText(SafeCall(unit, "IsBoss", nil))
+    )
 end
 
 local function GetOpposingPlayerTeam(team)
@@ -108,15 +156,22 @@ function MortimerBoss:StartFinale(killedBoss, targetTeam)
         local kisses = finale:FindAbilityByName("mortimer_finale_kisses")
 
         if kisses then
-            kisses:SetLevel(math.max(1, kisses:GetMaxLevel()))
-            local targetPosition = kisses:GetCurrentTargetPosition(nil, targetTeam)
-            if targetPosition then
-                finale:SetForwardVector((targetPosition - finale:GetAbsOrigin()):Normalized())
-                kisses:FireVolley(targetPosition, targetTeam, function()
+            local mortimerLevel = MortimerLevelScaling:GetLevel(finale)
+            kisses:SetLevel(math.min(mortimerLevel, kisses:GetMaxLevel()))
+            local decision = kisses:ResolveTarget(nil, targetTeam)
+            kisses:LogDecision("start", decision, {
+                snapshot = true,
+                suffix = string.format(" level=%d", mortimerLevel),
+            })
+            if decision.position then
+                finale:SetForwardVector((decision.position - finale:GetAbsOrigin()):Normalized())
+                kisses:FireVolley(decision.position, targetTeam, function()
                     StartFinaleRetreat(finale, waypointIndex)
                 end)
                 return nil
             end
+
+            kisses:LogDecision("refuse", decision)
         end
 
         StartFinaleRetreat(finale, waypointIndex)
@@ -133,7 +188,58 @@ function MortimerBoss:OnEntityKilled(unit, event)
     end
 end
 
+function MortimerBoss:DebugAttackOrder(data)
+    if not self.attackDebugEnabled
+        or not data
+        or data.order_type ~= DOTA_UNIT_ORDER_ATTACK_TARGET
+    then
+        return
+    end
+
+    local targetIndex = tonumber(data.entindex_target)
+    local target = targetIndex and EntIndexToHScript(targetIndex) or nil
+    if not target or target:IsNull() or target:GetUnitName() ~= BOSS_NAME then
+        return
+    end
+
+    print("[MortimerAttackDebug] target " .. DescribeUnit(target))
+
+    for _, unitIndex in pairs(data.units or {}) do
+        local attackerIndex = tonumber(unitIndex)
+        local attacker = attackerIndex and EntIndexToHScript(attackerIndex) or nil
+        if attacker and not attacker:IsNull() then
+            local distance = (attacker:GetAbsOrigin() - target:GetAbsOrigin()):Length2D()
+            local visible = SafeCall(attacker, "CanEntityBeSeenByMyTeam", nil, target)
+            print(string.format(
+                "[MortimerAttackDebug] attacker %s distance=%.1f visible=%s",
+                DescribeUnit(attacker),
+                distance,
+                BoolText(visible)
+            ))
+
+            Timers:CreateTimer(0.2, function()
+                if not IsAlive(attacker) or not IsAlive(target) then
+                    return nil
+                end
+
+                local attackTarget = SafeCall(attacker, "GetAttackTarget", nil)
+                print(string.format(
+                    "[MortimerAttackDebug] after=0.2 attacker=%d attack_target=%s",
+                    attacker:entindex(),
+                    DescribeUnit(attackTarget)
+                ))
+                return nil
+            end)
+        end
+    end
+end
+
 function MortimerBoss:Init()
+    if self.commandsRegistered then
+        return
+    end
+    self.commandsRegistered = true
+
     Convars:RegisterCommand("spawn_mortimer_boss", function(_, x, y, z)
         local position
         if x and y and z then
@@ -147,6 +253,30 @@ function MortimerBoss:Init()
             end
         end
 
-        CreateUnitByName(BOSS_NAME, position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+        local boss = CreateUnitByName(BOSS_NAME, position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+        if not boss then
+            print("[MortimerBoss] Failed to spawn debug boss")
+            return
+        end
+
+        boss.spawnNumber = 1
+        MortimerLevelScaling:ApplyToBoss(boss, boss.spawnNumber)
+        boss.pathwayEnabled = false
+        boss:RemoveModifierByName("modifier_invulnerable")
+        boss:SetAngles(0, RandomFloat(0, 360), 0)
+
+        AddFOWViewer(DOTA_TEAM_GOODGUYS, position, DEBUG_VISION_RADIUS, DEBUG_VISION_DURATION, false)
+        AddFOWViewer(DOTA_TEAM_BADGUYS, position, DEBUG_VISION_RADIUS, DEBUG_VISION_DURATION, false)
+        print("[MortimerBoss] Debug boss spawned: " .. DescribeUnit(boss))
     end, "Spawn Mortimer boss: spawn_mortimer_boss [x y z]", FCVAR_CHEAT)
+
+    Convars:RegisterCommand("mortimer_attack_debug", function(_, value)
+        self.attackDebugEnabled = tonumber(value) == 1
+        print("[MortimerAttackDebug] " .. (self.attackDebugEnabled and "enabled" or "disabled"))
+    end, "Log attack orders targeting Mortimer: mortimer_attack_debug 0|1", FCVAR_CHEAT)
+
+    Convars:RegisterCommand("mortimer_kisses_debug", function(_, value)
+        self.kissesDebugEnabled = tonumber(value) == 1
+        print("[MortimerKissesDebug] " .. (self.kissesDebugEnabled and "enabled" or "disabled"))
+    end, "Log Mortimer Kisses targeting: mortimer_kisses_debug 0|1", FCVAR_CHEAT)
 end

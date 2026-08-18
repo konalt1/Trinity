@@ -1465,7 +1465,7 @@
 
     "npc_mortimer_boss"
     {
-        "BaseClass"                 "npc_dota_creep_neutral"
+        "BaseClass"                 "npc_dota_creature"
         "Model"                     "models/heroes/snapfire/snapfire_customgame.vmdl"
         "SoundSet"                  "Hero_Snapfire"
         "GameSoundsFile"            "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts"
@@ -1475,7 +1475,6 @@
         "ModelScale"                "1.15"
         "IsBoss"                    "1"
         "IsAncient"                 "1"
-        "IsNeutralUnitType"         "1"
         "CanBeDominated"            "0"
         "UseNeutralCreepBehavior"   "0"
 
