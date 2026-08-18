@@ -113,6 +113,16 @@ local MIND_POWER_RULES = {
     chen_barrack_hunter_overload = {
         damage = "mind_power_multiplier",
     },
+    tinker_laser_custom = {
+        laser_damage = "mind_power_multiplier",
+    },
+    tinker_march_of_the_machines_custom = {
+        damage = "mind_power_multiplier",
+    },
+    tinker_deploy_turrets_custom = {
+        drop_damage = "drop_mind_power_multiplier",
+        missile_damage = "missile_mind_power_multiplier",
+    },
 }
 
 CustomAbilityTooltips.MIND_POWER_RULES = MIND_POWER_RULES

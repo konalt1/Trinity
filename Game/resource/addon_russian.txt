@@ -397,10 +397,39 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_8"			"Заглушка"
 
 		// Tinker
+		"DOTA_Tooltip_ability_tinker_laser_custom"							"Лазер"
+		"DOTA_Tooltip_ability_tinker_laser_custom_Description"				"Тинкер выпускает луч в выбранного врага, нанося чистый урон и ослепляя его.
+
+		Ослеплённая цель промахивается всеми физическими атаками.
+
+		Урон: %laser_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_tinker_laser_custom_laser_damage"				"УРОН:"
+		"DOTA_Tooltip_ability_tinker_laser_custom_blind_duration"			"ДЛИТЕЛЬНОСТЬ ОСЛЕПЛЕНИЯ:"
+		"DOTA_Tooltip_ability_tinker_laser_custom_miss_rate"					"%ПРОМАХ:"
+		"DOTA_Tooltip_ability_tinker_laser_custom_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_tinker_laser_custom_blind"					"Лазер"
+		"DOTA_Tooltip_modifier_tinker_laser_custom_blind_Description"			"Промахивается всеми физическими атаками."
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom"			"Марш машин"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_Description"	"Тинкер вызывает армию машин в выбранной области. Машины движутся вперёд и взрываются при столкновении с врагом, нанося магический урон вокруг.
+
+		Урон машины: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_damage"	"УРОН МАШИНЫ:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_spawn_area"	"ШИРИНА ФРОНТА:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_spawn_behind_distance"	"ОТСТУП НАЗАД:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_distance"	"ДАЛЬНОСТЬ ХОДА:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_duration"	"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_speed"		"СКОРОСТЬ МАШИН:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_radius"	"РАДИУС ВЗРЫВА:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_collision_radius"	"РАДИУС СТОЛКНОВЕНИЯ:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_machines_per_sec"	"МАШИН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom"					"Развёртывание турелей"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Тинкер сбрасывает в выбранную точку три неуправляемые турели. При приземлении они наносят врагам магический урон и отталкивают их. Если в области находится Тинкер, его отбрасывает на большее расстояние.
 
-		Турели выпускают ракеты в сторону ближайшего вражеского героя. Ракета взрывается при столкновении, нанося урон цели и окружающим врагам."
+		Каждая турель раз в заданный промежуток времени выпускает самонаводящуюся ракету в ближайшего видимого вражеского героя. Ракета взрывается при попадании, нанося урон цели и окружающим врагам.
+
+		Урон падения: %drop_damage% + Сила магии × %drop_mind_power_multiplier%.
+		Урон ракеты: %missile_damage% + Сила магии × %missile_mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_delay"		"ЗАДЕРЖКА ПАДЕНИЯ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_damage"		"УРОН ПРИ ПАДЕНИИ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_aoe_radius"	"РАДИУС ПАДЕНИЯ:"
@@ -408,10 +437,12 @@
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_knockback_distance_tinker"	"ОТТАЛКИВАНИЕ ТИНКЕРА:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_turret_duration"	"ДЛИТЕЛЬНОСТЬ ТУРЕЛЕЙ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_target_range"	"ДАЛЬНОСТЬ ТУРЕЛЕЙ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_spawn_interval"	"ИНТЕРВАЛ ЗАПУСКА РАКЕТ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_damage"	"УРОН РАКЕТЫ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_radius_explosion"	"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_splash_pct"		"%УРОН ПО ОБЛАСТИ:"
-		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_scepter_description"	"Турели выпускают самонаводящиеся ракеты Heat-Seeking Missile вместо линейных."
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_mind_power_multiplier"	"УРОН ПАДЕНИЯ ЗА СИЛУ МАГИИ:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_mind_power_multiplier"	"УРОН РАКЕТЫ ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Перевооружение"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Тинкер мгновенно сбрасывает перезарядку всех своих способностей, кроме Перевооружения. Затем входит в режим перевооружения: пока он действует, каждая использованная способность и каждый предмет начинают перезаряжаться за фиксированное время."
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"ДЛИТЕЛЬНОСТЬ:"
@@ -694,6 +725,7 @@
 		"DOTA_Tooltip_ability_chen_barrack"									"Барак"
 		"DOTA_Tooltip_ability_chen_barrack_Description"						"Чен строит в выбранной точке единственный барак с тремя рабочими и тремя цветущими деревьями.\n\nБарак хранит собственное золото и тратит его на производство юнитов и строительство. Боевые юниты делят награду за убийство с Ченом и доставляют свою долю бараку, а рабочие приносят ему золото с деревьев.\n\nПосле постройки способность позволяет поднимать барак в воздух и сажать его в другом месте. При уничтожении барака убийца получает часть накопленного в нём золота."
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"HP БАРАКА:"
+		"DOTA_Tooltip_ability_chen_barrack_unit_magic_resistance"			"СОПРОТИВЛЕНИЕ МАГИИ КРИПОВ:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"РАДИУС СДАЧИ ЗОЛОТА:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% ЗОЛОТА УБИЙЦЕ ПРИ УНИЧТОЖЕНИИ:"
 		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Даёт рабочим возможность строить вышки и бараки Аганима. Бараки Аганима используют общую очередь производства и золото основного барака для создания огромных курьеров и Ancient Black Dragon."
@@ -996,7 +1028,7 @@
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_Description"		"Ember Spirit отправляет огненного фантома в выбранную точку. Скорость фантома зависит от скорости передвижения героя. Фантом существует ограниченное время."
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_duration"			"ВРЕМЯ ЖИЗНИ:"
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_speed_multiplier"	"СКОРОСТЬ ФАНТОМА:"
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_shard_description"	"Огненные фантомы каждую секунду наносят магический урон врагам вокруг."
+		"DOTA_Tooltip_ability_ember_spirit_sleight_of_fist_shard_description"		"Даёт 2 заряда. Каждый заряд восстанавливается за обычное время перезарядки."
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_scepter_description"	"Увеличивает дальность применения, скорость фантомов и максимальное количество зарядов. Снижает расход маны и убирает время применения активации."
 		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity"					"Активировать огненного фантома"
 		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity_Description"		"Ember Spirit последовательно перемещается ко всем огненным фантомам и завершает путь у ближайшего к выбранной точке. Каждый достигнутый фантом взрывается. Враги на пути и возле взрыва получают магический урон.\n\nУрон: %damage% + Сила магии × %mind_power_multiplier%."

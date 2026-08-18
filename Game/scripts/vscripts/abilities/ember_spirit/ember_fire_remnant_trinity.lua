@@ -52,6 +52,36 @@ local function PrecacheRemnantResources(context)
 	PrecacheUnitByNameSync(REMNANT_UNIT, context)
 end
 
+local function DestroyDashDummy(ability)
+	if ability.dash_particle then
+		ParticleManager:DestroyParticle(ability.dash_particle, false)
+		ParticleManager:ReleaseParticleIndex(ability.dash_particle)
+		ability.dash_particle = nil
+	end
+	if IsValidHandle(ability.dash_dummy) then
+		UTIL_Remove(ability.dash_dummy)
+	end
+	ability.dash_dummy = nil
+end
+
+local function StartDashDummy(ability, caster, origin, destination)
+	DestroyDashDummy(ability)
+	local dummy = CreateModifierThinker(
+		caster, ability, "modifier_invulnerable", {}, origin, caster:GetTeamNumber(), false
+	)
+	if not IsValidHandle(dummy) then return end
+
+	local direction = destination - origin
+	direction.z = 0
+	local particle = ParticleManager:CreateParticle(DASH_PARTICLE, PATTACH_ABSORIGIN_FOLLOW, dummy)
+	if direction:Length2D() > 0 then
+		ParticleManager:SetParticleControlForward(particle, 0, direction:Normalized())
+	end
+	ParticleManager:SetParticleShouldCheckFoW(particle, false)
+	ability.dash_dummy = dummy
+	ability.dash_particle = particle
+end
+
 local function SyncLinkedAbilities(ability)
 	if not IsServer() then return end
 	local caster = ability:GetCaster()
@@ -147,9 +177,7 @@ function modifier_ember_fire_remnant_trinity_remnant:OnCreated()
 	if not IsServer() then return end
 	self.parent = self:GetParent()
 	self.caster = self:GetCaster()
-	self.ability = self:GetAbility()
 	table.insert(GetRemnantList(self.caster), self.parent)
-	self:StartIntervalThink(1.0)
 end
 
 function modifier_ember_fire_remnant_trinity_remnant:SetArrived()
@@ -169,25 +197,6 @@ function modifier_ember_fire_remnant_trinity_remnant:SetArrived()
 	ParticleManager:SetParticleFoWProperties(particle, 0, -1, 450)
 	self:AddParticle(particle, false, false, -1, false, false)
 	self.parent:EmitSound("Hero_EmberSpirit.FireRemnant.Create")
-end
-
-function modifier_ember_fire_remnant_trinity_remnant:OnIntervalThink()
-	if not self.caster:HasShard() then return end
-	local damage = self.ability:GetSpecialValueFor("shard_damage_per_second")
-	local radius = self.ability:GetSpecialValueFor("shard_radius")
-	for _, enemy in pairs(FindUnitsInRadius(
-		self.caster:GetTeamNumber(), self.parent:GetAbsOrigin(), nil, radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false
-	)) do
-		ApplyDamage({
-			victim = enemy,
-			attacker = self.caster,
-			damage = damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self.ability,
-		})
-	end
 end
 
 function modifier_ember_fire_remnant_trinity_remnant:CheckState()
@@ -312,19 +321,27 @@ function ember_spirit_activate_fire_remnant_trinity:StartNextLeg()
 	end
 
 	local caster = self:GetCaster()
-	local distance = (remnant:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D()
+	local origin = GetGroundPosition(caster:GetAbsOrigin(), caster)
+	local destination = GetGroundPosition(remnant:GetAbsOrigin(), remnant)
+	local distance = (destination - origin):Length2D()
 	local speed = math.max(self:GetSpecialValueFor("speed"), distance / 0.4)
 	self.current_remnant = remnant
-	self.last_location = caster:GetAbsOrigin()
+	self.last_location = origin
 	self.leg_serial = self.leg_serial + 1
 	remnant.targets_hit = {}
+	StartDashDummy(self, caster, origin, destination)
+
+	if distance < 1 then
+		self:OnProjectileHit_ExtraData(nil, destination, { leg = self.leg_serial })
+		return
+	end
 
 	ProjectileManager:CreateTrackingProjectile({
 		Target = remnant,
 		Source = caster,
 		Ability = self,
 		iMoveSpeed = speed,
-		vSourceLoc = caster:GetAbsOrigin(),
+		vSourceLoc = origin,
 		flExpireTime = GameRules:GetGameTime() + 10,
 		bDodgeable = false,
 		bProvidesVision = false,
@@ -361,6 +378,9 @@ function ember_spirit_activate_fire_remnant_trinity:OnProjectileThink_ExtraData(
 	if not IsValidHandle(remnant) then return end
 
 	location = GetGroundPosition(location, caster)
+	if IsValidHandle(self.dash_dummy) then
+		self.dash_dummy:SetAbsOrigin(location)
+	end
 	GridNav:DestroyTreesAroundPoint(location, 200, false)
 	for _, enemy in pairs(FindUnitsInLine(
 		caster:GetTeamNumber(), self.last_location, location, nil,
@@ -415,6 +435,7 @@ function ember_spirit_activate_fire_remnant_trinity:FinishTravel()
 	self.travelling = false
 	self.current_remnant = nil
 	self.route = nil
+	DestroyDashDummy(self)
 	if IsValidHandle(caster) then
 		caster:RemoveModifierByName("modifier_ember_activate_fire_remnant_trinity_travel")
 		FindClearSpaceForUnit(caster, self.last_location or caster:GetAbsOrigin(), false)
@@ -432,8 +453,6 @@ function modifier_ember_activate_fire_remnant_trinity_travel:OnCreated()
 	self.parent = self:GetParent()
 	self.parent:AddNoDraw()
 	self.parent:EmitSound("Hero_EmberSpirit.FireRemnant.Activate")
-	local particle = ParticleManager:CreateParticle(DASH_PARTICLE, PATTACH_ABSORIGIN_FOLLOW, self.parent)
-	self:AddParticle(particle, false, false, -1, false, false)
 end
 
 function modifier_ember_activate_fire_remnant_trinity_travel:OnDestroy()

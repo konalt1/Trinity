@@ -14,6 +14,30 @@ function modifier_chen_barrack_unit:IsPurgable()
     return false
 end
 
+function modifier_chen_barrack_unit:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
+    }
+end
+
+function modifier_chen_barrack_unit:GetModifierMagicalResistanceBonus()
+    local ability = self:GetAbility()
+    if ability and not ability:IsNull() then
+        return ability:GetSpecialValueFor("unit_magic_resistance")
+    end
+
+    local parent = self:GetParent()
+    local ownerHero = ChenBarrackGold and ChenBarrackGold.GetOwnerHero
+        and ChenBarrackGold.GetOwnerHero(parent)
+        or nil
+    local barrackAbility = ownerHero and ownerHero:FindAbilityByName("chen_barrack") or nil
+    if barrackAbility and not barrackAbility:IsNull() then
+        return barrackAbility:GetSpecialValueFor("unit_magic_resistance")
+    end
+
+    return 0
+end
+
 function modifier_chen_barrack_unit:OnCreated(kv)
     if not IsServer() then
         return

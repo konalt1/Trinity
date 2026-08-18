@@ -11,12 +11,16 @@ LinkLuaModifier(
 
 tinker_deploy_turrets_custom = class({})
 
-local TURRET_FIRST_ATTACK_DELAY = 1.1
-local TURRET_SEQUENTIAL_DELAY = 0.4
-local TURRET_MAX_ATTACKS = 3
-
 local function IsValidUnit(unit)
     return unit and not unit:IsNull()
+end
+
+local function GetMindScaledSpecial(ability, base_key, multiplier_key)
+    local caster = ability:GetCaster()
+    local base = ability:GetSpecialValueFor(base_key)
+    local multiplier = ability:GetSpecialValueFor(multiplier_key)
+    local mind_power = GetHeroMindPower and (GetHeroMindPower(caster) or 0) or 0
+    return math.max(0, base + mind_power * multiplier)
 end
 
 function tinker_deploy_turrets_custom:Precache(context)
@@ -24,7 +28,6 @@ function tinker_deploy_turrets_custom:Precache(context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_turret_drop.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_turret_drop_impact.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_turret_spawn.vpcf", context)
-    PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_linear_missile.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/tinker_missile.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_tinker/turret_missile_explosion.vpcf", context)
 end
@@ -56,7 +59,7 @@ function tinker_deploy_turrets_custom:OnProjectileHit(target)
     end
 
     local caster = self:GetCaster()
-    local damage = self:GetSpecialValueFor("missile_damage")
+    local damage = GetMindScaledSpecial(self, "missile_damage", "missile_mind_power_multiplier")
     local splash_damage = damage * self:GetSpecialValueFor("splash_pct") * 0.01
 
     ApplyDamage({
@@ -135,8 +138,6 @@ function modifier_tinker_deploy_turrets_custom:OnCreated()
     self.attack_interval = ability:GetSpecialValueFor("missile_spawn_interval")
     self.projectile_speed = ability:GetSpecialValueFor("missile_speed")
     self.missile_width = ability:GetSpecialValueFor("missile_width")
-    self.missile_range = ability:GetSpecialValueFor("missile_range")
-    self.drop_damage = ability:GetSpecialValueFor("drop_damage")
     self.drop_delay = ability:GetSpecialValueFor("drop_delay")
     self.turrets = {}
 
@@ -173,17 +174,14 @@ function modifier_tinker_deploy_turrets_custom:OnIntervalThink()
             has_live_turret = true
             state.time_until_attack = state.time_until_attack - frame_time
 
-            if state.attacks < TURRET_MAX_ATTACKS then
-                self:UpdateTurretTarget(turret, state)
+            self:UpdateTurretTarget(turret, state)
 
-                if IsValidUnit(state.target) then
-                    turret:FaceTowards(state.target:GetAbsOrigin())
+            if IsValidUnit(state.target) then
+                turret:FaceTowards(state.target:GetAbsOrigin())
 
-                    if state.time_until_attack <= 0 then
-                        self:FireTurret(turret, state.target)
-                        state.attacks = state.attacks + 1
-                        state.time_until_attack = self.attack_interval
-                    end
+                if state.time_until_attack <= 0 then
+                    self:FireTurret(turret, state.target)
+                    state.time_until_attack = self.attack_interval
                 end
             end
         end
@@ -262,9 +260,8 @@ function modifier_tinker_deploy_turrets_custom:DeployTurrets()
             turret:AddNewModifier(caster, ability, "modifier_kill", { duration = turret_duration + 1 })
 
             self.turrets[turret] = {
-                attacks = 0,
                 target = nil,
-                time_until_attack = TURRET_FIRST_ATTACK_DELAY + TURRET_SEQUENTIAL_DELAY * (index - 1),
+                time_until_attack = self.attack_interval,
             }
         end
     end
@@ -282,11 +279,11 @@ function modifier_tinker_deploy_turrets_custom:ApplyImpact(target)
         knockback_center = knockback_center - target:GetForwardVector()
     end
 
-    if not is_caster then
+    if not is_caster and ability and not ability:IsNull() then
         ApplyDamage({
             attacker = caster,
             victim = target,
-            damage = self.drop_damage,
+            damage = GetMindScaledSpecial(ability, "drop_damage", "drop_mind_power_multiplier"),
             damage_type = DAMAGE_TYPE_MAGICAL,
             ability = ability,
         })
@@ -347,47 +344,19 @@ function modifier_tinker_deploy_turrets_custom:OnDestroy()
 end
 
 function modifier_tinker_deploy_turrets_custom:FireTurret(turret, target)
-    local direction = target:GetAbsOrigin() - turret:GetAbsOrigin()
-    direction.z = 0
-
-    if direction:Length2D() <= 0 then
-        return
-    end
-
     turret:StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1 / self.attack_interval)
     turret:EmitSound("Hero_TinkerTurret.Missile.Spawn")
 
     local attachment = turret:ScriptLookupAttachment("attach_attack1")
 
-    if self:GetCaster():HasScepter() then
-        ProjectileManager:CreateTrackingProjectile({
-            Ability = self:GetAbility(),
-            EffectName = "particles/units/heroes/hero_tinker/tinker_missile.vpcf",
-            Source = turret,
-            Target = target,
-            vSourceLoc = turret:GetAttachmentOrigin(attachment),
-            iMoveSpeed = self.projectile_speed,
-            bDodgeable = true,
-            bProvidesVision = true,
-            iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
-            iVisionRadius = self.missile_width * 2,
-        })
-        return
-    end
-
-    ProjectileManager:CreateLinearProjectile({
+    ProjectileManager:CreateTrackingProjectile({
         Ability = self:GetAbility(),
-        EffectName = "particles/units/heroes/hero_tinker/tinker_linear_missile.vpcf",
+        EffectName = "particles/units/heroes/hero_tinker/tinker_missile.vpcf",
         Source = turret,
-        vSpawnOrigin = turret:GetAttachmentOrigin(attachment),
-        vVelocity = direction:Normalized() * self.projectile_speed,
-        fDistance = self.missile_range,
-        fStartRadius = self.missile_width,
-        fEndRadius = self.missile_width,
-        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-        iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        bDeleteOnHit = true,
+        Target = target,
+        vSourceLoc = turret:GetAttachmentOrigin(attachment),
+        iMoveSpeed = self.projectile_speed,
+        bDodgeable = true,
         bProvidesVision = true,
         iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
         iVisionRadius = self.missile_width * 2,

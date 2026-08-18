@@ -74,6 +74,8 @@ local function LionHasScepter(unit)
     return unit:HasModifier("modifier_item_ultimate_scepter") or unit:HasModifier("modifier_item_ultimate_scepter_consumed")
 end
 
+local LION_FINGER_PARTICLE = "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf"
+
 local function LionGetAttachmentOrigin(unit, attachment_name)
     if unit and not unit:IsNull() and unit.ScriptLookupAttachment and unit.GetAttachmentOrigin then
         local attachment = unit:ScriptLookupAttachment(attachment_name)
@@ -85,7 +87,45 @@ local function LionGetAttachmentOrigin(unit, attachment_name)
     return unit:GetAbsOrigin()
 end
 
+local function LionGetFingerAttachName(unit)
+    if unit and not unit:IsNull() and unit.ScriptLookupAttachment then
+        local attach2 = unit:ScriptLookupAttachment("attach_attack2")
+        if attach2 and attach2 ~= 0 then
+            return "attach_attack2"
+        end
+    end
+
+    return "attach_attack1"
+end
+
+local function LionPlayFingerParticle(caster, target)
+    local start_origin = LionGetAttachmentOrigin(caster, LionGetFingerAttachName(caster))
+    local hit_origin = LionGetAttachmentOrigin(target, "attach_hitloc")
+    local target_origin = target:GetAbsOrigin()
+    local to_caster = start_origin - target_origin
+    if to_caster:Length2D() > 0.01 then
+        to_caster = to_caster:Normalized()
+    else
+        to_caster = -caster:GetForwardVector()
+    end
+
+    -- Snapshot all control points. Unset CP2/CP3 default to world origin;
+    -- entity-bound points also jump there if a lethal hit removes the target.
+    local particle = ParticleManager:CreateParticle(LION_FINGER_PARTICLE, PATTACH_WORLDORIGIN, caster)
+    ParticleManager:SetParticleControl(particle, 0, start_origin)
+    ParticleManager:SetParticleControl(particle, 1, hit_origin)
+    ParticleManager:SetParticleControl(particle, 2, target_origin)
+    ParticleManager:SetParticleControl(particle, 3, target_origin + to_caster)
+    ParticleManager:SetParticleControlForward(particle, 3, -to_caster)
+    ParticleManager:ReleaseParticleIndex(particle)
+end
+
 lion_finger_of_death_custom = class({})
+
+function lion_finger_of_death_custom:Precache(context)
+    PrecacheResource("particle", LION_FINGER_PARTICLE, context)
+    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts", context)
+end
 
 function lion_finger_of_death_custom:GetBehavior()
     local behavior = DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
@@ -130,16 +170,7 @@ function lion_finger_of_death_custom:OnSpellStart()
         damage = self:GetMindScaledDamage(),
     })
 
-    -- Snapshot both endpoints before damage is applied. A lethal hit can remove the
-    -- target attachment and make an entity-bound control point jump to map origin.
-    local particle = ParticleManager:CreateParticle(
-        "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf",
-        PATTACH_WORLDORIGIN,
-        caster
-    )
-    ParticleManager:SetParticleControl(particle, 0, LionGetAttachmentOrigin(caster, "attach_attack1"))
-    ParticleManager:SetParticleControl(particle, 1, LionGetAttachmentOrigin(target, "attach_hitloc"))
-    ParticleManager:ReleaseParticleIndex(particle)
+    LionPlayFingerParticle(caster, target)
 
     target:AddNewModifier(caster, self, "modifier_lion_finger_kill_marker", { duration = 3 })
 

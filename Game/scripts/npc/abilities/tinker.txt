@@ -1,6 +1,69 @@
 // Trinity — tinker abilities
 "DOTAAbilities"
 {
+    "tinker_laser_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tinker/tinker_laser_custom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "AbilityTextureName"            "tinker_laser"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityCastRange"              "600"
+        "AbilityCastPoint"              "0.4"
+        "AbilityCooldown"               "19 18 17 16"
+        "AbilityManaCost"               "95 105 115 125"
+
+        "AbilityValues"
+        {
+            "laser_damage"              "75 150 225 300"
+            "miss_rate"                 "100"
+            "blind_duration"            "3.0 3.5 4.0 4.5"
+            "mind_power_multiplier"     "1.5"
+        }
+    }
+
+    "tinker_march_of_the_machines_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/tinker/tinker_march_of_the_machines_custom"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "AbilityTextureName"            "tinker_march_of_the_machines"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCastRange"              "300"
+        "AbilityCastPoint"              "0.53"
+        "AbilityCooldown"               "35 33 31 29"
+        "AbilityManaCost"               "100 120 140 160"
+
+        "AbilityValues"
+        {
+            "spawn_area"                "1800"
+            "spawn_behind_distance"     "800"
+            "distance"                  "1800"
+            "collision_radius"          "50"
+            "radius"                    "150"
+            "duration"                  "6"
+            "speed"                     "400"
+            "machines_per_sec"          "24"
+            "damage"                    "13 22 31 40"
+            "mind_power_multiplier"     "0.25"
+        }
+    }
+
     "tinker_deploy_turrets_custom"
     {
         "BaseClass"                     "ability_lua"
@@ -11,8 +74,6 @@
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
-        "HasScepterUpgrade"             "1"
-
         "MaxLevel"                      "4"
         "AbilityTextureName"            "tinker_deploy_turrets"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
@@ -33,14 +94,15 @@
             "turrets_per_drop"                  "3"
             "turret_placement_radius"           "70"
             "turret_duration"                   "4.5"
-            "missile_target_range"              "650 700 750 800"
+            "missile_target_range"              "975 1050 1125 1200"
             "missile_spawn_interval"            "1.5"
-            "missile_range"                     "650 700 750 800"
-            "missile_speed"                     "1350"
+            "missile_speed"                     "700"
             "missile_width"                     "70"
             "missile_damage"                    "20 40 60 80"
             "radius_explosion"                  "200"
             "splash_pct"                        "50"
+            "drop_mind_power_multiplier"        "1.0"
+            "missile_mind_power_multiplier"     "0.5"
         }
     }
 
@@ -48,7 +110,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/tinker/tinker_rearm_custom"
-        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"       
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 
         "MaxLevel"                      "3"

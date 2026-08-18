@@ -132,6 +132,7 @@
         "AbilityValues"
         {
             "minimum_barrack_health"    "1200 1700 2200"
+            "unit_magic_resistance"     "25 50 75"
             "destroyed_gold_percent"    "50"
             "delivery_radius"           "300"
             "gold_cost"                 "10"

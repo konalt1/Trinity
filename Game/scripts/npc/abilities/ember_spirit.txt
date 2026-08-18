@@ -70,6 +70,26 @@
             }
         }
 
+    "ember_spirit_sleight_of_fist"
+        {
+            "HasShardUpgrade"               "1"
+
+            "AbilityValues"
+            {
+                "AbilityCharges"
+                {
+                    "value"                 "0"
+                    "special_bonus_shard"   "=2"
+                }
+                "AbilityCooldown"
+                {
+                    "value"                 "13 11 9 7"
+                    "special_bonus_shard"   "=0"
+                }
+                "AbilityChargeRestoreTime"  "13 11 9 7"
+            }
+        }
+
     "ember_spirit_fire_remnant_trinity"
         {
             "BaseClass"                     "ability_lua"
@@ -80,7 +100,6 @@
             "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
             "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
             "HasScepterUpgrade"             "1"
-            "HasShardUpgrade"               "1"
             "MaxLevel"                      "3"
             "RequiredLevel"                 "6"
             "LevelsBetweenUpgrades"         "6"
@@ -114,8 +133,6 @@
                     "value"                 "250"
                     "special_bonus_scepter" "=500"
                 }
-                "shard_damage_per_second"   "45"
-                "shard_radius"              "600"
             }
         }
 

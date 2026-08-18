@@ -264,7 +264,8 @@ function ChenBarrackGold.RegisterBarrackUnit(unit, barrack, ownerHero, goldMode)
         return
     end
 
-    unit:AddNewModifier(unit, nil, UNIT_MARKER_MODIFIER, {
+    local sourceAbility = ownerHero and ownerHero:FindAbilityByName("chen_barrack") or nil
+    unit:AddNewModifier(ownerHero or unit, sourceAbility, UNIT_MARKER_MODIFIER, {
         gold_mode = unit.chen_gold_mode,
     })
 

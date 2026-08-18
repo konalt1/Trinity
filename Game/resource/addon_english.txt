@@ -373,10 +373,39 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_tinker_8"			"Placeholder"
 
 		// Tinker
+		"DOTA_Tooltip_ability_tinker_laser_custom"							"Laser"
+		"DOTA_Tooltip_ability_tinker_laser_custom_Description"				"Tinker fires a beam at the chosen enemy, dealing pure damage and blinding them.
+
+		A blinded target misses all physical attacks.
+
+		Damage: %laser_damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_tinker_laser_custom_laser_damage"				"DAMAGE:"
+		"DOTA_Tooltip_ability_tinker_laser_custom_blind_duration"			"BLIND DURATION:"
+		"DOTA_Tooltip_ability_tinker_laser_custom_miss_rate"					"%MISS CHANCE:"
+		"DOTA_Tooltip_ability_tinker_laser_custom_mind_power_multiplier"		"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_modifier_tinker_laser_custom_blind"					"Laser"
+		"DOTA_Tooltip_modifier_tinker_laser_custom_blind_Description"			"Missing all physical attacks."
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom"			"March of the Machines"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_Description"	"Tinker summons an army of machines in the chosen area. The machines march forward and explode on contact, dealing magical damage around them.
+
+		Machine damage: %damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_damage"	"MACHINE DAMAGE:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_spawn_area"	"FRONT WIDTH:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_spawn_behind_distance"	"SPAWN OFFSET:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_distance"	"TRAVEL DISTANCE:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_duration"	"DURATION:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_speed"		"MACHINE SPEED:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_radius"	"EXPLOSION RADIUS:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_collision_radius"	"COLLISION RADIUS:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_machines_per_sec"	"MACHINES PER SECOND:"
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom"					"Deploy Turrets"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Tinker drops three uncontrollable turrets at the target location. On landing, they deal magical damage to enemies and knock them back. If Tinker is within the area, he is knocked back farther.
 
-		The turrets launch missiles toward the nearest enemy hero. A missile explodes on contact, damaging its target and nearby enemies."
+		At each interval, every turret launches a homing missile at the nearest visible enemy hero. A missile explodes on impact, damaging its target and nearby enemies.
+
+		Impact damage: %drop_damage% + Spell Power × %drop_mind_power_multiplier%.
+		Missile damage: %missile_damage% + Spell Power × %missile_mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_delay"		"DROP DELAY:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_damage"		"IMPACT DAMAGE:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_aoe_radius"	"IMPACT RADIUS:"
@@ -384,10 +413,12 @@
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_knockback_distance_tinker"	"TINKER KNOCKBACK:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_turret_duration"	"TURRET DURATION:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_target_range"	"TURRET RANGE:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_spawn_interval"	"MISSILE LAUNCH INTERVAL:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_damage"	"MISSILE DAMAGE:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_radius_explosion"	"EXPLOSION RADIUS:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_splash_pct"		"%SPLASH DAMAGE:"
-		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_scepter_description"	"Turrets fire homing Heat-Seeking Missiles instead of linear missiles."
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_mind_power_multiplier"	"IMPACT DAMAGE PER SPELL POWER:"
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_missile_mind_power_multiplier"	"MISSILE DAMAGE PER SPELL POWER:"
 		"DOTA_Tooltip_ability_tinker_rearm_custom"						"Rearm"
 		"DOTA_Tooltip_ability_tinker_rearm_custom_Description"				"Tinker instantly resets the cooldown of all his abilities except Rearm. He then enters a rearming cycle: while it lasts, every used ability and item begins recharging for a fixed duration."
 		"DOTA_Tooltip_ability_tinker_rearm_custom_duration"				"DURATION:"
@@ -659,6 +690,7 @@ Every tamed creep in the radius instantly casts its active abilities. After the 
 		"DOTA_Tooltip_ability_chen_barrack"									"Barracks"
 		"DOTA_Tooltip_ability_chen_barrack_Description"						"Chen raises a stationary barracks at the target point. It starts with three living workers and three blooming trees. The barracks stores its own gold, shown above the structure, and can only spend it on hiring units or building construction. Barracks units with shared gold also grant Chen the full kill bounty; carrier units deliver gold only to the barracks. Chen may control only one barracks—casting again focuses your camera on it. If destroyed, the killer steals a portion of the gold inside."
 		"DOTA_Tooltip_ability_chen_barrack_minimum_barrack_health"			"BARRACKS HP:"
+		"DOTA_Tooltip_ability_chen_barrack_unit_magic_resistance"			"CREEP MAGIC RESISTANCE:"
 		"DOTA_Tooltip_ability_chen_barrack_destroyed_gold_percent"			"% GOLD TO KILLER ON DESTRUCTION:"
 		"DOTA_Tooltip_ability_chen_barrack_delivery_radius"					"GOLD DELIVERY RADIUS:"
 		"DOTA_Tooltip_ability_chen_barrack_scepter_description"				"Barracks workers gain two construction abilities: a tower and Aghanim's Barracks, which produces Giant Couriers and Ancient Black Dragons. Cost is paid from the main barracks' gold when the worker reaches the site and construction begins."
@@ -964,7 +996,7 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_Description"		"Sends a Fire Remnant to the target location. The remnant travels based on Ember Spirit's movement speed and lasts for %duration% seconds."
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_duration"			"REMNANT DURATION:"
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_speed_multiplier"	"REMNANT SPEED:"
-		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_shard_description"	"Remnants deal %shard_damage_per_second% magical damage per second to enemies within %shard_radius% radius."
+		"DOTA_Tooltip_ability_ember_spirit_sleight_of_fist_shard_description"		"Grants 2 charges with the normal restore time."
 		"DOTA_Tooltip_ability_ember_spirit_fire_remnant_trinity_scepter_description"	"Increases cast range to 3000, remnant speed to 500%, and maximum charges to 5. Reduces Activate Fire Remnant mana cost to 75."
 		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity"					"Activate Fire Remnant"
 		"DOTA_Tooltip_ability_ember_spirit_activate_fire_remnant_trinity_Description"		"Ember Spirit dashes through every remnant, ending at the one nearest the targeted point. Enemies along the path and around each remnant take magical damage.\n\nDamage: %damage% + Mind Power × %mind_power_multiplier%."

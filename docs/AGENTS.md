@@ -256,7 +256,7 @@ local mind_power = GetHeroMindPower(caster) or 0
 local total = base_value + mind_power * self:GetSpecialValueFor("mind_power_multiplier")
 ```
 
-Герои/способности с действующим масштабированием от Mind Power в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Chen, Pudge, Ember Spirit, Lion и Shadow Fiend.
+Герои/способности с действующим масштабированием от Mind Power в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Chen, Pudge, Ember Spirit, Lion, Shadow Fiend и Tinker.
 
 ### Расширение через модификаторы
 
@@ -504,11 +504,15 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 | Слот | Способность | Статус |
 |------|-------------|--------|
-| E (Ability3) | `tinker_deploy_turrets_custom` | **Кастом** — сбрасывает три турели, отталкивает при падении и выпускает линейные ракеты; с Aghanim's Scepter ракеты становятся самонаводящимися Heat-Seeking Missiles |
-| Ult | `tinker_rearm_custom` | **Кастом** — мгновенно сбрасывает КД всех способностей Тинкера, кроме самой ульты, затем на 15 секунд задаёт использованным способностям и предметам перезарядку 4/3/2 секунды |
-| Остальные | Наследуются из ванильного Tinker | Ванильные |
+| Q | `tinker_laser_custom` | **Кастом** — чистый урон и ослепление; урон `75/150/225/300 + 1,5 × Mind Power` |
+| W | `tinker_march_of_the_machines_custom` | **Кастом** — линия спавна в 800 юнитах позади Тинкера; машины идут вперёд и взрываются; урон машины `13/22/31/40 + 0,25 × Mind Power` |
 
-**Lua:** `abilities/tinker/tinker_deploy_turrets_custom.lua`, `abilities/tinker/tinker_rearm_custom.lua`
+Debug-команда: `tinker_march_debug 1` рисует точку кастера, курсор, линию спавна и направление марша и пишет снимок каста в консоль; `tinker_march_debug 0` отключает.
+| E (Ability3) | `tinker_deploy_turrets_custom` | **Кастом** — сбрасывает три турели и отталкивает при падении; урон падения `40/80/120/160 + 1,0 × Mind Power`; каждая турель раз в `missile_spawn_interval` выпускает самонаводящийся снаряд в ближайшего видимого вражеского героя; урон ракеты `20/40/60/80 + 0,5 × Mind Power` |
+| D (Ability4) | `tinker_heat_seeking_missile` | Ванильный Heat-Seeking Missile |
+| Ult | `tinker_rearm_custom` | **Кастом** — мгновенно сбрасывает КД всех способностей Тинкера, кроме самой ульты, затем на 15 секунд задаёт использованным способностям и предметам перезарядку 3/2/1 секунды |
+
+**Lua:** `abilities/tinker/`
 
 ---
 
@@ -636,6 +640,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 
 - Основной барак, рабочие вышки и дополнительный барак имеют настоящий тип здания (`npc_dota_building` / `npc_dota_tower`), а не крипа. Во время полёта основной барак скрывается и переводится в `OUT_OF_GAME`, а его позицию и здоровье представляет уязвимый летающий прокси `npc_chen_barrack_flying` со способностью посадки в R-слоте; при посадке состояние переносится обратно в здание.
 - Юниты: worker, hunter, healer, brute
+- Все произведённые крипы получают `25/50/75%` сопротивления магии с уровнем барака; бонус динамически обновляется и у уже живых юнитов.
 - Farmland, производство, сбор ресурсов
 - При создании барак начинает с 3 живыми рабочими и 3 цветущими деревьями
 - `chen_sub_barrack`, `chen_worker_build`: Aghanim's Scepter даёт единый барак с общей очередью производства огромных курьеров и Ancient Black Dragon
@@ -669,6 +674,7 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | Слот | Способность |
 |------|-------------|
 | Q | `ember_searing_chains_trinity` |
+| W | `ember_spirit_sleight_of_fist` — ванильная способность; Shard даёт 2 заряда с обычным временем перезарядки на заряд |
 | E | `ember_flame_guard_passive` — пассивный щит; урон за заряд `1/2/3/4` в секунду + `0,25 × Mind Power` |
 | R | `ember_spirit_fire_remnant_trinity` |
 | Активация R | `ember_spirit_activate_fire_remnant_trinity` — полностью заменяет ванильную активацию в `Ability7` |
