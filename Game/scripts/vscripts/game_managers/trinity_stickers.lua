@@ -163,28 +163,31 @@ local function Post(path, body, playerID, extra)
 		headers = TrinityPlayerData.RequestHeaders(),
 		body = body,
 	}, function(response, meta)
-		if meta.status < 200 or meta.status >= 300 or not response or response.ok ~= true then
-			DebugPrint("post failed", path, meta.status, response and response.error)
-			return
-		end
-		local player = response.player
-		if type(player) ~= "table" then
-			return
-		end
-		ApplyPayload(playerID, player, {
-			sticker = extra and extra.sticker or response.sticker,
-			duplicate = extra and extra.duplicate or response.duplicate,
-		})
-		if extra and extra.event then
-			local playerEntity = PlayerResource:GetPlayer(playerID)
-			if playerEntity then
-				CustomGameEventManager:Send_ServerToPlayer(playerEntity, extra.event, {
-					sticker = response.sticker or "",
-					duplicate = (response.duplicate == true or response.duplicate == 1) and 1 or 0,
-				})
+		local player = response and response.player
+		local ok = meta.status >= 200 and meta.status < 300 and response and response.ok == true and type(player) == "table"
+
+		if ok then
+			ApplyPayload(playerID, player, {
+				sticker = extra and extra.sticker or response.sticker,
+				duplicate = extra and extra.duplicate or response.duplicate,
+			})
+			if extra and extra.event then
+				local playerEntity = PlayerResource:GetPlayer(playerID)
+				if playerEntity then
+					CustomGameEventManager:Send_ServerToPlayer(playerEntity, extra.event, {
+						sticker = response.sticker or "",
+						duplicate = (response.duplicate == true or response.duplicate == 1) and 1 or 0,
+					})
+				end
 			end
+			DebugPrint("post ok", path, playerID)
+		else
+			DebugPrint("post failed", path, meta.status, response and response.error)
 		end
-		DebugPrint("post ok", path, playerID)
+
+		if extra and extra.done then
+			extra.done(ok)
+		end
 	end)
 end
 
@@ -243,25 +246,123 @@ function TrinityStickers:OnSaveWheel(event)
 	Post("/v1/stickers/wheel", { steamid = steamid, slots = slots }, playerID)
 end
 
+-- Ключи каталога чувствительны к регистру, в консоли это неудобно.
+local function ResolveKey(value)
+	if type(value) ~= "string" or value == "" then
+		return nil
+	end
+	local lowered = string.lower(value)
+	for _, key in ipairs(TrinityStickers.CATALOG) do
+		if string.lower(key) == lowered then
+			return key
+		end
+	end
+	return nil
+end
+
+local function CatalogCopy()
+	local keys = {}
+	for _, key in ipairs(TrinityStickers.CATALOG) do
+		keys[#keys + 1] = key
+	end
+	return keys
+end
+
+function TrinityStickers:ParseGrantArgs(args)
+	if #args == 0 then
+		return nil, nil
+	end
+
+	local keys = {}
+	local used = {}
+	for _, value in ipairs(args) do
+		if string.lower(tostring(value)) == "all" then
+			return CatalogCopy()
+		end
+		local key = ResolveKey(value)
+		if not key then
+			return nil, tostring(value)
+		end
+		if not used[key] then
+			used[key] = true
+			keys[#keys + 1] = key
+		end
+	end
+	return keys
+end
+
+function TrinityStickers:GrantMany(playerID, keys)
+	if type(keys) ~= "table" or #keys == 0 then
+		return
+	end
+
+	if not TrinityPlayerData.CanWrite() then
+		local state = self.state[playerID] or EmptyState()
+		for _, key in ipairs(keys) do
+			state.owned[key] = true
+		end
+		state.loaded = true
+		state.last_drop = keys[#keys]
+		self.state[playerID] = state
+		Publish(playerID)
+		print("[TrinityStickers] granted locally: " .. table.concat(keys, ", "))
+		return
+	end
+
+	local steamid = TrinityPlayerData.SteamID(playerID)
+	if steamid == 0 then
+		print("[TrinityStickers] no steamid for player " .. tostring(playerID))
+		return
+	end
+
+	local index = 0
+	local granted = 0
+	local failed = {}
+
+	local function ApplyFallback()
+		if #failed == 0 then
+			return
+		end
+		local state = self.state[playerID] or EmptyState()
+		for _, key in ipairs(failed) do
+			state.owned[key] = true
+		end
+		state.loaded = true
+		self.state[playerID] = state
+		Publish(playerID)
+		print("[TrinityStickers] backend unavailable, granted for this match only: " .. table.concat(failed, ", "))
+	end
+
+	-- Запросы идут по одному: параллельные ответы могут прийти не по порядку,
+	-- и последний применённый payload оказался бы без части выданных стикеров.
+	local function GrantNext(ok)
+		if index > 0 then
+			if ok then
+				granted = granted + 1
+			else
+				failed[#failed + 1] = keys[index]
+			end
+		end
+		index = index + 1
+
+		local key = keys[index]
+		if key == nil then
+			print("[TrinityStickers] granted " .. granted .. "/" .. #keys)
+			ApplyFallback()
+			return
+		end
+		Post("/v1/stickers/grant", { steamid = steamid, sticker = key }, playerID, { done = GrantNext })
+	end
+	GrantNext(nil)
+end
+
 function TrinityStickers:Grant(playerID, key)
-	if not KnownKey(key) then
+	local resolved = ResolveKey(key)
+	if not resolved then
 		print("[TrinityStickers] unknown sticker " .. tostring(key))
 		return
 	end
-	local steamid = TrinityPlayerData.SteamID(playerID)
-	if steamid == 0 then
-		return
-	end
-	if TrinityPlayerData.CanWrite() then
-		Post("/v1/stickers/grant", { steamid = steamid, sticker = key }, playerID)
-		return
-	end
-	local state = self.state[playerID] or EmptyState()
-	state.owned[key] = true
-	state.loaded = true
-	state.last_drop = key
-	self.state[playerID] = state
-	Publish(playerID)
+	self:GrantMany(playerID, { resolved })
 end
 
 function TrinityStickers:ResetLootbox(playerID)
@@ -303,9 +404,18 @@ function TrinityStickers:Init()
 
 	if not _G.TRINITY_STICKER_COMMANDS_REGISTERED then
 		_G.TRINITY_STICKER_COMMANDS_REGISTERED = true
-		Convars:RegisterCommand("trinity_sticker_grant", function(_, key)
-			TrinityStickers:Grant(CommandPlayerID(), key)
-		end, "Grant sticker: trinity_sticker_grant Gura", FCVAR_CHEAT)
+		Convars:RegisterCommand("trinity_sticker_grant", function(_, ...)
+			local args = { ... }
+			local keys, unknown = TrinityStickers:ParseGrantArgs(args)
+			if not keys then
+				if unknown then
+					print("[TrinityStickers] unknown sticker " .. unknown)
+				end
+				print("[TrinityStickers] usage: trinity_sticker_grant <all|" .. table.concat(TrinityStickers.CATALOG, "|") .. ">")
+				return
+			end
+			TrinityStickers:GrantMany(CommandPlayerID(), keys)
+		end, "Grant stickers: trinity_sticker_grant <all|key> [key2 ...]", FCVAR_CHEAT)
 		Convars:RegisterCommand("trinity_sticker_reset_lootbox", function()
 			TrinityStickers:ResetLootbox(CommandPlayerID())
 		end, "Allow first lootbox again", FCVAR_CHEAT)

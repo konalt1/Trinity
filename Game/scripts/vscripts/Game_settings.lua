@@ -18,7 +18,6 @@ HERO_SELECTION_TIME = 60.0              -- Draft window; unpicked players are ra
 HERO_STRATEGY_TIME = 0					-- Skip strategy: a picked player goes to the map immediately
 HERO_SHOWCASE_TIME = 0					-- Shocase time on start game
 WARMUP_POST_PREGAME_TIME = 30.0         -- After warmup the clock is -0:30 until creeps at 0:00
-ALLOW_HERO_PICK_MUSIC = false           -- Vanilla pick drone would loop through the whole warmup until ~0:04
 
 GAMESETUP_lOCK = false
 GAMESETUP_TIME = 15
@@ -102,7 +101,6 @@ function GameSettings:InitGameSettings()
 	GameRules:SetSameHeroSelectionEnabled( ALLOW_SAME_HERO_SELECTION )
 	GameRules:SetEnableAlternateHeroGrids( ENABLE_ALTERNATE_HERO_GRIDS )
 	GameRules:SetHeroSelectionTime( HERO_SELECTION_TIME )
-	GameRules:SetCustomGameAllowHeroPickMusic( ALLOW_HERO_PICK_MUSIC )
 	if GameRules.SetHeroSelectPenaltyTime then
 		GameRules:SetHeroSelectPenaltyTime( 0 )
 	end

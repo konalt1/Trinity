@@ -431,13 +431,22 @@ end
 
 function DraftSpawn:LockNightUntilLanePhase()
 	local before = GameRules:GetTimeOfDay()
-	local mode = GameRules:GetGameModeEntity()
-	if mode and mode.SetDaynightCycleDisabled then
-		mode:SetDaynightCycleDisabled(true)
-	end
-	GameRules:SetTimeOfDay(0.75)
-
 	local drifted = math.abs((before or 0) - 0.75) > 0.02
+
+	-- Вызывается каждые 0.1 сек: движок трогаем только при расхождении,
+	-- иначе каждый SetTimeOfDay заново запускает клиентский ночной эмбиент.
+	if drifted or not self._daynightCycleLocked then
+		local mode = GameRules:GetGameModeEntity()
+		if mode and mode.SetDaynightCycleDisabled then
+			mode:SetDaynightCycleDisabled(true)
+		end
+		self._daynightCycleLocked = true
+	end
+
+	if drifted then
+		GameRules:SetTimeOfDay(0.75)
+	end
+
 	local key = self:StateName() .. ":" .. tostring(self.warmupEnded)
 	if drifted or self._lastNightDebugKey ~= key then
 		self._lastNightDebugKey = key
@@ -472,6 +481,7 @@ function DraftSpawn:EnableLanePhaseSystems()
 	if mode and mode.SetDaynightCycleDisabled then
 		mode:SetDaynightCycleDisabled(false)
 	end
+	self._daynightCycleLocked = false
 	GameRules:SetTimeOfDay(0.25)
 	self:DebugDayNight("day-start", before)
 
