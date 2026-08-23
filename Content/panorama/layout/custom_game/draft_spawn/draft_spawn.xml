@@ -1,0 +1,6 @@
+<root>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/draft_spawn.js" />
+    </scripts>
+    <Panel />
+</root>

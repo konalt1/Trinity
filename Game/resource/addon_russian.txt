@@ -26,7 +26,20 @@
 		"chat_wheel_donate_sound_StickerOne"						"Стикер 1"
 		"chat_wheel_donate_sound_StickerTwo"						"Стикер 2"
 		"chat_wheel_donate_sound_Anime"							"Довольный"
-		
+		"chat_wheel_donate_sound_empty"							""
+
+		"sticker_editor_title"									"Стикеры"
+		"sticker_editor_toggle"									"Стикеры"
+		"sticker_editor_hint"									"Перетаскивайте, чтобы изменить"
+		"sticker_editor_wheel"									"Колесо"
+		"sticker_editor_collection"								"Коллекция"
+		"sticker_editor_hide_locked"							"Скрыть недоступные"
+		"sticker_editor_equipped"								"На колесе"
+		"sticker_editor_empty"									"Пусто"
+		"sticker_editor_locked"									"Не открыт"
+		"sticker_editor_open"									"Открыть лутбокс"
+		"sticker_editor_continue"								"Дальше"
+		"sticker_editor_duplicate"								"Уже есть"
 		
 		"dota_error_cooldown_chat_wheel"					"Фразы на перезарядке"
 
@@ -679,6 +692,12 @@
 		"shard_pool_capture"												"Противник захватывает Аганимный фонтан!"
 		"roshan_spawn"														"На карту вошёл Рошан!"
 		"mortimer_spawn"												"Мортимер вышел на охоту!"
+		"trinity_warmup_started"										"Разминка началась"
+		"trinity_warmup_ended"											"Разминка закончилась"
+		"trinity_warmup_widget_title"									"Разминка"
+		"trinity_warmup_level_up"										"+1 уровень"
+		"trinity_warmup_max_level"										"Max"
+		"trinity_warmup_refresh"										"Refresh"
 
 		// =============================================
 		// Chen

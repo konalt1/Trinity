@@ -82,6 +82,10 @@ function modifier_empty_ability:OnIntervalThink()
 
         self.reward_accumulator = self.reward_accumulator - 1.0
 
+        if DraftSpawn and DraftSpawn.IsSandboxActive and DraftSpawn:IsSandboxActive() then
+            return
+        end
+
         parent:AddExperience(2, DOTA_ModifyXP_Unspecified, false, false)
 
         parent:ModifyGold(2, true, DOTA_ModifyGold_Unspecified)

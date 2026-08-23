@@ -53,42 +53,50 @@ function GameMode:OnGameRulesStateChange()
 	local newState = GameRules:State_Get()
 
 	if newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		GameRules:SetTimeOfDay(0.25)
+		local startMatch = function()
+			GameRules:SetTimeOfDay(0.25)
 
-		-- Множитель времени респауна (0.2 ≈ в 5 раз быстрее таймер смерти). Нужен GetGameModeEntity() и ':' для Lua.
-		GameRules:GetGameModeEntity():SetRespawnTimeScale(0.7)
+			-- Множитель времени респауна (0.2 ≈ в 5 раз быстрее таймер смерти). Нужен GetGameModeEntity() и ':' для Lua.
+			GameRules:GetGameModeEntity():SetRespawnTimeScale(0.7)
 
-		-- Сбрасываем флаг спавна крипов
-		GameMode.lane_creeps_spawned = false
-		
-		-- Spawn neutral creeps with retries to ensure all spawners are ready
-		Timers:CreateTimer(1.0, function()
-			GameRules:SpawnNeutralCreeps()
-		end)
-		Timers:CreateTimer(3.0, function()
-			GameRules:SpawnNeutralCreeps()
-		end)
-		GameMode:LineBossSpawner()
-		
-		-- Делаем все башни и троны неуязвимыми
-		GameMode:MakeTowersInvulnerable()
-		GameMode:MakeAncientsInvulnerable()
-		
-		-- Запускаем проверку спавна лейн крипов через таймер
-		-- На случай если крипы заспавнятся до того как сработает OnNPCSpawned
-		Timers:CreateTimer(1.0, function()
-			if not GameMode.lane_creeps_spawned then
-				-- Пробуем найти крипов
-				local creep = Entities:FindByClassname(nil, "npc_dota_creep")
-				
-				if creep ~= nil then
-					GameMode.lane_creeps_spawned = true
-					GameMode:UnlockTier1Towers()
-				else
-					return 1.0 -- Проверяем снова через 1 секунду
+			-- Сбрасываем флаг спавна крипов
+			GameMode.lane_creeps_spawned = false
+
+			-- Spawn neutral creeps with retries to ensure all spawners are ready
+			Timers:CreateTimer(1.0, function()
+				GameRules:SpawnNeutralCreeps()
+			end)
+			Timers:CreateTimer(3.0, function()
+				GameRules:SpawnNeutralCreeps()
+			end)
+			GameMode:LineBossSpawner()
+
+			-- Делаем все башни и троны неуязвимыми
+			GameMode:MakeTowersInvulnerable()
+			GameMode:MakeAncientsInvulnerable()
+
+			-- Запускаем проверку спавна лейн крипов через таймер
+			-- На случай если крипы заспавнятся до того как сработает OnNPCSpawned
+			Timers:CreateTimer(1.0, function()
+				if not GameMode.lane_creeps_spawned then
+					-- Пробуем найти крипов
+					local creep = Entities:FindByClassname(nil, "npc_dota_creep")
+
+					if creep ~= nil then
+						GameMode.lane_creeps_spawned = true
+						GameMode:UnlockTier1Towers()
+					else
+						return 1.0 -- Проверяем снова через 1 секунду
+					end
 				end
-			end
-		end)
+			end)
+		end
+
+		if DraftSpawn and DraftSpawn.WhenMatchStarts then
+			DraftSpawn:WhenMatchStarts(startMatch)
+		else
+			startMatch()
+		end
 	end
 end
 
@@ -422,6 +430,9 @@ end
 
 function GameMode:OnNPCSpawned(data)
  	local npc = EntIndexToHScript(data.entindex)
+	if DraftSpawn and DraftSpawn.IsWarmupDummyUnit and DraftSpawn:IsWarmupDummyUnit(npc) then
+		return
+	end
 
 	if EnsureYashaCombinationArmor then
 		EnsureYashaCombinationArmor(npc)
@@ -547,6 +558,13 @@ function GameMode:OnInventoryUpdate(data)
 end
 
 function GameMode:ModifyGoldFilter(data)
+	if DraftSpawn and DraftSpawn.ModifyGoldFilter then
+		local result = DraftSpawn:ModifyGoldFilter(data)
+		if result == false then
+			return false
+		end
+	end
+
 	if KillfeedSystem and KillfeedSystem.ModifyGoldFilter then
 		local result = KillfeedSystem:ModifyGoldFilter(data)
 		if result == false then
@@ -563,7 +581,24 @@ function GameMode:ModifyGoldFilter(data)
 	return true
 end
 
+function GameMode:ModifyExperienceFilter(data)
+	if DraftSpawn and DraftSpawn.ModifyExperienceFilter then
+		local result = DraftSpawn:ModifyExperienceFilter(data)
+		if result == false then
+			return false
+		end
+	end
+	return true
+end
+
 function GameMode:ExecuteOrderFilter(data)
+	if DraftSpawn and DraftSpawn.ExecuteOrderFilter then
+		local result = DraftSpawn:ExecuteOrderFilter(data)
+		if result == false then
+			return false
+		end
+	end
+
 	if MortimerBoss and MortimerBoss.DebugAttackOrder then
 		MortimerBoss:DebugAttackOrder(data)
 	end
@@ -600,6 +635,10 @@ function GameMode:OnEntityKilled(keys)
 	local unit = EntIndexToHScript(keys.entindex_killed)
 	if not unit or (unit.IsNull and unit:IsNull()) then
 		return
+	end
+
+	if DraftSpawn and DraftSpawn.OnHeroKilled then
+		DraftSpawn:OnHeroKilled(unit)
 	end
 
 	local unit_name = unit:GetUnitName()
@@ -708,6 +747,9 @@ function GameMode:OnChatWheelSelect(data)
     if GameMode.CHAT_WHEEL_COOLDOWN > 0 and infoCooldown.cooldown_chat == 1 then return end
     if not sound then return end
     if not hero then return end
+	if TrinityStickers and not TrinityStickers:IsEquipped(data.PlayerID, sound) then
+		return
+	end
 
 	if GameMode.CHAT_WHEEL_COOLDOWN > 0 then
 		CustomNetTables:SetTableValue("cooldown_info", tostring(data.PlayerID), {cooldown_chat = 1});
@@ -721,7 +763,7 @@ function GameMode:OnChatWheelSelect(data)
       hero = hero:entindex(),
       playerID = data.PlayerID,
       sound = sound,
-	  maxTime = data.maxTime
+	  maxTime = TrinityStickers and TrinityStickers:MaxTime(sound) or data.maxTime
     });
 end
 

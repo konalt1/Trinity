@@ -41,4 +41,27 @@
         "assist_gold"   "long"
         "assist_count"  "short"
     }
+
+    "trinity_warmup_started"
+    {
+        "player_id"     "short"
+        "gold"          "long"
+        "remaining"     "float"
+        "x"             "float"
+        "y"             "float"
+        "z"             "float"
+    }
+
+    "trinity_warmup_ended"
+    {
+        "ended"         "bool"
+    }
+
+    "trinity_player_entered_map"
+    {
+        "player_id"     "short"
+        "x"             "float"
+        "y"             "float"
+        "z"             "float"
+    }
 }

@@ -114,5 +114,7 @@
 		volume = 1
 		pitch = 1
 		vsnd_files = "sounds/holy_ambient.vsnd"
+		vsnd_duration = 3.0
+		volume_fade_out = 0.3
 	}
 }

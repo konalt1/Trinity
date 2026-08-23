@@ -478,8 +478,22 @@ function KillfeedSystem:GetTowerKillRewardTeam(attacker, killedHero)
 	return rewardTeam
 end
 
+function KillfeedSystem:ShouldBlockHeroKillRewards()
+	return DraftSpawn and DraftSpawn.ShouldBlockHeroKillRewards and DraftSpawn:ShouldBlockHeroKillRewards()
+end
+
 function KillfeedSystem:ApplyHeroKillBounty(hero)
 	if not self:IsRealHero(hero) then
+		return
+	end
+
+	if self:ShouldBlockHeroKillRewards() then
+		if hero.SetMinimumGoldBounty then
+			hero:SetMinimumGoldBounty(0)
+		end
+		if hero.SetMaximumGoldBounty then
+			hero:SetMaximumGoldBounty(0)
+		end
 		return
 	end
 
@@ -489,6 +503,18 @@ function KillfeedSystem:ApplyHeroKillBounty(hero)
 	end
 	if hero.SetMaximumGoldBounty then
 		hero:SetMaximumGoldBounty(reward)
+	end
+end
+
+function KillfeedSystem:RefreshHeroKillBounties()
+	if not PlayerResource then
+		return
+	end
+
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsValidPlayerID(playerID) then
+			self:ApplyHeroKillBounty(self:GetPlayerHero(playerID))
+		end
 	end
 end
 
@@ -780,6 +806,9 @@ function KillfeedSystem:ClearDamageRecord(killedHero)
 end
 
 function KillfeedSystem:GrantHeroAssistGold(killedHero, killerHero, killerPlayerID)
+	if self:ShouldBlockHeroKillRewards() then
+		return 0, 0
+	end
 	local assistPlayerIDs = self:GetAssistPlayerIDs(killedHero, killerPlayerID)
 	local participatingHeroCount = #assistPlayerIDs + 1
 	local assistGold = self:GetHeroAssistGoldReward(killedHero, killerHero, killerHero, participatingHeroCount)
@@ -805,6 +834,10 @@ function KillfeedSystem:GrantHeroAssistGold(killedHero, killerHero, killerPlayer
 end
 
 function KillfeedSystem:GrantTeamHeroKillGold(killedHero, rewardTeam)
+	if self:ShouldBlockHeroKillRewards() then
+		self:ClearDamageRecord(killedHero)
+		return 0
+	end
 	local playerIDs = self:GetTeamPlayerIDs(rewardTeam)
 	if #playerIDs == 0 then
 		return 0
@@ -861,6 +894,10 @@ function KillfeedSystem:SendKillfeedEvent(killerHero, killedHero, actualGold, as
 end
 
 function KillfeedSystem:GrantHeroKillGold(keys, killedHero)
+	if self:ShouldBlockHeroKillRewards() then
+		self:ClearDamageRecord(killedHero)
+		return
+	end
 	if not self:IsRealHero(killedHero) then
 		return
 	end

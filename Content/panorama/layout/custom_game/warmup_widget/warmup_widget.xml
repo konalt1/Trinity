@@ -1,0 +1,34 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+        <include src="file://{resources}/layout/custom_game/warmup_widget/warmup_widget.css"/>
+    </styles>
+    <scripts>
+        <include src="file://{resources}/layout/custom_game/warmup_widget/warmup_widget.js"/>
+    </scripts>
+    <Panel class="WarmupWidgetRoot" hittest="false">
+        <Panel id="WarmupColumn" class="WarmupColumn Hidden" hittest="false">
+            <Button id="WarmupStickers" class="PopupButton WarmupButton WarmupStickersButton">
+                <Label text="#sticker_editor_toggle"/>
+            </Button>
+            <Panel id="WarmupWidget" hittest="false">
+                <Panel class="WarmupHeader">
+                    <Label id="WarmupTitle" text="#trinity_warmup_widget_title"/>
+                </Panel>
+                <Label id="WarmupTimer" class="MonoNumbersFont" text="0:00"/>
+                <Panel class="WarmupDivider"/>
+                <Panel class="WarmupButtons">
+                    <Button id="WarmupLevelUp" class="PopupButton WarmupButton">
+                        <Label text="#trinity_warmup_level_up"/>
+                    </Button>
+                    <Button id="WarmupMaxLevel" class="PopupButton WarmupButton">
+                        <Label text="#trinity_warmup_max_level"/>
+                    </Button>
+                    <Button id="WarmupRefresh" class="PopupButton WarmupButton">
+                        <Label text="#trinity_warmup_refresh"/>
+                    </Button>
+                </Panel>
+            </Panel>
+        </Panel>
+    </Panel>
+</root>

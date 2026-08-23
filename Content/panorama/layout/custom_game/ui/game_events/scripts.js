@@ -675,15 +675,24 @@ function ScheduleNativeKillfeedPatch(data) {
 GameEvents.Subscribe("draw_game_event", ({
     color = "white",
     duration = 3,
-    sound_event = "_game_events.template_sound_event",
+    sound_event = "",
     text_token = "TEMPLATE TITLE TEXT",
 }) => {
     PANEL_TITLE.AddClass("IsDraw");
     PANEL_TITLE.text = $.Localize(text_token);
     PANEL_TITLE.style.washColor = color;
 
-    $.Schedule(duration, () => PANEL_TITLE.RemoveClass("IsDraw"));
-    Game.EmitSound(sound_event);
+    let soundGuid = 0;
+    if (sound_event) {
+        soundGuid = Game.EmitSound(sound_event);
+    }
+
+    $.Schedule(duration, () => {
+        PANEL_TITLE.RemoveClass("IsDraw");
+        if (soundGuid) {
+            Game.StopSound(soundGuid);
+        }
+    });
 });
 
 GameEvents.Subscribe("trinity_kill_toast", ScheduleNativeKillfeedPatch);

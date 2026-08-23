@@ -37,7 +37,13 @@ function ItemDrop:OnGameRulesStateChange()
 	local newState = GameRules:State_Get()
 
 	if newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		ItemDrop:SpawnItems()
+		if DraftSpawn and DraftSpawn.WhenMatchStarts then
+			DraftSpawn:WhenMatchStarts(function()
+				ItemDrop:SpawnItems()
+			end)
+		else
+			ItemDrop:SpawnItems()
+		end
 	end
 end
 

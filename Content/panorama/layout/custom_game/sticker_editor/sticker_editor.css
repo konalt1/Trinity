@@ -1,0 +1,430 @@
+.StickerEditorRoot {
+    width: 100%;
+    height: 100%;
+}
+
+.StickerModal {
+    width: 100%;
+    height: 100%;
+    visibility: collapse;
+}
+
+.StickerModal.Visible {
+    visibility: visible;
+}
+
+.StickerDim {
+    width: 100%;
+    height: 100%;
+    background-color: #05080ccc;
+}
+
+.StickerWindow {
+    align: center center;
+    width: 1024px;
+    height: 574px;
+    flow-children: right;
+    background-color: #10151b;
+    border: 1px solid #39424e;
+    box-shadow: fill #000000cc 0px 6px 28px 0px;
+}
+
+.StickerWheelPane {
+    width: 620px;
+    height: 100%;
+    flow-children: down;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#1c222a), to(#151a21));
+}
+
+.StickerPaneTitle {
+    margin: 14px 0px 0px 18px;
+    font-family: titleFont, Reaver;
+    font-size: 17px;
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #dfe5ec;
+}
+
+.StickerHint {
+    margin: 2px 0px 0px 18px;
+    font-size: 14px;
+    color: #7d8794;
+}
+
+.WheelArea {
+    width: 100%;
+    height: fill-parent-flow(1.0);
+}
+
+.WheelCenterRing {
+    align: center center;
+    width: 96px;
+    height: 96px;
+    background-image: url("s2r://panorama/images/chat_wheel/circle_bg_png.vtex");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.WheelCenterCursor {
+    align: center center;
+    width: 46px;
+    height: 46px;
+    background-image: url("s2r://panorama/images/chat_wheel/center_cursor_png.vtex");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.WheelSlots {
+    width: 100%;
+    height: 100%;
+}
+
+.WheelSlot {
+    align: center center;
+    width: 176px;
+    height: 84px;
+    flow-children: down;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.1s;
+}
+
+.WheelSlot:hover {
+    pre-transform-scale2d: 1.06;
+}
+
+.WheelSlotPreview {
+    horizontal-align: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 26px;
+    background-color: #0a0e13;
+    border: 1px solid #4d5866;
+}
+
+.WheelSlot.Empty .WheelSlotPreview {
+    background-color: #0d1218;
+    border: 1px solid #313b46;
+}
+
+.WheelSlotMovie {
+    width: 100%;
+    height: 100%;
+    border-radius: 26px;
+}
+
+.WheelSlotCapsule {
+    horizontal-align: center;
+    margin-top: 4px;
+    width: fit-children;
+    max-width: 176px;
+    height: 26px;
+    padding: 0px 12px;
+    border-radius: 13px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#5b6675), to(#39424e));
+    border: 1px solid #6d7986;
+}
+
+.WheelSlot.Empty .WheelSlotCapsule {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#2c343d), to(#20262d));
+    border: 1px solid #3a4552;
+}
+
+.WheelSlotLabel {
+    align: center center;
+    max-width: 152px;
+    font-size: 14px;
+    color: #e6ebf1;
+    text-overflow: shrink;
+    text-shadow: 0px 1px 3px 2 #000000;
+}
+
+.WheelSlot.Empty .WheelSlotLabel {
+    color: #78828f;
+}
+
+.WheelSlot.DragOver .WheelSlotPreview {
+    border: 2px solid #f0d78c;
+    box-shadow: fill #f0d78c66 0px 0px 10px 0px;
+}
+
+.WheelSlot.Picked .WheelSlotCapsule {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#7a6a33), to(#4c4120));
+    border: 1px solid #e2c56a;
+}
+
+.WheelSlot0 {
+    transform: translate3d(0px, -170px, 0px);
+}
+
+.WheelSlot1 {
+    transform: translate3d(150px, -100px, 0px);
+}
+
+.WheelSlot2 {
+    transform: translate3d(196px, 0px, 0px);
+}
+
+.WheelSlot3 {
+    transform: translate3d(150px, 100px, 0px);
+}
+
+.WheelSlot4 {
+    transform: translate3d(0px, 170px, 0px);
+}
+
+.WheelSlot5 {
+    transform: translate3d(-150px, 100px, 0px);
+}
+
+.WheelSlot6 {
+    transform: translate3d(-196px, 0px, 0px);
+}
+
+.WheelSlot7 {
+    transform: translate3d(-150px, -100px, 0px);
+}
+
+.StickerListPane {
+    width: fill-parent-flow(1.0);
+    height: 100%;
+    flow-children: down;
+    background-color: #171d24;
+    border-left: 1px solid #2b333c;
+}
+
+.StickerListHeader {
+    width: 100%;
+    height: 48px;
+    flow-children: right;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#252d36), to(#1b2229));
+    border-bottom: 1px solid #2b333c;
+}
+
+.StickerListTitle {
+    vertical-align: center;
+    margin-left: 16px;
+    width: fill-parent-flow(1.0);
+    font-family: titleFont, Reaver;
+    font-size: 17px;
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #dfe5ec;
+}
+
+.StickerCloseButton {
+    vertical-align: center;
+    margin-right: 10px;
+    width: 28px;
+    height: 28px;
+    background-color: #2b333c;
+    border: 1px solid #3d4750;
+}
+
+.StickerCloseButton:hover {
+    background-color: #8c3b34;
+    border: 1px solid #c25a50;
+}
+
+.StickerCloseButton Label {
+    align: center center;
+    font-size: 14px;
+    color: #dfe5ec;
+}
+
+.LootboxRow {
+    width: 100%;
+    padding: 10px 12px 0px 12px;
+    visibility: collapse;
+}
+
+.LootboxRow.ShowLootbox {
+    visibility: visible;
+}
+
+.LootboxButton {
+    width: 100%;
+    height: 40px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#7a5a1c), to(#3d2c0c));
+    border: 1px solid #e2c56a;
+    padding: 0px 12px;
+}
+
+.LootboxButton Label {
+    align: center center;
+    color: #fff4d4;
+    font-size: 15px;
+}
+
+.LootboxButton:hover {
+    brightness: 1.2;
+}
+
+.StickerFilterRow {
+    width: 100%;
+    height: 38px;
+    flow-children: right;
+    padding: 0px 12px;
+    background-color: #131922;
+    border-bottom: 1px solid #2b333c;
+}
+
+.StickerCheckboxBox {
+    vertical-align: center;
+    width: 16px;
+    height: 16px;
+    background-color: #0c1117;
+    border: 1px solid #5b6675;
+}
+
+.StickerFilterRow:hover .StickerCheckboxBox {
+    border: 1px solid #8b96a4;
+}
+
+.StickerCheckboxBox.Checked {
+    background-color: #4a7fb5;
+    border: 1px solid #7fb0dd;
+}
+
+.StickerCheckboxLabel {
+    vertical-align: center;
+    margin-left: 8px;
+    font-size: 15px;
+    color: #c8d0dc;
+}
+
+.StickerListScroll {
+    width: 100%;
+    height: fill-parent-flow(1.0);
+    overflow: squish scroll;
+}
+
+.CollectionList {
+    width: 100%;
+    flow-children: down;
+    padding: 6px 0px 10px 0px;
+}
+
+.CollectionRow {
+    width: 100%;
+    height: 62px;
+    flow-children: right;
+    padding: 0px 12px;
+    border-bottom: 1px solid #1f262e;
+}
+
+.CollectionRow:hover {
+    background-color: #222b35;
+}
+
+.CollectionRow.Selected {
+    background-color: #2d3a24;
+    border-left: 3px solid #a9c98a;
+}
+
+.CollectionRow.Locked {
+    brightness: 0.4;
+    saturation: 0.15;
+}
+
+.CollectionPreview {
+    vertical-align: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 23px;
+    background-color: #0a0e13;
+    border: 1px solid #4d5866;
+}
+
+.CollectionMovie {
+    width: 100%;
+    height: 100%;
+    border-radius: 23px;
+}
+
+.CollectionName {
+    vertical-align: center;
+    margin-left: 12px;
+    width: fill-parent-flow(1.0);
+    font-size: 16px;
+    color: #dfe5ec;
+    text-overflow: shrink;
+}
+
+.CollectionRow.Locked .CollectionName {
+    color: #8b96a4;
+}
+
+.CollectionEquipped {
+    vertical-align: center;
+    margin-left: 8px;
+    font-size: 13px;
+    color: #a9c98a;
+}
+
+.StickerDragDisplay {
+    width: 52px;
+    height: 52px;
+    border-radius: 26px;
+    border: 1px solid #f0d78c;
+    background-color: #0a0e13;
+}
+
+.StickerDragMovie {
+    width: 100%;
+    height: 100%;
+    border-radius: 26px;
+}
+
+.RevealOverlay {
+    width: 100%;
+    height: 100%;
+    background-color: #000000dd;
+    visibility: collapse;
+}
+
+.RevealOverlay.ShowReveal {
+    visibility: visible;
+}
+
+.RevealCard {
+    width: 300px;
+    height: 380px;
+    align: center center;
+    flow-children: down;
+    padding: 18px;
+    background-color: #171d24;
+    border: 1px solid #e2c56a;
+    box-shadow: fill #000000cc 0px 4px 20px 0px;
+}
+
+.RevealMovie {
+    width: 180px;
+    height: 180px;
+    horizontal-align: center;
+    border-radius: 90px;
+    margin-top: 8px;
+}
+
+.RevealName {
+    horizontal-align: center;
+    margin-top: 12px;
+    font-size: 20px;
+    color: #f0d78c;
+}
+
+.RevealDuplicate {
+    horizontal-align: center;
+    margin-top: 6px;
+    color: #c9b48a;
+    visibility: collapse;
+}
+
+.RevealDuplicate.ShowDuplicate {
+    visibility: visible;
+}
+
+#RevealContinue {
+    margin-top: 16px;
+}

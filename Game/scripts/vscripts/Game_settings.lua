@@ -14,13 +14,15 @@ ALLOW_SAME_HERO_SELECTION = false        -- Should we let people select the same
 ENABLE_ALTERNATE_HERO_GRIDS = false      -- Should players be allowed to use alternate hero grids (Dota+, etc.)
 FREE_COURIER_ENABLED = true
 
-HERO_SELECTION_TIME = 60.0              -- How long should we let people select their hero?
-HERO_STRATEGY_TIME = 30.0					-- How long players being in stage after select hero?
+HERO_SELECTION_TIME = 60.0              -- Draft window; unpicked players are randomed at the end
+HERO_STRATEGY_TIME = 0					-- Skip strategy: a picked player goes to the map immediately
 HERO_SHOWCASE_TIME = 0					-- Shocase time on start game
+WARMUP_POST_PREGAME_TIME = 30.0         -- After warmup the clock is -0:30 until creeps at 0:00
+ALLOW_HERO_PICK_MUSIC = false           -- Vanilla pick drone would loop through the whole warmup until ~0:04
 
 GAMESETUP_lOCK = false
 GAMESETUP_TIME = 15
-PRE_GAME_TIME = 30.0                    -- How long after people select their heroes should the horn blow and the game start?
+PRE_GAME_TIME = WARMUP_POST_PREGAME_TIME -- Native pre-game after pick; DraftSpawn keeps -1:30 during draft
 POST_GAME_TIME = 30.0                   -- How long should we let people look at the scoreboard before closing the server automatically?
 TREE_REGROW_TIME = 180.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
 
@@ -100,6 +102,10 @@ function GameSettings:InitGameSettings()
 	GameRules:SetSameHeroSelectionEnabled( ALLOW_SAME_HERO_SELECTION )
 	GameRules:SetEnableAlternateHeroGrids( ENABLE_ALTERNATE_HERO_GRIDS )
 	GameRules:SetHeroSelectionTime( HERO_SELECTION_TIME )
+	GameRules:SetCustomGameAllowHeroPickMusic( ALLOW_HERO_PICK_MUSIC )
+	if GameRules.SetHeroSelectPenaltyTime then
+		GameRules:SetHeroSelectPenaltyTime( 0 )
+	end
 	GameRules:SetStrategyTime( HERO_STRATEGY_TIME )	
 	GameRules:SetShowcaseTime( HERO_SHOWCASE_TIME )	
 	GameRules:SetPreGameTime( PRE_GAME_TIME)
@@ -159,6 +165,9 @@ function GameSettings:InitGameSettings()
 
 	self.bSeenWaitForPlayers = false
 
+	if DraftSpawn and DraftSpawn.Init then
+		DraftSpawn:Init()
+	end
 end
 
 mode = nil
@@ -345,7 +354,13 @@ function GameSettings:OnGameRulesStateChange(keys)
 	if newState == DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD then
 		self.bSeenWaitForPlayers = true
 	elseif newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		GameSettings:OnGameInProgress()
+		if DraftSpawn and DraftSpawn.WhenMatchStarts then
+			DraftSpawn:WhenMatchStarts(function()
+				GameSettings:OnGameInProgress()
+			end)
+		else
+			GameSettings:OnGameInProgress()
+		end
 	end
 end
 
@@ -518,6 +533,9 @@ end
 -- An NPC has spawned somewhere in game.  This includes heroes
 function GameSettings:OnNPCSpawned(keys)
 	local npc = EntIndexToHScript(keys.entindex)
+	if DraftSpawn and DraftSpawn.IsWarmupDummyUnit and DraftSpawn:IsWarmupDummyUnit(npc) then
+		return
+	end
 	local name = npc:GetUnitName()
 	
 	if npc:IsRealHero() and npc.bFirstSpawned == nil then

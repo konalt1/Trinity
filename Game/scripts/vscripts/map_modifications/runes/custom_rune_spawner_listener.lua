@@ -124,6 +124,12 @@ function CustomRuneSpawnerThink()
     end
 
     local gameTime = GameRules:GetDOTATime(false, false)
+    if DraftSpawn and DraftSpawn.IsMatchStarted and not DraftSpawn:IsMatchStarted() then
+        return THINK_INTERVAL
+    end
+    if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+        return THINK_INTERVAL
+    end
     if gameTime < 0 then
         return THINK_INTERVAL
     end

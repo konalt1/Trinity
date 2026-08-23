@@ -21,12 +21,20 @@ end
 
 function xp_think:OnGameStateChange()
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-        GameRules:GetGameModeEntity():SetThink(
-            "OnThink",
-            self,
-            "xp_think",
-            self.interval
-        )
+        local startXp = function()
+            GameRules:GetGameModeEntity():SetThink(
+                "OnThink",
+                self,
+                "xp_think",
+                self.interval
+            )
+        end
+
+        if DraftSpawn and DraftSpawn.WhenMatchStarts then
+            DraftSpawn:WhenMatchStarts(startXp)
+        else
+            startXp()
+        end
     end
 end
 

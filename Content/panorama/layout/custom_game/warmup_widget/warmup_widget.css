@@ -1,0 +1,144 @@
+.WarmupWidgetRoot {
+    width: 100%;
+    height: 100%;
+}
+
+.WarmupColumn {
+    horizontal-align: left;
+    vertical-align: center;
+    margin-left: 8px;
+    margin-bottom: 220px;
+    width: 220px;
+    flow-children: down;
+}
+
+.WarmupColumn.Hidden {
+    visibility: collapse;
+}
+
+#WarmupWidget {
+    width: 100%;
+    flow-children: down;
+    background-color: #000000ee;
+    border: 1px solid #000000;
+    box-shadow: fill #000000aa 0px 0px 8px 0px;
+}
+
+.WarmupStickersButton {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#6b5a2e), to(#443714));
+    border-top: 1px solid #ffffff22;
+    border-left: 1px solid #ffffff22;
+    border-right: 1px solid #00000088;
+    border-bottom: 1px solid #00000088;
+    margin-bottom: 8px;
+}
+
+.WarmupStickersButton:hover {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#7d6a37), to(#54441a));
+    brightness: 1.15;
+}
+
+.WarmupStickersButton Label {
+    color: #ffe6ac;
+}
+
+.WarmupHeader {
+    width: 100%;
+    height: 28px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#4a5058), to(#272b30));
+    border-top: 1px solid #6b727a;
+    border-bottom: 1px solid #000000;
+}
+
+#WarmupTitle {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    vertical-align: center;
+    font-family: titleFont, Reaver;
+    font-size: 16px;
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#9a9a9a));
+    text-shadow: 0px 1px 4px 2 #000000;
+    text-overflow: shrink;
+}
+
+#WarmupTimer {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-size: 28px;
+    color: #ffcc33;
+    text-shadow: 0px 0px 6px 2 #000000;
+}
+
+.WarmupDivider {
+    width: 90%;
+    height: 1px;
+    horizontal-align: center;
+    margin-bottom: 6px;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#00000000), color-stop(0.5, #8a7a4a88), to(#00000000));
+}
+
+.WarmupButtons {
+    width: 100%;
+    flow-children: down;
+    padding: 2px 12px 12px 12px;
+}
+
+.WarmupButton {
+    width: 100%;
+    min-width: 0px;
+    max-width: 100%;
+    height: 36px;
+    margin: 0px 0px 6px 0px;
+    padding: 0px 8px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#5a6c75), to(#3d4a50));
+    border-top: 1px solid #ffffff11;
+    border-left: 1px solid #ffffff11;
+    border-right: 1px solid #00000088;
+    border-bottom: 1px solid #00000088;
+    transition-property: background-color, brightness;
+    transition-duration: 0.1s;
+}
+
+.WarmupButton:hover {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#67787c), to(#4d5a60));
+    brightness: 1.15;
+}
+
+.WarmupButton:active {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#3d4a50), to(#5a6c75));
+    border-top: 1px solid #00000088;
+    border-left: 1px solid #00000088;
+    border-right: 1px solid #ffffff11;
+    border-bottom: 1px solid #ffffff11;
+}
+
+.WarmupButton:disabled {
+    brightness: 0.3;
+    saturation: 0.2;
+}
+
+#WarmupRefresh.WarmupButton {
+    margin-bottom: 0px;
+}
+
+.WarmupButton Label {
+    width: 100%;
+    height: 100%;
+    horizontal-align: center;
+    vertical-align: center;
+    text-align: center;
+    font-size: 15px;
+    font-weight: thin;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0px 0px 4px 1.0 #000000;
+    text-overflow: shrink;
+    padding-top: 2px;
+}

@@ -24,7 +24,8 @@
 11. [UI и Panorama](#ui-и-panorama)
 12. [Локализация](#локализация)
 13. [Конвенции разработки](#конвенции-разработки)
-14. [Диаграммы](#диаграммы)
+14. [Бэкенд профилей](#бэкенд-профилей)
+15. [Диаграммы](#диаграммы)
 
 ---
 
@@ -98,6 +99,9 @@ git config core.symlinks true
 | `spawn_mortimer_boss [x y z]` | Создать Мортимера первого уровня без движения по маршруту (cheat) |
 | `mortimer_attack_debug 0\|1` | Отключить/включить вывод диагностики приказов атаки по Мортимеру |
 | `mortimer_kisses_debug 0\|1` | Отключить/включить вывод диагностики целей посмертных Kisses |
+| `draft_spawn_debug 0\|1` | Лог дня/ночи разминки в консоль (по умолчанию включён) |
+| `trinity_backend_debug 0\|1` | Лог HTTP к PHP API профилей |
+| `trinity_backend_ping` | Проверить `GET /v1/health` |
 | `spawn_roshan` | Спавн Roshan у героя игрока 0 |
 
 ---
@@ -121,6 +125,11 @@ Trinity/
 │   ├── particles/                 # Исходные .vpcf
 │   ├── panorama/                  # UI (layout, scripts, styles)
 │   └── sounds/
+├── server/                        # PHP API профилей (не входит в addon VPK)
+│   ├── public/                    # document root: /v1/health, /v1/players
+│   ├── src/
+│   ├── schema.sql
+│   └── config.example.php
 └── docs/
     └── AGENTS.md                  # ← этот файл
 ```
@@ -147,6 +156,7 @@ flowchart TD
     C --> E[GameMode:InitGameMode]
     C --> F[InitGameManagers]
     C --> G[InitKillFeed]
+    C --> H[TrinityPlayerData]
     F --> I[xp_think + GiveAbilitiesToAllHeroes]
 ```
 
@@ -165,8 +175,8 @@ flowchart TD
 
 `addon_game_mode.lua` подключает:
 
-- `Timers`, `game_settings`, `utils/util`, `gamemode`, `item_drop`
-- `game_managers/creep_bounty_comeback`, `game_managers/config`
+- `Timers`, `draft_spawn`, `game_settings`, `utils/util`, `gamemode`, `item_drop`
+- `game_managers/creep_bounty_comeback`, `game_managers/config`, `game_managers/trinity_player_data`
 - `kill_feed/init`
 - Способности героев (Chen, Lich, Ogre, Tusk, DOOM, items, …)
 - `ai_roshan_custom`, `map_modifications/roshan_pathway_spawner`
@@ -186,11 +196,37 @@ flowchart TD
 | `Max_level` | 30 |
 | `FREE_COURIER_ENABLED` | true |
 | `HERO_RESPAWN_TIME` | 40 (scale 0.7 в gamemode → ~28 сек) |
+| `HERO_SELECTION_TIME` | 60 сек; непикнувшие получают random в **-0:30** |
+| Strategy / Showcase / Pre-game | 0 / 0 / 30 сек после разминки |
+| `WARMUP_POST_PREGAME_TIME` | 30 сек: часы **-0:30 → 0:00** |
+| `ALLOW_HERO_PICK_MUSIC` | false — ванильный дрон стадии пика глушится |
 | `RUNE_SPAWN_TIME` | 999999 (ванильные руны отключены) |
 | `NEUTRAL_CREEP_SPAWN_TIME` | 0:00 |
 | Gold tick | 2 gold / 1 sec |
 | Buyback cooldown | 900 сек |
 | Facets | Отключены у большинства героев (`"Facets" ""`) |
+
+### Вход в матч / драфт
+
+После лока героя игрок сразу попадает на карту. Нативный экран пика скрывается только у него; остальные продолжают выбирать. Strategy и showcase отключены.
+
+Ванильная музыка стадии пика отключена через `GameRules:SetCustomGameAllowHeroPickMusic(false)`. Иначе её зацикленный дрон стартовал в **-1:30**, тянулся всю разминку (матч до **0:00** остаётся в предбоевом состоянии) и затухал только к **0:04–0:05**. Музыка старта боя и боевая музыка не тронуты.
+
+Часы с начала драфта идут с **-1:30**. Через **60 секунд** (**-0:30**) разминка кончается: непикнувшие получают random, пик закрыт, вайп, начинают тикать золото и опыт, First Blood уже можно получить. Ночь держится до **0:00**. Лайн-крипы появляются в **0:00**, тогда же ночь сменяется на день; башни становятся уязвимыми после выхода крипов.
+
+До **-0:30** действует временная песочница: движение, **9999 золота**, бесплатная покупка/продажа в магазине без траты этого золота, мгновенный респаун, чат `-level N` / `-lvlup`, виджет над киллфидом (заголовок «Разминка», таймер до конца, кнопки `+1 уровень`, `Max` и Refresh: полное HP/мана и сброс КД способностей и предметов). Тик золота/опыта (`empty_ability` и gold tick) на разминке выключен. Убийства героев на разминке не дают золото, опыт, ассисты и First Blood; первое убийство после **-0:30** всё ещё считается FB. В конце разминки снимаются 9999 золота, купленные предметы, полученные уровни, прокачанные способности и счётчики K/D/A; герой снова 1 уровня с невыученными способностями (одно свободное очко при `HERO_START_LEVEL = 1`), Town Portal без перезарядки и `STARTING_GOLD`.
+
+При входе на карту только этому игроку уходит `trinity_warmup_started` и заголовок `draw_game_event`. Когда разминка кончается, всем уходит `trinity_warmup_ended`.
+
+В точке Hammer `trinity_warmup_dummy` на время разминки стоит `npc_dota_hero_target_dummy`. Если его убить, он появляется снова в этой же точке; в **-0:30** удаляется.
+
+На разминке герои появляются в Hammer-точках `trinity_warmup_spawn` / `trinity_warmup_spawn_good` / `trinity_warmup_spawn_bad`. Первый спавн ловится в `npc_spawned`: герой скрывается `AddNoDraw` и в том же кадре ставится на точку разминки, чтобы не мелькать на фонтане. Камера ставится сразу на эту точку (`SetCameraTargetPosition` без lerp и без `SetCameraTarget`, чтобы не ехать со спавна фонтана). Оверлей пика скрывается после snap. Триггер `trinity_warmup_zone` держит их на площадке: если точка спавна внутри триггера, возврат срабатывает при выходе; если снаружи — при касании. Мгновенный респаун тоже в эти точки. В **-0:30** зона выключается, вайп (`ReplaceHeroWith`) ставит героев на точки респавна у фонтана (`info_player_start_dota` / `info_player_start_goodguys|badguys`, иначе `ent_dota_fountain`). Ночь (`SetTimeOfDay(0.75)`, цикл выключен) держится до **0:00** даже если движок уже в `GAME_IN_PROGRESS`.
+
+Имена должны быть в **скомпилированной** карте `Game/maps/new2.vpk`. Источник `Content/maps/new2.vmap` без Build/Compile в Hammer в матч не попадает. Запускать нужно карту `new2`, не `dota3v3`.
+
+Lua: `Game/scripts/vscripts/game_managers/draft_spawn.lua`  
+Panorama: `Content/panorama/scripts/custom_game/draft_spawn.js`, `Content/panorama/layout/custom_game/warmup_widget/`  
+Дебаг: `draft_spawn_debug 1` (включён по умолчанию) пишет в консоль день/ночь (`[DraftSpawn] daynight`) и спавн дамика (`[DraftSpawn] dummy`).
 
 ### Дополнительные правила (gamemode.lua)
 
@@ -345,13 +381,24 @@ flowchart TD
 ### Chat Wheel
 
 - Panorama: `Content/panorama/layout/custom_game/chat_wheel/`
-- Сервер: `GameMode:OnChatWheelSelect`, cooldown задаётся через `GameMode.CHAT_WHEEL_COOLDOWN` и равен 20 секундам, net table `cooldown_info`
+- Редактор слотов на разминке: `Content/panorama/layout/custom_game/sticker_editor/`
+- Редактор открывается кнопкой «Стикеры» над виджетом разминки и работает только пока разминка активна. Кнопка живёт в `warmup_widget` и вызывает функцию `GameUI.CustomUIConfig().TrinityOpenStickerEditor`, которую регистрирует редактор. Флаг разминки берётся из общего `CustomUIConfig().trinityWarmupActive`
+- Окно модальное: затемнение на весь HUD, слева колесо из 8 слотов по радиусу вокруг нативной графики центра (`s2r://panorama/images/chat_wheel/`), справа список стикеров с чекбоксом «Скрыть недоступные». Закрытие — крестик, клик по затемнению, `Esc`
+- Стикер назначается двумя способами: клик по стикеру и затем по слоту, либо перетаскивание (`SetDraggable` + `DragStart` / `DragEnter` / `DragDrop` / `DragEnd`). Перетаскивание между слотами меняет их содержимое местами; стикер из списка, уже стоящий на колесе, обменивается со слотом-целью. Слот освобождается правым кликом или перетаскиванием стикера за пределы колеса
+- Изменения применяются в `DragEnd`, а не в `DragDrop`: перерисовка внутри `DragDrop` удаляет панель-источник до конца перетаскивания
+- Видео-превью в правом списке проигрывается только под курсором, в слотах колеса — постоянно
+- Слоты сохраняются существующим событием `trinity_sticker_save_wheel`; до подтверждения из net table клиент рисует локальную копию слотов
+- Сервер: `GameMode:OnChatWheelSelect` принимает только стикер из сохранённого колеса игрока; cooldown `GameMode.CHAT_WHEEL_COOLDOWN` = 20 секунд, net table `cooldown_info`
+- Инвентарь и колесо: PHP + net table `trinity_stickers`; клиент HTTP не вызывает
+- Новый аккаунт: пустое колесо, `lootbox_pending = true`. Первая разминка — один лутбокс с равным шансом среди 8 стикеров. Дубликат (если появится позже) не добавляет копию
+- 8 слотов, пустые можно; состав правится на разминке и пишется в `player_wheel`
 - Custom event: `chat_wheel_send_sound`
 - Событие `chat_wheel_send_sound` поддерживает два варианта `.webm`-стикера: над героем-отправителем или нативно оформленной строкой стандартного чата со значком героя, цветным ником, chat-wheel icon и видео.
 - На каждом клиенте стикер выбирает только одно место показа: над героем, если тот находится в видимой области экрана в момент отправки, иначе — в чате.
 - Для каждого стикера `CHAT_STICKER_SOUNDS` в `chat_wheel.js` задаёт существующее однократное sound event Dota; звук запускается клиентом один раз независимо от места показа стикера.
 - Стикер `Choso` («Изи») использует кастомный event `Wheel.Choso` и ресурс `Content/sounds/wheel/choso.mp3`.
-- Видео находятся в `Game/panorama/videos/custom_game/` и загружаются через `file://{resources}/videos/custom_game/<sound>.webm`; регистр имени файла должен точно совпадать с полем `sound` в `chat_wheel.js`.
+- Видео находятся в `Game/panorama/videos/custom_game/` и загружаются через `file://{resources}/videos/custom_game/<sound>.webm`; регистр имени файла должен точно совпадать с ключом стикера (`Gura`, `NeuroHug`, …).
+- Чит: `trinity_sticker_grant <key>`, `trinity_sticker_reset_lootbox`
 
 ### High Five
 
@@ -714,18 +761,23 @@ KV предметов: `Game/scripts/npc/items/` (если есть) + lua-ре�
 |-----------|------|
 | Manifest | `layout/custom_game/custom_ui_manifest.xml` |
 | Chat Wheel | `layout/custom_game/chat_wheel/` |
+| Sticker editor | `layout/custom_game/sticker_editor/` — модальное окно колеса стикеров |
 | High Five | `layout/custom_game/high_five/` |
 | Game Events panel | `layout/custom_game/ui/game_events/` |
+| Warmup widget | `layout/custom_game/warmup_widget/` — виджет разминки и кнопка вызова редактора стикеров |
 | Loading Screen | `layout/custom_game/custom_loading_screen.xml` |
 | Init script | `scripts/custom_game/init.js` |
 
 Custom Net Tables (`custom_net_tables.txt`):
 
 - `cooldown_info` — chat wheel cooldown
-- `kill_feed_debug` — отладка kill feed
 - `mind_power` — актуальная Сила Магии героя по его `entindex`
+- `trinity_player_data` — профиль игрока с PHP API (`steamid`, `games`, `rating`)
+- `trinity_stickers` — инвентарь стикеров, 8 слотов колеса, `lootbox_pending`
 
-Custom Game Events (`custom.gameevents`): `draw_game_event`, `chat_wheel_send_sound`, события kill feed.
+Custom Game Events (`custom.gameevents`): `draw_game_event`, `chat_wheel_send_sound`, `trinity_kill_toast`, `trinity_warmup_started`, `trinity_warmup_ended`, `trinity_player_entered_map`.
+
+Клиентские custom events стикеров: `trinity_sticker_open`, `trinity_sticker_save_wheel`, `trinity_sticker_opened`.
 
 ---
 
@@ -805,6 +857,60 @@ Game/scripts/npc/npc_abilities_custom.txt
 
 ---
 
+## Бэкенд профилей
+
+Свой PHP + MySQL API. Lua на игровом сервере ходит туда через `CreateHTTPRequestScriptVM`. Клиент HTTP не вызывает.
+
+Пока PHP не запущен, матч идёт как обычно: в net table уходят дефолты (`games = 0`, `rating = 1000`).
+
+| Параметр | Значение |
+|----------|----------|
+| URL (локально) | `http://127.0.0.1:8080` |
+| Ключ dedicated | `GetDedicatedServerKeyV3("trinity")` |
+| Ключ Tools / Local Host | `trinity-tools-local` (поле `keys.tools` в `server/config.php`) |
+| Заголовок | `X-Trinity-Key` |
+
+| Метод | Путь | Назначение |
+|-------|------|------------|
+| GET | `/v1/health` | Проверка, что PHP жив (без ключа) |
+| GET | `/v1/players?steamid=` | Профиль: `games`, `rating`, `owned`, `wheel`, `lootbox_pending` |
+| POST | `/v1/players` | Тело `{ "players": [ { steamid, games, rating } ] }` |
+| POST | `/v1/stickers/open` | `{ steamid }` — открыть первый лутбокс |
+| POST | `/v1/stickers/wheel` | `{ steamid, slots[8] }` — сохранить колесо |
+| POST | `/v1/stickers/grant` | `{ steamid, sticker }` — чит: выдать стикер |
+| POST | `/v1/stickers/reset-lootbox` | `{ steamid }` — чит: снова разрешить лутбокс |
+
+Таблицы: `stickers`, `player_stickers`, `player_wheel`; флаг `players.first_lootbox_opened`. Каталог сидится из PHP (`Gura` … `StickerTwo`).
+
+Lua: `Game/scripts/vscripts/game_managers/trinity_player_data.lua`, `game_managers/trinity_stickers.lua`
+
+Лоад при `player_connect_full` / драфте. Сейв в `POST_GAME`: `games + 1`, рейтинг пока не считается. Dedicated с читами не пишет. Local Host и Tools пишут.
+
+### Поднять локально
+
+Уже ставили PHP 8.4 (winget) и MariaDB 12.3. Повторный запуск:
+
+```powershell
+cd D:\Trinity\server
+.\start-local.ps1
+```
+
+Скрипт поднимает MariaDB на `:3306`, если её нет, и PHP на `http://127.0.0.1:8080`. Окно не закрывать.
+
+В матче: `trinity_backend_ping`. Успех — `ping ok`.
+
+Первый раз (уже сделано на этой машине): БД `trinity`, пользователь `trinity`, таблица из `server/schema.sql`. Пароль — в gitignored `server/config.php`.
+
+После обновления схемы стикеров: `php server/migrate-stickers.php` (нужен `pdo_mysql`, MariaDB на `:3306`).
+
+Позже тот же API на VPS: HTTPS, `keys.dedicated` = ключ с Valve dedicated, в Lua сменить `TrinityPlayerData.BASE_URL`.
+
+Lua: `Game/scripts/vscripts/game_managers/trinity_player_data.lua`  
+HTTP: `Game/scripts/vscripts/utils/http.lua`  
+PHP: `server/public/index.php`
+
+---
+
 ## Диаграммы
 
 ### Архитектура модулей
@@ -818,6 +924,7 @@ graph TB
         CBC[creep_bounty_comeback.lua]
         KF[kill_feed/init]
         ID[item_drop.lua]
+        PD[trinity_player_data]
     end
 
     subgraph Utils["utils/"]
@@ -842,6 +949,7 @@ graph TB
     Entry --> Map
     GM --> CBC
     CFG --> CBC
+    PD --> Utils
     Heroes --> UTIL
 ```
 
@@ -879,9 +987,13 @@ flowchart TD
 | Башни / волны | `gamemode.lua` |
 | Mind Power формула | `utils/util.lua` |
 | Выдача способностей всем | `game_managers/config.lua` |
+| Ранний спавн после пика | `game_managers/draft_spawn.lua` |
 | Слоты героев | `npc/npc_heroes_custom.txt` |
 | KV способности | `npc/abilities/<hero>.txt` |
 | Точка require | `addon_game_mode.lua` |
+| Профили игроков | `game_managers/trinity_player_data.lua` |
+| Стикеры / колесо | `game_managers/trinity_stickers.lua` |
+| PHP API | `server/public/index.php` |
 | Panorama UI | `Content/panorama/layout/custom_game/` |
 | Локализация RU | `Game/resource/addon_russian.txt` |
 

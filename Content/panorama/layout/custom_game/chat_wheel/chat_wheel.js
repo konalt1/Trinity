@@ -20,20 +20,31 @@ const CHAT_STICKER_SOUNDS = {
   StickerOne: "high_five.impact",
   StickerTwo: "General.Buy",
 };
+const STICKER_MAX_TIME = {
+  Gura: 1,
+  NeuroHug: 1.5,
+  Watson: 1.5,
+  Anime: 1.5,
+  Neurodance: 1.5,
+  Choso: 0.7,
+  StickerOne: 1.5,
+  StickerTwo: 1,
+};
 var rings = [[Array(8).fill(""), Array(8).fill(true)]];
+const loadTableHeroFromNet = () => {
+  const playerID = Players.GetLocalPlayer();
+  const data = CustomNetTables.GetTableValue("trinity_stickers", String(playerID)) || {};
+  tableHero = {};
+  for (let i = 0; i < 8; i++) {
+    const sound = data["slot" + i] || "";
+    tableHero[String(i)] = {
+      sound: sound,
+      maxTime: sound ? STICKER_MAX_TIME[sound] || 1.5 : 0,
+    };
+  }
+};
 const initTableHero = () => {
-  // Имя должно совпадать с видео и аудио, цифра это позиция в колесе чатов от 0 - до 7
-  tableHero = { ["0"]: { sound: "Gura", maxTime: 1 } ,
-      ["1"]: { sound: "NeuroHug", maxTime: 1.5 },
-      ["2"]: { sound: "Watson", maxTime: 1.5 },
-      ["3"]: { sound: "Anime", maxTime: 1.5 },
-      ["4"]: { sound: "Neurodance", maxTime: 1.5 },
-      ["5"]: { sound: "Choso", maxTime: 0.7},
-      ["6"]: { sound: "StickerOne", maxTime: 1.5 },
-      ["7"]: { sound: "StickerTwo", maxTime: 1 },
-
- };
-  
+  loadTableHeroFromNet();
 };
 const initChatWheel = () => {
   var _a;
@@ -93,10 +104,10 @@ function StopWheel() {
       const soundName = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].sound : undefined;
       const maxTime = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].maxTime : undefined;
 
-      if (soundName != undefined && maxTime != undefined) {
+      if (soundName) {
         GameEvents.SendCustomGameEventToServer("chat_wheel_select", {
           select: soundName,
-          maxTime,
+          maxTime: maxTime || STICKER_MAX_TIME[soundName] || 1.5,
         });
       }
     }
@@ -133,6 +144,9 @@ function OnMouseOver(num) {
   $("#Wheel").visible = false;
   $("#Bubble").visible = false;
   $("#PhrasesContainer").visible = false;
+  CustomNetTables.SubscribeNetTableListener("trinity_stickers", () => {
+    loadTableHeroFromNet();
+  });
 })();
 function GetGameKeybind(command) {
   return Game.GetKeybindForCommand(command);

@@ -26,8 +26,21 @@
 		"chat_wheel_donate_sound_StickerOne"						"Sticker 1"
 		"chat_wheel_donate_sound_StickerTwo"						"Sticker 2"
 		"chat_wheel_donate_sound_Anime"							"Feels nice."
-		
-		
+		"chat_wheel_donate_sound_empty"							""
+
+		"sticker_editor_title"									"Stickers"
+		"sticker_editor_toggle"									"Stickers"
+		"sticker_editor_hint"									"Drag to rearrange"
+		"sticker_editor_wheel"									"Wheel"
+		"sticker_editor_collection"								"Collection"
+		"sticker_editor_hide_locked"							"Hide unavailable"
+		"sticker_editor_equipped"								"On wheel"
+		"sticker_editor_empty"									"Empty"
+		"sticker_editor_locked"									"Locked"
+		"sticker_editor_open"									"Open lootbox"
+		"sticker_editor_continue"								"Continue"
+		"sticker_editor_duplicate"								"Duplicate"
+
 		"dota_error_cooldown_chat_wheel"					"Voice lines are on cooldown"
 
 		// Custom Roshan (pathway)
@@ -641,6 +654,12 @@
 		"shard_pool_capture"												"Enemies siege the Aghanim Font!"
 		"roshan_spawn"														"Roshan marched onto the battlefield!"
 		"mortimer_spawn"												"Mortimer is on the hunt!"
+		"trinity_warmup_started"										"Warmup started"
+		"trinity_warmup_ended"											"Warmup ended"
+		"trinity_warmup_widget_title"									"Warmup"
+		"trinity_warmup_level_up"										"+1 Level"
+		"trinity_warmup_max_level"										"Max"
+		"trinity_warmup_refresh"										"Refresh"
 
 		// =============================================
 		// Chen

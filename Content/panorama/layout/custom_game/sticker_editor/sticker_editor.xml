@@ -1,0 +1,56 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+        <include src="file://{resources}/layout/custom_game/sticker_editor/sticker_editor.css"/>
+    </styles>
+    <scripts>
+        <include src="file://{resources}/layout/custom_game/sticker_editor/sticker_editor.js"/>
+    </scripts>
+    <Panel class="StickerEditorRoot" hittest="false">
+        <Panel id="StickerModal" class="StickerModal" hittest="false" hittestchildren="false">
+            <Button id="StickerDim" class="StickerDim"/>
+            <Panel id="StickerWindow" class="StickerWindow">
+                <Panel class="StickerWheelPane">
+                    <Label class="StickerPaneTitle" text="#sticker_editor_title"/>
+                    <Label class="StickerHint" text="#sticker_editor_hint"/>
+                    <Panel id="WheelArea" class="WheelArea">
+                        <Panel class="WheelCenterRing">
+                            <Panel class="WheelCenterCursor"/>
+                        </Panel>
+                        <Panel id="WheelSlots" class="WheelSlots"/>
+                    </Panel>
+                </Panel>
+                <Panel class="StickerListPane">
+                    <Panel class="StickerListHeader">
+                        <Label class="StickerListTitle" text="#sticker_editor_collection"/>
+                        <Button id="StickerClose" class="StickerCloseButton">
+                            <Label text="&#10005;"/>
+                        </Button>
+                    </Panel>
+                    <Panel id="LootboxRow" class="LootboxRow">
+                        <Button id="OpenLootboxButton" class="LootboxButton">
+                            <Label text="#sticker_editor_open"/>
+                        </Button>
+                    </Panel>
+                    <Button id="HideLockedRow" class="StickerFilterRow">
+                        <Panel id="HideLockedBox" class="StickerCheckboxBox" hittest="false"/>
+                        <Label class="StickerCheckboxLabel" text="#sticker_editor_hide_locked" hittest="false"/>
+                    </Button>
+                    <Panel class="StickerListScroll">
+                        <Panel id="CollectionList" class="CollectionList"/>
+                    </Panel>
+                </Panel>
+            </Panel>
+        </Panel>
+        <Panel id="RevealOverlay" class="RevealOverlay" hittest="true">
+            <Panel class="RevealCard">
+                <Movie id="RevealMovie" class="RevealMovie" controls="none" repeat="true" autoplay="onload"/>
+                <Label id="RevealName" class="RevealName"/>
+                <Label id="RevealDuplicate" class="RevealDuplicate" text="#sticker_editor_duplicate"/>
+                <Button id="RevealContinue" class="LootboxButton" onactivate="CloseReveal()">
+                    <Label text="#sticker_editor_continue"/>
+                </Button>
+            </Panel>
+        </Panel>
+    </Panel>
+</root>

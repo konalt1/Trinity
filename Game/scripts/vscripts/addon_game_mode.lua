@@ -1,4 +1,5 @@
 require ("Timers")
+require ("game_managers/draft_spawn")
 require ("game_settings")
 require ("utils/util")
 require ("game_managers/creep_bounty_comeback")
@@ -6,6 +7,8 @@ require ("game_managers/killfeed_system")
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
+require ("game_managers/trinity_player_data")
+require ("game_managers/trinity_stickers")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
 
@@ -79,6 +82,8 @@ function Precache( context )
 
 	-- Roshan sounds
 	PrecacheResource( "soundfile", "soundevents/game_sounds_creeps.vsndevts", context )
+	PrecacheUnitByNameSync("npc_dota_hero_target_dummy", context)
+	PrecacheResource("model", "models/props_gameplay/donkey.vmdl", context)
 
 	-- Mortimer boss
 	PrecacheResource( "model", "models/heroes/snapfire/snapfire_customgame.vmdl", context )
@@ -307,16 +312,27 @@ function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
 	GameRules:GetGameModeEntity():SetRespawnTimeScale(0.7)
 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(GameMode, "ModifyGoldFilter"), GameMode)
+	GameRules:GetGameModeEntity():SetModifyExperienceFilter(Dynamic_Wrap(GameMode, "ModifyExperienceFilter"), GameMode)
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), GameMode)
 	
 	GameRules:SetGoldTickTime(1)
-	GameRules:SetGoldPerTick(2)
+	GameRules:SetGoldPerTick(0)
 
 	if CreepBountyComeback and CreepBountyComeback.Init then
 		CreepBountyComeback.Init()
 	end
 
+	if DraftSpawn and DraftSpawn.Init then
+		DraftSpawn:Init()
+	end
+
 	InitGameManagers()
+	if TrinityPlayerData and TrinityPlayerData.Init then
+		TrinityPlayerData:Init()
+	end
+	if TrinityStickers and TrinityStickers.Init then
+		TrinityStickers:Init()
+	end
 	
 	-- Создаём спавнер рошанов при старте игры (раскомментируйте и укажите нужные координаты)
 	-- Timers:CreateTimer(5, function()
