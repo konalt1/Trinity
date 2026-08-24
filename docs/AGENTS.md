@@ -831,6 +831,21 @@ Custom Game Events (`custom.gameevents`): `draw_game_event`, `chat_wheel_send_so
 
 *(В старых KV блоки precache могут присутствовать — при рефакторинге переносить в Lua.)*
 
+> **Не использовать `particle_folder`.** Папка `particles/units/heroes/hero_*` — это 60–280 `.vpcf`
+> на героя, из которых нужны единицы. Перечислять конкретные `.vpcf` по имени способности.
+
+Точные пути берутся из оглавления `pak01_dir.vpk` (в распакованных `scripts/npc/*.txt`
+блоков `precache` больше нет). Часть путей, написанных «по памяти», в игре не существует:
+`hero_crystal_maiden` → `hero_crystalmaiden`, `hero_naga_siren` → `hero_siren`,
+`hero_witch_doctor` → `hero_witchdoctor`, `hero_shadow_shaman` → `hero_rhasta`.
+Несуществующий путь молча игнорируется — прекеш просто не происходит.
+
+`game_sounds_vo_*` прекешить не нужно: реплики привязаны к talker-скрипту исходного героя
+и при касте чужой способности не проигрываются.
+
+Пример точечных списков: `Game/scripts/vscripts/abilities/ogre_magi/ogre_precache.lua` —
+общий модуль для `ogre_magi_reroll` и `ogre_magi_aghanim_club`.
+
 ### Иконки способностей
 
 > **Правило:** иконка задаётся **только в KV** через `"AbilityTextureName"`.  
