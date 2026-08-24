@@ -122,7 +122,7 @@
 	"npc_dota_hero_snapfire" "0"
 	"npc_dota_hero_void_spirit" "0"
 	"npc_dota_hero_hoodwink" "0"
-	"npc_dota_hero_dawnbreaker" "0"
+	"npc_dota_hero_dawnbreaker" "1"
 	"npc_dota_hero_marci" "0"
 	"npc_dota_hero_primal_beast" "0"
 }

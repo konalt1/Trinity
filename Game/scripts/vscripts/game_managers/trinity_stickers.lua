@@ -381,12 +381,46 @@ function TrinityStickers:ResetLootbox(playerID)
 	Publish(playerID)
 end
 
-local function CommandPlayerID()
-	local player = Convars:GetCommandClient()
-	if player then
-		return player:GetPlayerID()
+local function ResolvePlayerID(player)
+	if player == nil then
+		return nil
 	end
-	return 0
+	local ok, playerID = pcall(function()
+		return player:GetPlayerID()
+	end)
+	if not ok or type(playerID) ~= "number" or playerID < 0 then
+		return nil
+	end
+	return playerID
+end
+
+-- GetCommandClient отдаёт базового игрока без GetPlayerID, поэтому сначала
+-- спрашиваем Dota-вариант, а консоль без владельца сводим к хост-слоту.
+local function CommandPlayerID()
+	local ok, dotaPlayer = pcall(function()
+		return Convars:GetDOTACommandClient()
+	end)
+	if ok then
+		local playerID = ResolvePlayerID(dotaPlayer)
+		if playerID then
+			return playerID
+		end
+	end
+
+	local okBase, basePlayer = pcall(function()
+		return Convars:GetCommandClient()
+	end)
+	if okBase then
+		local playerID = ResolvePlayerID(basePlayer)
+		if playerID then
+			return playerID
+		end
+	end
+
+	if PlayerResource and PlayerResource:IsValidPlayerID(0) then
+		return 0
+	end
+	return -1
 end
 
 function TrinityStickers:Init()
@@ -414,10 +448,20 @@ function TrinityStickers:Init()
 				print("[TrinityStickers] usage: trinity_sticker_grant <all|" .. table.concat(TrinityStickers.CATALOG, "|") .. ">")
 				return
 			end
-			TrinityStickers:GrantMany(CommandPlayerID(), keys)
+			local playerID = CommandPlayerID()
+			if playerID < 0 then
+				print("[TrinityStickers] no player for this console command")
+				return
+			end
+			TrinityStickers:GrantMany(playerID, keys)
 		end, "Grant stickers: trinity_sticker_grant <all|key> [key2 ...]", FCVAR_CHEAT)
 		Convars:RegisterCommand("trinity_sticker_reset_lootbox", function()
-			TrinityStickers:ResetLootbox(CommandPlayerID())
+			local playerID = CommandPlayerID()
+			if playerID < 0 then
+				print("[TrinityStickers] no player for this console command")
+				return
+			end
+			TrinityStickers:ResetLootbox(playerID)
 		end, "Allow first lootbox again", FCVAR_CHEAT)
 	end
 

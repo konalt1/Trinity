@@ -2,6 +2,7 @@
 #base "shared.txt"
 #base "units.txt"
 #base "chen.txt"
+#base "dawnbreaker.txt"
 #base "doom_bringer.txt"
 #base "ember_spirit.txt"
 #base "furion.txt"

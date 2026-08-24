@@ -384,8 +384,14 @@ function ChenWorkerBuild.StopAllConstructionsForHero(hero)
     )
 
     for _, unit in pairs(units) do
-        if unit.chen_build_owner_hero == hero or GetOwnerHeroFromWorker(unit) == hero then
-            unit:RemoveModifierByName("modifier_chen_worker_build_runner")
+        if IsValidEntity(unit) then
+            local owned = unit.chen_build_owner_hero == hero
+            if not owned and IsChenBarrackWorker and IsChenBarrackWorker(unit) then
+                owned = GetOwnerHeroFromWorker(unit) == hero
+            end
+            if owned then
+                unit:RemoveModifierByName("modifier_chen_worker_build_runner")
+            end
         end
     end
 end

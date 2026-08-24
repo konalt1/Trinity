@@ -25,13 +25,13 @@ end
 local function GetOwnerHero(unit)
     if ChenBarrackGold and ChenBarrackGold.GetOwnerHero then
         local hero = ChenBarrackGold.GetOwnerHero(unit)
-        if IsValidUnit(hero) and hero:IsRealHero() then
+        if IsValidUnit(hero) and hero.IsRealHero and hero:IsRealHero() then
             return hero
         end
     end
 
     local owner = unit and unit.GetOwnerEntity and unit:GetOwnerEntity() or nil
-    if IsValidUnit(owner) and owner:IsRealHero() then
+    if IsValidUnit(owner) and owner.IsRealHero and owner:IsRealHero() then
         return owner
     end
 

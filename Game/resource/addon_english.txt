@@ -478,6 +478,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_6"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_7"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_8"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_1"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_2"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_3"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_4"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_5"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_6"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_7"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_8"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Placeholder"
@@ -1120,6 +1128,51 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_pudge_rot_trinity_mind_power_radius_multiplier"	"RADIUS PER SPELL POWER:"
 		"DOTA_Tooltip_modifier_pudge_rot_trinity_debuff"					"Rot"
 		"DOTA_Tooltip_modifier_pudge_rot_trinity_debuff_Description"			"Taking periodic damage and slowed."
+
+		// Dawnbreaker
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom"					"Celestial Hammer"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_Description"		"Dawnbreaker throws her hammer in the chosen direction. It deals magical damage to enemies along the path and leaves a burning trail.
+
+		While the hammer is in flight or on the ground, Dawnbreaker can pull herself to it.
+
+		Hammer damage: %hammer_damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_hammer_damage"		"HAMMER DAMAGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_burn_damage"		"TRAIL DAMAGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_range"				"RANGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_flare_radius"		"TRAIL RADIUS:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_flare_debuff_duration"	"TRAIL DURATION:"
+		"DOTA_Tooltip_ability_dawnbreaker_converge_custom"							"Converge"
+		"DOTA_Tooltip_ability_dawnbreaker_converge_custom_Description"				"Dawnbreaker pulls herself to the thrown hammer."
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom"							"Luminosity"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_Description"				"Passive. Each of Dawnbreaker's attacks against an enemy grants a charge for %charge_duration% seconds. A new attack refreshes the duration of all charges.
+
+		While at least one charge remains, she can activate the ability. An explosion bursts around the hammer: enemies take damage, and allies are healed. If the hammer is in her hands, the explosion happens around Dawnbreaker.
+
+		All charges are spent at once."
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_max_charges"				"MAX CHARGES:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_charge_duration"			"CHARGE DURATION:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_radius"					"RADIUS:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_damage_per_charge"		"DAMAGE PER CHARGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_heal_per_charge"			"HEAL PER CHARGE:"
+		"DOTA_Tooltip_modifier_dawnbreaker_luminosity_custom"						"Luminosity"
+		"DOTA_Tooltip_modifier_dawnbreaker_luminosity_custom_Description"				"Stored explosion charges."
+		"dota_hud_error_dawnbreaker_luminosity_no_charges"							"No charges"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom"						"Solar Guardian"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_Description"			"Dawnbreaker launches a marker in the chosen direction.
+
+		The farther the marker flies, the wider the area. While it travels, Dawnbreaker can leap to the marker. If it reaches maximum range, the leap starts on its own.
+
+		Dawnbreaker is invulnerable while airborne. On landing, enemies in the area take magical damage and are stunned."
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_min_range"			"MIN RANGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_max_range"			"MAX RANGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_min_radius"			"MIN RADIUS:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_max_radius"			"MAX RADIUS:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_damage"				"DAMAGE:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_stun_duration"		"STUN DURATION:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_tracker_speed"		"MARKER SPEED:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom"				"Solar Leap"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker leaps to the marker's current location."
 
 	}
 }

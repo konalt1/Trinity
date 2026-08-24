@@ -603,6 +603,10 @@ function GameMode:ExecuteOrderFilter(data)
 		MortimerBoss:DebugAttackOrder(data)
 	end
 
+	if DawnbreakerHandleOrder and DawnbreakerHandleOrder(data) == false then
+		return false
+	end
+
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
 	end

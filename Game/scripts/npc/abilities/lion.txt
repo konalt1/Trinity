@@ -125,7 +125,7 @@
         {
             "damage"                    "400 500 600"
             "mind_power_multiplier"     "4"
-            "respawn_reduction_pct"     "5"
+            "respawn_reduction_pct"     "10"
             "scepter_buff_duration"     "30"
             "scepter_attack_range"      "250"
             "scepter_cleave_damage_pct" "50"

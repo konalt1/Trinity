@@ -394,6 +394,28 @@
 		"Ability17"                                     "special_bonus_unique_custom_pudge_8"
 	}
 
+	"npc_dota_hero_dawnbreaker"
+	{
+		"override_hero"                                 "npc_dota_hero_dawnbreaker"
+		"Facets" ""
+		"Ability2"                                      "dawnbreaker_celestial_hammer_custom"
+		"Ability3"                                      "dawnbreaker_luminosity_custom"
+		"Ability4"                                      "generic_hidden"
+		"Ability5"                                      "generic_hidden"
+		"Ability6"                                      "dawnbreaker_solar_guardian_custom"
+		"Ability7"                                      "dawnbreaker_converge_custom"
+		"Ability8"                                      "dawnbreaker_solar_guardian_release_custom"
+
+		"Ability10"                                     "special_bonus_unique_custom_dawnbreaker_1"
+		"Ability11"                                     "special_bonus_unique_custom_dawnbreaker_2"
+		"Ability12"                                     "special_bonus_unique_custom_dawnbreaker_3"
+		"Ability13"                                     "special_bonus_unique_custom_dawnbreaker_4"
+		"Ability14"                                     "special_bonus_unique_custom_dawnbreaker_5"
+		"Ability15"                                     "special_bonus_unique_custom_dawnbreaker_6"
+		"Ability16"                                     "special_bonus_unique_custom_dawnbreaker_7"
+		"Ability17"                                     "special_bonus_unique_custom_dawnbreaker_8"
+	}
+
 	"npc_dota_hero_nevermore"
 	{
 		"override_hero"                                 "npc_dota_hero_nevermore"

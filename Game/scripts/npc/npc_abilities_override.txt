@@ -14,4 +14,13 @@
 		"RequiredLevel"                 "1"
 		"LevelsBetweenUpgrades"         "2"
 	}
+
+	//=================================================================================================================
+	// Dawnbreaker: Starbreaker — ванильная способность + CastFilter без молота
+	//=================================================================================================================
+	"dawnbreaker_fire_wreath"
+	{
+		"BaseClass"                     "dawnbreaker_fire_wreath"
+		"ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_fire_wreath"
+	}
 }

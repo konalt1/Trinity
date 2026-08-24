@@ -502,6 +502,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_6"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_7"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_nevermore_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_1"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_2"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_3"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_4"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_5"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_6"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_7"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_8"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Заглушка"
@@ -1154,6 +1162,51 @@
 		"DOTA_Tooltip_ability_pudge_rot_trinity_mind_power_radius_multiplier"	"РАДИУС ЗА СИЛУ МАГИИ:"
 		"DOTA_Tooltip_modifier_pudge_rot_trinity_debuff"					"Гниль"
 		"DOTA_Tooltip_modifier_pudge_rot_trinity_debuff_Description"			"Получает периодический урон и замедлен."
+
+		// Dawnbreaker
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom"					"Небесный Молот"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_Description"		"Dawnbreaker бросает молот в выбранном направлении. Молот наносит магический урон врагам на пути и оставляет огненный след.
+
+		Пока молот летит или лежит, Dawnbreaker может притянуть себя к нему.
+
+		Урон молота: %hammer_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_hammer_damage"		"УРОН МОЛОТА:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_burn_damage"		"УРОН СЛЕДА:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_range"				"ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_flare_radius"		"РАДИУС СЛЕДА:"
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_flare_debuff_duration"	"ДЛИТЕЛЬНОСТЬ СЛЕДА:"
+		"DOTA_Tooltip_ability_dawnbreaker_converge_custom"							"Сближение"
+		"DOTA_Tooltip_ability_dawnbreaker_converge_custom_Description"				"Dawnbreaker притягивает себя к брошенному молоту."
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom"							"Светимость"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_Description"				"Пассивно. Каждый удар Dawnbreaker по врагу даёт заряд на %charge_duration% сек. Новый удар обновляет время всех зарядов.
+
+		Пока есть хотя бы один заряд, Dawnbreaker может активировать способность. Вокруг молота происходит взрыв: враги получают урон, союзники восстанавливают здоровье. Если молот в руках, взрыв происходит вокруг Dawnbreaker.
+
+		Все заряды расходуются разом."
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_max_charges"				"МАКСИМУМ ЗАРЯДОВ:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_charge_duration"			"ДЛИТЕЛЬНОСТЬ ЗАРЯДА:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_damage_per_charge"		"УРОН ЗА ЗАРЯД:"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_heal_per_charge"			"ЛЕЧЕНИЕ ЗА ЗАРЯД:"
+		"DOTA_Tooltip_modifier_dawnbreaker_luminosity_custom"						"Светимость"
+		"DOTA_Tooltip_modifier_dawnbreaker_luminosity_custom_Description"				"Накопленные заряды взрыва."
+		"dota_hud_error_dawnbreaker_luminosity_no_charges"							"Нет зарядов"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom"						"Солнечный Страж"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_Description"			"Dawnbreaker выпускает маркер в выбранном направлении.
+
+		Чем дальше улетел маркер, тем шире область. Пока он летит, Dawnbreaker может прыгнуть в его точку. Если маркер долетает до максимума, прыжок начинается сам.
+
+		В полёте Dawnbreaker неуязвима. При приземлении враги в области получают магический урон и оглушаются."
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_min_range"			"МИН. ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_max_range"			"МАКС. ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_min_radius"			"МИН. РАДИУС:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_max_radius"			"МАКС. РАДИУС:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_damage"				"УРОН:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_stun_duration"		"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_tracker_speed"		"СКОРОСТЬ МАРКЕРА:"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom"				"Солнечный Прыжок"
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker прыгает в текущую точку маркера."
 
 	}
 }

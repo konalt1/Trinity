@@ -1,0 +1,148 @@
+// Trinity — Dawnbreaker abilities
+"DOTAAbilities"
+{
+    "dawnbreaker_celestial_hammer_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_celestial_hammer_custom"
+        "AbilityTextureName"            "dawnbreaker_celestial_hammer"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCastGestureSlot"        "DEFAULT"
+        "AbilityCastRange"              "700 900 1100 1300"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCooldown"               "18 16 14 12"
+        "AbilityManaCost"               "110 120 130 140"
+
+        "AbilityValues"
+        {
+            "hammer_damage"             "50 80 110 140"
+            "mind_power_multiplier"     "1.0"
+            "burn_damage"               "20 30 40 50"
+            "range"                     "700 900 1100 1300"
+            "projectile_speed"          "1500"
+            "projectile_radius"         "200"
+            "flare_radius"
+            {
+                "value"                 "200"
+                "affected_by_aoe_increase" "1"
+            }
+            "pause_duration"            "2.0"
+            "flare_debuff_duration"     "2.5"
+            "burn_interval"             "0.5"
+            "travel_speed_pct"          "80"
+        }
+    }
+
+    "dawnbreaker_converge_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_celestial_hammer_custom"
+        "AbilityTextureName"            "dawnbreaker_converge"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "MaxLevel"                      "1"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.25"
+        "AbilityManaCost"               "0"
+    }
+
+    "dawnbreaker_luminosity_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_luminosity_custom"
+        "AbilityTextureName"            "dawnbreaker_luminosity"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+        "MaxLevel"                      "4"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCooldown"               "8 7 6 5"
+        "AbilityManaCost"               "60 70 80 90"
+
+        "AbilityValues"
+        {
+            "max_charges"               "5"
+            "charge_duration"           "5"
+            "radius"
+            {
+                "value"                 "300"
+                "affected_by_aoe_increase" "1"
+            }
+            "damage_per_charge"         "25 40 55 70"
+            "heal_per_charge"           "15 25 35 50"
+        }
+    }
+
+    "dawnbreaker_solar_guardian_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_solar_guardian_custom"
+        "AbilityTextureName"            "dawnbreaker_solar_guardian"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "FightRecapLevel"               "2"
+        "MaxLevel"                      "3"
+        "RequiredLevel"                 "6"
+        "LevelsBetweenUpgrades"         "6"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityCastRange"              "0"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCooldown"               "120 110 100"
+        "AbilityManaCost"               "150 200 250"
+
+        "AbilityValues"
+        {
+            "min_range"                 "200"
+            "max_range"                 "10000 12000 14000"
+            "min_radius"
+            {
+                "value"                 "220"
+                "affected_by_aoe_increase" "1"
+            }
+            "max_radius"
+            {
+                "value"                 "450 525 600"
+                "affected_by_aoe_increase" "1"
+            }
+            "damage"                    "250 375 500"
+            "stun_duration"             "1.4 1.6 1.8"
+            "leap_duration"             "1.1"
+            "leap_height"               "325"
+            "tracker_speed"             "1500"
+            "tracker_vision"            "300"
+        }
+    }
+
+    "dawnbreaker_solar_guardian_release_custom"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_solar_guardian_custom"
+        "AbilityTextureName"            "dawnbreaker_solar_guardian"
+        "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "MaxLevel"                      "1"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+    }
+}

@@ -608,6 +608,7 @@ function DraftSpawn:SpawnWarmupDummy()
 	dummy:AddNewModifier(dummy, nil, "modifier_rooted", {})
 	self._warmupDummy = dummy
 	self._warmupDummyMissingLogged = nil
+	self:RevealWarmupDummy(dummy)
 
 	local pos = dummy:GetAbsOrigin()
 	self:DebugDummy(
@@ -634,6 +635,16 @@ function DraftSpawn:RetryWarmupDummy()
 		end
 		return nil
 	end)
+end
+
+function DraftSpawn:RevealWarmupDummy(dummy)
+	if not dummy or dummy:IsNull() then
+		return
+	end
+	local origin = dummy:GetAbsOrigin()
+	local duration = math.max(1, self:GetRemainingUntilWarmupEnd() + 2)
+	AddFOWViewer(DOTA_TEAM_GOODGUYS, origin, 1200, duration, false)
+	AddFOWViewer(DOTA_TEAM_BADGUYS, origin, 1200, duration, false)
 end
 
 function DraftSpawn:RemoveWarmupDummy()
@@ -1004,6 +1015,21 @@ function DraftSpawn:IsWarmupEscapePosition(hero, position)
 	return touching
 end
 
+function DraftSpawn:GetOrderTarget(data)
+	if not data then
+		return nil
+	end
+	local targetIndex = data.entindex_target
+	if not targetIndex or targetIndex <= 0 then
+		return nil
+	end
+	local target = EntIndexToHScript(targetIndex)
+	if not target or target:IsNull() then
+		return nil
+	end
+	return target
+end
+
 function DraftSpawn:GetOrderPosition(data)
 	if not data then
 		return nil
@@ -1011,12 +1037,9 @@ function DraftSpawn:GetOrderPosition(data)
 	if data.position_x ~= nil and data.position_y ~= nil then
 		return Vector(data.position_x, data.position_y, data.position_z or 0)
 	end
-	local targetIndex = data.entindex_target
-	if targetIndex and targetIndex > 0 then
-		local target = EntIndexToHScript(targetIndex)
-		if target and not target:IsNull() and target.GetAbsOrigin then
-			return target:GetAbsOrigin()
-		end
+	local target = self:GetOrderTarget(data)
+	if target and target.GetAbsOrigin then
+		return target:GetAbsOrigin()
 	end
 	return nil
 end
@@ -1028,6 +1051,18 @@ function DraftSpawn:ShouldBlockWarmupEscapeOrder(data)
 
 	local orderType = data.order_type
 	if orderType == ORDER_PURCHASE_ITEM or orderType == ORDER_SELL_ITEM then
+		return false
+	end
+
+	-- CAST_TARGET: у приказа часто position = 0,0,0. Нельзя считать это побегом из зоны.
+	if orderType == ORDER_CAST_TARGET then
+		local target = self:GetOrderTarget(data)
+		if target and self:IsWarmupDummyUnit(target) then
+			return false
+		end
+		if target and target.GetAbsOrigin then
+			return self:IsWarmupEscapePosition(nil, target:GetAbsOrigin())
+		end
 		return false
 	end
 
@@ -1050,7 +1085,7 @@ function DraftSpawn:ShouldBlockWarmupEscapeOrder(data)
 		return false
 	end
 
-	if orderType == ORDER_CAST_POSITION or orderType == ORDER_CAST_TARGET or orderType == ORDER_VECTOR_TARGET_POSITION then
+	if orderType == ORDER_CAST_POSITION or orderType == ORDER_VECTOR_TARGET_POSITION then
 		return self:IsWarmupEscapePosition(nil, position)
 	end
 
@@ -1272,6 +1307,24 @@ function DraftSpawn:AbilityHasBehavior(ability, behavior)
 	return bit.band(behaviorInt, behavior) == behavior
 end
 
+function DraftSpawn:AbilityKvHasBehavior(ability, flag)
+	if not ability or ability:IsNull() or not flag then
+		return false
+	end
+
+	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
+	if not kv then
+		return false
+	end
+
+	local behavior = kv.AbilityBehavior or kv.abilitybehavior
+	if type(behavior) ~= "string" then
+		return false
+	end
+
+	return string.find(behavior, flag, 1, true) ~= nil
+end
+
 function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 	if not ability or ability:IsNull() then
 		return false
@@ -1297,21 +1350,35 @@ function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 		return false
 	end
 
+	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
+	local kvType = kv and (kv.AbilityType or kv.abilitytype) or nil
+	local kvIsUltimate = kvType == "DOTA_ABILITY_TYPE_ULTIMATE"
+	local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
+	local kvNotLearnable = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE")
+	local kvInnate = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_INNATE")
+
 	local abilityType = ability.GetAbilityType and ability:GetAbilityType() or nil
 	if abilityType == ABILITY_TYPE_ATTRIBUTES or abilityType == DOTA_ABILITY_TYPE_ATTRIBUTES then
 		return false
 	end
-	if abilityType == ABILITY_TYPE_HIDDEN or abilityType == DOTA_ABILITY_TYPE_HIDDEN then
+	if (abilityType == ABILITY_TYPE_HIDDEN or abilityType == DOTA_ABILITY_TYPE_HIDDEN) and not kvIsUltimate then
+		return false
+	end
+
+	if kvNotLearnable or kvInnate then
 		return false
 	end
 
 	if self:AbilityHasBehavior(ability, DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE)
-		or self:AbilityHasBehavior(ability, DOTA_ABILITY_BEHAVIOR_HIDDEN)
 		or self:AbilityHasBehavior(ability, DOTA_ABILITY_BEHAVIOR_INNATE) then
 		return false
 	end
 
-	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
+	-- Live HIDDEN can be a leftover SwapAbilities from warmup. Skip only if KV is hidden too.
+	if self:AbilityHasBehavior(ability, DOTA_ABILITY_BEHAVIOR_HIDDEN) and kvHidden then
+		return false
+	end
+
 	if kv then
 		local innate = kv.Innate or kv.innate
 		if innate == "1" or innate == 1 then
@@ -1322,6 +1389,26 @@ function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 	return true
 end
 
+function DraftSpawn:RestoreAbilityHiddenState(hero)
+	if not hero or hero:IsNull() or not hero.GetAbilityCount then
+		return
+	end
+
+	for slot = 0, hero:GetAbilityCount() - 1 do
+		local ability = hero:GetAbilityByIndex(slot)
+		if ability and not ability:IsNull() then
+			local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
+			if kvHidden then
+				if not ability:IsHidden() then
+					ability:SetHidden(true)
+				end
+			elseif self:ShouldResetAbilityToUnskilled(ability) and ability:IsHidden() then
+				ability:SetHidden(false)
+			end
+		end
+	end
+end
+
 function DraftSpawn:ResetHeroAbilitiesToStart(hero)
 	if not hero or hero:IsNull() or not hero.GetAbilityCount then
 		return
@@ -1330,6 +1417,9 @@ function DraftSpawn:ResetHeroAbilitiesToStart(hero)
 	for slot = 0, hero:GetAbilityCount() - 1 do
 		local ability = hero:GetAbilityByIndex(slot)
 		if ability and not ability:IsNull() and self:ShouldResetAbilityToUnskilled(ability) then
+			if ability:IsHidden() then
+				ability:SetHidden(false)
+			end
 			if ability:GetLevel() ~= 0 then
 				ability:SetLevel(0)
 			end
@@ -1345,12 +1435,29 @@ function DraftSpawn:ResetHeroAbilitiesToStart(hero)
 
 end
 
+function DraftSpawn:RestoreAbilityCastLayouts(hero)
+	if not hero or hero:IsNull() or not hero.GetAbilityCount then
+		return
+	end
+
+	for slot = 0, hero:GetAbilityCount() - 1 do
+		local ability = hero:GetAbilityByIndex(slot)
+		if ability and not ability:IsNull() and ability.RestoreCastLayout then
+			ability:RestoreCastLayout()
+		end
+	end
+end
+
 function DraftSpawn:ApplyMatchStartHeroState(hero)
 	if not hero or hero:IsNull() then
 		return
 	end
 
+	self:RestoreAbilityHiddenState(hero)
+	self:RestoreAbilityCastLayouts(hero)
 	self:ResetHeroAbilitiesToStart(hero)
+	self:RestoreAbilityHiddenState(hero)
+	self:RestoreAbilityCastLayouts(hero)
 	self:EnsureTownPortalScroll(hero)
 end
 
@@ -1382,6 +1489,10 @@ function DraftSpawn:ResetWarmupHeroes()
 				self._resettingHero[playerID] = true
 				self:StripUnitWarmupItems(hero, {})
 				self:PlaceHeroAtFountain(hero, false)
+
+				if ChenBarrackWipeForHero then
+					ChenBarrackWipeForHero(hero)
+				end
 
 				local newHero = PlayerResource:ReplaceHeroWith(playerID, heroName, gold, 0)
 				newHero = newHero or PlayerResource:GetSelectedHeroEntity(playerID)

@@ -1178,4 +1178,14 @@
     "special_bonus_unique_custom_nevermore_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
     "special_bonus_unique_custom_nevermore_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
     "special_bonus_unique_custom_nevermore_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+
+    // Dawnbreaker (stubs)
+    "special_bonus_unique_custom_dawnbreaker_1" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_2" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_3" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_4" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_5" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_dawnbreaker_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
 }

@@ -123,6 +123,9 @@ local MIND_POWER_RULES = {
         drop_damage = "drop_mind_power_multiplier",
         missile_damage = "missile_mind_power_multiplier",
     },
+    dawnbreaker_celestial_hammer_custom = {
+        hammer_damage = "mind_power_multiplier",
+    },
 }
 
 CustomAbilityTooltips.MIND_POWER_RULES = MIND_POWER_RULES

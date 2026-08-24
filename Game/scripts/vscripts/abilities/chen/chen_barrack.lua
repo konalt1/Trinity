@@ -302,14 +302,17 @@ function IsChenBarrackWorker(unit)
     return (unit:GetUnitName() or "") == CHEN_BARRACK_WORKER_UNIT
 end
 
+local function IsRealHeroEntity(entity)
+    return entity ~= nil and not entity:IsNull() and entity.IsRealHero ~= nil and entity:IsRealHero()
+end
+
 function GetBarrackOwnerHero(unit)
     if not unit or unit:IsNull() then
         return nil
     end
 
     if unit.chen_barrack_owner_hero then
-        local ok, dead = pcall(function() return unit.chen_barrack_owner_hero:IsNull() end)
-        if ok and not dead then
+        if IsRealHeroEntity(unit.chen_barrack_owner_hero) then
             return unit.chen_barrack_owner_hero
         end
         unit.chen_barrack_owner_hero = nil
@@ -317,7 +320,7 @@ function GetBarrackOwnerHero(unit)
 
     if unit.chen_barrack_owner_entindex then
         local ok, hero = pcall(EntIndexToHScript, unit.chen_barrack_owner_entindex)
-        if ok and hero and not hero:IsNull() and hero:IsRealHero() then
+        if ok and IsRealHeroEntity(hero) then
             unit.chen_barrack_owner_hero = hero
             return hero
         end
@@ -326,7 +329,7 @@ function GetBarrackOwnerHero(unit)
     local ownerIdx = CHEN_BARRACK_REGISTRY[unit:entindex()]
     if ownerIdx then
         local ok, hero = pcall(EntIndexToHScript, ownerIdx)
-        if ok and hero and not hero:IsNull() and hero:IsRealHero() then
+        if ok and IsRealHeroEntity(hero) then
             unit.chen_barrack_owner_entindex = ownerIdx
             unit.chen_barrack_owner_hero = hero
             return hero
@@ -336,13 +339,13 @@ function GetBarrackOwnerHero(unit)
     local playerID = unit:GetPlayerOwnerID()
     if playerID and playerID >= 0 and PlayerResource then
         local hero = PlayerResource:GetSelectedHeroEntity(playerID)
-        if hero and not hero:IsNull() and hero:IsRealHero() then
+        if IsRealHeroEntity(hero) then
             return hero
         end
     end
 
     local ok4, owner = pcall(function() return unit:GetOwnerEntity() end)
-    if ok4 and owner and not owner:IsNull() and owner:IsRealHero() then
+    if ok4 and IsRealHeroEntity(owner) then
         return owner
     end
 
@@ -350,7 +353,200 @@ function GetBarrackOwnerHero(unit)
 end
 
 ChenBarrackGold.GetBarrackOwnerHero = GetBarrackOwnerHero
+ChenBarrackGold.GetOwnerHero = GetBarrackOwnerHero
 ChenBarrackGold.IsChenBarrackBuilding = IsChenBarrackUnit
+
+local CHEN_WIPE_UNIT_NAMES = {
+    [CHEN_BARRACK_UNIT] = true,
+    [CHEN_BARRACK_FLYING_UNIT] = true,
+    [CHEN_BARRACK_WORKER_UNIT] = true,
+    [CHEN_BARRACK_HUNTER_UNIT] = true,
+    [CHEN_BARRACK_HEALER_UNIT] = true,
+    [CHEN_BARRACK_BRUTE_UNIT] = true,
+    npc_chen_building_tower = true,
+    npc_chen_building_special_barrack = true,
+    npc_chen_giant_courier = true,
+    npc_chen_ancient_black_dragon = true,
+}
+
+local CHEN_WIPE_CLASSNAMES = {
+    "npc_dota_building",
+    "npc_dota_tower",
+    "npc_dota_creature",
+    "npc_dota_creep_neutral",
+    "npc_dota_creep",
+    "npc_dota_thinker",
+}
+
+local function ShouldWipeChenUnit(unit, hero)
+    if not unit or unit:IsNull() or not hero or hero:IsNull() then
+        return false
+    end
+
+    local unitName = unit.GetUnitName and unit:GetUnitName() or ""
+    local isWipeName = CHEN_WIPE_UNIT_NAMES[unitName] == true
+    if not isWipeName and unit.chen_barrack_spawned ~= true and unit.chen_build_owner_hero == nil then
+        return false
+    end
+
+    if unit.chen_build_owner_hero == hero or unit.chen_flight_owner_hero == hero then
+        return true
+    end
+
+    local heroIndex = hero:entindex()
+    if unit.chen_owner_entindex == heroIndex or unit.chen_barrack_owner_entindex == heroIndex then
+        return true
+    end
+    if CHEN_BARRACK_REGISTRY[unit:entindex()] == heroIndex then
+        return true
+    end
+
+    if unit.chen_flight_barrack_entindex then
+        local barrack = ResolveBarrackFromEntIndex(unit.chen_flight_barrack_entindex)
+        if barrack and GetBarrackOwnerHero(barrack) == hero then
+            return true
+        end
+    end
+
+    if GetBarrackOwnerHero(unit) == hero then
+        return true
+    end
+
+    return isWipeName
+        and unit.GetPlayerOwnerID
+        and unit:GetPlayerOwnerID() == hero:GetPlayerOwnerID()
+        and hero:GetPlayerOwnerID() >= 0
+end
+
+local function AddWipeCandidate(list, seen, unit)
+    if not unit or unit:IsNull() then
+        return
+    end
+
+    local index = unit:entindex()
+    if seen[index] then
+        return
+    end
+
+    seen[index] = true
+    list[#list + 1] = unit
+end
+
+local function UnloadChenCourierPassengers(carrier)
+    for _, passenger in ipairs(carrier.chen_giant_courier_passengers or {}) do
+        if passenger and not passenger:IsNull() then
+            passenger.chen_giant_courier_carrier = nil
+            passenger:RemoveNoDraw()
+            passenger:RemoveModifierByName("modifier_chen_giant_courier_passenger")
+        end
+    end
+    carrier.chen_giant_courier_passengers = {}
+end
+
+local function SilentRemoveChenUnit(unit)
+    if not unit or unit:IsNull() then
+        return
+    end
+
+    if IsChenBarrackUnit(unit) then
+        unit.chen_barrack_gold = 0
+        unit.chen_barrack_destroy_handled = true
+        unit.chen_is_destroyed = true
+        CHEN_BARRACK_REGISTRY[unit:entindex()] = nil
+    end
+
+    if (unit:GetUnitName() or "") == "npc_chen_giant_courier" then
+        UnloadChenCourierPassengers(unit)
+    end
+
+    UTIL_Remove(unit)
+end
+
+function ChenBarrackWipeForHero(hero)
+    if not hero or hero:IsNull() then
+        return
+    end
+    if hero.GetUnitName and hero:GetUnitName() ~= "npc_dota_hero_chen" then
+        return
+    end
+
+    if ChenWorkerBuild and ChenWorkerBuild.StopAllConstructionsForHero then
+        ChenWorkerBuild.StopAllConstructionsForHero(hero)
+    end
+
+    local units = {}
+    local seen = {}
+
+    local livingBarrack = GetLivingBarrackForHero(hero)
+    AddWipeCandidate(units, seen, livingBarrack)
+    if livingBarrack and not livingBarrack:IsNull() then
+        AddWipeCandidate(units, seen, livingBarrack.chen_flight_proxy)
+    end
+
+    local indexedBarrack = ResolveBarrackFromEntIndex(hero.chen_barrack_entindex)
+    AddWipeCandidate(units, seen, indexedBarrack)
+    if indexedBarrack and not indexedBarrack:IsNull() then
+        AddWipeCandidate(units, seen, indexedBarrack.chen_flight_proxy)
+    end
+
+    for unitIndex, ownerIndex in pairs(CHEN_BARRACK_REGISTRY) do
+        if ownerIndex == hero:entindex() then
+            AddWipeCandidate(units, seen, ResolveBarrackFromEntIndex(unitIndex))
+        end
+    end
+
+    local found = FindUnitsInRadius(
+        hero:GetTeamNumber(),
+        hero:GetAbsOrigin(),
+        nil,
+        FIND_UNITS_EVERYWHERE,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_BUILDING + DOTA_UNIT_TARGET_OTHER,
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD,
+        FIND_ANY_ORDER,
+        false
+    )
+    for _, unit in pairs(found) do
+        if ShouldWipeChenUnit(unit, hero) then
+            AddWipeCandidate(units, seen, unit)
+        end
+    end
+
+    if Entities and Entities.FindAllByClassname then
+        for _, className in ipairs(CHEN_WIPE_CLASSNAMES) do
+            for _, unit in pairs(Entities:FindAllByClassname(className) or {}) do
+                if ShouldWipeChenUnit(unit, hero) then
+                    AddWipeCandidate(units, seen, unit)
+                end
+            end
+        end
+    end
+
+    local wipeIndexes = {}
+    for _, unit in ipairs(units) do
+        wipeIndexes[unit:entindex()] = true
+    end
+
+    if Entities and Entities.FindAllByClassname then
+        for _, thinker in pairs(Entities:FindAllByClassname("npc_dota_thinker") or {}) do
+            if thinker and not thinker:IsNull() then
+                local owner = thinker.GetOwner and thinker:GetOwner() or nil
+                if owner and not owner:IsNull() and wipeIndexes[owner:entindex()] then
+                    AddWipeCandidate(units, seen, thinker)
+                end
+            end
+        end
+    end
+
+    for _, unit in ipairs(units) do
+        SilentRemoveChenUnit(unit)
+    end
+
+    hero.chen_barrack_entindex = nil
+    ChenBarrackResetUltimate(hero)
+end
+
+ChenBarrackGold.WipeForHero = ChenBarrackWipeForHero
 
 local function FocusPlayerOnBarrack(playerID, barrack)
     if playerID == nil or playerID < 0 or not barrack or barrack:IsNull() then

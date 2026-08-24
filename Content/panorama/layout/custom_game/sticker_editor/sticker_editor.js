@@ -254,7 +254,7 @@ function CreateWheelSlot(parent, index, key) {
   return slot;
 }
 
-function CreateCollectionRow(parent, key, owned, equipped) {
+function CreateCollectionRow(parent, key, owned) {
   const row = $.CreatePanel("Button", parent, "Collection" + key);
   row.AddClass("CollectionRow");
   if (!owned) row.AddClass("Locked");
@@ -269,13 +269,6 @@ function CreateCollectionRow(parent, key, owned, equipped) {
   name.AddClass("CollectionName");
   name.text = owned ? StickerName(key) : $.Localize("#sticker_editor_locked");
   DisableHittest(name);
-
-  if (equipped) {
-    const mark = $.CreatePanel("Label", row, "");
-    mark.AddClass("CollectionEquipped");
-    mark.text = $.Localize("#sticker_editor_equipped");
-    DisableHittest(mark);
-  }
 
   if (owned) {
     row.SetPanelEvent("onactivate", function () {
@@ -336,13 +329,18 @@ function Render() {
     }
   }
 
+  if (pick && pick.from === null && slots.indexOf(pick.key) >= 0) {
+    pick = null;
+  }
+
   const list = $("#CollectionList");
   if (list) {
     list.RemoveAndDeleteChildren();
     for (const key of STICKER_CATALOG) {
       const isOwned = !!owned[key];
       if (!isOwned && hideLocked) continue;
-      CreateCollectionRow(list, key, isOwned, slots.indexOf(key) >= 0);
+      if (slots.indexOf(key) >= 0) continue;
+      CreateCollectionRow(list, key, isOwned);
     }
   }
 }
