@@ -416,6 +416,13 @@
 		"Ability17"                                     "special_bonus_unique_custom_dawnbreaker_8"
 	}
 
+	"npc_dota_hero_largo"
+	{
+		"override_hero"                                 "npc_dota_hero_largo"
+		"Ability3"                                      "largo_childhood_memories"
+		"Ability4"                                      "largo_encore"
+	}
+
 	"npc_dota_hero_nevermore"
 	{
 		"override_hero"                                 "npc_dota_hero_nevermore"

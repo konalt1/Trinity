@@ -1208,5 +1208,107 @@
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom"				"Солнечный Прыжок"
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker прыгает в текущую точку маркера."
 
+		// Largo
+		"DOTA_Tooltip_ability_largo_catchy_lick"									"Липкий Лизь"
+		"DOTA_Tooltip_ability_largo_catchy_lick_Description"						"Largo лижет выбранное существо языком, притягивает его и снимает с него развеиваемые эффекты.
+
+		Враг получает магический урон. Союзника притягивает дальше.
+
+		Снятый с цели эффект даёт Largo регенерацию здоровья."
+		"DOTA_Tooltip_ability_largo_catchy_lick_damage"							"УРОН:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_pull_distance"					"ПРИТЯЖЕНИЕ ВРАГА:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_pull_distance_ally"				"ПРИТЯЖЕНИЕ СОЮЗНИКА:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_dispel_hp_regen"					"РЕГЕНЕРАЦИЯ:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_buff_duration"					"ДЛИТЕЛЬНОСТЬ РЕГЕНЕРАЦИИ:"
+		"DOTA_Tooltip_modifier_largo_catchy_lick_buff"							"Сытое брюхо"
+		"DOTA_Tooltip_modifier_largo_catchy_lick_buff_Description"				"Регенерация здоровья повышена."
+
+		"DOTA_Tooltip_ability_largo_frogstomp"									"Жабий Топ"
+		"DOTA_Tooltip_ability_largo_frogstomp_Description"						"Largo бросает учеников-лягушек в выбранную область. Они топают по земле, нанося магический урон, оглушая врагов и замедляя их передвижение."
+		"DOTA_Tooltip_ability_largo_frogstomp_damage_per_stomp"					"УРОН ЗА ПРИТОП:"
+		"DOTA_Tooltip_ability_largo_frogstomp_total_ticks"						"ЧИСЛО ПРИТОПОВ:"
+		"DOTA_Tooltip_ability_largo_frogstomp_slow"								"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_largo_frogstomp_radius"							"РАДИУС:"
+		"DOTA_Tooltip_ability_largo_frogstomp_stun_duration"						"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_modifier_largo_frogstomp_debuff"							"Жабий Топ"
+		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Замедлен."
+
+		"DOTA_Tooltip_ability_largo_childhood_memories"								"Детские воспоминания"
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Переключаемая. Пока способность активна, Largo передвигается прыжками фиксированной дальности в направлении движения.
+
+		Дальность прыжка зависит от скорости передвижения: чем она выше, тем дальше прыжок.
+
+		Враги, попавшие под прыжок, получают магический урон и оглушаются."
+		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"МНОЖИТЕЛЬ ДАЛЬНОСТИ:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"ДЛИТЕЛЬНОСТЬ ПРЫЖКА:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"ПАУЗА МЕЖДУ ПРЫЖКАМИ:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_stun_duration"					"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_stomp_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_stun_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"МАНА ЗА ПРЫЖОК:"
+		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Детские воспоминания"
+		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Передвигается прыжками."
+
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody"							"Амфибийная рапсодия"
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"				"Largo готовится играть. Он безоружен, а его способности сменяются тремя песнями: Пузатый блиц, Жаркий галоп и Тропический эликсир.
+
+		Песни действуют, только если взять ноту в такт.
+
+		Каждая точная нота даёт заряд Нот: бонус к броне и снижение стоимости маны песен. Промах снимает заряд. Заряды ненадолго остаются после окончания игры."
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_scepter_description"		"Можно взять две песни за один такт. Если одна из них — Пузатый блиц, враги вокруг получают магический урон."
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_max_stacks"				"МАКСИМУМ НОТ:"
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_armor_per_stack"			"БРОНЯ ЗА НОТУ:"
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_song_cost_reduction_per_stack_tooltip"	"СНИЖЕНИЕ МАНЫ ЗА НОТУ:"
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_stack_duration"			"ДЛИТЕЛЬНОСТЬ НОТ:"
+		"DOTA_Tooltip_modifier_largo_groovin"									"Ноты"
+		"DOTA_Tooltip_modifier_largo_groovin_Description"						"Броня повышена. Песни стоят меньше маны."
+		"DOTA_Tooltip_modifier_largo_amphibian_rhapsody_ambient_buff"			"Ноты"
+		"DOTA_Tooltip_modifier_largo_amphibian_rhapsody_ambient_buff_Description"	"Броня повышена."
+		"DOTA_Tooltip_modifier_largo_amphibian_rhapsody_self"					"Амфибийная рапсодия"
+		"DOTA_Tooltip_modifier_largo_amphibian_rhapsody_self_Description"			"Играет. Безоружен."
+
+		"DOTA_Tooltip_ability_largo_song_fight_song"							"Пузатый блиц"
+		"DOTA_Tooltip_ability_largo_song_fight_song_Description"					"Largo играет песню: ближайшие союзные герои получают усиление заклинаний, а их атаки наносят дополнительный магический урон.
+
+		Враги вокруг получают магический урон."
+		"DOTA_Tooltip_ability_largo_song_fight_song_burst_damage"				"УРОН:"
+		"DOTA_Tooltip_ability_largo_song_fight_song_magic_damage_bonus"			"%ДОП. МАГИЧЕСКИЙ УРОН АТАК:"
+		"DOTA_Tooltip_ability_largo_song_fight_song_spell_amp_bonus"				"%УСИЛЕНИЕ ЗАКЛИНАНИЙ:"
+		"DOTA_Tooltip_ability_largo_song_fight_song_radius"						"РАДИУС:"
+		"DOTA_Tooltip_modifier_largo_song_attack_burst"							"Пузатый блиц"
+		"DOTA_Tooltip_modifier_largo_song_attack_burst_Description"				"Заклинания усилены. Атаки наносят дополнительный магический урон."
+
+		"DOTA_Tooltip_ability_largo_song_double_time"							"Жаркий галоп"
+		"DOTA_Tooltip_ability_largo_song_double_time_Description"				"Largo играет песню: ближайшие союзники ускоряются и ненадолго получают сопротивление замедлениям."
+		"DOTA_Tooltip_ability_largo_song_double_time_movespeed_bonus_burst"		"%СКОРОСТЬ:"
+		"DOTA_Tooltip_ability_largo_song_double_time_slow_resistance"			"%СОПРОТИВЛЕНИЕ ЗАМЕДЛЕНИЯМ:"
+		"DOTA_Tooltip_ability_largo_song_double_time_radius"						"РАДИУС:"
+		"DOTA_Tooltip_modifier_largo_song_speed_burst"							"Жаркий галоп"
+		"DOTA_Tooltip_modifier_largo_song_speed_burst_Description"				"Скорость передвижения повышена."
+		"DOTA_Tooltip_modifier_largo_song_speed_burst_slowres"					"Жаркий галоп"
+		"DOTA_Tooltip_modifier_largo_song_speed_burst_slowres_Description"		"Сопротивление замедлениям повышено."
+
+		"DOTA_Tooltip_ability_largo_song_good_vibrations"						"Тропический эликсир"
+		"DOTA_Tooltip_ability_largo_song_good_vibrations_Description"			"Largo играет песню и лечит ближайших союзных героев."
+		"DOTA_Tooltip_ability_largo_song_good_vibrations_heal_burst"				"ЛЕЧЕНИЕ:"
+		"DOTA_Tooltip_ability_largo_song_good_vibrations_radius"					"РАДИУС:"
+
+		"DOTA_Tooltip_ability_largo_encore"										"На бис"
+		"DOTA_Tooltip_ability_largo_encore_Description"							"Эффекты, которые герой накладывает на себя или на союзников, действуют дольше. Накладывая на союзника направленный эффект, герой также получает его сам.
+
+		Если же герой наложит направленный эффект способности на себя, она также применится на ближайшего союзного героя в своём радиусе применения."
+		"DOTA_Tooltip_ability_largo_encore_buff_amplification"					"%УСИЛЕНИЕ ДЛИТЕЛЬНОСТИ:"
+
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_1"						"+15 урона Жабьим Топом"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_2"						"x2.5 регенерации Липкого Лизя"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_3"						"+1% урона от макс. здоровья"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_4"						"+100 дальности / +50 притяжения Липкого Лизя"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_5"						"x2 притопов Жабьим Топом"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_6"						"50% брони Нот союзникам"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_7"						"+30% эффекта Амфибийной рапсодии"
+		"DOTA_Tooltip_ability_special_bonus_unique_largo_8"						"2 заряда Липкого Лизя"
+
 	}
 }

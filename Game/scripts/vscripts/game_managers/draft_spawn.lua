@@ -1325,6 +1325,35 @@ function DraftSpawn:AbilityKvHasBehavior(ability, flag)
 	return string.find(behavior, flag, 1, true) ~= nil
 end
 
+function DraftSpawn:AbilityKvIsEnabled(ability, key)
+	if not ability or ability:IsNull() or not key then
+		return false
+	end
+
+	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
+	if not kv then
+		return false
+	end
+
+	local value = kv[key]
+	return value == "1" or value == 1 or value == true or value == "true"
+end
+
+function DraftSpawn:ShouldShowGrantedAbility(hero, ability)
+	if not hero or hero:IsNull() or not ability or ability:IsNull() then
+		return false
+	end
+
+	if self:AbilityKvIsEnabled(ability, "IsGrantedByShard") then
+		return HasShard and HasShard(hero) or false
+	end
+	if self:AbilityKvIsEnabled(ability, "IsGrantedByScepter") then
+		return hero.HasScepter and hero:HasScepter() or false
+	end
+
+	return true
+end
+
 function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 	if not ability or ability:IsNull() then
 		return false
@@ -1351,6 +1380,11 @@ function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 	end
 
 	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
+	if self:AbilityKvIsEnabled(ability, "IsGrantedByShard")
+		or self:AbilityKvIsEnabled(ability, "IsGrantedByScepter") then
+		return false
+	end
+
 	local kvType = kv and (kv.AbilityType or kv.abilitytype) or nil
 	local kvIsUltimate = kvType == "DOTA_ABILITY_TYPE_ULTIMATE"
 	local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
@@ -1397,8 +1431,26 @@ function DraftSpawn:RestoreAbilityHiddenState(hero)
 	for slot = 0, hero:GetAbilityCount() - 1 do
 		local ability = hero:GetAbilityByIndex(slot)
 		if ability and not ability:IsNull() then
-			local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
-			if kvHidden then
+			local grantedByItem = self:AbilityKvIsEnabled(ability, "IsGrantedByShard")
+				or self:AbilityKvIsEnabled(ability, "IsGrantedByScepter")
+			if grantedByItem then
+				local show = self:ShouldShowGrantedAbility(hero, ability)
+				if show then
+					if ability:IsHidden() then
+						ability:SetHidden(false)
+					end
+					if ability:GetLevel() < 1 then
+						ability:SetLevel(1)
+					end
+				else
+					if ability:GetLevel() ~= 0 then
+						ability:SetLevel(0)
+					end
+					if not ability:IsHidden() then
+						ability:SetHidden(true)
+					end
+				end
+			elseif self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN") then
 				if not ability:IsHidden() then
 					ability:SetHidden(true)
 				end

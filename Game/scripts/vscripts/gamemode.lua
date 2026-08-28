@@ -492,11 +492,46 @@ function GameMode:OnNPCSpawned(data)
        npc._trinity_pudge_hook_had_scepter = npc:HasScepter()
    end
 
+   if npc:IsHero() and npc:GetUnitName() == "npc_dota_hero_largo" then
+       if not npc:HasModifier("modifier_largo_mind_power") then
+           npc:AddNewModifier(npc, nil, "modifier_largo_mind_power", {})
+       end
+       self:SyncLargoEncore(npc)
+   end
+
    -- Отслеживаем спавн лейн крипов
    if npc:IsCreep() and not npc:IsNeutralUnitType() and not GameMode.lane_creeps_spawned then
        GameMode.lane_creeps_spawned = true
        GameMode:UnlockTier1Towers()
    end
+end
+
+function GameMode:SyncLargoEncore(hero)
+	if not hero or hero:IsNull() or hero:GetUnitName() ~= "npc_dota_hero_largo" then
+		return
+	end
+
+	local encore = hero:FindAbilityByName("largo_encore")
+	if not encore or encore:IsNull() then
+		return
+	end
+
+	local has_shard = HasShard and HasShard(hero)
+	if has_shard then
+		if encore:IsHidden() then
+			encore:SetHidden(false)
+		end
+		if encore:GetLevel() < 1 then
+			encore:SetLevel(1)
+		end
+	else
+		if encore:GetLevel() ~= 0 then
+			encore:SetLevel(0)
+		end
+		if not encore:IsHidden() then
+			encore:SetHidden(true)
+		end
+	end
 end
 
 function GameMode:OnChenInventoryChanged(data)
@@ -513,6 +548,10 @@ function GameMode:OnChenInventoryChanged(data)
 
 	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_pudge" then
 		self:SchedulePudgeHookScepterSync(hero)
+	end
+
+	if hero and not hero:IsNull() and hero:IsRealHero() then
+		self:SyncLargoEncore(hero)
 	end
 end
 
@@ -554,6 +593,10 @@ function GameMode:OnInventoryUpdate(data)
 
 	if hero and not hero:IsNull() and hero:IsRealHero() and hero:GetUnitName() == "npc_dota_hero_pudge" then
 		self:SchedulePudgeHookScepterSync(hero)
+	end
+
+	if hero and not hero:IsNull() and hero:IsRealHero() then
+		self:SyncLargoEncore(hero)
 	end
 end
 

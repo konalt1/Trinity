@@ -1174,5 +1174,29 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom"				"Solar Leap"
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker leaps to the marker's current location."
 
+		// Largo
+		"DOTA_Tooltip_ability_largo_childhood_memories"								"Childhood Memories"
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Toggle. While active, Largo moves by leaps of a fixed distance in his movement direction.
+
+		Leap distance scales with movement speed: the faster he is, the farther he leaps.
+
+		Enemies caught under a leap take magical damage and are stunned."
+		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"DISTANCE MULTIPLIER:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"LEAP DURATION:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"DELAY BETWEEN LEAPS:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_stun_duration"					"STUN DURATION:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_stomp_damage"					"DAMAGE:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_mind_power_multiplier"			"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_stun_radius"					"RADIUS:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"MANA PER LEAP:"
+		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Childhood Memories"
+		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Moving by leaps."
+
+		"DOTA_Tooltip_ability_largo_encore"										"Encore"
+		"DOTA_Tooltip_ability_largo_encore_Description"							"Effects the hero applies to himself or allies last longer. When he applies a unit-targeted effect to an ally, he also gains it.
+
+		If he applies a unit-targeted ability effect to himself, it is also applied to the nearest allied hero in that ability's cast range."
+		"DOTA_Tooltip_ability_largo_encore_buff_amplification"					"%DURATION AMPLIFICATION:"
+
 	}
 }
