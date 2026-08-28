@@ -64,4 +64,14 @@
         "y"             "float"
         "z"             "float"
     }
+
+    "trinity_sticker_ui_override"
+    {
+        "enabled"        "bool"
+    }
+
+    "chen_barrack_queue_unit"
+    {
+        "unit"          "string"
+    }
 }

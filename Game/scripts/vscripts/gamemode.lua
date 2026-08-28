@@ -16,6 +16,12 @@ if GameMode.lane_creeps_spawned == nil then
 end
 GameMode.CHAT_WHEEL_COOLDOWN = 20
 
+-- Останавливаем монитор, если этот файл перечитан через script_reload.
+GameMode.neutralSpawnDebugEnabled = false
+if Timers and Timers.RemoveTimer then
+	Timers:RemoveTimer("trinity_neutral_respawn_debug_think")
+end
+
 GameMode.wave_list = {
 	[1]={reward_gold=250,reward_exp=500,
 			units={["npc_line_creep_1"]=6,["npc_line_creep_2"]=2}},
@@ -767,6 +773,7 @@ function GameMode:OnChatWheelSelect(data)
       hero = hero:entindex(),
       playerID = data.PlayerID,
       sound = sound,
+	  elite = (TrinityStickers and TrinityStickers:IsElite(data.PlayerID, sound)) and 1 or 0,
 	  maxTime = TrinityStickers and TrinityStickers:MaxTime(sound) or data.maxTime
     });
 end

@@ -27,29 +27,10 @@
                             <Label text="&#10005;"/>
                         </Button>
                     </Panel>
-                    <Panel id="LootboxRow" class="LootboxRow">
-                        <Button id="OpenLootboxButton" class="LootboxButton">
-                            <Label text="#sticker_editor_open"/>
-                        </Button>
-                    </Panel>
-                    <Button id="HideLockedRow" class="StickerFilterRow">
-                        <Panel id="HideLockedBox" class="StickerCheckboxBox" hittest="false"/>
-                        <Label class="StickerCheckboxLabel" text="#sticker_editor_hide_locked" hittest="false"/>
-                    </Button>
                     <Panel class="StickerListScroll">
                         <Panel id="CollectionList" class="CollectionList"/>
                     </Panel>
                 </Panel>
-            </Panel>
-        </Panel>
-        <Panel id="RevealOverlay" class="RevealOverlay" hittest="true">
-            <Panel class="RevealCard">
-                <Movie id="RevealMovie" class="RevealMovie" controls="none" repeat="true" autoplay="onload"/>
-                <Label id="RevealName" class="RevealName"/>
-                <Label id="RevealDuplicate" class="RevealDuplicate" text="#sticker_editor_duplicate"/>
-                <Button id="RevealContinue" class="LootboxButton" onactivate="CloseReveal()">
-                    <Label text="#sticker_editor_continue"/>
-                </Button>
             </Panel>
         </Panel>
     </Panel>

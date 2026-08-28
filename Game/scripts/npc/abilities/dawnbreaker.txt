@@ -61,7 +61,7 @@
         "ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_luminosity_custom"
         "AbilityTextureName"            "dawnbreaker_luminosity"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
@@ -113,7 +113,7 @@
         "AbilityValues"
         {
             "min_range"                 "200"
-            "max_range"                 "10000 12000 14000"
+            "max_range"                 "4000 5000 6000"
             "min_radius"
             {
                 "value"                 "220"
@@ -124,6 +124,7 @@
                 "value"                 "450 525 600"
                 "affected_by_aoe_increase" "1"
             }
+            "radius_grow_multiplier"   "2.5"
             "damage"                    "250 375 500"
             "stun_duration"             "1.4 1.6 1.8"
             "leap_duration"             "1.1"

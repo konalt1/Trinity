@@ -93,7 +93,12 @@ function Precache( context )
 	PrecacheResource( "model", "models/heroes/snapfire/snapfire_customgame.vmdl", context )
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts", context )
 	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts", context )
-	PrecacheResource( "particle_folder", "particles/units/heroes/hero_snapfire", context )
+	-- Прекеш юнита тянет ProjectileModel и все способности из KV, включая ванильный
+	-- Firesnap Cookie. Раньше здесь стоял particle_folder на hero_snapfire: 239 .vpcf,
+	-- из которых около сотни принадлежат Scatterblast, Lil' Shredder, loadout и
+	-- скипетровым версиям — их у Мортимера нет.
+	PrecacheUnitByNameSync( "npc_mortimer_boss", context )
+	PrecacheUnitByNameSync( "npc_mortimer_boss_finale", context )
  
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")

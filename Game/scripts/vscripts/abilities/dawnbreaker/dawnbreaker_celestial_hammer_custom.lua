@@ -128,8 +128,7 @@ end
 
 function dawnbreaker_celestial_hammer_custom:IsSolarGuardianTrackerActive()
 	local caster = self:GetCaster()
-	local release = caster:FindAbilityByName("dawnbreaker_solar_guardian_release_custom")
-	if release and not release:IsHidden() then
+	if caster:HasModifier("modifier_dawnbreaker_solar_guardian_custom_tracker_active") then
 		return true
 	end
 
@@ -764,12 +763,15 @@ function modifier_dawnbreaker_celestial_hammer_custom_nohammer:IsPurgable()
 	return false
 end
 
-function modifier_dawnbreaker_celestial_hammer_custom_nohammer:OnCreated()
+function modifier_dawnbreaker_celestial_hammer_custom_nohammer:OnCreated(kv)
 	if not IsServer() then
 		return
 	end
 	self:IncrementStackCount()
-	self:SetWeaponVisible(false)
+	self.skip_hide_weapon = tonumber(kv and kv.skip_hide_weapon) == 1
+	if not self.skip_hide_weapon then
+		self:SetWeaponVisible(false)
+	end
 	self:SetHammerRequiredAbilitiesActivated(false)
 	self:StartIntervalThink(0.1)
 end
@@ -778,15 +780,27 @@ function modifier_dawnbreaker_celestial_hammer_custom_nohammer:OnIntervalThink()
 	self:SetHammerRequiredAbilitiesActivated(false)
 end
 
-function modifier_dawnbreaker_celestial_hammer_custom_nohammer:OnRefresh()
-	self:OnCreated()
+function modifier_dawnbreaker_celestial_hammer_custom_nohammer:OnRefresh(kv)
+	if not IsServer() then
+		return
+	end
+	self:IncrementStackCount()
+	if tonumber(kv and kv.skip_hide_weapon) == 1 then
+		self.skip_hide_weapon = true
+	end
+	if not self.skip_hide_weapon then
+		self:SetWeaponVisible(false)
+	end
+	self:SetHammerRequiredAbilitiesActivated(false)
 end
 
 function modifier_dawnbreaker_celestial_hammer_custom_nohammer:OnDestroy()
 	if not IsServer() then
 		return
 	end
-	self:SetWeaponVisible(true)
+	if not self.skip_hide_weapon then
+		self:SetWeaponVisible(true)
+	end
 	self:SetHammerRequiredAbilitiesActivated(true)
 	local ability = self:GetAbility()
 	if ability and ability.RestoreHammerSlot then

@@ -34,11 +34,15 @@ var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const loadTableHeroFromNet = () => {
   const playerID = Players.GetLocalPlayer();
   const data = CustomNetTables.GetTableValue("trinity_stickers", String(playerID)) || {};
+  const owned = data.owned || {};
   tableHero = {};
   for (let i = 0; i < 8; i++) {
     const sound = data["slot" + i] || "";
+    const entry = owned[sound];
+    const elite = !!(entry && (entry.quality == 2 || entry == 2));
     tableHero[String(i)] = {
       sound: sound,
+      elite: elite,
       maxTime: sound ? STICKER_MAX_TIME[sound] || 1.5 : 0,
     };
   }
@@ -65,11 +69,13 @@ const initChatWheel = () => {
       name = tableHero[i]?.sound || "";
     }
     const hasSound = name !== "";
+    const elite = !!(tableHero && tableHero[i]?.elite);
     const PhraseLabel = $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0)
       .GetChild(0);
-    PhraseLabel.text = $.Localize(hasSound ? "#chat_wheel_donate_sound_" + name : "#chat_wheel_donate_sound_empty");
+    const labelText = $.Localize(hasSound ? "#chat_wheel_donate_sound_" + name : "#chat_wheel_donate_sound_empty");
+    PhraseLabel.text = hasSound && elite ? labelText + " ★" : labelText;
     const phrase = $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0)
@@ -255,10 +261,14 @@ const CreateVideoHeadMessage = (data) => {
     style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; visibility: collapse;`,
     controls: "none",
     repeat: "true",
-    disableaudio: "false",
+    disableaudio: data.elite == 1 ? "false" : "true",
     autoplay: "onload",
     src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
+  if (data.elite == 1) {
+    newPanel.style.border = "2px solid #e2c56a";
+    newPanel.style.boxShadow = "fill #e2c56a66 0px 0px 8px 0px";
+  }
 
   const maxTime = data.maxTime;
   let time = 0;
@@ -458,10 +468,14 @@ const CreateVideoChatMessage = (data) => {
     style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; horizontal-align: left; margin-left: ${CHAT_STICKER_MESSAGE_OFFSET_X}px;`,
     controls: "none",
     repeat: "true",
-    disableaudio: "false",
+    disableaudio: data.elite == 1 ? "false" : "true",
     autoplay: "onload",
     src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
+  if (data.elite == 1) {
+    movie.style.border = "2px solid #e2c56a";
+    movie.style.boxShadow = "fill #e2c56a66 0px 0px 8px 0px";
+  }
 
   const playerLine = $.CreatePanel("Label", message, "", {
     class: "ChatLine",
@@ -486,8 +500,11 @@ const CreateVideoChatMessage = (data) => {
   });
 
   const stickerText = $.Localize(`chat_wheel_donate_sound_${data.sound}`, playerLine);
+  const icon = data.elite == 1
+    ? "<font color='#e2c56a'>★</font>  "
+    : "<img src='file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd' class='ChatWheelIcon' />  ";
   playerLine.text = `${CHAT_STICKER_MESSAGE_INDENT}<font color='${playerColor}'>${playerName}</font> : `
-    + "<img src='file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd' class='ChatWheelIcon' />  "
+    + icon
     + stickerText;
 
   $.Schedule(7, () => {
@@ -500,8 +517,10 @@ const CreateVideoChatMessage = (data) => {
 };
 
 GameEvents.Subscribe("chat_wheel_send_sound", (event) => {
-  const soundEvent = CHAT_STICKER_SOUNDS[event.sound];
-  if (soundEvent) Game.EmitSound(soundEvent);
+  if (event.elite == 1) {
+    const soundEvent = CHAT_STICKER_SOUNDS[event.sound];
+    if (soundEvent) Game.EmitSound(soundEvent);
+  }
 
   const shownAboveHero = CreateVideoHeadMessage(event);
   if (!shownAboveHero) CreateVideoChatMessage(event);

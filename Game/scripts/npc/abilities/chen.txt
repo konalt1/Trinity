@@ -127,7 +127,7 @@
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "abilities/chen/chen_ultimate_aura"
         "AbilityTextureName"            "chen_divine_favor"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
         "AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
         "SpellImmunityType"             "SPELL_IMMUNITY_ALLIES_YES"

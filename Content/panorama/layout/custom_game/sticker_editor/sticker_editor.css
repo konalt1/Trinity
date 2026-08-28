@@ -102,6 +102,11 @@
     border: 1px solid #4d5866;
 }
 
+.WheelSlot.Elite .WheelSlotPreview {
+    border: 2px solid #e2c56a;
+    box-shadow: fill #e2c56a66 0px 0px 8px 0px;
+}
+
 .WheelSlot.Empty .WheelSlotPreview {
     background-color: #0d1218;
     border: 1px solid #313b46;
@@ -233,9 +238,21 @@
     color: #dfe5ec;
 }
 
+.LootboxStatsRow {
+    width: 100%;
+    flow-children: right;
+    padding: 8px 12px 0px 12px;
+}
+
+.LootboxStat {
+    margin-right: 14px;
+    font-size: 14px;
+    color: #c8d0dc;
+}
+
 .LootboxRow {
     width: 100%;
-    padding: 10px 12px 0px 12px;
+    padding: 8px 12px 0px 12px;
     visibility: collapse;
 }
 
@@ -261,6 +278,76 @@
     brightness: 1.2;
 }
 
+.ShopTitle,
+.CollectionTitle {
+    width: 100%;
+    padding: 8px 12px 4px 12px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8b96a4;
+}
+
+.ShopList {
+    width: 100%;
+    flow-children: down;
+}
+
+.ShopRow {
+    width: 100%;
+    height: 48px;
+    flow-children: right;
+    padding: 0px 12px;
+    border-bottom: 1px solid #1f262e;
+}
+
+.ShopName {
+    vertical-align: center;
+    width: fill-parent-flow(1.0);
+    font-size: 15px;
+    color: #dfe5ec;
+    text-overflow: shrink;
+}
+
+.ShopRarity {
+    vertical-align: center;
+    margin-right: 8px;
+    font-size: 12px;
+    color: #8b96a4;
+}
+
+.ShopRow.Rare .ShopRarity {
+    color: #c9a36a;
+}
+
+.ShopBuyButton {
+    vertical-align: center;
+    margin-left: 4px;
+    height: 28px;
+    padding: 0px 8px;
+    background-color: #2b333c;
+    border: 1px solid #3d4750;
+}
+
+.ShopBuyButton Label {
+    align: center center;
+    font-size: 13px;
+    color: #dfe5ec;
+}
+
+.ShopBuyButton:hover {
+    brightness: 1.2;
+}
+
+.ShopBuyButton.EliteBuy {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#7a5a1c), to(#3d2c0c));
+    border: 1px solid #e2c56a;
+}
+
+.ShopBuyButton.Disabled {
+    brightness: 0.45;
+}
+
 .StickerFilterRow {
     width: 100%;
     height: 38px;
@@ -268,6 +355,7 @@
     padding: 0px 12px;
     background-color: #131922;
     border-bottom: 1px solid #2b333c;
+    visibility: collapse;
 }
 
 .StickerCheckboxBox {
@@ -297,6 +385,7 @@
 .StickerListScroll {
     width: 100%;
     height: fill-parent-flow(1.0);
+    flow-children: down;
     overflow: squish scroll;
 }
 
@@ -323,9 +412,10 @@
     border-left: 3px solid #a9c98a;
 }
 
-.CollectionRow.Locked {
-    brightness: 0.4;
-    saturation: 0.15;
+.CollectionMovie {
+    width: 100%;
+    height: 100%;
+    border-radius: 23px;
 }
 
 .CollectionPreview {
@@ -337,23 +427,31 @@
     border: 1px solid #4d5866;
 }
 
-.CollectionMovie {
-    width: 100%;
-    height: 100%;
-    border-radius: 23px;
+.CollectionRow.Elite .CollectionPreview {
+    border: 2px solid #e2c56a;
+    box-shadow: fill #e2c56a66 0px 0px 8px 0px;
 }
 
-.CollectionName {
+.CollectionMeta {
     vertical-align: center;
     margin-left: 12px;
     width: fill-parent-flow(1.0);
+    flow-children: down;
+}
+
+.CollectionName {
     font-size: 16px;
     color: #dfe5ec;
     text-overflow: shrink;
 }
 
-.CollectionRow.Locked .CollectionName {
+.CollectionCopies {
+    font-size: 13px;
     color: #8b96a4;
+}
+
+.CollectionRow.Elite .CollectionCopies {
+    color: #e2c56a;
 }
 
 .StickerDragDisplay {
@@ -383,13 +481,18 @@
 
 .RevealCard {
     width: 300px;
-    height: 380px;
+    height: 400px;
     align: center center;
     flow-children: down;
     padding: 18px;
     background-color: #171d24;
     border: 1px solid #e2c56a;
     box-shadow: fill #000000cc 0px 4px 20px 0px;
+}
+
+.RevealCard.Elite {
+    border: 2px solid #f0d78c;
+    box-shadow: fill #e2c56a88 0px 0px 24px 0px;
 }
 
 .RevealMovie {
@@ -407,14 +510,25 @@
     color: #f0d78c;
 }
 
-.RevealDuplicate {
+.RevealQuality {
+    horizontal-align: center;
+    margin-top: 4px;
+    font-size: 15px;
+    color: #c8d0dc;
+}
+
+.RevealCard.Elite .RevealQuality {
+    color: #f0d78c;
+}
+
+.RevealNote {
     horizontal-align: center;
     margin-top: 6px;
     color: #c9b48a;
     visibility: collapse;
 }
 
-.RevealDuplicate.ShowDuplicate {
+.RevealNote.ShowNote {
     visibility: visible;
 }
 

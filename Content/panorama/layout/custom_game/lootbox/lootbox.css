@@ -1,0 +1,425 @@
+.LootboxRoot {
+    width: 100%;
+    height: 100%;
+}
+
+.LootboxModal {
+    width: 100%;
+    height: 100%;
+    visibility: collapse;
+}
+
+.LootboxModal.Visible {
+    visibility: visible;
+}
+
+.LootboxDim {
+    width: 100%;
+    height: 100%;
+    background-color: #05080ce8;
+}
+
+.LootboxWindow {
+    align: center center;
+    width: 92%;
+    height: 100%;
+    overflow: clip;
+    background-color: #10151b;
+    border: 1px solid #39424e;
+    box-shadow: fill #000000cc 0px 6px 28px 0px;
+}
+
+.LootboxCloseButton {
+    align: right top;
+    margin: 12px;
+    width: 28px;
+    height: 28px;
+    background-color: #2b333c;
+    border: 1px solid #3d4750;
+}
+
+.LootboxCloseButton:hover {
+    background-color: #8c3b34;
+    border: 1px solid #c25a50;
+}
+
+.LootboxCloseButton Label {
+    align: center center;
+    font-size: 14px;
+    color: #dfe5ec;
+}
+
+.LootboxCenter {
+    horizontal-align: center;
+    vertical-align: top;
+    margin-top: 44px;
+    width: 100%;
+    height: fit-children;
+    flow-children: down;
+}
+
+.LootboxTitle {
+    horizontal-align: center;
+    font-family: titleFont, Reaver;
+    font-size: 28px;
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #dfe5ec;
+    text-shadow: 0px 2px 8px 2 #000000;
+}
+
+.LootboxStageStack {
+    horizontal-align: center;
+    width: 100%;
+    height: 380px;
+    margin-top: 10px;
+}
+
+.TreasureStage {
+    width: 100%;
+    height: 100%;
+}
+
+.TreasureIdle {
+    width: 100%;
+    height: 100%;
+}
+
+.LootboxWindow.ShowingReveal .TreasureIdle {
+    visibility: collapse;
+}
+
+.TreasureChestButton {
+    align: center center;
+    width: 280px;
+    height: 280px;
+}
+
+.TreasureChestButton:hover {
+    brightness: 1.18;
+}
+
+.TreasureChestButton:disabled {
+    brightness: 0.45;
+    saturation: 0.4;
+}
+
+.TreasureImage {
+    align: center center;
+    width: 240px;
+    height: 240px;
+}
+
+.TreasureCount {
+    align: center bottom;
+    margin-bottom: 18px;
+    padding: 3px 14px;
+    background-color: #000000bb;
+    border: 1px solid #e2c56a66;
+    font-size: 18px;
+    font-weight: semi-bold;
+    color: #fff4d4;
+    text-shadow: 0px 1px 4px 2 #000000;
+}
+
+.TreasureReveal {
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+    visibility: collapse;
+}
+
+.LootboxWindow.ShowingReveal .TreasureReveal {
+    visibility: visible;
+}
+
+.RevealMovieHost {
+    horizontal-align: center;
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    margin-top: 4px;
+    overflow: clip;
+    background-color: #0a0e13;
+    border: 2px solid #4d5866;
+}
+
+.TreasureReveal.Elite .RevealMovieHost {
+    border: 3px solid #e2c56a;
+    box-shadow: fill #e2c56a99 0px 0px 28px 0px;
+}
+
+.RevealMovie {
+    align: center center;
+    width: 112px;
+    height: 112px;
+}
+
+.RevealName {
+    horizontal-align: center;
+    margin-top: 12px;
+    font-size: 24px;
+    font-weight: semi-bold;
+    color: #f0d78c;
+    text-shadow: 0px 2px 8px 2 #000000;
+}
+
+.RevealQuality {
+    horizontal-align: center;
+    margin-top: 2px;
+    font-size: 15px;
+    color: #c8d0dc;
+}
+
+.TreasureReveal.Elite .RevealQuality {
+    color: #f0d78c;
+}
+
+.RevealNote {
+    horizontal-align: center;
+    margin-top: 4px;
+    color: #c9b48a;
+    visibility: collapse;
+}
+
+.RevealNote.ShowNote {
+    visibility: visible;
+}
+
+.LootboxOpenButton {
+    horizontal-align: center;
+    margin-top: 12px;
+    width: 280px;
+    height: 48px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#3a6ea5), to(#1d3f6a));
+    border: 1px solid #7eb3e2;
+    padding: 0px 12px;
+}
+
+.LootboxOpenButton Label {
+    align: center center;
+    color: #eef6ff;
+    font-size: 18px;
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.LootboxOpenButton:hover {
+    brightness: 1.2;
+}
+
+.LootboxOpenButton:disabled {
+    brightness: 0.45;
+    saturation: 0.4;
+}
+
+.LootboxWindow.ShowingReveal #OpenLootboxButton,
+.LootboxWindow.Spinning #OpenLootboxButton {
+    visibility: collapse;
+}
+
+.RouletteStage {
+    align: center center;
+    width: 100%;
+    height: 100%;
+    visibility: collapse;
+}
+
+.LootboxWindow.Spinning .TreasureStage {
+    visibility: collapse;
+}
+
+.LootboxWindow.Spinning .RouletteStage {
+    visibility: visible;
+}
+
+.RouletteViewport {
+    align: center center;
+    width: 92%;
+    height: 168px;
+    overflow: clip;
+    background-color: #0a0e13;
+    border: 1px solid #39424e;
+}
+
+.RouletteStrip {
+    horizontal-align: left;
+    vertical-align: top;
+    height: 168px;
+    overflow: noclip;
+    flow-children: right;
+}
+
+.RouletteFadeLeft {
+    align: left center;
+    width: 90px;
+    height: 100%;
+    z-index: 1;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#0a0e13), to(#0a0e1300));
+}
+
+.RouletteFadeRight {
+    align: right center;
+    width: 90px;
+    height: 100%;
+    z-index: 1;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#0a0e1300), to(#0a0e13));
+}
+
+.RoulettePointer {
+    align: center center;
+    width: 4px;
+    height: 100%;
+    z-index: 2;
+}
+
+.RoulettePointerLine {
+    width: 3px;
+    height: 100%;
+    horizontal-align: center;
+    background-color: #f0d78c;
+    box-shadow: fill #f0d78c88 0px 0px 10px 0px;
+}
+
+.RouletteSlot {
+    width: 132px;
+    min-width: 132px;
+    max-width: 132px;
+    height: 168px;
+    overflow: clip;
+    flow-children: down;
+    padding-top: 12px;
+}
+
+.RoulettePreview {
+    horizontal-align: center;
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
+    overflow: clip;
+    background-color: #10151b;
+    border: 1px solid #4d5866;
+}
+
+.RouletteSlot.Rare .RoulettePreview {
+    border: 1px solid #c9a36a;
+    box-shadow: fill #c9a36a55 0px 0px 12px 0px;
+}
+
+.RouletteSlot.Elite .RoulettePreview {
+    border: 2px solid #e2c56a;
+    box-shadow: fill #e2c56a66 0px 0px 12px 0px;
+}
+
+.RouletteSlot.Winner .RoulettePreview {
+    pre-transform-scale2d: 1.12;
+    box-shadow: fill #f0d78ccc 0px 0px 22px 0px;
+}
+
+.RouletteMovie {
+    align: center center;
+    width: 54px;
+    height: 54px;
+}
+
+.RouletteSlotName {
+    horizontal-align: center;
+    margin-top: 8px;
+    max-width: 124px;
+    font-size: 13px;
+    color: #dfe5ec;
+    text-overflow: shrink;
+    text-align: center;
+}
+
+.RouletteSlot.Elite .RouletteSlotName {
+    color: #e2c56a;
+}
+
+.LootboxStickerRow {
+    align: center bottom;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 16px;
+}
+
+.LootboxWindow.Spinning .LootboxStickerRow {
+    visibility: collapse;
+}
+
+.LootboxStickerList {
+    align: center center;
+    width: fit-children;
+    height: 100%;
+    flow-children: right;
+}
+
+.LootboxSticker {
+    width: 132px;
+    height: 100%;
+    margin: 0px 8px;
+    flow-children: down;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.1s;
+}
+
+.LootboxSticker:hover {
+    pre-transform-scale2d: 1.08;
+}
+
+.LootboxPreview {
+    horizontal-align: center;
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
+    overflow: clip;
+    background-color: #0a0e13;
+    border: 1px solid #4d5866;
+}
+
+.LootboxSticker.Rare .LootboxPreview {
+    border: 1px solid #c9a36a;
+    box-shadow: fill #c9a36a55 0px 0px 12px 0px;
+}
+
+.LootboxSticker.Elite .LootboxPreview {
+    border: 2px solid #e2c56a;
+    box-shadow: fill #e2c56a66 0px 0px 12px 0px;
+}
+
+.LootboxMovie {
+    align: center center;
+    width: 48px;
+    height: 48px;
+}
+
+.LootboxStickerName {
+    horizontal-align: center;
+    margin-top: 8px;
+    max-width: 128px;
+    font-size: 15px;
+    color: #dfe5ec;
+    text-overflow: shrink;
+    text-align: center;
+}
+
+.LootboxCopies {
+    horizontal-align: center;
+    margin-top: 2px;
+    font-size: 13px;
+    color: #8b96a4;
+}
+
+.LootboxSticker.Elite .LootboxCopies {
+    color: #e2c56a;
+}
+
+.LootboxSticker.Rare .LootboxCopies {
+    color: #c9a36a;
+}
+
+.LootboxSticker.Elite.Rare .LootboxCopies {
+    color: #e2c56a;
+}

@@ -11,14 +11,10 @@ function ogre_magi_fire_blast:Precache(context)
     
     -- Precache sounds
     PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts", context)
-    
-    print("[DEBUG] Precached ogre_bruiser_smash particles and sounds")
 end
 
 function ogre_magi_fire_blast:GetChannelTime()
-    local channel_time = self:GetSpecialValueFor("channel_time")
-    print("[DEBUG] GetChannelTime: " .. tostring(channel_time))
-    return channel_time
+    return self:GetSpecialValueFor("channel_time")
 end
 
 function ogre_magi_fire_blast:GetBehavior()
@@ -28,10 +24,6 @@ end
 function ogre_magi_fire_blast:OnSpellStart()
     local caster = self:GetCaster()
     local target_point = self:GetCursorPosition()
-    
-    print("[DEBUG] Fire Blast OnSpellStart called")
-    print("[DEBUG] Target point: " .. tostring(target_point))
-    print("[DEBUG] Effective radius: " .. tostring(self:GetEffectiveRadius()))
     
     -- Store target point for later use
     self.target_point = target_point
@@ -56,22 +48,16 @@ function ogre_magi_fire_blast:OnSpellStart()
     ParticleManager:SetParticleControl(marker_particle, 0, target_point)
     ParticleManager:SetParticleControl(marker_particle, 1, Vector(self:GetEffectiveRadius(), 0, 0))
     self.marker_particle = marker_particle
-    
-    print("[DEBUG] Marker particle created: " .. tostring(marker_particle))
 end
 
 function ogre_magi_fire_blast:OnChannelFinish(bInterrupted)
     local caster = self:GetCaster()
-    
-    print("[DEBUG] OnChannelFinish called, interrupted: " .. tostring(bInterrupted))
-    print("[DEBUG] Channel time was: " .. tostring(self:GetChannelTime()))
     
     -- Clean up marker particle
     if self.marker_particle then
         ParticleManager:DestroyParticle(self.marker_particle, false)
         ParticleManager:ReleaseParticleIndex(self.marker_particle)
         self.marker_particle = nil
-        print("[DEBUG] Marker particle cleaned up")
     end
     
     -- Stop channeling sound (TO REPLACE: stop cast sound)
@@ -82,7 +68,6 @@ function ogre_magi_fire_blast:OnChannelFinish(bInterrupted)
     
     -- If interrupted or cancelled, don't apply effects and refund mana/cooldown
     if bInterrupted then
-        print("[DEBUG] Spell interrupted, refunding resources")
         -- Refund mana cost
         local mana_cost = self:GetManaCost(self:GetLevel())
         caster:GiveMana(mana_cost)
@@ -92,7 +77,6 @@ function ogre_magi_fire_blast:OnChannelFinish(bInterrupted)
         return
     end
     
-    print("[DEBUG] Executing spell effect")
     -- Small delay to sync with cast animation end
     Timers:CreateTimer(0.1, function()
         self:ExecuteSpell()
@@ -106,11 +90,6 @@ function ogre_magi_fire_blast:ExecuteSpell()
     local base_damage = self:GetEffectiveDamage()
     local base_stun = self:GetSpecialValueFor("stun_duration")
     
-    print("[DEBUG] ExecuteSpell - target_point: " .. tostring(target_point))
-    print("[DEBUG] ExecuteSpell - radius: " .. tostring(radius))
-    print("[DEBUG] ExecuteSpell - base_damage: " .. tostring(base_damage))
-    print("[DEBUG] ExecuteSpell - base_stun: " .. tostring(base_stun))
-    
     -- Create ground effect using neutral creep Ogre Bruiser effect (precached)
     local ground_particle = ParticleManager:CreateParticle(
         "particles/neutral_fx/ogre_bruiser_smash.vpcf",
@@ -118,18 +97,13 @@ function ogre_magi_fire_blast:ExecuteSpell()
         nil
     )
     
-    print("[DEBUG] Attempted to create ogre_bruiser_smash particle: " .. tostring(ground_particle))
-    
     if not ground_particle or ground_particle == 0 then
-        print("[DEBUG] Ogre bruiser effect failed, using standard fireblast")
         ground_particle = ParticleManager:CreateParticle(
             "particles/units/heroes/hero_ogre_magi/ogre_magi_fireblast.vpcf",
             PATTACH_WORLDORIGIN,
             nil
         )
     end
-    
-    print("[DEBUG] Final ground particle: " .. tostring(ground_particle))
     
     if ground_particle then
         ParticleManager:SetParticleControl(ground_particle, 0, target_point)
@@ -140,13 +114,7 @@ function ogre_magi_fire_blast:ExecuteSpell()
             ParticleManager:DestroyParticle(ground_particle, false)
             ParticleManager:ReleaseParticleIndex(ground_particle)
         end)
-        
-        print("[DEBUG] Ground effect created and will auto-cleanup in 2 seconds")
-    else
-        print("[DEBUG] Failed to create any ground particle")
     end
-    
-    print("[DEBUG] Ground particle created: " .. tostring(ground_particle))
     
     -- Play impact sound (TO REPLACE: impact/smash sound)
     EmitSoundOnLocationWithCaster(target_point, "Hero_OgreMagi.Fireblast.Target", caster)
@@ -168,8 +136,6 @@ function ogre_magi_fire_blast:ExecuteSpell()
         false
     )
     
-    print("[DEBUG] Found " .. tostring(#units) .. " units in radius")
-    
     -- Apply effects with distance-based scaling
     for _, unit in pairs(units) do
         local distance = (unit:GetAbsOrigin() - target_point):Length2D()
@@ -178,9 +144,6 @@ function ogre_magi_fire_blast:ExecuteSpell()
         -- Calculate scaled damage and stun
         local scaled_damage = base_damage * distance_factor
         local scaled_stun = base_stun * distance_factor
-        
-        print("[DEBUG] Unit: " .. unit:GetUnitName() .. ", distance: " .. tostring(distance) .. ", factor: " .. tostring(distance_factor))
-        print("[DEBUG] Scaled damage: " .. tostring(scaled_damage) .. ", scaled stun: " .. tostring(scaled_stun))
         
         -- Apply damage (Pure при шарде пробивает БКБ)
         local damage_type = has_shard and DAMAGE_TYPE_PURE or DAMAGE_TYPE_MAGICAL
@@ -216,8 +179,6 @@ function ogre_magi_fire_blast:GetEffectiveRadius()
     local caster_strength = caster:GetStrength()
     local effective_radius = base_radius + (caster_strength * strength_bonus)
     
-    print("[DEBUG] GetEffectiveRadius - base: " .. tostring(base_radius) .. ", strength: " .. tostring(caster_strength) .. ", bonus: " .. tostring(strength_bonus) .. ", result: " .. tostring(effective_radius))
-    
     return effective_radius
 end
 
@@ -228,8 +189,6 @@ function ogre_magi_fire_blast:GetEffectiveDamage()
     
     local caster_strength = caster:GetStrength()
     local effective_damage = base_damage + (caster_strength * strength_bonus)
-    
-    print("[DEBUG] GetEffectiveDamage - base: " .. tostring(base_damage) .. ", strength: " .. tostring(caster_strength) .. ", bonus: " .. tostring(strength_bonus) .. ", result: " .. tostring(effective_damage))
     
     return effective_damage
 end

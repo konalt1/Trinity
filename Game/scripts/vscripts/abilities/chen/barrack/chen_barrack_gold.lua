@@ -93,6 +93,9 @@ function ChenBarrackGold.Add(barrack, amount, source)
 
     barrack.chen_barrack_gold = ChenBarrackGold.Get(barrack) + amount
     ChenBarrackGold.SyncDisplay(barrack)
+    if ChenBarrackHudSync then
+        ChenBarrackHudSync(ChenBarrackGold.GetOwnerHero(barrack))
+    end
     return true
 end
 
@@ -113,6 +116,9 @@ function ChenBarrackGold.Spend(barrack, amount, reason)
     barrack.chen_barrack_gold = current - amount
     barrack.chen_barrack_last_spend_reason = reason or "unknown"
     ChenBarrackGold.SyncDisplay(barrack)
+    if ChenBarrackHudSync then
+        ChenBarrackHudSync(ChenBarrackGold.GetOwnerHero(barrack))
+    end
     return true
 end
 

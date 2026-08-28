@@ -449,10 +449,14 @@ local function SilentRemoveChenUnit(unit)
     end
 
     if IsChenBarrackUnit(unit) then
+        local ownerHero = GetBarrackOwnerHero(unit)
         unit.chen_barrack_gold = 0
         unit.chen_barrack_destroy_handled = true
         unit.chen_is_destroyed = true
         CHEN_BARRACK_REGISTRY[unit:entindex()] = nil
+        if ChenBarrackHudClearForHero then
+            ChenBarrackHudClearForHero(ownerHero)
+        end
     end
 
     if (unit:GetUnitName() or "") == "npc_chen_giant_courier" then
@@ -468,6 +472,10 @@ function ChenBarrackWipeForHero(hero)
     end
     if hero.GetUnitName and hero:GetUnitName() ~= "npc_dota_hero_chen" then
         return
+    end
+
+    if ChenBarrackHudClearForHero then
+        ChenBarrackHudClearForHero(hero)
     end
 
     if ChenWorkerBuild and ChenWorkerBuild.StopAllConstructionsForHero then
@@ -543,7 +551,7 @@ function ChenBarrackWipeForHero(hero)
     end
 
     hero.chen_barrack_entindex = nil
-    ChenBarrackResetUltimate(hero)
+    ChenBarrackRestoreMatchStartAbilities(hero)
 end
 
 ChenBarrackGold.WipeForHero = ChenBarrackWipeForHero
@@ -622,22 +630,45 @@ function ForEachBarrackOwnedByHero(hero, fn)
     end
 end
 
-local function CountQueuedWorkersForHero(hero)
+local CHEN_BARRACK_HUD_NET_TABLE = "chen_barrack"
+
+local function IsQueuedUnitName(item, unitName)
+    return item and item.unit_name == unitName
+end
+
+local function CountQueuedUnitsOnBarrack(barrack, unitName)
+    if not barrack or barrack:IsNull() then
+        return 0
+    end
+
     local count = 0
-    ForEachBarrackOwnedByHero(hero, function(barrack)
-        for _, item in ipairs(barrack.chen_production_queue or {}) do
-            if item and item.is_worker then
-                count = count + 1
-            end
+    for _, item in ipairs(barrack.chen_production_queue or {}) do
+        if IsQueuedUnitName(item, unitName) then
+            count = count + 1
         end
-        if barrack.chen_current_order and barrack.chen_current_order.is_worker then
-            count = count + (barrack.chen_active_productions or 1)
+    end
+    if IsQueuedUnitName(barrack.chen_current_order, unitName) then
+        count = count + (barrack.chen_active_productions or 1)
+    end
+    return count
+end
+
+local function CountQueuedUnitsForHero(hero, unitName)
+    local count = 0
+    local indexedBarrack = hero and ResolveBarrackFromEntIndex(hero.chen_barrack_entindex) or nil
+    if indexedBarrack then
+        count = CountQueuedUnitsOnBarrack(indexedBarrack, unitName)
+    end
+
+    ForEachBarrackOwnedByHero(hero, function(barrack)
+        if barrack ~= indexedBarrack then
+            count = count + CountQueuedUnitsOnBarrack(barrack, unitName)
         end
     end)
     return count
 end
 
-local function CountLivingWorkersForHero(hero)
+local function CountLivingUnitsForHero(hero, unitName)
     if not hero or hero:IsNull() then
         return 0
     end
@@ -656,12 +687,81 @@ local function CountLivingWorkersForHero(hero)
     )
 
     for _, unit in pairs(units) do
-        if IsChenBarrackWorker(unit) and unit:IsAlive() and GetBarrackOwnerHero(unit) == hero then
+        if unit
+            and not unit:IsNull()
+            and unit:IsAlive()
+            and (unit:GetUnitName() or "") == unitName
+            and GetBarrackOwnerHero(unit) == hero then
             count = count + 1
         end
     end
 
     return count
+end
+
+local function CountAllLivingBarrackUnitsForHero(hero)
+    local counts = {
+        [CHEN_BARRACK_WORKER_UNIT] = 0,
+        [CHEN_BARRACK_HUNTER_UNIT] = 0,
+        [CHEN_BARRACK_HEALER_UNIT] = 0,
+        [CHEN_BARRACK_BRUTE_UNIT] = 0,
+    }
+    if not hero or hero:IsNull() then
+        return counts
+    end
+
+    local units = FindUnitsInRadius(
+        hero:GetTeamNumber(),
+        hero:GetAbsOrigin(),
+        nil,
+        FIND_UNITS_EVERYWHERE,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false
+    )
+
+    for _, unit in pairs(units) do
+        if unit and not unit:IsNull() and unit:IsAlive() and GetBarrackOwnerHero(unit) == hero then
+            local unitName = unit:GetUnitName() or ""
+            if counts[unitName] ~= nil then
+                counts[unitName] = counts[unitName] + 1
+            end
+        end
+    end
+
+    return counts
+end
+
+local function CountQueuedWorkersForHero(hero)
+    return CountQueuedUnitsForHero(hero, CHEN_BARRACK_WORKER_UNIT)
+end
+
+local function CountLivingWorkersForHero(hero)
+    return CountLivingUnitsForHero(hero, CHEN_BARRACK_WORKER_UNIT)
+end
+
+local function GetBarrackUnitCap(ownerHero)
+    if not ownerHero or ownerHero:IsNull() then
+        return 0
+    end
+
+    local ult = ownerHero:FindAbilityByName("chen_barrack")
+    if ult and not ult:IsNull() then
+        return math.max(0, ult:GetSpecialValueFor("unit_cap"))
+    end
+
+    return 10
+end
+
+local function HasReachedUnitLimit(hero, unitName)
+    if not hero or hero:IsNull() then
+        return true
+    end
+
+    local cap = GetBarrackUnitCap(hero)
+    return CountLivingUnitsForHero(hero, unitName) + CountQueuedUnitsForHero(hero, unitName) >= cap
 end
 
 local function EnsureHeroBarrackAbility(hero, abilityName, level)
@@ -739,6 +839,46 @@ function ChenBarrackResetUltimate(hero)
     SetHeroBarrackUltimateState(hero, "chen_barrack", remaining)
 end
 
+function ChenBarrackRestoreMatchStartAbilities(hero)
+    if not hero or hero:IsNull() then
+        return
+    end
+    if hero.GetUnitName and hero:GetUnitName() ~= "npc_dota_hero_chen" then
+        return
+    end
+
+    local abilityNames = { "chen_barrack", "chen_barrack_takeoff", "chen_barrack_land" }
+    local currentName = nil
+    for _, abilityName in ipairs(abilityNames) do
+        local ability = hero:FindAbilityByName(abilityName)
+        if ability and not ability:IsNull() and not ability:IsHidden() then
+            currentName = abilityName
+            break
+        end
+    end
+
+    if currentName and currentName ~= "chen_barrack" then
+        hero:SwapAbilities(currentName, "chen_barrack", false, true)
+    end
+
+    hero.chen_barrack_syncing_ultimate_level = true
+    for _, abilityName in ipairs(abilityNames) do
+        local ability = hero:FindAbilityByName(abilityName)
+        if ability and not ability:IsNull() then
+            local isBuild = abilityName == "chen_barrack"
+            ability:SetHidden(not isBuild)
+            ability:SetActivated(isBuild)
+            if ability:GetLevel() ~= 0 then
+                ability:SetLevel(0)
+            end
+            if ability.EndCooldown then
+                ability:EndCooldown()
+            end
+        end
+    end
+    hero.chen_barrack_syncing_ultimate_level = nil
+end
+
 local function SetBarrackUnitAbilitiesEnabled(barrack, enabled)
     if not barrack or barrack:IsNull() then
         return
@@ -753,11 +893,19 @@ local function SetBarrackUnitAbilitiesEnabled(barrack, enabled)
 end
 
 local function GetWorkerLimit(ability)
-    return math.max(0, ability:GetSpecialValueFor("max_workers"))
+    local ownerHero = ability and GetBarrackOwnerHero(ability:GetCaster()) or nil
+    local cap = GetBarrackUnitCap(ownerHero)
+    if cap > 0 then
+        return cap
+    end
+    if ability and not ability:IsNull() then
+        return math.max(0, ability:GetSpecialValueFor("max_workers"))
+    end
+    return 0
 end
 
 local function HasReachedWorkerLimit(hero, ability)
-    return CountLivingWorkersForHero(hero) + CountQueuedWorkersForHero(hero) >= GetWorkerLimit(ability)
+    return HasReachedUnitLimit(hero, CHEN_BARRACK_WORKER_UNIT)
 end
 
 function GetLivingBarrackForHero(hero)
@@ -787,6 +935,104 @@ function GetLivingBarrackForHero(hero)
 end
 
 ChenBarrackGold.FindLivingBarrackForHero = GetLivingBarrackForHero
+
+local BuildChenBarrackHudPayload
+local CHEN_BARRACK_HUD_UNIT_KEYS = {
+    [CHEN_BARRACK_WORKER_UNIT] = "worker",
+    [CHEN_BARRACK_HUNTER_UNIT] = "hunter",
+    [CHEN_BARRACK_HEALER_UNIT] = "healer",
+    [CHEN_BARRACK_BRUTE_UNIT] = "brute",
+}
+local CHEN_BARRACK_HUD_UNIT_ABILITIES = {
+    worker = "chen_barrack_summon_worker",
+    hunter = "chen_barrack_summon_hunter",
+    healer = "chen_barrack_summon_healer",
+    brute = "chen_barrack_summon_brute",
+}
+
+local function GetTakeoffCooldownRemaining(hero)
+    if not hero or hero:IsNull() then
+        return 0
+    end
+
+    local remaining = 0
+    for _, abilityName in ipairs({ "chen_barrack_takeoff", "chen_barrack_land" }) do
+        local ability = hero:FindAbilityByName(abilityName)
+        if ability and not ability:IsNull() then
+            remaining = math.max(remaining, ability:GetCooldownTimeRemaining() or 0)
+        end
+    end
+    return remaining
+end
+
+function ChenBarrackHudClearForHero(hero)
+    if not hero or hero:IsNull() then
+        return
+    end
+
+    local playerID = hero:GetPlayerOwnerID()
+    if playerID == nil or playerID < 0 then
+        return
+    end
+
+    if CustomNetTables then
+        CustomNetTables:SetTableValue(CHEN_BARRACK_HUD_NET_TABLE, tostring(playerID), {
+            active = 0,
+        })
+    end
+end
+
+ChenBarrackHud = ChenBarrackHud or {}
+
+function ChenBarrackRegisterHudListener()
+    if ChenBarrackHud.listenerRegistered then
+        return
+    end
+    if not IsServer() or CustomGameEventManager == nil then
+        return
+    end
+
+    CustomGameEventManager:RegisterListener("chen_barrack_queue_unit", function(_, event)
+        if ChenBarrackHandleHudQueue then
+            ChenBarrackHandleHudQueue(event)
+        end
+    end)
+    ChenBarrackHud.listenerRegistered = true
+end
+
+function ChenBarrackHudSync(hero)
+    if not IsServer() or not hero or hero:IsNull() then
+        return
+    end
+
+    ChenBarrackRegisterHudListener()
+
+    local playerID = hero:GetPlayerOwnerID()
+    if playerID == nil or playerID < 0 then
+        return
+    end
+
+    local barrack = GetLivingBarrackForHero(hero)
+    if not barrack or barrack:IsNull() or not barrack:IsAlive() or barrack.chen_is_destroyed then
+        ChenBarrackHudClearForHero(hero)
+        return
+    end
+
+    if not BuildChenBarrackHudPayload or CustomNetTables == nil then
+        return
+    end
+
+    local display = barrack
+    if barrack.chen_is_flying and barrack.chen_flight_proxy and not barrack.chen_flight_proxy:IsNull() then
+        display = barrack.chen_flight_proxy
+    end
+
+    CustomNetTables:SetTableValue(
+        CHEN_BARRACK_HUD_NET_TABLE,
+        tostring(playerID),
+        BuildChenBarrackHudPayload(hero, barrack, display)
+    )
+end
 
 local function LevelBarrackAbilities(barrack)
     if not barrack or barrack:IsNull() then
@@ -1286,6 +1532,100 @@ local function GetWorkerGoldCost(ability, ownerHero)
     return GetBarrackSummonValue(ability, ownerHero, "gold_cost")
 end
 
+local function GetHudAbilityIndex(barrack, abilityName)
+    local ability = barrack and barrack:FindAbilityByName(abilityName) or nil
+    if ability and not ability:IsNull() then
+        return ability:entindex()
+    end
+    return -1
+end
+
+local function GetHudUnitGoldCost(barrack, ownerHero, unitKey)
+    local ability = barrack:FindAbilityByName(CHEN_BARRACK_HUD_UNIT_ABILITIES[unitKey])
+    if not ability or ability:IsNull() then
+        return 0
+    end
+    if unitKey == "worker" then
+        return GetWorkerGoldCost(ability, ownerHero)
+    end
+    return GetBarrackSummonValue(ability, ownerHero, "gold_cost")
+end
+
+local function GetProductionRemaining(item)
+    local total = math.max(0.1, tonumber(item and item.production_time) or 0)
+    local remaining = total
+    if item and IsValidProductionModifier(item.production_modifier) then
+        local modRemaining = item.production_modifier:GetRemainingTime()
+        if modRemaining and modRemaining > 0 then
+            remaining = modRemaining
+        end
+    elseif item and item.spawn_at then
+        remaining = math.max(0, item.spawn_at - GameRules:GetGameTime())
+    end
+    return remaining, total
+end
+
+local function PushHudQueueItem(queue, item, active)
+    if not item then
+        return
+    end
+
+    local unitKey = CHEN_BARRACK_HUD_UNIT_KEYS[item.unit_name]
+    if not unitKey then
+        return
+    end
+
+    local remaining, total = GetProductionRemaining(item)
+    queue[#queue + 1] = {
+        unit = unitKey,
+        remaining = active and remaining or total,
+        total = total,
+        active = active and 1 or 0,
+    }
+end
+
+BuildChenBarrackHudPayload = function(hero, barrack, display)
+    InitBarrackState(barrack)
+    local living = CountAllLivingBarrackUnitsForHero(hero)
+    local queue = {}
+    PushHudQueueItem(queue, barrack.chen_current_order, true)
+    for _, item in ipairs(barrack.chen_production_queue or {}) do
+        PushHudQueueItem(queue, item, false)
+    end
+
+    local payload = {
+        active = 1,
+        entindex = display:entindex(),
+        barrack_entindex = barrack:entindex(),
+        gold = ChenBarrackGold.Get(barrack),
+        flying = barrack.chen_is_flying and 1 or 0,
+        takeoff_cd = GetTakeoffCooldownRemaining(hero),
+        cap = GetBarrackUnitCap(hero),
+        worker = living[CHEN_BARRACK_WORKER_UNIT] or 0,
+        hunter = living[CHEN_BARRACK_HUNTER_UNIT] or 0,
+        healer = living[CHEN_BARRACK_HEALER_UNIT] or 0,
+        brute = living[CHEN_BARRACK_BRUTE_UNIT] or 0,
+        worker_cost = GetHudUnitGoldCost(barrack, hero, "worker"),
+        hunter_cost = GetHudUnitGoldCost(barrack, hero, "hunter"),
+        healer_cost = GetHudUnitGoldCost(barrack, hero, "healer"),
+        brute_cost = GetHudUnitGoldCost(barrack, hero, "brute"),
+        worker_ability = GetHudAbilityIndex(barrack, "chen_barrack_summon_worker"),
+        hunter_ability = GetHudAbilityIndex(barrack, "chen_barrack_summon_hunter"),
+        healer_ability = GetHudAbilityIndex(barrack, "chen_barrack_summon_healer"),
+        brute_ability = GetHudAbilityIndex(barrack, "chen_barrack_summon_brute"),
+        queue_count = #queue,
+    }
+
+    for index, item in ipairs(queue) do
+        payload["q" .. index .. "_unit"] = item.unit
+        payload["q" .. index .. "_remaining"] = item.remaining
+        payload["q" .. index .. "_total"] = item.total
+        payload["q" .. index .. "_active"] = item.active
+    end
+
+    return payload
+end
+
 local function QueueBarrackWorker(self)
     if not IsServer() then
         return
@@ -1430,6 +1770,11 @@ local function QueueBarrackHunter(self)
         end
 
         InitBarrackState(barrack)
+        if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_HUNTER_UNIT) then
+            BarrackDebug("Hunter queue abort: hunter limit reached", GetBarrackUnitCap(ownerHero))
+            break
+        end
+
         if GetBarrackQueuedCount(barrack) >= 5 then
             BarrackDebug("Hunter queue abort: queue full")
             break
@@ -1453,6 +1798,7 @@ local function QueueBarrackHunter(self)
             spawn_distance = GetBarrackSummonValue(self, ownerHero, "spawn_distance"),
             summon_lifetime = 0,
             gold_mode = "shared_carrier",
+            is_hunter = true,
         }
 
         table.insert(barrack.chen_production_queue, productionItem)
@@ -1494,6 +1840,10 @@ local function BarrackHunterCastFilter(self)
     end
 
     InitBarrackState(barrack)
+    if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_HUNTER_UNIT) then
+        return UF_FAIL_CUSTOM
+    end
+
     if GetBarrackQueuedCount(barrack) >= 5 then
         return UF_FAIL_CUSTOM
     end
@@ -1517,6 +1867,10 @@ local function BarrackHunterCastError(self)
     end
 
     InitBarrackState(barrack)
+    if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_HUNTER_UNIT) then
+        return "#dota_hud_error_chen_barrack_hunter_limit"
+    end
+
     if GetBarrackQueuedCount(barrack) >= 5 then
         return "#dota_hud_error_chen_barrack_queue_full"
     end
@@ -1544,6 +1898,11 @@ local function QueueBarrackHealer(self)
         end
 
         InitBarrackState(barrack)
+        if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_HEALER_UNIT) then
+            BarrackDebug("Healer queue abort: healer limit reached", GetBarrackUnitCap(ownerHero))
+            break
+        end
+
         if GetBarrackQueuedCount(barrack) >= 5 then
             BarrackDebug("Healer queue abort: queue full")
             break
@@ -1609,6 +1968,10 @@ local function BarrackHealerCastFilter(self)
     end
 
     InitBarrackState(barrack)
+    if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_HEALER_UNIT) then
+        return UF_FAIL_CUSTOM
+    end
+
     if GetBarrackQueuedCount(barrack) >= 5 then
         return UF_FAIL_CUSTOM
     end
@@ -1632,6 +1995,10 @@ local function BarrackHealerCastError(self)
     end
 
     InitBarrackState(barrack)
+    if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_HEALER_UNIT) then
+        return "#dota_hud_error_chen_barrack_healer_limit"
+    end
+
     if GetBarrackQueuedCount(barrack) >= 5 then
         return "#dota_hud_error_chen_barrack_queue_full"
     end
@@ -1659,6 +2026,11 @@ local function QueueBarrackBrute(self)
         end
 
         InitBarrackState(barrack)
+        if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_BRUTE_UNIT) then
+            BarrackDebug("Brute queue abort: brute limit reached", GetBarrackUnitCap(ownerHero))
+            break
+        end
+
         if GetBarrackQueuedCount(barrack) >= 5 then
             BarrackDebug("Brute queue abort: queue full")
             break
@@ -1724,6 +2096,10 @@ local function BarrackBruteCastFilter(self)
     end
 
     InitBarrackState(barrack)
+    if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_BRUTE_UNIT) then
+        return UF_FAIL_CUSTOM
+    end
+
     if GetBarrackQueuedCount(barrack) >= 5 then
         return UF_FAIL_CUSTOM
     end
@@ -1747,6 +2123,10 @@ local function BarrackBruteCastError(self)
     end
 
     InitBarrackState(barrack)
+    if HasReachedUnitLimit(ownerHero, CHEN_BARRACK_BRUTE_UNIT) then
+        return "#dota_hud_error_chen_barrack_brute_limit"
+    end
+
     if GetBarrackQueuedCount(barrack) >= 5 then
         return "#dota_hud_error_chen_barrack_queue_full"
     end
@@ -2890,7 +3270,7 @@ local function SyncChenBarrackUltimateLevel(sourceAbility)
     end
 
     hero.chen_barrack_syncing_ultimate_level = true
-    local level = math.max(1, sourceAbility:GetLevel())
+    local level = math.max(0, sourceAbility:GetLevel())
     for _, abilityName in ipairs({ "chen_barrack", "chen_barrack_takeoff", "chen_barrack_land" }) do
         local ability = hero:FindAbilityByName(abilityName)
         if ability and not ability:IsNull() and ability:GetLevel() ~= level then
@@ -2965,6 +3345,8 @@ function chen_barrack:OnSpellStart()
     if not IsServer() then
         return
     end
+
+    ChenBarrackRegisterHudListener()
 
     local caster = self:GetCaster()
     if not caster or caster:IsNull() then
@@ -3170,12 +3552,14 @@ function chen_barrack:OnSpellStart()
             "living", CountLivingWorkersForHero(caster),
             "queued", CountQueuedWorkersForHero(caster)
         )
+        ChenBarrackHudSync(caster)
         return nil
     end)
 
     EmitSoundOn("Hero_Chen.HolyPersuasionEnemy", barrack)
 
     SetHeroBarrackUltimateState(caster, "chen_barrack_takeoff", BARRACK_REDEPLOY_COOLDOWN)
+    ChenBarrackHudSync(caster)
     BarrackCreateDebug(
         "create complete",
         BarrackDescribeUnit(barrack),
@@ -3323,6 +3707,7 @@ local function BeginBarrackFlight(hero, barrack)
     barrack:AddNewModifier(hero, nil, "modifier_chen_barrack_hidden_during_flight", {})
     proxy:AddNewModifier(hero, hero:FindAbilityByName("chen_barrack_takeoff"), "modifier_chen_barrack_flying", {})
     SetHeroBarrackUltimateState(hero, "chen_barrack_land", 0)
+    ChenBarrackHudSync(hero)
     return true
 end
 
@@ -3342,6 +3727,7 @@ local function FinishBarrackLanding(hero, barrack, proxy, point)
     LevelBarrackAbilities(barrack)
     SetHeroBarrackUltimateState(hero, "chen_barrack_takeoff", BARRACK_REDEPLOY_COOLDOWN)
     EmitSoundOn("Hero_Chen.HolyPersuasionEnemy", barrack)
+    ChenBarrackHudSync(hero)
 end
 
 function chen_barrack_takeoff:OnSpellStart()
@@ -3473,6 +3859,23 @@ function modifier_chen_barrack_flying:OnDeath(event)
     end
 end
 
+function modifier_chen_barrack_flying:OnCreated()
+    if not IsServer() then
+        return
+    end
+
+    ChenBarrackHudSync(self:GetParent().chen_flight_owner_hero)
+    self:StartIntervalThink(0.25)
+end
+
+function modifier_chen_barrack_flying:OnIntervalThink()
+    if not IsServer() then
+        return
+    end
+
+    ChenBarrackHudSync(self:GetParent().chen_flight_owner_hero)
+end
+
 function modifier_chen_barrack_flying:GetModifierMoveSpeed_Absolute()
     return BARRACK_FLYING_MOVE_SPEED
 end
@@ -3557,6 +3960,34 @@ end
 
 function modifier_chen_barrack:IsPurgable()
     return false
+end
+
+function modifier_chen_barrack:OnCreated()
+    if not IsServer() then
+        return
+    end
+
+    ChenBarrackHudSync(GetBarrackOwnerHero(self:GetParent()))
+    self:StartIntervalThink(0.25)
+end
+
+function modifier_chen_barrack:OnIntervalThink()
+    if not IsServer() then
+        return
+    end
+
+    ChenBarrackHudSync(GetBarrackOwnerHero(self:GetParent()))
+end
+
+function modifier_chen_barrack:OnDestroy()
+    if not IsServer() then
+        return
+    end
+
+    local hero = GetBarrackOwnerHero(self:GetParent())
+    if hero then
+        ChenBarrackHudSync(hero)
+    end
 end
 
 function modifier_chen_barrack_producing:OnCreated(kv)
@@ -3660,4 +4091,50 @@ for _, modifierClass in ipairs(productionModifierClasses) do
     modifierClass.IsPurgable = modifier_chen_barrack_producing.IsPurgable
     modifierClass.IsStackable = modifier_chen_barrack_producing.IsStackable
     modifierClass.GetAttributes = modifier_chen_barrack_producing.GetAttributes
+end
+
+function ChenBarrackHandleHudQueue(event)
+    if not IsServer() or not event then
+        return
+    end
+
+    local playerID = event.PlayerID
+    if playerID == nil or playerID < 0 then
+        return
+    end
+
+    local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+    if not hero or hero:IsNull() or hero:GetUnitName() ~= "npc_dota_hero_chen" then
+        return
+    end
+
+    local barrack = GetLivingBarrackForHero(hero)
+    if not barrack or barrack:IsNull() or not barrack:IsAlive() or barrack.chen_is_destroyed then
+        return
+    end
+
+    if barrack.chen_is_flying then
+        ChenBuildingPlacement.NotifyError(hero, "#dota_hud_error_chen_barrack_production_paused")
+        return
+    end
+
+    local abilityName = CHEN_BARRACK_HUD_UNIT_ABILITIES[event.unit]
+    local ability = abilityName and barrack:FindAbilityByName(abilityName) or nil
+    if not ability or ability:IsNull() then
+        return
+    end
+
+    if ability.CastFilterResult and ability:CastFilterResult() ~= UF_SUCCESS then
+        local errorKey = ability.GetCustomCastError and ability:GetCustomCastError() or ""
+        if errorKey ~= "" then
+            ChenBuildingPlacement.NotifyError(hero, errorKey)
+        end
+        return
+    end
+
+    ability:OnSpellStart()
+end
+
+if ChenBarrackRegisterHudListener then
+    ChenBarrackRegisterHudListener()
 end

@@ -5,16 +5,22 @@ declare(strict_types=1);
 final class Stickers
 {
     public const SLOT_COUNT = 8;
+    public const QUALITY_NORMAL = 1;
+    public const QUALITY_ELITE = 2;
+    public const COPIES_FOR_ELITE = 5;
+    public const PRICE_NORMAL = 5;
+    public const PRICE_ELITE = 20;
+    public const DAILY_WIN_BOXES = 3;
 
     private const CATALOG = [
-        'Gura',
-        'NeuroHug',
-        'Watson',
-        'Anime',
-        'Neurodance',
-        'Choso',
-        'StickerOne',
-        'StickerTwo',
+        ['key' => 'Gura', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
+        ['key' => 'NeuroHug', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
+        ['key' => 'Watson', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
+        ['key' => 'Anime', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
+        ['key' => 'Neurodance', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
+        ['key' => 'Choso', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
+        ['key' => 'StickerOne', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
+        ['key' => 'StickerTwo', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
     ];
 
     public static function payload(int $steamid): array
@@ -22,9 +28,15 @@ final class Stickers
         self::ensureCatalog();
 
         return [
-            'owned' => self::ownedKeys($steamid),
+            'owned' => self::ownedMap($steamid),
             'wheel' => self::wheelKeys($steamid),
-            'lootbox_pending' => !self::lootboxOpened($steamid),
+            'lootboxes' => self::playerInt($steamid, 'lootbox_unopened'),
+            'currency' => self::playerInt($steamid, 'lootbox_currency'),
+            'prices' => [
+                'normal' => self::PRICE_NORMAL,
+                'elite' => self::PRICE_ELITE,
+            ],
+            'catalog' => self::catalogPublic(),
         ];
     }
 
@@ -38,7 +50,8 @@ final class Stickers
         try {
             self::ensurePlayer($steamid);
             $locked = $pdo->prepare(
-                'SELECT first_lootbox_opened FROM players WHERE steamid = :steamid LIMIT 1 FOR UPDATE'
+                'SELECT lootbox_unopened, lootbox_currency
+                 FROM players WHERE steamid = :steamid LIMIT 1 FOR UPDATE'
             );
             $locked->execute(['steamid' => $steamid]);
             $row = $locked->fetch();
@@ -46,29 +59,23 @@ final class Stickers
                 $pdo->rollBack();
                 Http::json(500, ['ok' => false, 'error' => 'player_missing']);
             }
-            if ((int) $row['first_lootbox_opened'] === 1) {
+            if ((int) $row['lootbox_unopened'] < 1) {
                 $pdo->rollBack();
-                Http::json(409, ['ok' => false, 'error' => 'already_opened']);
+                Http::json(409, ['ok' => false, 'error' => 'no_lootboxes']);
             }
 
-            $sticker = self::randomEnabledSticker($pdo);
-            if ($sticker === null) {
+            $reward = self::rollReward($pdo);
+            if ($reward === null) {
                 $pdo->rollBack();
                 Http::json(500, ['ok' => false, 'error' => 'empty_catalog']);
             }
 
-            $insert = $pdo->prepare(
-                'INSERT IGNORE INTO player_stickers (steamid, sticker_id)
-                 VALUES (:steamid, :sticker_id)'
-            );
-            $insert->execute([
-                'steamid' => $steamid,
-                'sticker_id' => $sticker['id'],
-            ]);
-            $duplicate = $insert->rowCount() === 0;
-
+            $applied = self::applyReward($pdo, $steamid, $reward['key'], $reward['quality']);
             $pdo->prepare(
-                'UPDATE players SET first_lootbox_opened = 1 WHERE steamid = :steamid'
+                'UPDATE players
+                 SET lootbox_unopened = lootbox_unopened - 1,
+                     lootbox_currency = lootbox_currency + 1
+                 WHERE steamid = :steamid'
             )->execute(['steamid' => $steamid]);
             $pdo->commit();
         } catch (PDOException) {
@@ -80,8 +87,78 @@ final class Stickers
 
         Http::json(200, [
             'ok' => true,
-            'sticker' => $sticker['sticker_key'],
-            'duplicate' => $duplicate,
+            'sticker' => $reward['key'],
+            'quality' => $applied['quality'],
+            'copies' => $applied['copies'],
+            'converted' => $applied['converted'],
+            'duplicate' => $applied['duplicate'],
+            'player' => array_merge(['steamid' => $steamid], self::payload($steamid)),
+        ]);
+    }
+
+    public static function buy(): void
+    {
+        $body = Http::body();
+        $steamid = self::parseSteamid($body['steamid'] ?? null);
+        $key = self::parseStickerKey($body['sticker'] ?? null);
+        $quality = self::parseQuality($body['quality'] ?? null);
+        if ($steamid === null || $key === null || $quality === null) {
+            Http::json(400, ['ok' => false, 'error' => 'invalid_buy']);
+        }
+
+        self::ensureCatalog();
+        $ids = self::stickerIds();
+        if (!isset($ids[$key])) {
+            Http::json(400, ['ok' => false, 'error' => 'unknown_sticker']);
+        }
+
+        $cost = $quality === self::QUALITY_ELITE ? self::PRICE_ELITE : self::PRICE_NORMAL;
+        $pdo = Database::pdo();
+        $pdo->beginTransaction();
+        try {
+            self::ensurePlayer($steamid);
+            $locked = $pdo->prepare(
+                'SELECT lootbox_currency FROM players WHERE steamid = :steamid LIMIT 1 FOR UPDATE'
+            );
+            $locked->execute(['steamid' => $steamid]);
+            $row = $locked->fetch();
+            if ($row === false) {
+                $pdo->rollBack();
+                Http::json(500, ['ok' => false, 'error' => 'player_missing']);
+            }
+            if ((int) $row['lootbox_currency'] < $cost) {
+                $pdo->rollBack();
+                Http::json(409, ['ok' => false, 'error' => 'insufficient_currency']);
+            }
+
+            $current = self::ownedRow($pdo, $steamid, $ids[$key]);
+            if ($current !== null && (int) $current['quality'] === self::QUALITY_ELITE) {
+                $pdo->rollBack();
+                Http::json(409, ['ok' => false, 'error' => 'already_elite']);
+            }
+
+            $applied = self::applyReward($pdo, $steamid, $key, $quality);
+            $pdo->prepare(
+                'UPDATE players SET lootbox_currency = lootbox_currency - :cost WHERE steamid = :steamid'
+            )->execute([
+                'cost' => $cost,
+                'steamid' => $steamid,
+            ]);
+            $pdo->commit();
+        } catch (PDOException) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            Http::json(500, ['ok' => false, 'error' => 'buy_failed']);
+        }
+
+        Http::json(200, [
+            'ok' => true,
+            'sticker' => $key,
+            'quality' => $applied['quality'],
+            'copies' => $applied['copies'],
+            'converted' => $applied['converted'],
+            'duplicate' => $applied['duplicate'],
             'player' => array_merge(['steamid' => $steamid], self::payload($steamid)),
         ]);
     }
@@ -167,33 +244,146 @@ final class Stickers
             Http::json(400, ['ok' => false, 'error' => 'unknown_sticker']);
         }
 
+        $pdo = Database::pdo();
         self::ensurePlayer($steamid);
-        Database::pdo()->prepare(
-            'INSERT IGNORE INTO player_stickers (steamid, sticker_id)
-             VALUES (:steamid, :sticker_id)'
-        )->execute([
-            'steamid' => $steamid,
-            'sticker_id' => $ids[$key],
-        ]);
+        self::applyReward($pdo, $steamid, $key, self::QUALITY_ELITE);
 
         Http::json(200, [
             'ok' => true,
             'sticker' => $key,
+            'quality' => self::QUALITY_ELITE,
             'player' => array_merge(['steamid' => $steamid], self::payload($steamid)),
         ]);
     }
 
-    public static function resetLootbox(): void
+    public static function grantLootbox(): void
     {
         $steamid = self::steamidFromBody();
         self::ensurePlayer($steamid);
         Database::pdo()->prepare(
-            'UPDATE players SET first_lootbox_opened = 0 WHERE steamid = :steamid'
+            'UPDATE players SET lootbox_unopened = lootbox_unopened + 1 WHERE steamid = :steamid'
         )->execute(['steamid' => $steamid]);
 
         Http::json(200, [
             'ok' => true,
             'player' => array_merge(['steamid' => $steamid], self::payload($steamid)),
+        ]);
+    }
+
+    public static function grantDaily(): void
+    {
+        $steamid = self::steamidFromBody();
+        $today = (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('Y-m-d');
+        $granted = false;
+        $pdo = Database::pdo();
+        $pdo->beginTransaction();
+        try {
+            self::ensurePlayer($steamid);
+            $locked = $pdo->prepare(
+                'SELECT lootbox_unopened, lootbox_daily_date
+                 FROM players WHERE steamid = :steamid LIMIT 1 FOR UPDATE'
+            );
+            $locked->execute(['steamid' => $steamid]);
+            $row = $locked->fetch();
+            if ($row === false) {
+                $pdo->rollBack();
+                Http::json(500, ['ok' => false, 'error' => 'player_missing']);
+            }
+
+            if ((string) ($row['lootbox_daily_date'] ?? '') !== $today) {
+                $pdo->prepare(
+                    'UPDATE players
+                     SET lootbox_unopened = lootbox_unopened + 1,
+                         lootbox_daily_date = :grant_date
+                     WHERE steamid = :steamid'
+                )->execute([
+                    'grant_date' => $today,
+                    'steamid' => $steamid,
+                ]);
+                $granted = true;
+            }
+            $pdo->commit();
+        } catch (PDOException) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            Http::json(500, ['ok' => false, 'error' => 'daily_grant_failed']);
+        }
+
+        Http::json(200, [
+            'ok' => true,
+            'granted' => $granted,
+            'player' => array_merge(['steamid' => $steamid], self::payload($steamid)),
+        ]);
+    }
+
+    public static function grantWin(): void
+    {
+        $body = Http::body();
+        $steamids = self::parseSteamidList($body['steamids'] ?? $body['steamid'] ?? null);
+        if ($steamids === []) {
+            Http::json(400, ['ok' => false, 'error' => 'invalid_steamids']);
+        }
+
+        $today = (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('Y-m-d');
+        $granted = [];
+        $skipped = [];
+        $players = [];
+        $pdo = Database::pdo();
+
+        foreach ($steamids as $steamid) {
+            $pdo->beginTransaction();
+            try {
+                self::ensurePlayer($steamid);
+                $locked = $pdo->prepare(
+                    'SELECT lootbox_unopened, lootbox_grants_date, lootbox_grants_today
+                     FROM players WHERE steamid = :steamid LIMIT 1 FOR UPDATE'
+                );
+                $locked->execute(['steamid' => $steamid]);
+                $row = $locked->fetch();
+                if ($row === false) {
+                    $pdo->rollBack();
+                    $skipped[] = $steamid;
+                    continue;
+                }
+
+                $grantsToday = (string) ($row['lootbox_grants_date'] ?? '') === $today
+                    ? (int) $row['lootbox_grants_today']
+                    : 0;
+                if ($grantsToday >= self::DAILY_WIN_BOXES) {
+                    $pdo->commit();
+                    $skipped[] = $steamid;
+                    $players[(string) $steamid] = self::payload($steamid);
+                    continue;
+                }
+
+                $pdo->prepare(
+                    'UPDATE players
+                     SET lootbox_unopened = lootbox_unopened + 1,
+                         lootbox_grants_date = :grant_date,
+                         lootbox_grants_today = :grants_today
+                     WHERE steamid = :steamid'
+                )->execute([
+                    'grant_date' => $today,
+                    'grants_today' => $grantsToday + 1,
+                    'steamid' => $steamid,
+                ]);
+                $pdo->commit();
+                $granted[] = $steamid;
+                $players[(string) $steamid] = self::payload($steamid);
+            } catch (PDOException) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                $skipped[] = $steamid;
+            }
+        }
+
+        Http::json(200, [
+            'ok' => true,
+            'granted' => $granted,
+            'skipped' => $skipped,
+            'players' => $players,
         ]);
     }
 
@@ -216,14 +406,21 @@ final class Stickers
         }
 
         $insert = Database::pdo()->prepare(
-            'INSERT INTO stickers (sticker_key, enabled, sort_order)
-             VALUES (:sticker_key, 1, :sort_order)
-             ON DUPLICATE KEY UPDATE sort_order = VALUES(sort_order)'
+            'INSERT INTO stickers (sticker_key, enabled, sort_order, rarity, weight_normal, weight_elite)
+             VALUES (:sticker_key, 1, :sort_order, :rarity, :weight_normal, :weight_elite)
+             ON DUPLICATE KEY UPDATE
+                sort_order = VALUES(sort_order),
+                rarity = VALUES(rarity),
+                weight_normal = VALUES(weight_normal),
+                weight_elite = VALUES(weight_elite)'
         );
-        foreach (self::CATALOG as $index => $key) {
+        foreach (self::CATALOG as $index => $entry) {
             $insert->execute([
-                'sticker_key' => $key,
+                'sticker_key' => $entry['key'],
                 'sort_order' => $index + 1,
+                'rarity' => $entry['rarity'],
+                'weight_normal' => $entry['weight_normal'],
+                'weight_elite' => $entry['weight_elite'],
             ]);
         }
         $ready = true;
@@ -232,8 +429,8 @@ final class Stickers
     private static function ensurePlayer(int $steamid): void
     {
         Database::pdo()->prepare(
-            'INSERT INTO players (steamid, games, rating)
-             VALUES (:steamid, 0, :rating)
+            'INSERT INTO players (steamid, games, rating, first_lootbox_opened)
+             VALUES (:steamid, 0, :rating, 1)
              ON DUPLICATE KEY UPDATE steamid = steamid'
         )->execute([
             'steamid' => $steamid,
@@ -241,25 +438,156 @@ final class Stickers
         ]);
     }
 
-    private static function lootboxOpened(int $steamid): bool
+    /** @return array{quality: int, copies: int, converted: bool, duplicate: bool} */
+    private static function applyReward(PDO $pdo, int $steamid, string $key, int $quality): array
     {
-        $statement = Database::pdo()->prepare(
-            'SELECT first_lootbox_opened FROM players WHERE steamid = :steamid LIMIT 1'
-        );
-        $statement->execute(['steamid' => $steamid]);
-        $row = $statement->fetch();
-        if ($row === false) {
-            return false;
+        $ids = self::stickerIds();
+        $stickerId = $ids[$key];
+        $current = self::ownedRow($pdo, $steamid, $stickerId);
+
+        if ($quality === self::QUALITY_ELITE) {
+            if ($current !== null && (int) $current['quality'] === self::QUALITY_ELITE) {
+                return [
+                    'quality' => self::QUALITY_ELITE,
+                    'copies' => 0,
+                    'converted' => false,
+                    'duplicate' => true,
+                ];
+            }
+            self::upsertOwned($pdo, $steamid, $stickerId, self::QUALITY_ELITE, 0);
+            return [
+                'quality' => self::QUALITY_ELITE,
+                'copies' => 0,
+                'converted' => false,
+                'duplicate' => false,
+            ];
         }
 
-        return (int) $row['first_lootbox_opened'] === 1;
+        if ($current === null) {
+            self::upsertOwned($pdo, $steamid, $stickerId, self::QUALITY_NORMAL, 1);
+            return [
+                'quality' => self::QUALITY_NORMAL,
+                'copies' => 1,
+                'converted' => false,
+                'duplicate' => false,
+            ];
+        }
+
+        if ((int) $current['quality'] === self::QUALITY_ELITE) {
+            return [
+                'quality' => self::QUALITY_ELITE,
+                'copies' => 0,
+                'converted' => false,
+                'duplicate' => true,
+            ];
+        }
+
+        $copies = (int) $current['copies'] + 1;
+        if ($copies >= self::COPIES_FOR_ELITE) {
+            self::upsertOwned($pdo, $steamid, $stickerId, self::QUALITY_ELITE, 0);
+            return [
+                'quality' => self::QUALITY_ELITE,
+                'copies' => 0,
+                'converted' => true,
+                'duplicate' => false,
+            ];
+        }
+
+        self::upsertOwned($pdo, $steamid, $stickerId, self::QUALITY_NORMAL, $copies);
+        return [
+            'quality' => self::QUALITY_NORMAL,
+            'copies' => $copies,
+            'converted' => false,
+            'duplicate' => false,
+        ];
     }
 
-    /** @return list<string> */
-    private static function ownedKeys(int $steamid): array
+    private static function upsertOwned(PDO $pdo, int $steamid, int $stickerId, int $quality, int $copies): void
+    {
+        $pdo->prepare(
+            'INSERT INTO player_stickers (steamid, sticker_id, quality, copies)
+             VALUES (:steamid, :sticker_id, :quality, :copies)
+             ON DUPLICATE KEY UPDATE
+                quality = VALUES(quality),
+                copies = VALUES(copies)'
+        )->execute([
+            'steamid' => $steamid,
+            'sticker_id' => $stickerId,
+            'quality' => $quality,
+            'copies' => $copies,
+        ]);
+    }
+
+    /** @return array{quality: int, copies: int}|null */
+    private static function ownedRow(PDO $pdo, int $steamid, int $stickerId): ?array
+    {
+        $statement = $pdo->prepare(
+            'SELECT quality, copies FROM player_stickers
+             WHERE steamid = :steamid AND sticker_id = :sticker_id LIMIT 1'
+        );
+        $statement->execute([
+            'steamid' => $steamid,
+            'sticker_id' => $stickerId,
+        ]);
+        $row = $statement->fetch();
+        if ($row === false) {
+            return null;
+        }
+
+        return [
+            'quality' => (int) $row['quality'],
+            'copies' => (int) $row['copies'],
+        ];
+    }
+
+    /** @return array{key: string, quality: int}|null */
+    private static function rollReward(PDO $pdo): ?array
+    {
+        $rows = $pdo->query(
+            'SELECT sticker_key, weight_normal, weight_elite FROM stickers WHERE enabled = 1'
+        )->fetchAll();
+        $pool = [];
+        $total = 0;
+        foreach ($rows as $row) {
+            $normal = max(0, (int) $row['weight_normal']);
+            $elite = max(0, (int) $row['weight_elite']);
+            if ($normal > 0) {
+                $pool[] = ['key' => (string) $row['sticker_key'], 'quality' => self::QUALITY_NORMAL, 'weight' => $normal];
+                $total += $normal;
+            }
+            if ($elite > 0) {
+                $pool[] = ['key' => (string) $row['sticker_key'], 'quality' => self::QUALITY_ELITE, 'weight' => $elite];
+                $total += $elite;
+            }
+        }
+        if ($total < 1 || $pool === []) {
+            return null;
+        }
+
+        $roll = random_int(1, $total);
+        $cursor = 0;
+        foreach ($pool as $item) {
+            $cursor += $item['weight'];
+            if ($roll <= $cursor) {
+                return [
+                    'key' => $item['key'],
+                    'quality' => $item['quality'],
+                ];
+            }
+        }
+
+        $last = $pool[array_key_last($pool)];
+        return [
+            'key' => $last['key'],
+            'quality' => $last['quality'],
+        ];
+    }
+
+    /** @return array<string, array{quality: int, copies: int}> */
+    private static function ownedMap(int $steamid): array
     {
         $statement = Database::pdo()->prepare(
-            'SELECT s.sticker_key
+            'SELECT s.sticker_key, ps.quality, ps.copies
              FROM player_stickers ps
              INNER JOIN stickers s ON s.id = ps.sticker_id
              WHERE ps.steamid = :steamid
@@ -267,19 +595,26 @@ final class Stickers
         );
         $statement->execute(['steamid' => $steamid]);
 
-        $keys = [];
+        $owned = [];
         foreach ($statement->fetchAll() as $row) {
-            $keys[] = (string) $row['sticker_key'];
+            $quality = (int) $row['quality'];
+            if ($quality < self::QUALITY_NORMAL) {
+                continue;
+            }
+            $owned[(string) $row['sticker_key']] = [
+                'quality' => $quality,
+                'copies' => (int) $row['copies'],
+            ];
         }
 
-        return $keys;
+        return $owned;
     }
 
     /** @return array<string, true> */
     private static function ownedSet(int $steamid): array
     {
         $set = [];
-        foreach (self::ownedKeys($steamid) as $key) {
+        foreach (self::ownedMap($steamid) as $key => $_info) {
             $set[$key] = true;
         }
 
@@ -320,20 +655,42 @@ final class Stickers
         return $ids;
     }
 
-    /** @return array{id: int, sticker_key: string}|null */
-    private static function randomEnabledSticker(PDO $pdo): ?array
+    private static function playerInt(int $steamid, string $column): int
     {
-        $row = $pdo->query(
-            'SELECT id, sticker_key FROM stickers WHERE enabled = 1 ORDER BY RAND() LIMIT 1'
-        )->fetch();
-        if ($row === false) {
-            return null;
+        static $allowed = [
+            'lootbox_unopened' => true,
+            'lootbox_currency' => true,
+        ];
+        if (!isset($allowed[$column])) {
+            return 0;
         }
 
-        return [
-            'id' => (int) $row['id'],
-            'sticker_key' => (string) $row['sticker_key'],
-        ];
+        $statement = Database::pdo()->prepare(
+            "SELECT {$column} FROM players WHERE steamid = :steamid LIMIT 1"
+        );
+        $statement->execute(['steamid' => $steamid]);
+        $row = $statement->fetch();
+        if ($row === false) {
+            return 0;
+        }
+
+        return max(0, (int) $row[$column]);
+    }
+
+    /** @return list<array{key: string, rarity: string, weight_normal: int, weight_elite: int}> */
+    private static function catalogPublic(): array
+    {
+        $list = [];
+        foreach (self::CATALOG as $entry) {
+            $list[] = [
+                'key' => $entry['key'],
+                'rarity' => $entry['rarity'],
+                'weight_normal' => $entry['weight_normal'],
+                'weight_elite' => $entry['weight_elite'],
+            ];
+        }
+
+        return $list;
     }
 
     /** @param array<mixed> $slots */
@@ -364,11 +721,25 @@ final class Stickers
         if (!is_string($value) || $value === '') {
             return null;
         }
-        if (!in_array($value, self::CATALOG, true)) {
-            return null;
+        foreach (self::CATALOG as $entry) {
+            if ($entry['key'] === $value) {
+                return $value;
+            }
         }
 
-        return $value;
+        return null;
+    }
+
+    private static function parseQuality(mixed $value): ?int
+    {
+        if ($value === self::QUALITY_NORMAL || $value === '1' || $value === 'normal') {
+            return self::QUALITY_NORMAL;
+        }
+        if ($value === self::QUALITY_ELITE || $value === '2' || $value === 'elite') {
+            return self::QUALITY_ELITE;
+        }
+
+        return null;
     }
 
     private static function parseSteamid(mixed $value): ?int
@@ -382,5 +753,27 @@ final class Stickers
         }
 
         return null;
+    }
+
+    /** @return list<int> */
+    private static function parseSteamidList(mixed $value): array
+    {
+        if (!is_array($value)) {
+            $single = self::parseSteamid($value);
+            return $single === null ? [] : [$single];
+        }
+
+        $list = [];
+        $used = [];
+        foreach ($value as $item) {
+            $steamid = self::parseSteamid($item);
+            if ($steamid === null || isset($used[$steamid])) {
+                continue;
+            }
+            $used[$steamid] = true;
+            $list[] = $steamid;
+        }
+
+        return $list;
     }
 }

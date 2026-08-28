@@ -11,6 +11,9 @@
             <Button id="WarmupStickers" class="PopupButton WarmupButton WarmupStickersButton">
                 <Label text="#sticker_editor_toggle"/>
             </Button>
+            <Button id="WarmupLootboxes" class="PopupButton WarmupButton WarmupStickersButton">
+                <Label text="#lootbox_toggle"/>
+            </Button>
             <Panel id="WarmupWidget" hittest="false">
                 <Panel class="WarmupHeader">
                     <Label id="WarmupTitle" text="#trinity_warmup_widget_title"/>

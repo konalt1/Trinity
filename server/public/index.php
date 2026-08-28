@@ -32,14 +32,34 @@ if ($path === '/v1/stickers/wheel' && $method === 'POST') {
     Stickers::saveWheel();
 }
 
+if ($path === '/v1/stickers/buy' && $method === 'POST') {
+    Auth::requireKey();
+    Stickers::buy();
+}
+
 if ($path === '/v1/stickers/grant' && $method === 'POST') {
     Auth::requireKey();
     Stickers::grant();
 }
 
+if ($path === '/v1/stickers/grant-lootbox' && $method === 'POST') {
+    Auth::requireKey();
+    Stickers::grantLootbox();
+}
+
 if ($path === '/v1/stickers/reset-lootbox' && $method === 'POST') {
     Auth::requireKey();
-    Stickers::resetLootbox();
+    Stickers::grantLootbox();
+}
+
+if ($path === '/v1/stickers/grant-daily' && $method === 'POST') {
+    Auth::requireKey();
+    Stickers::grantDaily();
+}
+
+if ($path === '/v1/stickers/grant-win' && $method === 'POST') {
+    Auth::requireKey();
+    Stickers::grantWin();
 }
 
 Http::json(404, ['ok' => false, 'error' => 'not_found']);

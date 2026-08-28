@@ -5,6 +5,7 @@
         "cooldown_info",
         "mind_power",
         "trinity_player_data",
-        "trinity_stickers"
+        "trinity_stickers",
+        "chen_barrack"
     ]
 }

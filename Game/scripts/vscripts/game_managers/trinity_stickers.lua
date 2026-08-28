@@ -6,6 +6,10 @@ end
 
 TrinityStickers.NET_TABLE = "trinity_stickers"
 TrinityStickers.SLOT_COUNT = 8
+TrinityStickers.QUALITY_NORMAL = 1
+TrinityStickers.QUALITY_ELITE = 2
+TrinityStickers.PRICE_NORMAL = 5
+TrinityStickers.PRICE_ELITE = 20
 TrinityStickers.CATALOG = {
 	"Gura",
 	"NeuroHug",
@@ -51,26 +55,57 @@ local function EmptyState()
 	return {
 		owned = {},
 		slots = EmptySlots(),
-		lootbox_pending = false,
+		lootboxes = 0,
+		currency = 0,
+		prices = {
+			normal = TrinityStickers.PRICE_NORMAL,
+			elite = TrinityStickers.PRICE_ELITE,
+		},
 		loaded = false,
 		last_drop = "",
+		last_quality = 0,
 		duplicate = false,
+		converted = false,
 	}
 end
 
-local function OwnedSet(list)
+local function OwnedInfo(value)
+	if type(value) == "table" then
+		local quality = tonumber(value.quality or value.q) or 0
+		if quality < TrinityStickers.QUALITY_NORMAL then
+			return nil
+		end
+		return {
+			quality = quality >= TrinityStickers.QUALITY_ELITE and TrinityStickers.QUALITY_ELITE or TrinityStickers.QUALITY_NORMAL,
+			copies = tonumber(value.copies or value.n) or 0,
+		}
+	end
+	if value == true or value == 1 then
+		return { quality = TrinityStickers.QUALITY_NORMAL, copies = 1 }
+	end
+	local quality = tonumber(value)
+	if quality and quality >= TrinityStickers.QUALITY_NORMAL then
+		return {
+			quality = quality >= TrinityStickers.QUALITY_ELITE and TrinityStickers.QUALITY_ELITE or TrinityStickers.QUALITY_NORMAL,
+			copies = 1,
+		}
+	end
+	return nil
+end
+
+local function OwnedMap(list)
 	local owned = {}
 	if type(list) ~= "table" then
 		return owned
 	end
-	for _, key in pairs(list) do
-		if KnownKey(key) then
-			owned[key] = true
-		end
-	end
 	for key, value in pairs(list) do
-		if type(key) == "string" and KnownKey(key) and (value == true or value == 1) then
-			owned[key] = true
+		if type(key) == "number" and KnownKey(value) then
+			owned[value] = { quality = TrinityStickers.QUALITY_NORMAL, copies = 1 }
+		elseif type(key) == "string" and KnownKey(key) then
+			local info = OwnedInfo(value)
+			if info then
+				owned[key] = info
+			end
 		end
 	end
 	return owned
@@ -92,19 +127,31 @@ local function WheelSlots(list)
 	return slots
 end
 
+local function IsOwnedEntry(info)
+	return type(info) == "table" and (info.quality or 0) >= TrinityStickers.QUALITY_NORMAL
+end
+
 local function Publish(playerID)
 	local state = TrinityStickers.state[playerID] or EmptyState()
 	local ownedNet = {}
-	for key, owned in pairs(state.owned) do
-		if owned then
-			ownedNet[key] = 1
+	for key, info in pairs(state.owned) do
+		if IsOwnedEntry(info) then
+			ownedNet[key] = {
+				quality = info.quality,
+				copies = info.copies or 0,
+			}
 		end
 	end
 	local payload = {
 		loaded = state.loaded and 1 or 0,
-		lootbox_pending = state.lootbox_pending and 1 or 0,
+		lootboxes = tonumber(state.lootboxes) or 0,
+		currency = tonumber(state.currency) or 0,
+		price_normal = (state.prices and state.prices.normal) or TrinityStickers.PRICE_NORMAL,
+		price_elite = (state.prices and state.prices.elite) or TrinityStickers.PRICE_ELITE,
 		last_drop = state.last_drop or "",
+		last_quality = tonumber(state.last_quality) or 0,
 		duplicate = state.duplicate and 1 or 0,
+		converted = state.converted and 1 or 0,
 		owned = ownedNet,
 	}
 	for i = 1, TrinityStickers.SLOT_COUNT do
@@ -115,13 +162,22 @@ end
 
 local function ApplyPayload(playerID, player, extra)
 	local state = TrinityStickers.state[playerID] or EmptyState()
-	state.owned = OwnedSet(player.owned)
+	state.owned = OwnedMap(player.owned)
 	state.slots = WheelSlots(player.wheel)
-	state.lootbox_pending = player.lootbox_pending == true or player.lootbox_pending == 1
+	state.lootboxes = tonumber(player.lootboxes) or 0
+	state.currency = tonumber(player.currency) or 0
+	if type(player.prices) == "table" then
+		state.prices = {
+			normal = tonumber(player.prices.normal) or TrinityStickers.PRICE_NORMAL,
+			elite = tonumber(player.prices.elite) or TrinityStickers.PRICE_ELITE,
+		}
+	end
 	state.loaded = true
 	if extra then
 		state.last_drop = extra.sticker or state.last_drop or ""
+		state.last_quality = tonumber(extra.quality) or state.last_quality or 0
 		state.duplicate = extra.duplicate == true or extra.duplicate == 1
+		state.converted = extra.converted == true or extra.converted == 1
 	end
 	TrinityStickers.state[playerID] = state
 	Publish(playerID)
@@ -132,6 +188,29 @@ function TrinityStickers:ApplyPlayerPayload(playerID, player)
 		return
 	end
 	ApplyPayload(playerID, player)
+end
+
+function TrinityStickers:IsOwned(playerID, key)
+	if not KnownKey(key) then
+		return false
+	end
+	local state = self.state[playerID]
+	if not state or not state.loaded then
+		return false
+	end
+	return IsOwnedEntry(state.owned[key])
+end
+
+function TrinityStickers:IsElite(playerID, key)
+	if not KnownKey(key) then
+		return false
+	end
+	local state = self.state[playerID]
+	if not state or not state.loaded then
+		return false
+	end
+	local info = state.owned[key]
+	return IsOwnedEntry(info) and info.quality == self.QUALITY_ELITE
 end
 
 function TrinityStickers:IsEquipped(playerID, key)
@@ -154,6 +233,15 @@ function TrinityStickers:MaxTime(key)
 	return self.MAX_TIME[key] or 1.5
 end
 
+local function RewardFlags(response, extra)
+	return {
+		sticker = extra and extra.sticker or (response and response.sticker),
+		quality = extra and extra.quality or (response and response.quality),
+		duplicate = extra and extra.duplicate or (response and response.duplicate),
+		converted = extra and extra.converted or (response and response.converted),
+	}
+end
+
 local function Post(path, body, playerID, extra)
 	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
 		DebugPrint("skip write", path)
@@ -164,25 +252,34 @@ local function Post(path, body, playerID, extra)
 		body = body,
 	}, function(response, meta)
 		local player = response and response.player
-		local ok = meta.status >= 200 and meta.status < 300 and response and response.ok == true and type(player) == "table"
+		local ok = meta.status >= 200 and meta.status < 300 and response and response.ok == true
 
-		if ok then
-			ApplyPayload(playerID, player, {
-				sticker = extra and extra.sticker or response.sticker,
-				duplicate = extra and extra.duplicate or response.duplicate,
-			})
+		if ok and type(player) == "table" then
+			ApplyPayload(playerID, player, RewardFlags(response, extra))
 			if extra and extra.event then
 				local playerEntity = PlayerResource:GetPlayer(playerID)
 				if playerEntity then
 					CustomGameEventManager:Send_ServerToPlayer(playerEntity, extra.event, {
 						sticker = response.sticker or "",
+						quality = tonumber(response.quality) or 0,
+						copies = tonumber(response.copies) or 0,
 						duplicate = (response.duplicate == true or response.duplicate == 1) and 1 or 0,
+						converted = (response.converted == true or response.converted == 1) and 1 or 0,
 					})
 				end
 			end
 			DebugPrint("post ok", path, playerID)
 		else
 			DebugPrint("post failed", path, meta.status, response and response.error)
+			if extra and extra.event then
+				local playerEntity = PlayerResource:GetPlayer(playerID)
+				if playerEntity then
+					CustomGameEventManager:Send_ServerToPlayer(playerEntity, extra.event, {
+						sticker = "",
+						failed = 1,
+					})
+				end
+			end
 		end
 
 		if extra and extra.done then
@@ -191,21 +288,72 @@ local function Post(path, body, playerID, extra)
 	end)
 end
 
+local function NotifyFailed(playerID, eventName)
+	local playerEntity = PlayerResource:GetPlayer(playerID)
+	if playerEntity then
+		CustomGameEventManager:Send_ServerToPlayer(playerEntity, eventName, {
+			sticker = "",
+			failed = 1,
+		})
+	end
+end
+
 function TrinityStickers:OnOpen(event)
 	local playerID = event and event.PlayerID
 	if playerID == nil then
 		return
 	end
 	local steamid = TrinityPlayerData.SteamID(playerID)
-	if steamid == 0 then
+	if steamid == 0 or not TrinityPlayerData.CanWrite() then
+		NotifyFailed(playerID, "trinity_sticker_opened")
 		return
 	end
 	local state = self.state[playerID]
-	if not state or not state.loaded or not state.lootbox_pending then
+	if not state or not state.loaded or (tonumber(state.lootboxes) or 0) < 1 then
+		NotifyFailed(playerID, "trinity_sticker_opened")
 		return
 	end
 	Post("/v1/stickers/open", { steamid = steamid }, playerID, {
 		event = "trinity_sticker_opened",
+	})
+end
+
+function TrinityStickers:OnBuy(event)
+	local playerID = event and event.PlayerID
+	if playerID == nil then
+		return
+	end
+	local steamid = TrinityPlayerData.SteamID(playerID)
+	if steamid == 0 or not TrinityPlayerData.CanWrite() then
+		NotifyFailed(playerID, "trinity_sticker_bought")
+		return
+	end
+	local state = self.state[playerID]
+	if not state or not state.loaded then
+		NotifyFailed(playerID, "trinity_sticker_bought")
+		return
+	end
+
+	local key = event.sticker
+	local quality = tonumber(event.quality) or 0
+	if not KnownKey(key) or (quality ~= self.QUALITY_NORMAL and quality ~= self.QUALITY_ELITE) then
+		NotifyFailed(playerID, "trinity_sticker_bought")
+		return
+	end
+	local info = state.owned[key]
+	if IsOwnedEntry(info) and info.quality == self.QUALITY_ELITE then
+		NotifyFailed(playerID, "trinity_sticker_bought")
+		return
+	end
+	local cost = quality == self.QUALITY_ELITE and ((state.prices and state.prices.elite) or self.PRICE_ELITE)
+		or ((state.prices and state.prices.normal) or self.PRICE_NORMAL)
+	if (tonumber(state.currency) or 0) < cost then
+		NotifyFailed(playerID, "trinity_sticker_bought")
+		return
+	end
+
+	Post("/v1/stickers/buy", { steamid = steamid, sticker = key, quality = quality }, playerID, {
+		event = "trinity_sticker_bought",
 	})
 end
 
@@ -228,7 +376,7 @@ function TrinityStickers:OnSaveWheel(event)
 	for i = 0, self.SLOT_COUNT - 1 do
 		local key = event["s" .. i]
 		if type(key) == "string" and key ~= "" then
-			if not state.owned[key] or used[key] or not KnownKey(key) then
+			if not IsOwnedEntry(state.owned[key]) or used[key] or not KnownKey(key) then
 				DebugPrint("reject wheel", playerID, key)
 				Publish(playerID)
 				return
@@ -246,7 +394,6 @@ function TrinityStickers:OnSaveWheel(event)
 	Post("/v1/stickers/wheel", { steamid = steamid, slots = slots }, playerID)
 end
 
--- Ключи каталога чувствительны к регистру, в консоли это неудобно.
 local function ResolveKey(value)
 	if type(value) ~= "string" or value == "" then
 		return nil
@@ -299,13 +446,14 @@ function TrinityStickers:GrantMany(playerID, keys)
 	if not TrinityPlayerData.CanWrite() then
 		local state = self.state[playerID] or EmptyState()
 		for _, key in ipairs(keys) do
-			state.owned[key] = true
+			state.owned[key] = { quality = self.QUALITY_ELITE, copies = 0 }
 		end
 		state.loaded = true
 		state.last_drop = keys[#keys]
+		state.last_quality = self.QUALITY_ELITE
 		self.state[playerID] = state
 		Publish(playerID)
-		print("[TrinityStickers] granted locally: " .. table.concat(keys, ", "))
+		print("[TrinityStickers] granted elite locally: " .. table.concat(keys, ", "))
 		return
 	end
 
@@ -325,16 +473,14 @@ function TrinityStickers:GrantMany(playerID, keys)
 		end
 		local state = self.state[playerID] or EmptyState()
 		for _, key in ipairs(failed) do
-			state.owned[key] = true
+			state.owned[key] = { quality = self.QUALITY_ELITE, copies = 0 }
 		end
 		state.loaded = true
 		self.state[playerID] = state
 		Publish(playerID)
-		print("[TrinityStickers] backend unavailable, granted for this match only: " .. table.concat(failed, ", "))
+		print("[TrinityStickers] backend unavailable, granted elite for this match only: " .. table.concat(failed, ", "))
 	end
 
-	-- Запросы идут по одному: параллельные ответы могут прийти не по порядку,
-	-- и последний применённый payload оказался бы без части выданных стикеров.
 	local function GrantNext(ok)
 		if index > 0 then
 			if ok then
@@ -365,20 +511,96 @@ function TrinityStickers:Grant(playerID, key)
 	self:GrantMany(playerID, { resolved })
 end
 
-function TrinityStickers:ResetLootbox(playerID)
+function TrinityStickers:GrantLootbox(playerID)
 	local steamid = TrinityPlayerData.SteamID(playerID)
 	if steamid == 0 then
 		return
 	end
 	if TrinityPlayerData.CanWrite() then
-		Post("/v1/stickers/reset-lootbox", { steamid = steamid }, playerID)
+		Post("/v1/stickers/grant-lootbox", { steamid = steamid }, playerID)
 		return
 	end
 	local state = self.state[playerID] or EmptyState()
-	state.lootbox_pending = true
+	state.lootboxes = (tonumber(state.lootboxes) or 0) + 1
 	state.loaded = true
 	self.state[playerID] = state
 	Publish(playerID)
+end
+
+function TrinityStickers:GrantDailyBox(playerID)
+	self._dailyGranted = self._dailyGranted or {}
+	if self._dailyGranted[playerID] then
+		return
+	end
+	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
+		return
+	end
+	local steamid = TrinityPlayerData.SteamID(playerID)
+	if steamid == 0 then
+		return
+	end
+	self._dailyGranted[playerID] = true
+	Post("/v1/stickers/grant-daily", { steamid = steamid }, playerID, {
+		done = function(ok)
+			if not ok then
+				TrinityStickers._dailyGranted[playerID] = nil
+			end
+		end,
+	})
+end
+
+function TrinityStickers:GrantWinBoxes()
+	if self._winGranted then
+		return
+	end
+	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
+		DebugPrint("skip win lootboxes")
+		return
+	end
+
+	local winner = GameRules:GetGameWinner()
+	if winner ~= DOTA_TEAM_GOODGUYS and winner ~= DOTA_TEAM_BADGUYS then
+		DebugPrint("no winning team for lootboxes", winner)
+		return
+	end
+
+	local steamids = {}
+	local bySteamid = {}
+	local maxPlayers = DOTA_MAX_TEAM_PLAYERS or 24
+	for playerID = 0, maxPlayers - 1 do
+		if PlayerResource:IsValidPlayerID(playerID) and PlayerResource:GetTeam(playerID) == winner then
+			local steamid = TrinityPlayerData.SteamID(playerID)
+			if steamid > 0 then
+				steamids[#steamids + 1] = steamid
+				bySteamid[tostring(steamid)] = playerID
+			end
+		end
+	end
+	if #steamids == 0 then
+		return
+	end
+
+	self._winGranted = true
+	Http.Request("POST", TrinityPlayerData.ApiUrl("/v1/stickers/grant-win"), {
+		headers = TrinityPlayerData.RequestHeaders(),
+		body = { steamids = steamids },
+	}, function(response, meta)
+		local ok = meta.status >= 200 and meta.status < 300 and response and response.ok == true
+		if not ok then
+			self._winGranted = false
+			DebugPrint("grant-win failed", meta.status, response and response.error)
+			return
+		end
+		if type(response.players) == "table" then
+			for steamid, player in pairs(response.players) do
+				local playerID = bySteamid[tostring(steamid)]
+				if playerID and type(player) == "table" then
+					ApplyPayload(playerID, player)
+				end
+			end
+		end
+		DebugPrint("grant-win ok")
+	end)
 end
 
 local function ResolvePlayerID(player)
@@ -394,8 +616,6 @@ local function ResolvePlayerID(player)
 	return playerID
 end
 
--- GetCommandClient отдаёт базового игрока без GetPlayerID, поэтому сначала
--- спрашиваем Dota-вариант, а консоль без владельца сводим к хост-слоту.
 local function CommandPlayerID()
 	local ok, dotaPlayer = pcall(function()
 		return Convars:GetDOTACommandClient()
@@ -428,9 +648,14 @@ function TrinityStickers:Init()
 		return
 	end
 	self._initialized = true
+	self._winGranted = false
+	self._dailyGranted = {}
 
 	CustomGameEventManager:RegisterListener("trinity_sticker_open", function(_, event)
 		TrinityStickers:OnOpen(event)
+	end)
+	CustomGameEventManager:RegisterListener("trinity_sticker_buy", function(_, event)
+		TrinityStickers:OnBuy(event)
 	end)
 	CustomGameEventManager:RegisterListener("trinity_sticker_save_wheel", function(_, event)
 		TrinityStickers:OnSaveWheel(event)
@@ -454,15 +679,44 @@ function TrinityStickers:Init()
 				return
 			end
 			TrinityStickers:GrantMany(playerID, keys)
-		end, "Grant stickers: trinity_sticker_grant <all|key> [key2 ...]", FCVAR_CHEAT)
-		Convars:RegisterCommand("trinity_sticker_reset_lootbox", function()
+		end, "Grant elite stickers: trinity_sticker_grant <all|key> [key2 ...]", FCVAR_CHEAT)
+		Convars:RegisterCommand("trinity_sticker_grant_lootbox", function()
 			local playerID = CommandPlayerID()
 			if playerID < 0 then
 				print("[TrinityStickers] no player for this console command")
 				return
 			end
-			TrinityStickers:ResetLootbox(playerID)
-		end, "Allow first lootbox again", FCVAR_CHEAT)
+			TrinityStickers:GrantLootbox(playerID)
+		end, "Give one unopened lootbox", FCVAR_CHEAT)
+	end
+
+	if not _G.TRINITY_STICKER_UI_COMMAND_REGISTERED then
+		_G.TRINITY_STICKER_UI_COMMAND_REGISTERED = true
+		Convars:RegisterCommand("trinity_sticker_ui", function(_, value)
+			local enabled = tonumber(value)
+			if enabled ~= 0 and enabled ~= 1 then
+				print("[TrinityStickers] usage: trinity_sticker_ui <0|1>")
+				return
+			end
+
+			local playerID = CommandPlayerID()
+			if playerID < 0 then
+				print("[TrinityStickers] no player for this console command")
+				return
+			end
+
+			local playerEntity = PlayerResource:GetPlayer(playerID)
+			if not playerEntity then
+				print("[TrinityStickers] no player entity for player " .. tostring(playerID))
+				return
+			end
+
+			CustomGameEventManager:Send_ServerToPlayer(playerEntity, "trinity_sticker_ui_override", {
+				enabled = enabled == 1,
+			})
+			print("[TrinityStickers] sticker UI " .. (enabled == 1 and "enabled" or "disabled")
+				.. " for player " .. tostring(playerID))
+		end, "Show sticker and lootbox UI after warmup: trinity_sticker_ui <0|1>", FCVAR_CHEAT)
 	end
 
 	DebugPrint("init")

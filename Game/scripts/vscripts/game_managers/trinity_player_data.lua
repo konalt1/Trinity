@@ -159,6 +159,9 @@ function TrinityPlayerData:LoadPlayer(playerID)
 		if TrinityStickers and TrinityStickers.ApplyPlayerPayload then
 			TrinityStickers:ApplyPlayerPayload(playerID, player)
 		end
+		if TrinityStickers and TrinityStickers.GrantDailyBox then
+			TrinityStickers:GrantDailyBox(playerID)
+		end
 		DebugPrint("loaded", playerID, steamid, "games", player.games, "rating", player.rating)
 	end)
 end
@@ -248,8 +251,15 @@ function TrinityPlayerData:OnGameRulesStateChange()
 	local state = GameRules:State_Get()
 	if state == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP or state == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		self:LoadAllPlayers()
+		if TrinityStickers then
+			TrinityStickers._winGranted = false
+			TrinityStickers._dailyGranted = {}
+		end
 	elseif state == DOTA_GAMERULES_STATE_POST_GAME then
 		self:SaveMatch()
+		if TrinityStickers and TrinityStickers.GrantWinBoxes then
+			TrinityStickers:GrantWinBoxes()
+		end
 	end
 end
 

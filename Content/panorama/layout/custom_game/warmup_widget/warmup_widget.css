@@ -16,6 +16,12 @@
     visibility: collapse;
 }
 
+#WarmupStickers.Hidden,
+#WarmupLootboxes.Hidden,
+#WarmupWidget.Hidden {
+    visibility: collapse;
+}
+
 #WarmupWidget {
     width: 100%;
     flow-children: down;

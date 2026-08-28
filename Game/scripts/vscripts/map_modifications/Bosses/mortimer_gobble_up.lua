@@ -85,6 +85,7 @@ end
 function mortimer_gobble_up:Precache(context)
     PrecacheResource("particle", "particles/ui_mouseactions/range_finder_aoe.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_snapfire/snapfire_flaming_creep.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", context)
 end
 
 function mortimer_gobble_up:GetBehavior()

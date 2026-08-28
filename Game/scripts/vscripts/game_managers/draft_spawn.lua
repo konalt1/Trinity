@@ -25,6 +25,24 @@ local WARMUP_SPAWN_BAD_ENTITY = "trinity_warmup_spawn_bad"
 local WARMUP_DUMMY_SPAWN_ENTITY = "trinity_warmup_dummy"
 local WARMUP_DUMMY_UNIT = "npc_dota_hero_target_dummy"
 
+local WARMUP_WARD_CLASSNAMES = {
+	"npc_dota_ward_base",
+	"npc_dota_ward_base_truesight",
+	"npc_dota_observer_wards",
+	"npc_dota_sentry_wards",
+}
+
+local WARMUP_WARD_UNITS = {
+	npc_dota_observer_wards = true,
+	npc_dota_sentry_wards = true,
+}
+
+-- ItemStockInitial из npc/Items.txt: observer 2, sentry 3.
+local WARMUP_WARD_STOCK = {
+	{ item = "item_ward_observer", count = 2 },
+	{ item = "item_ward_sentry", count = 3 },
+}
+
 function DraftSpawn:Init()
 	if self._listeners_registered then
 		return
@@ -310,6 +328,7 @@ function DraftSpawn:OnGameRulesStateChange()
 		self:SyncPreGameTime()
 		self:RandomUnpickedHeroes()
 		self:EnsureWarmupZone()
+		self:LockNightUntilLanePhase()
 		if self:GetRemainingUntilWarmupEnd() <= 0.05 then
 			self:EndWarmup()
 		end
@@ -317,6 +336,8 @@ function DraftSpawn:OnGameRulesStateChange()
 		self:EnsureMatchStartTimer()
 		if self:GetRemainingUntilZeroClock() <= 0.05 then
 			self:StartLanePhase()
+		else
+			self:LockNightUntilLanePhase()
 		end
 	end
 end
@@ -429,38 +450,86 @@ function DraftSpawn:EnsureMatchStartTimer()
 	end)
 end
 
-function DraftSpawn:LockNightUntilLanePhase()
+function DraftSpawn:SetDaynightCycleDisabled(disabled)
+	local mode = GameRules:GetGameModeEntity()
+	if mode and mode.SetDaynightCycleDisabled then
+		mode:SetDaynightCycleDisabled(disabled)
+	end
+end
+
+function DraftSpawn:ApplyNightLighting()
+	-- Цикл должен быть включён в кадр смены времени: иначе клиент
+	-- замораживает текущий (дневной) свет и GetTimeOfDay расходится с картинкой.
+	self:SetDaynightCycleDisabled(false)
+	GameRules:SetTimeOfDay(0.75)
+	self:SetDaynightCycleDisabled(true)
+	self._daynightCycleLocked = true
+end
+
+function DraftSpawn:ScheduleNightLightingFollowup()
+	if self._nightFollowupArmed or self.matchStarted then
+		return
+	end
+	self._nightFollowupArmed = true
+	Timers:CreateTimer(0.25, function()
+		if self.matchStarted then
+			return nil
+		end
+		local before = GameRules:GetTimeOfDay()
+		self:ApplyNightLighting()
+		self:DebugDayNight("night-followup", before)
+		return nil
+	end)
+end
+
+function DraftSpawn:LockNightUntilLanePhase(forceClientPush)
+	if self.matchStarted then
+		return
+	end
+
 	local before = GameRules:GetTimeOfDay()
 	local drifted = math.abs((before or 0) - 0.75) > 0.02
-
-	-- Вызывается каждые 0.1 сек: движок трогаем только при расхождении,
-	-- иначе каждый SetTimeOfDay заново запускает клиентский ночной эмбиент.
-	if drifted or not self._daynightCycleLocked then
-		local mode = GameRules:GetGameModeEntity()
-		if mode and mode.SetDaynightCycleDisabled then
-			mode:SetDaynightCycleDisabled(true)
-		end
-		self._daynightCycleLocked = true
-	end
-
-	if drifted then
-		GameRules:SetTimeOfDay(0.75)
-	end
-
 	local key = self:StateName() .. ":" .. tostring(self.warmupEnded)
-	if drifted or self._lastNightDebugKey ~= key then
+	local stateChanged = self._lastNightApplyKey ~= key
+	local state = GameRules:State_Get()
+	local worldVisible = forceClientPush == true
+		or state == DOTA_GAMERULES_STATE_PRE_GAME
+		or state == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS
+
+	-- Тик 0.1 с без дрейфа движок не трогает — иначе снова копится ночной эмбиент.
+	-- Смена стейта и вход игрока на карту обязаны повторно слать SetTimeOfDay:
+	-- первый вызов в HERO_SELECTION обновляет только сервер, клиент ещё не рисует мир.
+	local shouldApply = drifted or stateChanged or forceClientPush or not self._daynightCycleLocked
+	if worldVisible and not self._nightClientPushed then
+		shouldApply = true
+	end
+
+	if shouldApply then
+		self:ApplyNightLighting()
+		self._lastNightApplyKey = key
+		if worldVisible then
+			self._nightClientPushed = true
+			self:ScheduleNightLightingFollowup()
+		end
+	end
+
+	if drifted or stateChanged or forceClientPush then
 		self._lastNightDebugKey = key
-		self:DebugDayNight(drifted and "night-restore" or "night-hold", before)
+		local action = "night-hold"
+		if drifted then
+			action = "night-restore"
+		elseif forceClientPush or (worldVisible and shouldApply) then
+			action = "night-push"
+		elseif stateChanged then
+			action = "night-sync"
+		end
+		self:DebugDayNight(action, before)
 	end
 end
 
 function DraftSpawn:FreezeEngineMatchSystems()
 	GameRules:SetGoldPerTick(0)
 	self:LockNightUntilLanePhase()
-
-	pcall(function()
-		SendToServerConsole("dota_creeps_no_spawning 1")
-	end)
 	self:SetEngineHeroKillRewardsEnabled(false)
 end
 
@@ -469,25 +538,18 @@ function DraftSpawn:EnableWarmupEndSystems()
 	GameRules:SetGoldPerTick(2)
 	self:SetEngineHeroKillRewardsEnabled(true)
 	self:LockNightUntilLanePhase()
-
-	pcall(function()
-		SendToServerConsole("dota_creeps_no_spawning 1")
-	end)
 end
 
 function DraftSpawn:EnableLanePhaseSystems()
 	local before = GameRules:GetTimeOfDay()
-	local mode = GameRules:GetGameModeEntity()
-	if mode and mode.SetDaynightCycleDisabled then
-		mode:SetDaynightCycleDisabled(false)
-	end
+	self:SetDaynightCycleDisabled(false)
 	self._daynightCycleLocked = false
+	self._nightClientPushed = false
+	self._nightFollowupArmed = false
+	self._lastNightApplyKey = nil
+	self._nightPushedPlayers = {}
 	GameRules:SetTimeOfDay(0.25)
 	self:DebugDayNight("day-start", before)
-
-	pcall(function()
-		SendToServerConsole("dota_creeps_no_spawning 0")
-	end)
 end
 
 function DraftSpawn:HoldEngineMatchStart()
@@ -1125,6 +1187,9 @@ function DraftSpawn:EndWarmup()
 	self:ResetPlayersGold()
 	self:ResetPlayersKDA()
 	self:StripWarmupItems()
+	self:RemoveWarmupWards()
+	self:RegrowWarmupTrees()
+	self:RestoreWardShopStock()
 
 	self.heroKillRewardsEnabled = true
 	if KillfeedSystem and KillfeedSystem.RefreshHeroKillBounties then
@@ -1139,6 +1204,8 @@ function DraftSpawn:EndWarmup()
 		self:ResetPlayersGold()
 		self:ResetPlayersKDA()
 		self:StripWarmupItems()
+		self:RemoveWarmupWards()
+		self:RegrowWarmupTrees()
 
 		return nil
 	end)
@@ -1147,6 +1214,8 @@ function DraftSpawn:EndWarmup()
 		self:ResetPlayersGold()
 		self:ResetPlayersKDA()
 		self:StripWarmupItems()
+		self:RemoveWarmupWards()
+		self:RegrowWarmupTrees()
 
 		return nil
 	end)
@@ -1325,6 +1394,28 @@ function DraftSpawn:AbilityKvHasBehavior(ability, flag)
 	return string.find(behavior, flag, 1, true) ~= nil
 end
 
+function DraftSpawn:AbilityKvFlagEnabled(ability, key)
+	if not ability or ability:IsNull() or not key then
+		return false
+	end
+
+	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
+	if not kv then
+		return false
+	end
+
+	local value = kv[key]
+	if value == nil then
+		value = kv[string.lower(key)]
+	end
+	return value == "1" or value == 1 or value == true
+end
+
+function DraftSpawn:IsItemGrantedAbility(ability)
+	return self:AbilityKvFlagEnabled(ability, "IsGrantedByShard")
+		or self:AbilityKvFlagEnabled(ability, "IsGrantedByScepter")
+end
+
 function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 	if not ability or ability:IsNull() then
 		return false
@@ -1347,6 +1438,9 @@ function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 		return false
 	end
 	if ability.IsInnate and ability:IsInnate() then
+		return false
+	end
+	if self:IsItemGrantedAbility(ability) then
 		return false
 	end
 
@@ -1398,7 +1492,7 @@ function DraftSpawn:RestoreAbilityHiddenState(hero)
 		local ability = hero:GetAbilityByIndex(slot)
 		if ability and not ability:IsNull() then
 			local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
-			if kvHidden then
+			if kvHidden or self:IsItemGrantedAbility(ability) then
 				if not ability:IsHidden() then
 					ability:SetHidden(true)
 				end
@@ -1458,6 +1552,9 @@ function DraftSpawn:ApplyMatchStartHeroState(hero)
 	self:ResetHeroAbilitiesToStart(hero)
 	self:RestoreAbilityHiddenState(hero)
 	self:RestoreAbilityCastLayouts(hero)
+	if ChenBarrackRestoreMatchStartAbilities then
+		ChenBarrackRestoreMatchStartAbilities(hero)
+	end
 	self:EnsureTownPortalScroll(hero)
 end
 
@@ -1618,6 +1715,52 @@ function DraftSpawn:EnsureTownPortalScroll(hero)
 	end
 end
 
+function DraftSpawn:RemoveWarmupWards()
+	for i = 1, #WARMUP_WARD_CLASSNAMES do
+		local wards = Entities:FindAllByClassname(WARMUP_WARD_CLASSNAMES[i]) or {}
+		for j = 1, #wards do
+			local ward = wards[j]
+			if ward and not ward:IsNull() then
+				local unitName = ward.GetUnitName and ward:GetUnitName() or ""
+				if WARMUP_WARD_UNITS[unitName] then
+					UTIL_Remove(ward)
+				end
+			end
+		end
+	end
+end
+
+function DraftSpawn:RegrowWarmupTrees()
+	local ok = pcall(function()
+		GridNav:RegrowAllTrees()
+	end)
+	if ok then
+		return
+	end
+
+	local trees = Entities:FindAllByClassname("ent_dota_tree") or {}
+	for i = 1, #trees do
+		local tree = trees[i]
+		if tree and not tree:IsNull() and tree.GrowBack then
+			pcall(function()
+				tree:GrowBack()
+			end)
+		end
+	end
+end
+
+function DraftSpawn:RestoreWardShopStock()
+	local teams = { DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS }
+	for i = 1, #WARMUP_WARD_STOCK do
+		local entry = WARMUP_WARD_STOCK[i]
+		for j = 1, #teams do
+			pcall(function()
+				GameRules:SetItemStockCount(entry.count, teams[j], entry.item, -1)
+			end)
+		end
+	end
+end
+
 function DraftSpawn:StripWarmupGroundItems()
 	local drops = Entities:FindAllByClassname("dota_item_drop") or {}
 	for i = 1, #drops do
@@ -1746,6 +1889,12 @@ function DraftSpawn:EnterMapForPlayer(playerID, hero)
 		self:SnapCameraToHero(hero, hero:GetAbsOrigin())
 	end
 
+	self._nightPushedPlayers = self._nightPushedPlayers or {}
+	if not self._nightPushedPlayers[playerID] then
+		self._nightPushedPlayers[playerID] = true
+		self:LockNightUntilLanePhase(true)
+	end
+
 	self:GiveWarmupGold(playerID)
 	if self.warmupEnded then
 		self:PrepareHeroForMatchStart(hero, playerID)
@@ -1775,6 +1924,9 @@ function DraftSpawn:OnPlayerReconnect(keys)
 	local state = GameRules:State_Get()
 	if self:IsSandboxActive() or state == DOTA_GAMERULES_STATE_HERO_SELECTION or state == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		self._warmupHeroNotified[playerID] = nil
+		if self._nightPushedPlayers then
+			self._nightPushedPlayers[playerID] = nil
+		end
 		self:EnterMapForPlayer(playerID)
 	end
 end
