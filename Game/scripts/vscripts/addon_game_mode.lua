@@ -11,6 +11,7 @@ require ("game_managers/trinity_player_data")
 require ("game_managers/trinity_stickers")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
+require ("map_modifications/Bosses/caravan/caravan_event")
 
 -- Загружаем способности
 require ("abilities/mind_power")
@@ -32,6 +33,12 @@ require ("abilities/dawnbreaker/dawnbreaker_luminosity_custom")
 require ("abilities/dawnbreaker/dawnbreaker_solar_guardian_custom")
 require ("abilities/dawnbreaker/dawnbreaker_fire_wreath")
 require ("abilities/largo/largo_childhood_memories")
+require ("abilities/largo/largo_catchy_lick")
+require ("abilities/largo/largo_frogstomp")
+require ("abilities/void_spirit/void_spirit_mind_power")
+require ("abilities/void_spirit/void_spirit_dissimilate_trinity")
+require ("abilities/void_spirit/void_spirit_astral_step_trinity")
+require ("abilities/void_spirit/void_spirit_astral_reduction")
 require ("items/item_kaya_mind_power")
 require ("items/item_yasha_and_kaya")
 require ("items/item_mage_slayer")
@@ -51,8 +58,16 @@ require ("abilities/chen/chen_ultimate_aura")
 require ("abilities/lich/frost_shield/lich_frost_shield_lua")
 require ("abilities/lich/ability_sinister_gaze")
 
-require ("abilities/ogre_magi/ogre_magi_reroll")
-require ("abilities/ogre_magi/ogre_magi_aghanim_club")
+local function SafeRequire(path)
+	local ok, err = pcall(require, path)
+	if not ok then
+		print("[Trinity] require failed: " .. path)
+		print(tostring(err))
+	end
+end
+
+SafeRequire("abilities/ogre_magi/ogre_magi_reroll")
+SafeRequire("abilities/ogre_magi/ogre_magi_aghanim_club")
 require ("abilities/lich/frost_blast/lich_frost_blast_lua")
 
 -- Загружаем модификаторы
@@ -95,6 +110,17 @@ function Precache( context )
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts", context )
 	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts", context )
 	PrecacheResource( "particle_folder", "particles/units/heroes/hero_snapfire", context )
+
+	-- Courier caravan (Labyrinth Aghanim model + creature particles)
+	if not CaravanAssets then
+		pcall(require, "map_modifications/Bosses/caravan/caravan_assets")
+	end
+	if CaravanAssets and CaravanAssets.Precache then
+		CaravanAssets:Precache(context)
+		print("[CourierCaravan] Precache finished")
+	else
+		print("[CourierCaravan] Precache skipped: CaravanAssets missing")
+	end
  
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")
@@ -111,6 +137,7 @@ function Activate()
 	GameRules.AddonTemplate = CAddonTemplateGameMode()
 	GameRules.AddonTemplate:InitGameMode()
 	MortimerBoss:Init()
+	CourierCaravan:Init()
 end
 -- ============== Copyright © 2026, DagonRanchi, All rights reserved. =============
 

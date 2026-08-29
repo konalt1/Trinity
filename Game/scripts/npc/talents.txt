@@ -1188,4 +1188,14 @@
     "special_bonus_unique_custom_dawnbreaker_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
     "special_bonus_unique_custom_dawnbreaker_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
     "special_bonus_unique_custom_dawnbreaker_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+
+    // Void Spirit (stubs)
+    "special_bonus_unique_custom_void_spirit_1" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_2" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_3" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_4" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_5" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_6" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_7" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
+    "special_bonus_unique_custom_void_spirit_8" { "BaseClass" "special_bonus_undefined" "AbilityType" "ABILITY_TYPE_ATTRIBUTES" "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE" "AbilityValues" { "value" "200" } }
 }

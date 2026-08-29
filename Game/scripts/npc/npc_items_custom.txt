@@ -5,5 +5,31 @@
     	"ItemInitialStockTime"					"0"
     }
 
- 
+    "item_caravan_gold_bag"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_caravan_gold_bag"
+        "AbilityTextureName"            "item_hand_of_midas"
+        "Model"                         "models/props_gameplay/gold_bag.vmdl"
+        "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemKillable"                  "0"
+        "ItemDroppable"                 "1"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemCastOnPickup"              "1"
+        "ItemPermanent"                 "0"
+        "ItemInitialCharges"            "50"
+        "ItemDisplayCharges"            "1"
+        "ItemStackable"                 "0"
+        "AutoPickup"                    "1"
+        "UIPickupSound"                 "General.Coins"
+
+        "AbilityValues"
+        {
+            "gold_amount"               "50"
+        }
+    }
 }

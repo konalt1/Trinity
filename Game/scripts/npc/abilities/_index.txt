@@ -20,6 +20,7 @@
 #base "techies.txt"
 #base "tinker.txt"
 #base "tusk.txt"
+#base "void_spirit.txt"
 #base "weaver.txt"
 
 "DOTAAbilities"

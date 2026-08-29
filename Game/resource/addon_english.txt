@@ -486,6 +486,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_6"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_7"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_8"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_1"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_2"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_3"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_4"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_5"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_6"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_7"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_8"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Placeholder"
@@ -662,6 +670,7 @@
 		"shard_pool_capture"												"Enemies siege the Aghanim Font!"
 		"roshan_spawn"														"Roshan marched onto the battlefield!"
 		"mortimer_spawn"												"Mortimer is on the hunt!"
+		"caravan_spawn"													"The courier caravan is on the road!"
 		"trinity_warmup_started"										"Warmup started"
 		"trinity_warmup_ended"											"Warmup ended"
 		"trinity_warmup_widget_title"									"Warmup"
@@ -996,6 +1005,46 @@ Enemies in the area take magical damage every second."
 		// Bosses
 		"npc_mortimer_boss"											"Mortimer"
 		"npc_mortimer_boss_finale"									"Mortimer"
+		"npc_caravan_aghanim"										"Aghanim"
+		"npc_caravan_bearzky"										"Bearzky"
+		"npc_caravan_shagbark"										"Shagbark"
+		"npc_caravan_huntling"										"Huntling"
+		"npc_caravan_seekling"										"Seekling"
+		"npc_caravan_venling"										"Venling"
+		"npc_caravan_faceless_rex"									"Faceless Rex"
+		"npc_caravan_pudgling"										"Pudgling"
+		"npc_caravan_devourling"									"Devourling"
+		"npc_caravan_doomling"										"Doomling"
+		"npc_caravan_krobeling"										"Krobeling"
+		"npc_caravan_skip"											"Skip"
+		"npc_caravan_axolotl"										"Axolotl"
+		"npc_caravan_flopjaw"										"Golden Flopjaw"
+
+		"DOTA_Tooltip_Ability_item_caravan_gold_bag"							"Gold Bag"
+		"DOTA_Tooltip_Ability_item_caravan_gold_bag_Description"				"Picking this up grants 50 gold."
+		"DOTA_Tooltip_Ability_item_caravan_gold_bag_SummaryDescription"		"Grants 50 gold."
+
+		"DOTA_Tooltip_ability_caravan_aghanim_laser"							"Aghanim's Laser"
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_Description"					"Aghanim fires a laser at every nearby enemy hero. The beams slowly follow their targets.\n\nA hero caught in a beam is slowed and blinded. The longer they stay in the beam, the more damage they take."
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_channel_time"				"DURATION:"
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_radius"						"RADIUS:"
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_slow_pct"					"%SLOW:"
+		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff"						"Aghanim's Laser"
+		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff_Description"			"Slowed and blinded by Aghanim's laser."
+
+		"DOTA_Tooltip_ability_caravan_aghanim_shards"							"Aghanim's Shards"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Aghanim launches an untargeted shard toward every nearby enemy hero.\n\nIf a shard hits a hero, it splits into three smaller shards. Shards deal magical damage and stun. Smaller shards deal less damage and stun for less time."
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_radius"					"RADIUS:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_damage"						"DAMAGE:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_stun"						"STUN:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_damage"				"SPLIT DAMAGE:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"SPLIT STUN:"
+
+		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Aghanim's Spears"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Aghanim gathers three spears around himself, then launches them one by one at the nearest heroes.\n\nA spear pierces the first hero it hits and knocks them back. If a tree, building, or high ground is in the way, the victim is pinned and stunned."
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_count"				"SPEARS:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_damage"						"DAMAGE:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_pin_stun"					"PIN STUN:"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Placeholder"
@@ -1175,6 +1224,36 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker leaps to the marker's current location."
 
 		// Largo
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity"									"Catchy Lick"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_Description"						"Largo licks the chosen unit with his tongue, pulls it and dispels dispellable effects.
+
+		An enemy takes magical damage. An ally is pulled farther.
+
+		Dispelling an effect from the target grants Largo health regeneration.
+
+		Damage: %damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_damage"							"DAMAGE:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_mind_power_multiplier"			"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_pull_distance"					"ENEMY PULL:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_pull_distance_ally"				"ALLY PULL:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_dispel_hp_regen"					"HEALTH REGEN:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_buff_duration"					"REGEN DURATION:"
+		"DOTA_Tooltip_modifier_largo_catchy_lick_buff"							"Full Belly"
+		"DOTA_Tooltip_modifier_largo_catchy_lick_buff_Description"				"Health regeneration is increased."
+
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity"									"Frogstomp"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_Description"						"Largo tosses froglings into the chosen area. They stomp the ground, dealing magical damage, stunning enemies and slowing their movement.
+
+		Damage per stomp: %damage_per_stomp% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_damage_per_stomp"					"DAMAGE PER STOMP:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_mind_power_multiplier"				"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_total_ticks"						"STOMPS:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_slow"								"%SLOW:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_radius"							"RADIUS:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_stun_duration"						"STUN:"
+		"DOTA_Tooltip_modifier_largo_frogstomp_debuff"							"Frogstomp"
+		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Slowed."
+
 		"DOTA_Tooltip_ability_largo_childhood_memories"								"Childhood Memories"
 		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Toggle. While active, Largo moves by leaps of a fixed distance in his movement direction.
 
@@ -1197,6 +1276,58 @@ Enemies in the area take magical damage every second."
 
 		If he applies a unit-targeted ability effect to himself, it is also applied to the nearest allied hero in that ability's cast range."
 		"DOTA_Tooltip_ability_largo_encore_buff_amplification"					"%DURATION AMPLIFICATION:"
+
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant"						"Aether Remnant"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_Description"			"Void Spirit sends an aether remnant to the target point. The remnant faces the direction chosen on cast.
+
+		When an enemy enters its gaze, the remnant pulls it in and deals magical damage."
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_distance"	"WATCH RANGE:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_radius"	"WATCH WIDTH:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_impact_damage"			"DAMAGE:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_pull_duration"			"PULL DURATION:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_duration"				"DURATION:"
+		"DOTA_Tooltip_modifier_void_spirit_aether_remnant_pull"					"Aether Remnant"
+		"DOTA_Tooltip_modifier_void_spirit_aether_remnant_pull_Description"		"Being pulled toward the aether remnant."
+		"DOTA_Tooltip_modifier_void_spirit_trinity_remnant_pull"					"Aether Remnant"
+		"DOTA_Tooltip_modifier_void_spirit_trinity_remnant_pull_Description"		"Being pulled toward the aether remnant."
+
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity"					"Dissimilate"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_Description"		"Void Spirit briefly vanishes into another plane, creating several portals through which he can reassemble himself.
+
+		Upon exiting a portal, he deals magical damage to all enemies in the area."
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_shard_description"	"Creates a portal on each live Aether Remnant."
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_phase_duration"	"DURATION:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_portals_per_ring"	"PORTALS IN RING:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_damage_radius"		"RADIUS:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_damage"			"DAMAGE:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_modifier_void_spirit_dissimilate_trinity_phase"			"Dissimilate"
+		"DOTA_Tooltip_modifier_void_spirit_dissimilate_trinity_phase_Description"	"Vanished. Choose a portal to return."
+
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity"					"Astral Step"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_Description"		"Void Spirit travels to the target point through an astral rift, attacking all enemies along the path.
+
+		This attack applies a void mark that slows victims for 1.25s and then deals magical damage."
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_max_travel_distance"	"RANGE:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_radius"			"PATH WIDTH:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_pop_damage_delay"	"SLOW DURATION:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_pop_damage"		"DAMAGE:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_movement_slow_pct"	"%MOVEMENT SLOW:"
+		"DOTA_Tooltip_modifier_void_spirit_astral_step_trinity_mark"				"Void Mark"
+		"DOTA_Tooltip_modifier_void_spirit_astral_step_trinity_mark_Description"	"Slowed. Takes magical damage when the mark expires."
+
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction"						"Astral Reduction"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_Description"			"Whenever Void Spirit uses an active ability or item, he rewinds the cooldowns of his abilities and items by several seconds."
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_description"	"Each trigger also releases a void wave around Void Spirit, slowing enemies."
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_rewind_time"			"REWIND:"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_wave_radius"	"WAVE RADIUS:"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_slow_pct"		"%MOVEMENT SLOW:"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_slow_duration"	"SLOW DURATION:"
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction"						"Astral Reduction"
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_Description"			"Using active abilities and items rewinds cooldowns."
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave"					"Void Wave"
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave_Description"		"Slowed by a void wave."
 
 	}
 }

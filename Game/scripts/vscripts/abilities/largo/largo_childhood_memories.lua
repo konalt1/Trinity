@@ -611,8 +611,7 @@ function modifier_largo_childhood_memories_hop:StunAlongHop(end_pos)
 	EmitSoundOnLocationWithCaster(end_pos, "Hero_Slark.Pounce.Impact", caster)
 end
 
--- Scales vanilla Largo magical damage specials on the server without replacing those abilities.
--- Client tooltips for the same specials go through modifier_mind_power + numeric MIND_POWER_RULES.
+-- Scales remaining vanilla Largo magical damage specials (Fight Song) on the server.
 modifier_largo_mind_power = class({})
 
 function modifier_largo_mind_power:IsHidden()

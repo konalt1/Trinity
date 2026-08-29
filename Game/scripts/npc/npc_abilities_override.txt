@@ -23,4 +23,13 @@
 		"BaseClass"                     "dawnbreaker_fire_wreath"
 		"ScriptFile"                    "abilities/dawnbreaker/dawnbreaker_fire_wreath"
 	}
+
+	//=================================================================================================================
+	// Void Spirit: Aether Remnant — ванильный каст + Lua обзор/притяжение и Mind Power
+	//=================================================================================================================
+	"void_spirit_aether_remnant"
+	{
+		"BaseClass"                     "void_spirit_aether_remnant"
+		"ScriptFile"                    "abilities/void_spirit/void_spirit_mind_power"
+	}
 }

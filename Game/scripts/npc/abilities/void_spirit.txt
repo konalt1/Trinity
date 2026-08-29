@@ -1,0 +1,113 @@
+// Trinity — Void Spirit abilities
+"DOTAAbilities"
+{
+	"void_spirit_dissimilate_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/void_spirit/void_spirit_dissimilate_trinity"
+		"AbilityTextureName"            "void_spirit_dissimilate"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"               "1"
+		"HasShardUpgrade"               "1"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastPoint"              "0.3"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+		"AbilityCooldown"               "20 17 14 11"
+		"AbilityManaCost"               "120"
+
+		"AbilityValues"
+		{
+			"phase_duration"            "1.1"
+			"destination_fx_radius"
+			{
+				"value"                 "183"
+				"affected_by_aoe_increase" "1"
+			}
+			"portals_per_ring"          "3 4 5 6"
+			"angle_per_ring_portal"     "120 90 72 60"
+			"first_ring_distance_offset"
+			{
+				"value"                 "400 440 480 520"
+				"affected_by_aoe_increase" "1"
+			}
+			"damage_radius"
+			{
+				"value"                 "250 260 275 290"
+				"affected_by_aoe_increase" "1"
+			}
+			"damage"                    "105 185 265 345"
+			"mind_power_multiplier"     "1"
+		}
+	}
+
+	"void_spirit_astral_step_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/void_spirit/void_spirit_astral_step_trinity"
+		"AbilityTextureName"            "void_spirit_astral_step"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+		"FightRecapLevel"               "1"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastRange"              "700 800 900 1000"
+		"AbilityCastPoint"              "0.2"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+		"AbilityCooldown"               "15.0 12.3 9.7 7.0"
+		"AbilityManaCost"               "80 85 90 95"
+
+		"AbilityValues"
+		{
+			"radius"
+			{
+				"value"                 "170"
+				"affected_by_aoe_increase" "1"
+			}
+			"min_travel_distance"       "200"
+			"max_travel_distance"       "700 800 900 1000"
+			"pop_damage_delay"          "1.25"
+			"pop_damage"                "90 150 210 270"
+			"mind_power_multiplier"     "1"
+			"movement_slow_pct"         "40 50 65 80"
+		}
+	}
+
+	"void_spirit_astral_reduction"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/void_spirit/void_spirit_astral_reduction"
+		"AbilityTextureName"            "faceless_void_time_dilation"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+		"HasScepterUpgrade"             "1"
+		"MaxLevel"                      "3"
+		"RequiredLevel"                 "6"
+		"LevelsBetweenUpgrades"         "6"
+
+		"AbilityValues"
+		{
+			"rewind_time"               "2 3 4"
+			"scepter_wave_radius"
+			{
+				"value"                 "300"
+				"affected_by_aoe_increase" "1"
+			}
+			"scepter_slow_pct"          "40"
+			"scepter_slow_duration"     "1.5"
+		}
+	}
+}

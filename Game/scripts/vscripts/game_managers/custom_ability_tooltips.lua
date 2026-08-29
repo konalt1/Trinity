@@ -129,16 +129,25 @@ local MIND_POWER_RULES = {
     largo_childhood_memories = {
         stomp_damage = "mind_power_multiplier",
     },
-    -- Numeric multiplier: vanilla Largo spells have no mind_power_multiplier KV.
-    -- Server scaling is applied by modifier_largo_mind_power, not by rewriting those abilities.
-    largo_catchy_lick = {
-        damage = 1.0,
+    largo_catchy_lick_trinity = {
+        damage = "mind_power_multiplier",
     },
-    largo_frogstomp = {
-        damage_per_stomp = 1.0,
+    largo_frogstomp_trinity = {
+        damage_per_stomp = "mind_power_multiplier",
     },
     largo_song_fight_song = {
         burst_damage = 1.0,
+    },
+    -- Numeric multiplier: vanilla Aether Remnant has no mind_power_multiplier KV.
+    -- Server scaling is applied by modifier_void_spirit_mind_power, not by rewriting the ability.
+    void_spirit_aether_remnant = {
+        impact_damage = 1.0,
+    },
+    void_spirit_dissimilate_trinity = {
+        damage = "mind_power_multiplier",
+    },
+    void_spirit_astral_step_trinity = {
+        pop_damage = "mind_power_multiplier",
     },
 }
 

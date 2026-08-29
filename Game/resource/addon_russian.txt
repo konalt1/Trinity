@@ -510,6 +510,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_6"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_7"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_dawnbreaker_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_1"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_2"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_3"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_4"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_5"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_6"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_7"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_8"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Заглушка"
@@ -700,6 +708,7 @@
 		"shard_pool_capture"												"Противник захватывает Аганимный фонтан!"
 		"roshan_spawn"														"На карту вошёл Рошан!"
 		"mortimer_spawn"												"Мортимер вышел на охоту!"
+		"caravan_spawn"													"Караван курьеров вышел на маршрут!"
 		"trinity_warmup_started"										"Разминка началась"
 		"trinity_warmup_ended"											"Разминка закончилась"
 		"trinity_warmup_widget_title"									"Разминка"
@@ -1028,6 +1037,46 @@
 		// Боссы
 		"npc_mortimer_boss"											"Мортимер"
 		"npc_mortimer_boss_finale"									"Мортимер"
+		"npc_caravan_aghanim"										"Аганим"
+		"npc_caravan_bearzky"										"Bearzky"
+		"npc_caravan_shagbark"										"Shagbark"
+		"npc_caravan_huntling"										"Huntling"
+		"npc_caravan_seekling"										"Seekling"
+		"npc_caravan_venling"										"Venling"
+		"npc_caravan_faceless_rex"									"Faceless Rex"
+		"npc_caravan_pudgling"										"Pudgling"
+		"npc_caravan_devourling"									"Devourling"
+		"npc_caravan_doomling"										"Doomling"
+		"npc_caravan_krobeling"										"Krobeling"
+		"npc_caravan_skip"											"Skip"
+		"npc_caravan_axolotl"										"Axolotl"
+		"npc_caravan_flopjaw"										"Golden Flopjaw"
+
+		"DOTA_Tooltip_Ability_item_caravan_gold_bag"							"Мешок золота"
+		"DOTA_Tooltip_Ability_item_caravan_gold_bag_Description"				"Подбирая мешок, герой получает 50 золота."
+		"DOTA_Tooltip_Ability_item_caravan_gold_bag_SummaryDescription"		"Даёт 50 золота."
+
+		"DOTA_Tooltip_ability_caravan_aghanim_laser"							"Аганимный лазер"
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_Description"					"Аганим направляет лазеры на каждого вражеского героя рядом. Лучи медленно следуют за целями.\n\nГерой под лучом замедляется и слепнет. Чем дольше он остаётся в луче, тем больше урона получает."
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_channel_time"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_radius"						"РАДИУС:"
+		"DOTA_Tooltip_ability_caravan_aghanim_laser_slow_pct"					"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff"						"Аганимный лазер"
+		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff_Description"			"Замедлен и ослеплён лазером Аганима."
+
+		"DOTA_Tooltip_ability_caravan_aghanim_shards"							"Осколки Аганима"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Аганим пускает ненаправленный осколок в сторону каждого вражеского героя рядом.\n\nПри попадании по герою осколок разлетается на три меньших. Осколки наносят магический урон и оглушают. Чем меньше осколок, тем слабее удар и короче оглушение."
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_damage"						"УРОН:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_stun"						"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_damage"				"УРОН МЕЛКИХ ОСКОЛКОВ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"ОГЛУШЕНИЕ МЕЛКИХ ОСКОЛКОВ:"
+
+		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Копья Аганима"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Аганим собирает вокруг себя три копья, затем по очереди пускает их в ближайших героев.\n\nКопьё пронзает первого задетого героя и отталкивает его. Если на пути окажется дерево, постройка или возвышенность, жертву пригвоздит и оглушит."
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_count"				"КОПИЙ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_damage"						"УРОН:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_pin_stun"					"ОГЛУШЕНИЕ ПРИГВОЖДЕНИЯ:"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"
@@ -1209,27 +1258,29 @@
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker прыгает в текущую точку маркера."
 
 		// Largo
-		"DOTA_Tooltip_ability_largo_catchy_lick"									"Липкий Лизь"
-		"DOTA_Tooltip_ability_largo_catchy_lick_Description"						"Largo лижет выбранное существо языком, притягивает его и снимает с него развеиваемые эффекты.
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity"									"Липкий Лизь"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_Description"						"Largo лижет выбранное существо языком, притягивает его и снимает с него развеиваемые эффекты.
 
 		Враг получает магический урон. Союзника притягивает дальше.
 
 		Снятый с цели эффект даёт Largo регенерацию здоровья."
-		"DOTA_Tooltip_ability_largo_catchy_lick_damage"							"УРОН:"
-		"DOTA_Tooltip_ability_largo_catchy_lick_pull_distance"					"ПРИТЯЖЕНИЕ ВРАГА:"
-		"DOTA_Tooltip_ability_largo_catchy_lick_pull_distance_ally"				"ПРИТЯЖЕНИЕ СОЮЗНИКА:"
-		"DOTA_Tooltip_ability_largo_catchy_lick_dispel_hp_regen"					"РЕГЕНЕРАЦИЯ:"
-		"DOTA_Tooltip_ability_largo_catchy_lick_buff_duration"					"ДЛИТЕЛЬНОСТЬ РЕГЕНЕРАЦИИ:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_damage"							"УРОН:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_pull_distance"					"ПРИТЯЖЕНИЕ ВРАГА:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_pull_distance_ally"				"ПРИТЯЖЕНИЕ СОЮЗНИКА:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_dispel_hp_regen"					"РЕГЕНЕРАЦИЯ:"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_buff_duration"					"ДЛИТЕЛЬНОСТЬ РЕГЕНЕРАЦИИ:"
 		"DOTA_Tooltip_modifier_largo_catchy_lick_buff"							"Сытое брюхо"
 		"DOTA_Tooltip_modifier_largo_catchy_lick_buff_Description"				"Регенерация здоровья повышена."
 
-		"DOTA_Tooltip_ability_largo_frogstomp"									"Жабий Топ"
-		"DOTA_Tooltip_ability_largo_frogstomp_Description"						"Largo бросает учеников-лягушек в выбранную область. Они топают по земле, нанося магический урон, оглушая врагов и замедляя их передвижение."
-		"DOTA_Tooltip_ability_largo_frogstomp_damage_per_stomp"					"УРОН ЗА ПРИТОП:"
-		"DOTA_Tooltip_ability_largo_frogstomp_total_ticks"						"ЧИСЛО ПРИТОПОВ:"
-		"DOTA_Tooltip_ability_largo_frogstomp_slow"								"%ЗАМЕДЛЕНИЕ:"
-		"DOTA_Tooltip_ability_largo_frogstomp_radius"							"РАДИУС:"
-		"DOTA_Tooltip_ability_largo_frogstomp_stun_duration"						"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity"									"Жабий Топ"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_Description"						"Largo бросает учеников-лягушек в выбранную область. Они топают по земле, нанося магический урон, оглушая врагов и замедляя их передвижение."
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_damage_per_stomp"					"УРОН ЗА ПРИТОП:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_mind_power_multiplier"				"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_total_ticks"						"ЧИСЛО ПРИТОПОВ:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_slow"								"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_radius"							"РАДИУС:"
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_stun_duration"						"ОГЛУШЕНИЕ:"
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff"							"Жабий Топ"
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Замедлен."
 
@@ -1309,6 +1360,58 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_largo_6"						"50% брони Нот союзникам"
 		"DOTA_Tooltip_ability_special_bonus_unique_largo_7"						"+30% эффекта Амфибийной рапсодии"
 		"DOTA_Tooltip_ability_special_bonus_unique_largo_8"						"2 заряда Липкого Лизя"
+
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant"						"Астральный Ремнант"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_Description"			"Void Spirit выпускает в указанную точку астральный ремнант. Ремнант смотрит в сторону, заданную при применении.
+
+		Когда в его обзор попадает враг, ремнант притягивает его и наносит магический урон."
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_distance"	"ДАЛЬНОСТЬ ОБЗОРА:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_radius"	"ШИРИНА ОБЗОРА:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_impact_damage"			"УРОН:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_pull_duration"			"ДЛИТЕЛЬНОСТЬ ПРИТЯЖЕНИЯ:"
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_modifier_void_spirit_aether_remnant_pull"					"Эфирный остаток"
+		"DOTA_Tooltip_modifier_void_spirit_aether_remnant_pull_Description"		"Притягивается к астральному ремнанту."
+		"DOTA_Tooltip_modifier_void_spirit_trinity_remnant_pull"					"Астральный ремнант"
+		"DOTA_Tooltip_modifier_void_spirit_trinity_remnant_pull_Description"		"Притягивается к астральному ремнанту."
+
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity"					"Диссимиляция"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_Description"		"Void Spirit временно исчезает в иной мир, создавая несколько порталов, через которые он может собрать свою сущность воедино.
+
+		Выйдя из портала, герой наносит магический урон всем врагам в области действия."
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_shard_description"	"На каждом живом Астральном ремнанте появляется портал."
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_phase_duration"	"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_portals_per_ring"	"ПОРТАЛОВ В КОЛЬЦЕ:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_damage_radius"		"РАДИУС:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_damage"			"УРОН:"
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_void_spirit_dissimilate_trinity_phase"			"Диссимиляция"
+		"DOTA_Tooltip_modifier_void_spirit_dissimilate_trinity_phase_Description"	"Исчез в ином мире. Выберите портал, чтобы вернуться."
+
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity"					"Астральный шаг"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_Description"		"Void Spirit перемещается в указанную точку через астральный разлом, атакуя всех врагов на пути.
+
+		Эта атака накладывает метку пустоты, которая замедляет жертв на 1,25 сек. и затем наносит магический урон."
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_max_travel_distance"	"ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_radius"			"ШИРИНА ПУТИ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_pop_damage_delay"	"ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_pop_damage"		"УРОН:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_movement_slow_pct"	"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
+		"DOTA_Tooltip_modifier_void_spirit_astral_step_trinity_mark"				"Метка пустоты"
+		"DOTA_Tooltip_modifier_void_spirit_astral_step_trinity_mark_Description"	"Замедлен. По истечении эффекта получит магический урон."
+
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction"						"Астральный откат"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_Description"			"При применении активной способности или предмета Void Spirit откатывает время восстановления своих способностей и предметов на несколько секунд."
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_description"	"Каждое срабатывание также выпускает вокруг героя волну пустоты, замедляющую врагов."
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_rewind_time"			"ОТКАТ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_wave_radius"	"РАДИУС ВОЛНЫ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_slow_pct"		"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
+		"DOTA_Tooltip_ability_void_spirit_astral_reduction_scepter_slow_duration"	"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction"						"Астральный откат"
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_Description"			"Применение активных способностей и предметов откатывает перезарядку."
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave"					"Волна пустоты"
+		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave_Description"		"Замедлен волной пустоты."
 
 	}
 }

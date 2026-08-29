@@ -650,6 +650,14 @@ function GameMode:ExecuteOrderFilter(data)
 		return false
 	end
 
+	if VoidSpiritAetherRemnantHandleOrder then
+		VoidSpiritAetherRemnantHandleOrder(data)
+	end
+
+	if VoidSpiritDissimilateHandleOrder and VoidSpiritDissimilateHandleOrder(data) == false then
+		return false
+	end
+
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
 	end
@@ -691,6 +699,9 @@ function GameMode:OnEntityKilled(keys)
 	local unit_name = unit:GetUnitName()
 	if MortimerBoss and MortimerBoss.OnEntityKilled then
 		MortimerBoss:OnEntityKilled(unit, keys)
+	end
+	if CourierCaravan and CourierCaravan.OnEntityKilled then
+		CourierCaravan:OnEntityKilled(unit)
 	end
 	if KillfeedSystem and KillfeedSystem.OnEntityKilled then
 		KillfeedSystem:OnEntityKilled(keys, unit)

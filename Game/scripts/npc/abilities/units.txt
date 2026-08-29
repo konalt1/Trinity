@@ -58,6 +58,102 @@
         }
     }
 
+    "caravan_aghanim_laser"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "map_modifications/Bosses/caravan/caravan_aghanim_laser"
+        "AbilityTextureName"            "phoenix_sun_ray"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityChannelAnimation"       "ACT_DOTA_CAST_ABILITY_2"
+
+        "AbilityValues"
+        {
+            "channel_time"              "6"
+            "radius"                    "900"
+            "follow_speed"              "240"
+            "beam_width"                "100"
+            "base_damage"               "25"
+            "damage_ramp"               "14"
+            "slow_pct"                  "30"
+            "miss_pct"                  "100"
+            "debuff_linger"             "0.4"
+        }
+    }
+
+    "caravan_aghanim_shards"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "map_modifications/Bosses/caravan/caravan_aghanim_shards"
+        "AbilityTextureName"            "crystal_maiden_crystal_nova"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+        "AbilityCastPoint"              "0.3"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+
+        "AbilityValues"
+        {
+            "radius"                    "900"
+            "projectile_speed"          "700"
+            "projectile_width"          "90"
+            "damage"                    "140"
+            "stun"                      "1.1"
+            "split_speed"               "850"
+            "split_distance"            "500"
+            "split_width"               "70"
+            "split_spread"              "40"
+            "split_damage"              "50"
+            "split_stun"                "0.4"
+        }
+    }
+
+    "caravan_aghanim_spears"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "map_modifications/Bosses/caravan/caravan_aghanim_spears"
+        "AbilityTextureName"            "mars_spear"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
+        "MaxLevel"                      "1"
+        "AbilityLevel"                  "1"
+        "AbilityCastPoint"              "0.35"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+        "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
+
+        "AbilityValues"
+        {
+            "spear_count"               "3"
+            "orbit_radius"              "180"
+            "spawn_delay"               "0.35"
+            "launch_delay"              "0.35"
+            "search_radius"             "900"
+            "spear_speed"               "1400"
+            "spear_distance"            "1600"
+            "spear_width"               "80"
+            "damage"                    "160"
+            "knockback_speed"           "1200"
+            "knockback_distance"        "420"
+            "pin_stun"                  "1.6"
+        }
+    }
+
     "custom_fountain_aura"
     {
         "BaseClass"                     "ability_lua"

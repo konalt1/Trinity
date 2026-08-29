@@ -5,8 +5,11 @@ local UNDOMINATABLE_UNITS = {
 	["npc_guardian_bad"] = true,
 	["npc_dota_roshan"] = true,
 	["npc_dota_roshan_custom"] = true,
-	["npc_dota_roshan_pathway"] = true,
+    ["npc_dota_roshan_pathway"] = true,
 	["npc_dota_lich_ice_spire"] = true,
+	["npc_caravan_aghanim"] = true,
+	["npc_mortimer_boss"] = true,
+	["npc_mortimer_boss_finale"] = true,
 }
 
 local function IsUndominatableTarget(target)
@@ -18,7 +21,12 @@ local function IsUndominatableTarget(target)
 		return true
 	end
 
-	return UNDOMINATABLE_UNITS[target:GetUnitName()] == true
+	local unitName = target:GetUnitName()
+	if unitName and string.sub(unitName, 1, 12) == "npc_caravan_" then
+		return true
+	end
+
+	return UNDOMINATABLE_UNITS[unitName] == true
 end
 
 local function GetChenMindPower(hero)
