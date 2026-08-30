@@ -239,6 +239,9 @@ function MortimerBoss:Init()
         return
     end
     self.commandsRegistered = true
+    if self.spawnerDebugEnabled == nil then
+        self.spawnerDebugEnabled = false
+    end
 
     Convars:RegisterCommand("spawn_mortimer_boss", function(_, x, y, z)
         local position
@@ -279,4 +282,9 @@ function MortimerBoss:Init()
         self.kissesDebugEnabled = tonumber(value) == 1
         print("[MortimerKissesDebug] " .. (self.kissesDebugEnabled and "enabled" or "disabled"))
     end, "Log Mortimer Kisses targeting: mortimer_kisses_debug 0|1", FCVAR_CHEAT)
+
+    Convars:RegisterCommand("mortimer_spawner_debug", function(_, value)
+        self.spawnerDebugEnabled = tonumber(value) == 1
+        print("[MortimerSpawner] debug " .. (self.spawnerDebugEnabled and "enabled" or "disabled"))
+    end, "Log Mortimer pathway spawns: mortimer_spawner_debug 0|1", FCVAR_CHEAT)
 end

@@ -160,10 +160,107 @@ local function Publish(playerID)
 	CustomNetTables:SetTableValue(TrinityStickers.NET_TABLE, tostring(playerID), payload)
 end
 
+local function NormalizeSlotKey(key)
+	if key == nil then
+		return ""
+	end
+	if type(key) ~= "string" then
+		key = tostring(key)
+	end
+	if key == "" or key == "-" then
+		return ""
+	end
+	return key
+end
+
+local function EventSlot(event, index)
+	local key = event["s" .. index]
+	if (key == nil or key == "") and type(event.slots) == "table" then
+		key = event.slots[index] or event.slots[index + 1] or event.slots[tostring(index)]
+	end
+	return NormalizeSlotKey(key)
+end
+
+local function SlotsFromEvent(event)
+	local slots = EmptySlots()
+	for i = 0, TrinityStickers.SLOT_COUNT - 1 do
+		slots[i + 1] = EventSlot(event, i)
+	end
+	return slots
+end
+
+local function WheelBody(steamid, slots)
+	local body = { steamid = steamid, slots = {} }
+	for i = 1, TrinityStickers.SLOT_COUNT do
+		body.slots[i] = slots[i] or ""
+		body["s" .. (i - 1)] = slots[i] or ""
+	end
+	return body
+end
+
+local function ApplyWheelSlots(playerID, slots)
+	local state = TrinityStickers.state[playerID]
+	if not state then
+		return false
+	end
+
+	local nextSlots = EmptySlots()
+	local used = {}
+	for i = 1, TrinityStickers.SLOT_COUNT do
+		local key = slots[i]
+		if type(key) == "string" and key ~= "" and KnownKey(key) and not used[key] and IsOwnedEntry(state.owned[key]) then
+			used[key] = true
+			nextSlots[i] = key
+		end
+	end
+
+	state.slots = nextSlots
+	state.pendingSlots = nil
+	TrinityStickers.state[playerID] = state
+	return true
+end
+
+local Post
+
+local function PersistWheel(playerID)
+	local state = TrinityStickers.state[playerID]
+	if not state then
+		return
+	end
+	local steamid = TrinityPlayerData.SteamID(playerID)
+	if steamid == 0 then
+		return
+	end
+	Post("/v1/stickers/wheel", WheelBody(steamid, state.slots), playerID)
+end
+
+local function FlushPendingWheel(playerID)
+	local state = TrinityStickers.state[playerID]
+	if not state or not state.pendingSlots or not state.loaded then
+		return
+	end
+	local pending = state.pendingSlots
+	state.pendingSlots = nil
+	if ApplyWheelSlots(playerID, pending) then
+		Publish(playerID)
+		PersistWheel(playerID)
+	else
+		Publish(playerID)
+	end
+end
+
 local function ApplyPayload(playerID, player, extra)
 	local state = TrinityStickers.state[playerID] or EmptyState()
+	local pending = state.pendingSlots
+	local previousSlots = state.slots
+	local wasLoaded = state.loaded
+	local keepWheel = extra and extra.keepWheel
 	state.owned = OwnedMap(player.owned)
-	state.slots = WheelSlots(player.wheel)
+	if keepWheel and wasLoaded then
+		state.slots = previousSlots
+	else
+		state.slots = WheelSlots(player.wheel)
+	end
 	state.lootboxes = tonumber(player.lootboxes) or 0
 	state.currency = tonumber(player.currency) or 0
 	if type(player.prices) == "table" then
@@ -173,6 +270,7 @@ local function ApplyPayload(playerID, player, extra)
 		}
 	end
 	state.loaded = true
+	state.pendingSlots = pending
 	if extra then
 		state.last_drop = extra.sticker or state.last_drop or ""
 		state.last_quality = tonumber(extra.quality) or state.last_quality or 0
@@ -181,6 +279,7 @@ local function ApplyPayload(playerID, player, extra)
 	end
 	TrinityStickers.state[playerID] = state
 	Publish(playerID)
+	FlushPendingWheel(playerID)
 end
 
 function TrinityStickers:ApplyPlayerPayload(playerID, player)
@@ -242,10 +341,14 @@ local function RewardFlags(response, extra)
 	}
 end
 
-local function Post(path, body, playerID, extra)
+Post = function(path, body, playerID, extra)
 	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
 		DebugPrint("skip write", path)
 		return
+	end
+	extra = extra or {}
+	if extra.keepWheel == nil then
+		extra.keepWheel = true
 	end
 	Http.Request("POST", TrinityPlayerData.ApiUrl(path), {
 		headers = TrinityPlayerData.RequestHeaders(),
@@ -255,7 +358,9 @@ local function Post(path, body, playerID, extra)
 		local ok = meta.status >= 200 and meta.status < 300 and response and response.ok == true
 
 		if ok and type(player) == "table" then
-			ApplyPayload(playerID, player, RewardFlags(response, extra))
+			local flags = RewardFlags(response, extra)
+			flags.keepWheel = extra.keepWheel
+			ApplyPayload(playerID, player, flags)
 			if extra and extra.event then
 				local playerEntity = PlayerResource:GetPlayer(playerID)
 				if playerEntity then
@@ -358,7 +463,8 @@ function TrinityStickers:OnBuy(event)
 end
 
 function TrinityStickers:OnSaveWheel(event)
-	local playerID = event and event.PlayerID
+	local playerID = event and (event.PlayerID or event.pid or event.player_id)
+	playerID = tonumber(playerID)
 	if playerID == nil then
 		return
 	end
@@ -366,32 +472,21 @@ function TrinityStickers:OnSaveWheel(event)
 	if steamid == 0 then
 		return
 	end
-	local state = self.state[playerID]
-	if not state or not state.loaded then
+	local state = self.state[playerID] or EmptyState()
+	self.state[playerID] = state
+
+	local slots = SlotsFromEvent(event)
+
+	if not state.loaded then
+		state.pendingSlots = slots
+		state.slots = slots
+		Publish(playerID)
 		return
 	end
 
-	local slots = {}
-	local used = {}
-	for i = 0, self.SLOT_COUNT - 1 do
-		local key = event["s" .. i]
-		if type(key) == "string" and key ~= "" then
-			if not IsOwnedEntry(state.owned[key]) or used[key] or not KnownKey(key) then
-				DebugPrint("reject wheel", playerID, key)
-				Publish(playerID)
-				return
-			end
-			used[key] = true
-			slots[i + 1] = key
-		else
-			slots[i + 1] = ""
-		end
-	end
-
-	state.slots = slots
-	self.state[playerID] = state
+	ApplyWheelSlots(playerID, slots)
 	Publish(playerID)
-	Post("/v1/stickers/wheel", { steamid = steamid, slots = slots }, playerID)
+	PersistWheel(playerID)
 end
 
 local function ResolveKey(value)
@@ -453,13 +548,13 @@ function TrinityStickers:GrantMany(playerID, keys)
 		state.last_quality = self.QUALITY_ELITE
 		self.state[playerID] = state
 		Publish(playerID)
-		print("[TrinityStickers] granted elite locally: " .. table.concat(keys, ", "))
+		DebugPrint("granted elite locally: " .. table.concat(keys, ", "))
 		return
 	end
 
 	local steamid = TrinityPlayerData.SteamID(playerID)
 	if steamid == 0 then
-		print("[TrinityStickers] no steamid for player " .. tostring(playerID))
+		DebugPrint("no steamid for player " .. tostring(playerID))
 		return
 	end
 
@@ -478,7 +573,7 @@ function TrinityStickers:GrantMany(playerID, keys)
 		state.loaded = true
 		self.state[playerID] = state
 		Publish(playerID)
-		print("[TrinityStickers] backend unavailable, granted elite for this match only: " .. table.concat(failed, ", "))
+		DebugPrint("backend unavailable, granted elite for this match only: " .. table.concat(failed, ", "))
 	end
 
 	local function GrantNext(ok)
@@ -493,7 +588,7 @@ function TrinityStickers:GrantMany(playerID, keys)
 
 		local key = keys[index]
 		if key == nil then
-			print("[TrinityStickers] granted " .. granted .. "/" .. #keys)
+			DebugPrint("granted " .. granted .. "/" .. #keys)
 			ApplyFallback()
 			return
 		end
@@ -505,7 +600,7 @@ end
 function TrinityStickers:Grant(playerID, key)
 	local resolved = ResolveKey(key)
 	if not resolved then
-		print("[TrinityStickers] unknown sticker " .. tostring(key))
+		DebugPrint("unknown sticker " .. tostring(key))
 		return
 	end
 	self:GrantMany(playerID, { resolved })
@@ -595,7 +690,7 @@ function TrinityStickers:GrantWinBoxes()
 			for steamid, player in pairs(response.players) do
 				local playerID = bySteamid[tostring(steamid)]
 				if playerID and type(player) == "table" then
-					ApplyPayload(playerID, player)
+					ApplyPayload(playerID, player, { keepWheel = true })
 				end
 			end
 		end
@@ -714,7 +809,7 @@ function TrinityStickers:Init()
 			CustomGameEventManager:Send_ServerToPlayer(playerEntity, "trinity_sticker_ui_override", {
 				enabled = enabled == 1,
 			})
-			print("[TrinityStickers] sticker UI " .. (enabled == 1 and "enabled" or "disabled")
+			DebugPrint("sticker UI " .. (enabled == 1 and "enabled" or "disabled")
 				.. " for player " .. tostring(playerID))
 		end, "Show sticker and lootbox UI after warmup: trinity_sticker_ui <0|1>", FCVAR_CHEAT)
 	end

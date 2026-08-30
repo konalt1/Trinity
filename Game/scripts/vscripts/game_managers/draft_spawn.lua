@@ -59,7 +59,7 @@ function DraftSpawn:Init()
 	self._resettingHero = {}
 	self._cameraSnapTimers = {}
 	if self.debugEnabled == nil then
-		self.debugEnabled = true
+		self.debugEnabled = false
 	end
 
 	if not _G.DRAFT_SPAWN_DEBUG_COMMAND_REGISTERED then
@@ -104,7 +104,7 @@ local STATE_NAMES = {
 }
 
 function DraftSpawn:DebugEnabled()
-	return self.debugEnabled ~= false
+	return self.debugEnabled == true
 end
 
 function DraftSpawn:DebugDayNight(action, before)

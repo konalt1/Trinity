@@ -55,7 +55,9 @@
 		"lootbox_treasure_title"								"Сокровищница стикеров"
 		"lootbox_open"											"Открыть"
 		"lootbox_unopened"										"%s шт."
+		"lootbox_contains_one"									"Содержит 1 из этих предметов"
 		"lootbox_copies_none"									"—"
+		"lootbox_assign_sticker"								"Назначить стикер"
 		
 		"dota_error_cooldown_chat_wheel"					"Фразы на перезарядке"
 

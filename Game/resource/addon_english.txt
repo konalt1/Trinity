@@ -55,7 +55,9 @@
 		"lootbox_treasure_title"								"Sticker Treasure"
 		"lootbox_open"											"Open"
 		"lootbox_unopened"										"×%s"
+		"lootbox_contains_one"									"Contains 1 of these items"
 		"lootbox_copies_none"									"—"
+		"lootbox_assign_sticker"								"Assign sticker"
 
 		"dota_error_cooldown_chat_wheel"					"Voice lines are on cooldown"
 

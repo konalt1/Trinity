@@ -171,8 +171,8 @@ final class Stickers
             Http::json(400, ['ok' => false, 'error' => 'invalid_steamid']);
         }
 
-        $slots = $body['slots'] ?? null;
-        if (!is_array($slots)) {
+        $slots = self::slotsFromBody($body);
+        if ($slots === null) {
             Http::json(400, ['ok' => false, 'error' => 'invalid_slots']);
         }
 
@@ -693,11 +693,60 @@ final class Stickers
         return $list;
     }
 
+    /** @param array<mixed> $body */
+    private static function slotsFromBody(array $body): ?array
+    {
+        $slots = $body['slots'] ?? null;
+        if (is_array($slots) && $slots !== []) {
+            return self::reindexSlots($slots);
+        }
+
+        $named = [];
+        $found = false;
+        for ($slot = 0; $slot < self::SLOT_COUNT; $slot++) {
+            $key = 's' . $slot;
+            if (array_key_exists($key, $body)) {
+                $found = true;
+                $named[$slot] = $body[$key];
+            }
+        }
+
+        return $found ? $named : null;
+    }
+
+    /** @param array<mixed> $slots */
+    private static function reindexSlots(array $slots): array
+    {
+        $hasZero = array_key_exists(0, $slots) || array_key_exists('0', $slots);
+        $maxNumeric = -1;
+        foreach ($slots as $index => $_) {
+            if (!is_numeric($index)) {
+                continue;
+            }
+            $number = (int) $index;
+            if ($number > $maxNumeric) {
+                $maxNumeric = $number;
+            }
+        }
+        if (!$hasZero && $maxNumeric === self::SLOT_COUNT) {
+            $shifted = [];
+            for ($slot = 1; $slot <= self::SLOT_COUNT; $slot++) {
+                $shifted[$slot - 1] = $slots[$slot] ?? $slots[(string) $slot] ?? null;
+            }
+            return $shifted;
+        }
+
+        return $slots;
+    }
+
     /** @param array<mixed> $slots */
     private static function normalizeSlots(array $slots): ?array
     {
         $normalized = array_fill(0, self::SLOT_COUNT, null);
         foreach ($slots as $index => $value) {
+            if (!is_numeric($index)) {
+                continue;
+            }
             $slot = (int) $index;
             if ($slot < 0 || $slot >= self::SLOT_COUNT) {
                 return null;

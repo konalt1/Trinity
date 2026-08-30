@@ -8,6 +8,12 @@ local BOSS_UNIT_NAME = "npc_mortimer_boss"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800
 
+local function DebugPrint(...)
+    if MortimerBoss and MortimerBoss.spawnerDebugEnabled then
+        print("[MortimerSpawner]", ...)
+    end
+end
+
 function Spawn(entityKeyValues)
     thisEntity.spawnCount = 0
     thisEntity.firstSpawnPending = true
@@ -20,7 +26,7 @@ end
 
 function SpawnBossLoop()
     if not thisEntity or not IsValidEntity(thisEntity) or not thisEntity:IsAlive() then
-        print("[MortimerSpawner] Spawner is no longer valid; stopping.")
+        DebugPrint("Spawner is no longer valid; stopping.")
         return nil
     end
 
@@ -40,7 +46,7 @@ function SpawnBossLoop()
     )
 
     if not boss then
-        print("[MortimerSpawner] Failed to spawn Mortimer.")
+        DebugPrint("Failed to spawn Mortimer.")
         return SPAWN_INTERVAL
     end
 
@@ -66,6 +72,6 @@ function SpawnBossLoop()
     GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, spawnPosition.x, spawnPosition.y, boss, 0)
     EmitSoundOn("Hero_Snapfire.MortimerGrunt", boss)
 
-    print("[MortimerSpawner] Mortimer level " .. boss.spawnNumber .. " spawned at " .. tostring(spawnPosition))
+    DebugPrint("Mortimer level " .. boss.spawnNumber .. " spawned at " .. tostring(spawnPosition))
     return SPAWN_INTERVAL
 end

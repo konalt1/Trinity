@@ -60,16 +60,13 @@ const initChatWheel = () => {
     $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0).visible = Boolean(rings[0][1][i]);
-    let name = "";
-
     if (!tableHero) {
       initTableHero();
     }
-    if (tableHero) {
-      name = tableHero[i]?.sound || "";
-    }
+    const slot = tableHero ? tableHero[String(i)] || tableHero[i] : null;
+    const name = (slot && slot.sound) || "";
     const hasSound = name !== "";
-    const elite = !!(tableHero && tableHero[i]?.elite);
+    const elite = !!(slot && slot.elite);
     const PhraseLabel = $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0)
@@ -81,10 +78,6 @@ const initChatWheel = () => {
       .GetChild(0)
       .GetChild(0);
     phrase.style.opacity = hasSound ? "1" : "0.3";
-    $("#Phrase" + i)
-      .GetChild(0)
-      .GetChild(0)
-      .GetChild(1).style.backgroundSize = "100%";
     $("#Bubble").style.backgroundImage = `url('s2r://panorama/images/chat_wheel/center_cursor_png.vtex')`;
   }
 };
@@ -267,7 +260,6 @@ const CreateVideoHeadMessage = (data) => {
   });
   if (data.elite == 1) {
     newPanel.style.border = "2px solid #e2c56a";
-    newPanel.style.boxShadow = "fill #e2c56a66 0px 0px 8px 0px";
   }
 
   const maxTime = data.maxTime;
@@ -474,7 +466,6 @@ const CreateVideoChatMessage = (data) => {
   });
   if (data.elite == 1) {
     movie.style.border = "2px solid #e2c56a";
-    movie.style.boxShadow = "fill #e2c56a66 0px 0px 8px 0px";
   }
 
   const playerLine = $.CreatePanel("Label", message, "", {

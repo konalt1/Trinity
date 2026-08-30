@@ -14,8 +14,8 @@
                     <Label class="StickerPaneTitle" text="#sticker_editor_title"/>
                     <Label class="StickerHint" text="#sticker_editor_hint"/>
                     <Panel id="WheelArea" class="WheelArea">
-                        <Panel class="WheelCenterRing">
-                            <Panel class="WheelCenterCursor"/>
+                        <Panel class="WheelCenterRing" hittest="false">
+                            <Panel class="WheelCenterCursor" hittest="false"/>
                         </Panel>
                         <Panel id="WheelSlots" class="WheelSlots"/>
                     </Panel>

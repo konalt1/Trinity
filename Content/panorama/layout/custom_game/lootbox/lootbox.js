@@ -10,16 +10,6 @@ const STICKER_CATALOG = [
   "StickerOne",
   "StickerTwo",
 ];
-const STICKER_RARITY = {
-  Gura: "common",
-  NeuroHug: "common",
-  Watson: "common",
-  Anime: "common",
-  Neurodance: "rare",
-  Choso: "common",
-  StickerOne: "rare",
-  StickerTwo: "rare",
-};
 const STICKER_SOUNDS = {
   Gura: "high_five.impact",
   NeuroHug: "Hero_Chen.HolyPersuasion",
@@ -55,13 +45,16 @@ const PREVIEW_FREEZE_DELAY = 0.4;
 const ROULETTE_COUNT = 64;
 const ROULETTE_WINNER_MIN = 54;
 const ROULETTE_WINNER_MAX = 58;
-const ROULETTE_SLOT_W = 132;
+const ROULETTE_SLOT_W = 200;
 const ROULETTE_DURATION = 9;
 const ROULETTE_DECEL_DURATION = 4;
+const ROULETTE_CRUISE_SPEED = 1.45;
 const ROULETTE_LAND_HOLD = 0.45;
 const ROULETTE_SKIP_LOCK = 0.5;
 const ROULETTE_TICK_SOUND = "General.ButtonClick";
 const ROULETTE_LAND_SOUND = "ui.treasure_01";
+// Единственная ручка размера стикера внутри круга. CSS на Movie не работает — менять здесь.
+const MOVIE_SCALE = 0.5;
 const config = GameUI.CustomUIConfig();
 
 let openingLootbox = false;
@@ -174,9 +167,19 @@ function PlayHoverSound(key) {
   hoverSoundGuid = Game.EmitSound(soundEvent) || 0;
 }
 
+function MovieSizeStyle(scale) {
+  const pct = Math.round(scale * 100);
+  return (
+    "width: 100%; height: 100%; ui-scale: " +
+    pct +
+    "%; horizontal-align: center; vertical-align: center;"
+  );
+}
+
 function CreatePreviewMovie(parent, key, hoverPanel) {
   const movie = $.CreatePanel("Movie", parent, "", {
     class: "LootboxMovie",
+    style: MovieSizeStyle(MOVIE_SCALE),
     controls: "none",
     repeat: "true",
     autoplay: "onload",
@@ -205,10 +208,17 @@ function CreateStickerTile(parent, key, info) {
   const elite = IsElite(info);
   const tile = $.CreatePanel("Panel", parent, "LootboxSticker" + key);
   tile.AddClass("LootboxSticker");
-  if (STICKER_RARITY[key] === "rare") tile.AddClass("Rare");
   if (elite) tile.AddClass("Elite");
 
-  const preview = $.CreatePanel("Panel", tile, "");
+  const stage = $.CreatePanel("Panel", tile, "");
+  stage.AddClass("LootboxStickerStage");
+  DisableHittest(stage);
+
+  const glow = $.CreatePanel("Panel", stage, "");
+  glow.AddClass("LootboxStickerGlow");
+  DisableHittest(glow);
+
+  const preview = $.CreatePanel("Panel", stage, "");
   preview.AddClass("LootboxPreview");
   DisableHittest(preview);
   CreatePreviewMovie(preview, key, tile);
@@ -324,11 +334,12 @@ function RandomInt(min, max) {
 function RouletteProgress(elapsed) {
   const cruiseDuration = ROULETTE_DURATION - ROULETTE_DECEL_DURATION;
   const cruiseShare = cruiseDuration / (cruiseDuration + ROULETTE_DECEL_DURATION / 2);
-  if (elapsed <= cruiseDuration) {
-    return cruiseShare * (elapsed / cruiseDuration);
+  const cruiseEnd = cruiseDuration / ROULETTE_CRUISE_SPEED;
+  if (elapsed <= cruiseEnd) {
+    return cruiseShare * (elapsed / cruiseEnd);
   }
 
-  const decelTime = Math.min(ROULETTE_DECEL_DURATION, elapsed - cruiseDuration);
+  const decelTime = Math.min(ROULETTE_DECEL_DURATION, elapsed - cruiseEnd);
   const t = decelTime / ROULETTE_DECEL_DURATION;
   return cruiseShare + (1 - cruiseShare) * (2 * t - t * t);
 }
@@ -338,7 +349,6 @@ function CreateRouletteSlot(parent, item, index) {
   const slot = $.CreatePanel("Panel", parent, "RouletteSlot" + index);
   slot.AddClass("RouletteSlot");
   slot.SetAttributeString("sticker", item.key || "");
-  if (STICKER_RARITY[item.key] === "rare") slot.AddClass("Rare");
   if (elite) slot.AddClass("Elite");
   DisableHittest(slot);
 
@@ -348,6 +358,7 @@ function CreateRouletteSlot(parent, item, index) {
 
   const movie = $.CreatePanel("Movie", preview, "", {
     class: "RouletteMovie",
+    style: MovieSizeStyle(MOVIE_SCALE),
     controls: "none",
     repeat: "true",
     autoplay: "onload",
@@ -508,6 +519,7 @@ function FillRevealMovie(sticker) {
   host.RemoveAndDeleteChildren();
   const movie = $.CreatePanel("Movie", host, "RevealMovie", {
     class: "RevealMovie",
+    style: MovieSizeStyle(MOVIE_SCALE),
     controls: "none",
     repeat: "true",
     autoplay: "onload",
@@ -567,12 +579,20 @@ function CloseReveal() {
   if (IsOpen()) Render();
 }
 
+function OpenStickerEditor() {
+  if (!IsRevealing()) return;
+  if (typeof config.TrinityOpenStickerEditor === "function") {
+    config.TrinityOpenStickerEditor();
+  }
+}
+
 (function () {
   const close = $("#LootboxClose");
   const dim = $("#LootboxDim");
   const lootbox = $("#OpenLootboxButton");
   const chest = $("#TreasureChestButton");
   const continueBtn = $("#RevealContinue");
+  const assignBtn = $("#RevealAssignSticker");
   const viewport = $("#RouletteViewport");
 
   if (close) close.SetPanelEvent("onactivate", Close);
@@ -580,6 +600,7 @@ function CloseReveal() {
   if (lootbox) lootbox.SetPanelEvent("onactivate", OpenLootbox);
   if (chest) chest.SetPanelEvent("onactivate", OpenLootbox);
   if (continueBtn) continueBtn.SetPanelEvent("onactivate", CloseReveal);
+  if (assignBtn) assignBtn.SetPanelEvent("onactivate", OpenStickerEditor);
   if (viewport) viewport.SetPanelEvent("onactivate", SkipRoulette);
 
   $.RegisterKeyBind($.GetContextPanel(), "key_escape", function () {
