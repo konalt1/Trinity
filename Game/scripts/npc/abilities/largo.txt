@@ -114,7 +114,7 @@
 	{
 		"BaseClass"                     "ability_lua"
 		"ScriptFile"                    "abilities/largo/largo_childhood_memories"
-		"AbilityTextureName"            "largo_croak_of_genius"
+		"AbilityTextureName"            "largo_childhood_memories"
 		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
 		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
 		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -140,6 +140,116 @@
 			"mind_power_multiplier"     "1"
 			"stun_radius"               "125 150 175 200"
 			"mana_per_hop"              "8 7 6 5"
+		}
+	}
+
+	// Keep SubAbilityNames so songs still swap in. Omit Fight Song from AbilityDraftExtraAbilities
+	// so the ult tooltip does not embed the vanilla spell-amp summary.
+	"largo_amphibian_rhapsody"
+	{
+		"BaseClass"                     "largo_amphibian_rhapsody"
+		"AbilityTextureName"            "largo_amphibian_rhapsody"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_INVISIBLE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"MaxLevel"                      "3"
+		"RequiredLevel"                 "6"
+		"LevelsBetweenUpgrades"         "6"
+		"HasScepterUpgrade"             "1"
+		"SubAbilityNames"               "largo_song_fight_song;largo_song_double_time;largo_song_good_vibrations"
+		"AbilityCastPoint"              "0.0"
+		"AbilityCooldown"               "2"
+		"AbilityManaCost"               "0"
+
+		"AbilityDraftExtraAbilities"
+		{
+			"largo_song_double_time"    "hidden"
+			"largo_song_good_vibrations" "hidden"
+		}
+
+		"AbilityValues"
+		{
+			"radius"
+			{
+				"value"                 "800"
+				"affected_by_aoe_increase" "1"
+			}
+			"rhythm_interval"           "1"
+			"rhythm_grace_period"       "0.4"
+			"max_stacks"                "5"
+			"armor_per_stack"           "2 3 4"
+			"song_cost_reduction_per_stack_tooltip" "1 1.5 2"
+			"stack_duration"            "5"
+			"double_song"
+			{
+				"value"                 "0"
+				"special_bonus_scepter" "=1"
+			}
+			"armor_ally_pct"
+			{
+				"value"                 "0"
+				"special_bonus_unique_largo_6" "=50"
+			}
+			"stack_decrement_on_exit"   "0"
+		}
+	}
+
+	// Vanilla Fight Song: spell amp replaced by flat Mind Power. Burst damage still
+	// scales from the caster via modifier_largo_mind_power.
+	"largo_song_fight_song"
+	{
+		"BaseClass"                     "largo_song_fight_song"
+		"AbilityTextureName"            "largo_song_fight_song"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"HasScepterUpgrade"             "1"
+		"ShowCooldownInTooltips"        "0"
+		"MaxLevel"                      "3"
+		"AbilityCastPoint"              "0"
+		"AbilityCooldown"               "0.2"
+		"AbilitySharedCooldown"         "largo_songs"
+
+		"AbilityValues"
+		{
+			"double_song"
+			{
+				"value"                 "0"
+				"special_bonus_scepter" "=1"
+			}
+			"song_cost_reduction_per_stack" "1 1.5 2"
+			"radius"
+			{
+				"value"                 "800"
+				"affected_by_aoe_increase" "1"
+			}
+			"burst_damage"
+			{
+				"value"                 "20 30 40"
+				"special_bonus_unique_largo_7" "+12"
+			}
+			"damage_per_stack"
+			{
+				"value"                 "0"
+				"special_bonus_scepter" "+6 +10 +14"
+				"special_bonus_unique_largo_7" "+6"
+			}
+			"magic_damage_bonus"
+			{
+				"value"                 "20 25 30"
+				"special_bonus_unique_largo_7" "+30%"
+			}
+			"spell_amp_bonus"           "0"
+			"mind_power_bonus"
+			{
+				"value"                 "10 12 14"
+				"special_bonus_unique_largo_7" "+30%"
+			}
+			"battle_burst_duration"     "1"
+			"AbilityManaCost"
+			{
+				"value"                 "25 35 45"
+			}
 		}
 	}
 

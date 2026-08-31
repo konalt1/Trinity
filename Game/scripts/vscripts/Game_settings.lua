@@ -1,5 +1,5 @@
 START_GAME_AUTOMATICALLY = false				-- Should the game start automatically
-UNIVERSAL_SHOP_MODE = false             -- Should the main shop contain Secret Shop items as well as regular items
+UNIVERSAL_SHOP_MODE = true              -- Main shop sells Secret Shop items too
 PLAYER_COUNT_GOODGUYS = 3
 PLAYER_COUNT_BADGUYS = 3
 PLAYER_COUNT_CUSTOM_1 = 0

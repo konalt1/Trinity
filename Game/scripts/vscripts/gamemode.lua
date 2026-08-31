@@ -499,6 +499,12 @@ function GameMode:OnNPCSpawned(data)
        self:SyncLargoEncore(npc)
    end
 
+   if npc:IsHero() and npc:GetUnitName() == "npc_dota_hero_pangolier" then
+       if not npc:HasModifier("modifier_pangolier_mind_power") then
+           npc:AddNewModifier(npc, nil, "modifier_pangolier_mind_power", {})
+       end
+   end
+
    -- Отслеживаем спавн лейн крипов
    if npc:IsCreep() and not npc:IsNeutralUnitType() and not GameMode.lane_creeps_spawned then
        GameMode.lane_creeps_spawned = true

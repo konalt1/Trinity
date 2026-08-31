@@ -4,12 +4,16 @@ require("game_managers/custom_ability_tooltips")
 LinkLuaModifier("modifier_largo_childhood_memories", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_childhood_memories_hop", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_mind_power", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_largo_song_fight_song_mind_power", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_generic_arc_lua", "modifiers/modifier_generic_arc_lua", 0)
 
 largo_childhood_memories = class({})
 
 local TOGGLE_MODIFIER = "modifier_largo_childhood_memories"
 local HOP_MODIFIER = "modifier_largo_childhood_memories_hop"
+local FIGHT_SONG_ABILITY = "largo_song_fight_song"
+local FIGHT_SONG_BUFF = "modifier_largo_song_attack_burst"
+local FIGHT_SONG_MP_BUFF = "modifier_largo_song_fight_song_mind_power"
 local ARRIVE_DISTANCE = 24
 
 local function IsValid(entity)
@@ -99,7 +103,7 @@ function modifier_largo_childhood_memories:RemoveOnDeath()
 end
 
 function modifier_largo_childhood_memories:GetTexture()
-	return "largo_croak_of_genius"
+	return "largo_childhood_memories"
 end
 
 function modifier_largo_childhood_memories:DeclareFunctions()
@@ -612,6 +616,7 @@ function modifier_largo_childhood_memories_hop:StunAlongHop(end_pos)
 end
 
 -- Scales remaining vanilla Largo magical damage specials (Fight Song) on the server.
+-- Also replaces Fight Song spell amp with a flat Mind Power buff on the same allies.
 modifier_largo_mind_power = class({})
 
 function modifier_largo_mind_power:IsHidden()
@@ -626,6 +631,62 @@ function modifier_largo_mind_power:RemoveOnDeath()
 	return false
 end
 
+function modifier_largo_mind_power:OnCreated()
+	if not IsServer() then
+		return
+	end
+
+	self:StartIntervalThink(0.03)
+	self:SyncFightSongMindPower()
+end
+
+function modifier_largo_mind_power:OnIntervalThink()
+	self:SyncFightSongMindPower()
+end
+
+function modifier_largo_mind_power:SyncFightSongMindPower()
+	local parent = self:GetParent()
+	if not parent or parent:IsNull() then
+		return
+	end
+
+	local song = parent:FindAbilityByName(FIGHT_SONG_ABILITY)
+	if not song or song:IsNull() then
+		return
+	end
+
+	local bonus = song:GetSpecialValueFor("mind_power_bonus") or 0
+	local heroes = HeroList and HeroList.GetAllHeroes and HeroList:GetAllHeroes() or {}
+
+	for _, hero in pairs(heroes) do
+		if hero and not hero:IsNull() and hero:GetTeamNumber() == parent:GetTeamNumber() then
+			local song_buff = hero:FindModifierByName(FIGHT_SONG_BUFF)
+			if bonus > 0 and song_buff and not song_buff:IsNull() then
+				local remaining = song_buff.GetRemainingTime and song_buff:GetRemainingTime() or 0
+				if remaining <= 0 then
+					remaining = 0.05
+				end
+
+				local mp_buff = hero:FindModifierByName(FIGHT_SONG_MP_BUFF)
+				if not mp_buff or mp_buff:IsNull() then
+					mp_buff = hero:AddNewModifier(parent, song, FIGHT_SONG_MP_BUFF, { duration = remaining })
+				elseif mp_buff.SetDuration then
+					mp_buff:SetDuration(remaining, true)
+				end
+
+				if mp_buff and not mp_buff:IsNull() then
+					mp_buff:SetStackCount(bonus)
+				end
+			else
+				local mp_buff = hero:FindModifierByName(FIGHT_SONG_MP_BUFF)
+				if mp_buff and not mp_buff:IsNull() then
+					mp_buff:Destroy()
+				end
+			end
+		end
+	end
+end
+
 function modifier_largo_mind_power:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,
@@ -636,6 +697,10 @@ end
 function modifier_largo_mind_power:GetModifierOverrideAbilitySpecial(params)
 	if not IsServer() or self.computing_override or not params or not params.ability or params.ability:IsNull() then
 		return 0
+	end
+
+	if params.ability:GetAbilityName() == FIGHT_SONG_ABILITY and params.ability_special_value == "spell_amp_bonus" then
+		return 1
 	end
 
 	return CustomAbilityTooltips:IsNumericMindPowerMultiplier(
@@ -651,6 +716,10 @@ function modifier_largo_mind_power:GetModifierOverrideAbilitySpecialValue(params
 
 	local ability = params.ability
 	local special_value = params.ability_special_value
+	if ability:GetAbilityName() == FIGHT_SONG_ABILITY and special_value == "spell_amp_bonus" then
+		return 0
+	end
+
 	local multiplier = CustomAbilityTooltips:GetMindPowerMultiplierKey(ability:GetAbilityName(), special_value)
 	if type(multiplier) ~= "number" then
 		return 0
@@ -667,4 +736,27 @@ function modifier_largo_mind_power:GetModifierOverrideAbilitySpecialValue(params
 	end
 
 	return math.max(0, base_value + mind_power * multiplier)
+end
+
+modifier_largo_song_fight_song_mind_power = class({})
+
+function modifier_largo_song_fight_song_mind_power:IsHidden()
+	return true
+end
+
+function modifier_largo_song_fight_song_mind_power:IsPurgable()
+	return true
+end
+
+function modifier_largo_song_fight_song_mind_power:IsDebuff()
+	return false
+end
+
+function modifier_largo_song_fight_song_mind_power:GetTexture()
+	return "largo_song_fight_song"
+end
+
+MIND_POWER_MODIFIER_REGISTRY = MIND_POWER_MODIFIER_REGISTRY or {}
+MIND_POWER_MODIFIER_REGISTRY["modifier_largo_song_fight_song_mind_power"] = function(modifier)
+	return modifier:GetStackCount()
 end

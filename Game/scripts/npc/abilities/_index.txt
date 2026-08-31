@@ -1,6 +1,7 @@
 // Trinity — ability KV index (included from npc_abilities_custom.txt)
 #base "shared.txt"
 #base "units.txt"
+#base "antimage.txt"
 #base "chen.txt"
 #base "dawnbreaker.txt"
 #base "doom_bringer.txt"
@@ -13,6 +14,7 @@
 #base "lycan.txt"
 #base "nevermore.txt"
 #base "ogre_magi.txt"
+#base "pangolier.txt"
 #base "omniknight.txt"
 #base "phantom_assassin.txt"
 #base "pudge.txt"

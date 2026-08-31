@@ -1304,6 +1304,8 @@
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody"							"Амфибийная рапсодия"
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"				"Largo готовится играть. Он безоружен, а его способности сменяются тремя песнями: Пузатый блиц, Жаркий галоп и Тропический эликсир.
 
+
+
 		Песни действуют, только если взять ноту в такт.
 
 		Каждая точная нота даёт заряд Нот: бонус к броне и снижение стоимости маны песен. Промах снимает заряд. Заряды ненадолго остаются после окончания игры."
@@ -1321,15 +1323,17 @@
 		"DOTA_Tooltip_modifier_largo_amphibian_rhapsody_self_Description"			"Играет. Безоружен."
 
 		"DOTA_Tooltip_ability_largo_song_fight_song"							"Пузатый блиц"
-		"DOTA_Tooltip_ability_largo_song_fight_song_Description"					"Largo играет песню: ближайшие союзные герои получают усиление заклинаний, а их атаки наносят дополнительный магический урон.
-
-		Враги вокруг получают магический урон."
+		"DOTA_Tooltip_ability_largo_song_fight_song_Description"					"Наносит %burst_damage% магического урона врагам поблизости. Добавляет к атакам союзных героев %magic_damage_bonus%%% магического урона и даёт им 10 / 12 / 14 Силы магии."
+		"DOTA_Tooltip_ability_largo_song_fight_song_SummaryDescription"			"Наносит %burst_damage% магического урона врагам поблизости. Добавляет к атакам союзных героев %magic_damage_bonus%%% магического урона и даёт им 10 / 12 / 14 Силы магии."
+		"DOTA_Tooltip_Ability_largo_song_fight_song_SummaryDescription"			"Наносит %burst_damage% магического урона врагам поблизости. Добавляет к атакам союзных героев %magic_damage_bonus%%% магического урона и даёт им 10 / 12 / 14 Силы магии."
+		"DOTA_Tooltip_ability_largo_song_fight_song_Note0"						"Даёт Силу магии, а не усиление заклинаний."
 		"DOTA_Tooltip_ability_largo_song_fight_song_burst_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_largo_song_fight_song_magic_damage_bonus"			"%ДОП. МАГИЧЕСКИЙ УРОН АТАК:"
-		"DOTA_Tooltip_ability_largo_song_fight_song_spell_amp_bonus"				"%УСИЛЕНИЕ ЗАКЛИНАНИЙ:"
+		"DOTA_Tooltip_ability_largo_song_fight_song_spell_amp_bonus"				""
+		"DOTA_Tooltip_ability_largo_song_fight_song_mind_power_bonus"			"СИЛА МАГИИ:"
 		"DOTA_Tooltip_ability_largo_song_fight_song_radius"						"РАДИУС:"
 		"DOTA_Tooltip_modifier_largo_song_attack_burst"							"Пузатый блиц"
-		"DOTA_Tooltip_modifier_largo_song_attack_burst_Description"				"Заклинания усилены. Атаки наносят дополнительный магический урон."
+		"DOTA_Tooltip_modifier_largo_song_attack_burst_Description"				"Сила магии повышена. Атаки наносят дополнительный магический урон."
 
 		"DOTA_Tooltip_ability_largo_song_double_time"							"Жаркий галоп"
 		"DOTA_Tooltip_ability_largo_song_double_time_Description"				"Largo играет песню: ближайшие союзники ускоряются и ненадолго получают сопротивление замедлениям."
@@ -1412,6 +1416,118 @@
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_Description"			"Применение активных способностей и предметов откатывает перезарядку."
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave"					"Волна пустоты"
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave_Description"		"Замедлен волной пустоты."
+
+		// Pangolier
+		"DOTA_Tooltip_ability_pangolier_swashbuckle"									"Выпад"
+		"DOTA_Tooltip_ability_pangolier_swashbuckle_Description"						"Pangolier бросается в указанную точку и несколько раз бьёт шпагой в выбранном направлении. Удары замедляют врагов и считаются атаками."
+
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity"							"Щиток"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_Description"				"Pangolier прыгает вперёд и бьёт щитом по земле, нанося физический урон врагам вокруг.
+
+		Если удар задевает вражеского героя, Pangolier получает барьер на все типы урона.
+
+		Во время Колобка он подпрыгивает и продолжает катиться.
+
+		Урон: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_scepter_description"		"При применении Pangolier бьёт Выпадом в четыре стороны: по два удара на каждую. Эти удары наносят %scepter_damage_pct%%% урона."
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_hero_stacks"				"БАРЬЕР:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_duration"				"ДЛИТЕЛЬНОСТЬ БАРЬЕРА:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_radius"					"РАДИУС:"
+		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier"				"Щиток"
+		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier_Description"	"Барьер поглощает урон."
+
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity"							"Изящное попадание"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Пассивно.</b> Атаки Pangolier и удары Выпада с шансом попадают в сердце.
+
+		Попадание снижает броню цели, затем наносит критический урон."
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_description"		"За каждого вражеского героя вокруг увеличивает шанс попадания на %shard_chance_per_hero%%%."
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_crit_chance"				"%ШАНС:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_crit_multiplier"			"%КРИТ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_armor_reduction"			"СНИЖЕНИЕ БРОНИ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_chance_per_hero"	"%ШАНС ЗА ГЕРОЯ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_radius"			"РАДИУС:"
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark"					"Изящное попадание"
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Броня снижена."
+
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity"						"Ритм дуэлянта"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Пассивно.</b> Pangolier набирает Ритм, когда применяет разные приёмы подряд: обычную атаку, Выпад, Щиток и Колобок.
+
+		Повтор того же приёма Ритм не увеличивает.
+
+		После трёх разных приёмов следующая атака наносит дополнительный физический урон и всегда критична. Четвёртый приём усиливает этот удар.
+
+		Удар после трёх приёмов: %bonus_damage% + Сила магии × %mind_power_multiplier%.
+
+		Удар после четырёх приёмов: %bonus_damage_max% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_styles_required"		"ПРИЁМОВ ДЛЯ УДАРА:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"МАКС. ПРИЁМОВ:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_combo_duration"		"ДЛИТЕЛЬНОСТЬ РИТМА:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"УРОН (3 ПРИЁМА):"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage_max"		"УРОН (4 ПРИЁМА):"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_multiplier"		"%КРИТ:"
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo"				"Ритм дуэлянта"
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Счётчик разных приёмов. На трёх и более следующая атака усилена."
+
+		"DOTA_Tooltip_ability_pangolier_rollup"										"Скаток"
+		"DOTA_Tooltip_ability_pangolier_rollup_Description"							"Pangolier замирает в шаре. Он получает иммунитет к отрицательным эффектам и бонус к сопротивлению магии и может поворачиваться.
+
+		Если вражеский герой атакует Pangolier, тот откатывается от атакующего и наносит урон Колобка врагам на пути.
+
+		Способность доступна только во время Колобка."
+		"DOTA_Tooltip_ability_pangolier_rollup_duration"								"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_pangolier_rollup_stop"									"Стоп"
+
+		"DOTA_Tooltip_ability_pangolier_gyroshell"									"Колобок"
+		"DOTA_Tooltip_ability_pangolier_gyroshell_Description"						"Pangolier сворачивается в шар и катится вперёд. Он получает иммунитет к отрицательным эффектам и бонус к сопротивлению магии. Столкновение с врагом отбрасывает его, наносит урон и оглушает.
+
+		Во время качения доступен Скаток.
+
+		Урон: %damage% + Сила магии × 1."
+		"DOTA_Tooltip_ability_pangolier_gyroshell_shard_description"					""
+		"DOTA_Tooltip_ability_pangolier_gyroshell_stop"								"Стоп"
+
+		"DOTA_Tooltip_ability_antimage_mana_break"									"Выжигание маны"
+		"DOTA_Tooltip_ability_antimage_mana_break_Description"						"<b>Пассивно.</b> Атаки Anti-Mage сжигают ману цели и наносят урон, равный доле от сожжённой маны."
+		"DOTA_Tooltip_ability_antimage_mana_break_Note0"								"Атаки иллюзий сжигают только часть обычного объёма маны."
+		"DOTA_Tooltip_ability_antimage_mana_break_scepter_Description"				"Увеличивает сжигание максимальной маны за атаку."
+		"DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit"						"СЖИГАНИЕ МАНЫ ЗА АТАКУ:"
+		"DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit_pct"					"%СЖИГАНИЕ МАКС. МАНЫ:"
+		"DOTA_Tooltip_ability_antimage_mana_break_percent_damage_per_burn"			"%УРОН ОТ СОЖЖЁННОЙ МАНЫ:"
+
+		"DOTA_Tooltip_ability_antimage_dodge_trinity"								"Уклон"
+		"DOTA_Tooltip_ability_antimage_dodge_trinity_Description"					"Anti-Mage резко ускоряется и проносится в выбранную точку.
+
+		Сбивает с цели снаряды."
+		"DOTA_Tooltip_ability_antimage_dodge_trinity_range"							"ДАЛЬНОСТЬ:"
+
+		"DOTA_Tooltip_ability_antimage_counterspell"								"Антискилл"
+		"DOTA_Tooltip_ability_antimage_counterspell_Description"					"<b>Пассивно.</b> Anti-Mage получает сопротивление магии.
+
+		При применении создаёт щит, который блокирует направленные заклинания и отражает их в колдуна."
+		"DOTA_Tooltip_ability_antimage_counterspell_Note0"							"Пассивное сопротивление магии отключается истощением."
+		"DOTA_Tooltip_ability_antimage_counterspell_shard_Description"				"Создаёт фрагмент Anti-Mage рядом с врагом, применившим отражённое заклинание."
+		"DOTA_Tooltip_ability_antimage_counterspell_magic_resistance"				"%СОПРОТИВЛЕНИЕ МАГИИ:"
+		"DOTA_Tooltip_ability_antimage_counterspell_duration"						"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_antimage_counterspell_ally"							"Антискилл по союзнику"
+		"DOTA_Tooltip_ability_antimage_counterspell_ally_Description"				"Создаёт вокруг выбранного союзного героя щит, который блокирует направленные заклинания и отражает их в колдуна."
+
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity"						"Метка Анти Магии"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_Description"			"<b>Пассивно.</b> Когда вражеский герой в радиусе применяет способность, Anti-Mage вешает на него метку.
+
+		Помеченного героя видно. Anti-Mage наносит ему повышенный урон, а атаки сильнее выжигают ману.
+
+		Метка со временем спадает."
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_damage_pct"		"%ДОП. УРОН:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_mana_burn"		"ДОП. СЖИГАНИЕ МАНЫ:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_vision_radius"			"РАДИУС ОБЗОРА:"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff"				"Метка Анти Магии"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"Героя видно. Anti-Mage наносит повышенный урон и сильнее выжигает ману."
 
 	}
 }

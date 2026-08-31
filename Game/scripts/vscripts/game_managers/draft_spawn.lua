@@ -1431,31 +1431,35 @@ function DraftSpawn:RestoreAbilityHiddenState(hero)
 	for slot = 0, hero:GetAbilityCount() - 1 do
 		local ability = hero:GetAbilityByIndex(slot)
 		if ability and not ability:IsNull() then
-			local grantedByItem = self:AbilityKvIsEnabled(ability, "IsGrantedByShard")
-				or self:AbilityKvIsEnabled(ability, "IsGrantedByScepter")
-			if grantedByItem then
-				local show = self:ShouldShowGrantedAbility(hero, ability)
-				if show then
-					if ability:IsHidden() then
-						ability:SetHidden(false)
+			local abilityName = ability:GetAbilityName()
+			-- Roll Up HUD is owned by modifier_pangolier_mind_power (visible only in the ball).
+			if abilityName ~= "pangolier_rollup" and abilityName ~= "pangolier_rollup_stop" then
+				local grantedByItem = self:AbilityKvIsEnabled(ability, "IsGrantedByShard")
+					or self:AbilityKvIsEnabled(ability, "IsGrantedByScepter")
+				if grantedByItem then
+					local show = self:ShouldShowGrantedAbility(hero, ability)
+					if show then
+						if ability:IsHidden() then
+							ability:SetHidden(false)
+						end
+						if ability:GetLevel() < 1 then
+							ability:SetLevel(1)
+						end
+					else
+						if ability:GetLevel() ~= 0 then
+							ability:SetLevel(0)
+						end
+						if not ability:IsHidden() then
+							ability:SetHidden(true)
+						end
 					end
-					if ability:GetLevel() < 1 then
-						ability:SetLevel(1)
-					end
-				else
-					if ability:GetLevel() ~= 0 then
-						ability:SetLevel(0)
-					end
+				elseif self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN") then
 					if not ability:IsHidden() then
 						ability:SetHidden(true)
 					end
+				elseif self:ShouldResetAbilityToUnskilled(ability) and ability:IsHidden() then
+					ability:SetHidden(false)
 				end
-			elseif self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN") then
-				if not ability:IsHidden() then
-					ability:SetHidden(true)
-				end
-			elseif self:ShouldResetAbilityToUnskilled(ability) and ability:IsHidden() then
-				ability:SetHidden(false)
 			end
 		end
 	end

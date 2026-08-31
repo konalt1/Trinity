@@ -47,7 +47,7 @@
 **Ключевые особенности:**
 
 - Глобальная шкала **Mind Power** (масштабирует урон, хил, размер, радиусы и т.д.)
-- Кастомные способности у **18 героев** (см. раздел [Кастомные герои](#кастомные-герои))
+- Кастомные способности у **20 героев** (см. раздел [Кастомные герои](#кастомные-герои))
 - Поэтапная **неуязвимость башен и тронов**
 - **Comeback-бонусы** к золоту и опыту за крипов для отстающей команды
 - **Chen** с системой казарм и экономикой
@@ -194,6 +194,7 @@ flowchart TD
 | `PLAYER_COUNT_GOODGUYS` / `BADGUYS` | 3 / 3 |
 | Alternate hero grids | Отключены (`ENABLE_ALTERNATE_HERO_GRIDS = false`) |
 | `STARTING_GOLD` | 600 |
+| `UNIVERSAL_SHOP_MODE` | `true` — предметы потайной лавки покупаются в обычном магазине |
 | `HERO_START_LEVEL` | 1 |
 | `Max_level` | 30 |
 | `FREE_COURIER_ENABLED` | true |
@@ -238,6 +239,7 @@ Panorama: `Content/panorama/scripts/custom_game/draft_spawn.js`, `Content/panora
 - На спавне героя выдаются: `mind_power`, `empty_ability`, `high_five_custom`
 - У Chen на спавне: `modifier_chen_holy_persuasion_mind_hp`
 - У Largo на спавне: `modifier_largo_mind_power` (серверный Mind Power override ванильного Fight Song)
+- У Pangolier на спавне: `modifier_pangolier_mind_power` (серверный Mind Power override ванильного Rolling Thunder и показ Скатка только в шаре)
 - У Void Spirit Q: `modifier_void_spirit_mind_power` как intrinsic у `void_spirit_aether_remnant` (ScriptFile overlay)
 
 ### Таланты
@@ -277,14 +279,15 @@ pudge_meat_hook_trinity = {
 },
 ```
 
-Для такой связи значение считается как `базовое специальное значение способности + Mind Power × multiplier`. Положительный множитель увеличивает значение, отрицательный уменьшает; итог ограничивается нулём. Множитель может быть именем специального значения (`"mind_power_multiplier"`) или числом (`1.0`), если у ванильной способности нет своего KV-множителя. `modifier_mind_power` передаёт полное значение через custom transmitter и на клиенте реализует `MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL` / `MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE`. Поэтому нативный тултип обновляется самим движком без Panorama-копии. На сервере override отключён для Lua-способностей: игровые формулы остаются источником истины и не получают повторное масштабирование. Исключение — ванильный Fight Song Largo и Q Void Spirit: скрытые `modifier_largo_mind_power` и `modifier_void_spirit_mind_power` на сервере подменяют их урон, чтобы не переписывать сами способности. Способность юнита `chen_barrack_hunter_overload` использует отдельный скрытый intrinsic-модификатор, который передаёт Силу магии владельца.
+Для такой связи значение считается как `базовое специальное значение способности + Mind Power × multiplier`. Положительный множитель увеличивает значение, отрицательный уменьшает; итог ограничивается нулём. Множитель может быть именем специального значения (`"mind_power_multiplier"`) или числом (`1.0`), если у ванильной способности нет своего KV-множителя. `modifier_mind_power` передаёт полное значение через custom transmitter и на клиенте реализует `MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL` / `MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE`. Поэтому нативный тултип обновляется самим движком без Panorama-копии. На сервере override отключён для Lua-способностей: игровые формулы остаются источником истины и не получают повторное масштабирование. Исключение — ванильный Fight Song Largo, Q Void Spirit и Rolling Thunder Pangolier: скрытые `modifier_largo_mind_power`, `modifier_void_spirit_mind_power` и `modifier_pangolier_mind_power` на сервере подменяют их урон, чтобы не переписывать сами способности. Способность юнита `chen_barrack_hunter_overload` использует отдельный скрытый intrinsic-модификатор, который передаёт Силу магии владельца.
 
 Каждая действующая Lua-формула, которая складывает базовый параметр со значением от Mind Power, должна иметь явную связь в `MIND_POWER_RULES`. Если бонус не соответствует существующему базовому параметру (например, независимый бонус урона и усиление магического урона у `ember_flame_guard_passive`), в `AbilityValues` добавляется отдельный отображаемый результирующий параметр с базовым значением `0`; множители и правила по-прежнему хранятся отдельно. Игровые формулы всегда получают полное значение через `GetHeroMindPower`, а не через `modifier_mind_power:GetStackCount()`, потому что визуальный стек ограничен 999.
 
 - Реестр и общий расчёт: `Game/scripts/vscripts/game_managers/custom_ability_tooltips.lua`
 - Клиентский override героя: `Game/scripts/vscripts/abilities/mind_power.lua`
-- Серверный override ванильного Fight Song Largo: `modifier_largo_mind_power` в `Game/scripts/vscripts/abilities/largo/largo_childhood_memories.lua`
+- Серверный override ванильного Fight Song Largo: `modifier_largo_mind_power` в `Game/scripts/vscripts/abilities/largo/largo_childhood_memories.lua` (урон песни + замена spell amp на плоскую Силу магии)
 - Серверный override ванильного Q Void Spirit: `modifier_void_spirit_mind_power` в `Game/scripts/vscripts/abilities/void_spirit/void_spirit_mind_power.lua`
+- Серверный override ванильного Rolling Thunder Pangolier и показ `pangolier_rollup` только во время шара: `modifier_pangolier_mind_power` в `Game/scripts/vscripts/abilities/pangolier/pangolier_heartpiercer_trinity.lua`
 - Override юнита Chen: `Game/scripts/vscripts/abilities/chen/barrack/units/chen_barrack_hunter_focus.lua`
 - Net table `mind_power` сохранена для публикации полного значения по `entindex`; нативный тултип получает значение через custom transmitter модификатора.
 
@@ -297,7 +300,7 @@ local mind_power = GetHeroMindPower(caster) or 0
 local total = base_value + mind_power * self:GetSpecialValueFor("mind_power_multiplier")
 ```
 
-Герои/способности с действующим масштабированием от Mind Power в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Chen, Pudge, Ember Spirit, Lion, Shadow Fiend, Tinker и Dawnbreaker.
+Герои/способности с действующим масштабированием от Mind Power в KV: Lich, Juggernaut, Techies, Omniknight, Silencer, Ogre Magi, DOOM, Chen, Pudge, Ember Spirit, Lion, Shadow Fiend, Tinker, Dawnbreaker, Largo, Void Spirit и Pangolier.
 
 ### Расширение через модификаторы
 
@@ -781,13 +784,13 @@ Debug-команда: `tinker_march_debug 1` рисует точку касте�
 | W | `largo_frogstomp_trinity` | **Кастом** — Жабий Топ; урон за притоп `36/48/60/72` + Сила магии × `1` |
 | E | `largo_childhood_memories` | **Кастом** — Детские воспоминания |
 | D | `largo_encore` | **Шард** — На бис (`IsGrantedByShard`) |
-| R | `largo_amphibian_rhapsody` | Ванильная — Амфибийная рапсодия |
-| Песни | Пузатый блиц, Жаркий галоп, Тропический эликсир | Ванильные |
+| R | `largo_amphibian_rhapsody` | Ванильная — Амфибийная рапсодия; overlay без Пузатого блица в AbilityDraftExtraAbilities; уровни `6/12/18` |
+| Песни | Пузатый блиц, Жаркий галоп, Тропический эликсир | Блиц: Сила магии `10/12/14` вместо spell amp; урон `20/30/40` + Сила магии × `1` |
 | Заряды ульта | `modifier_largo_groovin` | Ноты |
 
 Переключаемая. Пока активна, Largo прыгает фиксированной дальностью в направлении движения: укоротить или удлинить прыжок кликом нельзя. Дальность = текущая скорость передвижения × `1,2/1,3/1,4/1,5`. Враги на пути и в точке приземления получают `30` магического урона (`+` Сила магии × `1`) и оглушаются на `0,2` сек. Длительность прыжка `1` сек, пауза `0,3` сек, радиус `125/150/175/200`, мана за прыжок `8/7/6/5`.
 
-Магический урон Fight Song масштабируется Силой магии через `modifier_largo_mind_power`. Q и W считают урон в Lua через `GetHeroMindPower`.
+Магический урон Fight Song масштабируется Силой магии через `modifier_largo_mind_power` (`burst_damage` + Сила магии × `1`). Вместо усиления заклинаний песня даёт союзникам плоскую Силу магии `10/12/14` (`modifier_largo_song_fight_song_mind_power`, пока висит ванильный `modifier_largo_song_attack_burst`). Q и W считают урон в Lua через `GetHeroMindPower`.
 
 **Lua:** `abilities/largo/`
 
@@ -810,6 +813,54 @@ Q остаётся ванильным. W, E и R кастомные; парти�
 Q: ванильный `void_spirit_aether_remnant` с `ScriptFile` overlay. Урон `impact_damage` + Сила магии × `1`. Притяжение вешается на ванильный остаток в выбранном векторном направлении (`modifier_void_spirit_trinity_remnant_watch`), без второго луча по взгляду героя. W: исчезновение на `1,1` сек., кольцо порталов `3/4/5/6` плюс центр; с шардом — порталы на живых Эфирных остатках. E: прыжок `700/800/900/1000`, метка пустоты `1,25` сек., затем урон `90/150/210/270` + Сила магии × `1`. R: пассивный ульт, при касте активной способности или предмета откатывает КД способностей и предметов на `2/3/4` сек. Аганим: каждое срабатывание выпускает волну Диссимиляции в радиусе `300`, замедление `40%` на `1,5` сек.
 
 **Lua:** `abilities/void_spirit/`
+
+---
+
+### Pangolier
+
+Герой включён в `Activelist.txt`. Facets отключены. Lucky Shot заменён. Врождёнка Fortune Favors the Bold не переопределена. Шард усиливает Изящное попадание и не выдаёт Скаток.
+
+| Слот | Способность | Статус |
+|------|-------------|--------|
+| Q | `pangolier_swashbuckle` | Ванильная — Выпад |
+| W | `pangolier_shield_crash_trinity` | **Кастом** — Щиток; урон `60/120/180/240` + Сила магии × `1` |
+| E | `pangolier_heartpiercer_trinity` | **Кастом** — Изящное попадание |
+| D | `pangolier_duelist_rhythm_trinity` | **Кастом** — Ритм дуэлянта |
+| F | `pangolier_rollup` | Ванильный Скаток; виден только во время Колобка, не от шарда; КД `20` |
+| R | `pangolier_gyroshell` | Ванильная — Колобок; плоский урон `100/200/300` + Сила магии × `1` |
+| Таланты | `special_bonus_unique_custom_pangolier_1..8` | Заглушки |
+
+W: прыжок вперёд `225` за `0,4` сек (`250` высоты). При приземлении физический урон в радиусе `500`; барьер `60/120/180/240` на `6` сек., только если задет вражеский герой. Во время Колобка и Roll Up прыжок `0,75` сек. / высота `350`; в шаре горизонталь идёт по скорости качения, шар не сбивается. Аганим: при касте четыре Выпада по `90°` вокруг текущей позиции Pangolier (вперёд, влево, вправо, назад), по `2` удара, `75%` урона. Выпад должен быть изучен.
+
+E: шанс крита фиксированный `10%`, множитель `130/140/150/160%`. Срабатывает с обычных атак и ударов Выпада. На проке сначала снижает броню на `2/4/6/8` на `3` сек., затем критует. Рапира Heartpiercer висит над целью `3` сек. (`particles/pangolier/pangolier_heartpiercer_mark.vpcf`) вместе с критом Phantom Assassin. Шард: `+5%` шанса за каждого вражеского героя в радиусе `800` (считая цель; без иллюзий).
+
+D: пассивный вариант. Четыре источника стиля: обычная атака, Выпад, Щиток, Колобок. Повтор того же источника Ритм не увеличивает; новое уникальное действие копится `8` сек. На `3` разных приёмах следующая атака (включая удар Выпада) гарантированно критует `160/180/200/220%` и получает бонусный физический урон `70/120/170/220 + 1,0 × Mind Power`. Четвёртый уникальный приём усиливает удар до `110/180/250/320 + 1,0 × Mind Power`. После удара Ритм сбрасывается. Скаток стилем не считается.
+
+R: ванильный Rolling Thunder. Плоский `damage` масштабируется Силой магии через `modifier_pangolier_mind_power`. Тот же модификатор держит `pangolier_rollup` на 1 уровне и снимает HIDDEN только пока активны `modifier_pangolier_gyroshell` или `modifier_pangolier_rollup`. Шард способность не выдаёт.
+
+**Lua:** `abilities/pangolier/`
+
+---
+
+### Anti-Mage
+
+Герой включён в `Activelist.txt`. Facets отключены. Blink и Mana Void заменены. Врождёнка Persecutor вырезана (`Innate 0`, слот `Ability9` скрыт). Таланты вырезаны: слоты `Ability10..17` — `generic_hidden`.
+
+| Слот | Способность | Статус |
+|------|-------------|--------|
+| Q | `antimage_mana_break` | Ванильная — Выжигание маны |
+| W | `antimage_dodge_trinity` | **Кастом** — Уклон; рывок `312,5/362,5/412,5/462,5` за `0,14` сек |
+| E | `antimage_counterspell` | Ванильная — Антискилл |
+| D | `generic_hidden` | Пустой слот |
+| R | `antimage_antimagic_mark_trinity` | **Кастом** — Метка Анти Магии |
+| Innate | — | Вырезан |
+| Таланты | — | Вырезаны |
+
+W: рывок по земле в точку, не телепорт. Сбивает снаряды. След — ослабленные партиклы Астрального шага Void Spirit (`void_spirit_astral_step.vpcf` без урона и меток по пути). КД `7,5/6/4,5/3`.
+
+R: пассивный ульт. Когда вражеский герой в радиусе `750/850/950` применяет активную способность, на него вешается метка на `5/6/7` сек. Над целью висит `particles/units/heroes/hero_demonartist/demonartist_soulchain_marker_tgt.vpcf`. Помеченного видно (обзор и True Sight). Anti-Mage наносит ему `+15/20/25%` урона; атаки дополнительно сжигают `20/35/50` маны.
+
+**Lua:** `abilities/antimage/`
 
 ---
 
@@ -847,6 +898,7 @@ KV предметов: `Game/scripts/npc/items/` (если есть) + lua-ре�
 | Sticker editor | `layout/custom_game/sticker_editor/` — модальное окно колеса стикеров |
 | High Five | `layout/custom_game/high_five/` |
 | Game Events panel | `layout/custom_game/ui/game_events/` |
+| HUD cleanup | `scripts/custom_game/hud/hud_cleanup.js` — прячет innate/facets/таланты и лишние слоты топбара (`5` → `3` на сторону) |
 | Warmup widget | `layout/custom_game/warmup_widget/` — виджет разминки и кнопка вызова редактора стикеров |
 | Loading Screen | `layout/custom_game/custom_loading_screen.xml` |
 | Init script | `scripts/custom_game/init.js` |

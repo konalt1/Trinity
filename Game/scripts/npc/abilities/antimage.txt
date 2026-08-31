@@ -1,0 +1,68 @@
+// Trinity — Anti-Mage abilities
+"DOTAAbilities"
+{
+	"antimage_dodge_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/antimage/antimage_dodge_trinity"
+		"AbilityTextureName"            "antimage_blink"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityType"                   "ABILITY_TYPE_BASIC"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+		"FightRecapLevel"               "1"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastRange"              "312.5 362.5 412.5 462.5"
+		"AbilityCastPoint"              "0.0"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+		"AbilityCooldown"               "7.5 6 4.5 3"
+		"AbilityManaCost"               "60 55 50 45"
+
+		"AbilityValues"
+		{
+			"range"                     "312.5 362.5 412.5 462.5"
+		}
+	}
+
+	"antimage_antimagic_mark_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/antimage/antimage_antimagic_mark_trinity"
+		"AbilityTextureName"            "antimage_mana_void"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+		"FightRecapLevel"               "2"
+		"MaxLevel"                      "3"
+		"RequiredLevel"                 "6"
+		"LevelsBetweenUpgrades"         "6"
+
+		"AbilityValues"
+		{
+			"radius"
+			{
+				"value"                 "750 850 950"
+				"affected_by_aoe_increase" "1"
+			}
+			"duration"                  "5 6 7"
+			"bonus_damage_pct"          "15 20 25"
+			"bonus_mana_burn"           "20 35 50"
+			"vision_radius"
+			{
+				"value"                 "400"
+				"affected_by_aoe_increase" "1"
+			}
+		}
+	}
+
+	// Vanilla Persecutor with innate stripped. Not granted on the hero.
+	"antimage_persectur"
+	{
+		"BaseClass"                     "antimage_persectur"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"MaxLevel"                      "1"
+		"Innate"                        "0"
+	}
+}
