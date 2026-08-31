@@ -1451,38 +1451,35 @@
 		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier_Description"	"Барьер поглощает урон."
 
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity"							"Изящное попадание"
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Пассивно.</b> Атаки Pangolier и удары Выпада с шансом попадают в сердце.
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Пассивно.</b> Атаки Pangolier и удары Выпада с шансом вскрывают рану.
 
-		Попадание снижает броню цели, затем наносит критический урон."
+		Цель кровоточит: получает периодический физический урон и замедляется."
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_description"		"За каждого вражеского героя вокруг увеличивает шанс попадания на %shard_chance_per_hero%%%."
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_crit_chance"				"%ШАНС:"
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_crit_multiplier"			"%КРИТ:"
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_armor_reduction"			"СНИЖЕНИЕ БРОНИ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_proc_chance"				"%ШАНС:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_bleed_dps"				"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_movement_slow_pct"		"%ЗАМЕДЛЕНИЕ:"
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_chance_per_hero"	"%ШАНС ЗА ГЕРОЯ:"
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_radius"			"РАДИУС:"
 		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark"					"Изящное попадание"
-		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Броня снижена."
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Кровоточит и замедлен."
 
 		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity"						"Ритм дуэлянта"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Пассивно.</b> Pangolier набирает Ритм, когда применяет разные приёмы подряд: обычную атаку, Выпад, Щиток и Колобок.
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Пассивно.</b> Pangolier набирает Ритм, применяя разные способности. Повтор той же способности Ритм не увеличивает.
 
-		Повтор того же приёма Ритм не увеличивает.
+		Каждая уникальная способность усиливает следующую обычную атаку: дополнительный физический урон и критический удар. Чем длиннее связка, тем сильнее удар.
 
-		После трёх разных приёмов следующая атака наносит дополнительный физический урон и всегда критична. Четвёртый приём усиливает этот удар.
+		После атаки Ритм сбрасывается.
 
-		Удар после трёх приёмов: %bonus_damage% + Сила магии × %mind_power_multiplier%.
-
-		Удар после четырёх приёмов: %bonus_damage_max% + Сила магии × %mind_power_multiplier%."
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_styles_required"		"ПРИЁМОВ ДЛЯ УДАРА:"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"МАКС. ПРИЁМОВ:"
+		Урон за способность: %bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"МАКС. СПОСОБНОСТЕЙ:"
 		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_combo_duration"		"ДЛИТЕЛЬНОСТЬ РИТМА:"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"УРОН (3 ПРИЁМА):"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage_max"		"УРОН (4 ПРИЁМА):"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"УРОН ЗА СПОСОБНОСТЬ:"
 		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_multiplier"		"%КРИТ:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_per_style"		"%КРИТ ЗА СПОСОБНОСТЬ:"
 		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo"				"Ритм дуэлянта"
-		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Счётчик разных приёмов. На трёх и более следующая атака усилена."
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Счётчик разных способностей. Следующая обычная атака усилена."
 
 		"DOTA_Tooltip_ability_pangolier_rollup"										"Скаток"
 		"DOTA_Tooltip_ability_pangolier_rollup_Description"							"Pangolier замирает в шаре. Он получает иммунитет к отрицательным эффектам и бонус к сопротивлению магии и может поворачиваться.
@@ -1516,30 +1513,38 @@
 		Сбивает с цели снаряды."
 		"DOTA_Tooltip_ability_antimage_dodge_trinity_range"							"ДАЛЬНОСТЬ:"
 
-		"DOTA_Tooltip_ability_antimage_counterspell"								"Антискилл"
-		"DOTA_Tooltip_ability_antimage_counterspell_Description"					"<b>Пассивно.</b> Anti-Mage получает сопротивление магии.
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity"						"Антискилл"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Description"			"Anti-Mage вешает на выбранного врага щит Антискилла.
 
-		При применении создаёт щит, который блокирует направленные заклинания и отражает их в колдуна."
-		"DOTA_Tooltip_ability_antimage_counterspell_Note0"							"Пассивное сопротивление магии отключается истощением."
-		"DOTA_Tooltip_ability_antimage_counterspell_shard_Description"				"Создаёт фрагмент Anti-Mage рядом с врагом, применившим отражённое заклинание."
-		"DOTA_Tooltip_ability_antimage_counterspell_magic_resistance"				"%СОПРОТИВЛЕНИЕ МАГИИ:"
-		"DOTA_Tooltip_ability_antimage_counterspell_duration"						"ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_antimage_counterspell_ally"							"Антискилл по союзнику"
-		"DOTA_Tooltip_ability_antimage_counterspell_ally_Description"				"Создаёт вокруг выбранного союзного героя щит, который блокирует направленные заклинания и отражает их в колдуна."
+		<b>Пассивно.</b> Anti-Mage получает сопротивление магии.
+
+		Если цель применяет способность, заклинание не срабатывает, уходит в перезарядку, и щит спадает.
+
+		Метка Анти Магии срабатывает, как при обычном применении."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Note0"					"Пассивное сопротивление магии отключается истощением. Предметы щит не блокирует."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_magic_resistance"		"%СОПРОТИВЛЕНИЕ МАГИИ:"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock"					"Антискилл"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock_Description"		"Следующая способность не сработает и уйдёт в перезарядку."
 
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity"						"Метка Анти Магии"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_Description"			"<b>Пассивно.</b> Когда вражеский герой в радиусе применяет способность, Anti-Mage вешает на него метку.
 
+		Способность, заблокированная Антискиллом, тоже вешает метку.
+
 		Помеченного героя видно. Anti-Mage наносит ему повышенный урон, а атаки сильнее выжигают ману.
 
-		Метка со временем спадает."
+		Атака Anti-Mage по метке оглушает цель и снимает метку."
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_damage_pct"		"%ДОП. УРОН:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_mana_burn"		"ДОП. СЖИГАНИЕ МАНЫ:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_stun_duration"			"ОГЛУШЕНИЕ:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_vision_radius"			"РАДИУС ОБЗОРА:"
 		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff"				"Метка Анти Магии"
-		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"Героя видно. Anti-Mage наносит повышенный урон и сильнее выжигает ману."
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"Героя видно. Атака Anti-Mage оглушает и снимает метку."
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash"					"Метка Анти Магии"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash_Description"		"Оглушён атакой Anti-Mage."
 
 	}
 }

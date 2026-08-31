@@ -25,6 +25,45 @@
 		}
 	}
 
+	"antimage_counterspell_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/antimage/antimage_counterspell_trinity"
+		"AbilityTextureName"            "antimage_counterspell"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityType"                   "ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+		"FightRecapLevel"               "1"
+		"HasShardUpgrade"               "0"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastRange"              "600"
+		"AbilityCastPoint"              "0.0"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+		"AbilityCooldown"               "15 11 7 3"
+		"AbilityManaCost"               "45"
+
+		"AbilityValues"
+		{
+			"magic_resistance"          "16 24 32 40"
+			"duration"                  "3"
+			"AbilityCastRange"          "600"
+		}
+	}
+
+	"antimage_counterspell_ally"
+	{
+		"BaseClass"                     "antimage_counterspell_ally"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"MaxLevel"                      "1"
+		"IsGrantedByShard"              "0"
+		"HasShardUpgrade"               "0"
+	}
+
 	"antimage_antimagic_mark_trinity"
 	{
 		"BaseClass"                     "ability_lua"
@@ -49,6 +88,7 @@
 			"duration"                  "5 6 7"
 			"bonus_damage_pct"          "15 20 25"
 			"bonus_mana_burn"           "20 35 50"
+			"stun_duration"             "1.0 1.25 1.5"
 			"vision_radius"
 			{
 				"value"                 "400"

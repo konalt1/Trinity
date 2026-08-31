@@ -19,7 +19,8 @@ require("game_managers/custom_ability_tooltips")
 pangolier_heartpiercer_trinity = class({})
 
 local PARTICLE_HEARTPIERCER = "particles/pangolier/pangolier_heartpiercer_mark.vpcf"
-local PARTICLE_PA_CRIT = "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
+local PARTICLE_BLEED = "particles/units/heroes/hero_life_stealer/life_stealer_open_wounds.vpcf"
+local PARTICLE_PROC = "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf"
 local MARK_MODIFIER = "modifier_pangolier_heartpiercer_trinity_mark"
 
 local function IsValid(entity)
@@ -32,9 +33,11 @@ function pangolier_heartpiercer_trinity:Precache(context)
 	end
 
 	PrecacheResource("particle", PARTICLE_HEARTPIERCER, context)
-	PrecacheResource("particle", PARTICLE_PA_CRIT, context)
+	PrecacheResource("particle", PARTICLE_BLEED, context)
+	PrecacheResource("particle", PARTICLE_PROC, context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_pangolier.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_life_stealer.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_bloodseeker.vsndevts", context)
 end
 
 function pangolier_heartpiercer_trinity:GetIntrinsicModifierName()
@@ -42,7 +45,7 @@ function pangolier_heartpiercer_trinity:GetIntrinsicModifierName()
 end
 
 function pangolier_heartpiercer_trinity:GetProcChance()
-	local chance = self:GetSpecialValueFor("crit_chance") or 0
+	local chance = self:GetSpecialValueFor("proc_chance") or 0
 	local caster = self:GetCaster()
 	if not IsValid(caster) then
 		return chance
@@ -95,12 +98,11 @@ end
 
 function modifier_pangolier_heartpiercer_trinity:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 end
 
-function modifier_pangolier_heartpiercer_trinity:GetModifierPreAttack_CriticalStrike(params)
+function modifier_pangolier_heartpiercer_trinity:OnAttackLanded(params)
 	if not IsServer() then
 		return
 	end
@@ -110,7 +112,10 @@ function modifier_pangolier_heartpiercer_trinity:GetModifierPreAttack_CriticalSt
 	if not IsValid(parent) or not IsValid(ability) or ability:GetLevel() <= 0 then
 		return
 	end
-	if parent:PassivesDisabled() then
+	if parent:IsIllusion() then
+		return
+	end
+	if parent.PassivesDisabled and parent:PassivesDisabled() then
 		return
 	end
 	if params.attacker ~= parent then
@@ -129,54 +134,16 @@ function modifier_pangolier_heartpiercer_trinity:GetModifierPreAttack_CriticalSt
 		return
 	end
 
-	self:ApplyArmorMark(target, parent, ability)
-
-	self.proc_records = self.proc_records or {}
-	if params.record then
-		self.proc_records[params.record] = true
-	else
-		self.proc = true
-	end
-	return ability:GetSpecialValueFor("crit_multiplier")
-end
-
-function modifier_pangolier_heartpiercer_trinity:ApplyArmorMark(target, caster, ability)
-	if not IsValid(target) or not IsValid(caster) or not IsValid(ability) then
-		return
-	end
-
 	local duration = ability:GetSpecialValueFor("duration")
 	if duration <= 0 then
 		duration = 3
 	end
-
-	target:AddNewModifier(caster, ability, MARK_MODIFIER, { duration = duration })
-end
-
-function modifier_pangolier_heartpiercer_trinity:OnAttackLanded(params)
-	if not IsServer() then
-		return
+	if target.GetStatusResistance then
+		duration = duration * (1 - (target:GetStatusResistance() or 0))
 	end
 
-	local parent = self:GetParent()
-	if params.attacker ~= parent then
-		return
-	end
-
-	local proc = false
-	if params.record and self.proc_records and self.proc_records[params.record] then
-		self.proc_records[params.record] = nil
-		proc = true
-	elseif self.proc then
-		self.proc = false
-		proc = true
-	end
-
-	if not proc then
-		return
-	end
-
-	self:PlayProcEffects(params.target)
+	target:AddNewModifier(parent, ability, MARK_MODIFIER, { duration = duration })
+	self:PlayProcEffects(target)
 end
 
 function modifier_pangolier_heartpiercer_trinity:PlayProcEffects(target)
@@ -187,18 +154,12 @@ function modifier_pangolier_heartpiercer_trinity:PlayProcEffects(target)
 	local parent = self:GetParent()
 	local origin = target:GetAbsOrigin()
 
-	local crit = ParticleManager:CreateParticle(PARTICLE_PA_CRIT, PATTACH_CUSTOMORIGIN, nil)
-	ParticleManager:SetParticleControlEnt(crit, 0, target, PATTACH_POINT_FOLLOW, "attach_hitloc", origin, true)
-	ParticleManager:SetParticleControl(crit, 1, origin)
-	if IsValid(parent) then
-		local forward = origin - parent:GetAbsOrigin()
-		if forward:Length2D() > 1 then
-			ParticleManager:SetParticleControlForward(crit, 1, Vector(forward.x, forward.y, 0):Normalized())
-		end
-	end
-	ParticleManager:ReleaseParticleIndex(crit)
+	local burst = ParticleManager:CreateParticle(PARTICLE_PROC, PATTACH_ABSORIGIN_FOLLOW, target)
+	ParticleManager:SetParticleControl(burst, 0, origin)
+	ParticleManager:ReleaseParticleIndex(burst)
 
-	EmitSoundOnLocationWithCaster(origin, "Hero_PhantomAssassin.CoupDeGrace", parent)
+	EmitSoundOnLocationWithCaster(origin, "Hero_LifeStealer.OpenWounds", parent)
+	EmitSoundOnLocationWithCaster(origin, "hero_bloodseeker.rupture", parent)
 end
 
 modifier_pangolier_heartpiercer_trinity_mark = class({})
@@ -225,6 +186,19 @@ end
 
 function modifier_pangolier_heartpiercer_trinity_mark:OnCreated()
 	self:CacheValues()
+
+	if not IsServer() then
+		return
+	end
+
+	local parent = self:GetParent()
+	if IsValid(parent) then
+		local overhead = ParticleManager:CreateParticle(PARTICLE_HEARTPIERCER, PATTACH_OVERHEAD_FOLLOW, parent)
+		self:AddParticle(overhead, false, false, -1, false, true)
+	end
+
+	local interval = self.tick_interval or 0.5
+	self:StartIntervalThink(interval)
 end
 
 function modifier_pangolier_heartpiercer_trinity_mark:OnRefresh()
@@ -233,28 +207,66 @@ end
 
 function modifier_pangolier_heartpiercer_trinity_mark:CacheValues()
 	local ability = self:GetAbility()
-	self.armor_reduction = 0
+	self.bleed_dps = 0
+	self.tick_interval = 0.5
+	self.movement_slow_pct = 0
+	self.mind_power_multiplier = 0
 	if IsValid(ability) then
-		self.armor_reduction = ability:GetSpecialValueFor("armor_reduction")
+		self.bleed_dps = ability:GetSpecialValueFor("bleed_dps")
+		self.tick_interval = 0.5
+		self.movement_slow_pct = ability:GetSpecialValueFor("movement_slow_pct")
+		self.mind_power_multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
 	end
+end
+
+function modifier_pangolier_heartpiercer_trinity_mark:OnIntervalThink()
+	if not IsServer() then
+		return
+	end
+
+	local parent = self:GetParent()
+	local caster = self:GetCaster()
+	local ability = self:GetAbility()
+	if not IsValid(parent) or not parent:IsAlive() or not IsValid(ability) then
+		return
+	end
+
+	local dps = self.bleed_dps or 0
+	local mind_power = 0
+	if IsValid(caster) and GetHeroMindPower then
+		mind_power = GetHeroMindPower(caster) or 0
+	end
+	local damage = (dps + mind_power * (self.mind_power_multiplier or 0)) * (self.tick_interval or 0.5)
+	if damage <= 0 then
+		return
+	end
+
+	ApplyDamage({
+		victim = parent,
+		attacker = IsValid(caster) and caster or parent,
+		damage = damage,
+		damage_type = DAMAGE_TYPE_PHYSICAL,
+		ability = ability,
+		damage_flags = DOTA_DAMAGE_FLAG_NONE,
+	})
 end
 
 function modifier_pangolier_heartpiercer_trinity_mark:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 	}
 end
 
-function modifier_pangolier_heartpiercer_trinity_mark:GetModifierPhysicalArmorBonus()
-	return -(self.armor_reduction or 0)
+function modifier_pangolier_heartpiercer_trinity_mark:GetModifierMoveSpeedBonus_Percentage()
+	return -(self.movement_slow_pct or 0)
 end
 
 function modifier_pangolier_heartpiercer_trinity_mark:GetEffectName()
-	return PARTICLE_HEARTPIERCER
+	return PARTICLE_BLEED
 end
 
 function modifier_pangolier_heartpiercer_trinity_mark:GetEffectAttachType()
-	return PATTACH_OVERHEAD_FOLLOW
+	return PATTACH_ABSORIGIN_FOLLOW
 end
 
 -- Scales vanilla Rolling Thunder flat damage on the server without replacing the ability.

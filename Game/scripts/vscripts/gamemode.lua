@@ -664,6 +664,10 @@ function GameMode:ExecuteOrderFilter(data)
 		return false
 	end
 
+	if AntimageCounterspellHandleOrder and AntimageCounterspellHandleOrder(data) == false then
+		return false
+	end
+
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
 	end

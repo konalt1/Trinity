@@ -22,3 +22,4 @@ sqlite3
 *.sqlite3-journal
 Game/tools_thumbnail_cache.sqlite3
 server/config.php
+docs/AGENTS.md

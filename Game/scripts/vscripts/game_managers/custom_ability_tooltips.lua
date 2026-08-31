@@ -152,9 +152,11 @@ local MIND_POWER_RULES = {
     pangolier_shield_crash_trinity = {
         damage = "mind_power_multiplier",
     },
+    pangolier_heartpiercer_trinity = {
+        bleed_dps = "mind_power_multiplier",
+    },
     pangolier_duelist_rhythm_trinity = {
         bonus_damage = "mind_power_multiplier",
-        bonus_damage_max = "mind_power_multiplier",
     },
     -- Numeric multiplier: vanilla Rolling Thunder has no mind_power_multiplier KV.
     pangolier_gyroshell = {

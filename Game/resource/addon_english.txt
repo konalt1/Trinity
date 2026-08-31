@@ -1376,38 +1376,37 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier_Description"	"Barrier absorbs damage."
 
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity"							"Elegant Strike"
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Passive.</b> Pangolier's attacks and Lunge slashes have a chance to strike the heart.
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Passive.</b> Pangolier's attacks and Lunge slashes have a chance to open a wound.
 
-		A strike reduces the target's armor, then deals critical damage."
+		The target bleeds: they take physical damage over time and are slowed.
+
+		Damage per second: %bleed_dps% + Spell Power × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_description"		"Increases strike chance by %shard_chance_per_hero%%% for each nearby enemy hero."
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_crit_chance"				"%CHANCE:"
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_crit_multiplier"			"%CRIT:"
-		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_armor_reduction"			"ARMOR REDUCTION:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_proc_chance"				"%CHANCE:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_bleed_dps"				"DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_movement_slow_pct"		"%SLOW:"
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_chance_per_hero"	"%CHANCE PER HERO:"
 		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_radius"			"RADIUS:"
 		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark"					"Elegant Strike"
-		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Armor is reduced."
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Bleeding and slowed."
 
 		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity"						"Duelist's Rhythm"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Passive.</b> Pangolier builds Rhythm by using different moves in a row: a regular attack, Lunge, Shield, and Kolobok.
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Passive.</b> Pangolier builds Rhythm by using different abilities. Repeating the same ability does not increase Rhythm.
 
-		Repeating the same move does not increase Rhythm.
+		Each unique ability empowers his next regular attack: bonus physical damage and a critical strike. A longer chain makes the hit stronger.
 
-		After three different moves, his next attack deals bonus physical damage and is always a critical strike. A fourth different move strengthens that attack.
+		The attack spends Rhythm.
 
-		Strike after three moves: %bonus_damage% + Spell Power × %mind_power_multiplier%.
-
-		Strike after four moves: %bonus_damage_max% + Spell Power × %mind_power_multiplier%."
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_styles_required"		"MOVES TO STRIKE:"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"MAX MOVES:"
+		Damage per ability: %bonus_damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"MAX ABILITIES:"
 		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_combo_duration"		"RHYTHM DURATION:"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"DAMAGE (3 MOVES):"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage_max"		"DAMAGE (4 MOVES):"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"DAMAGE PER ABILITY:"
 		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_multiplier"		"%CRIT:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_per_style"		"%CRIT PER ABILITY:"
 		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo"				"Duelist's Rhythm"
-		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Counts different moves. At three or more, the next attack is empowered."
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Counts different abilities. The next regular attack is empowered."
 
 		"DOTA_Tooltip_ability_pangolier_rollup"										"Roll Up"
 		"DOTA_Tooltip_ability_pangolier_rollup_Description"							"Pangolier stops in place as a ball. He gains debuff immunity and bonus magic resistance, and can still turn.
@@ -1441,30 +1440,38 @@ Enemies in the area take magical damage every second."
 		Dodges projectiles."
 		"DOTA_Tooltip_ability_antimage_dodge_trinity_range"							"RANGE:"
 
-		"DOTA_Tooltip_ability_antimage_counterspell"								"Antiskill"
-		"DOTA_Tooltip_ability_antimage_counterspell_Description"					"<b>Passive.</b> Anti-Mage gains magic resistance.
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity"						"Antiskill"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Description"			"Anti-Mage places a Counterspell shell on the chosen enemy.
 
-		When activated, creates a shell that blocks targeted spells and reflects them at the caster."
-		"DOTA_Tooltip_ability_antimage_counterspell_Note0"							"The passive magic resistance is disabled by Break."
-		"DOTA_Tooltip_ability_antimage_counterspell_shard_Description"				"Creates an Anti-Mage fragment next to the enemy who cast the reflected spell."
-		"DOTA_Tooltip_ability_antimage_counterspell_magic_resistance"				"%MAGIC RESISTANCE:"
-		"DOTA_Tooltip_ability_antimage_counterspell_duration"						"DURATION:"
-		"DOTA_Tooltip_ability_antimage_counterspell_ally"							"Allied Antiskill"
-		"DOTA_Tooltip_ability_antimage_counterspell_ally_Description"				"Creates a shell around the chosen allied hero that blocks targeted spells and reflects them at the caster."
+		<b>Passive.</b> Anti-Mage gains magic resistance.
+
+		If the target uses an ability, the spell does not go off, goes on cooldown, and the shell ends.
+
+		Anti-Magic Mark applies as if the ability was used."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Note0"					"Passive magic resistance is disabled by Break. Items are not blocked."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_magic_resistance"		"%MAGIC RESISTANCE:"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_duration"				"DURATION:"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock"					"Antiskill"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock_Description"		"The next ability will not go off and will go on cooldown."
 
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity"						"Anti-Magic Mark"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_Description"			"<b>Passive.</b> When an enemy hero in radius casts an ability, Anti-Mage marks them.
 
+		A spell blocked by Antiskill also applies the mark.
+
 		The marked hero is revealed. Anti-Mage deals bonus damage to them, and his attacks burn extra mana.
 
-		The mark fades over time."
+		Anti-Mage's attack against the mark stuns the target and removes the mark."
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_radius"				"RADIUS:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_duration"				"DURATION:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_damage_pct"		"%BONUS DAMAGE:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_mana_burn"		"BONUS MANA BURN:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_stun_duration"			"STUN:"
 		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_vision_radius"			"VISION RADIUS:"
 		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff"				"Anti-Magic Mark"
-		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"This hero is revealed. Anti-Mage deals bonus damage and burns extra mana."
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"This hero is revealed. Anti-Mage's attack stuns and removes the mark."
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash"					"Anti-Magic Mark"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash_Description"		"Stunned by Anti-Mage's attack."
 
 	}
 }

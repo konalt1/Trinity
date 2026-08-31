@@ -15,17 +15,6 @@ local PARTICLE_HIT = "particles/units/heroes/hero_pangolier/pangolier_swashbuckl
 local PARTICLE_IMPACT = "particles/units/heroes/hero_pangolier/pangolier_luckyshot_disarm_cast.vpcf"
 local COMBO_MODIFIER = "modifier_pangolier_duelist_rhythm_trinity_combo"
 
-local STYLE_ATTACK = "attack"
-local STYLE_SWASH = "swashbuckle"
-local STYLE_SHIELD = "shield_crash"
-local STYLE_ROLL = "rolling_thunder"
-
-local STYLE_ABILITIES = {
-	pangolier_swashbuckle = STYLE_SWASH,
-	pangolier_shield_crash_trinity = STYLE_SHIELD,
-	pangolier_gyroshell = STYLE_ROLL,
-}
-
 local function IsValid(entity)
 	return entity ~= nil and not entity:IsNull()
 end
@@ -96,13 +85,16 @@ function modifier_pangolier_duelist_rhythm_trinity:IsCharged()
 	if not self:CanTrack() then
 		return false
 	end
+	return (self.count or 0) >= 1
+end
 
+function modifier_pangolier_duelist_rhythm_trinity:GetMaxStyles()
 	local ability = self:GetAbility()
-	local required = ability:GetSpecialValueFor("styles_required")
-	if required <= 0 then
-		required = 3
+	local max_styles = IsValid(ability) and ability:GetSpecialValueFor("max_styles") or 0
+	if max_styles <= 0 then
+		return 4
 	end
-	return (self.count or 0) >= required
+	return max_styles
 end
 
 function modifier_pangolier_duelist_rhythm_trinity:GetFlourishDamage()
@@ -112,24 +104,26 @@ function modifier_pangolier_duelist_rhythm_trinity:GetFlourishDamage()
 		return 0
 	end
 
-	local max_styles = ability:GetSpecialValueFor("max_styles")
-	if max_styles <= 0 then
-		max_styles = 4
-	end
-
-	local key = "bonus_damage"
-	if (self.count or 0) >= max_styles then
-		key = "bonus_damage_max"
-	end
-
-	local base = ability:GetSpecialValueFor(key)
+	local stacks = self.count or 0
+	local per_style = ability:GetSpecialValueFor("bonus_damage")
 	local multiplier = ability:GetSpecialValueFor("mind_power_multiplier")
 	local mind_power = 0
 	if IsValid(parent) and GetHeroMindPower then
 		mind_power = GetHeroMindPower(parent) or 0
 	end
 
-	return math.max(0, base + mind_power * multiplier)
+	return math.max(0, stacks * (per_style + mind_power * multiplier))
+end
+
+function modifier_pangolier_duelist_rhythm_trinity:GetFlourishCrit()
+	local ability = self:GetAbility()
+	if not IsValid(ability) then
+		return 0
+	end
+
+	local stacks = self.count or 0
+	local per_style = ability:GetSpecialValueFor("crit_per_style")
+	return 100 + per_style * stacks
 end
 
 function modifier_pangolier_duelist_rhythm_trinity:IsEnemyTarget(target)
@@ -146,7 +140,7 @@ function modifier_pangolier_duelist_rhythm_trinity:IsEnemyTarget(target)
 	return true
 end
 
-function modifier_pangolier_duelist_rhythm_trinity:IsSwashbuckleAttack(params)
+function modifier_pangolier_duelist_rhythm_trinity:IsAbilityAttack(params)
 	local parent = self:GetParent()
 	if not IsValid(parent) then
 		return false
@@ -161,7 +155,7 @@ function modifier_pangolier_duelist_rhythm_trinity:IsSwashbuckleAttack(params)
 	local inflictor = params and params.inflictor
 	if IsValid(inflictor) and inflictor.GetAbilityName then
 		local name = inflictor:GetAbilityName()
-		if name == "pangolier_swashbuckle" then
+		if name == "pangolier_swashbuckle" or name == "pangolier_shield_crash_trinity" then
 			return true
 		end
 	end
@@ -169,11 +163,54 @@ function modifier_pangolier_duelist_rhythm_trinity:IsSwashbuckleAttack(params)
 	return false
 end
 
+function modifier_pangolier_duelist_rhythm_trinity:IsCountableAbility(used)
+	if not IsValid(used) then
+		return false
+	end
+	if used.IsItem and used:IsItem() then
+		return false
+	end
+	if used.IsPassive and used:IsPassive() then
+		return false
+	end
+	if not used.GetAbilityName then
+		return false
+	end
+
+	local name = used:GetAbilityName() or ""
+	if name == "" or name == "generic_hidden" then
+		return false
+	end
+	if name == "pangolier_duelist_rhythm_trinity" then
+		return false
+	end
+	if string.find(name, "special_bonus", 1, true) then
+		return false
+	end
+	if string.find(name, "_stop", 1, true) then
+		return false
+	end
+
+	if used.GetBehaviorInt then
+		local behavior = used:GetBehaviorInt()
+		if DOTA_ABILITY_BEHAVIOR_PASSIVE
+			and bit.band(behavior, DOTA_ABILITY_BEHAVIOR_PASSIVE) == DOTA_ABILITY_BEHAVIOR_PASSIVE
+		then
+			return false
+		end
+	end
+
+	return true
+end
+
 function modifier_pangolier_duelist_rhythm_trinity:ShouldFlourish(params)
 	if not self:IsCharged() then
 		return false
 	end
 	if not params or params.attacker ~= self:GetParent() then
+		return false
+	end
+	if self:IsAbilityAttack(params) then
 		return false
 	end
 	return self:IsEnemyTarget(params.target)
@@ -193,12 +230,7 @@ function modifier_pangolier_duelist_rhythm_trinity:TryAddStyle(style)
 		return false
 	end
 
-	local ability = self:GetAbility()
-	local max_styles = ability:GetSpecialValueFor("max_styles")
-	if max_styles <= 0 then
-		max_styles = 4
-	end
-	if (self.count or 0) >= max_styles then
+	if (self.count or 0) >= self:GetMaxStyles() then
 		return false
 	end
 
@@ -276,19 +308,11 @@ function modifier_pangolier_duelist_rhythm_trinity:OnAbilityExecuted(params)
 	end
 
 	local used = params.ability
-	if not IsValid(used) or used.IsItem and used:IsItem() then
-		return
-	end
-	if not used.GetAbilityName then
+	if not self:IsCountableAbility(used) then
 		return
 	end
 
-	local style = STYLE_ABILITIES[used:GetAbilityName()]
-	if not style then
-		return
-	end
-
-	self:TryAddStyle(style)
+	self:TryAddStyle(used:GetAbilityName())
 end
 
 function modifier_pangolier_duelist_rhythm_trinity:GetModifierPreAttack_CriticalStrike(params)
@@ -299,7 +323,7 @@ function modifier_pangolier_duelist_rhythm_trinity:GetModifierPreAttack_Critical
 		return
 	end
 
-	return self:GetAbility():GetSpecialValueFor("crit_multiplier")
+	return self:GetFlourishCrit()
 end
 
 function modifier_pangolier_duelist_rhythm_trinity:GetModifierPreAttack_BonusDamage(params)
@@ -307,6 +331,9 @@ function modifier_pangolier_duelist_rhythm_trinity:GetModifierPreAttack_BonusDam
 		return 0
 	end
 	if not self:IsCharged() then
+		return 0
+	end
+	if self:IsAbilityAttack(params) then
 		return 0
 	end
 	if params and params.target and not self:IsEnemyTarget(params.target) then
@@ -328,18 +355,14 @@ function modifier_pangolier_duelist_rhythm_trinity:OnAttackLanded(params)
 	if not self:IsEnemyTarget(params.target) then
 		return
 	end
+	if self:IsAbilityAttack(params) then
+		return
+	end
 
 	if self:IsCharged() then
 		self:PlayFlourish(params.target)
 		self:ResetCombo()
-		return
 	end
-
-	if self:IsSwashbuckleAttack(params) then
-		return
-	end
-
-	self:TryAddStyle(STYLE_ATTACK)
 end
 
 function modifier_pangolier_duelist_rhythm_trinity:PlayFlourish(target)

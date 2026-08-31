@@ -102,6 +102,7 @@
 		"AbilityTextureName"            "pangolier_heartpiercer"
 		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"          "SPELL_DISPELLABLE_YES"
 		"HasShardUpgrade"               "1"
@@ -111,10 +112,11 @@
 
 		"AbilityValues"
 		{
-			"crit_chance"               "10"
-			"crit_multiplier"           "130 140 150 160"
-			"armor_reduction"           "2 4 6 8"
+			"proc_chance"               "10"
 			"duration"                  "3"
+			"bleed_dps"                 "18 30 42 54"
+			"movement_slow_pct"         "15 20 25 30"
+			"mind_power_multiplier"     "0.25"
 			"shard_chance_per_hero"     "5"
 			"shard_radius"
 			{
@@ -140,13 +142,19 @@
 
 		"AbilityValues"
 		{
-			"styles_required"           "3"
 			"max_styles"                "4"
 			"combo_duration"            "8"
-			"bonus_damage"              "70 120 170 220"
-			"bonus_damage_max"          "110 180 250 320"
-			"mind_power_multiplier"     "1"
-			"crit_multiplier"           "160 180 200 220"
+			"bonus_damage"              "20 35 50 65"
+			"mind_power_multiplier"     "0.25"
+			"crit_per_style"            "15 20 25 30"
 		}
+	}
+
+	"pangolier_fortune_favors_the_bold"
+	{
+		"BaseClass"                     "pangolier_fortune_favors_the_bold"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"MaxLevel"                      "1"
+		"Innate"                        "0"
 	}
 }
