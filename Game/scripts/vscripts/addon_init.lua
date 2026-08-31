@@ -1,2 +1,5 @@
 LinkLuaModifier('modifier_lifesteal_custom', 'modifiers/modifier_lifesteal_custom.lua', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_tower_bonus_armor', 'modifiers/modifier_tower_bonus_armor.lua', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_largo_catchy_lick_buff", "abilities/largo/largo_catchy_lick", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_largo_catchy_lick_pull", "abilities/largo/largo_catchy_lick", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_largo_frogstomp_debuff", "abilities/largo/largo_frogstomp", LUA_MODIFIER_MOTION_NONE)

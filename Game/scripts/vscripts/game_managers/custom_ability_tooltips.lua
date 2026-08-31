@@ -126,13 +126,32 @@ local MIND_POWER_RULES = {
     dawnbreaker_celestial_hammer_custom = {
         hammer_damage = "mind_power_multiplier",
     },
+    largo_childhood_memories = {
+        stomp_damage = "mind_power_multiplier",
+    },
+    largo_catchy_lick_trinity = {
+        damage = "mind_power_multiplier",
+    },
+    largo_frogstomp_trinity = {
+        damage_per_stomp = "mind_power_multiplier",
+    },
+    largo_song_fight_song = {
+        burst_damage = 1.0,
+    },
 }
 
 CustomAbilityTooltips.MIND_POWER_RULES = MIND_POWER_RULES
 
 function CustomAbilityTooltips:GetMindPowerMultiplierKey(ability_name, special_value_name)
     local ability_rules = MIND_POWER_RULES[ability_name]
-    return ability_rules and ability_rules[special_value_name] or nil
+    if not ability_rules then
+        return nil
+    end
+    return ability_rules[special_value_name]
+end
+
+function CustomAbilityTooltips:IsNumericMindPowerMultiplier(ability_name, special_value_name)
+    return type(self:GetMindPowerMultiplierKey(ability_name, special_value_name)) == "number"
 end
 
 function CustomAbilityTooltips:ShouldOverrideMindPowerSpecial(ability, special_value_name)
@@ -140,11 +159,29 @@ function CustomAbilityTooltips:ShouldOverrideMindPowerSpecial(ability, special_v
     return self:GetMindPowerMultiplierKey(ability:GetAbilityName(), special_value_name) ~= nil
 end
 
+function CustomAbilityTooltips:GetMindPowerMultiplierAmount(ability, special_value_name, special_level)
+    local multiplier_key = self:GetMindPowerMultiplierKey(ability:GetAbilityName(), special_value_name)
+    if multiplier_key == nil then
+        return nil
+    end
+
+    if type(multiplier_key) == "number" then
+        return multiplier_key
+    end
+
+    local level = tonumber(special_level)
+    if level == nil or level < 0 then
+        level = math.max(0, ability:GetLevel() - 1)
+    end
+
+    return ability:GetLevelSpecialValueNoOverride(multiplier_key, level)
+end
+
 function CustomAbilityTooltips:GetMindPowerSpecialValue(ability, special_value_name, special_level, mind_power)
     if not ability or ability:IsNull() then return nil end
 
-    local multiplier_key = self:GetMindPowerMultiplierKey(ability:GetAbilityName(), special_value_name)
-    if not multiplier_key then return nil end
+    local multiplier = self:GetMindPowerMultiplierAmount(ability, special_value_name, special_level)
+    if multiplier == nil then return nil end
 
     local level = tonumber(special_level)
     if level == nil or level < 0 then
@@ -152,6 +189,5 @@ function CustomAbilityTooltips:GetMindPowerSpecialValue(ability, special_value_n
     end
 
     local base_value = ability:GetLevelSpecialValueNoOverride(special_value_name, level)
-    local multiplier = ability:GetLevelSpecialValueNoOverride(multiplier_key, level)
     return math.max(0, base_value + (tonumber(mind_power) or 0) * multiplier)
 end

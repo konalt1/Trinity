@@ -1,0 +1,169 @@
+// Trinity — Largo abilities
+"DOTAAbilities"
+{
+	"largo_catchy_lick_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/largo/largo_catchy_lick"
+		"AbilityTextureName"            "largo_catchy_lick"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_CUSTOM"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+		"FightRecapLevel"               "1"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastPoint"              "0.2"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCooldown"               "13 11 9 7"
+		"AbilityManaCost"               "80 85 90 95"
+		"AbilityCastRange"              "700"
+		"AbilityCharges"                "0"
+		"AbilityChargeRestoreTime"      "13 11 9 7"
+
+		"AbilityValues"
+		{
+			"AbilityCastRange"
+			{
+				"value"                                 "700"
+				"special_bonus_unique_largo_4"          "+100"
+			}
+			"damage"                                    "85 170 255 340"
+			"mind_power_multiplier"                     "1"
+			"pull_distance"
+			{
+				"value"                                 "235 265 295 325"
+				"special_bonus_unique_largo_4"          "+50"
+			}
+			"pull_distance_ally"
+			{
+				"value"                                 "375"
+				"special_bonus_unique_largo_4"          "+100"
+			}
+			"dispel_hp_regen"
+			{
+				"value"                                 "4 7 10 13"
+				"special_bonus_unique_largo_2"          "x2.5"
+			}
+			"buff_duration"                             "8"
+			"AbilityCharges"
+			{
+				"value"                                 "0"
+				"special_bonus_unique_largo_8"          "=2"
+			}
+		}
+	}
+
+	"largo_frogstomp_trinity"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/largo/largo_frogstomp"
+		"AbilityTextureName"            "largo_frogstomp"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+		"FightRecapLevel"               "1"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastPoint"              "0.2"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+		"AbilityCooldown"               "20 18 16 14"
+		"AbilityManaCost"               "85 95 105 115"
+		"AbilityCastRange"              "800"
+
+		"AbilityValues"
+		{
+			"radius"
+			{
+				"value"                                 "350"
+				"affected_by_aoe_increase"              "1"
+			}
+			"damage_per_stomp"
+			{
+				"value"                                 "36 48 60 72"
+				"special_bonus_unique_largo_1"          "+15"
+			}
+			"mind_power_multiplier"                     "1"
+			"total_ticks"
+			{
+				"value"                                 "4 5 6 7"
+				"special_bonus_unique_largo_5"          "x2"
+			}
+			"tick_interval"
+			{
+				"value"                                 "1.0"
+				"special_bonus_unique_largo_5"          "x0.5"
+			}
+			"slow"                                      "12 18 24 30"
+			"stun_duration"                             "0.1"
+			"effect_delay"                              "0.5"
+			"aura_linger"                               "0.5"
+		}
+	}
+
+	"largo_childhood_memories"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/largo/largo_childhood_memories"
+		"AbilityTextureName"            "largo_croak_of_genius"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+		"FightRecapLevel"               "1"
+		"MaxLevel"                      "4"
+		"RequiredLevel"                 "1"
+		"LevelsBetweenUpgrades"         "2"
+		"AbilityCastPoint"              "0"
+		"AbilityCooldown"               "0"
+		"AbilityManaCost"               "0"
+
+		"AbilityValues"
+		{
+			"ms_to_distance_multiplier" "1.2 1.3 1.4 1.5"
+			"hop_duration"              "1"
+			"land_delay"                "0.3"
+			"stun_duration"             "0.2"
+			"stomp_damage"              "30"
+			"mind_power_multiplier"     "1"
+			"stun_radius"               "125 150 175 200"
+			"mana_per_hop"              "8 7 6 5"
+		}
+	}
+
+	// Vanilla Encore without innate. Granted by Aghanim's Shard with repeat_buff already on.
+	"largo_encore"
+	{
+		"BaseClass"                     "largo_encore"
+		"AbilityTextureName"            "juggernaut/fortunes_tout_gold/juggernaut_healing_ward"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"                      "1"
+		"Innate"                        "0"
+		"IsBreakable"                   "1"
+		"HasShardUpgrade"               "0"
+		"IsGrantedByShard"              "1"
+
+		"AbilityValues"
+		{
+			"buff_amplification"
+			{
+				"value"                 "15"
+				"hero_levelup"          "+1"
+			}
+			"repeat_buff"               "1"
+		}
+	}
+}

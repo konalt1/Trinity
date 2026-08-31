@@ -1408,7 +1408,22 @@ function DraftSpawn:AbilityKvFlagEnabled(ability, key)
 	if value == nil then
 		value = kv[string.lower(key)]
 	end
-	return value == "1" or value == 1 or value == true
+	return value == "1" or value == 1 or value == true or value == "true"
+end
+
+function DraftSpawn:ShouldShowGrantedAbility(hero, ability)
+	if not hero or hero:IsNull() or not ability or ability:IsNull() then
+		return false
+	end
+
+	if self:AbilityKvFlagEnabled(ability, "IsGrantedByShard") then
+		return HasShard and HasShard(hero) or false
+	end
+	if self:AbilityKvFlagEnabled(ability, "IsGrantedByScepter") then
+		return hero.HasScepter and hero:HasScepter() or false
+	end
+
+	return true
 end
 
 function DraftSpawn:IsItemGrantedAbility(ability)
@@ -1491,8 +1506,25 @@ function DraftSpawn:RestoreAbilityHiddenState(hero)
 	for slot = 0, hero:GetAbilityCount() - 1 do
 		local ability = hero:GetAbilityByIndex(slot)
 		if ability and not ability:IsNull() then
-			local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
-			if kvHidden or self:IsItemGrantedAbility(ability) then
+			local grantedByItem = self:IsItemGrantedAbility(ability)
+			if grantedByItem then
+				local show = self:ShouldShowGrantedAbility(hero, ability)
+				if show then
+					if ability:IsHidden() then
+						ability:SetHidden(false)
+					end
+					if ability:GetLevel() < 1 then
+						ability:SetLevel(1)
+					end
+				else
+					if ability:GetLevel() ~= 0 then
+						ability:SetLevel(0)
+					end
+					if not ability:IsHidden() then
+						ability:SetHidden(true)
+					end
+				end
+			elseif self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN") then
 				if not ability:IsHidden() then
 					ability:SetHidden(true)
 				end

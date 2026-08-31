@@ -8,6 +8,7 @@
 #base "furion.txt"
 #base "juggernaut.txt"
 #base "lich.txt"
+#base "largo.txt"
 #base "lion.txt"
 #base "lycan.txt"
 #base "nevermore.txt"
