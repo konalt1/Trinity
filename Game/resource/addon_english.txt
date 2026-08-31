@@ -1049,10 +1049,12 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"SPLIT STUN:"
 
 		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Aghanim's Spears"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Aghanim gathers three spears around himself, then launches them one by one at the nearest heroes.\n\nA spear pierces the first hero it hits and knocks them back. If a tree, building, or high ground is in the way, the victim is pinned and stunned."
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Three spears appear around Aghanim. They point at the nearest heroes, then fly in their locked directions.
+		A spear impales the first hero it hits and drags them along. If it strikes a tree, building, or high ground, the spear stays there. A hero on the spear is stunned."
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_count"				"SPEARS:"
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_damage"						"DAMAGE:"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_pin_stun"					"PIN STUN:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_range"				"RANGE:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_stun_duration"				"PIN STUN:"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Placeholder"

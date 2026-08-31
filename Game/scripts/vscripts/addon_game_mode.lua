@@ -11,6 +11,7 @@ require ("game_managers/trinity_player_data")
 require ("game_managers/trinity_stickers")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
+require ("map_modifications/Bosses/caravan/caravan_event")
 
 -- Загружаем способности
 require ("abilities/mind_power")
@@ -102,6 +103,17 @@ function Precache( context )
 	-- скипетровым версиям — их у Мортимера нет.
 	PrecacheUnitByNameSync( "npc_mortimer_boss", context )
 	PrecacheUnitByNameSync( "npc_mortimer_boss_finale", context )
+
+	-- Courier caravan (Labyrinth Aghanim model + creature particles)
+	if not CaravanAssets then
+		pcall(require, "map_modifications/Bosses/caravan/caravan_assets")
+	end
+	if CaravanAssets and CaravanAssets.Precache then
+		CaravanAssets:Precache(context)
+		print("[CourierCaravan] Precache finished")
+	else
+		print("[CourierCaravan] Precache skipped: CaravanAssets missing")
+	end
  
 	-- for _, ability in pairs(abilities) do
 	-- 	local hero_name = string.gsub(ability, "_.*", "")
@@ -118,6 +130,7 @@ function Activate()
 	GameRules.AddonTemplate = CAddonTemplateGameMode()
 	GameRules.AddonTemplate:InitGameMode()
 	MortimerBoss:Init()
+	CourierCaravan:Init()
 end
 -- ============== Copyright © 2026, DagonRanchi, All rights reserved. =============
 

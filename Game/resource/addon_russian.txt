@@ -1081,10 +1081,12 @@
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"ОГЛУШЕНИЕ МЕЛКИХ ОСКОЛКОВ:"
 
 		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Копья Аганима"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Аганим собирает вокруг себя три копья, затем по очереди пускает их в ближайших героев.\n\nКопьё пронзает первого задетого героя и отталкивает его. Если на пути окажется дерево, постройка или возвышенность, жертву пригвоздит и оглушит."
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Вокруг Аганима появляются три копья. Они смотрят на ближайших героев, затем вылетают по своему направлению.
+		Копьё пронзает первого задетого героя и тащит его за собой. Если на пути дерево, постройка или возвышенность, копьё застревает. Герой на копье при этом оглушается."
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_count"				"КОПИЙ:"
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_damage"						"УРОН:"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_pin_stun"					"ОГЛУШЕНИЕ ПРИГВОЖДЕНИЯ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_range"				"ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_stun_duration"				"ОГЛУШЕНИЕ ПРИГВОЖДЕНИЯ:"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"

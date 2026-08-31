@@ -698,6 +698,9 @@ function GameMode:OnEntityKilled(keys)
 	if MortimerBoss and MortimerBoss.OnEntityKilled then
 		MortimerBoss:OnEntityKilled(unit, keys)
 	end
+	if CourierCaravan and CourierCaravan.OnEntityKilled then
+		CourierCaravan:OnEntityKilled(unit)
+	end
 	if KillfeedSystem and KillfeedSystem.OnEntityKilled then
 		KillfeedSystem:OnEntityKilled(keys, unit)
 	end

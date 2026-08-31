@@ -101,6 +101,13 @@
 		vsnd_distance_max = 8000.0
 	}
 
+	Caravan.Spawn =
+	{
+		type = "dota_src1_2d"
+		vsnd_files = "sounds/ui/ui_findmatch_search_01.vsnd"
+		volume = 1.0
+	}
+
 	_game_events.template_sound_event =
 	{
 		type = "dota_src1_3d"
