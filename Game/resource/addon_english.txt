@@ -1265,11 +1265,11 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Slowed."
 
 		"DOTA_Tooltip_ability_largo_childhood_memories"								"Childhood Memories"
-		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Toggle. While active, Largo moves by leaps of a fixed distance in his movement direction.
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo starts moving by leaps of a fixed distance in his movement direction.
 
 		Leap distance scales with movement speed: the faster he is, the farther he leaps.
 
-		Enemies caught under a leap take magical damage and are stunned."
+		On landing, enemies in the radius take magical damage and are stunned."
 		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"DISTANCE MULTIPLIER:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"LEAP DURATION:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"DELAY BETWEEN LEAPS:"
@@ -1280,6 +1280,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"MANA PER LEAP:"
 		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Childhood Memories"
 		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Moving by leaps."
+		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"End Memories"
+		"DOTA_Tooltip_ability_largo_childhood_memories_end_Description"				"Largo stops leaping."
 
 		"DOTA_Tooltip_ability_largo_encore"										"Encore"
 		"DOTA_Tooltip_ability_largo_encore_Description"							"Effects the hero applies to himself or allies last longer. When he applies a unit-targeted effect to an ally, he also gains it.

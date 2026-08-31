@@ -1295,11 +1295,11 @@
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Замедлен."
 
 		"DOTA_Tooltip_ability_largo_childhood_memories"								"Детские воспоминания"
-		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Переключаемая. Пока способность активна, Largo передвигается прыжками фиксированной дальности в направлении движения.
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo начинает передвигаться прыжками фиксированной дальности в направлении движения.
 
 		Дальность прыжка зависит от скорости передвижения: чем она выше, тем дальше прыжок.
 
-		Враги, попавшие под прыжок, получают магический урон и оглушаются."
+		При приземлении враги в радиусе получают магический урон и оглушаются."
 		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"МНОЖИТЕЛЬ ДАЛЬНОСТИ:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"ДЛИТЕЛЬНОСТЬ ПРЫЖКА:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"ПАУЗА МЕЖДУ ПРЫЖКАМИ:"
@@ -1310,6 +1310,8 @@
 		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"МАНА ЗА ПРЫЖОК:"
 		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Детские воспоминания"
 		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Передвигается прыжками."
+		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"Конец воспоминаний"
+		"DOTA_Tooltip_ability_largo_childhood_memories_end_Description"				"Largo прекращает прыжки."
 
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody"							"Амфибийная рапсодия"
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"				"Largo готовится играть. Он безоружен, а его способности сменяются тремя песнями: Пузатый блиц, Жаркий галоп и Тропический эликсир.

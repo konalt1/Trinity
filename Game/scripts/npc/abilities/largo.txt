@@ -27,34 +27,14 @@
 
 		"AbilityValues"
 		{
-			"AbilityCastRange"
-			{
-				"value"                                 "700"
-				"special_bonus_unique_largo_4"          "+100"
-			}
+			"AbilityCastRange"                         "700"
 			"damage"                                    "85 170 255 340"
 			"mind_power_multiplier"                     "1"
-			"pull_distance"
-			{
-				"value"                                 "235 265 295 325"
-				"special_bonus_unique_largo_4"          "+50"
-			}
-			"pull_distance_ally"
-			{
-				"value"                                 "375"
-				"special_bonus_unique_largo_4"          "+100"
-			}
-			"dispel_hp_regen"
-			{
-				"value"                                 "4 7 10 13"
-				"special_bonus_unique_largo_2"          "x2.5"
-			}
+			"pull_distance"                             "235 265 295 325"
+			"pull_distance_ally"                        "375"
+			"dispel_hp_regen"                          "4 7 10 13"
 			"buff_duration"                             "8"
-			"AbilityCharges"
-			{
-				"value"                                 "0"
-				"special_bonus_unique_largo_8"          "=2"
-			}
+			"AbilityCharges"                            "0"
 		}
 	}
 
@@ -87,22 +67,10 @@
 				"value"                                 "350"
 				"affected_by_aoe_increase"              "1"
 			}
-			"damage_per_stomp"
-			{
-				"value"                                 "36 48 60 72"
-				"special_bonus_unique_largo_1"          "+15"
-			}
+			"damage_per_stomp"                         "36 48 60 72"
 			"mind_power_multiplier"                     "1"
-			"total_ticks"
-			{
-				"value"                                 "4 5 6 7"
-				"special_bonus_unique_largo_5"          "x2"
-			}
-			"tick_interval"
-			{
-				"value"                                 "1.0"
-				"special_bonus_unique_largo_5"          "x0.5"
-			}
+			"total_ticks"                               "4 5 6 7"
+			"tick_interval"                             "1.0"
 			"slow"                                      "12 18 24 30"
 			"stun_duration"                             "0.1"
 			"effect_delay"                              "0.5"
@@ -114,8 +82,8 @@
 	{
 		"BaseClass"                     "ability_lua"
 		"ScriptFile"                    "abilities/largo/largo_childhood_memories"
-		"AbilityTextureName"            "largo_croak_of_genius"
-		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityTextureName"            "largo_childhood_memories"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
 		"AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -128,7 +96,7 @@
 		"LevelsBetweenUpgrades"         "2"
 		"AbilityCastPoint"              "0"
 		"AbilityCooldown"               "0"
-		"AbilityManaCost"               "0"
+		"AbilityManaCost"               "8 7 6 5"
 
 		"AbilityValues"
 		{
@@ -141,6 +109,19 @@
 			"stun_radius"               "125 150 175 200"
 			"mana_per_hop"              "8 7 6 5"
 		}
+	}
+
+	"largo_childhood_memories_end"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"                    "abilities/largo/largo_childhood_memories"
+		"AbilityTextureName"            "largo_childhood_memories_end"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityType"                   "DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"                      "1"
+		"AbilityCastPoint"              "0"
+		"AbilityCooldown"               "0"
+		"AbilityManaCost"               "0"
 	}
 
 	// Vanilla Encore without innate. Granted by Aghanim's Shard with repeat_buff already on.
