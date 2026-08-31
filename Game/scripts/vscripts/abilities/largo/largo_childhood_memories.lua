@@ -10,10 +10,48 @@ largo_childhood_memories = class({})
 
 local TOGGLE_MODIFIER = "modifier_largo_childhood_memories"
 local HOP_MODIFIER = "modifier_largo_childhood_memories_hop"
+local MAIN_ABILITY = "largo_childhood_memories"
+local END_ABILITY = "largo_childhood_memories_end"
+local RHAPSODY_ABILITY = "largo_amphibian_rhapsody"
+local RHAPSODY_MODIFIER = "modifier_largo_amphibian_rhapsody_self"
 local ARRIVE_DISTANCE = 24
 
 local function IsValid(entity)
 	return entity ~= nil and not entity:IsNull()
+end
+
+local function IsRhapsodyActive(caster)
+	if not IsValid(caster) then
+		return false
+	end
+
+	if caster:HasModifier(RHAPSODY_MODIFIER) then
+		return true
+	end
+
+	local ult = caster:FindAbilityByName(RHAPSODY_ABILITY)
+	if not ult or ult:IsNull() or ult:GetLevel() < 1 then
+		return false
+	end
+
+	return ult:GetToggleState()
+end
+
+local function SyncChildhoodMemoriesLayout(caster)
+	if not IsValid(caster) or IsRhapsodyActive(caster) then
+		return
+	end
+
+	local main = caster:FindAbilityByName(MAIN_ABILITY)
+	if not main then
+		return
+	end
+
+	if caster:HasModifier(TOGGLE_MODIFIER) then
+		main:ShowEndAbility()
+	else
+		main:RestoreCastLayout()
+	end
 end
 
 local function HorizontalVector(vector)
@@ -44,6 +82,10 @@ function largo_childhood_memories:GetAOERadius()
 	return self:GetStunRadius()
 end
 
+function largo_childhood_memories:GetManaCost(level)
+	return self:GetSpecialValueFor("mana_per_hop")
+end
+
 function largo_childhood_memories:GetStompDamage()
 	local caster = self:GetCaster()
 	local mind_power = 0
@@ -57,17 +99,52 @@ function largo_childhood_memories:GetStompDamage()
 	)
 end
 
-function largo_childhood_memories:OnToggle()
+function largo_childhood_memories:OnUpgrade()
 	if not IsServer() then
 		return
 	end
 
 	local caster = self:GetCaster()
-	if self:GetToggleState() then
-		caster:AddNewModifier(caster, self, TOGGLE_MODIFIER, {})
-	else
-		caster:RemoveModifierByName(TOGGLE_MODIFIER)
+	local end_ability = caster:FindAbilityByName(END_ABILITY)
+	if end_ability and end_ability:GetLevel() < 1 then
+		end_ability:SetLevel(1)
 	end
+
+	if self:GetLevel() < 1 or not caster:HasModifier(TOGGLE_MODIFIER) then
+		self:RestoreCastLayout()
+	end
+end
+
+function largo_childhood_memories:CastFilterResult()
+	if IsRhapsodyActive(self:GetCaster()) then
+		return UF_FAIL_CUSTOM
+	end
+
+	return UF_SUCCESS
+end
+
+function largo_childhood_memories:GetCustomCastError()
+	return "#dota_hud_error_cant_cast_ability_in_this_state"
+end
+
+function largo_childhood_memories:OnSpellStart()
+	if not IsServer() then
+		return
+	end
+
+	local caster = self:GetCaster()
+	if IsRhapsodyActive(caster) then
+		return
+	end
+
+	caster:GiveMana(self:GetManaCost(self:GetLevel() - 1))
+
+	if caster:HasModifier(TOGGLE_MODIFIER) then
+		return
+	end
+
+	caster:AddNewModifier(caster, self, TOGGLE_MODIFIER, {})
+	self:ShowEndAbility()
 end
 
 function largo_childhood_memories:OnOwnerDied()
@@ -75,8 +152,125 @@ function largo_childhood_memories:OnOwnerDied()
 		return
 	end
 
-	if self:GetToggleState() then
-		self:ToggleAbility()
+	self:DeactivateMemories()
+end
+
+function largo_childhood_memories:OnOwnerSpawned()
+	if not IsServer() then
+		return
+	end
+
+	self:RestoreCastLayout()
+end
+
+function largo_childhood_memories:ShowEndAbility()
+	local caster = self:GetCaster()
+	if IsRhapsodyActive(caster) then
+		return
+	end
+
+	local end_ability = caster:FindAbilityByName(END_ABILITY)
+	if not end_ability then
+		return
+	end
+
+	if end_ability:GetLevel() < 1 then
+		end_ability:SetLevel(1)
+	end
+	end_ability:SetActivated(true)
+	if end_ability:IsHidden() then
+		caster:SwapAbilities(MAIN_ABILITY, END_ABILITY, false, true)
+	end
+	if end_ability:IsHidden() then
+		end_ability:SetHidden(false)
+	end
+end
+
+function largo_childhood_memories:RestoreCastLayout()
+	if not IsServer() then
+		return
+	end
+
+	if IsRhapsodyActive(self:GetCaster()) then
+		return
+	end
+
+	self:RestoreMainSlot()
+	if self:IsHidden() then
+		self:SetHidden(false)
+	end
+end
+
+function largo_childhood_memories:RestoreMainSlot()
+	local caster = self:GetCaster()
+	if IsRhapsodyActive(caster) then
+		return
+	end
+
+	local end_ability = caster:FindAbilityByName(END_ABILITY)
+	if not end_ability then
+		return
+	end
+
+	if not end_ability:IsHidden() then
+		caster:SwapAbilities(END_ABILITY, MAIN_ABILITY, false, true)
+	end
+	if not end_ability:IsHidden() then
+		end_ability:SetHidden(true)
+	end
+	end_ability:SetActivated(false)
+end
+
+function largo_childhood_memories:DeactivateMemories()
+	local caster = self:GetCaster()
+	if IsValid(caster) then
+		caster:RemoveModifierByName(TOGGLE_MODIFIER)
+	end
+	self:RestoreCastLayout()
+end
+
+function largo_childhood_memories:RequestDeactivate()
+	local caster = self:GetCaster()
+	local modifier = IsValid(caster) and caster:FindModifierByName(TOGGLE_MODIFIER)
+	if not modifier then
+		self:RestoreCastLayout()
+		return
+	end
+
+	if modifier.hopping then
+		modifier.pending_off = true
+		return
+	end
+
+	self:DeactivateMemories()
+end
+
+largo_childhood_memories_end = class({})
+
+function largo_childhood_memories_end:CastFilterResult()
+	if IsRhapsodyActive(self:GetCaster()) then
+		return UF_FAIL_CUSTOM
+	end
+
+	return UF_SUCCESS
+end
+
+function largo_childhood_memories_end:GetCustomCastError()
+	return "#dota_hud_error_cant_cast_ability_in_this_state"
+end
+
+function largo_childhood_memories_end:OnSpellStart()
+	if not IsServer() then
+		return
+	end
+
+	if IsRhapsodyActive(self:GetCaster()) then
+		return
+	end
+
+	local main = self:GetCaster():FindAbilityByName(MAIN_ABILITY)
+	if main and main.RequestDeactivate then
+		main:RequestDeactivate()
 	end
 end
 
@@ -99,7 +293,7 @@ function modifier_largo_childhood_memories:RemoveOnDeath()
 end
 
 function modifier_largo_childhood_memories:GetTexture()
-	return "largo_croak_of_genius"
+	return "largo_childhood_memories"
 end
 
 function modifier_largo_childhood_memories:DeclareFunctions()
@@ -149,13 +343,89 @@ function modifier_largo_childhood_memories:GetHopDistance()
 	return math.max(0, self:GetTrueMoveSpeed() * multiplier)
 end
 
+function modifier_largo_childhood_memories:CancelNativeMovement()
+	local parent = self:GetParent()
+	if not IsValid(parent) then
+		return
+	end
+
+	self.ignore_order = true
+	parent:Stop()
+	self.ignore_order = false
+end
+
+function modifier_largo_childhood_memories:ClearMoveIntent()
+	self.dest = nil
+	self.move_target = nil
+	self.attack_target = nil
+	self.last_hop_dir = nil
+	self:SetStackCount(0)
+end
+
+function modifier_largo_childhood_memories:IsPickupTarget(target)
+	if not IsValid(target) then
+		return false
+	end
+
+	if target.GetContainedItem then
+		return true
+	end
+	if target.GetRuneType then
+		return true
+	end
+
+	return false
+end
+
+function modifier_largo_childhood_memories:DidPassGoal(origin, goal)
+	if not self.last_hop_dir or not goal then
+		return false
+	end
+
+	local to_goal = HorizontalVector(goal - origin)
+	if to_goal:Length2D() <= ARRIVE_DISTANCE then
+		return true
+	end
+
+	return to_goal:Dot(self.last_hop_dir) < 0
+end
+
+function modifier_largo_childhood_memories:FinishMoveTarget()
+	local parent = self:GetParent()
+	local target = self.move_target
+	if not IsValid(parent) or not IsValid(target) then
+		self.move_target = nil
+		return
+	end
+
+	local order_type = DOTA_UNIT_ORDER_MOVE_TO_TARGET
+	if target.GetContainedItem then
+		order_type = DOTA_UNIT_ORDER_PICKUP_ITEM
+	elseif target.GetRuneType then
+		order_type = DOTA_UNIT_ORDER_PICKUP_RUNE
+	end
+
+	self.ignore_order = true
+	ExecuteOrderFromTable({
+		UnitIndex = parent:entindex(),
+		OrderType = order_type,
+		TargetIndex = target:entindex(),
+		Queue = false,
+	})
+	self.ignore_order = false
+	self.move_target = nil
+end
+
 function modifier_largo_childhood_memories:OnCreated()
 	if not IsServer() then
 		return
 	end
 
 	self.hopping = false
+	self.pending_off = false
 	self.next_hop_time = 0
+	self.last_hop_dir = nil
+	self:CancelNativeMovement()
 	self:StartIntervalThink(0.03)
 end
 
@@ -189,6 +459,9 @@ function modifier_largo_childhood_memories:OnOrder(params)
 		self.dest = params.new_pos
 		self.move_target = nil
 		self.attack_target = nil
+		self.last_hop_dir = nil
+		self:SetStackCount(1)
+		self:CancelNativeMovement()
 		return
 	end
 
@@ -199,6 +472,9 @@ function modifier_largo_childhood_memories:OnOrder(params)
 		self.move_target = params.target
 		self.attack_target = nil
 		self.dest = nil
+		self.last_hop_dir = nil
+		self:SetStackCount(1)
+		self:CancelNativeMovement()
 		return
 	end
 
@@ -206,6 +482,9 @@ function modifier_largo_childhood_memories:OnOrder(params)
 		self.attack_target = params.target
 		self.move_target = nil
 		self.dest = nil
+		self.last_hop_dir = nil
+		self:SetStackCount(1)
+		self:CancelNativeMovement()
 		return
 	end
 
@@ -221,9 +500,7 @@ function modifier_largo_childhood_memories:OnOrder(params)
 		or order == DOTA_UNIT_ORDER_GLYPH
 		or order == DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION
 	then
-		self.dest = nil
-		self.move_target = nil
-		self.attack_target = nil
+		self:ClearMoveIntent()
 	end
 end
 
@@ -233,6 +510,14 @@ function modifier_largo_childhood_memories:OnIntervalThink()
 	end
 
 	if self.hopping then
+		return
+	end
+
+	if self.pending_off then
+		local ability = self:GetAbility()
+		if ability and ability.DeactivateMemories then
+			ability:DeactivateMemories()
+		end
 		return
 	end
 
@@ -265,6 +550,8 @@ function modifier_largo_childhood_memories:OnIntervalThink()
 
 	local goal, attack_target = self:GetMoveGoal()
 	if not goal then
+		self:SetStackCount(0)
+		self.last_hop_dir = nil
 		return
 	end
 
@@ -282,36 +569,28 @@ function modifier_largo_childhood_memories:OnIntervalThink()
 			end
 			return
 		end
-		remaining = math.max(0, remaining - attack_range + 40)
-	end
-
-	if remaining <= ARRIVE_DISTANCE then
+	elseif remaining <= ARRIVE_DISTANCE then
 		self:SetStackCount(0)
-		if not attack_target then
+		self.last_hop_dir = nil
+		if self.move_target and self:IsPickupTarget(self.move_target) then
+			self:FinishMoveTarget()
+		else
 			self.dest = nil
-			self.move_target = nil
 		end
+		return
+	elseif self:DidPassGoal(origin, goal) then
+		self:ClearMoveIntent()
 		return
 	end
 
-	if hop_distance < 1 or remaining < hop_distance then
-		self:SetStackCount(0)
-		if attack_target then
-			self:IssueAttack(attack_target)
-		elseif self.dest then
-			self.ignore_order = true
-			parent:MoveToPosition(self.dest)
-			self.ignore_order = false
-			self.dest = nil
-			self.move_target = nil
-		end
+	if hop_distance < 1 then
 		return
 	end
 
 	local mana_cost = ability:GetSpecialValueFor("mana_per_hop")
 	if mana_cost > 0 and parent:GetMana() < mana_cost then
-		if ability:GetToggleState() then
-			ability:ToggleAbility()
+		if ability.DeactivateMemories then
+			ability:DeactivateMemories()
 		end
 		return
 	end
@@ -351,6 +630,10 @@ function modifier_largo_childhood_memories:IssueAttack(target)
 end
 
 function modifier_largo_childhood_memories:StartHop(direction, distance)
+	if self.pending_off then
+		return
+	end
+
 	local parent = self:GetParent()
 	local ability = self:GetAbility()
 	if not IsValid(parent) or not IsValid(ability) then
@@ -371,6 +654,7 @@ function modifier_largo_childhood_memories:StartHop(direction, distance)
 
 	local start_pos = parent:GetAbsOrigin()
 	self.hopping = true
+	self.last_hop_dir = direction
 
 	parent:AddNewModifier(parent, ability, HOP_MODIFIER, {
 		duration = duration + 0.2,
@@ -391,12 +675,12 @@ function modifier_largo_childhood_memories:StartHop(direction, distance)
 		fix_end = false,
 		isStun = 0,
 		isForward = 1,
-		activity = ACT_DOTA_RUN,
 	})
 
 	self.arc = arc
 	if not arc then
 		self.hopping = false
+		self.last_hop_dir = nil
 		parent:RemoveModifierByName(HOP_MODIFIER)
 		return
 	end
@@ -419,18 +703,27 @@ function modifier_largo_childhood_memories:StartHop(direction, distance)
 
 			self.hopping = false
 			self.arc = nil
-			local land_delay = 0.3
-			local hop_ability = self:GetAbility()
-			if hop_ability and not hop_ability:IsNull() then
-				land_delay = hop_ability:GetSpecialValueFor("land_delay")
-			end
-			self.next_hop_time = GameRules:GetGameTime() + math.max(0, land_delay)
 
 			local hop = parent:FindModifierByName(HOP_MODIFIER)
 			if hop then
 				hop.interrupted = interrupted
 				hop:Destroy()
 			end
+
+			if self.pending_off then
+				local hop_ability = self:GetAbility()
+				if hop_ability and hop_ability.DeactivateMemories then
+					hop_ability:DeactivateMemories()
+				end
+				return
+			end
+
+			local land_delay = 0.3
+			local hop_ability = self:GetAbility()
+			if hop_ability and not hop_ability:IsNull() then
+				land_delay = hop_ability:GetSpecialValueFor("land_delay")
+			end
+			self.next_hop_time = GameRules:GetGameTime() + math.max(0, land_delay)
 		end)
 	end
 end
@@ -438,6 +731,7 @@ end
 function modifier_largo_childhood_memories:InterruptHop()
 	local parent = self:GetParent()
 	self.hopping = false
+	self.last_hop_dir = nil
 
 	local hop = IsValid(parent) and parent:FindModifierByName(HOP_MODIFIER)
 	if hop then
@@ -468,8 +762,13 @@ end
 
 function modifier_largo_childhood_memories_hop:DeclareFunctions()
 	return {
+		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
 		MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
 	}
+end
+
+function modifier_largo_childhood_memories_hop:GetOverrideAnimation()
+	return ACT_DOTA_RUN
 end
 
 function modifier_largo_childhood_memories_hop:GetActivityTranslationModifiers()
@@ -542,47 +841,6 @@ function modifier_largo_childhood_memories_hop:StunAlongHop(end_pos)
 	local radius = ability:GetStunRadius()
 	local duration = ability:GetSpecialValueFor("stun_duration")
 	local damage = ability:GetStompDamage()
-	local start_pos = self.start_pos or end_pos
-	local hit = {}
-
-	local function TryStun(enemy)
-		if not IsValid(enemy) or hit[enemy:entindex()] then
-			return
-		end
-		if enemy:IsInvulnerable() or enemy:IsMagicImmune() or enemy:IsDebuffImmune() then
-			return
-		end
-
-		hit[enemy:entindex()] = true
-		if damage > 0 then
-			ApplyDamage({
-				victim = enemy,
-				attacker = caster,
-				damage = damage,
-				damage_type = DAMAGE_TYPE_MAGICAL,
-				ability = ability,
-			})
-		end
-		local stun = duration
-		if enemy.GetStatusResistance then
-			stun = duration * (1 - enemy:GetStatusResistance())
-		end
-		enemy:AddNewModifier(caster, ability, "modifier_stunned", { duration = stun })
-	end
-
-	local line_units = FindUnitsInLine(
-		caster:GetTeamNumber(),
-		start_pos,
-		end_pos,
-		nil,
-		radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE
-	)
-	for _, enemy in pairs(line_units) do
-		TryStun(enemy)
-	end
 
 	local landing_units = FindUnitsInRadius(
 		caster:GetTeamNumber(),
@@ -596,7 +854,26 @@ function modifier_largo_childhood_memories_hop:StunAlongHop(end_pos)
 		false
 	)
 	for _, enemy in ipairs(landing_units) do
-		TryStun(enemy)
+		if IsValid(enemy)
+			and not enemy:IsInvulnerable()
+			and not enemy:IsMagicImmune()
+			and not enemy:IsDebuffImmune()
+		then
+			if damage > 0 then
+				ApplyDamage({
+					victim = enemy,
+					attacker = caster,
+					damage = damage,
+					damage_type = DAMAGE_TYPE_MAGICAL,
+					ability = ability,
+				})
+			end
+			local stun = duration
+			if enemy.GetStatusResistance then
+				stun = duration * (1 - enemy:GetStatusResistance())
+			end
+			enemy:AddNewModifier(caster, ability, "modifier_stunned", { duration = stun })
+		end
 	end
 
 	local land_fx = ParticleManager:CreateParticle(
@@ -624,6 +901,33 @@ end
 
 function modifier_largo_mind_power:RemoveOnDeath()
 	return false
+end
+
+function modifier_largo_mind_power:OnCreated()
+	if not IsServer() then
+		return
+	end
+
+	local parent = self:GetParent()
+	if parent.IsIllusion and parent:IsIllusion() then
+		return
+	end
+
+	self.rhapsody_was_on = IsRhapsodyActive(parent)
+	self:StartIntervalThink(0.1)
+end
+
+function modifier_largo_mind_power:OnIntervalThink()
+	local parent = self:GetParent()
+	if not IsValid(parent) then
+		return
+	end
+
+	local rhapsody_on = IsRhapsodyActive(parent)
+	if self.rhapsody_was_on and not rhapsody_on then
+		SyncChildhoodMemoriesLayout(parent)
+	end
+	self.rhapsody_was_on = rhapsody_on
 end
 
 function modifier_largo_mind_power:DeclareFunctions()

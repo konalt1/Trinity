@@ -1,11 +1,9 @@
 require("map_modifications/Bosses/caravan/caravan_event")
 
 local WAYPOINT_REACH_DISTANCE = 100
-local CAST_RADIUS = 900
+local CAST_RADIUS = 1800
 
 local ABILITY_ROTATION = {
-    "caravan_aghanim_laser",
-    "caravan_aghanim_shards",
     "caravan_aghanim_spears",
 }
 

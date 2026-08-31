@@ -3,9 +3,9 @@
 require("map_modifications/Bosses/mortimer_level_scaling")
 require("map_modifications/Bosses/caravan/caravan_event")
 
--- Debug first spawn: 1:00 after horn. Production target is 10:00 (600).
+-- First event: caravan at 0:10 after horn, then every 5 minutes.
 local SPAWN_INTERVAL = 300
-local FIRST_SPAWN_TIME = 60
+local FIRST_SPAWN_TIME = 10
 local BOSS_UNIT_NAME = "npc_mortimer_boss"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800

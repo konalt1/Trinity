@@ -10,6 +10,10 @@ function item_caravan_gold_bag:OnSpellStart()
         return
     end
 
+    if caster.caravanId or self.caravanDisplay then
+        return
+    end
+
     local gold = self:GetCurrentCharges()
     if gold <= 0 then
         gold = self:GetSpecialValueFor("gold_amount")

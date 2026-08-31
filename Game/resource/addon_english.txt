@@ -494,6 +494,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_6"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_7"		"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_8"		"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_1"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_2"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_3"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_4"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_5"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_6"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_7"				"Placeholder"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_8"				"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Placeholder"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Placeholder"
@@ -1041,10 +1049,12 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"SPLIT STUN:"
 
 		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Aghanim's Spears"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Aghanim gathers three spears around himself, then launches them one by one at the nearest heroes.\n\nA spear pierces the first hero it hits and knocks them back. If a tree, building, or high ground is in the way, the victim is pinned and stunned."
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Three spears appear around Aghanim. They point at the nearest heroes, then fly in their locked directions.
+		A spear impales the first hero it hits and drags them along. If it strikes a tree, building, or high ground, the spear stays there. A hero on the spear is stunned."
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_count"				"SPEARS:"
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_damage"						"DAMAGE:"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_pin_stun"					"PIN STUN:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_range"				"RANGE:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_stun_duration"				"PIN STUN:"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Placeholder"
@@ -1255,11 +1265,11 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Slowed."
 
 		"DOTA_Tooltip_ability_largo_childhood_memories"								"Childhood Memories"
-		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Toggle. While active, Largo moves by leaps of a fixed distance in his movement direction.
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo starts moving by leaps of a fixed distance in his movement direction.
 
 		Leap distance scales with movement speed: the faster he is, the farther he leaps.
 
-		Enemies caught under a leap take magical damage and are stunned."
+		On landing, enemies in the radius take magical damage and are stunned."
 		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"DISTANCE MULTIPLIER:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"LEAP DURATION:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"DELAY BETWEEN LEAPS:"
@@ -1270,6 +1280,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"MANA PER LEAP:"
 		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Childhood Memories"
 		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Moving by leaps."
+		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"End Memories"
+		"DOTA_Tooltip_ability_largo_childhood_memories_end_Description"				"Largo stops leaping."
 
 		"DOTA_Tooltip_ability_largo_encore"										"Encore"
 		"DOTA_Tooltip_ability_largo_encore_Description"							"Effects the hero applies to himself or allies last longer. When he applies a unit-targeted effect to an ally, he also gains it.

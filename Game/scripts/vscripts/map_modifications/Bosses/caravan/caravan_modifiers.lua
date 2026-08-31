@@ -17,7 +17,7 @@ function modifier_caravan_aghanim_leash:OnCreated(keys)
         return
     end
 
-    self.leash_radius = (keys and keys.radius) or 700
+    self.leash_radius = (keys and keys.radius) or 1100
     self:StartIntervalThink(0.1)
 end
 
@@ -37,12 +37,7 @@ function modifier_caravan_aghanim_leash:OnIntervalThink()
     end
 
     local distance = (parent:GetAbsOrigin() - aghanim:GetAbsOrigin()):Length2D()
-    if distance > self.leash_radius then
-        parent.caravanLeashPull = true
-        parent:MoveToPosition(aghanim:GetAbsOrigin())
-    else
-        parent.caravanLeashPull = false
-    end
+    parent.caravanLeashPull = distance > self.leash_radius
 end
 
 modifier_caravan_courier = class({})
@@ -79,6 +74,33 @@ function modifier_caravan_courier:OnCreated(keys)
     parent:SetMaxHealth(hits)
     parent:SetHealth(hits)
     self.pips = hits
+    self:StartIntervalThink(0.25)
+end
+
+function modifier_caravan_courier:OnIntervalThink()
+    if not IsServer() then
+        return
+    end
+
+    local parent = self:GetParent()
+    local hits = self.pips
+    if not parent or parent:IsNull() or not parent:IsAlive() or not hits or hits <= 0 then
+        return
+    end
+
+    if parent:GetMaxHealth() ~= hits then
+        parent:SetBaseMaxHealth(hits)
+        parent:SetMaxHealth(hits)
+        if parent:GetHealth() > hits then
+            parent:SetHealth(hits)
+        end
+    end
+end
+
+function modifier_caravan_courier:CheckState()
+    return {
+        [MODIFIER_STATE_MUTED] = true,
+    }
 end
 
 function modifier_caravan_courier:DeclareFunctions()
@@ -88,8 +110,24 @@ function modifier_caravan_courier:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_PROPERTY_DISABLE_HEALING,
+        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
         MODIFIER_EVENT_ON_ATTACKED,
     }
+end
+
+function modifier_caravan_courier:GetModifierMoveSpeed_Absolute()
+    if self:GetStackCount() > 0 then
+        if CourierCaravan and CourierCaravan.COURIER_CATCH_UP_SPEED then
+            return CourierCaravan.COURIER_CATCH_UP_SPEED
+        end
+        return 280
+    end
+
+    if CourierCaravan and CourierCaravan.COURIER_SPEED then
+        return CourierCaravan.COURIER_SPEED
+    end
+
+    return 160
 end
 
 function modifier_caravan_courier:GetAbsoluteNoDamageMagical()
@@ -150,7 +188,7 @@ end
 
 modifier_caravan_global_vision = class({})
 
-local CARAVAN_REVEAL_RADIUS = 1100
+local CARAVAN_REVEAL_RADIUS = 1800
 
 function modifier_caravan_global_vision:IsHidden()
     return true
@@ -162,6 +200,12 @@ end
 
 function modifier_caravan_global_vision:RemoveOnDeath()
     return true
+end
+
+function modifier_caravan_global_vision:CheckState()
+    return {
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+    }
 end
 
 function modifier_caravan_global_vision:OnCreated()

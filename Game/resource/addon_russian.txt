@@ -518,6 +518,14 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_6"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_7"		"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_void_spirit_8"		"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_1"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_2"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_3"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_4"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_5"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_6"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_7"				"Заглушка"
+		"DOTA_Tooltip_ability_special_bonus_unique_custom_largo_8"				"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_1"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_2"			"Заглушка"
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_lycan_3"			"Заглушка"
@@ -1073,10 +1081,12 @@
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"ОГЛУШЕНИЕ МЕЛКИХ ОСКОЛКОВ:"
 
 		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Копья Аганима"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Аганим собирает вокруг себя три копья, затем по очереди пускает их в ближайших героев.\n\nКопьё пронзает первого задетого героя и отталкивает его. Если на пути окажется дерево, постройка или возвышенность, жертву пригвоздит и оглушит."
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Вокруг Аганима появляются три копья. Они смотрят на ближайших героев, затем вылетают по своему направлению.
+		Копьё пронзает первого задетого героя и тащит его за собой. Если на пути дерево, постройка или возвышенность, копьё застревает. Герой на копье при этом оглушается."
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_count"				"КОПИЙ:"
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_damage"						"УРОН:"
-		"DOTA_Tooltip_ability_caravan_aghanim_spears_pin_stun"					"ОГЛУШЕНИЕ ПРИГВОЖДЕНИЯ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_spear_range"				"ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_spears_stun_duration"				"ОГЛУШЕНИЕ ПРИГВОЖДЕНИЯ:"
 
 		// Talents (placeholder names)
 		"DOTA_Tooltip_ability_special_bonus_unique_custom_furion_1"					"Заглушка"
@@ -1285,11 +1295,11 @@
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Замедлен."
 
 		"DOTA_Tooltip_ability_largo_childhood_memories"								"Детские воспоминания"
-		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Переключаемая. Пока способность активна, Largo передвигается прыжками фиксированной дальности в направлении движения.
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo начинает передвигаться прыжками фиксированной дальности в направлении движения.
 
 		Дальность прыжка зависит от скорости передвижения: чем она выше, тем дальше прыжок.
 
-		Враги, попавшие под прыжок, получают магический урон и оглушаются."
+		При приземлении враги в радиусе получают магический урон и оглушаются."
 		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"МНОЖИТЕЛЬ ДАЛЬНОСТИ:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"ДЛИТЕЛЬНОСТЬ ПРЫЖКА:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"ПАУЗА МЕЖДУ ПРЫЖКАМИ:"
@@ -1300,6 +1310,8 @@
 		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"МАНА ЗА ПРЫЖОК:"
 		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Детские воспоминания"
 		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Передвигается прыжками."
+		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"Конец воспоминаний"
+		"DOTA_Tooltip_ability_largo_childhood_memories_end_Description"				"Largo прекращает прыжки."
 
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody"							"Амфибийная рапсодия"
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"				"Largo готовится играть. Он безоружен, а его способности сменяются тремя песнями: Пузатый блиц, Жаркий галоп и Тропический эликсир.

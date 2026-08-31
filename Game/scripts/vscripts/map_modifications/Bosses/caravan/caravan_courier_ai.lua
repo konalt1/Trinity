@@ -46,12 +46,8 @@ function CaravanCourierBehavior()
         return nil
     end
 
-    if thisEntity.caravanLeashPull then
-        MoveTo(aghanim:GetAbsOrigin())
-        return 0.15
-    end
-
     if CourierCaravan:IsFleeing(thisEntity) then
+        CourierCaravan:UpdateCatchUp(thisEntity, 0)
         local fleePosition = CourierCaravan:GetFleePosition(thisEntity)
         if fleePosition then
             MoveTo(fleePosition)
@@ -62,6 +58,7 @@ function CaravanCourierBehavior()
     local slot = thisEntity.caravanSlotIndex or 1
     local dest = CourierCaravan:GetFollowPosition(aghanim, slot)
     local dist = (thisEntity:GetAbsOrigin() - dest):Length2D()
+    CourierCaravan:UpdateCatchUp(thisEntity, dist)
 
     if CourierCaravan:IsAghanimStationary(aghanim) and dist <= FOLLOW_IDLE_RANGE then
         HoldIdle()
