@@ -1,0 +1,4 @@
+interface:
+  display_name: "Убирание ванильных талантов"
+  short_description: "Слоты AbilityTalentStart и 8 заглушек без хвоста ванили"
+  default_prompt: "Используй $remove-vanilla-talents при оверрайде талантов героя: ванильный AbilityTalentStart, ровно 8 special_bonus, не занимать слоты песен."

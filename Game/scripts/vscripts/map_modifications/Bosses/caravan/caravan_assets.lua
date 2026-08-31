@@ -11,13 +11,20 @@ CaravanAssets.PARTICLE = {
     crystal_trail = "particles/units/heroes/hero_ancient_apparition/ancient_apparition_chilling_touch_projectile.vpcf",
     crystal_impact = "particles/creatures/aghanim/aghanim_crystal_attack_impact.vpcf",
     crystal_telegraph = "particles/creatures/aghanim/aghanim_crystal_attack_telegraph_aoe.vpcf",
+    spear_ground = "particles/creatures/aghanim/aghanim_beam_channel.vpcf",
     shard_proj = "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf",
     spear = "particles/units/heroes/hero_mars/mars_spear.vpcf",
     spear_burst = "particles/units/heroes/hero_mars/mars_spear_impact.vpcf",
     spear_spawn = "particles/units/heroes/hero_mars/mars_shield_bash.vpcf",
 }
 
+CaravanAssets.MODEL = {
+    spear = "models/heroes/mars/mars_spear.vmdl",
+}
+
 CaravanAssets.SOUNDFILE = {
+    "soundevents/trinity_sounds.vsndevts",
+    "sounds/ui/ui_findmatch_search_01.vsnd",
     "soundevents/soundevents_aghanim.vsndevts",
     "soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts",
     "soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts",
@@ -78,6 +85,7 @@ end
 
 function CaravanAssets:Precache(context)
     PrecacheModelFile(self.AGHANIM_MODEL, context)
+    PrecacheModelFile(self.MODEL.spear, context)
     PrecacheModelFile("models/props_gameplay/gold_bag.vmdl", context)
     PrecacheResource("particle", "particles/generic_gameplay/dropped_item.vpcf", context)
 
@@ -97,6 +105,7 @@ function CaravanAssets:Precache(context)
 
     PrecacheItemByNameSync("item_caravan_gold_bag", context)
     PrecacheUnitByNameSync("npc_caravan_aghanim", context)
+    PrecacheUnitByNameSync("npc_caravan_spear", context)
     if CaravanLoot and CaravanLoot.COURIERS then
         for _, def in pairs(CaravanLoot.COURIERS) do
             if def.unit_name then

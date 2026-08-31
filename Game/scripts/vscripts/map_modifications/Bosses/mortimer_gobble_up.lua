@@ -83,7 +83,7 @@ local function GetRandomThroneDirection(origin)
 end
 
 function mortimer_gobble_up:Precache(context)
-    PrecacheResource("particle", "particles/ui_mouseactions/range_finder_aoe.vpcf", context)
+    PrecacheResource("particle", "particles/ui_mouseactions/range_finder_cp_color_aoe.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_snapfire/snapfire_flaming_creep.vpcf", context)
 end
 
@@ -120,14 +120,13 @@ end
 
 function mortimer_gobble_up:CreateWarningCircle(position, radius, duration)
     local particle = ParticleManager:CreateParticle(
-        "particles/ui_mouseactions/range_finder_aoe.vpcf",
+        "particles/ui_mouseactions/range_finder_cp_color_aoe.vpcf",
         PATTACH_WORLDORIGIN,
         self:GetCaster()
     )
-    ParticleManager:SetParticleControl(particle, 0, position)
-    ParticleManager:SetParticleControl(particle, 1, Vector(radius, radius, radius))
     ParticleManager:SetParticleControl(particle, 2, position)
-    ParticleManager:SetParticleControl(particle, 3, Vector(255, 0, 0))
+    ParticleManager:SetParticleControl(particle, 3, Vector(radius, radius, radius))
+    ParticleManager:SetParticleControl(particle, 4, Vector(255, 0, 0))
 
     Timers:CreateTimer(duration, function()
         ParticleManager:DestroyParticle(particle, false)

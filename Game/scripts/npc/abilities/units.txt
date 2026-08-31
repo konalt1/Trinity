@@ -78,7 +78,7 @@
         "AbilityValues"
         {
             "channel_time"              "6"
-            "radius"                    "900"
+            "radius"                    "1800"
             "follow_speed"              "240"
             "beam_width"                "100"
             "base_damage"               "25"
@@ -107,7 +107,7 @@
 
         "AbilityValues"
         {
-            "radius"                    "900"
+            "radius"                    "1800"
             "projectile_speed"          "700"
             "projectile_width"          "90"
             "damage"                    "140"
@@ -128,9 +128,9 @@
         "AbilityTextureName"            "mars_spear"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
-        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
-        "MaxLevel"                      "1"
+        "MaxLevel"                      "3"
         "AbilityLevel"                  "1"
         "AbilityCastPoint"              "0.35"
         "AbilityCooldown"               "0"
@@ -139,18 +139,18 @@
 
         "AbilityValues"
         {
-            "spear_count"               "3"
-            "orbit_radius"              "180"
-            "spawn_delay"               "0.35"
-            "launch_delay"              "0.35"
-            "search_radius"             "900"
+            "spear_count"               "1"
+            "orbit_radius"              "320"
+            "launch_delay"              "2.0"
+            "spear_turn_rate"           "120"
+            "search_radius"             "3000"
             "spear_speed"               "1400"
-            "spear_distance"            "1600"
-            "spear_width"               "80"
-            "damage"                    "160"
-            "knockback_speed"           "1200"
-            "knockback_distance"        "420"
-            "pin_stun"                  "1.6"
+            "spear_width"               "125"
+            "spear_vision"              "300"
+            "spear_range"               "900 1000 1100"
+            "stun_duration"             "1.3 1.6 1.9"
+            "activity_duration"         "1.7"
+            "damage"                    "200 400 600"
         }
     }
 

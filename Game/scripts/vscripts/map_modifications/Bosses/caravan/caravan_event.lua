@@ -24,13 +24,36 @@ local MORTIMER_NAME = "npc_mortimer_boss"
 local MORTIMER_FINALE_NAME = "npc_mortimer_boss_finale"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800
-local FOLLOW_RADIUS = 420
-local LEASH_RADIUS = 700
+local FOLLOW_ALONG = 380
+local FOLLOW_SIDE = 380
+local FOLLOW_ROW_SPREAD = 180
+local FOLLOW_SIDE_ALONG = 120
+local FOLLOW_CATCH_UP = 120
+local FOLLOW_CATCH_UP_DONE = 80
+local LEASH_RADIUS = 1100
+local COURIER_SPEED = 160
+local COURIER_CATCH_UP_SPEED = 280
+-- along / right offsets relative to Aghanim facing: 3 front, 3 back, 2 left, 2 right
+local FOLLOW_SLOTS = {
+    { FOLLOW_ALONG, -FOLLOW_ROW_SPREAD },
+    { FOLLOW_ALONG, 0 },
+    { FOLLOW_ALONG, FOLLOW_ROW_SPREAD },
+    { -FOLLOW_ALONG, -FOLLOW_ROW_SPREAD },
+    { -FOLLOW_ALONG, 0 },
+    { -FOLLOW_ALONG, FOLLOW_ROW_SPREAD },
+    { FOLLOW_SIDE_ALONG, -FOLLOW_SIDE },
+    { -FOLLOW_SIDE_ALONG, -FOLLOW_SIDE },
+    { FOLLOW_SIDE_ALONG, FOLLOW_SIDE },
+    { -FOLLOW_SIDE_ALONG, FOLLOW_SIDE },
+}
 local FLEE_DURATION = 2.5
 local FLEE_DISTANCE = 450
 local CAST_PAUSE = 2.0
 local DEBUG_VISION_RADIUS = 800
 local DEBUG_VISION_DURATION = 5
+
+CourierCaravan.COURIER_SPEED = COURIER_SPEED
+CourierCaravan.COURIER_CATCH_UP_SPEED = COURIER_CATCH_UP_SPEED
 
 local SLOT_BUSY_NAMES = {
     [MORTIMER_NAME] = true,
@@ -184,7 +207,7 @@ local function Announce(unit, token)
     FireGameEvent("draw_game_event", {
         color = "#c9a6ff",
         duration = 3,
-        sound_event = "_game_events.template_sound_event",
+        sound_event = "Caravan.Spawn",
         text_token = token,
     })
     AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPosition, VISION_RADIUS, VISION_DURATION, false)
@@ -231,18 +254,6 @@ function CourierCaravan.IsPathwaySlotBusy()
     return false
 end
 
-function CourierCaravan:GetFollowSlotCount(aghanim)
-    local pack = aghanim and aghanim.caravanPack
-    if pack and pack.couriers and #pack.couriers > 0 then
-        return #pack.couriers
-    end
-    return (CaravanLoot and CaravanLoot.PICK_COUNT) or 10
-end
-
-function CourierCaravan:GetFollowAngleStep(aghanim)
-    return 360 / math.max(self:GetFollowSlotCount(aghanim), 1)
-end
-
 function CourierCaravan:IsAghanimStationary(aghanim)
     if not IsAlive(aghanim) then
         return true
@@ -286,12 +297,16 @@ function CourierCaravan:GetFollowPosition(aghanim, slotIndex)
         end
     end
 
-    local rotated = RotatePosition(
-        Vector(0, 0, 0),
-        QAngle(0, (slotIndex - 1) * self:GetFollowAngleStep(aghanim), 0),
-        forward
-    )
-    return aghanim:GetAbsOrigin() + rotated * FOLLOW_RADIUS
+    forward.z = 0
+    if forward:Length2D() < 0.001 then
+        forward = Vector(1, 0, 0)
+    else
+        forward = forward:Normalized()
+    end
+
+    local slot = FOLLOW_SLOTS[slotIndex] or FOLLOW_SLOTS[1]
+    local right = Vector(forward.y, -forward.x, 0)
+    return aghanim:GetAbsOrigin() + forward * slot[1] + right * slot[2]
 end
 
 function CourierCaravan:OnCourierDamaged(courier, attacker)
@@ -325,6 +340,61 @@ function CourierCaravan:GetFleePosition(courier)
     return origin + away:Normalized() * FLEE_DISTANCE
 end
 
+function CourierCaravan:GiveCourierLoot(courier, data)
+    if not courier or courier:IsNull() or not data then
+        return
+    end
+
+    if courier.SetHasInventory then
+        courier:SetHasInventory(true)
+    end
+
+    local function addDisplayItem(itemName, charges)
+        local item = CreateItem(itemName, nil, nil)
+        if not item then
+            print("[CourierCaravan] Failed to create inventory item " .. tostring(itemName))
+            return
+        end
+
+        item:SetPurchaseTime(0)
+        item:SetSellable(false)
+        item:SetDroppable(false)
+        if item.SetCombineLocked then
+            item:SetCombineLocked(true)
+        end
+        item.caravanDisplay = true
+        if charges ~= nil then
+            item:SetCurrentCharges(charges)
+        end
+        courier:AddItem(item)
+    end
+
+    for _, entry in ipairs(data.items or {}) do
+        local count = math.max(1, tonumber(entry.count) or 1)
+        for _ = 1, count do
+            addDisplayItem(entry.name)
+        end
+    end
+
+    local bags = tonumber(data.gold_bags) or 0
+    if bags > 0 then
+        addDisplayItem("item_caravan_gold_bag", bags * (CaravanLoot.GOLD_PER_BAG or 50))
+    end
+end
+
+function CourierCaravan:ClearInventory(unit)
+    if not unit or unit:IsNull() then
+        return
+    end
+
+    for slot = 0, 16 do
+        local item = unit:GetItemInSlot(slot)
+        if item and not item:IsNull() then
+            unit:RemoveItem(item)
+        end
+    end
+end
+
 function CourierCaravan:IsFleeing(courier)
     local pack = courier and courier.caravanPack
     if not pack or pack.escaping then
@@ -332,6 +402,25 @@ function CourierCaravan:IsFleeing(courier)
     end
 
     return GameRules:GetGameTime() < (pack.fleeUntil or 0)
+end
+
+function CourierCaravan:UpdateCatchUp(courier, distToSlot)
+    if not courier or (courier.IsNull and courier:IsNull()) then
+        return
+    end
+
+    if self:IsFleeing(courier) then
+        courier.caravanCatchingUp = false
+    elseif (distToSlot or 0) > FOLLOW_CATCH_UP then
+        courier.caravanCatchingUp = true
+    elseif (distToSlot or 0) <= FOLLOW_CATCH_UP_DONE then
+        courier.caravanCatchingUp = false
+    end
+
+    local modifier = courier.FindModifierByName and courier:FindModifierByName("modifier_caravan_courier")
+    if modifier then
+        modifier:SetStackCount(courier.caravanCatchingUp and 1 or 0)
+    end
 end
 
 function CourierCaravan:DropCourierLoot(courier)
@@ -347,6 +436,7 @@ function CourierCaravan:DropCourierLoot(courier)
     end
 
     local origin = courier:GetAbsOrigin()
+    self:ClearInventory(courier)
     for _, entry in ipairs(data.items) do
         local count = entry.count or 1
         for _ = 1, count do
@@ -402,6 +492,7 @@ function CourierCaravan:DespawnPack(pack)
     for _, courier in ipairs(pack.couriers or {}) do
         if courier and not courier:IsNull() then
             courier.caravanEscaping = true
+            self:ClearInventory(courier)
             UTIL_Remove(courier)
         end
     end
@@ -467,26 +558,26 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
     pack.followForward = aghanim:GetForwardVector()
 
     local abilities = {
-        aghanim:FindAbilityByName("caravan_aghanim_laser"),
-        aghanim:FindAbilityByName("caravan_aghanim_shards"),
         aghanim:FindAbilityByName("caravan_aghanim_spears"),
     }
     for _, ability in ipairs(abilities) do
         if ability then
-            ability:SetLevel(1)
+            if ability:GetAbilityName() == "caravan_aghanim_spears" then
+                ability:SetLevel(stage)
+            else
+                ability:SetLevel(1)
+            end
             ability:SetActivated(true)
             ability:SetHidden(false)
         end
     end
 
     local picked = CaravanLoot:PickRandomIds(CaravanLoot.PICK_COUNT)
-    local angleStep = self:GetFollowAngleStep(aghanim)
     for slot, id in ipairs(picked) do
         local def = CaravanLoot:GetCourier(id)
         local data = CaravanLoot:GetStageData(id, stage)
         if def and data then
-            local offset = RotatePosition(Vector(0, 0, 0), QAngle(0, (slot - 1) * angleStep, 0), Vector(FOLLOW_RADIUS, 0, 0))
-            local spawnPos = position + offset
+            local spawnPos = self:GetFollowPosition(aghanim, slot)
             local courier = CreateUnitByName(def.unit_name, spawnPos, true, nil, nil, DOTA_TEAM_NEUTRALS)
             if courier then
                 courier.caravanId = id
@@ -498,6 +589,8 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
                 ApplyHits(courier, data.hits)
                 courier:AddNewModifier(courier, nil, "modifier_caravan_courier", { hits = data.hits })
                 courier:AddNewModifier(courier, nil, "modifier_caravan_aghanim_leash", { radius = LEASH_RADIUS })
+                self:GiveCourierLoot(courier, data)
+                ApplyHits(courier, data.hits)
                 table.insert(pack.couriers, courier)
             else
                 print("[CourierCaravan] Failed to spawn courier " .. tostring(id))
