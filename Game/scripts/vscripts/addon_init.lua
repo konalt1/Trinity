@@ -30,4 +30,7 @@ LinkLuaModifier("modifier_antimage_counterspell_trinity_lock", "abilities/antima
 LinkLuaModifier("modifier_antimage_antimagic_mark_trinity", "abilities/antimage/antimage_antimagic_mark_trinity", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_antimage_antimagic_mark_trinity_debuff", "abilities/antimage/antimage_antimagic_mark_trinity", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_antimage_antimagic_mark_trinity_bash", "abilities/antimage/antimage_antimagic_mark_trinity", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_primal_beast_boss_mountable_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_primal_beast_boss_rider_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_primal_beast_boss_roll_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_yasha_combination_armor", "items/item_yasha_and_kaya", LUA_MODIFIER_MOTION_NONE)

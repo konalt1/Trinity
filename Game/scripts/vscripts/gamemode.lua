@@ -668,6 +668,10 @@ function GameMode:ExecuteOrderFilter(data)
 		return false
 	end
 
+	if PrimalBeastBossHandleOrder and PrimalBeastBossHandleOrder(data) == false then
+		return false
+	end
+
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
 	end
@@ -709,6 +713,9 @@ function GameMode:OnEntityKilled(keys)
 	local unit_name = unit:GetUnitName()
 	if MortimerBoss and MortimerBoss.OnEntityKilled then
 		MortimerBoss:OnEntityKilled(unit, keys)
+	end
+	if PrimalBeastBoss and PrimalBeastBoss.OnEntityKilled then
+		PrimalBeastBoss:OnEntityKilled(unit, keys)
 	end
 	if CourierCaravan and CourierCaravan.OnEntityKilled then
 		CourierCaravan:OnEntityKilled(unit)

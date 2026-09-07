@@ -1502,6 +1502,7 @@
         "ModelScale"                "1.15"
         "IsBoss"                    "1"
         "IsAncient"                 "1"
+        "ConsideredHero"            "1"
         "CanBeDominated"            "0"
         "UseNeutralCreepBehavior"   "0"
 
@@ -1582,6 +1583,75 @@
         "VisionNighttimeRange"      "900"
         "TeamName"                  "DOTA_TEAM_NEUTRALS"
         "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+    }
+
+    "npc_primal_beast_boss"
+    {
+        "BaseClass"                 "npc_dota_creature"
+        "Model"                     "models/heroes/primal_beast/primal_beast_base.vmdl"
+        "SoundSet"                  "Hero_PrimalBeast"
+        "GameSoundsFile"            "soundevents/game_sounds_heroes/game_sounds_primal_beast.vsndevts"
+        "VoiceFile"                 "soundevents/voscripts/game_sounds_vo_primal_beast.vsndevts"
+        "vscripts"                  "map_modifications/Bosses/primal_beast/primal_beast_boss_ai.lua"
+        "Level"                     "1"
+        "ModelScale"                "1.8"
+        "IsBoss"                    "1"
+        "IsAncient"                 "1"
+        "ConsideredHero"            "1"
+        "CanBeDominated"            "0"
+        "UseNeutralCreepBehavior"   "0"
+
+        "Ability1"                  "primal_beast_uproar"
+        "Ability2"                  "primal_beast_pulverize"
+        "Ability3"                  "primal_beast_rock_throw"
+        "Ability4"                  "primal_beast_trample"
+
+        "ArmorPhysical"             "20"
+        "MagicalResistance"         "40"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"
+        "AttackDamageMin"           "200"
+        "AttackDamageMax"           "200"
+        "AttackRate"                "1.7"
+        "AttackAnimationPoint"      "0.6"
+        "AttackAcquisitionRange"    "900"
+        "AttackRange"               "250"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "RingRadius"                "180"
+        "HealthBarOffset"           "560"
+
+        "BountyXP"                  "1500"
+        "BountyGoldMin"             "500"
+        "BountyGoldMax"             "600"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "300"
+        "MovementTurnRate"          "0.6"
+
+        "StatusHealth"              "3500"
+        "StatusHealthRegen"         "15"
+        "StatusMana"                "2000"
+        "StatusManaRegen"           "20"
+
+        "VisionDaytimeRange"        "1400"
+        "VisionNighttimeRange"      "900"
+        "TeamName"                  "DOTA_TEAM_NEUTRALS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_HERO"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_HERO"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+        "Creature"
+        {
+            "AttachWearables"
+            {
+                "Wearable1" { "ItemDef" "772" }
+                "Wearable2" { "ItemDef" "769" }
+                "Wearable3" { "ItemDef" "770" }
+                "Wearable4" { "ItemDef" "771" }
+            }
+        }
     }
 
     "npc_caravan_aghanim"

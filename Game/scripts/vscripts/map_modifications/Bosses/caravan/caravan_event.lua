@@ -60,6 +60,7 @@ local SLOT_BUSY_NAMES = {
     [MORTIMER_FINALE_NAME] = true,
     [AGHANIM_NAME] = true,
 }
+local PRIMAL_BEAST_NAME = "npc_primal_beast_boss"
 
 local MORTIMER_WAYPOINTS = {
     "Roshan_pathway",
@@ -246,8 +247,17 @@ end
 function CourierCaravan.IsPathwaySlotBusy()
     local creatures = Entities:FindAllByClassname("npc_dota_creature") or {}
     for _, unit in ipairs(creatures) do
-        if IsAlive(unit) and SLOT_BUSY_NAMES[unit:GetUnitName()] then
-            return true
+        if IsAlive(unit) then
+            local name = unit:GetUnitName()
+            if SLOT_BUSY_NAMES[name] then
+                return true
+            end
+            if name == PRIMAL_BEAST_NAME
+                and unit:GetTeamNumber() == DOTA_TEAM_NEUTRALS
+                and not unit.primalBeastAllied
+            then
+                return true
+            end
         end
     end
 
