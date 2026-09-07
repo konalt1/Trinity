@@ -1,12 +1,14 @@
--- Shared pathway slot: Courier Caravan and Mortimer alternate.
+-- Shared pathway slot: Caravan, Mortimer and Primal Beast rotate.
 
 require("map_modifications/Bosses/mortimer_level_scaling")
 require("map_modifications/Bosses/caravan/caravan_event")
+require("map_modifications/Bosses/primal_beast/primal_beast_boss")
 
 -- First event: caravan at 0:10 after horn, then every 5 minutes.
 local SPAWN_INTERVAL = 300
 local FIRST_SPAWN_TIME = 10
 local BOSS_UNIT_NAME = "npc_mortimer_boss"
+local PRIMAL_BEAST_NAME = "npc_primal_beast_boss"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800
 
@@ -14,6 +16,7 @@ function Spawn(entityKeyValues)
     thisEntity.eventIndex = 0
     thisEntity.caravanStage = 0
     thisEntity.mortimerLevel = 0
+    thisEntity.primalBeastLevel = 0
     thisEntity.firstSpawnPending = true
     thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
 
@@ -22,19 +25,21 @@ function Spawn(entityKeyValues)
     end)
 end
 
-local function AnnounceMortimer(boss, spawnPosition)
+local function AnnounceBoss(boss, spawnPosition, token, sound)
     FireGameEvent("draw_game_event", {
         color = "#a1e4ff",
         duration = 3,
         sound_event = "_game_events.template_sound_event",
-        text_token = "#mortimer_spawn",
+        text_token = token,
     })
 
     AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPosition, VISION_RADIUS, VISION_DURATION, false)
     AddFOWViewer(DOTA_TEAM_BADGUYS, spawnPosition, VISION_RADIUS, VISION_DURATION, false)
     GameRules:ExecuteTeamPing(DOTA_TEAM_GOODGUYS, spawnPosition.x, spawnPosition.y, boss, 0)
     GameRules:ExecuteTeamPing(DOTA_TEAM_BADGUYS, spawnPosition.x, spawnPosition.y, boss, 0)
-    EmitSoundOn("Hero_Snapfire.MortimerGrunt", boss)
+    if sound then
+        EmitSoundOn(sound, boss)
+    end
 end
 
 local function SpawnMortimer(spawnPosition, level)
@@ -57,8 +62,36 @@ local function SpawnMortimer(spawnPosition, level)
     boss.pathwayEnabled = true
     boss:RemoveModifierByName("modifier_invulnerable")
     boss:SetAngles(0, RandomFloat(0, 360), 0)
-    AnnounceMortimer(boss, spawnPosition)
+    AnnounceBoss(boss, spawnPosition, "#mortimer_spawn", "Hero_Snapfire.MortimerGrunt")
     print("[PathwaySpawner] Mortimer level " .. level .. " spawned at " .. tostring(spawnPosition))
+    return true
+end
+
+local function SpawnPrimalBeast(spawnPosition, level)
+    local boss = CreateUnitByName(
+        PRIMAL_BEAST_NAME,
+        spawnPosition,
+        true,
+        nil,
+        nil,
+        DOTA_TEAM_NEUTRALS
+    )
+
+    if not boss then
+        print("[PathwaySpawner] Failed to spawn Primal Beast.")
+        return false
+    end
+
+    if PrimalBeastBoss then
+        PrimalBeastBoss:PrepareHostile(boss, level, true)
+    else
+        boss.spawnNumber = level
+        boss.pathwayEnabled = true
+        boss:RemoveModifierByName("modifier_invulnerable")
+    end
+    boss:SetAngles(0, RandomFloat(0, 360), 0)
+    AnnounceBoss(boss, spawnPosition, "#primal_beast_spawn", "Hero_PrimalBeast.Attack")
+    print("[PathwaySpawner] Primal Beast level " .. level .. " spawned at " .. tostring(spawnPosition))
     return true
 end
 
@@ -85,7 +118,8 @@ function SpawnBossLoop()
     thisEntity.eventIndex = (thisEntity.eventIndex or 0) + 1
 
     local spawned = false
-    if thisEntity.eventIndex % 2 == 1 then
+    local slot = thisEntity.eventIndex % 3
+    if slot == 1 then
         thisEntity.caravanStage = math.min(3, (thisEntity.caravanStage or 0) + 1)
         local aghanim = CourierCaravan:SpawnAt(spawnPosition, thisEntity.caravanStage, true)
         spawned = aghanim ~= nil
@@ -104,12 +138,20 @@ function SpawnBossLoop()
             origin.z,
             dotaTime
         ))
-    else
+    elseif slot == 2 then
         thisEntity.mortimerLevel = (thisEntity.mortimerLevel or 0) + 1
         spawned = SpawnMortimer(spawnPosition, thisEntity.mortimerLevel)
         if not spawned then
             thisEntity.eventIndex = thisEntity.eventIndex - 1
             thisEntity.mortimerLevel = math.max(0, thisEntity.mortimerLevel - 1)
+            return 1.0
+        end
+    else
+        thisEntity.primalBeastLevel = (thisEntity.primalBeastLevel or 0) + 1
+        spawned = SpawnPrimalBeast(spawnPosition, thisEntity.primalBeastLevel)
+        if not spawned then
+            thisEntity.eventIndex = thisEntity.eventIndex - 1
+            thisEntity.primalBeastLevel = math.max(0, thisEntity.primalBeastLevel - 1)
             return 1.0
         end
     end

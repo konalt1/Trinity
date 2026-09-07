@@ -11,6 +11,7 @@ require ("game_managers/trinity_player_data")
 require ("game_managers/trinity_stickers")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
+require ("map_modifications/Bosses/primal_beast/primal_beast_boss")
 require ("map_modifications/Bosses/caravan/caravan_event")
 
 -- Загружаем способности
@@ -104,6 +105,17 @@ function Precache( context )
 	PrecacheUnitByNameSync( "npc_mortimer_boss", context )
 	PrecacheUnitByNameSync( "npc_mortimer_boss_finale", context )
 
+	-- Primal Beast boss (base skeleton + default wearables 769-772)
+	PrecacheResource( "model", "models/heroes/primal_beast/primal_beast_base.vmdl", context )
+	PrecacheResource( "model", "models/heroes/primal_beast/primal_beast_armor.vmdl", context )
+	PrecacheResource( "model", "models/heroes/primal_beast/primal_beast_back.vmdl", context )
+	PrecacheResource( "model", "models/heroes/primal_beast/primal_beast_leg.vmdl", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_primal_beast.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_primal_beast.vsndevts", context )
+	PrecacheResource( "particle_folder", "particles/units/heroes/hero_primal_beast", context )
+	PrecacheUnitByNameSync("npc_dota_hero_primal_beast", context)
+	PrecacheUnitByNameSync("npc_primal_beast_boss", context)
+
 	-- Courier caravan (Labyrinth Aghanim model + creature particles)
 	if not CaravanAssets then
 		pcall(require, "map_modifications/Bosses/caravan/caravan_assets")
@@ -130,6 +142,7 @@ function Activate()
 	GameRules.AddonTemplate = CAddonTemplateGameMode()
 	GameRules.AddonTemplate:InitGameMode()
 	MortimerBoss:Init()
+	PrimalBeastBoss:Init()
 	CourierCaravan:Init()
 end
 -- ============== Copyright © 2026, DagonRanchi, All rights reserved. =============

@@ -27,6 +27,7 @@ LinkLuaModifier(
 local AGHANIM_NAME = "npc_caravan_aghanim"
 local MORTIMER_NAME = "npc_mortimer_boss"
 local MORTIMER_FINALE_NAME = "npc_mortimer_boss_finale"
+local PRIMAL_BEAST_NAME = "npc_primal_beast_boss"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800
 local FOLLOW_ALONG = 380
@@ -326,8 +327,17 @@ end
 function CourierCaravan.IsPathwaySlotBusy()
     local creatures = Entities:FindAllByClassname("npc_dota_creature") or {}
     for _, unit in ipairs(creatures) do
-        if IsAlive(unit) and SLOT_BUSY_NAMES[unit:GetUnitName()] then
-            return true
+        if IsAlive(unit) then
+            local name = unit:GetUnitName()
+            if SLOT_BUSY_NAMES[name] then
+                return true
+            end
+            if name == PRIMAL_BEAST_NAME
+                and unit:GetTeamNumber() == DOTA_TEAM_NEUTRALS
+                and not unit.primalBeastAllied
+            then
+                return true
+            end
         end
     end
 
