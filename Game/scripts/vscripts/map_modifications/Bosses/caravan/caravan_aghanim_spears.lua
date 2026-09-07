@@ -11,11 +11,14 @@ LinkLuaModifier(
 
 caravan_aghanim_spears = class({})
 
-local SPEAR_MODEL = "models/heroes/mars/mars_spear.vmdl"
+local SPEAR_MODEL = "models/items/lich/lich_ti8_immortal_arms/lich_ti8_immortal_ice_shards.vmdl"
 local SPEAR_UNIT = "npc_caravan_spear"
+local SPEAR_DUMMY_MODEL = "models/development/invisiblebox.vmdl"
 local SPEAR_HEIGHT = 80
-local SPEAR_SCALE = 1.0
+local SPEAR_SCALE = 7.0
 local SPEAR_CENTER_OFFSET = 0
+local SPEAR_PITCH = 90
+local SPEAR_ROLL = 0
 local AIM_THINK = 0.03
 local AIM_DEADZONE = 2
 local FLY_THINK = 0.03
@@ -97,7 +100,7 @@ local function StepYaw(current, desired, maxDegrees)
     return NormalizeYaw(current - maxDegrees)
 end
 
-_G.CARAVAN_SPEAR_DEBUG_ENABLED = true
+_G.CARAVAN_SPEAR_DEBUG_ENABLED = false
 
 if IsServer() and not _G.CARAVAN_SPEAR_DEBUG_COMMAND_REGISTERED then
     -- Flag 0, not FCVAR_CHEAT: the client console otherwise prints
@@ -384,7 +387,31 @@ function caravan_aghanim_spears:ApplyYaw(dummy, yaw)
     end
 
     dummy.logicYaw = NormalizeYaw(yaw)
-    dummy:SetAbsAngles(0, dummy.logicYaw, 0)
+    dummy:SetAbsAngles(SPEAR_PITCH, dummy.logicYaw, SPEAR_ROLL)
+    self:SyncSpearVisual(dummy)
+end
+
+function caravan_aghanim_spears:SyncSpearVisual(dummy)
+    if not IsValidUnit(dummy) then
+        return
+    end
+
+    Assets():PlaceIceShardProp(
+        dummy.shardProp,
+        dummy:GetAbsOrigin(),
+        dummy.logicYaw or 0,
+        SPEAR_PITCH,
+        SPEAR_ROLL
+    )
+end
+
+function caravan_aghanim_spears:DestroySpearVisual(dummy)
+    if not dummy then
+        return
+    end
+
+    Assets():DestroyIceShardProp(dummy.shardProp)
+    dummy.shardProp = nil
 end
 
 function caravan_aghanim_spears:OrientDummy(dummy, direction)
@@ -399,12 +426,22 @@ function caravan_aghanim_spears:SpawnSpearDummy(origin, direction)
     end
 
     dummy.spearSlot = origin
-    dummy:SetModel(SPEAR_MODEL)
-    dummy:SetOriginalModel(SPEAR_MODEL)
+    dummy:SetModel(SPEAR_DUMMY_MODEL)
+    dummy:SetOriginalModel(SPEAR_DUMMY_MODEL)
+    dummy:SetModelScale(1.0)
+    dummy:AddNoDraw()
     dummy:SetMoveCapability(DOTA_UNIT_CAP_MOVE_FLY)
     dummy:AddNewModifier(caster, self, "modifier_caravan_aghanim_spear_dummy", {})
     dummy:AddNewModifier(caster, self, "modifier_phased", {})
     self:PlaceDummyOnSlot(dummy, direction)
+    dummy.shardProp = Assets():CreateIceShardProp(
+        dummy:GetAbsOrigin(),
+        dummy.logicYaw or DirToYaw(direction),
+        SPEAR_SCALE,
+        dummy
+    )
+    self:SyncSpearVisual(dummy)
+    dummy:AddNoDraw()
     Timers:CreateTimer(0, function()
         if not IsValidUnit(dummy) then
             return nil
@@ -425,6 +462,7 @@ function caravan_aghanim_spears:DestroySpears(spears)
     for i, dummy in pairs(spears) do
         if IsValidUnit(dummy) then
             self:DestroyTelegraph(dummy)
+            self:DestroySpearVisual(dummy)
             dummy.spearRemoved = true
             UTIL_Remove(dummy)
         end
@@ -674,6 +712,9 @@ function modifier_caravan_aghanim_spear_dummy:OnDestroy()
 
     parent.spearRemoved = true
     parent:StopSound("Hero_Mars.Spear.Cast")
+    if ability and ability.DestroySpearVisual then
+        ability:DestroySpearVisual(parent)
+    end
     Timers:CreateTimer(0, function()
         if IsValidUnit(parent) then
             UTIL_Remove(parent)
@@ -744,6 +785,9 @@ function modifier_caravan_aghanim_spear_dummy:OnIntervalThink()
     nextPos = ability:SpearPosition(nextPos)
     parent.flyPos = nextPos
     parent:SetAbsOrigin(nextPos)
+    if ability.SyncSpearVisual then
+        ability:SyncSpearVisual(parent)
+    end
     self.traveled = self.traveled + step
     AddFOWViewer(parent:GetTeamNumber(), nextPos, self.vision, 0.2, false)
 

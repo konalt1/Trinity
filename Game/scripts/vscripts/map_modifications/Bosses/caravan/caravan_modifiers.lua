@@ -179,7 +179,13 @@ function modifier_caravan_courier:OnAttacked(params)
 
     local remaining = parent:GetHealth() - 1
     if remaining <= 0 then
-        parent:Kill(nil, attacker)
+        parent.caravanDying = true
+        if CourierCaravan and CourierCaravan.OnCourierFatalHit then
+            CourierCaravan:OnCourierFatalHit(parent)
+        end
+        if parent and not parent:IsNull() then
+            UTIL_Remove(parent)
+        end
         return
     end
 
@@ -205,6 +211,9 @@ end
 function modifier_caravan_global_vision:CheckState()
     return {
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_UNTARGETABLE] = true,
+        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
     }
 end
 
@@ -230,4 +239,37 @@ function modifier_caravan_global_vision:Reveal()
     local position = parent:GetAbsOrigin()
     AddFOWViewer(DOTA_TEAM_GOODGUYS, position, CARAVAN_REVEAL_RADIUS, 0.3, false)
     AddFOWViewer(DOTA_TEAM_BADGUYS, position, CARAVAN_REVEAL_RADIUS, 0.3, false)
+end
+
+modifier_caravan_aghanim_retreat = class({})
+
+function modifier_caravan_aghanim_retreat:IsHidden()
+    return true
+end
+
+function modifier_caravan_aghanim_retreat:IsPurgable()
+    return false
+end
+
+function modifier_caravan_aghanim_retreat:RemoveOnDeath()
+    return true
+end
+
+function modifier_caravan_aghanim_retreat:GetAttributes()
+    return MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE
+end
+
+function modifier_caravan_aghanim_retreat:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
+        MODIFIER_PROPERTY_IGNORE_MOVESPEED_LIMIT,
+    }
+end
+
+function modifier_caravan_aghanim_retreat:GetModifierMoveSpeed_Absolute()
+    return 500
+end
+
+function modifier_caravan_aghanim_retreat:GetModifierIgnoreMovespeedLimit()
+    return 1
 end

@@ -98,9 +98,12 @@ end
 
 function modifier_ability_thirsty_blade_buff:OnDestroy()
 	if IsClient() then return end
-    local parent = self:GetParent()
+	if not self.lifesteal or self.lifesteal == 0 then return end
 
-    RemoveModifierLifesteal(parent, self.lifesteal)
+	local parent = self:GetParent()
+	if not parent or parent:IsNull() then return end
+
+	RemoveModifierLifesteal(parent, self.lifesteal)
 end
 
 function modifier_ability_thirsty_blade_buff:OnRefresh(table)

@@ -9,6 +9,7 @@ CaravanAssets.PARTICLE = {
     staff_beam_linger = "particles/creatures/aghanim/staff_beam_linger.vpcf",
     laser_status = "particles/status_fx/status_effect_electrical.vpcf",
     crystal_trail = "particles/units/heroes/hero_ancient_apparition/ancient_apparition_chilling_touch_projectile.vpcf",
+    crystal_orbit = "particles/creatures/aghanim/aghanim_crystal_attack.vpcf",
     crystal_impact = "particles/creatures/aghanim/aghanim_crystal_attack_impact.vpcf",
     crystal_telegraph = "particles/creatures/aghanim/aghanim_crystal_attack_telegraph_aoe.vpcf",
     spear_ground = "particles/creatures/aghanim/aghanim_beam_channel.vpcf",
@@ -19,8 +20,98 @@ CaravanAssets.PARTICLE = {
 }
 
 CaravanAssets.MODEL = {
-    spear = "models/heroes/mars/mars_spear.vmdl",
+    spear = "models/items/lich/lich_ti8_immortal_arms/lich_ti8_immortal_ice_shards.vmdl",
+    gem = "models/props_gameplay/aghanim_gem_centered.vmdl",
 }
+
+CaravanAssets.ICE_SHARD_PITCH = 0
+CaravanAssets.ICE_SHARD_ROLL = 90
+CaravanAssets.GEM_PITCH = 0
+CaravanAssets.GEM_ROLL = 0
+
+local function IsValidProp(prop)
+    return prop ~= nil and (prop.IsNull == nil or not prop:IsNull()) and IsValidEntity(prop)
+end
+
+function CaravanAssets:CreateIceShardProp(origin, yaw, scale, parent, model)
+    scale = scale or 1
+    model = model or self.MODEL.spear
+    local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {
+        model = model,
+        origin = origin,
+        ModelScale = scale,
+    })
+    if not IsValidProp(prop) then
+        return nil
+    end
+
+    if prop.SetModelScale then
+        prop:SetModelScale(scale)
+    end
+    prop.iceShardModel = model
+    self:AttachIceShardProp(prop, parent)
+    self:PlaceIceShardProp(prop, origin, yaw)
+    return prop
+end
+
+function CaravanAssets:AttachIceShardProp(prop, parent)
+    if not IsValidProp(prop) or not parent or (parent.IsNull and parent:IsNull()) then
+        return
+    end
+
+    if prop.SetParent then
+        pcall(function()
+            prop:SetParent(parent, "")
+        end)
+    end
+    if prop.FollowEntity then
+        prop:FollowEntity(parent, false)
+    end
+    prop.iceShardFollowsUnit = true
+end
+
+function CaravanAssets:PlaceIceShardProp(prop, origin, yaw, pitch, roll)
+    if not IsValidProp(prop) then
+        return
+    end
+
+    if origin and not prop.iceShardFollowsUnit then
+        prop:SetAbsOrigin(origin)
+    end
+    if pitch == nil then
+        if prop.iceShardModel == self.MODEL.gem then
+            pitch = self.GEM_PITCH
+        else
+            pitch = self.ICE_SHARD_PITCH
+        end
+    end
+    if roll == nil then
+        if prop.iceShardModel == self.MODEL.gem then
+            roll = self.GEM_ROLL
+        else
+            roll = self.ICE_SHARD_ROLL
+        end
+    end
+    prop:SetAbsAngles(pitch, yaw or 0, roll)
+end
+
+function CaravanAssets:DestroyIceShardProp(prop)
+    if not IsValidProp(prop) then
+        return
+    end
+
+    if prop.FollowEntity then
+        pcall(function()
+            prop:FollowEntity(nil, false)
+        end)
+    end
+    if prop.SetParent then
+        pcall(function()
+            prop:SetParent(nil, "")
+        end)
+    end
+    UTIL_Remove(prop)
+end
 
 CaravanAssets.SOUNDFILE = {
     "soundevents/trinity_sounds.vsndevts",
@@ -86,6 +177,7 @@ end
 function CaravanAssets:Precache(context)
     PrecacheModelFile(self.AGHANIM_MODEL, context)
     PrecacheModelFile(self.MODEL.spear, context)
+    PrecacheModelFile(self.MODEL.gem, context)
     PrecacheModelFile("models/props_gameplay/gold_bag.vmdl", context)
     PrecacheResource("particle", "particles/generic_gameplay/dropped_item.vpcf", context)
 
@@ -106,6 +198,7 @@ function CaravanAssets:Precache(context)
     PrecacheItemByNameSync("item_caravan_gold_bag", context)
     PrecacheUnitByNameSync("npc_caravan_aghanim", context)
     PrecacheUnitByNameSync("npc_caravan_spear", context)
+    PrecacheUnitByNameSync("npc_caravan_shard", context)
     if CaravanLoot and CaravanLoot.COURIERS then
         for _, def in pairs(CaravanLoot.COURIERS) do
             if def.unit_name then

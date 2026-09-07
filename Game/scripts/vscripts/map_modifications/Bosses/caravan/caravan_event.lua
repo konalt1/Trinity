@@ -18,6 +18,11 @@ LinkLuaModifier(
     "map_modifications/Bosses/caravan/caravan_modifiers",
     LUA_MODIFIER_MOTION_NONE
 )
+LinkLuaModifier(
+    "modifier_caravan_aghanim_retreat",
+    "map_modifications/Bosses/caravan/caravan_modifiers",
+    LUA_MODIFIER_MOTION_NONE
+)
 
 local AGHANIM_NAME = "npc_caravan_aghanim"
 local MORTIMER_NAME = "npc_mortimer_boss"
@@ -25,22 +30,26 @@ local MORTIMER_FINALE_NAME = "npc_mortimer_boss_finale"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800
 local FOLLOW_ALONG = 380
+local FOLLOW_BACK = 560
 local FOLLOW_SIDE = 380
 local FOLLOW_ROW_SPREAD = 180
 local FOLLOW_SIDE_ALONG = 120
 local FOLLOW_CATCH_UP = 120
 local FOLLOW_CATCH_UP_DONE = 80
 local LEASH_RADIUS = 1100
+local SLOT_MAX_OFFSET = 700
 local COURIER_SPEED = 160
 local COURIER_CATCH_UP_SPEED = 280
+local AGHANIM_SPEED = 160
+local AGHANIM_RETREAT_SPEED = 500
 -- along / right offsets relative to Aghanim facing: 3 front, 3 back, 2 left, 2 right
 local FOLLOW_SLOTS = {
     { FOLLOW_ALONG, -FOLLOW_ROW_SPREAD },
     { FOLLOW_ALONG, 0 },
     { FOLLOW_ALONG, FOLLOW_ROW_SPREAD },
-    { -FOLLOW_ALONG, -FOLLOW_ROW_SPREAD },
-    { -FOLLOW_ALONG, 0 },
-    { -FOLLOW_ALONG, FOLLOW_ROW_SPREAD },
+    { -FOLLOW_BACK, -FOLLOW_ROW_SPREAD },
+    { -FOLLOW_BACK, 0 },
+    { -FOLLOW_BACK, FOLLOW_ROW_SPREAD },
     { FOLLOW_SIDE_ALONG, -FOLLOW_SIDE },
     { -FOLLOW_SIDE_ALONG, -FOLLOW_SIDE },
     { FOLLOW_SIDE_ALONG, FOLLOW_SIDE },
@@ -52,8 +61,12 @@ local CAST_PAUSE = 2.0
 local DEBUG_VISION_RADIUS = 800
 local DEBUG_VISION_DURATION = 5
 
+_G.CARAVAN_RETREAT_DEBUG_ENABLED = true
+
 CourierCaravan.COURIER_SPEED = COURIER_SPEED
 CourierCaravan.COURIER_CATCH_UP_SPEED = COURIER_CATCH_UP_SPEED
+CourierCaravan.SLOT_MAX_OFFSET = SLOT_MAX_OFFSET
+CourierCaravan.LEASH_RADIUS = LEASH_RADIUS
 
 local SLOT_BUSY_NAMES = {
     [MORTIMER_NAME] = true,
@@ -182,7 +195,11 @@ function CourierCaravan.GetReversePath(endOrigin)
 end
 
 local function IsAlive(unit)
-    return unit and not unit:IsNull() and IsValidEntity(unit) and unit:IsAlive()
+    return unit
+        and not unit:IsNull()
+        and IsValidEntity(unit)
+        and unit:IsAlive()
+        and not unit.caravanDying
 end
 
 local function ParsePosition(x, y, z)
@@ -196,6 +213,69 @@ local function ParsePosition(x, y, z)
     end
 
     return Vector(0, 0, 128)
+end
+
+function CourierCaravan:IsRetreatDebug()
+    return _G.CARAVAN_RETREAT_DEBUG_ENABLED == true
+end
+
+function CourierCaravan:RetreatDebug(fmt, ...)
+    if not self:IsRetreatDebug() then
+        return
+    end
+
+    print("[CaravanRetreat] " .. string.format(fmt, ...))
+end
+
+local function FormatRetreatVector(vector)
+    if not vector then
+        return "nil"
+    end
+
+    return string.format("%.0f %.0f %.0f", vector.x, vector.y, vector.z)
+end
+
+function CourierCaravan:DrawRetreatDebug(aghanim, dest)
+    if not self:IsRetreatDebug() or not aghanim or aghanim:IsNull() then
+        return
+    end
+
+    local origin = aghanim:GetAbsOrigin()
+    DebugDrawCircle(origin, Vector(255, 180, 0), 24, 80, true, 0.2)
+    if dest then
+        DebugDrawLine(origin, dest, 0, 255, 80, true, 0.2)
+        DebugDrawCircle(dest, Vector(0, 255, 80), 16, 90, true, 0.2)
+    end
+end
+
+function CourierCaravan:MarkAghanimRetreating(aghanim)
+    if not aghanim or aghanim:IsNull() then
+        return
+    end
+
+    aghanim.caravanRetreating = true
+    local scope = aghanim.GetPrivateScriptScope and aghanim:GetPrivateScriptScope()
+    if scope then
+        scope.caravanRetreating = true
+    end
+end
+
+function CourierCaravan:IsAghanimRetreating(aghanim)
+    if not aghanim or (aghanim.IsNull and aghanim:IsNull()) then
+        return false
+    end
+
+    if aghanim.caravanRetreating == true then
+        return true
+    end
+
+    local pack = aghanim.caravanPack
+    if pack and pack.retreating == true then
+        return true
+    end
+
+    local scope = aghanim.GetPrivateScriptScope and aghanim:GetPrivateScriptScope()
+    return scope ~= nil and scope.caravanRetreating == true
 end
 
 local function Announce(unit, token)
@@ -306,7 +386,51 @@ function CourierCaravan:GetFollowPosition(aghanim, slotIndex)
 
     local slot = FOLLOW_SLOTS[slotIndex] or FOLLOW_SLOTS[1]
     local right = Vector(forward.y, -forward.x, 0)
-    return aghanim:GetAbsOrigin() + forward * slot[1] + right * slot[2]
+    local dest = aghanim:GetAbsOrigin() + forward * slot[1] + right * slot[2]
+    if GetGroundPosition then
+        dest = GetGroundPosition(dest, aghanim)
+    end
+    return dest
+end
+
+function CourierCaravan:ClampToSlotRange(courier, dest)
+    if not courier or not dest then
+        return dest
+    end
+
+    local aghanim = courier.caravanAghanim
+    if not IsAlive(aghanim) then
+        return dest
+    end
+
+    local slot = self:GetFollowPosition(aghanim, courier.caravanSlotIndex or 1)
+    local offset = dest - slot
+    offset.z = 0
+    local dist = offset:Length2D()
+    if dist <= SLOT_MAX_OFFSET then
+        return dest
+    end
+
+    if dist < 0.001 then
+        return slot
+    end
+
+    local clamped = slot + offset:Normalized() * SLOT_MAX_OFFSET
+    clamped.z = dest.z
+    return clamped
+end
+
+function CourierCaravan:PlaceCourier(courier, dest)
+    if not courier or courier:IsNull() or not dest then
+        return
+    end
+
+    FindClearSpaceForUnit(courier, dest, true)
+    if GetGroundPosition then
+        courier:SetAbsOrigin(GetGroundPosition(courier:GetAbsOrigin(), courier))
+    end
+    courier.caravanLastFollowDest = nil
+    courier.caravanFollowMoving = false
 end
 
 function CourierCaravan:OnCourierDamaged(courier, attacker)
@@ -337,7 +461,7 @@ function CourierCaravan:GetFleePosition(courier)
         away.z = 0
     end
 
-    return origin + away:Normalized() * FLEE_DISTANCE
+    return self:ClampToSlotRange(courier, origin + away:Normalized() * FLEE_DISTANCE)
 end
 
 function CourierCaravan:GiveCourierLoot(courier, data)
@@ -424,9 +548,11 @@ function CourierCaravan:UpdateCatchUp(courier, distToSlot)
 end
 
 function CourierCaravan:DropCourierLoot(courier)
-    if not courier or courier:IsNull() or courier.caravanEscaping then
+    if not courier or courier:IsNull() or courier.caravanEscaping or courier.caravanLootDropped then
         return
     end
+
+    courier.caravanLootDropped = true
 
     local id = courier.caravanId
     local stage = courier.caravanStage or 1
@@ -462,7 +588,133 @@ function CourierCaravan:OnEntityKilled(unit)
     end
 
     if unit.caravanId and not unit.caravanEscaping then
-        self:DropCourierLoot(unit)
+        self:OnCourierFatalHit(unit)
+    end
+end
+
+function CourierCaravan:OnCourierFatalHit(courier)
+    if not courier or courier:IsNull() then
+        return
+    end
+
+    local pack = courier.caravanPack
+    self:DropCourierLoot(courier)
+    local alive = self:CountAliveCouriers(pack, courier)
+    self:RetreatDebug(
+        "fatal hit %s slot=%s alive_left=%d pack=%s retreating=%s escaping=%s path=%s wp=%s remaining=%s",
+        courier:GetUnitName(),
+        tostring(courier.caravanSlotIndex),
+        alive,
+        pack and "yes" or "nil",
+        pack and tostring(pack.retreating) or "n/a",
+        pack and tostring(pack.escaping) or "n/a",
+        pack and pack.aghanim and tostring(pack.aghanim.pathwayEnabled) or "n/a",
+        pack and pack.aghanim and tostring(pack.aghanim.currentWaypointIndex) or "n/a",
+        self:FormatAliveCouriers(pack, courier)
+    )
+
+    if pack and not pack.escaping and not pack.retreating and alive == 0 then
+        self:StartAghanimRetreat(pack)
+    elseif self:IsRetreatDebug() then
+        for _, remaining in ipairs((pack and pack.couriers) or {}) do
+            if remaining ~= courier and IsAlive(remaining) then
+                DebugDrawCircle(remaining:GetAbsOrigin(), Vector(255, 40, 40), 40, 80, true, 6)
+            end
+        end
+    end
+end
+
+function CourierCaravan:FormatAliveCouriers(pack, except)
+    local parts = {}
+    for _, courier in ipairs((pack and pack.couriers) or {}) do
+        if courier ~= except and IsAlive(courier) then
+            local origin = courier:GetAbsOrigin()
+            table.insert(parts, string.format(
+                "slot%s %s hp=%.0f (%.0f %.0f)",
+                tostring(courier.caravanSlotIndex),
+                courier:GetUnitName(),
+                courier:GetHealth() or 0,
+                origin.x,
+                origin.y
+            ))
+        end
+    end
+
+    if #parts == 0 then
+        return "none"
+    end
+
+    return table.concat(parts, "; ")
+end
+
+function CourierCaravan:CountAliveCouriers(pack, except)
+    local alive = 0
+    for _, courier in ipairs((pack and pack.couriers) or {}) do
+        if courier ~= except and IsAlive(courier) then
+            alive = alive + 1
+        end
+    end
+    return alive
+end
+
+function CourierCaravan:StartAghanimRetreat(pack)
+    if pack and pack.retreating then
+        return
+    end
+
+    if not pack or pack.escaping then
+        self:RetreatDebug(
+            "StartAghanimRetreat skipped pack=%s escaping=%s",
+            pack and "yes" or "nil",
+            pack and tostring(pack.escaping) or "n/a"
+        )
+        return
+    end
+
+    pack.retreating = true
+    local aghanim = pack.aghanim
+    if not IsAlive(aghanim) then
+        self:RetreatDebug("StartAghanimRetreat: Aghanim missing or dead")
+        return
+    end
+
+    self:MarkAghanimRetreating(aghanim)
+    aghanim.caravanAbilityBusyUntil = 0
+    aghanim:RemoveModifierByName("modifier_caravan_aghanim_shards")
+    aghanim:Stop()
+    if aghanim.Interrupt then
+        aghanim:Interrupt()
+    end
+    aghanim:SetBaseMoveSpeed(AGHANIM_RETREAT_SPEED)
+    aghanim:AddNewModifier(aghanim, nil, "modifier_caravan_aghanim_retreat", {})
+
+    local path = aghanim.caravanPath
+    local index = aghanim.currentWaypointIndex or 1
+    if index > 1 then
+        aghanim.currentWaypointIndex = index - 1
+        index = aghanim.currentWaypointIndex
+    end
+
+    local dest = path and path[index] or nil
+    if dest then
+        aghanim:MoveToPosition(dest)
+    end
+
+    self:RetreatDebug(
+        "START pos=%s speed_base=%.0f speed_now=%.0f pathway=%s path_len=%s wp=%s dest=%s",
+        FormatRetreatVector(aghanim:GetAbsOrigin()),
+        aghanim:GetBaseMoveSpeed() or 0,
+        aghanim.GetIdealSpeed and aghanim:GetIdealSpeed() or 0,
+        tostring(aghanim.pathwayEnabled),
+        path and tostring(#path) or "nil",
+        tostring(index),
+        FormatRetreatVector(dest)
+    )
+    self:DrawRetreatDebug(aghanim, dest)
+
+    if not pack.pathwayEnabled or not path or #path == 0 then
+        self:RetreatDebug("no pathway, despawn immediately")
+        self:DespawnPack(pack)
     end
 end
 
@@ -529,12 +781,15 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
 
     FindClearSpaceForUnit(aghanim, position, true)
     aghanim:SetAbsOrigin(GetGroundPosition(aghanim:GetAbsOrigin(), aghanim))
-    aghanim:SetBaseMoveSpeed(160)
+    aghanim:SetBaseMoveSpeed(AGHANIM_SPEED)
     position = aghanim:GetAbsOrigin()
 
     aghanim:AddNewModifier(aghanim, nil, "modifier_invulnerable", {})
     aghanim:AddNewModifier(aghanim, nil, "modifier_phased", {})
     aghanim:AddNewModifier(aghanim, nil, "modifier_caravan_global_vision", {})
+    if aghanim.SetHullRadius then
+        aghanim:SetHullRadius(8)
+    end
     aghanim:SetAngles(0, RandomFloat(0, 360), 0)
 
     local pack = {
@@ -559,14 +814,13 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
 
     local abilities = {
         aghanim:FindAbilityByName("caravan_aghanim_spears"),
+        aghanim:FindAbilityByName("caravan_aghanim_shards"),
+        aghanim:FindAbilityByName("caravan_aghanim_laser"),
     }
     for _, ability in ipairs(abilities) do
         if ability then
-            if ability:GetAbilityName() == "caravan_aghanim_spears" then
-                ability:SetLevel(stage)
-            else
-                ability:SetLevel(1)
-            end
+            local maxLevel = ability:GetMaxLevel() or 1
+            ability:SetLevel(math.min(stage, maxLevel))
             ability:SetActivated(true)
             ability:SetHidden(false)
         end
@@ -587,8 +841,10 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
                 courier.caravanSlotIndex = slot
                 courier.pathwayEnabled = pack.pathwayEnabled
                 ApplyHits(courier, data.hits)
+                courier:AddNewModifier(courier, nil, "modifier_phased", {})
                 courier:AddNewModifier(courier, nil, "modifier_caravan_courier", { hits = data.hits })
                 courier:AddNewModifier(courier, nil, "modifier_caravan_aghanim_leash", { radius = LEASH_RADIUS })
+                self:PlaceCourier(courier, spawnPos)
                 self:GiveCourierLoot(courier, data)
                 ApplyHits(courier, data.hits)
                 table.insert(pack.couriers, courier)
@@ -636,6 +892,22 @@ local function RegisterDebugCommands()
             AddFOWViewer(DOTA_TEAM_BADGUYS, position, DEBUG_VISION_RADIUS, DEBUG_VISION_DURATION, false)
         end
     end, "Spawn courier caravan at stage: spawn_caravan_stage N [x y z]", 0)
+end
+
+if IsServer() and not _G.CARAVAN_RETREAT_DEBUG_COMMAND_REGISTERED then
+    Convars:RegisterCommand("caravan_retreat_debug", function(_, value)
+        if value == nil or value == "" then
+            _G.CARAVAN_RETREAT_DEBUG_ENABLED = not _G.CARAVAN_RETREAT_DEBUG_ENABLED
+        else
+            local normalized = string.lower(tostring(value))
+            _G.CARAVAN_RETREAT_DEBUG_ENABLED = normalized == "1" or normalized == "true" or normalized == "on"
+        end
+
+        local state = _G.CARAVAN_RETREAT_DEBUG_ENABLED and "ON" or "OFF"
+        print("[CaravanRetreat] Debug " .. state .. " (orange=aghanim, green=backtrack waypoint)")
+    end, "Toggle Aghanim retreat debug: caravan_retreat_debug [0|1]", 0)
+
+    _G.CARAVAN_RETREAT_DEBUG_COMMAND_REGISTERED = true
 end
 
 function CourierCaravan:Init()

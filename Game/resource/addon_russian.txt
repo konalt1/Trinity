@@ -1073,12 +1073,19 @@
 		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff_Description"			"Замедлен и ослеплён лазером Аганима."
 
 		"DOTA_Tooltip_ability_caravan_aghanim_shards"							"Осколки Аганима"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Аганим пускает ненаправленный осколок в сторону каждого вражеского героя рядом.\n\nПри попадании по герою осколок разлетается на три меньших. Осколки наносят магический урон и оглушают. Чем меньше осколок, тем слабее удар и короче оглушение."
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_radius"					"РАДИУС:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Аганим создаёт вокруг себя осколки. Они вращаются вместе с ним.
+
+		Герой, коснувшийся осколка, получает магический урон и замедляется. Осколок при этом разрушается.
+
+		Замедление стакается."
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_shard_count"				"ОСКОЛКОВ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_orbit_radius"				"РАДИУС:"
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_damage"						"УРОН:"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_stun"						"ОГЛУШЕНИЕ:"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_damage"				"УРОН МЕЛКИХ ОСКОЛКОВ:"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"ОГЛУШЕНИЕ МЕЛКИХ ОСКОЛКОВ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_slow_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_slow_movement_speed"			"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_slow_attack_speed"			"ЗАМЕДЛЕНИЕ АТАКИ:"
+		"DOTA_Tooltip_modifier_caravan_aghanim_shard_slow"						"Осколок Аганима"
+		"DOTA_Tooltip_modifier_caravan_aghanim_shard_slow_Description"			"Скорость передвижения и атаки снижены."
 
 		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Копья Аганима"
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Вокруг Аганима появляются три копья. Они смотрят на ближайших героев, затем вылетают по своему направлению.

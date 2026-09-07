@@ -138,8 +138,8 @@ function CaravanLoot:GetCourier(id)
     return self.COURIERS[id]
 end
 
-function CaravanLoot:HitsFromHp(hp)
-    return math.max(1, math.floor((tonumber(hp) or 100) / 100))
+function CaravanLoot:HitsForStage(stage)
+    return self:ClampStage(stage)
 end
 
 function CaravanLoot:ClampStage(stage)
@@ -161,7 +161,7 @@ function CaravanLoot:GetStageData(id, stage)
     local bags = def.gold_bags or self.DEFAULT_GOLD_BAGS
     return {
         hp = row.hp,
-        hits = self:HitsFromHp(row.hp),
+        hits = self:HitsForStage(stage),
         items = row.items or {},
         gold_bags = bags[stage] or bags[#bags] or 1,
     }

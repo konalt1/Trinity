@@ -1041,12 +1041,19 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff_Description"			"Slowed and blinded by Aghanim's laser."
 
 		"DOTA_Tooltip_ability_caravan_aghanim_shards"							"Aghanim's Shards"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Aghanim launches an untargeted shard toward every nearby enemy hero.\n\nIf a shard hits a hero, it splits into three smaller shards. Shards deal magical damage and stun. Smaller shards deal less damage and stun for less time."
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_radius"					"RADIUS:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Aghanim creates shards around himself. They rotate with him.
+
+		A hero who touches a shard takes magical damage and is slowed. The shard is destroyed.
+
+		The slow stacks."
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_shard_count"				"SHARDS:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_orbit_radius"				"RADIUS:"
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_damage"						"DAMAGE:"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_stun"						"STUN:"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_damage"				"SPLIT DAMAGE:"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_split_stun"					"SPLIT STUN:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_slow_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_slow_movement_speed"			"%MOVE SLOW:"
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_slow_attack_speed"			"ATTACK SLOW:"
+		"DOTA_Tooltip_modifier_caravan_aghanim_shard_slow"						"Aghanim's Shard"
+		"DOTA_Tooltip_modifier_caravan_aghanim_shard_slow_Description"			"Movement and attack speed reduced."
 
 		"DOTA_Tooltip_ability_caravan_aghanim_spears"							"Aghanim's Spears"
 		"DOTA_Tooltip_ability_caravan_aghanim_spears_Description"				"Three spears appear around Aghanim. They point at the nearest heroes, then fly in their locked directions.
