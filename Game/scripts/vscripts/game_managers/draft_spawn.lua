@@ -1574,6 +1574,62 @@ function DraftSpawn:RestoreAbilityCastLayouts(hero)
 	end
 end
 
+function DraftSpawn:MarkHeroAbilityButtonsDirty(hero)
+	if not hero or hero:IsNull() or not hero.GetAbilityCount then
+		return
+	end
+
+	for slot = 0, hero:GetAbilityCount() - 1 do
+		local ability = hero:GetAbilityByIndex(slot)
+		if ability and not ability:IsNull() and ability.MarkAbilityButtonDirty then
+			ability:MarkAbilityButtonDirty()
+		end
+	end
+end
+
+-- ReplaceHeroWith keeps the native ability HUD bound to warmup levels.
+-- Level 0 ultimates never send a level-changed event, so leftover pips stay.
+function DraftSpawn:RefreshAbilityHud(hero)
+	if not hero or hero:IsNull() then
+		return
+	end
+
+	self:MarkHeroAbilityButtonsDirty(hero)
+	if hero.SetAbilityPoints then
+		hero:SetAbilityPoints(self:GetStartAbilityPoints())
+	end
+end
+
+function DraftSpawn:ScheduleAbilityHudRefresh(hero)
+	if not hero or hero:IsNull() then
+		return
+	end
+
+	hero._trinityAbilityHudRefresh = (hero._trinityAbilityHudRefresh or 0) + 1
+	local token = hero._trinityAbilityHudRefresh
+	local points = self:GetStartAbilityPoints()
+
+	if hero.SetAbilityPoints then
+		hero:SetAbilityPoints(points + 1)
+	end
+	self:MarkHeroAbilityButtonsDirty(hero)
+
+	local delays = { 0, 0.05, 0.15, 0.35 }
+	for i = 1, #delays do
+		local delay = delays[i]
+		Timers:CreateTimer(delay, function()
+			if not hero or hero:IsNull() then
+				return nil
+			end
+			if hero._trinityAbilityHudRefresh ~= token then
+				return nil
+			end
+			self:RefreshAbilityHud(hero)
+			return nil
+		end)
+	end
+end
+
 function DraftSpawn:ApplyMatchStartHeroState(hero)
 	if not hero or hero:IsNull() then
 		return
@@ -1600,6 +1656,7 @@ function DraftSpawn:PrepareHeroForMatchStart(hero, playerID)
 		hero:HeroLevelUp(false)
 	end
 	self:ApplyMatchStartHeroState(hero)
+	self:ScheduleAbilityHudRefresh(hero)
 
 	self._startingItems = self._startingItems or {}
 	self._startingItems[playerID] = nil

@@ -14,7 +14,7 @@ GameMode.ancients = GameMode.ancients or {} -- Таблица тронов
 if GameMode.lane_creeps_spawned == nil then
 	GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
 end
-GameMode.CHAT_WHEEL_COOLDOWN = 20
+GameMode.CHAT_WHEEL_COOLDOWN = 0
 
 -- Останавливаем монитор, если этот файл перечитан через script_reload.
 GameMode.neutralSpawnDebugEnabled = false

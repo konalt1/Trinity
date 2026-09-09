@@ -21,6 +21,7 @@ final class Stickers
         ['key' => 'Choso', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
         ['key' => 'StickerOne', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
         ['key' => 'StickerTwo', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
+        ['key' => 'NO_GOD', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
     ];
 
     public static function payload(int $steamid): array
@@ -183,7 +184,6 @@ final class Stickers
 
         self::ensureCatalog();
         $owned = self::ownedSet($steamid);
-        $used = [];
         foreach ($normalized as $key) {
             if ($key === null) {
                 continue;
@@ -191,10 +191,6 @@ final class Stickers
             if (!isset($owned[$key])) {
                 Http::json(400, ['ok' => false, 'error' => 'unowned_sticker', 'sticker' => $key]);
             }
-            if (isset($used[$key])) {
-                Http::json(400, ['ok' => false, 'error' => 'duplicate_slot', 'sticker' => $key]);
-            }
-            $used[$key] = true;
         }
 
         $ids = self::stickerIds();

@@ -15,7 +15,7 @@ local SPEAR_MODEL = "models/items/lich/lich_ti8_immortal_arms/lich_ti8_immortal_
 local SPEAR_UNIT = "npc_caravan_spear"
 local SPEAR_DUMMY_MODEL = "models/development/invisiblebox.vmdl"
 local SPEAR_HEIGHT = 80
-local SPEAR_SCALE = 7.0
+local SPEAR_SCALE = 4.67
 local SPEAR_CENTER_OFFSET = 0
 local SPEAR_PITCH = 90
 local SPEAR_ROLL = 0
@@ -279,7 +279,7 @@ end
 function caravan_aghanim_spears:SyncStageLevel()
     local caster = self:GetCaster()
     local stage = caster and caster.caravanStage or self:GetLevel()
-    stage = math.min(3, math.max(1, math.floor(tonumber(stage) or 1)))
+    stage = math.min(5, math.max(1, math.floor(tonumber(stage) or 1)))
     if self:GetLevel() ~= stage then
         self:SetLevel(stage)
     end

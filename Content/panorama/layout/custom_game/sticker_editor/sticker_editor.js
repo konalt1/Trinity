@@ -9,6 +9,7 @@ const STICKER_CATALOG = [
   "Choso",
   "StickerOne",
   "StickerTwo",
+  "NO_GOD",
 ];
 const STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const SLOT_COUNT = 8;
@@ -90,6 +91,16 @@ function StickerName(key) {
 
 function StickerVideo(key) {
   return STICKER_VIDEO_ROOT + "/" + key + ".webm";
+}
+
+function FormatToken(token, value) {
+  return $.Localize(token).replace("%s", String(value));
+}
+
+function CopiesLabel(info) {
+  if (IsElite(info)) return $.Localize("#sticker_editor_elite");
+  if (!info) return $.Localize("#lootbox_copies_none");
+  return FormatToken("#sticker_editor_copies", info.copies || 1);
 }
 
 function DisableHittest(panel) {
@@ -201,19 +212,12 @@ function FlushSave() {
 }
 
 function Commit(slots) {
-  const unique = [];
-  const used = {};
+  const next = [];
   for (let i = 0; i < SLOT_COUNT; i++) {
-    const key = slots[i] || "";
-    if (key && used[key]) {
-      unique.push("");
-    } else {
-      if (key) used[key] = true;
-      unique.push(key);
-    }
+    next.push(slots[i] || "");
   }
-  localSlots = unique;
-  SendSave(unique);
+  localSlots = next;
+  SendSave(next);
   Render();
 }
 
@@ -230,12 +234,7 @@ function AssignFromCollection(index, key) {
   if (!OwnedMap(data)[key]) return;
 
   const slots = CurrentSlots(data);
-  const equippedAt = slots.indexOf(key);
-  const replaced = slots[index];
   slots[index] = key;
-  if (equippedAt >= 0 && equippedAt !== index) {
-    slots[equippedAt] = replaced;
-  }
   pick = null;
   Commit(slots);
 }
@@ -460,9 +459,7 @@ function CreateCollectionRow(parent, key, info) {
 
   const copies = $.CreatePanel("Label", meta, "Copies");
   copies.AddClass("CollectionCopies");
-  copies.text = elite
-    ? $.Localize("#sticker_editor_elite")
-    : String(info.copies || 1) + "/5";
+  copies.text = CopiesLabel(info);
 
   row.SetPanelEvent("onactivate", function () {
     OnCollectionClicked(key);
@@ -479,9 +476,7 @@ function UpdateCollectionRow(row, key, info) {
   row.SetHasClass("Selected", !!(pick && pick.from === null && pick.key === key));
   const copies = row.FindChildTraverse("Copies");
   if (copies) {
-    copies.text = elite
-      ? $.Localize("#sticker_editor_elite")
-      : String(info.copies || 1) + "/5";
+    copies.text = CopiesLabel(info);
   }
 }
 
@@ -534,7 +529,6 @@ function SyncCollection(owned, slots) {
   for (const key of STICKER_CATALOG) {
     const info = owned[key];
     if (!info) continue;
-    if (slots.indexOf(key) >= 0) continue;
     keep[key] = true;
     const row = list.FindChild("Collection" + key);
     if (row) UpdateCollectionRow(row, key, info);
@@ -564,11 +558,6 @@ function Render() {
   const slots = CurrentSlots(data);
 
   SyncWheel(slots, owned);
-
-  if (pick && pick.from === null && slots.indexOf(pick.key) >= 0) {
-    pick = null;
-  }
-
   SyncCollection(owned, slots);
 }
 

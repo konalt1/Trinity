@@ -19,6 +19,7 @@ const CHAT_STICKER_SOUNDS = {
   Choso: "Wheel.Choso",
   StickerOne: "high_five.impact",
   StickerTwo: "General.Buy",
+  NO_GOD: "Wheel.NO_GOD",
 };
 const STICKER_MAX_TIME = {
   Gura: 1,
@@ -29,6 +30,7 @@ const STICKER_MAX_TIME = {
   Choso: 0.7,
   StickerOne: 1.5,
   StickerTwo: 1,
+  NO_GOD: 3,
 };
 var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const loadTableHeroFromNet = () => {
@@ -96,26 +98,16 @@ function StopWheel() {
   $("#Wheel").visible = false;
   $("#Bubble").visible = false;
   $("#PhrasesContainer").visible = false;
-  const cooldown = CustomNetTables.GetTableValue("cooldown_info", `${Players.GetLocalPlayer()}`)?.cooldown_chat || 0;
+  if (selected_sound_current || selected_sound_current === 0) {
+    const soundName = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].sound : undefined;
+    const maxTime = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].maxTime : undefined;
 
-  if (cooldown == 0) {
-    if (selected_sound_current || selected_sound_current === 0) {
-      const soundName = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].sound : undefined;
-      const maxTime = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].maxTime : undefined;
-
-      if (soundName) {
-        GameEvents.SendCustomGameEventToServer("chat_wheel_select", {
-          select: soundName,
-          maxTime: maxTime || STICKER_MAX_TIME[soundName] || 1.5,
-        });
-      }
+    if (soundName) {
+      GameEvents.SendCustomGameEventToServer("chat_wheel_select", {
+        select: soundName,
+        maxTime: maxTime || STICKER_MAX_TIME[soundName] || 1.5,
+      });
     }
-  } else {
-    GameEvents.SendEventClientSide("dota_hud_error_message", {
-      message: $.Localize("#dota_error_cooldown_chat_wheel"),
-      reason: 80,
-      sequenceNumber: 0,
-    });
   }
   if (nowselect != 0) {
     $("#PhrasesContainer").RemoveAndDeleteChildren();
@@ -258,9 +250,6 @@ const CreateVideoHeadMessage = (data) => {
     autoplay: "onload",
     src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
-  if (data.elite == 1) {
-    newPanel.style.border = "2px solid #e2c56a";
-  }
 
   const maxTime = data.maxTime;
   let time = 0;
@@ -464,9 +453,6 @@ const CreateVideoChatMessage = (data) => {
     autoplay: "onload",
     src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
-  if (data.elite == 1) {
-    movie.style.border = "2px solid #e2c56a";
-  }
 
   const playerLine = $.CreatePanel("Label", message, "", {
     class: "ChatLine",

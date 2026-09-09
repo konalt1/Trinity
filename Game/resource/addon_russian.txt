@@ -25,6 +25,7 @@
 		"chat_wheel_donate_sound_Choso"							"Изи"
 		"chat_wheel_donate_sound_StickerOne"						"Стикер 1"
 		"chat_wheel_donate_sound_StickerTwo"						"Стикер 2"
+		"chat_wheel_donate_sound_NO_GOD"						"Боже, нет"
 		"chat_wheel_donate_sound_Anime"							"Довольный"
 		"chat_wheel_donate_sound_empty"							""
 
@@ -40,6 +41,18 @@
 		"sticker_editor_open"									"Открыть лутбокс"
 		"sticker_editor_continue"								"Дальше"
 		"sticker_editor_duplicate"								"Уже есть"
+		"sticker_editor_elite"									"Элита"
+		"sticker_editor_normal"									"Обычный"
+		"sticker_editor_copies"									"%s/5"
+		"sticker_editor_converted"								"Стал элитным"
+
+		"lootbox_toggle"										"Лутбоксы"
+		"lootbox_treasure_title"								"Сокровищница"
+		"lootbox_open"											"Открыть"
+		"lootbox_contains_one"									"Содержит 1 стикер"
+		"lootbox_assign_sticker"								"Назначить стикер"
+		"lootbox_unopened"										"%s"
+		"lootbox_copies_none"									"Нет"
 		
 		"dota_error_cooldown_chat_wheel"					"Фразы на перезарядке"
 
@@ -1052,23 +1065,22 @@
 		"DOTA_Tooltip_modifier_primal_beast_boss_rider_trinity"		"Всадник"
 		"DOTA_Tooltip_modifier_primal_beast_boss_rider_trinity_Description"	"Неуязвим, пока жив Primal Beast."
 		"npc_caravan_aghanim"										"Аганим"
-		"npc_caravan_bearzky"										"Bearzky"
-		"npc_caravan_shagbark"										"Shagbark"
-		"npc_caravan_huntling"										"Huntling"
-		"npc_caravan_seekling"										"Seekling"
-		"npc_caravan_venling"										"Venling"
-		"npc_caravan_faceless_rex"									"Faceless Rex"
-		"npc_caravan_pudgling"										"Pudgling"
-		"npc_caravan_devourling"									"Devourling"
-		"npc_caravan_doomling"										"Doomling"
-		"npc_caravan_krobeling"										"Krobeling"
-		"npc_caravan_skip"											"Skip"
-		"npc_caravan_axolotl"										"Axolotl"
+		"npc_caravan_redhorn"										"Redhorn"
+		"npc_caravan_taffied"										"Taffied Transport"
+		"npc_caravan_mango"											"Mango the Newt"
+		"npc_caravan_hatchling"										"Blazing Hatchling"
 		"npc_caravan_flopjaw"										"Golden Flopjaw"
+		"npc_caravan_baby_roshan"									"Desert Sands Baby Roshan"
 
 		"DOTA_Tooltip_Ability_item_caravan_gold_bag"							"Мешок золота"
 		"DOTA_Tooltip_Ability_item_caravan_gold_bag_Description"				"Подбирая мешок, герой получает 50 золота."
 		"DOTA_Tooltip_Ability_item_caravan_gold_bag_SummaryDescription"		"Даёт 50 золота."
+
+		"DOTA_Tooltip_Ability_item_caravan_aegis"								"Аегис Бессмертного"
+		"DOTA_Tooltip_Ability_item_caravan_aegis_Description"					"Подбор даёт Аегис на %duration% сек.
+
+		Смерть перерождает героя."
+		"DOTA_Tooltip_Ability_item_caravan_aegis_duration"						"ДЛИТЕЛЬНОСТЬ:"
 
 		"DOTA_Tooltip_ability_caravan_aghanim_laser"							"Аганимный лазер"
 		"DOTA_Tooltip_ability_caravan_aghanim_laser_Description"					"Аганим направляет лазеры на каждого вражеского героя рядом. Лучи медленно следуют за целями.\n\nГерой под лучом замедляется и слепнет. Чем дольше он остаётся в луче, тем больше урона получает."

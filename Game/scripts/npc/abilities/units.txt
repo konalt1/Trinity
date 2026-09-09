@@ -8,13 +8,13 @@
         "AbilityTextureName"            "snapfire_mortimer_kisses"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
         "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
-        "MaxLevel"                      "4"
+        "MaxLevel"                      "5"
         "AbilityLevel"                  "1"
 
         "AbilityValues"
         {
-            "projectile_count"          "15 20 25 30"
-            "volley_duration"           "15 20 25 30"
+            "projectile_count"          "15 19 23 26 30"
+            "volley_duration"           "15 19 23 26 30"
             "start_animation_delay"     "0.4"
             "min_range"                 "0"
             "max_range"                 "10000"
@@ -99,7 +99,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
-        "MaxLevel"                      "3"
+        "MaxLevel"                      "5"
         "AbilityLevel"                  "1"
         "AbilityCastPoint"              "1.2"
         "AbilityCooldown"               "0"
@@ -112,10 +112,10 @@
             "orbit_radius"              "800"
             "hit_radius"                "80"
             "rotate_speed"              "35"
-            "damage"                    "140 220 300"
-            "slow_duration"             "1.0 1.2 1.4"
-            "slow_movement_speed"       "-40 -60 -80"
-            "slow_attack_speed"         "-20 -25 -30"
+            "damage"                    "140 180 220 260 300"
+            "slow_duration"             "1.0 1.1 1.2 1.3 1.4"
+            "slow_movement_speed"       "-40 -50 -60 -70 -80"
+            "slow_attack_speed"         "-20 -23 -25 -28 -30"
         }
     }
 
@@ -128,7 +128,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
-        "MaxLevel"                      "3"
+        "MaxLevel"                      "5"
         "AbilityLevel"                  "1"
         "AbilityCastPoint"              "0.35"
         "AbilityCooldown"               "0"
@@ -145,10 +145,10 @@
             "spear_speed"               "1400"
             "spear_width"               "125"
             "spear_vision"              "300"
-            "spear_range"               "900 1000 1100"
-            "stun_duration"             "1.3 1.6 1.9"
+            "spear_range"               "1800 1900 2000 2100 2200"
+            "stun_duration"             "1.3 1.45 1.6 1.75 1.9"
             "activity_duration"         "1.7"
-            "damage"                    "200 400 600"
+            "damage"                    "200 300 400 500 600"
         }
     }
 

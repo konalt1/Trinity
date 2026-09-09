@@ -148,6 +148,57 @@
     }
   });
 
+  function SelectLocalHero() {
+    const playerID = Players.GetLocalPlayer();
+    if (playerID < 0) {
+      return -1;
+    }
+    const hero = Players.GetPlayerHeroEntityIndex(playerID);
+    if (hero === -1) {
+      return -1;
+    }
+    if (GameUI.SelectUnit) {
+      GameUI.SelectUnit(hero, false);
+    }
+    return hero;
+  }
+
+  function BounceAbilityPanels() {
+    const abilities = FindHudElement("abilities");
+    if (!abilities || !abilities.Children) {
+      return;
+    }
+
+    const children = abilities.Children();
+    if (!children) {
+      return;
+    }
+
+    const states = [];
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      if (!child) {
+        continue;
+      }
+      states.push({ panel: child, visible: child.visible });
+      child.visible = false;
+    }
+
+    $.Schedule(0, function () {
+      for (let i = 0; i < states.length; i++) {
+        const entry = states[i];
+        if (entry.panel) {
+          entry.panel.visible = entry.visible;
+        }
+      }
+    });
+  }
+
+  function RefreshAbilityHud() {
+    SelectLocalHero();
+    BounceAbilityPanels();
+  }
+
   GameEvents.Subscribe("trinity_warmup_ended", function () {
     config.trinityWarmupActive = false;
     config.trinityWarmupGold = 0;
@@ -159,6 +210,10 @@
       HidePickOverlay(preGame);
     }
     FocusHeroCamera();
+    RefreshAbilityHud();
+    $.Schedule(0.05, RefreshAbilityHud);
+    $.Schedule(0.2, RefreshAbilityHud);
+    $.Schedule(0.4, RefreshAbilityHud);
   });
 
   TickDraftSpawn();

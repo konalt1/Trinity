@@ -133,7 +133,7 @@ end
 function caravan_aghanim_shards:SyncStageLevel()
     local caster = self:GetCaster()
     local stage = caster and caster.caravanStage or self:GetLevel()
-    stage = math.min(3, math.max(1, math.floor(tonumber(stage) or 1)))
+    stage = math.min(5, math.max(1, math.floor(tonumber(stage) or 1)))
     if self:GetLevel() ~= stage then
         self:SetLevel(stage)
     end

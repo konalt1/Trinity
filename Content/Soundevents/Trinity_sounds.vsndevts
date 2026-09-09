@@ -74,6 +74,13 @@
 		volume = 1.0
 	}
 
+	Wheel.NO_GOD =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/no_god.vsnd"
+		volume = 15.0
+	}
+
 	techies.fireworks.fuse =
 	{
 		type = "dota_src1_3d"

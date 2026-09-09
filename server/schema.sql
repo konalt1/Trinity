@@ -100,7 +100,8 @@ INSERT INTO stickers (sticker_key, enabled, sort_order, rarity, weight_normal, w
     ('Neurodance', 1, 5, 'rare', 30, 3),
     ('Choso', 1, 6, 'common', 100, 10),
     ('StickerOne', 1, 7, 'rare', 30, 3),
-    ('StickerTwo', 1, 8, 'rare', 30, 3)
+    ('StickerTwo', 1, 8, 'rare', 30, 3),
+    ('NO_GOD', 1, 9, 'rare', 30, 3)
 ON DUPLICATE KEY UPDATE
     enabled = VALUES(enabled),
     sort_order = VALUES(sort_order),

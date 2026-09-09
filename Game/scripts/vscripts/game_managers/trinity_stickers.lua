@@ -19,6 +19,7 @@ TrinityStickers.CATALOG = {
 	"Choso",
 	"StickerOne",
 	"StickerTwo",
+	"NO_GOD",
 }
 TrinityStickers.MAX_TIME = {
 	Gura = 1,
@@ -29,6 +30,7 @@ TrinityStickers.MAX_TIME = {
 	Choso = 0.7,
 	StickerOne = 1.5,
 	StickerTwo = 1,
+	NO_GOD = 3,
 }
 
 TrinityStickers.state = TrinityStickers.state or {}
@@ -205,11 +207,9 @@ local function ApplyWheelSlots(playerID, slots)
 	end
 
 	local nextSlots = EmptySlots()
-	local used = {}
 	for i = 1, TrinityStickers.SLOT_COUNT do
 		local key = slots[i]
-		if type(key) == "string" and key ~= "" and KnownKey(key) and not used[key] and IsOwnedEntry(state.owned[key]) then
-			used[key] = true
+		if type(key) == "string" and key ~= "" and KnownKey(key) and IsOwnedEntry(state.owned[key]) then
 			nextSlots[i] = key
 		end
 	end

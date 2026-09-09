@@ -9,6 +9,7 @@ const STICKER_CATALOG = [
   "Choso",
   "StickerOne",
   "StickerTwo",
+  "NO_GOD",
 ];
 const STICKER_SOUNDS = {
   Gura: "high_five.impact",
@@ -19,6 +20,7 @@ const STICKER_SOUNDS = {
   Choso: "Wheel.Choso",
   StickerOne: "high_five.impact",
   StickerTwo: "General.Buy",
+  NO_GOD: "Wheel.NO_GOD",
 };
 const STICKER_ROLL_POOL = [
   { key: "Gura", quality: 1, weight: 100 },
@@ -37,6 +39,8 @@ const STICKER_ROLL_POOL = [
   { key: "StickerOne", quality: 2, weight: 3 },
   { key: "StickerTwo", quality: 1, weight: 30 },
   { key: "StickerTwo", quality: 2, weight: 3 },
+  { key: "NO_GOD", quality: 1, weight: 30 },
+  { key: "NO_GOD", quality: 2, weight: 3 },
 ];
 const STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const QUALITY_NORMAL = 1;

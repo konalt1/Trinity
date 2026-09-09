@@ -77,6 +77,24 @@ function modifier_caravan_courier:OnCreated(keys)
     self:StartIntervalThink(0.25)
 end
 
+function modifier_caravan_courier:OnDestroy()
+    if not IsServer() then
+        return
+    end
+
+    local parent = self:GetParent()
+    if not parent or parent:IsNull() then
+        return
+    end
+
+    local fx = parent.caravanAmbientFx
+    if fx then
+        ParticleManager:DestroyParticle(fx, false)
+        ParticleManager:ReleaseParticleIndex(fx)
+        parent.caravanAmbientFx = nil
+    end
+end
+
 function modifier_caravan_courier:OnIntervalThink()
     if not IsServer() then
         return

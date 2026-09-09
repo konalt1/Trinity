@@ -175,11 +175,16 @@ local function PrecacheModelFile(path, context)
 end
 
 function CaravanAssets:Precache(context)
+    if not CaravanLoot then
+        pcall(require, "map_modifications/Bosses/caravan/caravan_loot")
+    end
     PrecacheModelFile(self.AGHANIM_MODEL, context)
     PrecacheModelFile(self.MODEL.spear, context)
     PrecacheModelFile(self.MODEL.gem, context)
     PrecacheModelFile("models/props_gameplay/gold_bag.vmdl", context)
+    PrecacheModelFile("models/props_gameplay/aegis.vmdl", context)
     PrecacheResource("particle", "particles/generic_gameplay/dropped_item.vpcf", context)
+    PrecacheResource("particle", "particles/generic_gameplay/dropped_aegis.vpcf", context)
 
     for _, path in pairs(self.PARTICLE) do
         PrecacheResource("particle", path, context)
@@ -192,10 +197,37 @@ function CaravanAssets:Precache(context)
     if CaravanLoot and CaravanLoot.COURIERS then
         for _, def in pairs(CaravanLoot.COURIERS) do
             PrecacheModelFile(def.model, context)
+            if def.particle then
+                PrecacheResource("particle", def.particle, context)
+            end
         end
     end
 
     PrecacheItemByNameSync("item_caravan_gold_bag", context)
+    PrecacheItemByNameSync("item_caravan_aegis", context)
+    if CaravanLoot and CaravanLoot.COURIERS then
+        local seen = {}
+        local function PrecacheLootItem(name)
+            if type(name) ~= "string" or name == "" or seen[name] then
+                return
+            end
+            seen[name] = true
+            PrecacheItemByNameSync(name, context)
+        end
+        for _, def in pairs(CaravanLoot.COURIERS) do
+            if def.items then
+                for _, entry in ipairs(def.items) do
+                    if type(entry) == "string" then
+                        PrecacheLootItem(entry)
+                    elseif type(entry) == "table" then
+                        for _, name in ipairs(entry) do
+                            PrecacheLootItem(name)
+                        end
+                    end
+                end
+            end
+        end
+    end
     PrecacheUnitByNameSync("npc_caravan_aghanim", context)
     PrecacheUnitByNameSync("npc_caravan_spear", context)
     PrecacheUnitByNameSync("npc_caravan_shard", context)

@@ -62,7 +62,7 @@ local CAST_PAUSE = 2.0
 local DEBUG_VISION_RADIUS = 800
 local DEBUG_VISION_DURATION = 5
 
-_G.CARAVAN_RETREAT_DEBUG_ENABLED = true
+_G.CARAVAN_RETREAT_DEBUG_ENABLED = false
 
 CourierCaravan.COURIER_SPEED = COURIER_SPEED
 CourierCaravan.COURIER_CATCH_UP_SPEED = COURIER_CATCH_UP_SPEED
@@ -580,7 +580,7 @@ function CourierCaravan:DropCourierLoot(courier)
         end
     end
 
-    local bagCount = data.gold_bags or 1
+    local bagCount = tonumber(data.gold_bags) or 0
     for _ = 1, bagCount do
         local bag = CreateItem("item_caravan_gold_bag", nil, nil)
         if bag then
@@ -836,7 +836,7 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
         end
     end
 
-    local picked = CaravanLoot:PickRandomIds(CaravanLoot.PICK_COUNT)
+    local picked = CaravanLoot:PickRandomIds(CaravanLoot.PICK_COUNT, stage)
     for slot, id in ipairs(picked) do
         local def = CaravanLoot:GetCourier(id)
         local data = CaravanLoot:GetStageData(id, stage)
@@ -856,6 +856,7 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
                 courier:AddNewModifier(courier, nil, "modifier_caravan_aghanim_leash", { radius = LEASH_RADIUS })
                 self:PlaceCourier(courier, spawnPos)
                 self:GiveCourierLoot(courier, data)
+                CaravanLoot:ApplyLook(courier, def)
                 ApplyHits(courier, data.hits)
                 table.insert(pack.couriers, courier)
             else

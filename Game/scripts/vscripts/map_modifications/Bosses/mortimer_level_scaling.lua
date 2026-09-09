@@ -13,9 +13,9 @@ local CONFIG = {
     attack_damage_max = { base = 200, per_level = 100 },
     cookie_damage_pct_per_level = 25,
     gobble_spit_distance_per_level = 300,
-    kisses_impact_damage_per_level = 100,
-    kisses_burn_damage_per_level = 20,
-    kisses_burn_duration_per_level = 0.5,
+    kisses_impact_damage_per_level = 75,
+    kisses_burn_damage_per_level = 15,
+    kisses_burn_duration_per_level = 0.375,
 }
 
 MortimerLevelScaling.CONFIG = CONFIG

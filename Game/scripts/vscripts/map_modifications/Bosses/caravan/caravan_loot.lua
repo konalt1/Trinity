@@ -1,126 +1,78 @@
 CaravanLoot = CaravanLoot or {}
 
-CaravanLoot.DEFAULT_GOLD_BAGS = { 1, 2, 4 }
 CaravanLoot.GOLD_PER_BAG = 50
 CaravanLoot.PICK_COUNT = 10
+CaravanLoot.GOLD_CHANCE = 67
+CaravanLoot.AEGIS_DURATION = 120
+CaravanLoot.AEGIS_MIN_STAGE = 2
+CaravanLoot.MAX_STAGE = 5
+CaravanLoot.HITS = { 1, 1, 2, 2, 3 }
 
 CaravanLoot.COURIERS = {
-    bearzky = {
-        unit_name = "npc_caravan_bearzky",
-        model = "models/items/courier/bearzky/bearzky.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_blades_of_attack", count = 1 } } },
-            { hp = 500, items = { { name = "item_broadsword", count = 1 } } },
-            { hp = 700, items = { { name = "item_claymore", count = 1 } } },
+    str = {
+        unit_name = "npc_caravan_redhorn",
+        model = "models/courier/ram/ram.vmdl",
+        items = {
+            "item_gauntlets",
+            "item_belt_of_strength",
+            "item_ogre_axe",
+            "item_sange",
+            "item_reaver",
         },
     },
-    shagbark = {
-        unit_name = "npc_caravan_shagbark",
-        model = "models/items/courier/shagbark/shagbark.vmdl",
-        stages = {
-            { hp = 100, items = { { name = "item_circlet", count = 1 } } },
-            { hp = 300, items = { { name = "item_crown", count = 1 } } },
-            { hp = 500, items = { { name = "item_diadem", count = 1 } } },
+    agi = {
+        unit_name = "npc_caravan_taffied",
+        model = "models/courier/winter2022/taffy_donkey_courier.vmdl",
+        items = {
+            "item_slippers",
+            "item_boots_of_elves",
+            "item_blade_of_alacrity",
+            "item_yasha",
+            "item_eagle",
         },
     },
-    huntling = {
-        unit_name = "npc_caravan_huntling",
-        model = "models/courier/huntling/huntling.vmdl",
-        stages = {
-            { hp = 200, items = { { name = "item_wind_lace", count = 1 } } },
-            { hp = 400, items = { { name = "item_boots", count = 1 } } },
-            { hp = 600, items = {} },
+    int = {
+        unit_name = "npc_caravan_mango",
+        model = "models/items/courier/mango_the_courier/mango_the_courier.vmdl",
+        items = {
+            "item_mantle",
+            "item_robe",
+            "item_staff_of_wizardry",
+            "item_kaya",
+            "item_mystic_staff",
         },
     },
-    seekling = {
-        unit_name = "npc_caravan_seekling",
-        model = "models/courier/seekling/seekling.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_ring_of_regen", count = 1 } } },
-            { hp = 500, items = { { name = "item_ring_of_health", count = 1 } } },
-            { hp = 700, items = { { name = "item_ring_of_tarrasque", count = 1 } } },
+    all = {
+        unit_name = "npc_caravan_hatchling",
+        model = "models/items/courier/blazing_hatchling_the_fortune_bringer_courier/blazing_hatchling_the_fortune_bringer_courier.vmdl",
+        items = {
+            "item_circlet",
+            "item_crown",
+            "item_diadem",
+            "item_ghost",
+            "item_ultimate_orb",
         },
     },
-    venling = {
-        unit_name = "npc_caravan_venling",
-        model = "models/courier/venoling/venoling.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_orb_of_venom", count = 1 } } },
-            { hp = 500, items = { { name = "item_orb_of_corrosion", count = 1 } } },
-            { hp = 700, items = { { name = "item_oblivion_staff", count = 1 } } },
-        },
-    },
-    faceless_rex = {
-        unit_name = "npc_caravan_faceless_rex",
-        model = "models/items/courier/faceless_rex/faceless_rex.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_gloves", count = 1 } } },
-            { hp = 500, items = { { name = "item_blitz_knuckles", count = 1 } } },
-            { hp = 900, items = { { name = "item_hyperstone", count = 1 } } },
-        },
-    },
-    pudgling = {
-        unit_name = "npc_caravan_pudgling",
-        model = "models/items/courier/butch_pudge_dog/butch_pudge_dog.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_belt_of_strength", count = 1 } } },
-            { hp = 500, items = { { name = "item_ogre_axe", count = 1 } } },
-            { hp = 1000, items = { { name = "item_reaver", count = 1 } } },
-        },
-    },
-    devourling = {
-        unit_name = "npc_caravan_devourling",
-        model = "models/items/courier/devourling/devourling.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_robe", count = 1 } } },
-            { hp = 500, items = { { name = "item_staff_of_wizardry", count = 1 } } },
-            { hp = 1000, items = { { name = "item_mystic_staff", count = 1 } } },
-        },
-    },
-    doomling = {
-        unit_name = "npc_caravan_doomling",
-        model = "models/courier/imp/imp.vmdl",
-        stages = {
-            { hp = 100, items = { { name = "item_blood_grenade", count = 3 } } },
-            { hp = 300, items = { { name = "item_fluffy_hat", count = 2 } } },
-            { hp = 500, items = { { name = "item_vitality_booster", count = 1 } } },
-        },
-    },
-    krobeling = {
-        unit_name = "npc_caravan_krobeling",
-        model = "models/items/courier/krobeling/krobeling.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_boots_of_elves", count = 1 } } },
-            { hp = 500, items = { { name = "item_blade_of_alacrity", count = 1 } } },
-            { hp = 1000, items = { { name = "item_eagle", count = 1 } } },
-        },
-    },
-    skip = {
-        unit_name = "npc_caravan_skip",
-        model = "models/courier/frog/frog.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_shawl", count = 1 } } },
-            { hp = 500, items = { { name = "item_cloak", count = 1 } } },
-            { hp = 700, items = { { name = "item_talisman_of_evasion", count = 1 } } },
-        },
-    },
-    axolotl = {
-        unit_name = "npc_caravan_axolotl",
-        model = "models/items/courier/axolotl/axolotl.vmdl",
-        stages = {
-            { hp = 300, items = { { name = "item_sobi_mask", count = 2 } } },
-            { hp = 400, items = { { name = "item_void_stone", count = 1 } } },
-            { hp = 700, items = { { name = "item_tiara_of_selemene", count = 1 } } },
-        },
-    },
-    flopjaw = {
+    gold = {
         unit_name = "npc_caravan_flopjaw",
         model = "models/courier/flopjaw/flopjaw.vmdl",
-        gold_bags = { 4, 8, 16 },
-        stages = {
-            { hp = 300, items = {} },
-            { hp = 600, items = {} },
-            { hp = 1200, items = {} },
+        skin = 1,
+        material_group = "1",
+        particle = "particles/econ/courier/courier_flopjaw_gold/courier_flopjaw_ambient_gold.vpcf",
+        gold_bags = { 4, 7, 10, 13, 16 },
+        items = {},
+    },
+    aegis = {
+        unit_name = "npc_caravan_baby_roshan",
+        model = "models/courier/baby_rosh/babyroshan.vmdl",
+        material_group = "desert_sands",
+        particle = "particles/econ/courier/courier_roshan_desert_sands/baby_roshan_desert_sands_ambient.vpcf",
+        items = {
+            {},
+            "item_caravan_aegis",
+            "item_caravan_aegis",
+            "item_caravan_aegis",
+            "item_caravan_aegis",
         },
     },
 }
@@ -139,11 +91,13 @@ function CaravanLoot:GetCourier(id)
 end
 
 function CaravanLoot:HitsForStage(stage)
-    return self:ClampStage(stage)
+    stage = self:ClampStage(stage)
+    return self.HITS[stage] or self.HITS[#self.HITS] or stage
 end
 
 function CaravanLoot:ClampStage(stage)
-    return math.min(3, math.max(1, math.floor(tonumber(stage) or 1)))
+    local maxStage = self.MAX_STAGE or 5
+    return math.min(maxStage, math.max(1, math.floor(tonumber(stage) or 1)))
 end
 
 function CaravanLoot:GetStageData(id, stage)
@@ -153,33 +107,80 @@ function CaravanLoot:GetStageData(id, stage)
     end
 
     stage = self:ClampStage(stage)
-    local row = def.stages[stage]
-    if not row then
-        return nil
+    local items = {}
+    local entry = def.items and def.items[stage]
+    local function addItem(name)
+        if type(name) == "string" and name ~= "" then
+            table.insert(items, { name = name, count = 1 })
+        end
+    end
+    if type(entry) == "string" then
+        addItem(entry)
+    elseif type(entry) == "table" then
+        for _, name in ipairs(entry) do
+            addItem(name)
+        end
     end
 
-    local bags = def.gold_bags or self.DEFAULT_GOLD_BAGS
+    local bags = 0
+    if def.gold_bags then
+        bags = def.gold_bags[stage] or def.gold_bags[#def.gold_bags] or 0
+    end
+
     return {
-        hp = row.hp,
         hits = self:HitsForStage(stage),
-        items = row.items or {},
-        gold_bags = bags[stage] or bags[#bags] or 1,
+        items = items,
+        gold_bags = bags,
     }
 end
 
-function CaravanLoot:PickRandomIds(count)
+function CaravanLoot:PickRandomIds(count, stage)
     count = count or self.PICK_COUNT
-    local pool = self:GetAllIds()
-    for i = #pool, 2, -1 do
-        local j = RandomInt(1, i)
-        pool[i], pool[j] = pool[j], pool[i]
+    stage = self:ClampStage(stage)
+    local aegisMinStage = self.AEGIS_MIN_STAGE or 2
+    local allowAegis = stage >= aegisMinStage
+
+    local others = {}
+    for _, id in ipairs(self:GetAllIds()) do
+        if id ~= "gold" and (id ~= "aegis" or allowAegis) then
+            table.insert(others, id)
+        end
     end
 
     local picked = {}
-    for i = 1, math.min(count, #pool) do
-        picked[i] = pool[i]
+    local goldChance = math.max(0, math.min(100, tonumber(self.GOLD_CHANCE) or 0))
+    for i = 1, count do
+        if self.COURIERS.gold and RandomInt(1, 100) <= goldChance then
+            picked[i] = "gold"
+        elseif #others > 0 then
+            local index = RandomInt(1, #others)
+            local id = others[index]
+            picked[i] = id
+            if id == "aegis" then
+                table.remove(others, index)
+            end
+        elseif self.COURIERS.gold then
+            picked[i] = "gold"
+        end
     end
     return picked
+end
+
+function CaravanLoot:ApplyLook(courier, def)
+    if not courier or courier:IsNull() or not def then
+        return
+    end
+
+    if def.skin ~= nil and courier.SetSkin then
+        courier:SetSkin(def.skin)
+    end
+    if def.material_group and courier.SetMaterialGroup then
+        courier:SetMaterialGroup(tostring(def.material_group))
+    end
+    if def.particle then
+        local fx = ParticleManager:CreateParticle(def.particle, PATTACH_ABSORIGIN_FOLLOW, courier)
+        courier.caravanAmbientFx = fx
+    end
 end
 
 return CaravanLoot
