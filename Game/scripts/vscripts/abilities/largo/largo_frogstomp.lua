@@ -3,13 +3,24 @@ LinkLuaModifier("modifier_largo_frogstomp_debuff", "abilities/largo/largo_frogst
 largo_frogstomp_trinity = class({})
 
 local PARTICLE_FROGSTOMP = "particles/units/heroes/hero_largo/largo_frogstomp.vpcf"
+local PARTICLE_PROJECTILE = "particles/units/heroes/hero_largo/largo_frogstomp_projectile.vpcf"
+local THROW_ATTACHMENTS = {
+	"attach_attack1",
+	"attach_attack2",
+	"attach_hitloc",
+}
 
 local function IsValid(unit)
 	return unit and not unit:IsNull() and IsValidEntity(unit)
 end
 
+local function HorizontalVector(vector)
+	return Vector(vector.x, vector.y, 0)
+end
+
 function largo_frogstomp_trinity:Precache(context)
 	PrecacheResource("particle", PARTICLE_FROGSTOMP, context)
+	PrecacheResource("particle", PARTICLE_PROJECTILE, context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_largo.vsndevts", context)
 end
 
@@ -54,20 +65,69 @@ function largo_frogstomp_trinity:GetTickInterval()
 	return interval
 end
 
-function largo_frogstomp_trinity:OnSpellStart()
-	if not IsServer() then
-		return
+function largo_frogstomp_trinity:GetEffectDelay()
+	local delay = self:GetSpecialValueFor("effect_delay")
+	if delay < 0.05 then
+		delay = 0.5
+	end
+	return delay
+end
+
+function largo_frogstomp_trinity:GetThrowOrigin(caster)
+	if caster.ScriptLookupAttachment and caster.GetAttachmentOrigin then
+		for _, name in ipairs(THROW_ATTACHMENTS) do
+			local id = caster:ScriptLookupAttachment(name)
+			if id and id > 0 then
+				return caster:GetAttachmentOrigin(id)
+			end
+		end
 	end
 
-	local caster = self:GetCaster()
-	local point = self:GetCursorPosition()
-	if not IsValid(caster) then
-		return
+	local origin = caster:GetAbsOrigin()
+	return Vector(origin.x, origin.y, origin.z + 80)
+end
+
+function largo_frogstomp_trinity:ThrowFroglings(caster, point)
+	local origin = self:GetThrowOrigin(caster)
+	local offset = HorizontalVector(point - origin)
+	local distance = offset:Length2D()
+	local direction
+	if distance < 16 then
+		direction = HorizontalVector(caster:GetForwardVector())
+		if direction:Length2D() < 0.01 then
+			direction = Vector(1, 0, 0)
+		else
+			direction = direction:Normalized()
+		end
+		distance = 16
+	else
+		direction = offset:Normalized()
 	end
 
-	point = GetGroundPosition(point, caster)
-	caster:EmitSound("Hero_Largo.Frogstomp.Cast")
+	local delay = self:GetEffectDelay()
+	local speed = distance / delay
 
+	ProjectileManager:CreateLinearProjectile({
+		Ability = self,
+		EffectName = PARTICLE_PROJECTILE,
+		vSpawnOrigin = origin,
+		fDistance = distance,
+		fStartRadius = 8,
+		fEndRadius = 8,
+		Source = caster,
+		bHasFrontalCone = false,
+		bReplaceExisting = false,
+		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_NONE,
+		iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+		iUnitTargetType = DOTA_UNIT_TARGET_NONE,
+		fExpireTime = GameRules:GetGameTime() + delay + 0.25,
+		bDeleteOnHit = false,
+		vVelocity = direction * speed,
+		bProvidesVision = false,
+	})
+end
+
+function largo_frogstomp_trinity:StartStomps(caster, point)
 	local ticks = self:GetTickCount()
 	local interval = self:GetTickInterval()
 	local radius = self:GetRadius()
@@ -108,6 +168,31 @@ function largo_frogstomp_trinity:OnSpellStart()
 			end)
 		end
 	end
+end
+
+function largo_frogstomp_trinity:OnSpellStart()
+	if not IsServer() then
+		return
+	end
+
+	local caster = self:GetCaster()
+	local point = self:GetCursorPosition()
+	if not IsValid(caster) then
+		return
+	end
+
+	point = GetGroundPosition(point, caster)
+	caster:EmitSound("Hero_Largo.Frogstomp.Cast")
+	self:ThrowFroglings(caster, point)
+
+	local delay = self:GetEffectDelay()
+	Timers:CreateTimer(delay, function()
+		if self:IsNull() or not IsValid(caster) then
+			return nil
+		end
+		self:StartStomps(caster, point)
+		return nil
+	end)
 end
 
 function largo_frogstomp_trinity:StompPoint(caster, point)

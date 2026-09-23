@@ -1,6 +1,7 @@
 "use strict";
 
 const STICKER_CATALOG = [
+  /* TRINITY_STICKER_CATALOG_BEGIN */
   "Gura",
   "NeuroHug",
   "Watson",
@@ -10,6 +11,7 @@ const STICKER_CATALOG = [
   "StickerOne",
   "StickerTwo",
   "NO_GOD",
+  /* TRINITY_STICKER_CATALOG_END */
 ];
 const STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const SLOT_COUNT = 8;

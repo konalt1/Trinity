@@ -12,17 +12,11 @@ final class Stickers
     public const PRICE_ELITE = 20;
     public const DAILY_WIN_BOXES = 3;
 
-    private const CATALOG = [
-        ['key' => 'Gura', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
-        ['key' => 'NeuroHug', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
-        ['key' => 'Watson', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
-        ['key' => 'Anime', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
-        ['key' => 'Neurodance', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
-        ['key' => 'Choso', 'rarity' => 'common', 'weight_normal' => 100, 'weight_elite' => 10],
-        ['key' => 'StickerOne', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
-        ['key' => 'StickerTwo', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
-        ['key' => 'NO_GOD', 'rarity' => 'rare', 'weight_normal' => 30, 'weight_elite' => 3],
-    ];
+    /** @return list<array{key: string, rarity: string, weight_normal: int, weight_elite: int}> */
+    public static function catalog(): array
+    {
+        return StickerCatalog::dropEntries();
+    }
 
     public static function payload(int $steamid): array
     {
@@ -254,15 +248,32 @@ final class Stickers
 
     public static function grantLootbox(): void
     {
-        $steamid = self::steamidFromBody();
+        $body = Http::body();
+        $steamid = self::parseSteamid($body['steamid'] ?? null);
+        if ($steamid === null) {
+            Http::json(400, ['ok' => false, 'error' => 'invalid_steamid']);
+        }
+
+        $count = 1;
+        if (array_key_exists('count', $body)) {
+            $count = self::parseCount($body['count']);
+            if ($count === null) {
+                Http::json(400, ['ok' => false, 'error' => 'invalid_count']);
+            }
+        }
+
         self::ensurePlayer($steamid);
         Database::pdo()->prepare(
-            'UPDATE players SET lootbox_unopened = lootbox_unopened + 1 WHERE steamid = :steamid'
-        )->execute(['steamid' => $steamid]);
+            'UPDATE players SET lootbox_unopened = lootbox_unopened + :count WHERE steamid = :steamid'
+        )->execute([
+            'count' => $count,
+            'steamid' => $steamid,
+        ]);
 
         Http::json(200, [
             'ok' => true,
-            'player' => array_merge(['steamid' => $steamid], self::payload($steamid)),
+            'count' => $count,
+            'player' => array_merge(['steamid' => (string) $steamid], self::payload($steamid)),
         ]);
     }
 
@@ -394,10 +405,24 @@ final class Stickers
         return $steamid;
     }
 
+    public static function syncCatalog(): void
+    {
+        self::$catalogSynced = false;
+        self::ensureCatalog();
+    }
+
+    public static function removeKey(string $key): void
+    {
+        Database::pdo()->prepare(
+            'DELETE FROM stickers WHERE sticker_key = :sticker_key'
+        )->execute(['sticker_key' => $key]);
+    }
+
+    private static bool $catalogSynced = false;
+
     private static function ensureCatalog(): void
     {
-        static $ready = false;
-        if ($ready) {
+        if (self::$catalogSynced) {
             return;
         }
 
@@ -405,12 +430,15 @@ final class Stickers
             'INSERT INTO stickers (sticker_key, enabled, sort_order, rarity, weight_normal, weight_elite)
              VALUES (:sticker_key, 1, :sort_order, :rarity, :weight_normal, :weight_elite)
              ON DUPLICATE KEY UPDATE
+                enabled = 1,
                 sort_order = VALUES(sort_order),
                 rarity = VALUES(rarity),
                 weight_normal = VALUES(weight_normal),
                 weight_elite = VALUES(weight_elite)'
         );
-        foreach (self::CATALOG as $index => $entry) {
+        $keys = [];
+        foreach (self::catalog() as $index => $entry) {
+            $keys[] = $entry['key'];
             $insert->execute([
                 'sticker_key' => $entry['key'],
                 'sort_order' => $index + 1,
@@ -419,7 +447,14 @@ final class Stickers
                 'weight_elite' => $entry['weight_elite'],
             ]);
         }
-        $ready = true;
+        if ($keys !== []) {
+            $placeholders = implode(',', array_fill(0, count($keys), '?'));
+            $disable = Database::pdo()->prepare(
+                "UPDATE stickers SET enabled = 0 WHERE sticker_key NOT IN ({$placeholders})"
+            );
+            $disable->execute($keys);
+        }
+        self::$catalogSynced = true;
     }
 
     private static function ensurePlayer(int $steamid): void
@@ -677,7 +712,7 @@ final class Stickers
     private static function catalogPublic(): array
     {
         $list = [];
-        foreach (self::CATALOG as $entry) {
+        foreach (self::catalog() as $entry) {
             $list[] = [
                 'key' => $entry['key'],
                 'rarity' => $entry['rarity'],
@@ -766,7 +801,7 @@ final class Stickers
         if (!is_string($value) || $value === '') {
             return null;
         }
-        foreach (self::CATALOG as $entry) {
+        foreach (self::catalog() as $entry) {
             if ($entry['key'] === $value) {
                 return $value;
             }
@@ -795,6 +830,19 @@ final class Stickers
         if (is_string($value) && ctype_digit($value)) {
             $parsed = (int) $value;
             return $parsed > 0 ? $parsed : null;
+        }
+
+        return null;
+    }
+
+    private static function parseCount(mixed $value): ?int
+    {
+        if (is_int($value) && $value >= 1 && $value <= 99) {
+            return $value;
+        }
+        if (is_string($value) && ctype_digit($value)) {
+            $parsed = (int) $value;
+            return $parsed >= 1 && $parsed <= 99 ? $parsed : null;
         }
 
         return null;

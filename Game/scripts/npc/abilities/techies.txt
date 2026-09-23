@@ -161,15 +161,6 @@
         "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_6"
     }
 
-    "techies_sticky_bomb_bonus"
-    {
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abilities/techies/techies_sticky_bomb_bonus"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-    }
-
     "special_bonus_unique_techies_fireworks_radius"
     {
         // General

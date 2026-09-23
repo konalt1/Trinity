@@ -6,6 +6,7 @@
         "mind_power",
         "trinity_player_data",
         "trinity_stickers",
-        "chen_barrack"
+        "chen_barrack",
+        "trinity_hud_test"
     ]
 }

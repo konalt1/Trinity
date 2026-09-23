@@ -11,6 +11,7 @@ TrinityStickers.QUALITY_ELITE = 2
 TrinityStickers.PRICE_NORMAL = 5
 TrinityStickers.PRICE_ELITE = 20
 TrinityStickers.CATALOG = {
+	-- TRINITY_STICKER_CATALOG_BEGIN
 	"Gura",
 	"NeuroHug",
 	"Watson",
@@ -20,17 +21,20 @@ TrinityStickers.CATALOG = {
 	"StickerOne",
 	"StickerTwo",
 	"NO_GOD",
+	-- TRINITY_STICKER_CATALOG_END
 }
 TrinityStickers.MAX_TIME = {
-	Gura = 1,
+	-- TRINITY_STICKER_MAX_TIME_BEGIN
+	Gura = 2.4,
 	NeuroHug = 1.5,
-	Watson = 1.5,
+	Watson = 2.1,
 	Anime = 1.5,
-	Neurodance = 1.5,
+	Neurodance = 7.5,
 	Choso = 0.7,
 	StickerOne = 1.5,
-	StickerTwo = 1,
-	NO_GOD = 3,
+	StickerTwo = 1.2,
+	NO_GOD = 2.8,
+	-- TRINITY_STICKER_MAX_TIME_END
 }
 
 TrinityStickers.state = TrinityStickers.state or {}

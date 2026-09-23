@@ -67,27 +67,139 @@
     preGame.hittestchildren = true;
   }
 
+  function ReadNumber(value) {
+    const number = Number(value);
+    return isNaN(number) ? null : number;
+  }
+
+  function ReadEventOrigin(event, prefix) {
+    prefix = prefix || "";
+    const x = ReadNumber(event && event[prefix + "x"]);
+    const y = ReadNumber(event && event[prefix + "y"]);
+    if (x == null || y == null) {
+      return null;
+    }
+    return [x, y, ReadNumber(event && event[prefix + "z"]) || 0];
+  }
+
+  function GetCameraDestination(event) {
+    const origin = ReadEventOrigin(event, "");
+    if (origin) {
+      return origin;
+    }
+
+    const playerID = Players.GetLocalPlayer();
+    const hero = Players.GetPlayerHeroEntityIndex(playerID);
+    if (hero === -1) {
+      return null;
+    }
+    return Entities.GetAbsOrigin(hero);
+  }
+
+  function ReadCameraLerp(event) {
+    const lerp = ReadNumber(event && event.lerp);
+    if (lerp == null || lerp < 0) {
+      return 0;
+    }
+    return lerp;
+  }
+
+  function StopWarmupCameraFly() {
+    config._trinityWarmupCameraGen = (Number(config._trinityWarmupCameraGen) || 0) + 1;
+  }
+
+  function SetCameraOrigin(origin, lerp) {
+    if (!origin) {
+      return;
+    }
+    GameUI.SetCameraTarget(-1);
+    GameUI.SetCameraTargetPosition(origin, lerp || 0);
+  }
+
+  function FlyCamera(from, to, duration) {
+    StopWarmupCameraFly();
+    const gen = config._trinityWarmupCameraGen;
+    if (!from || duration <= 0) {
+      SetCameraOrigin(to, 0);
+      return;
+    }
+
+    const start = Game.Time();
+    const tick = function () {
+      if (config._trinityWarmupCameraGen !== gen) {
+        return;
+      }
+      const elapsed = Game.Time() - start;
+      const t = Math.min(1, elapsed / duration);
+      const s = t * t * (3 - 2 * t);
+      SetCameraOrigin(
+        [
+          from[0] + (to[0] - from[0]) * s,
+          from[1] + (to[1] - from[1]) * s,
+          from[2] + (to[2] - from[2]) * s,
+        ],
+        0
+      );
+      if (t < 1) {
+        $.Schedule(0.03, tick);
+      }
+    };
+    tick();
+  }
+
   function FocusHeroCamera(event) {
     const playerID = Players.GetLocalPlayer();
     if (event && event.player_id != null && Number(event.player_id) !== playerID) {
       return;
     }
 
-    let origin = null;
-    if (event && event.x != null && event.y != null) {
-      origin = [Number(event.x), Number(event.y), Number(event.z) || 0];
-    } else {
-      const hero = Players.GetPlayerHeroEntityIndex(playerID);
-      if (hero === -1) {
-        return;
-      }
-      origin = Entities.GetAbsOrigin(hero);
+    const origin = GetCameraDestination(event);
+    if (!origin) {
+      return;
     }
 
-    if (origin) {
-      GameUI.SetCameraTarget(-1);
-      GameUI.SetCameraTargetPosition(origin, 0);
+    const lerp = ReadCameraLerp(event);
+    if (lerp <= 0) {
+      StopWarmupCameraFly();
+      SetCameraOrigin(origin, 0);
+      return;
     }
+
+    FlyCamera(ReadEventOrigin(event, "from_") || origin, origin, lerp);
+  }
+
+  function QueueFocusHeroCamera(event) {
+    const playerID = Players.GetLocalPlayer();
+    if (event && event.player_id != null && Number(event.player_id) !== playerID) {
+      return;
+    }
+
+    const lerp = ReadCameraLerp(event);
+    if (lerp <= 0) {
+      FocusHeroCamera(event);
+      return;
+    }
+
+    const now = Game.Time();
+    const last = Number(config._trinityWarmupCameraAt);
+    if (!isNaN(last) && now - last < 0.25) {
+      return;
+    }
+    config._trinityWarmupCameraAt = now;
+
+    const payload = {
+      player_id: event && event.player_id,
+      x: event && event.x,
+      y: event && event.y,
+      z: event && event.z,
+      from_x: event && event.from_x,
+      from_y: event && event.from_y,
+      from_z: event && event.from_z,
+      lerp: lerp,
+    };
+    $.Schedule(0.05, function () {
+      FocusHeroCamera(payload);
+    });
   }
 
   function TickDraftSpawn() {
@@ -128,12 +240,12 @@
     if (event && event.player_id != null && Number(event.player_id) !== playerID) {
       return;
     }
-    FocusHeroCamera(event);
     config.trinityCameraReady = true;
     const preGame = FindHudElement("PreGame");
     if (preGame) {
       HidePickOverlay(preGame);
     }
+    QueueFocusHeroCamera(event);
   });
 
 	GameEvents.Subscribe("trinity_warmup_started", function (event) {
@@ -142,10 +254,14 @@
     const remaining = Number(event && event.remaining);
     config.trinityWarmupRemaining = isNaN(remaining) ? 0 : Math.max(0, remaining);
     config.trinityWarmupEndTime = Game.Time() + config.trinityWarmupRemaining;
-    FocusHeroCamera(event);
-    if (event && event.x != null) {
+    if (event && (event.x != null || ReadCameraLerp(event) > 0)) {
       config.trinityCameraReady = true;
+      const preGame = FindHudElement("PreGame");
+      if (preGame) {
+        HidePickOverlay(preGame);
+      }
     }
+    QueueFocusHeroCamera(event);
   });
 
   function SelectLocalHero() {
@@ -163,41 +279,42 @@
     return hero;
   }
 
-  function BounceAbilityPanels() {
+  function RefreshAbilityHud() {
+    return SelectLocalHero() !== -1;
+  }
+
+  function CountVisibleAbilityHudSlots() {
     const abilities = FindHudElement("abilities");
     if (!abilities || !abilities.Children) {
-      return;
+      return { visible: 0, total: 0 };
     }
 
-    const children = abilities.Children();
-    if (!children) {
-      return;
-    }
-
-    const states = [];
+    const children = abilities.Children() || [];
+    let visible = 0;
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
-      if (!child) {
-        continue;
+      if (child && child.visible) {
+        visible++;
       }
-      states.push({ panel: child, visible: child.visible });
-      child.visible = false;
+    }
+    return { visible: visible, total: children.length };
+  }
+
+  GameEvents.Subscribe("trinity_hud_test_request", function (event) {
+    const hudRefreshDelays = [0, 0.05, 0.15, 0.35, 0.75];
+    for (let i = 0; i < hudRefreshDelays.length; i++) {
+      $.Schedule(hudRefreshDelays[i], RefreshAbilityHud);
     }
 
-    $.Schedule(0, function () {
-      for (let i = 0; i < states.length; i++) {
-        const entry = states[i];
-        if (entry.panel) {
-          entry.panel.visible = entry.visible;
-        }
-      }
+    $.Schedule(0.85, function () {
+      const counts = CountVisibleAbilityHudSlots();
+      GameEvents.SendCustomGameEventToServer("trinity_hud_test_report", {
+        cycle: event && event.cycle,
+        visible_slots: counts.visible,
+        total_slots: counts.total,
+      });
     });
-  }
-
-  function RefreshAbilityHud() {
-    SelectLocalHero();
-    BounceAbilityPanels();
-  }
+  });
 
   GameEvents.Subscribe("trinity_warmup_ended", function () {
     config.trinityWarmupActive = false;
@@ -209,11 +326,12 @@
     if (preGame) {
       HidePickOverlay(preGame);
     }
+    StopWarmupCameraFly();
     FocusHeroCamera();
-    RefreshAbilityHud();
-    $.Schedule(0.05, RefreshAbilityHud);
-    $.Schedule(0.2, RefreshAbilityHud);
-    $.Schedule(0.4, RefreshAbilityHud);
+    const hudRefreshDelays = [0, 0.05, 0.15, 0.35, 0.75];
+    for (let i = 0; i < hudRefreshDelays.length; i++) {
+      $.Schedule(hudRefreshDelays[i], RefreshAbilityHud);
+    }
   });
 
   TickDraftSpawn();

@@ -1,6 +1,7 @@
 "use strict";
 
 const STICKER_CATALOG = [
+  /* TRINITY_STICKER_CATALOG_BEGIN */
   "Gura",
   "NeuroHug",
   "Watson",
@@ -10,19 +11,23 @@ const STICKER_CATALOG = [
   "StickerOne",
   "StickerTwo",
   "NO_GOD",
+  /* TRINITY_STICKER_CATALOG_END */
 ];
 const STICKER_SOUNDS = {
-  Gura: "high_five.impact",
+  /* TRINITY_STICKER_SOUNDS_BEGIN */
+  Gura: "Wheel.Gura",
   NeuroHug: "Hero_Chen.HolyPersuasion",
-  Watson: "General.Buy",
+  Watson: "Wheel.Watson",
   Anime: "Hero_Juggernaut.OmniSlash",
-  Neurodance: "Hero_Weaver.Shukuchi",
+  Neurodance: "Wheel.Neurodance",
   Choso: "Wheel.Choso",
   StickerOne: "high_five.impact",
-  StickerTwo: "General.Buy",
+  StickerTwo: "Wheel.StickerTwo",
   NO_GOD: "Wheel.NO_GOD",
+  /* TRINITY_STICKER_SOUNDS_END */
 };
 const STICKER_ROLL_POOL = [
+  /* TRINITY_STICKER_ROLL_POOL_BEGIN */
   { key: "Gura", quality: 1, weight: 100 },
   { key: "Gura", quality: 2, weight: 10 },
   { key: "NeuroHug", quality: 1, weight: 100 },
@@ -41,6 +46,7 @@ const STICKER_ROLL_POOL = [
   { key: "StickerTwo", quality: 2, weight: 3 },
   { key: "NO_GOD", quality: 1, weight: 30 },
   { key: "NO_GOD", quality: 2, weight: 3 },
+  /* TRINITY_STICKER_ROLL_POOL_END */
 ];
 const STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const QUALITY_NORMAL = 1;

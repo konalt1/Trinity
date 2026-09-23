@@ -682,6 +682,9 @@ function CourierCaravan:StartAghanimRetreat(pack)
     end
 
     pack.retreating = true
+    if TrinityAnalytics and TrinityAnalytics.AddBossKill then
+        TrinityAnalytics:AddBossKill()
+    end
     local aghanim = pack.aghanim
     if not IsAlive(aghanim) then
         self:RetreatDebug("StartAghanimRetreat: Aghanim missing or dead")

@@ -36,7 +36,7 @@
         "Ability4"                                      "generic_hidden"
         "Ability5"                                      "generic_hidden"
 		"Ability6"		                                "ability_chain_bomb"
-        "Ability7"										"techies_sticky_bomb_bonus"
+        "Ability7"                                      "generic_hidden"
         "Ability8"                                      "generic_hidden"
 		
         "Ability10"										"special_bonus_unique_custom_techies_1"

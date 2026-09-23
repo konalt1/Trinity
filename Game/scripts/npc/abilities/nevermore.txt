@@ -12,7 +12,7 @@
 
 		"AbilityValues"
 		{
-			"damage_per_soul"              "2 3 4 5"
+			"damage_per_soul"              "1 1.4 1.8 2.2"
 			"mind_power_per_soul"          "1 2 3 4"
 			"max_souls"                    "20"
 			"souls_per_kill"               "1"
@@ -66,7 +66,7 @@
                 "duration"                  "7"
 				"shard_cooldown_reduction"  "2"
 				"shard_slow_per_stack"      "12"
-				"shard_armor_reduction_per_stack" "3"
+				"shard_armor_reduction_per_stack" "5"
             }
     
             "precache"
@@ -113,7 +113,7 @@
             "duration"                  "7"
 			"shard_cooldown_reduction"  "2"
 			"shard_slow_per_stack"      "12"
-			"shard_armor_reduction_per_stack" "3"
+			"shard_armor_reduction_per_stack" "5"
         }
     }
 
@@ -154,7 +154,7 @@
             "duration"                  "7"
 			"shard_cooldown_reduction"  "2"
 			"shard_slow_per_stack"      "12"
-			"shard_armor_reduction_per_stack" "3"
+			"shard_armor_reduction_per_stack" "5"
         }
     }
 

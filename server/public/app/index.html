@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trinity</title>
+    <script>
+        (function () {
+            const params = new URLSearchParams(location.search);
+            const raw = params.get("view");
+            const legacy = { balance: "numbers", localization: "check" };
+            let view = raw;
+            let tab = params.get("tab");
+            if (legacy[raw]) {
+                tab = legacy[raw];
+                view = "abilities";
+            }
+            if (view !== "analytics" && view !== "players" && view !== "abilities" && view !== "stickers") {
+                view = "home";
+            }
+            if (tab !== "numbers" && tab !== "check") {
+                tab = "texts";
+            }
+            document.documentElement.dataset.view = view;
+            document.documentElement.dataset.tab = tab;
+        })();
+    </script>
+    <link rel="stylesheet" href="/app/style.css">
+</head>
+<body>
+    <nav class="rail" aria-label="Разделы Trinity">
+        <a class="rail-brand" href="/" aria-label="Trinity">T</a>
+        <a class="rail-item" data-nav="home" data-hotkey="1" href="/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/></svg>
+            <span class="rail-tip">Главная <kbd>1</kbd></span>
+        </a>
+        <a class="rail-item" data-nav="analytics" data-hotkey="2" href="/?view=analytics">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M6 16V9m5 7V5m5 11v-5"/></svg>
+            <span class="rail-tip">Analytics <kbd>2</kbd></span>
+        </a>
+        <a class="rail-item" data-nav="players" data-hotkey="3" href="/?view=players">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.2A3 3 0 0 1 16 14"/><path d="M17.5 19c0-2.2-.9-3.9-2.3-5"/></svg>
+            <span class="rail-tip">Игроки <kbd>3</kbd></span>
+        </a>
+        <a class="rail-item" data-nav="abilities" data-hotkey="4" href="/?view=abilities">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 13.5h5L11 21l8-10.5h-5z"/></svg>
+            <span class="rail-tip">Способности <kbd>4</kbd></span>
+        </a>
+        <a class="rail-item" data-nav="stickers" data-hotkey="5" href="/?view=stickers">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5 12.5 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/><path d="M20 12.5h-5a2.5 2.5 0 0 0-2.5 2.5v5"/></svg>
+            <span class="rail-tip">Stickers <kbd>5</kbd></span>
+        </a>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="side-block view-analytics">
+            <div class="side-head">
+                <h2 class="side-title">Герои</h2>
+                <span class="side-count" id="hero-count"></span>
+            </div>
+            <label class="field search">
+                <input id="hero-search" type="search" placeholder="Найти героя" autocomplete="off">
+            </label>
+            <label class="field">
+                <span class="field-label">Сортировка</span>
+                <select id="hero-sort">
+                    <option value="matches">По числу матчей</option>
+                    <option value="pick">По пикрейту</option>
+                    <option value="win">По винрейту</option>
+                    <option value="name">По имени</option>
+                </select>
+            </label>
+            <nav id="hero-list" class="hero-picker" aria-label="Выбор героя"></nav>
+            <p id="hero-empty" class="side-note hidden">Пока нет матчей. Сыграй локальную катку без Tools.</p>
+        </div>
+
+        <div class="side-block view-abilities">
+            <div class="side-head">
+                <h2 class="side-title">Герои</h2>
+                <button type="button" id="ability-only-issues" class="chip" aria-pressed="false">С проблемами</button>
+            </div>
+            <label class="field search">
+                <input id="ability-search" type="search" placeholder="Найти героя или скилл" autocomplete="off">
+            </label>
+            <div class="side-scroll">
+                <nav id="ability-hero-list" class="hero-picker" aria-label="Выбор героя"></nav>
+                <h2 class="side-title">Shared</h2>
+                <nav id="ability-shared-list" class="ability-group-list"></nav>
+                <h2 class="side-title">Units</h2>
+                <nav id="ability-units-list" class="ability-group-list"></nav>
+            </div>
+        </div>
+
+        <div class="side-block view-stickers">
+            <div class="side-head">
+                <h2 class="side-title">Коллекция</h2>
+                <span class="side-count" id="sticker-count"></span>
+            </div>
+            <button type="button" class="primary" id="btn-new">Новый стикер</button>
+            <label class="field search">
+                <input id="sticker-search" type="search" placeholder="Найти стикер" autocomplete="off">
+            </label>
+            <nav id="sticker-list" class="sticker-picker" aria-label="Выбор стикера"></nav>
+        </div>
+    </aside>
+
+    <main class="main">
+        <section class="page view-home">
+            <header class="page-head">
+                <div>
+                    <h1>Сводка</h1>
+                    <p class="page-sub">Время в UTC. Неделя — последние 7 суток, месяц — с 1 числа. Считаются только завершённые матчи 3v3, ровно 6 игроков.</p>
+                </div>
+            </header>
+
+            <div class="kpi-row">
+                <article class="kpi">
+                    <span class="kpi-label">Матчи за 7 дней</span>
+                    <span class="kpi-value" id="metric-week-matches">—</span>
+                </article>
+                <article class="kpi">
+                    <span class="kpi-label">Игроки за 7 дней</span>
+                    <span class="kpi-value" id="metric-week-players">—</span>
+                </article>
+                <article class="kpi">
+                    <span class="kpi-label">Игроки за месяц</span>
+                    <span class="kpi-value" id="metric-month-players">—</span>
+                </article>
+                <article class="kpi">
+                    <span class="kpi-label">Матчи всего</span>
+                    <span class="kpi-value" id="metric-all-matches">—</span>
+                </article>
+            </div>
+
+            <div class="card-grid">
+                <article class="card">
+                    <h2>Стороны</h2>
+                    <div class="stat-list">
+                        <div class="stat-row">
+                            <span class="stat-name">Винрейт Света за 7 дней</span>
+                            <span class="stat-num team-radiant" id="metric-week-radiant">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Винрейт Тьмы за 7 дней</span>
+                            <span class="stat-num team-dire" id="metric-week-dire">—</span>
+                        </div>
+                        <p class="stat-note" id="metric-week-decided"></p>
+                        <div class="stat-row">
+                            <span class="stat-name">Винрейт Света за месяц</span>
+                            <span class="stat-num team-radiant" id="metric-month-radiant">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Винрейт Тьмы за месяц</span>
+                            <span class="stat-num team-dire" id="metric-month-dire">—</span>
+                        </div>
+                        <p class="stat-note" id="metric-month-decided"></p>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h2>Экономика и темп</h2>
+                    <div class="stat-list">
+                        <div class="stat-row">
+                            <span class="stat-name">Убийств в минуту</span>
+                            <span class="stat-num" id="metric-all-kpm">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Медиана ЗВМ героев</span>
+                            <span class="stat-num" id="metric-all-gpm">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Медиана ОВМ героев</span>
+                            <span class="stat-num" id="metric-all-xpm">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Боссов убито за карту</span>
+                            <span class="stat-num" id="metric-all-bosses">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Крипов за игру у Света</span>
+                            <span class="stat-num team-radiant" id="metric-all-creeps-radiant">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Крипов за игру у Тьмы</span>
+                            <span class="stat-num team-dire" id="metric-all-creeps-dire">—</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h2>Длительность</h2>
+                    <div class="stat-list">
+                        <div class="stat-row">
+                            <span class="stat-name">Средний матч</span>
+                            <span class="stat-num" id="metric-all-duration">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Победа Света</span>
+                            <span class="stat-num team-radiant" id="metric-all-duration-radiant">—</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-name">Победа Тьмы</span>
+                            <span class="stat-num team-dire" id="metric-all-duration-dire">—</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h2>Качество данных</h2>
+                    <div class="stat-list">
+                        <div class="stat-row">
+                            <span class="stat-name">Незавершённые матчи</span>
+                            <span class="stat-num" id="metric-all-unfinished">—</span>
+                        </div>
+                        <p class="stat-note" id="metric-all-unfinished-note"></p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="page view-analytics">
+            <header class="page-head" id="hero-head"></header>
+            <div class="empty-state" id="analytics-empty">
+                <div class="empty-mark">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M6 16V9m5 7V5m5 11v-5"/></svg>
+                </div>
+                <h2>Выбери героя слева</h2>
+                <p>Кривые строятся по накопительным снэпшотам из локальных матчей без Workshop Tools.</p>
+            </div>
+            <div class="charts hidden" id="charts">
+                <article class="card">
+                    <h2>Net worth</h2>
+                    <canvas id="chart-networth" width="920" height="280"></canvas>
+                </article>
+                <article class="card">
+                    <h2>Крипы</h2>
+                    <canvas id="chart-creeps" width="920" height="280"></canvas>
+                </article>
+                <article class="card">
+                    <h2>Урон по героям</h2>
+                    <canvas id="chart-damage" width="920" height="280"></canvas>
+                </article>
+                <article class="card card-wide">
+                    <h2>Урон скиллов</h2>
+                    <div id="skill-legend" class="legend"></div>
+                    <canvas id="chart-skills" width="920" height="320"></canvas>
+                    <p id="chart-skills-empty" class="empty-state hidden">Матчи этого героя не записали урон по скиллам.</p>
+                </article>
+            </div>
+            <section class="card hidden" id="matches-card">
+                <h2>Матчи</h2>
+                <p class="card-hint">Клик по строке накладывает кривую этого матча на средние.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Время</th>
+                                <th>Итог</th>
+                                <th>Длительность</th>
+                                <th>NW</th>
+                                <th>Лейн</th>
+                                <th>Лес</th>
+                                <th>Урон</th>
+                            </tr>
+                        </thead>
+                        <tbody id="match-rows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+        <section class="page view-players">
+            <div id="players-list">
+                <header class="page-head">
+                    <div>
+                        <h1>Игроки</h1>
+                        <p class="page-sub">SteamID берутся из аналитики матчей. Клик по строке открывает историю.</p>
+                    </div>
+                </header>
+                <section class="card">
+                    <h2>Выдать лутбоксы</h2>
+                    <form id="grant-form" class="inline-form">
+                        <label class="field">
+                            <span class="field-label">SteamID</span>
+                            <input id="grant-steamid" name="steamid" type="text" inputmode="numeric" pattern="[0-9]+" placeholder="249509977" autocomplete="off" required>
+                        </label>
+                        <label class="field field-narrow">
+                            <span class="field-label">Число</span>
+                            <input id="grant-count" name="count" type="number" min="1" max="99" value="1" required>
+                        </label>
+                        <button type="submit" class="primary" id="btn-grant">Выдать</button>
+                    </form>
+                </section>
+                <section class="card">
+                    <h2>История</h2>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>SteamID</th>
+                                    <th>Матчи</th>
+                                    <th>Победы</th>
+                                    <th>Винрейт</th>
+                                    <th>Последний</th>
+                                </tr>
+                            </thead>
+                            <tbody id="player-rows"></tbody>
+                        </table>
+                    </div>
+                    <p id="players-empty" class="card-hint hidden">Пока нет игроков в аналитике. Сыграй локальную катку без Tools.</p>
+                </section>
+            </div>
+            <div class="hidden" id="player-card">
+                <header class="page-head">
+                    <div>
+                        <a class="back-link" href="/?view=players">← К списку игроков</a>
+                        <h1 id="player-title">Игрок</h1>
+                        <div class="pill-row" id="player-stats"></div>
+                    </div>
+                </header>
+                <section class="card">
+                    <h2>Матчи</h2>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Время</th>
+                                    <th>Герой</th>
+                                    <th>Команда</th>
+                                    <th>Итог</th>
+                                    <th>Длительность</th>
+                                    <th>NW</th>
+                                    <th>Урон</th>
+                                </tr>
+                            </thead>
+                            <tbody id="player-match-rows"></tbody>
+                        </table>
+                    </div>
+                    <p id="player-empty" class="card-hint hidden">У этого игрока пока нет матчей.</p>
+                </section>
+            </div>
+        </section>
+
+        <section class="page view-abilities">
+            <header class="page-head" id="ability-head"></header>
+            <nav id="ability-skillbar" class="skillbar" aria-label="Способности героя"></nav>
+
+            <div class="tabs" id="ability-tabs" role="tablist">
+                <button type="button" class="tab" data-tab="texts" role="tab">Тексты</button>
+                <button type="button" class="tab" data-tab="numbers" role="tab">Числа</button>
+                <button type="button" class="tab" data-tab="check" role="tab">
+                    Сверка
+                    <span class="tab-badge hidden" id="tab-check-count">0</span>
+                </button>
+                <span class="tabs-spacer"></span>
+                <span class="dirty-flag hidden" id="dirty-flag">Есть несохранённые изменения</span>
+            </div>
+
+            <p id="loc-issue-banner" class="banner hidden"></p>
+
+            <div class="ability-layout" id="ability-layout">
+                <div class="ability-editor">
+                    <form id="ability-form" class="tab-panel tab-texts">
+                        <div class="ability-langs">
+                            <section class="card">
+                                <h2>Тексты RU</h2>
+                                <label class="field">
+                                    <span class="field-label">Название</span>
+                                    <input id="ru-name" name="ru_name" type="text">
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Описание</span>
+                                    <textarea id="ru-description" name="ru_description" rows="9"></textarea>
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Aghanim's Shard</span>
+                                    <textarea id="ru-shard" name="ru_shard" rows="3"></textarea>
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Aghanim's Scepter</span>
+                                    <textarea id="ru-scepter" name="ru_scepter" rows="3"></textarea>
+                                </label>
+                            </section>
+                            <section class="card">
+                                <h2>Texts EN</h2>
+                                <label class="field">
+                                    <span class="field-label">Name</span>
+                                    <input id="en-name" name="en_name" type="text">
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Description</span>
+                                    <textarea id="en-description" name="en_description" rows="9"></textarea>
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Aghanim's Shard</span>
+                                    <textarea id="en-shard" name="en_shard" rows="3"></textarea>
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Aghanim's Scepter</span>
+                                    <textarea id="en-scepter" name="en_scepter" rows="3"></textarea>
+                                </label>
+                            </section>
+                        </div>
+                        <section class="card">
+                            <h2>Ключи и подписи</h2>
+                            <p class="card-hint">Клик по ключу вставляет <code>%ключ%</code> в описание, Shard или Scepter, куда стоит курсор. В тексте это чистое число, не проценты.</p>
+                            <div id="loc-key-chips" class="chip-row"></div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Ключ</th>
+                                            <th>Подпись RU</th>
+                                            <th>Подпись EN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ability-params"></tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <div class="form-actions">
+                            <button type="submit" class="primary" id="ability-save">Сохранить тексты</button>
+                            <span class="action-hint">Ctrl + S</span>
+                        </div>
+                    </form>
+
+                    <form id="balance-form" class="tab-panel tab-numbers">
+                        <section class="card">
+                            <h2>Стоимость и дальность</h2>
+                            <p id="kv-readonly" class="card-hint hidden">Ванильная способность: числа правятся только если скилл уже есть в KV Trinity.</p>
+                            <div class="field-grid">
+                                <label class="field">
+                                    <span class="field-label">Перезарядка</span>
+                                    <input id="kv-cooldown" name="cooldown" type="text">
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Мана</span>
+                                    <input id="kv-mana" name="mana" type="text">
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">Дальность</span>
+                                    <input id="kv-range" name="cast_range" type="text">
+                                </label>
+                                <label class="field">
+                                    <span class="field-label">AbilityDamage</span>
+                                    <input id="kv-damage" name="damage" type="text">
+                                </label>
+                            </div>
+                        </section>
+                        <section class="card">
+                            <h2>AbilityValues</h2>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Ключ</th>
+                                            <th>Значение</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="balance-params"></tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <div class="form-actions">
+                            <button type="submit" class="primary" id="balance-save">Сохранить числа</button>
+                            <span class="action-hint">Ctrl + S</span>
+                        </div>
+                    </form>
+
+                    <div class="tab-panel tab-check">
+                        <section class="card">
+                            <h2>Сверка RU и EN</h2>
+                            <p class="card-hint" id="loc-summary">Сверка addon_russian.txt и addon_english.txt</p>
+                            <div class="chip-row" id="loc-filters">
+                                <button type="button" class="chip" data-filter="all" aria-pressed="true">Все</button>
+                                <button type="button" class="chip" data-filter="missing" aria-pressed="false">Нет EN</button>
+                                <button type="button" class="chip" data-filter="tokens" aria-pressed="false">Плейсхолдеры</button>
+                                <button type="button" class="chip" data-filter="paragraphs" aria-pressed="false">Абзацы</button>
+                                <button type="button" class="chip" data-filter="params" aria-pressed="false">Подписи</button>
+                            </div>
+                            <label class="field search">
+                                <input id="loc-search" type="search" placeholder="Найти скилл с проблемой" autocomplete="off">
+                            </label>
+                            <div id="loc-issue-list" class="issue-list"></div>
+                        </section>
+                    </div>
+                </div>
+
+                <aside class="ability-preview" id="ability-preview">
+                    <h2 class="preview-title">Как увидит игрок</h2>
+                    <div class="preview-col">
+                        <span class="preview-lang">Русский</span>
+                        <div id="tt-ru" class="dota-tt"></div>
+                    </div>
+                    <div class="preview-col">
+                        <span class="preview-lang">English</span>
+                        <div id="tt-en" class="dota-tt"></div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="page view-stickers">
+            <header class="page-head">
+                <div>
+                    <h1 id="form-title">Новый стикер</h1>
+                    <p class="page-sub">Студия коллекции чат-колеса. Источник правды — server/stickers-catalog.json.</p>
+                </div>
+                <span class="dirty-flag hidden">Есть несохранённые изменения</span>
+            </header>
+            <p id="ffmpeg-warn" class="banner banner-warn hidden">ffmpeg не найден. Конвертация не заработает, пока бинарь не будет в PATH.</p>
+            <p id="tgs-warn" class="banner banner-warn hidden">TGS-конвертер не найден. В папке server/tools/sticker-convert выполни: python -m venv .venv && .venv\Scripts\pip install -r requirements.txt</p>
+            <div class="sticker-layout">
+                <form id="sticker-form" class="sticker-editor">
+                    <section class="card">
+                        <h2>Карточка</h2>
+                        <div class="field-grid">
+                            <label class="field">
+                                <span class="field-label">Ключ</span>
+                                <input id="field-key" name="key" type="text" maxlength="32" placeholder="Gura" autocomplete="off" required>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Редкость</span>
+                                <select id="field-rarity" name="rarity">
+                                    <option value="common">common (100 / 10)</option>
+                                    <option value="rare">rare (30 / 3)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="field-grid">
+                            <label class="field">
+                                <span class="field-label">Имя RU</span>
+                                <input id="field-name-ru" name="name_ru" type="text" maxlength="64" required>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Имя EN</span>
+                                <input id="field-name-en" name="name_en" type="text" maxlength="64" required>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <h2>Проигрывание</h2>
+                        <div class="field-grid">
+                            <label class="field">
+                                <span class="field-label">Длительность, сек</span>
+                                <input id="field-max-time" name="max_time" type="number" min="0.2" max="10" step="0.1" value="1.5" required>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Скорость видео</span>
+                                <div class="slider-row">
+                                    <input id="field-video-speed" name="video_speed" type="range" min="0.25" max="2" step="0.05" value="1">
+                                    <span class="slider-value" id="video-speed-label">1.00×</span>
+                                </div>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Громкость</span>
+                                <div class="slider-row">
+                                    <input id="field-sound-volume" name="sound_volume" type="range" min="0.1" max="20" step="0.1" value="1">
+                                    <span class="slider-value" id="sound-volume-label">1.0×</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="field-grid">
+                            <label class="field">
+                                <span class="field-label">Вес обычный</span>
+                                <input id="field-weight-normal" name="weight_normal" type="number" min="0" max="10000" value="100">
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Вес элита</span>
+                                <input id="field-weight-elite" name="weight_elite" type="number" min="0" max="10000" value="10">
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <h2>Файлы</h2>
+                        <div class="field-grid">
+                            <label class="field">
+                                <span class="field-label">Видео (gif / webm / mp4 / png / tgs)</span>
+                                <input id="field-video" name="video" type="file" accept=".gif,.webm,.mp4,.png,.jpg,.jpeg,.webp,.tgs,video/*,image/*,application/octet-stream">
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Звук (mp3)</span>
+                                <input id="field-audio" name="audio" type="file" accept=".mp3,.wav,.ogg,.m4a,audio/*">
+                            </label>
+                        </div>
+                        <p class="card-hint">Для нового стикера нужны видео и mp3. Скорость видео применяется при сохранении.</p>
+                    </section>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary" id="btn-save">Сохранить</button>
+                        <button type="button" class="danger hidden" id="btn-delete">Удалить</button>
+                        <span class="action-hint">Ctrl + S</span>
+                    </div>
+                </form>
+
+                <aside class="sticker-preview">
+                    <section class="card">
+                        <h2>Превью как в матче</h2>
+                        <div class="hero-preview">
+                            <div class="sticker-circle">
+                                <video id="preview-video" playsinline muted></video>
+                                <div id="preview-lottie-hero" class="lottie-slot hidden"></div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="gold" id="btn-preview-play">Плей</button>
+                            <button type="button" id="btn-preview-normal">Без звука</button>
+                            <button type="button" id="btn-preview-sound">Только звук</button>
+                            <button type="button" id="btn-preview-stop">Стоп</button>
+                        </div>
+                        <p id="preview-note" class="card-hint"></p>
+                        <div id="audio-trim" class="audio-trim hidden">
+                            <div class="audio-wave-wrap" id="audio-wave-wrap">
+                                <canvas id="audio-wave"></canvas>
+                            </div>
+                            <div class="audio-trim-bar">
+                                <button type="button" id="btn-audio-play" aria-label="Проиграть обрезок">▶</button>
+                                <span id="audio-playhead-time">00:00.0</span>
+                                <span id="audio-trim-range">00:00.0 – 00:00.0</span>
+                                <span id="audio-trim-meta" class="card-hint"></span>
+                            </div>
+                            <p class="card-hint">Голубой playhead — позиция звука, его можно таскать. Золотые маркеры — длительность стикера, белый справа — конец mp3.</p>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast-stack" id="toast-stack" aria-live="polite" role="status"></div>
+    <script src="/app/shell.js"></script>
+</body>
+</html>

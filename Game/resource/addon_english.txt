@@ -18,15 +18,15 @@
 		"ui.custom_loading_screen.slide_4.title" 		"Stat changes"
 		"ui.custom_loading_screen.slide_4.content"		"<b>Agility</b> grants bonus <b>movement speed</b> instead of <b>armor</b>."
 		// Chat wheel
-	    "chat_wheel_donate_sound_Gura"                                 "WHAT?!"
+		"chat_wheel_donate_sound_Gura"							"WHAT?!"
 		"chat_wheel_donate_sound_NeuroHug"							"Group hug!"
 		"chat_wheel_donate_sound_Watson"							"Yo, what's good?"
-		"chat_wheel_donate_sound_Neurodance"                                 "Thump thump!"
-		"chat_wheel_donate_sound_Choso"							"Easy clap!"
-		"chat_wheel_donate_sound_StickerOne"						"Sticker 1"
-		"chat_wheel_donate_sound_StickerTwo"						"Sticker 2"
-		"chat_wheel_donate_sound_NO_GOD"						"No god, please no"
 		"chat_wheel_donate_sound_Anime"							"Feels nice."
+		"chat_wheel_donate_sound_Neurodance"							"Thump thump!"
+		"chat_wheel_donate_sound_Choso"							"Easy clap!"
+		"chat_wheel_donate_sound_StickerOne"							"Sticker 1"
+		"chat_wheel_donate_sound_StickerTwo"							"Sticker 2"
+		"chat_wheel_donate_sound_NO_GOD"							"No god, please no"
 		"chat_wheel_donate_sound_empty"							""
 
 		"sticker_editor_title"									"Stickers"
@@ -62,14 +62,15 @@
 		//Doom
 		// Doom Soul Devour
 		"DOTA_Tooltip_ability_doom_soul_devour"						"Soul Devour"
-		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom devours an enemy creep. Creeps heal him and grant stacks of Spell Power."
+		"DOTA_Tooltip_ability_doom_soul_devour_Description"			"Doom devours an enemy creep. Creeps heal him and grant permanent Spell Power."
 		"DOTA_Tooltip_ability_doom_soul_devour_soul_power"				"SPELL POWER PER CREEP:"
 		"DOTA_Tooltip_ability_doom_soul_devour_heal_amount"				"HEAL:"
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hero_mind_power_bonus"		"SPELL POWER PER HERO:"
 
 		// Doom Scorched Earth
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua"								"Scorched Earth"
-		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"					"Doom scorches the ground around himself, damaging enemies while boosting his own movement speed. Damage scales with Spell Power."
+		"DOTA_Tooltip_ability_doom_scorched_earth_lua_Description"					"Doom scorches the ground around himself, damaging enemies while boosting his own movement speed. 
+		Damage scales with Spell Power."
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua_damage_per_second"			"DAMAGE PER SECOND:"
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua_radius"						"RADIUS:"
 		"DOTA_Tooltip_ability_doom_scorched_earth_lua_bonus_movement_speed_pct"		"%SPEED BONUS:"
@@ -78,7 +79,8 @@
 
 		// Doom Ultimate Aura
 		"DOTA_Tooltip_ability_doom_ultimate_aura"								"Harbinger of Doom"
-		"DOTA_Tooltip_ability_doom_ultimate_aura_Description"					"Doom summons an infernal aura that deals Pure damage per second to enemies while muting spells and disabling passives while blocking healing received. Aura damage scales with Spell Power."
+		"DOTA_Tooltip_ability_doom_ultimate_aura_Description"					"Doom creates an infernal aura that deals Pure damage per second to enemies while muting spells and disabling passives while blocking any healing. 
+		Aura damage scales with Spell Power."
 		"DOTA_Tooltip_ability_doom_ultimate_aura_aura_radius"					"AURA RADIUS:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_damage_per_second"				"DAMAGE PER SECOND:"
 		"DOTA_Tooltip_ability_doom_ultimate_aura_duration"						"DURATION:"
@@ -146,12 +148,16 @@
 		//Ogre
 		// Ogre Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"							"Bonk!"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Ogre Magi slams the earth, dealing magical damage and briefly stunning enemies nearby. Damage and radius scale with <b>Strength</b>."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Ogre Magi slams the earth. A shockwave runs forward from the impact, dealing magical damage and stunning enemies in its path.
+				The wave widens as it travels. Damage and distance scale with <b>Strength</b>."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"					"BASE DAMAGE:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"			"STUN DURATION:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"					"BASE RADIUS:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_length"					"BASE DISTANCE:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_max_length"				"MAX DISTANCE:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_wave_start_radius"		"STARTING WIDTH:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_wave_speed"				"WAVE SPEED:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_damage_bonus"	"DAMAGE PER STRENGTH:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_radius_bonus"	"RADIUS PER STRENGTH:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_length_bonus"	"DISTANCE PER STRENGTH:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_shard_description"		"Bypasses debuff immunity."
 
 		// Ogre Strength Boost
@@ -233,14 +239,13 @@
 		//Juggernaut
 		// Blade Fury
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"					"BLADE FURY"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Juggernaut spins, dealing magical damage around him. He can still be targeted, but control effects do not apply. Tick damage scales with Spell Power."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Causes a bladestorm of destructive force around Juggernaut, rendering him debuff immune with 80% magic resistance and dealing damage every 0,2s to nearby enemy units. 
+		Applies a strong dispel at the end of the spin."
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"DAMAGE:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"RADIUS:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			"DURATION:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_bonus_radius"	"BONUS RADIUS:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_movement_slow"	"%ENEMY MOVE SLOW:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_description"	"Expands Blade Fury radius, slows enemy movement inside it, and passively chops down trees around Juggernaut."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_description"	"Increases Blade Fury radius by %shard_bonus_radius% and slows enemies in the area by %shard_movement_slow%%%.\nPassively chops down trees in the radius."
 		"DOTA_Tooltip_modifier_juggernaut_blade_fury_shard_slow"			"Blade Fury Slow"
 		"DOTA_Tooltip_modifier_juggernaut_blade_fury_shard_slow_Description"	"Movement slowed."
 
@@ -253,8 +258,9 @@
 		"DOTA_Tooltip_ability_ability_thirsty_blade_duration_debuff"		"SLOW DURATION:"
 
 		// Bloodlust
-		"DOTA_Tooltip_ability_juggernaut_bloodlust"							"Mask Hysteria"
-		"DOTA_Tooltip_ability_juggernaut_bloodlust_Description"				"Juggernaut dives into frenzy, gaining attack speed spikes and healing whenever he slashes again. Healing scales with Spell Power."
+		"DOTA_Tooltip_ability_juggernaut_bloodlust"							"Madness of the Mask"
+		"DOTA_Tooltip_ability_juggernaut_bloodlust_Description"				"Juggernaut goes into madness, gaining increased attack speed and restoring health with each slash. 
+		Healing is increased by Spell Power."
 		"DOTA_Tooltip_ability_juggernaut_bloodlust_attack_speed_bonus"		"ATTACK SPEED BONUS:"
 		"DOTA_Tooltip_ability_juggernaut_bloodlust_heal_per_attack"			"HEAL PER ATTACK:"
 		"DOTA_Tooltip_ability_juggernaut_bloodlust_duration"				"DURATION:"
@@ -265,11 +271,11 @@
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Description"		"Juggernaut becomes invulnerable and blinks rapidly between foes, slicing each one encountered."
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_duration"			"DURATION:"
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_slash_radius"		"TARGET SEARCH RADIUS:"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	"Grants Omnislash."
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	""
 
 		// Omnislash (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_juggernaut_omni_slash"						"Omnislash"
-		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Juggernaut becomes invulnerable and bounds between enemies for 3.5s, shredding each target he reaches."
+		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Applies a longer version of Swift Slash that lasts for %duration% seconds."
 		"DOTA_Tooltip_ability_juggernaut_omni_slash_duration"				"DURATION:"
 		"DOTA_Tooltip_ability_juggernaut_omni_slash_slash_radius"			"TARGET SEARCH RADIUS:"
 		"DOTA_Tooltip_modifier_juggernaut_omni_slash"						"Omnislash"
@@ -305,7 +311,9 @@
 		//Lich
 		// Frost Blast
 		"DOTA_Tooltip_ability_lich_frost_blast_lua"								"Frost Blast"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Lich shatters his target with frost, dealing splash damage around them while slowing enemies' movespeed and attack speed for 4 seconds. The primary target takes direct and AoE portions. Damage scales with Spell Power."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Lich shatters his target with frost, dealing splash damage around them while slowing enemies' movespeed and attack speed for 4 seconds. 
+		The primary target takes direct and AoE portions. 
+		Damage scales with Spell Power."
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"					"SPLASH DAMAGE:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"						"RADIUS:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"			"%MOVE SLOW:"
@@ -314,7 +322,8 @@
 
 		// Frost Shield
 		"DOTA_Tooltip_ability_lich_frost_shield_lua"							"Frost Shield"
-		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Lich surrounds an ally with a frost shield, reducing incoming physical damage to the hero and damaging nearby enemies. The damage scales with Spell Power."
+		"DOTA_Tooltip_ability_lich_frost_shield_lua_Description"				"Lich surrounds an ally with a frost shield, reducing incoming physical damage to the hero and damaging nearby enemies. 
+		The damage scales with Spell Power."
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage_reduction"			"%PHYSICAL DAMAGE REDUCTION:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_damage"						"DAMAGE ENEMIES TAKE:"
 		"DOTA_Tooltip_ability_lich_frost_shield_lua_radius"						"RADIUS:"
@@ -324,7 +333,8 @@
 
 		// Sinister Gaze (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_ability_sinister_gaze"								"Sinister Gaze"
-		"DOTA_Tooltip_ability_ability_sinister_gaze_Description"					"Lich locks his gaze onto an enemy hero and pulls them toward himself.\nIf the target dies during the effect, Lich gains control over an illusion of them."
+		"DOTA_Tooltip_ability_ability_sinister_gaze_Description"					"Lich locks his gaze onto an enemy hero and pulls them toward himself. 
+		If the target dies during the effect, Lich gains control over an their dead body."
 		"DOTA_Tooltip_ability_ability_sinister_gaze_gaze_duration"				"GAZE DURATION:"
 		"DOTA_Tooltip_ability_ability_sinister_gaze_pull_speed"					"PULL SPEED:"
 		"DOTA_Tooltip_ability_ability_sinister_gaze_illusion_duration"			"ILLUSION DURATION:"
@@ -335,7 +345,9 @@
 
 		// Spark Wraith
 		"DOTA_Tooltip_ability_lich_spark_wraith"								"Restless Shade"
-		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Lich creates a soul at the target point. When it detects an enemy, it flies toward them, dealing damage and burning mana.\nIt then returns to Lich, damaging and burning mana from enemies in its path. All burned mana is transferred to Lich."
+		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Lich creates a soul at the target point. When it detects an enemy, it flies toward them, dealing damage and burning their mana. 
+		It then returns to Lich, damaging and burning mana from enemies in its path. 
+		All burned mana is transferred to Lich."
 		"DOTA_Tooltip_ability_lich_spark_wraith_spark_damage_base"				"DAMAGE:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_radius"							"DETECT RADIUS:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_duration"						"DURATION:"
@@ -344,7 +356,8 @@
 
 		// Ice Phylactery (Ultimate)
 		"DOTA_Tooltip_ability_ability_ice_phylactery"							"Icebound Phylactery"
-		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Lich creates an Ice Phylactery. Its aura slows nearby enemies, reduces Lich's ability cooldowns, and grants him spell lifesteal."
+		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Lich creates an Ice Phylactery. 
+		Its aura reduces Lich's ability cooldowns, and grants him spell lifesteal and slows nearby enemies."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"AURA RADIUS:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ENEMY MOVE SLOW:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%SPELL LIFESTEAL:"
@@ -400,10 +413,8 @@
 
 		// Tinker
 		"DOTA_Tooltip_ability_tinker_laser_custom"							"Laser"
-		"DOTA_Tooltip_ability_tinker_laser_custom_Description"				"Tinker fires a beam at the chosen enemy, dealing pure damage and blinding them.
-
-		A blinded target misses all physical attacks.
-
+		"DOTA_Tooltip_ability_tinker_laser_custom_Description"				"Tinker fires a beam at the chosen enemy, dealing pure damage and blinding them. 
+		A blinded target misses all physical attacks. 
 		Damage: %laser_damage% + Spell Power × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_laser_custom_laser_damage"				"DAMAGE:"
 		"DOTA_Tooltip_ability_tinker_laser_custom_blind_duration"			"BLIND DURATION:"
@@ -412,8 +423,7 @@
 		"DOTA_Tooltip_modifier_tinker_laser_custom_blind"					"Laser"
 		"DOTA_Tooltip_modifier_tinker_laser_custom_blind_Description"			"Missing all physical attacks."
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom"			"March of the Machines"
-		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_Description"	"Tinker summons an army of machines in the chosen area. The machines march forward and explode on contact, dealing magical damage around them.
-
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_Description"	"Tinker summons an army of machines in the chosen area. The machines march forward and explode on contact, dealing magical damage around them. 
 		Machine damage: %damage% + Spell Power × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_damage"	"MACHINE DAMAGE:"
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_spawn_area"	"FRONT WIDTH:"
@@ -426,11 +436,9 @@
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_machines_per_sec"	"MACHINES PER SECOND:"
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom"					"Deploy Turrets"
-		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Tinker drops three uncontrollable turrets at the target location. On landing, they deal magical damage to enemies and knock them back. If Tinker is within the area, he is knocked back farther.
-
-		At each interval, every turret launches a homing missile at the nearest visible enemy hero. A missile explodes on impact, damaging its target and nearby enemies.
-
-		Impact damage: %drop_damage% + Spell Power × %drop_mind_power_multiplier%.
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Tinker drops three uncontrollable turrets at the target location. On landing, they deal magical damage to enemies and knock them back. If Tinker is within the area, he is knocked back farther. 
+		At each interval, every turret launches a homing missile at the nearest visible enemy hero. A missile explodes on impact, damaging its target and nearby enemies. 
+		Impact damage: %drop_damage% + Spell Power × %drop_mind_power_multiplier%. 
 		Missile damage: %missile_damage% + Spell Power × %missile_mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_delay"		"DROP DELAY:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_damage"		"IMPACT DAMAGE:"
@@ -559,25 +567,29 @@
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Fireworks Barrage"
-		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Techies fires rockets, increasing attack range and dealing area damage.\nDirect hits deal bonus magical damage.\nDamage scales with Spell Power."
+		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Techies fires rockets, increasing attack range and dealing area damage. 
+		Your attack deals bonus magical damage. 
+		Magic damage scales with Spell Power."
 		"DOTA_Tooltip_ability_ability_fireworks_duration"						"DURATION:"
 		"DOTA_Tooltip_ability_ability_fireworks_splash_radius"					"SPLASH RADIUS:"
 		"DOTA_Tooltip_ability_ability_fireworks_bonus_magic_damage"				"BONUS MAGIC ON MAIN TARGET:"
 		"DOTA_Tooltip_ability_ability_fireworks_bonus_attack_range"				"BONUS ATTACK RANGE:"
 		"DOTA_Tooltip_ability_ability_fireworks_mind_power_multiplier"			"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_ability_fireworks_splash_attack_damage_pct"		"%PRIMARY ATTACK FED INTO SPLASH:"
-		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Splashed foes burn for lingering magic damage; burn damage scales with Spell Power."
+		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			""
 
-		"DOTA_Tooltip_ability_ability_techies_parry_blast"						"Parry Blast"
-		"DOTA_Tooltip_ability_ability_techies_parry_blast_Description"			"Instantly detonates around Techies, dealing magical damage to nearby enemies.\nFor a brief moment Techies gains massive armor to parry incoming attacks and projectiles.\nEnemies that hit Techies during this window are disarmed."
+		"DOTA_Tooltip_ability_ability_techies_parry_blast"						"Blasting Armor"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_Description"			"Techies detonates a charge, dealing damage to enemies in an area and blocking their attacks. 
+		Enemies whose attacks were blocked this way are inflicted with Disarm."
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_explosion_radius"		"EXPLOSION RADIUS:"
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_damage"				"EXPLOSION DAMAGE:"
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_buff_duration"			"PARRY WINDOW:"
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_bonus_armor"			"PARRY ARMOR:"
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_disarm_duration"		"DISARM DURATION:"
 
-		"DOTA_Tooltip_ability_techies_suicide_custom"							"Liftoff"
-		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Techies rockets into a pinpoint and detonates on impact to deal AoE magical damage plus a short stun.\nTechies also suffers Pure self-damage keyed to current health."
+		"DOTA_Tooltip_ability_techies_suicide_custom"							"Blast Off!"
+		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Techies hurtle themselves into the enemy's midst, detonating charges upon impact which deal massive area of effect damage and stun enemies. 
+		Upon landing, the assault deals Techies non-lethal damage equal to a percentage of their current health."
 
 		"DOTA_Tooltip_ability_techies_suicide_custom_radius"					"DETONATION RADIUS:"
 		"DOTA_Tooltip_ability_techies_suicide_custom_damage"					"BASE DAMAGE:"
@@ -586,14 +598,16 @@
 		"DOTA_Tooltip_ability_techies_suicide_custom_mind_power_multiplier"		"SPELL POWER MULTIPLIER:"
 
 		"DOTA_Tooltip_ability_ability_chain_bomb"								"Tactical Charges"
-		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Has 3 charges. Each charge recharges in 7 seconds.\n\nTechies plants a green mine at the target location.\nIt can be detonated by dealing physical or magical damage to it. When detonated, the mine damages nearby enemies.\nMines are invisible to enemies."
+		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Techies plants a green mine at the target location. 
+		Mine can be detonated by dealing physical or magical damage to it. When detonated, the mine damages nearby enemies. 
+		Mines are invisible to enemies."
 
 		"DOTA_Tooltip_ability_ability_chain_bomb_damage"						"PRIMARY DAMAGE:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_radius"						"PRIMARY BLAST RADIUS:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_mind_power_multiplier"			"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_building_damage_pct"			"%BUILDING DAMAGE:"
-		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_description"			"Tactical explosives can reposition while primed."
-		"DOTA_Tooltip_ability_ability_chain_bomb_shard_description"			"Live charges grant unobstructed allied vision bubbles."
+		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_description"			"+ %scepter_mine_movespeed% Mines Movement Speed"
+		"DOTA_Tooltip_ability_ability_chain_bomb_shard_description"			"Mines grant unobstructed allied vision."
 		
 
 		
@@ -607,7 +621,7 @@
 		// =============================================
 
 		// Doom - Scepter upgrade for Soul Devour
-		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description"			"Lets Doom devour hostile heroes directly. Targets left at or below 666 HP are instantly killed, granting Doom +10 Spell Power permanently. Illusions bypass the lethal check."
+		"DOTA_Tooltip_ability_doom_soul_devour_scepter_description"			"Allow Doom to devour enemy heroes if they have 666 HP or less, granting Doom +10 Spell Power permanently."
 		"DOTA_Tooltip_ability_doom_soul_devour_aghanim_hp_threshold"		"HERO HEALTH THRESHOLD:"
 
 		"dota_hud_error_doom_devour_scepter_required"					"Aghanim's Scepter is required."
@@ -725,9 +739,8 @@
 
 		// Whip
 		"DOTA_Tooltip_ability_chen_whip"									"Whip"
-		"DOTA_Tooltip_ability_chen_whip_Description"						"Chen lashes the whip at the target point, dealing %dota_ability_chen_whip_damage% damage to all enemies in the area.
-
-Every tamed creep in the radius instantly casts its active abilities. After the burst, each creep's mana and cooldowns return to how they were before the whip."
+		"DOTA_Tooltip_ability_chen_whip_Description"						"Chen lashes the whip at the target point, dealing %dota_ability_chen_whip_damage% damage to all enemies in the area. 
+		Every tamed creep in the radius instantly casts its active abilities. After the burst, each creep's mana and cooldowns return to how they were before the whip."
 		"DOTA_Tooltip_ability_chen_whip_damage"								"DAMAGE:"
 		"DOTA_Tooltip_ability_chen_whip_radius"								"RADIUS:"
 		"DOTA_Tooltip_ability_chen_whip_search_radius"						"CREEP TARGET SEARCH RADIUS:"
@@ -822,18 +835,16 @@ Every tamed creep in the radius instantly casts its active abilities. After the 
 		"DOTA_Tooltip_ability_chen_worker_gather_Description"				"Autocast: the worker gathers gold from blooming trees, then returns it to the barracks. Move, attack, stop, and hold-position orders pause auto-gather for 15 seconds."
 
 		"DOTA_Tooltip_ability_chen_worker_build_tower"						"Build Tower"
-		"DOTA_Tooltip_ability_chen_worker_build_tower_Description"			"The worker walks to the target point and begins building a tower. Cost is deducted from the main barracks' gold when construction starts.
-
-While the worker stays within %dota_ability_chen_worker_build_tower_worker_radius% range, construction health grows by %dota_ability_chen_worker_build_tower_build_rate% per second. If the worker leaves or dies, progress freezes. Enemies can attack the site — destroyed construction does not refund gold."
+		"DOTA_Tooltip_ability_chen_worker_build_tower_Description"			"The worker walks to the target point and begins building a tower. Cost is deducted from the main barracks' gold when construction starts. 
+		While the worker stays within %dota_ability_chen_worker_build_tower_worker_radius% range, construction health grows by %dota_ability_chen_worker_build_tower_build_rate% per second. If the worker leaves or dies, progress freezes. Enemies can attack the site — destroyed construction does not refund gold."
 		"DOTA_Tooltip_ability_chen_worker_build_tower_gold_cost"				"COST:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_max_hp"					"CONSTRUCTION HP:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_build_rate"				"BUILD RATE:"
 		"DOTA_Tooltip_ability_chen_worker_build_tower_worker_radius"			"WORKER RADIUS:"
 
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack"				"Build Aghanim's Barracks"
-		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_Description"	"The worker walks to the target point and begins building Aghanim's Barracks. Cost is deducted from the main barracks' gold when construction starts.
-
-The finished barracks can queue Giant Couriers and Ancient Black Dragons in one shared production queue using the main barracks' gold. Progress freezes if the worker leaves or dies."
+		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_Description"	"The worker walks to the target point and begins building Aghanim's Barracks. Cost is deducted from the main barracks' gold when construction starts. 
+		The finished barracks can queue Giant Couriers and Ancient Black Dragons in one shared production queue using the main barracks' gold. Progress freezes if the worker leaves or dies."
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_gold_cost"			"COST:"
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_max_hp"				"CONSTRUCTION HP:"
 		"DOTA_Tooltip_ability_chen_worker_build_special_barrack_build_rate"			"BUILD RATE:"
@@ -865,9 +876,8 @@ The finished barracks can queue Giant Couriers and Ancient Black Dragons in one 
 		"npc_chen_ancient_black_dragon"											"Ancient Black Dragon"
 
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle"				"Fireball"
-		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"Each attack leaves a burning patch on the ground under the target.
-
-Enemies in the area take magical damage every second."
+		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_Description"	"Each attack leaves a burning patch on the ground under the target. 
+		Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_radius"			"RADIUS:"
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_duration"			"DURATION:"
 		"DOTA_Tooltip_ability_chen_ancient_black_dragon_fire_puddle_damage_per_second"	"DAMAGE PER SECOND:"
@@ -995,34 +1005,39 @@ Enemies in the area take magical damage every second."
 
 		// Lion
 		"DOTA_Tooltip_ability_lion_impale_custom"									"Earth Spike"
-		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Lion sends a row of spikes through the earth, damaging and stunning enemies in a line. Damage increases with Spell Power."
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Rock spikes burst from the earth along a straight path. Enemy units are hurled into the air, then are stunned and take damage when they fall. 
+		Damage increases with Spell Power."
 		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"DAMAGE:"
 		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"STUN DURATION:"
 		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"SPELL POWER DAMAGE:"
-		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"With Aghanim's Shard, Earth Spike releases multiple spike lines in a cone in front of Lion."
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Earth Spike releases multiple spike lines in a 30° cone."
 
 		"DOTA_Tooltip_ability_lion_soul_collector"									"Soul Collector"
-		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Passive: when an enemy dies to one of Lion's abilities or within 3 seconds of taking damage from one, Lion gains Spell Power. The creep bonus is temporary; the hero bonus is permanent. Finger of Death attacks empowered by Aghanim's Scepter count as an ability."
+		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Killing enemies with his abilities grant Lion Spell Power. 
+		Spell Power gained from killing heroes with your abilities is permanent."
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_mind_power"					"SPELL POWER PER CREEP:"
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"CREEP BONUS DURATION:"
 		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"SPELL POWER PER HERO:"
 
-		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Spirit Siphon"
-		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Lion links to an enemy, draining mana each second and damaging them for half of the mana drained. Lion receives the drained mana. Mana drained per second increases with Spell Power."
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Soul Siphon"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Lion links to an enemy, sucking their mana and damaging them for half of the mana drained. 
+		Mana drained per second increases with Spell Power."
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"MANA DRAIN PER SECOND:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"SPELL POWER MANA DRAIN:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%DAMAGE FROM MANA:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"DURATION:"
 
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Finger of Death"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Lion blasts a single enemy for heavy magical damage that increases with Spell Power. If the targeted hero dies within 3 seconds after the cast, Lion gains a permanent Rebirth stack, reducing his respawn time."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Rips at an enemy unit, trying to turn it inside-out, dealing massive damage to the target. 
+		If the targeted hero dies within 3 seconds after the cast, Lion gains a permanent Rebirth stack, reducing his respawn time."
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"DAMAGE:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"SPELL POWER DAMAGE:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_respawn_reduction_pct"	"%RESPAWN REDUCTION PER STACK:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"EMPOWER DURATION:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"SCEPTER ATTACK RANGE:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%CLEAVE DAMAGE:"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"With Aghanim's Scepter, casting Finger of Death empowers Lion's hand for %scepter_buff_duration% seconds. Turn Finger of Death autocast on for melee combat or off for ranged combat. In melee mode Lion has %scepter_attack_range% attack range, cleave, and bonus damage equal to his Spell Power; ranged mode gains none of these bonuses. Killing an enemy hero with a direct empowered melee attack grants a Rebirth stack."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"After casting the ability, Lion becomes a melee hero for %scepter_buff_duration% seconds. 
+		While in melee form, his attacks deal bonus damage equal to his Spell Power and cleave. Killing an enemy hero with a direct attack grants a Rebirth stack."
 
 		// Bosses
 		"npc_mortimer_boss"											"Mortimer"
@@ -1045,8 +1060,7 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_Ability_item_caravan_gold_bag_SummaryDescription"		"Grants 50 gold."
 
 		"DOTA_Tooltip_Ability_item_caravan_aegis"								"Aegis of the Immortal"
-		"DOTA_Tooltip_Ability_item_caravan_aegis_Description"					"Picking this up grants Aegis for %duration% seconds.
-
+		"DOTA_Tooltip_Ability_item_caravan_aegis_Description"					"Picking this up grants Aegis for %duration% seconds. 
 		Death reincarnates the hero."
 		"DOTA_Tooltip_Ability_item_caravan_aegis_duration"						"DURATION:"
 
@@ -1059,10 +1073,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff_Description"			"Slowed and blinded by Aghanim's laser."
 
 		"DOTA_Tooltip_ability_caravan_aghanim_shards"							"Aghanim's Shards"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Aghanim creates shards around himself. They rotate with him.
-
-		A hero who touches a shard takes magical damage and is slowed. The shard is destroyed.
-
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Aghanim creates shards around himself. They rotate with him. 
+		A hero who touches a shard takes magical damage and is slowed. The shard is destroyed. 
 		The slow stacks."
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_shard_count"				"SHARDS:"
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_orbit_radius"				"RADIUS:"
@@ -1143,15 +1155,19 @@ Enemies in the area take magical damage every second."
 
 		// Shadow Fiend — койлы со стаками от Силы магии
 		"DOTA_Tooltip_ability_nevermore_necromastery"						"Necromastery"
-		"DOTA_Tooltip_ability_nevermore_necromastery_Description"			"The hero steals the souls of units he kills. Each soul increases Mind Power by %mind_power_per_soul%. A regular unit grants one soul, while a hero grants %souls_per_hero_kill%. On death, the hero releases %souls_released_on_death_pct%%% of the stolen souls."
-		"DOTA_Tooltip_Ability_nevermore_necromastery_SummaryDescription"	"Souls of slain enemies grant Mind Power."
+		"DOTA_Tooltip_ability_nevermore_necromastery_Description"			"The hero steals the souls of units he kills. 
+		Each soul increases attack damage by %damage_per_soul% and Mind Power by %mind_power_per_soul%. 
+		A regular unit grants one soul, while a hero grants %souls_per_hero_kill%. On death, the hero releases %souls_released_on_death_pct%% of the stolen souls."
+		"DOTA_Tooltip_Ability_nevermore_necromastery_SummaryDescription"	"Souls of slain enemies grant attack damage and Mind Power."
+		"DOTA_Tooltip_ability_nevermore_necromastery_damage_per_soul"		"DAMAGE PER SOUL:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_mind_power_per_soul"	"MIND POWER PER SOUL:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_max_souls"				"MAX SOULS:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_souls_per_hero_kill"	"SOULS PER HERO:"
 		"DOTA_Tooltip_modifier_nevermore_necromastery"						"Necromastery"
-		"DOTA_Tooltip_modifier_nevermore_necromastery_Description"			"Collected souls increase Mind Power."
+		"DOTA_Tooltip_modifier_nevermore_necromastery_Description"			"Collected souls increase attack damage and Mind Power."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity"						"Shadowraze (Near)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_Description"			"Shadow Fiend razes the ground in front of him, dealing base damage plus %mind_power_multiplier%x Mind Power. Each hit applies a stack that increases the damage of subsequent Shadowrazes by %stack_bonus_damage%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_Description"			"Shadow Fiend razes the ground directly in front of him, dealing damage to enemy units in the area, dealing bonus damage based on his current Spell Power. 
+		Adds a stacking damage amplifier on the target that causes the enemy to take bonus Shadowraze damage per stack."
 		"DOTA_Tooltip_Ability_nevermore_shadowraze1_trinity_SummaryDescription"		"Razes the ground near the hero. Consecutive hits deal increased damage."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shard_description"		"Hitting an enemy hero reduces cooldown by %shard_cooldown_reduction% seconds. Each stack slows by %shard_slow_per_stack%%% and reduces armor by %shard_armor_reduction_per_stack%."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_damage"		"DAMAGE:"
@@ -1163,7 +1179,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_range"		"DISTANCE:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_radius"		"RADIUS:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity"						"Shadowraze (Medium)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_Description"			"Shadow Fiend razes the ground at medium range, dealing base damage plus %mind_power_multiplier%x Mind Power. Each hit applies a stack that increases the damage of subsequent Shadowrazes by %stack_bonus_damage%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_Description"			"Shadow Fiend razes the ground directly in front of him, dealing damage to enemy units in the area, dealing bonus damage based on his current Spell Power. 
+		Adds a stacking damage amplifier on the target that causes the enemy to take bonus Shadowraze damage per stack."
 		"DOTA_Tooltip_Ability_nevermore_shadowraze2_trinity_SummaryDescription"		"Razes the ground at medium range. Consecutive hits deal increased damage."
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_damage"		"DAMAGE:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_stack_bonus_damage"		"DAMAGE PER STACK:"
@@ -1171,7 +1188,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_range"		"DISTANCE:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_radius"		"RADIUS:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity"						"Shadowraze (Far)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_Description"			"Shadow Fiend razes the ground at long range, dealing base damage plus %mind_power_multiplier%x Mind Power. Each hit applies a stack that increases the damage of subsequent Shadowrazes by %stack_bonus_damage%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_Description"			"Shadow Fiend razes the ground directly in front of him, dealing damage to enemy units in the area, dealing bonus damage based on his current Spell Power. 
+		Adds a stacking damage amplifier on the target that causes the enemy to take bonus Shadowraze damage per stack."
 		"DOTA_Tooltip_Ability_nevermore_shadowraze3_trinity_SummaryDescription"		"Razes the ground at long range. Consecutive hits deal increased damage."
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_shadowraze_damage"		"DAMAGE:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_stack_bonus_damage"		"DAMAGE PER STACK:"
@@ -1182,7 +1200,9 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_nevermore_shadowraze_trinity_debuff_Description"		"Each stack increases the damage of the next Shadowraze. With Aghanim's Shard it also reduces movement speed and armor."
 
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity"						"Requiem of Souls"
-		"DOTA_Tooltip_ability_nevermore_requiem_trinity_Description"			"Releases up to %max_soul_release% collected souls as waves of demonic energy. Each Necromastery soul creates one wave. Each wave deals base damage plus %mind_power_multiplier%x Mind Power. A unit can be damaged by multiple waves. Every wave hit adds %requiem_slow_duration% seconds of fear, slow, and magic resistance reduction, up to %requiem_slow_duration_max% seconds. On death, this ability is released automatically regardless of cooldown, but death waves do not apply the control effects."
+		"DOTA_Tooltip_ability_nevermore_requiem_trinity_Description"			"Shadow Fiend gathers up to 20 of his captured souls to release them as lines of demonic energy. Units near Shadow Fiend when the souls are released can be damaged by several lines of energy. 
+		Any unit damaged by Requiem of Souls will be feared and have its movement speed and magic resistance reduced for 0,6 seconds for each line hit up to a maximum of 2,15. Lines of energy are created for every soul captured through Necromastery. 
+		Requiem of Souls is automatically cast whenever Shadow Fiend dies, regardless of its cooldown."
 		"DOTA_Tooltip_Ability_nevermore_requiem_trinity_SummaryDescription"	"Releases one wave per soul. Damage scales with Mind Power."
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_scepter_description"	"Reduces cooldown by %scepter_cooldown_reduction% seconds. The waves return to the hero, deal %scepter_return_damage_pct%%% damage again, and heal him for %scepter_return_heal_pct%%% of the actual damage dealt on their return. Death waves do not return."
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_damage"					"BASE DAMAGE PER WAVE:"
@@ -1215,10 +1235,8 @@ Enemies in the area take magical damage every second."
 
 		// Dawnbreaker
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom"					"Celestial Hammer"
-		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_Description"		"Dawnbreaker throws her hammer in the chosen direction. It deals magical damage to enemies along the path and leaves a burning trail.
-
-		While the hammer is in flight or on the ground, Dawnbreaker can pull herself to it.
-
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_Description"		"Dawnbreaker throws her hammer in the chosen direction. It deals magical damage to enemies along the path and leaves a burning trail. 
+		While the hammer is in flight or on the ground, Dawnbreaker can pull herself to it. 
 		Hammer damage: %hammer_damage% + Spell Power × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_hammer_damage"		"HAMMER DAMAGE:"
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
@@ -1228,12 +1246,10 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_flare_debuff_duration"	"TRAIL DURATION:"
 		"DOTA_Tooltip_ability_dawnbreaker_converge_custom"							"Converge"
 		"DOTA_Tooltip_ability_dawnbreaker_converge_custom_Description"				"Dawnbreaker pulls herself to the thrown hammer."
-		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom"							"Luminosity"
-		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_Description"				"Passive. Each of Dawnbreaker's attacks against an enemy grants a charge for %charge_duration% seconds. A new attack refreshes the duration of all charges.
-
-		While at least one charge remains, she can activate the ability. An explosion bursts around the hammer: enemies take damage, and allies are healed. If the hammer is in her hands, the explosion happens around Dawnbreaker.
-
-		All charges are spent at once."
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom"							"Hammer's Heat"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_Description"				"Each attack by Dawnbreaker against an enemy grants a stack for %charge_duration% seconds. Attacking the enemy again refreshes the duration of all stacks. 
+		While Dawnbreaker has at least one stack, she can activate the ability. Upon activation, the hammer unleashes an explosion, dealing damage to enemies and restoring health to allies. 
+		Damage and healing increase with the number of stacks."
 		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_max_charges"				"MAX CHARGES:"
 		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_charge_duration"			"CHARGE DURATION:"
 		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_radius"					"RADIUS:"
@@ -1243,10 +1259,8 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_dawnbreaker_luminosity_custom_Description"				"Stored explosion charges."
 		"dota_hud_error_dawnbreaker_luminosity_no_charges"							"No charges"
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom"						"Solar Guardian"
-		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_Description"			"Dawnbreaker launches a marker in the chosen direction.
-
-		The farther the marker flies, the wider the area. While it travels, Dawnbreaker can leap to the marker. If it reaches maximum range, the leap starts on its own.
-
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_Description"			"Dawnbreaker launches a marker in the chosen direction. 
+		The farther the marker flies, the wider the area. While it travels, Dawnbreaker can leap to the marker. If it reaches maximum range, the leap starts on its own. 
 		Dawnbreaker is invulnerable while airborne. On landing, enemies in the area take magical damage and are stunned."
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_min_range"			"MIN RANGE:"
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_max_range"			"MAX RANGE:"
@@ -1260,13 +1274,9 @@ Enemies in the area take magical damage every second."
 
 		// Largo
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity"									"Catchy Lick"
-		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_Description"						"Largo licks the chosen unit with his tongue, pulls it and dispels dispellable effects.
-
-		An enemy takes magical damage. An ally is pulled farther.
-
-		Dispelling an effect from the target grants Largo health regeneration.
-
-		Damage: %damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_Description"						"Largo licks the targeted unit with his tongue, pulling it back a short distance, applying a basic dispel, and dealing damage if it's an enemy. 
+		Killing or dispelling an effect from a target grants Largo temporary health regeneration. 
+		DISPEL TYPE: Basic Dispel"
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_damage"							"DAMAGE:"
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_mind_power_multiplier"			"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_pull_distance"					"ENEMY PULL:"
@@ -1277,8 +1287,7 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_largo_catchy_lick_buff_Description"				"Health regeneration is increased."
 
 		"DOTA_Tooltip_ability_largo_frogstomp_trinity"									"Frogstomp"
-		"DOTA_Tooltip_ability_largo_frogstomp_trinity_Description"						"Largo tosses froglings into the chosen area. They stomp the ground, dealing magical damage, stunning enemies and slowing their movement.
-
+		"DOTA_Tooltip_ability_largo_frogstomp_trinity_Description"						"Largo tosses froglings into the chosen area. They stomp the ground, dealing magical damage, stunning enemies and slowing their movement. 
 		Damage per stomp: %damage_per_stomp% + Spell Power × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_largo_frogstomp_trinity_damage_per_stomp"					"DAMAGE PER STOMP:"
 		"DOTA_Tooltip_ability_largo_frogstomp_trinity_mind_power_multiplier"				"SPELL POWER MULTIPLIER:"
@@ -1289,12 +1298,12 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff"							"Frogstomp"
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Slowed."
 
-		"DOTA_Tooltip_ability_largo_childhood_memories"								"Childhood Memories"
-		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo starts moving by leaps of a fixed distance in his movement direction.
-
-		Leap distance scales with movement speed: the faster he is, the farther he leaps.
-
-		On landing, enemies in the radius take magical damage and are stunned."
+		"DOTA_Tooltip_ability_largo_childhood_memories"								"Hip & Hop"
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo starts moving by leaps of a fixed distance in his movement direction. 
+		Leap distance scales with movement speed: the faster he is, the farther he leaps. 
+		On landing, enemies in the radius take magical damage and are stunned. 
+		If Largo takes physical damage from an enemy hero during a leap, he is rooted after landing and the ability goes on cooldown. 
+		Damage: %stomp_damage% + Spell Power × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"DISTANCE MULTIPLIER:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"LEAP DURATION:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"DELAY BETWEEN LEAPS:"
@@ -1303,20 +1312,22 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_ability_largo_childhood_memories_mind_power_multiplier"			"SPELL POWER MULTIPLIER:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_stun_radius"					"RADIUS:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"MANA PER LEAP:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_root_duration"					"ROOT DURATION:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_hit_cooldown"					"COOLDOWN ON HIT:"
 		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Childhood Memories"
 		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Moving by leaps."
-		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"End Memories"
+		"DOTA_Tooltip_modifier_largo_childhood_memories_root"						"Childhood Memories"
+		"DOTA_Tooltip_modifier_largo_childhood_memories_root_Description"			"Rooted."
+		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"STOP HOP"
 		"DOTA_Tooltip_ability_largo_childhood_memories_end_Description"				"Largo stops leaping."
 
 		"DOTA_Tooltip_ability_largo_encore"										"Encore"
-		"DOTA_Tooltip_ability_largo_encore_Description"							"Effects the hero applies to himself or allies last longer. When he applies a unit-targeted effect to an ally, he also gains it.
-
+		"DOTA_Tooltip_ability_largo_encore_Description"							"Effects the hero applies to himself or allies last longer. When he applies a unit-targeted effect to an ally, he also gains it. 
 		If he applies a unit-targeted ability effect to himself, it is also applied to the nearest allied hero in that ability's cast range."
 		"DOTA_Tooltip_ability_largo_encore_buff_amplification"					"%DURATION AMPLIFICATION:"
 
 		"DOTA_Tooltip_ability_void_spirit_aether_remnant"						"Aether Remnant"
-		"DOTA_Tooltip_ability_void_spirit_aether_remnant_Description"			"Void Spirit sends an aether remnant to the target point. The remnant faces the direction chosen on cast.
-
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_Description"			"Void Spirit sends an aether remnant to the target point. The remnant faces the direction chosen on cast. 
 		When an enemy enters its gaze, the remnant pulls it in and deals magical damage."
 		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_distance"	"WATCH RANGE:"
 		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_radius"	"WATCH WIDTH:"
@@ -1329,8 +1340,7 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_void_spirit_trinity_remnant_pull_Description"		"Being pulled toward the aether remnant."
 
 		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity"					"Dissimilate"
-		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_Description"		"Void Spirit briefly vanishes into another plane, creating several portals through which he can reassemble himself.
-
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_Description"		"Void Spirit briefly vanishes into another plane, creating several portals through which he can reassemble himself. 
 		Upon exiting a portal, he deals magical damage to all enemies in the area."
 		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_shard_description"	"Creates a portal on each live Aether Remnant."
 		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_phase_duration"	"DURATION:"
@@ -1342,8 +1352,7 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_void_spirit_dissimilate_trinity_phase_Description"	"Vanished. Choose a portal to return."
 
 		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity"					"Astral Step"
-		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_Description"		"Void Spirit travels to the target point through an astral rift, attacking all enemies along the path.
-
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_Description"		"Void Spirit travels to the target point through an astral rift, attacking all enemies along the path. 
 		This attack applies a void mark that slows victims for 1.25s and then deals magical damage."
 		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_max_travel_distance"	"RANGE:"
 		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_radius"			"PATH WIDTH:"
@@ -1366,5 +1375,12 @@ Enemies in the area take magical damage every second."
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave"					"Void Wave"
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave_Description"		"Slowed by a void wave."
 
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"					"Largo gets ready to groove. He is disarmed and his ability bar switches to 3 song abilities, each with different effects. Songs are only effective if strummed on the beat. 
+		Every time he strums successfully, he gains a stack of Groovin'. Each stack gives him bonus armor and reduces the mana cost of every song, but he loses a stack if he misses a beat. Stacks linger for a short duration when Largo's song ends."
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_scepter_description"					"Largo can play two songs per beat by strumming both at the same time."
+		"DOTA_Tooltip_ability_largo_song_double_time"					"Hotfeet Hustle"
+		"DOTA_Tooltip_ability_largo_song_double_time_Description"					"Largo plays a song that increases nearby friendly units' movement speed and grants a brief slow resistance."
+		"DOTA_Tooltip_ability_largo_song_good_vibrations"					"Island Elixir"
+		"DOTA_Tooltip_ability_largo_song_good_vibrations_Description"					"Largo plays a song that heals nearby friendly heroes."
 	}
 }

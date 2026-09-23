@@ -8,7 +8,7 @@ final class Http
     {
         http_response_code($status);
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($payload, JSON_UNESCAPED_UNICODE);
+        echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
         exit;
     }
 
@@ -45,5 +45,39 @@ final class Http
         }
 
         return $decoded;
+    }
+
+    public static function redirect(string $location, int $status = 302): void
+    {
+        header('Location: ' . $location, true, $status);
+        exit;
+    }
+
+    public static function file(string $absolutePath): void
+    {
+        if (!is_file($absolutePath)) {
+            self::json(404, ['ok' => false, 'error' => 'not_found']);
+        }
+
+        $extension = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
+        $types = [
+            'html' => 'text/html; charset=utf-8',
+            'css' => 'text/css; charset=utf-8',
+            'js' => 'text/javascript; charset=utf-8',
+            'svg' => 'image/svg+xml',
+            'png' => 'image/png',
+            'ico' => 'image/x-icon',
+            'mp4' => 'video/mp4',
+            'webm' => 'video/webm',
+            'mp3' => 'audio/mpeg',
+            'wav' => 'audio/wav',
+        ];
+
+        header('Content-Type: ' . ($types[$extension] ?? 'application/octet-stream'));
+        header('Cache-Control: no-store');
+        header('Content-Length: ' . (string) filesize($absolutePath));
+        header('Accept-Ranges: none');
+        readfile($absolutePath);
+        exit;
     }
 }

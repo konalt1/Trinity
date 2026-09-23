@@ -91,6 +91,8 @@ git config core.symlinks true
 2. Выбрать addon **Trinity**
 3. Карта: `dota3v3` (или `new2` — см. `Game/addoninfo.txt`)
 
+Workshop Tools из Steam: скрытый watcher `server/watch-tools.ps1` сам поднимает PHP API, когда появляется `dota2.exe -tools`. Lua процесс Windows не стартует.
+
 ### Полезные консольные команды
 
 | Команда | Назначение |
@@ -105,8 +107,15 @@ git config core.symlinks true
 | `mortimer_kisses_debug 0\|1` | Отключить/включить вывод диагностики целей посмертных Kisses |
 | `mortimer_spawner_debug 0\|1` | Лог спавна Мортимера с pathway-спавнера (по умолчанию выключен) |
 | `draft_spawn_debug 0\|1` | Лог дня/ночи разминки в консоль (по умолчанию выключен) |
-| `trinity_backend_debug 0\|1` | Лог HTTP к PHP API профилей и сообщений стикеров (по умолчанию выключен) |
+| `trinity_backend_debug 0\|1` | Лог HTTP к PHP API профилей, стикеров и аналитики (по умолчанию выключен) |
 | `trinity_backend_ping` | Проверить `GET /v1/health` |
+| `trinity_analytics_debug 0\|1` | Лог снэпшотов баланса (по умолчанию выключен) |
+| `trinity_analytics_dump` | Печать текущего снэпшота в консоль |
+| `trinity_analytics_snapshot` | Принудительно отправить текущий снэпшот |
+| `trinity_lua_mem` | Снимок Lua VM: `collectgarbage`, таймеры, entity, модификаторы, тяжёлые `_G` |
+| `trinity_lua_mem 0\|1` | Автолог каждые 10 сек: только размер VM, peak и число таймеров. Полный обход мира не делает |
+| `trinity_lua_mem_gc` | Принудительный `collectgarbage("collect")` и дамп |
+| `trinity_lua_mem_diff` | Сравнение с предыдущим `trinity_lua_mem` |
 | `trinity_sticker_ui 0\|1` | Для введшего команду игрока скрыть/показать кнопки стикеров и лутбоксов после разминки |
 | `spawn_roshan` | Спавн Roshan у героя игрока 0 |
 
@@ -135,6 +144,9 @@ Trinity/
 │   ├── public/                    # document root: /v1/health, /v1/players
 │   ├── src/
 │   ├── schema.sql
+│   ├── migrate-analytics.php
+│   ├── start-local.ps1            # ручной PHP + MariaDB
+│   ├── watch-tools.ps1            # скрытый автозапуск при Workshop Tools
 │   └── config.example.php
 └── docs/
     └── AGENTS.md                  # ← этот файл
@@ -182,7 +194,7 @@ flowchart TD
 `addon_game_mode.lua` подключает:
 
 - `Timers`, `draft_spawn`, `game_settings`, `utils/util`, `gamemode`, `item_drop`
-- `game_managers/creep_bounty_comeback`, `game_managers/config`, `game_managers/trinity_player_data`
+- `game_managers/creep_bounty_comeback`, `game_managers/config`, `game_managers/trinity_player_data`, `game_managers/trinity_analytics`
 - `kill_feed/init`
 - Способности героев (Chen, Lich, Ogre, Tusk, DOOM, items, …)
 - `map_modifications/Bosses/mortimer_boss`, `map_modifications/Bosses/caravan/caravan_event`
@@ -224,7 +236,7 @@ flowchart TD
 
 В точке Hammer `trinity_warmup_dummy` на время разминки стоит `npc_dota_hero_target_dummy`. Если его убить, он появляется снова в этой же точке; в **-0:30** удаляется.
 
-На разминке герои появляются в Hammer-точках `trinity_warmup_spawn` / `trinity_warmup_spawn_good` / `trinity_warmup_spawn_bad`. Первый спавн ловится в `npc_spawned`: герой скрывается `AddNoDraw` и в том же кадре ставится на точку разминки, чтобы не мелькать на фонтане. Камера ставится сразу на эту точку (`SetCameraTargetPosition` без lerp и без `SetCameraTarget`, чтобы не ехать со спавна фонтана). Оверлей пика скрывается после snap. Триггер `trinity_warmup_zone` держит их на площадке: если точка спавна внутри триггера, возврат срабатывает при выходе; если снаружи — при касании. Мгновенный респаун тоже в эти точки. В **-0:30** зона выключается, вайп (`ReplaceHeroWith`) ставит героев на точки респавна у фонтана (`info_player_start_dota` / `info_player_start_goodguys|badguys`, иначе `ent_dota_fountain`). После замены героя HUD способностей принудительно обновляется: иначе клиент оставляет пипы ульта и счётчик очков с разминки. Ночь (`SetTimeOfDay(0.75)`, цикл выключен) держится до **0:00** даже если движок уже в `GAME_IN_PROGRESS`.
+На разминке герои появляются в Hammer-точках `trinity_warmup_spawn` / `trinity_warmup_spawn_good` / `trinity_warmup_spawn_bad`. Первый спавн ловится в `npc_spawned`: герой скрывается `AddNoDraw` и в том же кадре ставится на точку разминки, чтобы не мелькать на фонтане. При входе в разминку камера плавно едет с фонтана на позицию своего героя за 1 с: сервер держит кадр на фонтане и шлёт `from_*` / цель в `trinity_player_entered_map`, клиент интерполирует `SetCameraTargetPosition` без `SetCameraTarget`. Оверлей пика скрывается до перелёта. Респаун на площадке и конец разминки камеру так не двигают. Триггер `trinity_warmup_zone` держит их на площадке: если точка спавна внутри триггера, возврат срабатывает при выходе; если снаружи — при касании. Мгновенный респаун тоже в эти точки. В **-0:30** зона выключается, вайп (`ReplaceHeroWith`) ставит героев на точки респавна у фонтана (`info_player_start_dota` / `info_player_start_goodguys|badguys`, иначе `ent_dota_fountain`). После замены героя HUD способностей принудительно обновляется: иначе клиент оставляет пипы ульта и счётчик очков с разминки. Ночь (`SetTimeOfDay(0.75)`, цикл выключен) держится до **0:00** даже если движок уже в `GAME_IN_PROGRESS`.
 
 `DraftSpawn:LockNightUntilLanePhase` вызывается из тика каждые 0.1 секунды, поэтому на тике без дрейфа `SetTimeOfDay` не вызывается. Безусловный вызов в тике заставляет клиент каждый раз заново запускать ночной эмбиент: за разминку накапливается около девятисот наложенных копий лупа. Повтор обязателен при смене стейта, первом входе игрока на карту и один раз отложенно (0.25 с) после того, как мир уже виден: первый `SetTimeOfDay` в `HERO_SELECTION` обновляет только серверное значение, а клиент рисует дефолтный день. Перед сменой времени цикл кратко включается (`SetDaynightCycleDisabled(false)`), затем сразу выключается — иначе клиент замораживает текущий дневной свет. Флаг `_daynightCycleLocked` сбрасывается в `EnableLanePhaseSystems`.
 
@@ -414,6 +426,7 @@ flowchart TD
 - Стикер `NO_GOD` («Боже, нет») использует кастомный event `Wheel.NO_GOD` и ресурс `Content/sounds/wheel/no_god.mp3`.
 - Видео находятся в `Game/panorama/videos/custom_game/` и загружаются через `file://{resources}/videos/custom_game/<sound>.webm`; регистр имени файла должен точно совпадать с ключом стикера (`Gura`, `NeuroHug`, …).
 - Читы: `trinity_sticker_grant <all|key> [key2 ...]` выдаёт элиту; `trinity_sticker_grant_lootbox` выдаёт один неоткрытый бокс; `trinity_sticker_ui 0|1` локально скрывает/показывает кнопки редактора и лутбоксов после разминки. Ключи разбираются без учёта регистра, `all` выдаёт весь каталог. Запросы к PHP идут по одному, чтобы ответы не перезаписали друг друга неполным списком. Если бэкенд недоступен, открытие и покупка не работают; grant элиты может остаться локальным до конца матча
+- Студия коллекции: `http://127.0.0.1:8080/?view=stickers`. Внизу экрана можно выдать неоткрытые лутбоксы по SteamID (без ключа матча). Источник правды — `server/stickers-catalog.json`. Добавление/удаление правит PHP-каталог, Lua, `chat_wheel.js`, `sticker_editor.js`, `lootbox.js`, локализацию и `Wheel.*` в vsndevts. Видео: вход gif/webm/mp4/png/tgs → `.webm` 512×512 в `Game/panorama/videos/custom_game/` и `.mp4` для превью. TGS (Telegram Lottie) сначала рисуется в PNG-кадры (`server/tools/sticker-convert/tgs_to_frames.py`), затем тем же ffmpeg. Скорость видео `0.25×–2×` в студии сразу меняет превью; при сохранении ffmpeg `setpts` переписывает webm/mp4, в каталог скорость не пишется. Громкость `0.1×–20×` сразу в превью и пишется в `sound_volume` / `volume` у `Wheel.*`. Звук: mp3 → `Content/sounds/wheel/` + `Wheel.<Key>`. Превью справа: круг 120px и волна вместо строки чата. Голубой playhead показывает позицию и его можно таскать; белый маркер справа режет mp3 при сохранении (новый файл и уже лежащий); золотые маркеры — окно `maxTime`, их можно растягивать независимо от mp3. Если окно длиннее видео, стикер лупится; если короче — обрезается по таймеру. Сохранение перезаписывает mp3 через ffmpeg. «Плей» запускает стикер и свой mp3 вместе (звук не режется таймером видео, но играет только обрезанный кусок), «Без звука» и «Только звук» — отдельно. Ванильные sound events Dota в браузере не слышны. Новый кастомный звук в матче играет после compile в Workshop Tools. Нужны ffmpeg и venv: `python -m venv server/tools/sticker-convert/.venv` и `pip install -r server/tools/sticker-convert/requirements.txt`.
 
 ### High Five
 
@@ -532,7 +545,6 @@ Lua: `Game/scripts/vscripts/abilities/<hero>/`
 | W | `ability_techies_parry_blast` |
 | E | `techies_suicide_custom` |
 | R | `ability_chain_bomb` |
-| — | `techies_sticky_bomb_bonus` |
 
 **Lua:** `abilities/techies/`
 
@@ -605,7 +617,7 @@ Debug-команда: `tinker_march_debug 1` рисует точку касте�
 
 | Слот | Способность |
 |------|-------------|
-| Q | `ogre_magi_fire_blast` — **кастом** (точка + AOE, bonk) |
+| Q | `ogre_magi_fire_blast` — **кастом** (удар в точке, волна вперёд, длина и конечная ширина от Силы) |
 | W | `ogre_magi_strength_boost` — **кастом**, масштаб от Mind Power |
 | Scepter | `ogre_magi_aghanim_club` |
 | Ult | `ogre_magi_reroll` — выдаёт одноразовую случайную ульту до её применения; удаляет её после завершения эффекта |
@@ -800,9 +812,9 @@ Debug-команда: `tinker_march_debug 1` рисует точку касте�
 | Заряды ульта | `modifier_largo_groovin` | Ноты |
 | Таланты | `special_bonus_unique_custom_largo_1..8` | Заглушки в `Ability15–22`, `AbilityTalentStart` `15` |
 
-Включение и выключение одной кнопкой через `SwapAbilities` (`largo_childhood_memories` ↔ `largo_childhood_memories_end` в `Ability7`), как W Dawnbreaker. Пока активно, Largo прыгает фиксированной дальностью в направлении движения: укоротить или удлинить прыжок кликом нельзя. Дальность = текущая скорость передвижения × `1,2/1,3/1,4/1,5`. При приземлении враги в радиусе получают `30` магического урона (`+` Сила магии × `1`) и оглушаются на `0,2` сек. Длительность прыжка `1` сек, пауза `0,3` сек, радиус `125/150/175/200`, мана за прыжок `8/7/6/5`. Выключение в воздухе доигрывает текущий hop. Во время hop играет activity `haste`.
+Включение и выключение одной кнопкой через `SwapAbilities` (`largo_childhood_memories` ↔ `largo_childhood_memories_end` в `Ability7`), как W Dawnbreaker. Пока активно, Largo прыгает фиксированной дальностью в направлении движения: укоротить или удлинить прыжок кликом нельзя. Дальность = текущая скорость передвижения × `1,2/1,3/1,4/1,5`. При приземлении враги в радиусе получают `60` магического урона (`+` Сила магии × `1`) и оглушаются на `0,2` сек. Длительность прыжка `1` сек, пауза `0,3` сек, радиус `250/300/350/400`, мана за прыжок `8/7/6/5`. Если во время hop Largo получает физический урон от вражеского героя, после приземления он получает рут на `1` сек, прыжки выключаются, а способность уходит на перезарядку `3` сек. Выключение в воздухе доигрывает текущий hop. Во время hop играет activity `haste`.
 
-Ульт подменяет Q/W/E тремя песнями. Пока рапсодия включена, Lua не трогает слоты E (`SwapAbilities` выключен). Если прыжки уже шли, модификатор не снимается; кнопку E после выключения ульта возвращает `modifier_largo_mind_power`.
+Ульт подменяет Q/W/E тремя песнями. Ванильная рапсодия ищет старые `largo_catchy_lick` / `largo_frogstomp` / `largo_croak_of_genius` и иначе только показывает песни справа от R; Lua в `modifier_largo_mind_power` сам делает `SwapAbilities` и чинит раскладку после прокачки. Пока рапсодия включена, кнопку выключения E в слот не ставим. Если прыжки уже шли, модификатор не снимается; кнопку E после выключения ульта возвращает тот же модификатор.
 
 Магический урон Fight Song масштабируется Силой магии через `modifier_largo_mind_power`. Q и W считают урон в Lua через `GetHeroMindPower`.
 
@@ -965,48 +977,100 @@ Game/scripts/npc/npc_abilities_custom.txt
 
 | Параметр | Значение |
 |----------|----------|
-| URL (локально) | `http://127.0.0.1:8080` |
+| URL игры | `http://162.246.19.210` |
+| URL локальной студии | `http://127.0.0.1:8080` |
 | Ключ dedicated | `GetDedicatedServerKeyV3("trinity")` |
 | Ключ Tools / Local Host | `trinity-tools-local` (поле `keys.tools` в `server/config.php`) |
 | Заголовок | `X-Trinity-Key` |
 
 | Метод | Путь | Назначение |
 |-------|------|------------|
+| GET | `/v1/abilities/catalog` | Герои из Activelist, слоты скиллов, группы Shared/Units |
+| GET | `/v1/abilities/ability?id=` | Тексты RU/EN, AbilityValues, КД/мана/дальность |
+| POST | `/v1/abilities/save` | Тело с `loc` пишет `addon_russian.txt` / `addon_english.txt`; тело с `kv` пишет KV способности |
+| GET | `/v1/localization/report` | Сверка RU/EN описаний способностей: пустой EN, `%token%`, абзацы, подписи |
 | GET | `/v1/health` | Проверка, что PHP жив (без ключа) |
+| GET | `/` | Главная с метриками; Analytics, Игроки, Способности и Stickers через `?view=`, вкладки способностей через `?tab=` |
+| GET | `/analytics` | Редирект на `/?view=analytics` |
+| GET | `/stickers` | Редирект на `/?view=stickers` |
+| GET | `/players` | Редирект на `/?view=players` |
+| GET | `/abilities` | Редирект на `/?view=abilities` |
+| GET | `/balance` | Редирект на `/?view=abilities&tab=numbers` |
+| GET | `/localization` | Редирект на `/?view=abilities&tab=check` |
+| GET | `/v1/analytics/overview` | Сводка: матчи за 7 суток, винрейт Radiant/Dire за неделю и месяц, уникальные игроки; за всё время — завершённые матчи 3v3 (6 игроков): KPM, медиана ЗВМ/ОВМ, боссы, крипы сторон, длительности, процент незавершённых |
+| GET | `/v1/stickers/studio` | Список стикеров студии |
+| GET | `/v1/stickers/studio/players` | Игроки студии: SteamID строкой, боксы, валюта, катки |
+| POST | `/v1/stickers/studio` | Добавить или обновить стикер (multipart: video, audio) |
+| POST | `/v1/stickers/studio/delete` | Удалить стикер из коллекции, файлов и БД |
+| POST | `/v1/stickers/studio/grant-lootbox` | `{ steamid, count? }` — выдать 1–99 боксов без ключа матча |
+| GET | `/v1/analytics/heroes` | Список героев и число матчей |
+| GET | `/v1/analytics/hero?hero=` | Средние кривые по минутам и список матчей |
+| GET | `/v1/analytics/match?id=` | Все снэпшоты одного матча |
+| GET | `/v1/analytics/players` | Игроки из аналитики: SteamID, матчи, победы, винрейт, последний матч |
+| GET | `/v1/analytics/player?steamid=` | История матчей игрока: герой, команда, итог, длительность, NW, урон |
+| POST | `/v1/analytics/snapshots` | Батч героев одной минуты (ключ обязателен) |
 | GET | `/v1/players?steamid=` | Профиль: `games`, `rating`, `owned` `{ quality, copies }`, `wheel`, `lootboxes`, `currency` |
 | POST | `/v1/players` | Тело `{ "players": [ { steamid, games, rating } ] }` |
 | POST | `/v1/stickers/open` | `{ steamid }` — открыть один лутбокс |
 | POST | `/v1/stickers/buy` | `{ steamid, sticker, quality }` — купить нормальную (`1`) или элитную (`2`) версию |
 | POST | `/v1/stickers/wheel` | `{ steamid, slots[8] }` — сохранить колесо |
 | POST | `/v1/stickers/grant` | `{ steamid, sticker }` — чит: выдать элиту |
-| POST | `/v1/stickers/grant-lootbox` | `{ steamid }` — чит: выдать неоткрытый лутбокс |
+| POST | `/v1/stickers/grant-lootbox` | `{ steamid, count? }` — чит: выдать неоткрытый лутбокс (ключ обязателен) |
 | POST | `/v1/stickers/grant-daily` | `{ steamid }` — 1 бокс в первую катку суток UTC |
 | POST | `/v1/stickers/grant-win` | `{ steamids }` — выдать бокс победителям с лимитом 3/сутки UTC |
 
-Таблицы: `stickers`, `player_stickers` (`quality`, `copies`), `player_wheel`; у `players` — `lootbox_unopened`, `lootbox_currency`, `lootbox_grants_date`, `lootbox_grants_today`, `lootbox_daily_date`. Каталог сидится из PHP (`Gura` … `NO_GOD`).
+Таблицы: `stickers`, `player_stickers` (`quality`, `copies`), `player_wheel`; у `players` — `lootbox_unopened`, `lootbox_currency`, `lootbox_grants_date`, `lootbox_grants_today`, `lootbox_daily_date`. Каталог стикеров — `server/stickers-catalog.json` (сидится в БД при запросах). Аналитика: `analytics_matches` (`winner_team`, `boss_kills`), `analytics_snapshots` (`xp`, `hero_kills`).
 
-Lua: `Game/scripts/vscripts/game_managers/trinity_player_data.lua`, `game_managers/trinity_stickers.lua`
+Lua: `Game/scripts/vscripts/game_managers/trinity_player_data.lua`, `game_managers/trinity_stickers.lua`, `game_managers/trinity_analytics.lua`
 
-Лоад при `player_connect_full` / драфте. Сейв в `POST_GAME`: `games + 1`, рейтинг пока не считается. Dedicated с читами не пишет. Local Host и Tools пишут.
+Лоад при `player_connect_full` / драфте. Сейв в `POST_GAME`: `games + 1`, рейтинг пока не считается. Dedicated с читами не пишет. Local Host и Tools пишут профили.
+
+### Аналитика баланса
+
+Каждую игровую минуту после разминки (`GetDOTATime`, пауза не тикает) Lua шлёт накопительный снэпшот по каждому реальному герою: net worth, XP, киллы героев, last hit лейн-крипов, last hit лесных крипов, суммарный урон по вражеским героям, урон каждой способности героя и строка `attack`. На матч пишется `boss_kills`: смерть Мортимера, победа над враждебным Primal Beast, отход Аганима после гибели всех курьеров. В конце матча пишется `winner_team`. Предметы, юниты Chen и даммик разминки не входят. Пишутся только локальные матчи без Workshop Tools.
+
+Фронт: `http://127.0.0.1:8080/` — SPA без сборки. Файлы в `server/public/app/`: `index.html` (разметка всех разделов), `style.css` (дизайн-токены и компоненты), `shell.js` (роутинг по `?view=`/`?tab=`, тосты, скелетоны, флаг несохранённых изменений, горячие клавиши) и по файлу на раздел — `home.js`, `analytics.js`, `players.js`, `abilities.js`, `stickers.js`. `shell.js` выбирает раздел по `?view=` и догружает только его скрипт.
+
+Навигация — иконочный рельс 48px слева, виден всегда: Главная (`/`), Analytics (`/?view=analytics`), Игроки (`/?view=players`), Способности (`/?view=abilities`), Stickers (`/?view=stickers`). Горячие клавиши `1`–`5` переключают разделы, `Ctrl + S` отправляет форму видимого раздела. Сайдбар рядом с рельсом отдан контексту раздела: сетка героев в Analytics и Способностях, коллекция в Stickers; на Главной и Игроках его нет. Статусы всех разделов — один тост в правом нижнем углу; ошибки не гаснут сами. Пока данные грузятся, вместо строк и плиток рисуются скелетоны.
+
+Главная — ряд KPI-плиток (матчи за 7 дней, игроки за 7 дней, игроки за месяц, матчи всего) и карточки «Стороны», «Экономика и темп», «Длительность», «Качество данных». Analytics (`/?view=analytics`) — сетка героев с поиском и сортировкой (матчи, пикрейт, винрейт, имя), графики в две колонки, таблица матчей; клик по строке накладывает кривую матча на средние. Выбранный герой пишется в `?hero=`, так что ссылку можно сохранить. Игроки (`/?view=players`) — выдача лутбоксов и таблица из аналитики; клик открывает историю матчей (`/?view=players&steamid=`). Stickers (`/?view=stickers`) — студия коллекции с поиском по списку и липким превью.
+
+Способности (`/?view=abilities`) — один раздел с тремя вкладками, герой и скилл выбираются один раз. `?tab=texts` (по умолчанию) — тексты RU и EN рядом: имя, описание, Shard/Scepter, подписи параметров; клик по ключу AbilityValues вставляет `%ключ%` в активное описание/Shard/Scepter (в тексте это число, не проценты); сохраняет только `addon_russian.txt` и `addon_english.txt`. `?tab=numbers` — числа: AbilityValues, КД, мана, дальность, AbilityDamage; сохраняет только KV героя. `?tab=check` — очередь способностей, у которых EN расходится с RU (нет текста, другие `%token%`, другое число абзацев, нет подписи), с фильтрами и поиском; клик по строке открывает эту способность на вкладке текстов. Число проблем висит бейджем на вкладке, у героев с проблемами точка в сетке, чип «С проблемами» оставляет только их. Справа от вкладок текстов и чисел — превью тултипа так, как его увидит игрок, на RU и EN. Старые `/?view=balance` и `/?view=localization` переписываются в `/?view=abilities&tab=numbers` и `&tab=check`. Ванильные слоты можно переопределить текстами в `addon_*.txt`; числа KV правятся только если способность уже есть в Trinity. На главную — логотип Trinity. Пикрейт = матчи с героем / все матчи. Винрейт героя = победы / матчи с известным победителем. Винрейт сторон — только матчи с `winner_team` 2 или 3. Lifetime-статы главной: только завершённые матчи с ровно 6 игроками; ЗВМ/ОВМ — медиана по героям (`networth`/`xp` за минуту); KPM — среднее от (сумма киллов матча / минуты); крипы — лейн + лес по команде; процент незавершённых — среди матчей с 6 игроками. Старые снэпшоты без `xp` / `hero_kills` / `boss_kills` в этих полях дают `—`.
+
+После обновления схемы аналитики: `php server/migrate-analytics.php`.
 
 ### Поднять локально
 
-Уже ставили PHP 8.4 (winget) и MariaDB 12.3. Повторный запуск:
+Уже ставили PHP 8.4 (winget) и MariaDB 12.3.
+
+**Workshop Tools (Steam):** задача `TrinityToolsBackend` при входе в Windows запускает скрытый `server/watch-tools.ps1`. Как только есть `dota2.exe` с аргументом `-tools`, поднимаются MariaDB на `:3306` (если ещё нет) и PHP на `http://127.0.0.1:8080` без окна. Когда Tools и все процессы `dota2.exe` закрыты, watcher гасит PHP на `:8080` и этот экземпляр MariaDB 12.3. Arcade Local Host watcher не поднимает.
+
+Первая регистрация watcher:
+
+```powershell
+cd D:\Trinity\server
+.\watch-tools.ps1 -Install
+```
+
+Лог: `server/logs/watch-tools.log` (gitignored).
+
+Ручной запуск по-прежнему:
 
 ```powershell
 cd D:\Trinity\server
 .\start-local.ps1
 ```
 
-Скрипт поднимает MariaDB на `:3306`, если её нет, и PHP на `http://127.0.0.1:8080`. Окно не закрывать.
+Скрипт поднимает MariaDB на `:3306`, если её нет, и PHP на `http://127.0.0.1:8080`. После готовности `:8080` открывает веб-фронт в браузере. Окно не закрывать. Скрытый detached-режим: `.\start-local.ps1 -Detached -Hidden` (браузер не открывает). Остановка только своих процессов: `.\stop-local.ps1`.
 
 В матче: `trinity_backend_ping`. Успех — `ping ok`.
 
 Первый раз (уже сделано на этой машине): БД `trinity`, пользователь `trinity`, таблица из `server/schema.sql`. Пароль — в gitignored `server/config.php`.
 
 После обновления схемы стикеров: `php server/migrate-stickers.php` (нужен `pdo_mysql`, MariaDB на `:3306`).
+После обновления схемы аналитики: `php server/migrate-analytics.php`.
 
-Позже тот же API на VPS: HTTPS, `keys.dedicated` = ключ с Valve dedicated, в Lua сменить `TrinityPlayerData.BASE_URL`.
+Игра ходит на VPS по HTTP, без домена: `TrinityPlayerData.BASE_URL`. Локальная студия по-прежнему на `http://127.0.0.1:8080`. `keys.dedicated` на VPS пустой, пока нет ключа Valve dedicated.
 
 Lua: `Game/scripts/vscripts/game_managers/trinity_player_data.lua`  
 HTTP: `Game/scripts/vscripts/utils/http.lua`  
@@ -1089,6 +1153,7 @@ flowchart TD
 | Изменить правила 3v3 | `game_settings.lua` |
 | Башни / волны | `gamemode.lua` |
 | Mind Power формула | `utils/util.lua` |
+| Дамп Lua VM | `utils/lua_memory_debug.lua` |
 | Выдача способностей всем | `game_managers/config.lua` |
 | Ранний спавн после пика | `game_managers/draft_spawn.lua` |
 | Слоты героев | `npc/npc_heroes_custom.txt` |
@@ -1096,7 +1161,17 @@ flowchart TD
 | Точка require | `addon_game_mode.lua` |
 | Профили игроков | `game_managers/trinity_player_data.lua` |
 | Стикеры / колесо | `game_managers/trinity_stickers.lua` |
+| Аналитика баланса | `game_managers/trinity_analytics.lua` |
 | PHP API | `server/public/index.php` |
+| Автозапуск в Tools | `server/watch-tools.ps1` |
+| Локальный фронт | `http://127.0.0.1:8080/` |
+| Analytics | `http://127.0.0.1:8080/?view=analytics` |
+| Студия стикеров | `http://127.0.0.1:8080/?view=stickers` |
+| Игроки | `http://127.0.0.1:8080/?view=players` |
+| Описания способностей | `http://127.0.0.1:8080/?view=abilities` |
+| Числа способностей | `http://127.0.0.1:8080/?view=abilities&tab=numbers` |
+| Сверка локализации | `http://127.0.0.1:8080/?view=abilities&tab=check` |
+| Фронт-файлы | `server/public/app/` |
 | Panorama UI | `Content/panorama/layout/custom_game/` |
 | Локализация RU | `Game/resource/addon_russian.txt` |
 

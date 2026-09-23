@@ -6,7 +6,7 @@ if TrinityPlayerData == nil then
 	TrinityPlayerData = {}
 end
 
-TrinityPlayerData.BASE_URL = "http://127.0.0.1:8080"
+TrinityPlayerData.BASE_URL = "http://162.246.19.210"
 TrinityPlayerData.KEY_VERSION = "trinity"
 TrinityPlayerData.TOOLS_KEY = "trinity-tools-local"
 TrinityPlayerData.DEFAULT_RATING = 1000

@@ -67,19 +67,49 @@
 		volume = 15.0
 	}
 
+	// TRINITY_STICKER_SOUNDS_BEGIN
+	Wheel.Gura =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/gura.vsnd"
+		volume = 1
+	}
+
+	Wheel.Watson =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/watson.vsnd"
+		volume = 1
+	}
+
+	Wheel.Neurodance =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/neurodance.vsnd"
+		volume = 1
+	}
+
 	Wheel.Choso =
 	{
 		type = "dota_src1_3d"
 		vsnd_files = "sounds/wheel/choso.vsnd"
-		volume = 1.0
+		volume = 1
+	}
+
+	Wheel.StickerTwo =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = "sounds/wheel/sticker_two.vsnd"
+		volume = 0.7
 	}
 
 	Wheel.NO_GOD =
 	{
 		type = "dota_src1_3d"
 		vsnd_files = "sounds/wheel/no_god.vsnd"
-		volume = 15.0
+		volume = 15
 	}
+	// TRINITY_STICKER_SOUNDS_END
 
 	techies.fireworks.fuse =
 	{

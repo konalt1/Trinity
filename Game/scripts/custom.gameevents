@@ -50,6 +50,10 @@
         "x"             "float"
         "y"             "float"
         "z"             "float"
+        "from_x"        "float"
+        "from_y"        "float"
+        "from_z"        "float"
+        "lerp"          "float"
     }
 
     "trinity_warmup_ended"
@@ -63,6 +67,10 @@
         "x"             "float"
         "y"             "float"
         "z"             "float"
+        "from_x"        "float"
+        "from_y"        "float"
+        "from_z"        "float"
+        "lerp"          "float"
     }
 
     "trinity_sticker_ui_override"

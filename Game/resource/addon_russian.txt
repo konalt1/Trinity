@@ -18,15 +18,15 @@
 		"ui.custom_loading_screen.slide_4.title" 		"Изменения статов"
 		"ui.custom_loading_screen.slide_4.content"		"<b>Ловкость</b> увеличивает <b>скорость</b> передвижения вместо <b>брони</b>."
 		// Колесо чата
-	    "chat_wheel_donate_sound_Gura"                                 "ЧТО?!"
+		"chat_wheel_donate_sound_Gura"							"ЧТО?!"
 		"chat_wheel_donate_sound_NeuroHug"							"Обнимашки"
 		"chat_wheel_donate_sound_Watson"							"Дарова"
-		"chat_wheel_donate_sound_Neurodance"                                 "Туц-туц"
-		"chat_wheel_donate_sound_Choso"							"Изи"
-		"chat_wheel_donate_sound_StickerOne"						"Стикер 1"
-		"chat_wheel_donate_sound_StickerTwo"						"Стикер 2"
-		"chat_wheel_donate_sound_NO_GOD"						"Боже, нет"
 		"chat_wheel_donate_sound_Anime"							"Довольный"
+		"chat_wheel_donate_sound_Neurodance"							"Туц-туц"
+		"chat_wheel_donate_sound_Choso"							"Изи"
+		"chat_wheel_donate_sound_StickerOne"							"Стикер 1"
+		"chat_wheel_donate_sound_StickerTwo"							"Резать!"
+		"chat_wheel_donate_sound_NO_GOD"							"Боже, нет"
 		"chat_wheel_donate_sound_empty"							""
 
 		"sticker_editor_title"									"Стикеры"
@@ -152,13 +152,16 @@
 		//Ogre
 		// Ogre Fire Blast
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast"							"Бдышь"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Огр с размаху бьёт по земле, нанося магический урон и оглушая врагов в области. 
-		Урон и радиус увеличиваются от <b>Силы</b>."
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_Description"				"Огр бьёт по земле. От удара вперёд бежит ударная волна, нанося магический урон и оглушая врагов на пути.
+				Волна расширяется по мере движения. Урон и дальность растут от <b>Силы</b>."
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_damage"					"БАЗОВЫЙ УРОН:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_stun_duration"			"ОГЛУШЕНИЕ:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_radius"					"БАЗОВЫЙ РАДИУС:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_length"					"БАЗОВАЯ ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_max_length"				"МАКС. ДАЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_wave_start_radius"		"НАЧАЛЬНАЯ ШИРИНА:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_wave_speed"				"СКОРОСТЬ ВОЛНЫ:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_damage_bonus"	"БОНУС УРОНА ЗА СИЛУ:"
-		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_radius_bonus"	"БОНУС РАДИУСА ЗА СИЛУ:"
+		"DOTA_Tooltip_ability_ogre_magi_fire_blast_strength_length_bonus"	"БОНУС ДАЛЬНОСТИ ЗА СИЛУ:"
 		"DOTA_Tooltip_ability_ogre_magi_fire_blast_shard_description"		"Бдыщь пробивает неязвимость к эффектам."
 
 		// Ogre Strength Boost
@@ -246,15 +249,13 @@
 		//Juggernaut
 		// Blade Fury
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua"					"BLADE FURY"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Джаггернаут вращается, нанося магический урон врагам вокруг. Остаётся целью способностей, но не получает эффекты контроля. 
-		Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_Description"		"Герой крутится в вихре сокрушительных ударов клинком, становясь невосприимчивым к эффектам, получая +80% к сопротивлению магии и каждые 0,2 сек. нанося урон врагам поблизости. 
+		По окончании действия применяет на владельца сильное развеивание."
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_damage"	"УРОН:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_blade_fury_radius"	"РАДИУС:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_bonus_radius"	"БОНУС К РАДИУСУ:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_movement_slow"	"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
-		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_description"	"Увеличивает радиус Blade Fury, замедляет передвижение врагов в области и постоянно срубает деревья в радиусе действия."
+		"DOTA_Tooltip_ability_juggernaut_blade_fury_lua_shard_description"	"Увеличивает радиус Blade Fury на %shard_bonus_radius% и замедляет передвижение врагов в области на %shard_movement_slow%%%.\nПостоянно срубает деревья в радиусе действия."
 		"DOTA_Tooltip_modifier_juggernaut_blade_fury_shard_slow"			"Blade Fury - Замедление"
 		"DOTA_Tooltip_modifier_juggernaut_blade_fury_shard_slow_Description"	"Скорость передвижения снижена."
 
@@ -280,11 +281,11 @@
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_Description"		"Джаггернаут становится неуязвимым и стремительно перемещается между врагами, нанося им удары."
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_duration"			"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_slash_radius"		"РАДИУС ПОИСКА ЦЕЛЕЙ:"
-		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	"Дарует способность Omnislash"
+		"DOTA_Tooltip_ability_juggernaut_swift_slash_lua_scepter_description"	""
 
 		// Omnislash (Aghanim's Scepter)
 		"DOTA_Tooltip_ability_juggernaut_omni_slash"						"Omnislash"
-		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Джаггернаут становится неуязвимым и в течение 3.5 сек. прыгает между врагами, нанося удары."
+		"DOTA_Tooltip_ability_juggernaut_omni_slash_Description"			"Применяет усиленную версию способности Swift slash, действующую 3.5 сек."
 		"DOTA_Tooltip_ability_juggernaut_omni_slash_duration"				"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_juggernaut_omni_slash_slash_radius"			"РАДИУС ПОИСКА ЦЕЛЕЙ:"
 		"DOTA_Tooltip_modifier_juggernaut_omni_slash"						"Omnislash"
@@ -323,9 +324,9 @@
 		//Lich
 		// Frost Blast
 		"DOTA_Tooltip_ability_lich_frost_blast_lua"								"Ледяной Взрыв"
-		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия, замедляя передвижение и атаку всех задетых противников на 4 сек. 
-		Основная цель получает как базовый урон, так и урон по площади. 
-		Урон усиливается Силой магии."
+		"DOTA_Tooltip_ability_lich_frost_blast_lua_Description"					"Обдаёт указанного врага морозом, нанося урон в области действия, замедляя передвижение и атаку всех задетых противников на 4 сек.
+				Основная цель получает как базовый урон, так и урон по площади. 
+				Урон усиливается Силой магии."
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_aoe_damage"					"УРОН ПО ОБЛАСТИ:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_radius"						"РАДИУС:"
 		"DOTA_Tooltip_ability_lich_frost_blast_lua_slow_movement_speed"			"%ЗАМЕДЛЕНИЕ СКОРОСТИ:"
@@ -358,7 +359,8 @@
 		// Spark Wraith
 		"DOTA_Tooltip_ability_lich_spark_wraith"								"Неупокоенная Душа"
 		"DOTA_Tooltip_ability_lich_spark_wraith_Description"					"Лич создаёт в выбранной точке Душу. При обнаружении врага Душа летит к нему, нанося ему урон и сжигая ману. 
-	 Затем Душа возвращается к Личу, нанося урон и сжигая ману у всех на пути. Душа передаёт всю сожжённую ману Личу"
+		Затем Душа возвращается к Личу, нанося урон и сжигая ману у всех на пути. 
+		Душа передаёт всю сожжённую ману Личу"
 		"DOTA_Tooltip_ability_lich_spark_wraith_spark_damage_base"				"УРОН:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_radius"							"РАДИУС ОБНАРУЖЕНИЯ:"
 		"DOTA_Tooltip_ability_lich_spark_wraith_duration"						"ДЛИТЕЛЬНОСТЬ:"
@@ -368,7 +370,7 @@
 		// Ice Phylactery (Ultimate)
 		"DOTA_Tooltip_ability_ability_ice_phylactery"							"Ледяной Филактерий"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_Description"				"Лич создаёт ледяной Филактерий. 
-		Аура Филактерия замедляет врагов вокруг, уменьшает перезарядку способностей Лича, а также даёт ему вампиризм от заклинаний."
+		Аура Филактерия  уменьшает перезарядку способностей Лича, даёт ему вампиризм от заклинаний а также замедляет врагов вокруг."
 		"DOTA_Tooltip_ability_ability_ice_phylactery_aura_radius"				"РАДИУС АУРЫ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_bonus_movespeed"			"%ЗАМЕДЛЕНИЕ ВРАГОВ:"
 		"DOTA_Tooltip_ability_ability_ice_phylactery_spell_lifesteal"			"%ВАМПИРИЗМ ОТ ЗАКЛИНАНИЙ:"
@@ -424,10 +426,8 @@
 
 		// Tinker
 		"DOTA_Tooltip_ability_tinker_laser_custom"							"Лазер"
-		"DOTA_Tooltip_ability_tinker_laser_custom_Description"				"Тинкер выпускает луч в выбранного врага, нанося чистый урон и ослепляя его.
-
-		Ослеплённая цель промахивается всеми физическими атаками.
-
+		"DOTA_Tooltip_ability_tinker_laser_custom_Description"				"Тинкер выпускает луч в выбранного врага, нанося чистый урон и ослепляя его. 
+		Ослеплённая цель промахивается всеми физическими атаками. 
 		Урон: %laser_damage% + Сила магии × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_laser_custom_laser_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_tinker_laser_custom_blind_duration"			"ДЛИТЕЛЬНОСТЬ ОСЛЕПЛЕНИЯ:"
@@ -436,8 +436,7 @@
 		"DOTA_Tooltip_modifier_tinker_laser_custom_blind"					"Лазер"
 		"DOTA_Tooltip_modifier_tinker_laser_custom_blind_Description"			"Промахивается всеми физическими атаками."
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom"			"Марш машин"
-		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_Description"	"Тинкер вызывает армию машин в выбранной области. Машины движутся вперёд и взрываются при столкновении с врагом, нанося магический урон вокруг.
-
+		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_Description"	"Тинкер вызывает армию машин в выбранной области. Машины движутся вперёд и взрываются при столкновении с врагом, нанося магический урон вокруг. 
 		Урон машины: %damage% + Сила магии × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_damage"	"УРОН МАШИНЫ:"
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_spawn_area"	"ШИРИНА ФРОНТА:"
@@ -450,11 +449,9 @@
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_machines_per_sec"	"МАШИН В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_tinker_march_of_the_machines_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom"					"Развёртывание турелей"
-		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Тинкер сбрасывает в выбранную точку три неуправляемые турели. При приземлении они наносят врагам магический урон и отталкивают их. Если в области находится Тинкер, его отбрасывает на большее расстояние.
-
-		Каждая турель раз в заданный промежуток времени выпускает самонаводящуюся ракету в ближайшего видимого вражеского героя. Ракета взрывается при попадании, нанося урон цели и окружающим врагам.
-
-		Урон падения: %drop_damage% + Сила магии × %drop_mind_power_multiplier%.
+		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_Description"		"Тинкер сбрасывает в выбранную точку три неуправляемые турели. При приземлении они наносят врагам магический урон и отталкивают их. Если в области находится Тинкер, его отбрасывает на большее расстояние. 
+		Каждая турель раз в заданный промежуток времени выпускает самонаводящуюся ракету в ближайшего видимого вражеского героя. Ракета взрывается при попадании, нанося урон цели и окружающим врагам. 
+		Урон падения: %drop_damage% + Сила магии × %drop_mind_power_multiplier%. 
 		Урон ракеты: %missile_damage% + Сила магии × %missile_mind_power_multiplier%."
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_delay"		"ЗАДЕРЖКА ПАДЕНИЯ:"
 		"DOTA_Tooltip_ability_tinker_deploy_turrets_custom_drop_damage"		"УРОН ПРИ ПАДЕНИИ:"
@@ -575,7 +572,8 @@
 		//Weaver
 		// Cucaracha
 		"DOTA_Tooltip_ability_weaver_cucaracha"									"Кукарача"
-		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, проходит сквозь юнитов, и его скорость передвижения становится равна %move_speed%. Во время действия способности все его атаки наносят критический урон."
+		"DOTA_Tooltip_ability_weaver_cucaracha_Description"						"Ткач уменьшается в размерах, проходит сквозь юнитов, и его скорость передвижения становится равна %move_speed%. 
+		Во время действия способности все его атаки наносят критический урон."
 		"DOTA_Tooltip_ability_weaver_cucaracha_move_speed"					"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_crit_damage"					"%КРИТИЧЕСКИЙ УРОН:"
 		"DOTA_Tooltip_ability_weaver_cucaracha_model_scale"						"РАЗМЕР МОДЕЛИ:"
@@ -584,33 +582,29 @@
 
 		// Techies
 		"DOTA_Tooltip_ability_ability_fireworks"								"Фейерверк"
-		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Течис стреляет ракетами, увеличивая дальность атаки и нанося дополнительный урон по области.
-Попадания по цели наносят бонусный магический урон.
-
-Урон усиливается Силой Магии."
+		"DOTA_Tooltip_ability_ability_fireworks_Description"					"Течис стреляет ракетами, увеличивая дальность атаки и нанося дополнительный урон по области. 
+		Ваши атаки наносят дополнительный магический урон. 
+		Магический урон усиливается Силой Магии."
 		"DOTA_Tooltip_ability_ability_fireworks_duration"						"ДЛИТЕЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_ability_fireworks_splash_radius"					"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_fireworks_bonus_magic_damage"				"МАГИЧЕСКИЙ УРОН ПО ЦЕЛИ:"
 		"DOTA_Tooltip_ability_ability_fireworks_bonus_attack_range"				"БОНУС ДАЛЬНОСТИ АТАКИ:"
 		"DOTA_Tooltip_ability_ability_fireworks_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_ability_fireworks_splash_attack_damage_pct"		"%ФИЗ. УРОНА ОТ АТАКИ ВО ВСПЛЕСКЕ:"
-		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			"Атаки с всплеском поджигают врагов, нанося дополнительный магический урон в течение нескольких секунд. Урон от поджога усиливается Силой Магии."
+		"DOTA_Tooltip_ability_ability_fireworks_shard_description"			""
 
-		"DOTA_Tooltip_ability_ability_techies_parry_blast"						"Отражающий взрыв"
-		"DOTA_Tooltip_ability_ability_techies_parry_blast_Description"			"Мгновенно взрывается вокруг Течиса, нанося магический урон врагам поблизости.
-На короткое время герой получает огромную броню, чтобы отбить входящие атаки и снаряды.
-Враги, попавшие по Течису в это окно, получают бессилие."
+		"DOTA_Tooltip_ability_ability_techies_parry_blast"						"Взрывная защита"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_Description"			"Течис детонирует заряд, который наосит урон врагам в области и отбивает их атаки. 
+		Враги, чьи атаки  были отбиты таким образом получают бессилие."
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_explosion_radius"		"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_damage"				"УРОН ВЗРЫВА:"
-		"DOTA_Tooltip_ability_ability_techies_parry_blast_buff_duration"			"ОКНО ОТРАЖЕНИЯ:"
-		"DOTA_Tooltip_ability_ability_techies_parry_blast_bonus_armor"			"БРОНЯ ОТРАЖЕНИЯ:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_buff_duration"			"ВРЕМЯ ДЕЙСТВИЯ:"
+		"DOTA_Tooltip_ability_ability_techies_parry_blast_bonus_armor"			"ДОПОЛНИТЕЛЬНАЯ БРОНЯ:"
 		"DOTA_Tooltip_ability_ability_techies_parry_blast_disarm_duration"		"БЕССИЛИЕ:"
 
-		"DOTA_Tooltip_ability_techies_suicide_custom"							"Взлёт"
-		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Течис прыгает в выбранную точку и при приземлении взрывается, нанося магический урон и оглушая врагов в области.
-
-
-Герой также получает чистый урон, равный части его текущего здоровья."
+		"DOTA_Tooltip_ability_techies_suicide_custom"							"Камикадзе!"
+		"DOTA_Tooltip_ability_techies_suicide_custom_Description"				"Течис прыгает в выбранную точку и взрывается при приземлении, нанося магический урон и оглушая врагов в области. 
+		Герой также получает урон от взрыва, равный части его текущего здоровья."
 		"DOTA_Tooltip_ability_techies_suicide_custom_radius"					"РАДИУС:"
 		"DOTA_Tooltip_ability_techies_suicide_custom_damage"					"БАЗОВЫЙ УРОН:"
 		"DOTA_Tooltip_ability_techies_suicide_custom_stun_duration"				"ОГЛУШЕНИЕ:"
@@ -618,20 +612,16 @@
 		"DOTA_Tooltip_ability_techies_suicide_custom_mind_power_multiplier"		"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 
 		"DOTA_Tooltip_ability_ability_chain_bomb"								"Ядерные мины"
-		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"3 заряда. Восстановление одного заряда: 7 сек.
-
-Течис устанавливает в выбранной точке зелёную мину.
-
-Он может взорвать её, нанеся ей физический или магический урон. При этом ядерная мина детонирует и наносит урон всем противникам поблизости.
-
-Ядерные мины невидимы для противника."
+		"DOTA_Tooltip_ability_ability_chain_bomb_Description"					"Течис устанавливает в выбранной точке зелёную мину. 
+		Течис может взорвать её, нанеся ей физический или магический урон. При этом ядерная мина детонирует и наносит урон всем противникам поблизости. 
+		Ядерные мины невидимы для противника."
 
 		"DOTA_Tooltip_ability_ability_chain_bomb_damage"						"УРОН ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_radius"						"РАДИУС ВЗРЫВА:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_building_damage_pct"			"%УРОНА ПО СТРОЕНИЯМ:"
 		"DOTA_Tooltip_ability_ability_chain_bomb_scepter_description"			"Все зелёные мины могут передвигаться."
-		"DOTA_Tooltip_ability_ability_chain_bomb_shard_description"			"Пока ядерная мина жива, ваша команда получает обзор вокруг неё."
+		"DOTA_Tooltip_ability_ability_chain_bomb_shard_description"			"Ядерные Мины имеют беспрепятственный обзор."
 		
 
 		
@@ -1022,12 +1012,12 @@
 
 		// Lion
 		"DOTA_Tooltip_ability_lion_impale_custom"									"Земляной шип"
-		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Лион выпускает по земле ряд шипов, которые подбрасывают врагов на пути, наносят им магический урон и оглушают их.
+		"DOTA_Tooltip_ability_lion_impale_custom_Description"						"Из земли прорывается полоса каменных шипов. Они подбрасывают врагов в воздух, а по приземлении оглушают их и наносят урон. 
 		Урон растёт с Силой Магии"
 		"DOTA_Tooltip_ability_lion_impale_custom_damage"							"УРОН:"
 		"DOTA_Tooltip_ability_lion_impale_custom_stun_duration"						"ОГЛУШЕНИЕ:"
 		"DOTA_Tooltip_ability_lion_impale_custom_mind_power_multiplier"				"УРОН ОТ СИЛЫ МАГИИ:"
-		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Земляной шип применяется в 30 градусном конусе"
+		"DOTA_Tooltip_ability_lion_impale_custom_shard_description"					"Земляной шип применяется в 30° градусном конусе."
 
 		"DOTA_Tooltip_ability_lion_soul_collector"									"Собиратель душ"
 		"DOTA_Tooltip_ability_lion_soul_collector_Description"						"Гибель врага от способности Лиона даёт ему Силу магии.\n\nБонусная сила магии за убийство героя способностью сохраняется до конца игры."
@@ -1035,17 +1025,17 @@
 		"DOTA_Tooltip_ability_lion_soul_collector_creep_duration"					"ДЛИТЕЛЬНОСТЬ БОНУСА ЗА КРИПА:"
 		"DOTA_Tooltip_ability_lion_soul_collector_hero_mind_power"					"СИЛА МАГИИ ЗА ГЕРОЯ:"
 
-		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Вытягивание духа"
+		"DOTA_Tooltip_ability_lion_spirit_siphon_custom"							"Высасывание Духа"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_Description"				"Лион связывается с выбранным врагом и высасывает его ману. Враг получает магический урон в размере части фактически потерянной маны. 
-		Связь разрывается, если цель отдаляется слишком далеко.\n\nКоличество вытягиваемой маны усиливается Силой магии."
+		Количество вытягиваемой маны усиливается Силой магии."
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mana_drain_per_second"		"МАНА В СЕКУНДУ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_mind_power_multiplier"		"МАНА ОТ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_health_drain_pct"			"%ЗДОРОВЬЯ ОТ МАНЫ:"
 		"DOTA_Tooltip_ability_lion_spirit_siphon_custom_duration"					"ДЛИТЕЛЬНОСТЬ:"
 
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom"							"Палец смерти"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Лион поражает выбранного врага, нанося ему колоссальный магический урон.\n\nЕсли вражеский герой погибает от применения способности, Лион получает постоянный заряд Перерождения. 
-		Каждый заряд сокращает время возрождения Лиона.
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_Description"				"Лион поражает выбранного врага, нанося ему колоссальный магический урон. 
+		Если вражеский герой погибает от применения способности, Лион получает постоянный заряд Перерождения, который сокращает время возрождения Лиона. 
 		Урон способности увеличивается с силой магии"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_damage"					"УРОН:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_mind_power_multiplier"	"УРОН ОТ СИЛЫ МАГИИ:"
@@ -1053,8 +1043,8 @@
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_buff_duration"	"ДЛИТЕЛЬНОСТЬ УСИЛЕНИЯ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_attack_range"		"ДАЛЬНОСТЬ АТАКИ СО СКИПЕТРОМ:"
 		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_cleave_damage_pct"	"%УРОН ПРОРУБАНИЯ:"
-		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"После применения способности Лион становится героес ближнего боя на %scepter_buff_duration% сек. 
-		\n\nВ ближнем бою атаки получают дополнительный урон, равный Силе магии, и наносят прорубающий урон. Убийство вражеского героя прямой атакой даёт заряд Перерождения."
+		"DOTA_Tooltip_ability_lion_finger_of_death_custom_scepter_description"		"После применения способности Лион становится героем ближнего боя на %scepter_buff_duration% сек. 
+		В ближнем бою атаки получают дополнительный урон, равный Силе магии, и наносят прорубающий урон. Убийство вражеского героя прямой атакой даёт заряд Перерождения."
 
 		// Боссы
 		"npc_mortimer_boss"											"Мортимер"
@@ -1077,8 +1067,7 @@
 		"DOTA_Tooltip_Ability_item_caravan_gold_bag_SummaryDescription"		"Даёт 50 золота."
 
 		"DOTA_Tooltip_Ability_item_caravan_aegis"								"Аегис Бессмертного"
-		"DOTA_Tooltip_Ability_item_caravan_aegis_Description"					"Подбор даёт Аегис на %duration% сек.
-
+		"DOTA_Tooltip_Ability_item_caravan_aegis_Description"					"Подбор даёт Аегис на %duration% сек. 
 		Смерть перерождает героя."
 		"DOTA_Tooltip_Ability_item_caravan_aegis_duration"						"ДЛИТЕЛЬНОСТЬ:"
 
@@ -1091,10 +1080,8 @@
 		"DOTA_Tooltip_modifier_caravan_aghanim_laser_debuff_Description"			"Замедлен и ослеплён лазером Аганима."
 
 		"DOTA_Tooltip_ability_caravan_aghanim_shards"							"Осколки Аганима"
-		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Аганим создаёт вокруг себя осколки. Они вращаются вместе с ним.
-
-		Герой, коснувшийся осколка, получает магический урон и замедляется. Осколок при этом разрушается.
-
+		"DOTA_Tooltip_ability_caravan_aghanim_shards_Description"				"Аганим создаёт вокруг себя осколки. Они вращаются вместе с ним. 
+		Герой, коснувшийся осколка, получает магический урон и замедляется. Осколок при этом разрушается. 
 		Замедление стакается."
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_shard_count"				"ОСКОЛКОВ:"
 		"DOTA_Tooltip_ability_caravan_aghanim_shards_orbit_radius"				"РАДИУС:"
@@ -1177,15 +1164,20 @@
 
 		// Shadow Fiend — койлы со стаками от Силы магии
 		"DOTA_Tooltip_ability_nevermore_necromastery"						"Некромастерия"
-		"DOTA_Tooltip_ability_nevermore_necromastery_Description"			"<b>Пассивно.</b> Shadow Fiend забирает души убитых им врагов. Каждая душа увеличивает Силу магии. За героя он получает больше душ, чем за обычное существо.\n\nПри смерти Shadow Fiend теряет часть собранных душ."
-		"DOTA_Tooltip_Ability_nevermore_necromastery_SummaryDescription"	"Убитые враги отдают Shadow Fiend души, увеличивающие Силу магии."
+		"DOTA_Tooltip_ability_nevermore_necromastery_Description"			"Shadow Fiend забирает души убитых им врагов. 
+		Каждая душа увеличивает урон атаки и Силу магии. За героя он получает больше душ, чем за обычное существо. 
+		При смерти Shadow Fiend теряет часть собранных душ."
+		"DOTA_Tooltip_Ability_nevermore_necromastery_SummaryDescription"	"Убитые враги отдают Shadow Fiend души, увеличивающие урон атаки и Силу магии."
+		"DOTA_Tooltip_ability_nevermore_necromastery_damage_per_soul"		"УРОН ЗА ДУШУ:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_mind_power_per_soul"	"СИЛА МАГИИ ЗА ДУШУ:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_max_souls"				"МАКСИМУМ ДУШ:"
 		"DOTA_Tooltip_ability_nevermore_necromastery_souls_per_hero_kill"	"ДУШ ЗА ГЕРОЯ:"
 		"DOTA_Tooltip_modifier_nevermore_necromastery"						"Некромастерия"
-		"DOTA_Tooltip_modifier_nevermore_necromastery_Description"			"Собранные души усиливают Силу магии."
+		"DOTA_Tooltip_modifier_nevermore_necromastery_Description"			"Собранные души усиливают урон атаки и Силу магии."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity"						"Shadowraze (ближний)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_Description"			"Shadow Fiend выжигает землю рядом перед собой, нанося врагам магический урон. Каждое попадание оставляет заряд, увеличивающий урон последующих Shadowraze по той же цели.\n\nУрон: %shadowraze_damage% + заряды × %stack_bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_Description"			"Герой опустошает участок земли прямо перед собой, нанося урон всем врагам в нём. 
+		Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности. 
+		Урон увеличивается с Силой Магии ."
 		"DOTA_Tooltip_Ability_nevermore_shadowraze1_trinity_SummaryDescription"		"Выжигает землю рядом перед Shadow Fiend. Последовательные попадания наносят больше урона."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shard_description"		"Попадание по вражескому герою сокращает текущую перезарядку. Каждый заряд Shadowraze также замедляет цель и снижает её броню."
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_damage"		"УРОН:"
@@ -1197,7 +1189,9 @@
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_range"		"ДИСТАНЦИЯ:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze1_trinity_shadowraze_radius"		"РАДИУС:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity"						"Shadowraze (средний)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_Description"			"Shadow Fiend выжигает землю перед собой на среднем расстоянии, нанося врагам магический урон. Каждое попадание оставляет заряд, увеличивающий урон последующих Shadowraze по той же цели.\n\nУрон: %shadowraze_damage% + заряды × %stack_bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_Description"			"Герой опустошает участок земли прямо перед собой, нанося урон всем врагам в нём. 
+		Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности. 
+		Урон увеличивается с Силой Магии ."
 		"DOTA_Tooltip_Ability_nevermore_shadowraze2_trinity_SummaryDescription"		"Выжигает землю перед Shadow Fiend на среднем расстоянии. Последовательные попадания наносят больше урона."
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_damage"		"УРОН:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_stack_bonus_damage"		"УРОН ЗА СТАК:"
@@ -1205,7 +1199,9 @@
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_range"		"ДИСТАНЦИЯ:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze2_trinity_shadowraze_radius"		"РАДИУС:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity"						"Shadowraze (дальний)"
-		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_Description"			"Shadow Fiend выжигает землю перед собой на большом расстоянии, нанося врагам магический урон. Каждое попадание оставляет заряд, увеличивающий урон последующих Shadowraze по той же цели.\n\nУрон: %shadowraze_damage% + заряды × %stack_bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_Description"			"Герой опустошает участок земли прямо перед собой, нанося урон всем врагам в нём. 
+		Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности. 
+		Урон увеличивается с Силой Магии ."
 		"DOTA_Tooltip_Ability_nevermore_shadowraze3_trinity_SummaryDescription"		"Выжигает землю далеко перед Shadow Fiend. Последовательные попадания наносят больше урона."
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_shadowraze_damage"		"УРОН:"
 		"DOTA_Tooltip_ability_nevermore_shadowraze3_trinity_stack_bonus_damage"		"УРОН ЗА СТАК:"
@@ -1216,7 +1212,9 @@
 		"DOTA_Tooltip_modifier_nevermore_shadowraze_trinity_debuff_Description"		"Каждый стак увеличивает урон следующего Shadowraze. С Aghanim's Shard также снижает скорость передвижения и броню."
 
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity"						"Реквием душ"
-		"DOTA_Tooltip_ability_nevermore_requiem_trinity_Description"			"Shadow Fiend выпускает во все стороны волны демонической энергии — по одной за каждую душу Некромастерии. Каждая волна наносит магический урон, а одна цель может попасть под несколько волн.\n\nПопавшие волны пугают врагов, замедляют их и снижают сопротивление магии. Длительность этих эффектов складывается за каждое попадание вплоть до максимума.\n\nПри смерти Shadow Fiend применяет способность независимо от её готовности. Посмертные волны не накладывают контроль.\n\nУрон волны: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_nevermore_requiem_trinity_Description"			"Герой выпускает до 20 собранных душ в волнах демонической энергии. Существа возле него могут получить урон от нескольких волн. 
+		За каждую задетую волну на жертву накладывается 0,6 сек. замедления, снижения сопротивления магии и страха (но не более 2,15 сек.). Создаёт одну волну за каждую душу, захваченную с помощью Necromastery. 
+		Если герой погибнет, то эта способность сработает автоматически вне зависимости от её готовности."
 		"DOTA_Tooltip_Ability_nevermore_requiem_trinity_SummaryDescription"	"Выпускает по одной волне за каждую душу Некромастерии. Волны наносят урон и пугают врагов."
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_scepter_description"	"Сокращает перезарядку способности. Обычные волны возвращаются к Shadow Fiend, повторно наносят урон и лечат его на долю от фактически нанесённого урона. Посмертные волны не возвращаются."
 		"DOTA_Tooltip_ability_nevermore_requiem_trinity_damage"					"БАЗОВЫЙ УРОН ЗА ВОЛНУ:"
@@ -1249,10 +1247,8 @@
 
 		// Dawnbreaker
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom"					"Небесный Молот"
-		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_Description"		"Dawnbreaker бросает молот в выбранном направлении. Молот наносит магический урон врагам на пути и оставляет огненный след.
-
-		Пока молот летит или лежит, Dawnbreaker может притянуть себя к нему.
-
+		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_Description"		"Dawnbreaker бросает молот в выбранном направлении. Молот наносит магический урон врагам на пути и оставляет огненный след. 
+		Пока молот летит или лежит, Dawnbreaker может притянуть себя к нему. 
 		Урон молота: %hammer_damage% + Сила магии × %mind_power_multiplier%."
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_hammer_damage"		"УРОН МОЛОТА:"
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
@@ -1262,12 +1258,10 @@
 		"DOTA_Tooltip_ability_dawnbreaker_celestial_hammer_custom_flare_debuff_duration"	"ДЛИТЕЛЬНОСТЬ СЛЕДА:"
 		"DOTA_Tooltip_ability_dawnbreaker_converge_custom"							"Сближение"
 		"DOTA_Tooltip_ability_dawnbreaker_converge_custom_Description"				"Dawnbreaker притягивает себя к брошенному молоту."
-		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom"							"Светимость"
-		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_Description"				"Пассивно. Каждый удар Dawnbreaker по врагу даёт заряд на %charge_duration% сек. Новый удар обновляет время всех зарядов.
-
-		Пока есть хотя бы один заряд, Dawnbreaker может активировать способность. Вокруг молота происходит взрыв: враги получают урон, союзники восстанавливают здоровье. Если молот в руках, взрыв происходит вокруг Dawnbreaker.
-
-		Все заряды расходуются разом."
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom"							"Жар Молота"
+		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_Description"				"Каждый удар Dawnbreaker по врагу даёт заряд на %charge_duration% сек. Новый удар обновляет время всех зарядов. 
+		Пока есть хотя бы один заряд, Dawnbreaker может активировать способность. При этом, вокруг молота происходит взрыв, враги получат урон, а союзники восстанавят здоровье. 
+		Чем больге зарядов, тем больше будет урона и излечения."
 		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_max_charges"				"МАКСИМУМ ЗАРЯДОВ:"
 		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_charge_duration"			"ДЛИТЕЛЬНОСТЬ ЗАРЯДА:"
 		"DOTA_Tooltip_ability_dawnbreaker_luminosity_custom_radius"					"РАДИУС:"
@@ -1277,10 +1271,8 @@
 		"DOTA_Tooltip_modifier_dawnbreaker_luminosity_custom_Description"				"Накопленные заряды взрыва."
 		"dota_hud_error_dawnbreaker_luminosity_no_charges"							"Нет зарядов"
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom"						"Солнечный Страж"
-		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_Description"			"Dawnbreaker выпускает маркер в выбранном направлении.
-
-		Чем дальше улетел маркер, тем шире область. Пока он летит, Dawnbreaker может прыгнуть в его точку. Если маркер долетает до максимума, прыжок начинается сам.
-
+		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_Description"			"Dawnbreaker выпускает маркер в выбранном направлении. 
+		Чем дальше улетел маркер, тем шире область. Пока он летит, Dawnbreaker может прыгнуть в его точку. Если маркер долетает до максимума, прыжок начинается сам. 
 		В полёте Dawnbreaker неуязвима. При приземлении враги в области получают магический урон и оглушаются."
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_min_range"			"МИН. ДАЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_custom_max_range"			"МАКС. ДАЛЬНОСТЬ:"
@@ -1293,12 +1285,10 @@
 		"DOTA_Tooltip_ability_dawnbreaker_solar_guardian_release_custom_Description"	"Dawnbreaker прыгает в текущую точку маркера."
 
 		// Largo
-		"DOTA_Tooltip_ability_largo_catchy_lick_trinity"									"Липкий Лизь"
-		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_Description"						"Largo лижет выбранное существо языком, притягивает его и снимает с него развеиваемые эффекты.
-
-		Враг получает магический урон. Союзника притягивает дальше.
-
-		Снятый с цели эффект даёт Largo регенерацию здоровья."
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity"									"Искуссный Язык"
+		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_Description"						"Своим цепким языком герой немного притягивает цель к себе и применяет на неё нормальное развеивание, а также наносит ей урон, если это враг. 
+		Если убить цель или развеять с неё хоть один эффект, у владельца временно увеличится восстановление здоровья. 
+		ТИП РАЗВЕИВАНИЯ: нормальное"
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_damage"							"УРОН:"
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_largo_catchy_lick_trinity_pull_distance"					"ПРИТЯЖЕНИЕ ВРАГА:"
@@ -1319,12 +1309,10 @@
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff"							"Жабий Топ"
 		"DOTA_Tooltip_modifier_largo_frogstomp_debuff_Description"				"Замедлен."
 
-		"DOTA_Tooltip_ability_largo_childhood_memories"								"Детские воспоминания"
-		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo начинает передвигаться прыжками фиксированной дальности в направлении движения.
-
-		Дальность прыжка зависит от скорости передвижения: чем она выше, тем дальше прыжок.
-
-		При приземлении враги в радиусе получают магический урон и оглушаются."
+		"DOTA_Tooltip_ability_largo_childhood_memories"								"Прыг-Скок"
+		"DOTA_Tooltip_ability_largo_childhood_memories_Description"					"Largo начинает передвигаться длинными прыжками фиксированной дальности в направлении движения. 
+		При приземлении враги в радиусе получают магический урон и оглушаются. 
+		Если во время прыжка Largo получает физический урон от вражеского героя, после приземления он обездвиживается, а способность уходит на перезарядку."
 		"DOTA_Tooltip_ability_largo_childhood_memories_ms_to_distance_multiplier"		"МНОЖИТЕЛЬ ДАЛЬНОСТИ:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_hop_duration"					"ДЛИТЕЛЬНОСТЬ ПРЫЖКА:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_land_delay"					"ПАУЗА МЕЖДУ ПРЫЖКАМИ:"
@@ -1333,18 +1321,19 @@
 		"DOTA_Tooltip_ability_largo_childhood_memories_mind_power_multiplier"			"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_stun_radius"					"РАДИУС:"
 		"DOTA_Tooltip_ability_largo_childhood_memories_mana_per_hop"					"МАНА ЗА ПРЫЖОК:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_root_duration"					"ОБЕЗДВИЖИВАНИЕ:"
+		"DOTA_Tooltip_ability_largo_childhood_memories_hit_cooldown"					"ПЕРЕЗАРЯДКА ПОСЛЕ УДАРА:"
 		"DOTA_Tooltip_modifier_largo_childhood_memories"								"Детские воспоминания"
 		"DOTA_Tooltip_modifier_largo_childhood_memories_Description"					"Передвигается прыжками."
-		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"Конец воспоминаний"
+		"DOTA_Tooltip_modifier_largo_childhood_memories_root"						"Детские воспоминания"
+		"DOTA_Tooltip_modifier_largo_childhood_memories_root_Description"			"Обездвижен."
+		"DOTA_Tooltip_ability_largo_childhood_memories_end"							"НАПРЫГАЛСЯ"
 		"DOTA_Tooltip_ability_largo_childhood_memories_end_Description"				"Largo прекращает прыжки."
 
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody"							"Амфибийная рапсодия"
-		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"				"Largo готовится играть. Он безоружен, а его способности сменяются тремя песнями: Пузатый блиц, Жаркий галоп и Тропический эликсир.
-
-		Песни действуют, только если взять ноту в такт.
-
-		Каждая точная нота даёт заряд Нот: бонус к броне и снижение стоимости маны песен. Промах снимает заряд. Заряды ненадолго остаются после окончания игры."
-		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_scepter_description"		"Можно взять две песни за один такт. Если одна из них — Пузатый блиц, враги вокруг получают магический урон."
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"				"Герой начинает выступление: он теряет возможность атаковать, а остальные его способности меняются на три песни, действующие только при попадании в ритм. 
+		Попадание в ритм даёт герою один складывающийся эффект грува, а промах — отнимает. Каждый такой эффект увеличивает броню владельца и снижает расход маны на песни. Если завершить выступление, весь грув пропадёт после небольшой задержки."
+		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_scepter_description"		"Позволяет нажать клавиши двух песен одновременно, чтобы применить их вместе."
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_radius"					"РАДИУС:"
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_max_stacks"				"МАКСИМУМ НОТ:"
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_armor_per_stack"			"БРОНЯ ЗА НОТУ:"
@@ -1358,8 +1347,7 @@
 		"DOTA_Tooltip_modifier_largo_amphibian_rhapsody_self_Description"			"Играет. Безоружен."
 
 		"DOTA_Tooltip_ability_largo_song_fight_song"							"Пузатый блиц"
-		"DOTA_Tooltip_ability_largo_song_fight_song_Description"					"Largo играет песню: ближайшие союзные герои получают усиление заклинаний, а их атаки наносят дополнительный магический урон.
-
+		"DOTA_Tooltip_ability_largo_song_fight_song_Description"					"Largo играет песню: ближайшие союзные герои получают усиление заклинаний, а их атаки наносят дополнительный магический урон. 
 		Враги вокруг получают магический урон."
 		"DOTA_Tooltip_ability_largo_song_fight_song_burst_damage"				"УРОН:"
 		"DOTA_Tooltip_ability_largo_song_fight_song_magic_damage_bonus"			"%ДОП. МАГИЧЕСКИЙ УРОН АТАК:"
@@ -1368,8 +1356,8 @@
 		"DOTA_Tooltip_modifier_largo_song_attack_burst"							"Пузатый блиц"
 		"DOTA_Tooltip_modifier_largo_song_attack_burst_Description"				"Заклинания усилены. Атаки наносят дополнительный магический урон."
 
-		"DOTA_Tooltip_ability_largo_song_double_time"							"Жаркий галоп"
-		"DOTA_Tooltip_ability_largo_song_double_time_Description"				"Largo играет песню: ближайшие союзники ускоряются и ненадолго получают сопротивление замедлениям."
+		"DOTA_Tooltip_ability_largo_song_double_time"							"Жаркий Пляс"
+		"DOTA_Tooltip_ability_largo_song_double_time_Description"				"Герой играет песню, которая увеличивает скорость передвижения союзников и ненадолго даёт им сопротивление замедлениям."
 		"DOTA_Tooltip_ability_largo_song_double_time_movespeed_bonus_burst"		"%СКОРОСТЬ:"
 		"DOTA_Tooltip_ability_largo_song_double_time_slow_resistance"			"%СОПРОТИВЛЕНИЕ ЗАМЕДЛЕНИЯМ:"
 		"DOTA_Tooltip_ability_largo_song_double_time_radius"						"РАДИУС:"
@@ -1378,14 +1366,13 @@
 		"DOTA_Tooltip_modifier_largo_song_speed_burst_slowres"					"Жаркий галоп"
 		"DOTA_Tooltip_modifier_largo_song_speed_burst_slowres_Description"		"Сопротивление замедлениям повышено."
 
-		"DOTA_Tooltip_ability_largo_song_good_vibrations"						"Тропический эликсир"
-		"DOTA_Tooltip_ability_largo_song_good_vibrations_Description"			"Largo играет песню и лечит ближайших союзных героев."
+		"DOTA_Tooltip_ability_largo_song_good_vibrations"						"Исчеляющий Грув"
+		"DOTA_Tooltip_ability_largo_song_good_vibrations_Description"			"Герой играет песню, которая исцеляет союзных героев неподалёку."
 		"DOTA_Tooltip_ability_largo_song_good_vibrations_heal_burst"				"ЛЕЧЕНИЕ:"
 		"DOTA_Tooltip_ability_largo_song_good_vibrations_radius"					"РАДИУС:"
 
 		"DOTA_Tooltip_ability_largo_encore"										"На бис"
-		"DOTA_Tooltip_ability_largo_encore_Description"							"Эффекты, которые герой накладывает на себя или на союзников, действуют дольше. Накладывая на союзника направленный эффект, герой также получает его сам.
-
+		"DOTA_Tooltip_ability_largo_encore_Description"							"Эффекты, которые герой накладывает на себя или на союзников, действуют дольше. Накладывая на союзника направленный эффект, герой также получает его сам. 
 		Если же герой наложит направленный эффект способности на себя, она также применится на ближайшего союзного героя в своём радиусе применения."
 		"DOTA_Tooltip_ability_largo_encore_buff_amplification"					"%УСИЛЕНИЕ ДЛИТЕЛЬНОСТИ:"
 
@@ -1399,8 +1386,7 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_largo_8"						"2 заряда Липкого Лизя"
 
 		"DOTA_Tooltip_ability_void_spirit_aether_remnant"						"Астральный Ремнант"
-		"DOTA_Tooltip_ability_void_spirit_aether_remnant_Description"			"Void Spirit выпускает в указанную точку астральный ремнант. Ремнант смотрит в сторону, заданную при применении.
-
+		"DOTA_Tooltip_ability_void_spirit_aether_remnant_Description"			"Void Spirit выпускает в указанную точку астральный ремнант. Ремнант смотрит в сторону, заданную при применении. 
 		Когда в его обзор попадает враг, ремнант притягивает его и наносит магический урон."
 		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_distance"	"ДАЛЬНОСТЬ ОБЗОРА:"
 		"DOTA_Tooltip_ability_void_spirit_aether_remnant_remnant_watch_radius"	"ШИРИНА ОБЗОРА:"
@@ -1413,8 +1399,7 @@
 		"DOTA_Tooltip_modifier_void_spirit_trinity_remnant_pull_Description"		"Притягивается к астральному ремнанту."
 
 		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity"					"Диссимиляция"
-		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_Description"		"Void Spirit временно исчезает в иной мир, создавая несколько порталов, через которые он может собрать свою сущность воедино.
-
+		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_Description"		"Void Spirit временно исчезает в иной мир, создавая несколько порталов, через которые он может собрать свою сущность воедино. 
 		Выйдя из портала, герой наносит магический урон всем врагам в области действия."
 		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_shard_description"	"На каждом живом Астральном ремнанте появляется портал."
 		"DOTA_Tooltip_ability_void_spirit_dissimilate_trinity_phase_duration"	"ДЛИТЕЛЬНОСТЬ:"
@@ -1426,8 +1411,7 @@
 		"DOTA_Tooltip_modifier_void_spirit_dissimilate_trinity_phase_Description"	"Исчез в ином мире. Выберите портал, чтобы вернуться."
 
 		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity"					"Астральный шаг"
-		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_Description"		"Void Spirit перемещается в указанную точку через астральный разлом, атакуя всех врагов на пути.
-
+		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_Description"		"Void Spirit перемещается в указанную точку через астральный разлом, атакуя всех врагов на пути. 
 		Эта атака накладывает метку пустоты, которая замедляет жертв на 1,25 сек. и затем наносит магический урон."
 		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_max_travel_distance"	"ДАЛЬНОСТЬ:"
 		"DOTA_Tooltip_ability_void_spirit_astral_step_trinity_radius"			"ШИРИНА ПУТИ:"

@@ -1,0 +1,102 @@
+{
+    "stickers": [
+        {
+            "key": "Gura",
+            "name_ru": "ЧТО?!",
+            "name_en": "WHAT?!",
+            "max_time": 2.4,
+            "rarity": "common",
+            "weight_normal": 100,
+            "weight_elite": 10,
+            "sound": "Wheel.Gura",
+            "sound_file": "gura.mp3"
+        },
+        {
+            "key": "NeuroHug",
+            "name_ru": "Обнимашки",
+            "name_en": "Group hug!",
+            "max_time": 1.5,
+            "rarity": "common",
+            "weight_normal": 100,
+            "weight_elite": 10,
+            "sound": "Hero_Chen.HolyPersuasion"
+        },
+        {
+            "key": "Watson",
+            "name_ru": "Дарова",
+            "name_en": "Yo, what's good?",
+            "max_time": 2.1,
+            "rarity": "common",
+            "weight_normal": 100,
+            "weight_elite": 10,
+            "sound": "Wheel.Watson",
+            "sound_file": "watson.mp3"
+        },
+        {
+            "key": "Anime",
+            "name_ru": "Довольный",
+            "name_en": "Feels nice.",
+            "max_time": 1.5,
+            "rarity": "common",
+            "weight_normal": 100,
+            "weight_elite": 10,
+            "sound": "Hero_Juggernaut.OmniSlash"
+        },
+        {
+            "key": "Neurodance",
+            "name_ru": "Туц-туц",
+            "name_en": "Thump thump!",
+            "max_time": 7.5,
+            "rarity": "rare",
+            "weight_normal": 30,
+            "weight_elite": 3,
+            "sound": "Wheel.Neurodance",
+            "sound_file": "neurodance.mp3"
+        },
+        {
+            "key": "Choso",
+            "name_ru": "Изи",
+            "name_en": "Easy clap!",
+            "max_time": 0.7,
+            "rarity": "common",
+            "weight_normal": 100,
+            "weight_elite": 10,
+            "sound": "Wheel.Choso",
+            "sound_file": "choso.mp3"
+        },
+        {
+            "key": "StickerOne",
+            "name_ru": "Стикер 1",
+            "name_en": "Sticker 1",
+            "max_time": 1.5,
+            "rarity": "rare",
+            "weight_normal": 30,
+            "weight_elite": 3,
+            "sound": "high_five.impact"
+        },
+        {
+            "key": "StickerTwo",
+            "name_ru": "Резать!",
+            "name_en": "Sticker 2",
+            "max_time": 1.2,
+            "rarity": "rare",
+            "weight_normal": 30,
+            "weight_elite": 3,
+            "sound": "Wheel.StickerTwo",
+            "sound_file": "sticker_two.mp3",
+            "sound_volume": 0.7
+        },
+        {
+            "key": "NO_GOD",
+            "name_ru": "Боже, нет",
+            "name_en": "No god, please no",
+            "max_time": 2.8,
+            "rarity": "rare",
+            "weight_normal": 30,
+            "weight_elite": 3,
+            "sound": "Wheel.NO_GOD",
+            "sound_file": "no_god.mp3",
+            "sound_volume": 15
+        }
+    ]
+}

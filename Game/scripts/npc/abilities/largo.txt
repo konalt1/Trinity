@@ -104,10 +104,12 @@
 			"hop_duration"              "1"
 			"land_delay"                "0.3"
 			"stun_duration"             "0.2"
-			"stomp_damage"              "30"
+			"stomp_damage"              "60"
 			"mind_power_multiplier"     "1"
-			"stun_radius"               "125 150 175 200"
+			"stun_radius"               "250 300 350 400"
 			"mana_per_hop"              "8 7 6 5"
+			"root_duration"             "1"
+			"hit_cooldown"              "3"
 		}
 	}
 

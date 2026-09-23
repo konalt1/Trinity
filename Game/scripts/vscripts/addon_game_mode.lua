@@ -2,6 +2,7 @@ require ("Timers")
 require ("game_managers/draft_spawn")
 require ("game_settings")
 require ("utils/util")
+require ("utils/lua_memory_debug")
 require ("game_managers/creep_bounty_comeback")
 require ("game_managers/killfeed_system")
 require ("gamemode")
@@ -9,6 +10,7 @@ require ("item_drop")
 require ("game_managers/config")
 require ("game_managers/trinity_player_data")
 require ("game_managers/trinity_stickers")
+require ("game_managers/trinity_analytics")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
 require ("map_modifications/Bosses/primal_beast/primal_beast_boss")
@@ -370,6 +372,12 @@ function CAddonTemplateGameMode:InitGameMode()
 	end
 	if TrinityStickers and TrinityStickers.Init then
 		TrinityStickers:Init()
+	end
+	if TrinityAnalytics and TrinityAnalytics.Init then
+		TrinityAnalytics:Init()
+	end
+	if LuaMemoryDebug and LuaMemoryDebug.Init then
+		LuaMemoryDebug.Init()
 	end
 	
 	-- Создаём спавнер рошанов при старте игры (раскомментируйте и укажите нужные координаты)

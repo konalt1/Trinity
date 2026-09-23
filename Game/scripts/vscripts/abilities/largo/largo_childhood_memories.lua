@@ -3,6 +3,7 @@ require("game_managers/custom_ability_tooltips")
 
 LinkLuaModifier("modifier_largo_childhood_memories", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_childhood_memories_hop", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_largo_childhood_memories_root", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_mind_power", "abilities/largo/largo_childhood_memories", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_generic_arc_lua", "modifiers/modifier_generic_arc_lua", 0)
 
@@ -15,6 +16,12 @@ local END_ABILITY = "largo_childhood_memories_end"
 local RHAPSODY_ABILITY = "largo_amphibian_rhapsody"
 local RHAPSODY_MODIFIER = "modifier_largo_amphibian_rhapsody_self"
 local ARRIVE_DISTANCE = 24
+local RHAPSODY_LAYOUT_THINK = 0.03
+local BASIC_SONG_PAIRS = {
+	{ basic = "largo_catchy_lick_trinity", song = "largo_song_fight_song", index = 0 },
+	{ basic = "largo_frogstomp_trinity", song = "largo_song_double_time", index = 1 },
+	{ basic = MAIN_ABILITY, song = "largo_song_good_vibrations", index = 2 },
+}
 
 local function IsValid(entity)
 	return entity ~= nil and not entity:IsNull()
@@ -37,6 +44,23 @@ local function IsRhapsodyActive(caster)
 	return ult:GetToggleState()
 end
 
+local function AbilityNameAtIndex(caster, index)
+	local ability = caster:GetAbilityByIndex(index)
+	if not ability or ability:IsNull() then
+		return nil
+	end
+	return ability:GetAbilityName()
+end
+
+local function SetAbilityHidden(ability, hidden)
+	if not ability or ability:IsNull() then
+		return
+	end
+	if ability:IsHidden() ~= hidden then
+		ability:SetHidden(hidden)
+	end
+end
+
 local function SyncChildhoodMemoriesLayout(caster)
 	if not IsValid(caster) or IsRhapsodyActive(caster) then
 		return
@@ -51,6 +75,51 @@ local function SyncChildhoodMemoriesLayout(caster)
 		main:ShowEndAbility()
 	else
 		main:RestoreCastLayout()
+	end
+end
+
+local function ApplyRhapsodyAbilityLayout(caster, rhapsody_on)
+	if not IsValid(caster) then
+		return
+	end
+
+	if rhapsody_on then
+		local e_name = AbilityNameAtIndex(caster, 2)
+		if e_name == END_ABILITY then
+			local main = caster:FindAbilityByName(MAIN_ABILITY)
+			if main and main.RestoreMainSlot then
+				main:RestoreMainSlot(true)
+			end
+		end
+	end
+
+	for _, pair in ipairs(BASIC_SONG_PAIRS) do
+		local basic = caster:FindAbilityByName(pair.basic)
+		local song = caster:FindAbilityByName(pair.song)
+		if basic and song then
+			local at_index = AbilityNameAtIndex(caster, pair.index)
+			if rhapsody_on then
+				if at_index ~= pair.song then
+					caster:SwapAbilities(pair.basic, pair.song, false, true)
+				end
+				SetAbilityHidden(basic, true)
+				SetAbilityHidden(song, false)
+			else
+				if at_index == pair.song then
+					caster:SwapAbilities(pair.song, pair.basic, false, true)
+				end
+				SetAbilityHidden(song, true)
+				if pair.basic ~= MAIN_ABILITY then
+					SetAbilityHidden(basic, false)
+				end
+			end
+		end
+	end
+
+	if rhapsody_on then
+		SetAbilityHidden(caster:FindAbilityByName(END_ABILITY), true)
+	else
+		SyncChildhoodMemoriesLayout(caster)
 	end
 end
 
@@ -97,6 +166,29 @@ function largo_childhood_memories:GetStompDamage()
 		self:GetSpecialValueFor("stomp_damage")
 		+ mind_power * self:GetSpecialValueFor("mind_power_multiplier")
 	)
+end
+
+function largo_childhood_memories:ApplyHopPunish(parent)
+	if not IsValid(parent) or not parent:IsAlive() then
+		return
+	end
+
+	local root_duration = self:GetSpecialValueFor("root_duration")
+	if parent.GetStatusResistance then
+		root_duration = root_duration * (1 - parent:GetStatusResistance())
+	end
+	if root_duration > 0 then
+		parent:AddNewModifier(parent, self, "modifier_largo_childhood_memories_root", {
+			duration = root_duration,
+		})
+	end
+
+	local cooldown = self:GetSpecialValueFor("hit_cooldown")
+	if cooldown > 0 then
+		self:StartCooldown(cooldown)
+	end
+
+	self:DeactivateMemories()
 end
 
 function largo_childhood_memories:OnUpgrade()
@@ -201,9 +293,9 @@ function largo_childhood_memories:RestoreCastLayout()
 	end
 end
 
-function largo_childhood_memories:RestoreMainSlot()
+function largo_childhood_memories:RestoreMainSlot(force)
 	local caster = self:GetCaster()
-	if IsRhapsodyActive(caster) then
+	if not force and IsRhapsodyActive(caster) then
 		return
 	end
 
@@ -654,6 +746,7 @@ function modifier_largo_childhood_memories:StartHop(direction, distance)
 
 	local start_pos = parent:GetAbsOrigin()
 	self.hopping = true
+	self.hit_during_hop = false
 	self.last_hop_dir = direction
 
 	parent:AddNewModifier(parent, ability, HOP_MODIFIER, {
@@ -687,13 +780,15 @@ function modifier_largo_childhood_memories:StartHop(direction, distance)
 
 	parent:EmitSound("Hero_Mirana.Leap")
 
-	local start_fx = ParticleManager:CreateParticle(
+	CreateFOWParticle(
 		"particles/units/heroes/hero_slark/slark_pounce_start.vpcf",
 		PATTACH_WORLDORIGIN,
-		parent
+		nil,
+		start_pos,
+		function(fx)
+			ParticleManager:SetParticleControl(fx, 0, start_pos)
+		end
 	)
-	ParticleManager:SetParticleControl(start_fx, 0, start_pos)
-	ParticleManager:ReleaseParticleIndex(start_fx)
 
 	if arc and arc.SetEndCallback then
 		arc:SetEndCallback(function(interrupted)
@@ -708,6 +803,15 @@ function modifier_largo_childhood_memories:StartHop(direction, distance)
 			if hop then
 				hop.interrupted = interrupted
 				hop:Destroy()
+			end
+
+			if self.hit_during_hop then
+				self.hit_during_hop = false
+				local hop_ability = self:GetAbility()
+				if hop_ability and hop_ability.ApplyHopPunish then
+					hop_ability:ApplyHopPunish(parent)
+				end
+				return
 			end
 
 			if self.pending_off then
@@ -764,6 +868,7 @@ function modifier_largo_childhood_memories_hop:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
 		MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
 end
 
@@ -784,6 +889,43 @@ function modifier_largo_childhood_memories_hop:CheckState()
 	}
 end
 
+function modifier_largo_childhood_memories_hop:OnTakeDamage(params)
+	if not IsServer() then
+		return
+	end
+
+	local parent = self:GetParent()
+	if not IsValid(parent) or params.unit ~= parent then
+		return
+	end
+
+	if params.damage_type ~= DAMAGE_TYPE_PHYSICAL then
+		return
+	end
+
+	if (params.damage or 0) <= 0 then
+		return
+	end
+
+	local attacker = params.attacker
+	if not IsValid(attacker) or attacker == parent then
+		return
+	end
+
+	if not attacker:IsHero() then
+		return
+	end
+
+	if attacker:GetTeamNumber() == parent:GetTeamNumber() then
+		return
+	end
+
+	local memories = parent:FindModifierByName(TOGGLE_MODIFIER)
+	if memories then
+		memories.hit_during_hop = true
+	end
+end
+
 function modifier_largo_childhood_memories_hop:OnCreated(kv)
 	if not IsServer() then
 		return
@@ -794,27 +936,32 @@ function modifier_largo_childhood_memories_hop:OnCreated(kv)
 	self.direction = Vector(kv.dir_x or 0, kv.dir_y or 0, 0)
 
 	local parent = self:GetParent()
-	local trail = ParticleManager:CreateParticle(
+	self.trail_fx = CreateFOWParticleForTeams(
 		"particles/units/heroes/hero_slark/slark_pounce_trail.vpcf",
 		PATTACH_ABSORIGIN_FOLLOW,
-		parent
-	)
-	ParticleManager:SetParticleControlEnt(
-		trail,
-		1,
 		parent,
-		PATTACH_POINT_FOLLOW,
-		"attach_hitloc",
 		parent:GetAbsOrigin(),
-		true
+		function(fx)
+			ParticleManager:SetParticleControlEnt(
+				fx,
+				1,
+				parent,
+				PATTACH_POINT_FOLLOW,
+				"attach_hitloc",
+				parent:GetAbsOrigin(),
+				true
+			)
+		end
 	)
-	self:AddParticle(trail, false, false, -1, false, false)
 end
 
 function modifier_largo_childhood_memories_hop:OnDestroy()
 	if not IsServer() then
 		return
 	end
+
+	DestroyFOWParticleForTeams(self.trail_fx)
+	self.trail_fx = nil
 
 	local parent = self:GetParent()
 	if not IsValid(parent) then
@@ -876,16 +1023,43 @@ function modifier_largo_childhood_memories_hop:StunAlongHop(end_pos)
 		end
 	end
 
-	local land_fx = ParticleManager:CreateParticle(
+	CreateFOWParticle(
 		"particles/units/heroes/hero_centaur/centaur_warstomp.vpcf",
 		PATTACH_WORLDORIGIN,
-		caster
+		nil,
+		end_pos,
+		function(fx)
+			ParticleManager:SetParticleControl(fx, 0, end_pos)
+			ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
+			ParticleManager:SetParticleControl(fx, 2, end_pos)
+		end
 	)
-	ParticleManager:SetParticleControl(land_fx, 0, end_pos)
-	ParticleManager:SetParticleControl(land_fx, 1, Vector(radius, 0, 0))
-	ParticleManager:ReleaseParticleIndex(land_fx)
 
 	EmitSoundOnLocationWithCaster(end_pos, "Hero_Slark.Pounce.Impact", caster)
+end
+
+modifier_largo_childhood_memories_root = class({})
+
+function modifier_largo_childhood_memories_root:IsHidden()
+	return false
+end
+
+function modifier_largo_childhood_memories_root:IsDebuff()
+	return true
+end
+
+function modifier_largo_childhood_memories_root:IsPurgable()
+	return true
+end
+
+function modifier_largo_childhood_memories_root:GetTexture()
+	return "largo_childhood_memories"
+end
+
+function modifier_largo_childhood_memories_root:CheckState()
+	return {
+		[MODIFIER_STATE_ROOTED] = true,
+	}
 end
 
 -- Scales remaining vanilla Largo magical damage specials (Fight Song) on the server.
@@ -913,8 +1087,8 @@ function modifier_largo_mind_power:OnCreated()
 		return
 	end
 
-	self.rhapsody_was_on = IsRhapsodyActive(parent)
-	self:StartIntervalThink(0.1)
+	ApplyRhapsodyAbilityLayout(parent, IsRhapsodyActive(parent))
+	self:StartIntervalThink(RHAPSODY_LAYOUT_THINK)
 end
 
 function modifier_largo_mind_power:OnIntervalThink()
@@ -923,11 +1097,11 @@ function modifier_largo_mind_power:OnIntervalThink()
 		return
 	end
 
-	local rhapsody_on = IsRhapsodyActive(parent)
-	if self.rhapsody_was_on and not rhapsody_on then
-		SyncChildhoodMemoriesLayout(parent)
+	if parent.IsIllusion and parent:IsIllusion() then
+		return
 	end
-	self.rhapsody_was_on = rhapsody_on
+
+	ApplyRhapsodyAbilityLayout(parent, IsRhapsodyActive(parent))
 end
 
 function modifier_largo_mind_power:DeclareFunctions()

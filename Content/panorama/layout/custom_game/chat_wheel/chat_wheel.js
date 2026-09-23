@@ -11,26 +11,30 @@ const CHAT_STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const CHAT_STICKER_SIZE = 120;
 const CHAT_STICKER_MESSAGE_OFFSET_X = 205;
 const CHAT_STICKER_SOUNDS = {
-  Gura: "high_five.impact",
+  /* TRINITY_STICKER_SOUNDS_BEGIN */
+  Gura: "Wheel.Gura",
   NeuroHug: "Hero_Chen.HolyPersuasion",
-  Watson: "General.Buy",
+  Watson: "Wheel.Watson",
   Anime: "Hero_Juggernaut.OmniSlash",
-  Neurodance: "Hero_Weaver.Shukuchi",
+  Neurodance: "Wheel.Neurodance",
   Choso: "Wheel.Choso",
   StickerOne: "high_five.impact",
-  StickerTwo: "General.Buy",
+  StickerTwo: "Wheel.StickerTwo",
   NO_GOD: "Wheel.NO_GOD",
+  /* TRINITY_STICKER_SOUNDS_END */
 };
 const STICKER_MAX_TIME = {
-  Gura: 1,
+  /* TRINITY_STICKER_MAX_TIME_BEGIN */
+  Gura: 2.4,
   NeuroHug: 1.5,
-  Watson: 1.5,
+  Watson: 2.1,
   Anime: 1.5,
-  Neurodance: 1.5,
+  Neurodance: 7.5,
   Choso: 0.7,
   StickerOne: 1.5,
-  StickerTwo: 1,
-  NO_GOD: 3,
+  StickerTwo: 1.2,
+  NO_GOD: 2.8,
+  /* TRINITY_STICKER_MAX_TIME_END */
 };
 var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const loadTableHeroFromNet = () => {
