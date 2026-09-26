@@ -20,4 +20,7 @@ return [
         // Local Host / Workshop Tools: Lua sends this when the dedicated key is unusable
         'tools' => 'trinity-tools-local',
     ],
+    // Optional. Empty = find ffmpeg / python on PATH.
+    'ffmpeg' => '',
+    'python' => '',
 ];

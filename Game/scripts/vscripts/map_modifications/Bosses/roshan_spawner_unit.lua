@@ -1,23 +1,38 @@
--- Shared pathway slot: Caravan, Mortimer and Primal Beast rotate.
+-- Shared pathway slot: Caravan, Mortimer and Primal Beast.
 
 require("map_modifications/Bosses/mortimer_level_scaling")
 require("map_modifications/Bosses/caravan/caravan_event")
 require("map_modifications/Bosses/primal_beast/primal_beast_boss")
 
--- First event: caravan at 0:10 after horn, then every 5 minutes.
-local SPAWN_INTERVAL = 300
-local FIRST_SPAWN_TIME = 10
+-- First event at 7:00 after horn, then every 7 minutes.
+-- Wave comes from the clock, not from how often this boss already spawned.
+local SPAWN_INTERVAL = 420
+local FIRST_SPAWN_TIME = 420
+local MAX_WAVE = 5
+local BOSS_TYPES = {
+    "caravan",
+    "mortimer",
+    "primal_beast",
+}
 local BOSS_UNIT_NAME = "npc_mortimer_boss"
 local PRIMAL_BEAST_NAME = "npc_primal_beast_boss"
 local VISION_DURATION = 5.0
 local VISION_RADIUS = 800
 
+local function GetWave(dotaTime)
+    local wave = math.floor((tonumber(dotaTime) or 0) / SPAWN_INTERVAL)
+    if wave < 1 then
+        wave = 1
+    end
+    return math.min(MAX_WAVE, wave)
+end
+
+local function PickBossType()
+    return BOSS_TYPES[RandomInt(1, #BOSS_TYPES)]
+end
+
 function Spawn(entityKeyValues)
-    thisEntity.eventIndex = 0
-    thisEntity.caravanStage = 0
-    thisEntity.mortimerLevel = 0
-    thisEntity.primalBeastLevel = 0
-    thisEntity.firstSpawnPending = true
+    thisEntity.nextSpawnTime = FIRST_SPAWN_TIME
     thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
 
     Timers:CreateTimer(0.1, function()
@@ -106,7 +121,8 @@ function SpawnBossLoop()
     end
 
     local dotaTime = GameRules:GetDOTATime(false, false)
-    if dotaTime < FIRST_SPAWN_TIME then
+    local nextSpawn = thisEntity.nextSpawnTime or FIRST_SPAWN_TIME
+    if dotaTime < nextSpawn then
         return 0.5
     end
 
@@ -114,48 +130,38 @@ function SpawnBossLoop()
         return 1.0
     end
 
+    local wave = GetWave(dotaTime)
+    local bossType = PickBossType()
     local spawnPosition = thisEntity:GetAbsOrigin()
-    thisEntity.eventIndex = (thisEntity.eventIndex or 0) + 1
-
     local spawned = false
-    local slot = thisEntity.eventIndex % 3
-    if slot == 1 then
-        thisEntity.caravanStage = math.min(3, (thisEntity.caravanStage or 0) + 1)
-        local aghanim = CourierCaravan:SpawnAt(spawnPosition, thisEntity.caravanStage, true)
+
+    if bossType == "caravan" then
+        local aghanim = CourierCaravan:SpawnAt(spawnPosition, wave, true)
         spawned = aghanim ~= nil
-        if not spawned then
-            thisEntity.eventIndex = thisEntity.eventIndex - 1
-            thisEntity.caravanStage = math.max(0, thisEntity.caravanStage - 1)
+        if spawned then
+            local origin = aghanim:GetAbsOrigin()
+            print(string.format(
+                "[PathwaySpawner] Caravan stage %d wave %d at (%.0f %.0f %.0f) dota=%.1f",
+                aghanim.caravanStage or wave,
+                wave,
+                origin.x,
+                origin.y,
+                origin.z,
+                dotaTime
+            ))
+        else
             print("[PathwaySpawner] Failed to spawn caravan.")
-            return 1.0
         end
-        local origin = aghanim:GetAbsOrigin()
-        print(string.format(
-            "[PathwaySpawner] Caravan stage %d at (%.0f %.0f %.0f) dota=%.1f",
-            thisEntity.caravanStage,
-            origin.x,
-            origin.y,
-            origin.z,
-            dotaTime
-        ))
-    elseif slot == 2 then
-        thisEntity.mortimerLevel = (thisEntity.mortimerLevel or 0) + 1
-        spawned = SpawnMortimer(spawnPosition, thisEntity.mortimerLevel)
-        if not spawned then
-            thisEntity.eventIndex = thisEntity.eventIndex - 1
-            thisEntity.mortimerLevel = math.max(0, thisEntity.mortimerLevel - 1)
-            return 1.0
-        end
+    elseif bossType == "mortimer" then
+        spawned = SpawnMortimer(spawnPosition, wave)
     else
-        thisEntity.primalBeastLevel = (thisEntity.primalBeastLevel or 0) + 1
-        spawned = SpawnPrimalBeast(spawnPosition, thisEntity.primalBeastLevel)
-        if not spawned then
-            thisEntity.eventIndex = thisEntity.eventIndex - 1
-            thisEntity.primalBeastLevel = math.max(0, thisEntity.primalBeastLevel - 1)
-            return 1.0
-        end
+        spawned = SpawnPrimalBeast(spawnPosition, wave)
     end
 
-    thisEntity.firstSpawnPending = false
-    return SPAWN_INTERVAL
+    if not spawned then
+        return 1.0
+    end
+
+    thisEntity.nextSpawnTime = math.floor(dotaTime / SPAWN_INTERVAL) * SPAWN_INTERVAL + SPAWN_INTERVAL
+    return 0.5
 end

@@ -22,17 +22,36 @@ end
 
 function dawnbreaker_luminosity_custom:GetAOERadius()
 	local radius = self:GetSpecialValueFor("radius")
-	if GetHeroBonusSpellAoE then
-		radius = radius + GetHeroBonusSpellAoE(self:GetCaster())
+	local caster = self:GetCaster()
+	if GetHeroBonusSpellAoE and caster and not caster:IsNull() then
+		radius = radius + GetHeroBonusSpellAoE(caster)
 	end
 	return radius
 end
 
 function dawnbreaker_luminosity_custom:GetChargeModifier()
-	return self:GetCaster():FindModifierByName("modifier_dawnbreaker_luminosity_custom")
+	if not IsServer() then
+		return nil
+	end
+
+	local caster = self:GetCaster()
+	if not caster or caster:IsNull() then
+		return nil
+	end
+
+	return caster:FindModifierByName("modifier_dawnbreaker_luminosity_custom")
 end
 
 function dawnbreaker_luminosity_custom:GetChargeCount()
+	local caster = self:GetCaster()
+	if not caster or caster:IsNull() then
+		return 0
+	end
+
+	if caster.GetModifierStackCount then
+		return caster:GetModifierStackCount("modifier_dawnbreaker_luminosity_custom", self) or 0
+	end
+
 	local modifier = self:GetChargeModifier()
 	if not modifier then
 		return 0
@@ -56,6 +75,18 @@ end
 
 function dawnbreaker_luminosity_custom:GetExplosionOrigin()
 	local caster = self:GetCaster()
+	if not caster or caster:IsNull() then
+		return Vector(0, 0, 0)
+	end
+
+	local solar = caster:FindAbilityByName("dawnbreaker_solar_guardian_custom")
+	if solar and solar.GetTrackerWorldOrigin then
+		local tracker_origin = solar:GetTrackerWorldOrigin()
+		if tracker_origin then
+			return tracker_origin
+		end
+	end
+
 	local hammer = caster:FindAbilityByName("dawnbreaker_celestial_hammer_custom")
 	if hammer and hammer.IsHammerAway and hammer:IsHammerAway() and hammer.GetHammerWorldOrigin then
 		return hammer:GetHammerWorldOrigin() or caster:GetAbsOrigin()
@@ -128,24 +159,34 @@ function dawnbreaker_luminosity_custom:OnSpellStart()
 end
 
 function dawnbreaker_luminosity_custom:PlayBurstEffects(origin, radius)
-	local caster = self:GetCaster()
-	local landing = ParticleManager:CreateParticle(
+	if not IsServer() or not origin then
+		return
+	end
+
+	origin = GetGroundPosition(origin, nil)
+
+	CreateFOWParticle(
 		"particles/units/heroes/hero_dawnbreaker/dawnbreaker_solar_guardian_landing.vpcf",
 		PATTACH_WORLDORIGIN,
-		caster
+		nil,
+		origin,
+		function(particle)
+			ParticleManager:SetParticleControl(particle, 0, origin)
+			ParticleManager:SetParticleControl(particle, 1, origin)
+			ParticleManager:SetParticleControl(particle, 2, Vector(radius, radius, radius))
+		end
 	)
-	ParticleManager:SetParticleControl(landing, 0, origin)
-	ParticleManager:SetParticleControl(landing, 1, Vector(radius, radius, radius))
-	ParticleManager:ReleaseParticleIndex(landing)
 
-	local impact = ParticleManager:CreateParticle(
+	CreateFOWParticle(
 		"particles/units/heroes/hero_dawnbreaker/dawnbreaker_celestial_hammer_aoe_impact.vpcf",
 		PATTACH_WORLDORIGIN,
-		caster
+		nil,
+		origin,
+		function(particle)
+			ParticleManager:SetParticleControl(particle, 0, origin)
+			ParticleManager:SetParticleControl(particle, 1, Vector(radius, radius, radius))
+		end
 	)
-	ParticleManager:SetParticleControl(impact, 0, origin)
-	ParticleManager:SetParticleControl(impact, 1, Vector(radius, radius, radius))
-	ParticleManager:ReleaseParticleIndex(impact)
 end
 
 modifier_dawnbreaker_luminosity_custom = class({})

@@ -32,4 +32,29 @@
             "gold_amount"               "50"
         }
     }
+
+    "item_caravan_aegis"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_caravan_aegis"
+        "AbilityTextureName"            "item_aegis"
+        "Model"                         "models/props_gameplay/aegis.vmdl"
+        "Effect"                        "particles/generic_gameplay/dropped_aegis.vpcf"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemKillable"                  "0"
+        "ItemDroppable"                 "1"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemCastOnPickup"              "1"
+        "ItemPermanent"                 "0"
+        "ItemStackable"                 "0"
+        "AutoPickup"                    "1"
+
+        "AbilityValues"
+        {
+            "duration"                  "120"
+        }
+    }
 }

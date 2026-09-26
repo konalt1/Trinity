@@ -1,0 +1,55 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+        <include src="file://{resources}/layout/custom_game/chen_barrack_hud/chen_barrack_hud.css"/>
+    </styles>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/utils.js"/>
+        <include src="file://{resources}/layout/custom_game/chen_barrack_hud/chen_barrack_hud.js"/>
+    </scripts>
+    <snippets>
+        <snippet name="ChenBarrackUnitSlot">
+            <Panel class="ChenBarrackUnitSlot">
+                <DOTAAbilityImage id="UnitIcon" showtooltip="false"/>
+                <Panel class="ChenBarrackPortraitShade"/>
+                <Panel class="ChenBarrackCostRow">
+                    <Image class="ChenBarrackTinyGold" src="s2r://panorama/images/hud/icon_gold_psd.vtex"/>
+                    <Label id="UnitCost" class="MonoNumbersFont" text="0"/>
+                </Panel>
+                <Label id="UnitCount" class="MonoNumbersFont" text="0/10"/>
+            </Panel>
+        </snippet>
+        <snippet name="ChenBarrackQueueSlot">
+            <Panel class="ChenBarrackQueueSlot Empty">
+                <DOTAAbilityImage id="QueueIcon" showtooltip="false"/>
+                <Panel id="QueueProgress">
+                    <Panel id="QueueProgressFill"/>
+                </Panel>
+                <Label id="QueueTime" class="MonoNumbersFont" text=""/>
+            </Panel>
+        </snippet>
+    </snippets>
+    <Panel class="ChenBarrackHudRoot" hittest="false">
+        <Panel id="ChenBarrackHud" class="ChenBarrackHud Hidden" hittest="true">
+            <Panel class="ChenBarrackTopRow">
+                <Button id="BarrackPortrait" class="ChenBarrackPortrait">
+                    <DOTAAbilityImage id="BarrackIcon" abilityname="chen_barrack" showtooltip="false"/>
+                    <Panel class="ChenBarrackPortraitShade"/>
+                    <Panel id="BarrackHealthBar">
+                        <Panel id="BarrackHealthFill"/>
+                    </Panel>
+                    <Label id="BarrackHealthLabel" class="MonoNumbersFont" text=""/>
+                </Button>
+                <Panel class="ChenBarrackMeta">
+                    <Panel class="ChenBarrackGoldRow">
+                        <Image id="BarrackGoldIcon" src="s2r://panorama/images/hud/icon_gold_psd.vtex"/>
+                        <Label id="BarrackGold" class="MonoNumbersFont" text="0"/>
+                    </Panel>
+                    <Label id="BarrackStatus" class="MonoNumbersFont" text=""/>
+                </Panel>
+            </Panel>
+            <Panel id="ChenBarrackUnits" class="ChenBarrackUnits"/>
+            <Panel id="ChenBarrackQueue" class="ChenBarrackQueue"/>
+        </Panel>
+    </Panel>
+</root>

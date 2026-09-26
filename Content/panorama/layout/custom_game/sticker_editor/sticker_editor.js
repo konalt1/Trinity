@@ -1,6 +1,7 @@
 "use strict";
 
 const STICKER_CATALOG = [
+  /* TRINITY_STICKER_CATALOG_BEGIN */
   "Gura",
   "NeuroHug",
   "Watson",
@@ -9,15 +10,26 @@ const STICKER_CATALOG = [
   "Choso",
   "StickerOne",
   "StickerTwo",
+  "NO_GOD",
+  /* TRINITY_STICKER_CATALOG_END */
 ];
 const STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const SLOT_COUNT = 8;
-const PREVIEW_FREEZE_DELAY = 0.4;
+const QUALITY_NORMAL = 1;
+const QUALITY_ELITE = 2;
+const SLOT_POS = [
+  [0, -170],
+  [150, -100],
+  [196, 0],
+  [150, 100],
+  [0, 170],
+  [-150, 100],
+  [-196, 0],
+  [-150, -100],
+];
 const config = GameUI.CustomUIConfig();
 
 let pick = null;
-let hideLocked = false;
-let openingLootbox = false;
 let localSlots = null;
 let drag = null;
 
@@ -29,22 +41,49 @@ function StickerData() {
   return CustomNetTables.GetTableValue("trinity_stickers", String(LocalPlayerID())) || {};
 }
 
-function OwnedSet(data) {
+function OwnedMap(data) {
   const owned = {};
   const source = data.owned || {};
   for (const key in source) {
-    if (source[key]) owned[key] = true;
+    const value = source[key];
+    if (value && typeof value === "object") {
+      const quality = Number(value.quality || 0);
+      if (quality >= QUALITY_NORMAL) {
+        owned[key] = {
+          quality: quality >= QUALITY_ELITE ? QUALITY_ELITE : QUALITY_NORMAL,
+          copies: Number(value.copies || 0),
+        };
+      }
+    } else if (value) {
+      owned[key] = { quality: Number(value) >= QUALITY_ELITE ? QUALITY_ELITE : QUALITY_NORMAL, copies: 1 };
+    }
   }
   return owned;
 }
 
-function CurrentSlots(data) {
-  if (localSlots) return localSlots.slice();
+function IsElite(info) {
+  return !!info && info.quality === QUALITY_ELITE;
+}
+
+function SlotsFromData(data) {
   const slots = [];
   for (let i = 0; i < SLOT_COUNT; i++) {
     slots.push(data["slot" + i] || "");
   }
   return slots;
+}
+
+function SlotsEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if ((a[i] || "") !== (b[i] || "")) return false;
+  }
+  return true;
+}
+
+function CurrentSlots(data) {
+  if (localSlots) return localSlots.slice();
+  return SlotsFromData(data);
 }
 
 function StickerName(key) {
@@ -54,6 +93,16 @@ function StickerName(key) {
 
 function StickerVideo(key) {
   return STICKER_VIDEO_ROOT + "/" + key + ".webm";
+}
+
+function FormatToken(token, value) {
+  return $.Localize(token).replace("%s", String(value));
+}
+
+function CopiesLabel(info) {
+  if (IsElite(info)) return $.Localize("#sticker_editor_elite");
+  if (!info) return $.Localize("#lootbox_copies_none");
+  return FormatToken("#sticker_editor_copies", info.copies || 1);
 }
 
 function DisableHittest(panel) {
@@ -66,13 +115,111 @@ function IsOpen() {
   return !!modal && modal.BHasClass("Visible");
 }
 
-function Commit(slots) {
-  localSlots = slots.slice();
-  const payload = {};
+function IsStickerUiAvailable() {
+  return config.trinityWarmupActive === true || config.trinityStickerUiOverride === true;
+}
+
+function PanelWindowPos(panel) {
+  if (!panel || !panel.GetPositionWithinWindow) return null;
+  const pos = panel.GetPositionWithinWindow();
+  if (!pos) return null;
+  if (typeof pos.x === "number") return { x: pos.x, y: pos.y };
+  if (typeof pos[0] === "number") return { x: pos[0], y: pos[1] };
+  return null;
+}
+
+function WheelLocalCursor() {
+  const area = $("#WheelArea");
+  if (!area) return null;
+  const cursor = GameUI.GetCursorPosition();
+  const pos = PanelWindowPos(area);
+  if (!cursor || !pos) return null;
+  const scaleX = area.actualuiscale_x || 1;
+  const scaleY = area.actualuiscale_y || 1;
+  const w = (area.actuallayoutwidth || 0) / scaleX;
+  const h = (area.actuallayoutheight || 0) / scaleY;
+  if (w < 1 || h < 1) return null;
+  return {
+    x: (cursor[0] - pos.x) / scaleX,
+    y: (cursor[1] - pos.y) / scaleY,
+    w: w,
+    h: h,
+    cx: w * 0.5,
+    cy: h * 0.5,
+  };
+}
+
+function IsCursorOverWheel() {
+  const local = WheelLocalCursor();
+  if (!local) return false;
+  const dx = local.x - local.cx;
+  const dy = local.y - local.cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  return dist <= 280;
+}
+
+function SlotIndexAtCursor() {
+  const local = WheelLocalCursor();
+  if (!local) return null;
+  const dx = local.x - local.cx;
+  const dy = local.y - local.cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist < 48 || dist > 280) return null;
+
+  let best = 0;
+  let bestDist = 1e9;
   for (let i = 0; i < SLOT_COUNT; i++) {
-    payload["s" + i] = slots[i] || "";
+    const ddx = dx - SLOT_POS[i][0];
+    const ddy = dy - SLOT_POS[i][1];
+    const d = ddx * ddx + ddy * ddy;
+    if (d < bestDist) {
+      bestDist = d;
+      best = i;
+    }
+  }
+  return best;
+}
+
+function HighlightSlot(index) {
+  const wheel = $("#WheelSlots");
+  if (!wheel) return;
+  for (const slot of wheel.Children()) {
+    const id = slot.id || "";
+    const slotIndex = parseInt(id.replace("WheelSlot", ""), 10);
+    slot.SetHasClass("DragOver", slotIndex === index);
+  }
+}
+
+function TickDrag() {
+  if (!drag) return;
+  const index = SlotIndexAtCursor();
+  drag.dropIndex = index;
+  drag.overWheel = index !== null || IsCursorOverWheel();
+  HighlightSlot(index);
+  $.Schedule(0.03, TickDrag);
+}
+
+function SendSave(slots) {
+  const payload = {
+    PlayerID: LocalPlayerID(),
+  };
+  for (let i = 0; i < SLOT_COUNT; i++) {
+    payload["s" + i] = slots[i] || "-";
   }
   GameEvents.SendCustomGameEventToServer("trinity_sticker_save_wheel", payload);
+}
+
+function FlushSave() {
+  SendSave(CurrentSlots(StickerData()));
+}
+
+function Commit(slots) {
+  const next = [];
+  for (let i = 0; i < SLOT_COUNT; i++) {
+    next.push(slots[i] || "");
+  }
+  localSlots = next;
+  SendSave(next);
   Render();
 }
 
@@ -86,15 +233,10 @@ function ClearSlot(index) {
 
 function AssignFromCollection(index, key) {
   const data = StickerData();
-  if (!OwnedSet(data)[key]) return;
+  if (!OwnedMap(data)[key]) return;
 
   const slots = CurrentSlots(data);
-  const equippedAt = slots.indexOf(key);
-  const replaced = slots[index];
   slots[index] = key;
-  if (equippedAt >= 0 && equippedAt !== index) {
-    slots[equippedAt] = replaced;
-  }
   pick = null;
   Commit(slots);
 }
@@ -121,18 +263,21 @@ function FinishDrag() {
   if (finished.display && finished.display.IsValid()) {
     finished.display.DeleteAsync(0);
   }
-  ClearDragOver();
 
-  if (finished.dropIndex !== null) {
+  const dropIndex = SlotIndexAtCursor();
+  const overWheel = dropIndex !== null || IsCursorOverWheel();
+  HighlightSlot(null);
+
+  if (dropIndex !== null) {
     if (finished.from === null) {
-      AssignFromCollection(finished.dropIndex, finished.key);
+      AssignFromCollection(dropIndex, finished.key);
     } else {
-      SwapSlots(finished.from, finished.dropIndex);
+      SwapSlots(finished.from, dropIndex);
     }
     return;
   }
 
-  if (finished.from !== null) {
+  if (finished.from !== null && !overWheel) {
     ClearSlot(finished.from);
     return;
   }
@@ -141,37 +286,33 @@ function FinishDrag() {
   Render();
 }
 
-function ClearDragOver() {
-  const wheel = $("#WheelSlots");
-  if (!wheel) return;
-  for (const slot of wheel.Children()) {
-    slot.RemoveClass("DragOver");
-  }
-}
-
-function MakeDragSource(panel, key, from) {
-  panel.SetDraggable(true);
-
+function MakeDragSource(panel, from) {
   $.RegisterEventHandler("DragStart", panel, function (_panelId, callbacks) {
+    const key = panel.GetAttributeString("stickerKey", "");
+    if (!key) return false;
+
     if (drag && drag.display && drag.display.IsValid()) {
       drag.display.DeleteAsync(0);
     }
 
     const display = $.CreatePanel("Panel", $.GetContextPanel(), "");
     display.AddClass("StickerDragDisplay");
-    $.CreatePanel("Movie", display, "", {
+    DisableHittest(display);
+    const movie = $.CreatePanel("Movie", display, "", {
       class: "StickerDragMovie",
       controls: "none",
       repeat: "true",
       autoplay: "onload",
       src: StickerVideo(key),
     });
+    DisableHittest(movie);
 
     callbacks.displayPanel = display;
     callbacks.offsetX = 26;
     callbacks.offsetY = 26;
     pick = null;
-    drag = { key: key, from: from, display: display, dropIndex: null };
+    drag = { key: key, from: from, display: display, dropIndex: null, overWheel: false };
+    TickDrag();
     return true;
   });
 
@@ -181,53 +322,83 @@ function MakeDragSource(panel, key, from) {
   });
 }
 
+function FindMovie(parent) {
+  if (!parent || parent.GetChildCount() < 1) return null;
+  return parent.GetChild(0);
+}
+
+function SetMoviePlaying(movie, playing) {
+  if (!movie || !movie.IsValid()) return;
+  if (playing) movie.Play();
+  else movie.Stop();
+}
+
 function CreatePreviewMovie(parent, key, movieClass, playOnHover, hoverPanel) {
-  const movie = $.CreatePanel("Movie", parent, "", {
+  const options = {
     class: movieClass,
     controls: "none",
     repeat: "true",
-    autoplay: "onload",
     src: StickerVideo(key),
-  });
+  };
+  if (!playOnHover) options.autoplay = "onload";
+
+  const movie = $.CreatePanel("Movie", parent, "", options);
   DisableHittest(movie);
 
   if (!playOnHover) return movie;
 
-  let hovered = false;
   hoverPanel.SetPanelEvent("onmouseover", function () {
-    hovered = true;
     if (movie.IsValid()) movie.Play();
   });
   hoverPanel.SetPanelEvent("onmouseout", function () {
-    hovered = false;
     if (movie.IsValid()) movie.Stop();
   });
-  $.Schedule(PREVIEW_FREEZE_DELAY, function () {
-    if (!hovered && movie.IsValid()) movie.Stop();
+  $.Schedule(0, function () {
+    if (movie.IsValid()) movie.Stop();
   });
 
   return movie;
 }
 
-function CreateWheelSlot(parent, index, key) {
+function BindSlotDrop(slot, index) {
+  $.RegisterEventHandler("DragEnter", slot, function () {
+    slot.AddClass("DragOver");
+    if (drag) {
+      drag.dropIndex = index;
+      drag.overWheel = true;
+    }
+    return true;
+  });
+  $.RegisterEventHandler("DragLeave", slot, function () {
+    slot.RemoveClass("DragOver");
+    if (drag && drag.dropIndex === index) drag.dropIndex = null;
+    return true;
+  });
+  $.RegisterEventHandler("DragDrop", slot, function () {
+    slot.RemoveClass("DragOver");
+    if (drag) {
+      drag.dropIndex = index;
+      drag.overWheel = true;
+    }
+    return true;
+  });
+}
+
+function CreateWheelSlot(parent, index) {
   const slot = $.CreatePanel("Button", parent, "WheelSlot" + index);
   slot.AddClass("WheelSlot");
   slot.AddClass("WheelSlot" + index);
-  if (!key) slot.AddClass("Empty");
-  if (pick && pick.from === index) slot.AddClass("Picked");
 
-  const preview = $.CreatePanel("Panel", slot, "");
+  const preview = $.CreatePanel("Panel", slot, "Preview");
   preview.AddClass("WheelSlotPreview");
   DisableHittest(preview);
-  if (key) CreatePreviewMovie(preview, key, "WheelSlotMovie", false, slot);
 
-  const capsule = $.CreatePanel("Panel", slot, "");
+  const capsule = $.CreatePanel("Panel", slot, "Capsule");
   capsule.AddClass("WheelSlotCapsule");
   DisableHittest(capsule);
 
-  const label = $.CreatePanel("Label", capsule, "");
+  const label = $.CreatePanel("Label", capsule, "Label");
   label.AddClass("WheelSlotLabel");
-  label.text = StickerName(key);
 
   slot.SetPanelEvent("onactivate", function () {
     OnSlotClicked(index);
@@ -236,48 +407,79 @@ function CreateWheelSlot(parent, index, key) {
     ClearSlot(index);
   });
 
-  $.RegisterEventHandler("DragEnter", slot, function () {
-    slot.AddClass("DragOver");
-    return true;
-  });
-  $.RegisterEventHandler("DragLeave", slot, function () {
-    slot.RemoveClass("DragOver");
-    return true;
-  });
-  $.RegisterEventHandler("DragDrop", slot, function () {
-    slot.RemoveClass("DragOver");
-    if (drag) drag.dropIndex = index;
-    return true;
-  });
-
-  if (key) MakeDragSource(slot, key, index);
+  BindSlotDrop(slot, index);
+  MakeDragSource(slot, index);
   return slot;
 }
 
-function CreateCollectionRow(parent, key, owned) {
-  const row = $.CreatePanel("Button", parent, "Collection" + key);
-  row.AddClass("CollectionRow");
-  if (!owned) row.AddClass("Locked");
-  if (pick && pick.from === null && pick.key === key) row.AddClass("Selected");
+function UpdateWheelSlot(slot, index, key, elite) {
+  const nextKey = key || "";
+  const prev = slot.GetAttributeString("stickerKey", "");
+  slot.SetAttributeString("stickerKey", nextKey);
+  slot.SetHasClass("Empty", !nextKey);
+  slot.SetHasClass("Elite", !!elite);
+  slot.SetHasClass("Picked", !!(pick && pick.from === index));
+  slot.SetDraggable(!!nextKey);
 
-  const preview = $.CreatePanel("Panel", row, "");
-  preview.AddClass("CollectionPreview");
-  DisableHittest(preview);
-  if (owned) CreatePreviewMovie(preview, key, "CollectionMovie", true, row);
-
-  const name = $.CreatePanel("Label", row, "");
-  name.AddClass("CollectionName");
-  name.text = owned ? StickerName(key) : $.Localize("#sticker_editor_locked");
-  DisableHittest(name);
-
-  if (owned) {
-    row.SetPanelEvent("onactivate", function () {
-      OnCollectionClicked(key);
-    });
-    MakeDragSource(row, key, null);
+  const label = slot.FindChildTraverse("Label");
+  if (label) {
+    label.text = elite ? StickerName(nextKey) + " ★" : StickerName(nextKey);
   }
 
+  const preview = slot.FindChild("Preview");
+  if (!preview) return;
+
+  if (nextKey === prev) {
+    SetMoviePlaying(FindMovie(preview), IsOpen() && !!nextKey);
+    return;
+  }
+
+  preview.RemoveAndDeleteChildren();
+  if (nextKey) CreatePreviewMovie(preview, nextKey, "WheelSlotMovie", false, slot);
+}
+
+function CreateCollectionRow(parent, key, info) {
+  const elite = IsElite(info);
+  const row = $.CreatePanel("Button", parent, "Collection" + key);
+  row.AddClass("CollectionRow");
+  row.SetAttributeString("stickerKey", key);
+  if (elite) row.AddClass("Elite");
+  if (pick && pick.from === null && pick.key === key) row.AddClass("Selected");
+
+  const preview = $.CreatePanel("Panel", row, "Preview");
+  preview.AddClass("CollectionPreview");
+  DisableHittest(preview);
+  CreatePreviewMovie(preview, key, "CollectionMovie", true, row);
+
+  const meta = $.CreatePanel("Panel", row, "");
+  meta.AddClass("CollectionMeta");
+  DisableHittest(meta);
+
+  const name = $.CreatePanel("Label", meta, "Name");
+  name.AddClass("CollectionName");
+  name.text = StickerName(key);
+
+  const copies = $.CreatePanel("Label", meta, "Copies");
+  copies.AddClass("CollectionCopies");
+  copies.text = CopiesLabel(info);
+
+  row.SetPanelEvent("onactivate", function () {
+    OnCollectionClicked(key);
+  });
+  row.SetDraggable(true);
+  MakeDragSource(row, null);
   return row;
+}
+
+function UpdateCollectionRow(row, key, info) {
+  const elite = IsElite(info);
+  row.SetAttributeString("stickerKey", key);
+  row.SetHasClass("Elite", elite);
+  row.SetHasClass("Selected", !!(pick && pick.from === null && pick.key === key));
+  const copies = row.FindChildTraverse("Copies");
+  if (copies) {
+    copies.text = CopiesLabel(info);
+  }
 }
 
 function OnSlotClicked(index) {
@@ -299,7 +501,7 @@ function OnSlotClicked(index) {
 }
 
 function OnCollectionClicked(key) {
-  if (!OwnedSet(StickerData())[key]) return;
+  if (!OwnedMap(StickerData())[key]) return;
   if (pick && pick.from === null && pick.key === key) {
     pick = null;
   } else {
@@ -308,46 +510,65 @@ function OnCollectionClicked(key) {
   Render();
 }
 
+function SyncWheel(slots, owned) {
+  const wheel = $("#WheelSlots");
+  if (!wheel) return;
+  if (wheel.GetChildCount() !== SLOT_COUNT) {
+    wheel.RemoveAndDeleteChildren();
+  }
+  for (let i = 0; i < SLOT_COUNT; i++) {
+    let slot = wheel.FindChild("WheelSlot" + i);
+    if (!slot) slot = CreateWheelSlot(wheel, i);
+    UpdateWheelSlot(slot, i, slots[i], IsElite(owned[slots[i]]));
+  }
+}
+
+function SyncCollection(owned, slots) {
+  const list = $("#CollectionList");
+  if (!list) return;
+
+  const keep = {};
+  for (const key of STICKER_CATALOG) {
+    const info = owned[key];
+    if (!info) continue;
+    keep[key] = true;
+    const row = list.FindChild("Collection" + key);
+    if (row) UpdateCollectionRow(row, key, info);
+    else CreateCollectionRow(list, key, info);
+  }
+
+  for (const row of list.Children()) {
+    const key = row.GetAttributeString("stickerKey", "");
+    if (!keep[key]) row.DeleteAsync(0);
+  }
+}
+
+function StopWheelMovies() {
+  const wheel = $("#WheelSlots");
+  if (!wheel) return;
+  for (const slot of wheel.Children()) {
+    const preview = slot.FindChild("Preview");
+    SetMoviePlaying(FindMovie(preview), false);
+  }
+}
+
 function Render() {
+  if (drag) return;
+
   const data = StickerData();
-  const owned = OwnedSet(data);
+  const owned = OwnedMap(data);
   const slots = CurrentSlots(data);
 
-  const lootboxRow = $("#LootboxRow");
-  if (lootboxRow) {
-    lootboxRow.SetHasClass("ShowLootbox", data.lootbox_pending == 1);
-  }
-
-  const box = $("#HideLockedBox");
-  if (box) box.SetHasClass("Checked", hideLocked);
-
-  const wheel = $("#WheelSlots");
-  if (wheel) {
-    wheel.RemoveAndDeleteChildren();
-    for (let i = 0; i < SLOT_COUNT; i++) {
-      CreateWheelSlot(wheel, i, slots[i]);
-    }
-  }
-
-  if (pick && pick.from === null && slots.indexOf(pick.key) >= 0) {
-    pick = null;
-  }
-
-  const list = $("#CollectionList");
-  if (list) {
-    list.RemoveAndDeleteChildren();
-    for (const key of STICKER_CATALOG) {
-      const isOwned = !!owned[key];
-      if (!isOwned && hideLocked) continue;
-      if (slots.indexOf(key) >= 0) continue;
-      CreateCollectionRow(list, key, isOwned);
-    }
-  }
+  SyncWheel(slots, owned);
+  SyncCollection(owned, slots);
 }
 
 function Open() {
   const modal = $("#StickerModal");
-  if (!modal || config.trinityWarmupActive !== true) return;
+  if (!modal || !IsStickerUiAvailable()) return;
+  if (typeof config.TrinityCloseLootbox === "function") {
+    config.TrinityCloseLootbox();
+  }
   pick = null;
   modal.AddClass("Visible");
   modal.hittest = true;
@@ -359,73 +580,64 @@ function Open() {
 function Close() {
   const modal = $("#StickerModal");
   if (!modal) return;
+  FlushSave();
   pick = null;
+  StopWheelMovies();
   modal.RemoveClass("Visible");
   modal.hittest = false;
   modal.hittestchildren = false;
 }
 
-function OpenLootbox() {
-  if (openingLootbox) return;
-  const data = StickerData();
-  if (data.lootbox_pending != 1) return;
-  openingLootbox = true;
-  GameEvents.SendCustomGameEventToServer("trinity_sticker_open", {});
-}
-
-function ShowReveal(sticker, duplicate) {
-  const overlay = $("#RevealOverlay");
-  const name = $("#RevealName");
-  const duplicateLabel = $("#RevealDuplicate");
-  if (!overlay || !sticker) return;
-
-  const movie = $("#RevealMovie");
-  if (movie) movie.src = StickerVideo(sticker);
-  if (name) name.text = StickerName(sticker);
-  if (duplicateLabel) duplicateLabel.SetHasClass("ShowDuplicate", duplicate == 1 || duplicate === true);
-  overlay.AddClass("ShowReveal");
-}
-
-function CloseReveal() {
-  const overlay = $("#RevealOverlay");
-  if (overlay) overlay.RemoveClass("ShowReveal");
-  openingLootbox = false;
-  if (IsOpen()) Render();
-}
-
-function OnHideLockedToggled() {
-  hideLocked = !hideLocked;
-  Render();
+function BindWheelInput(panel) {
+  if (!panel) return;
+  panel.SetPanelEvent("onactivate", function () {
+    const index = SlotIndexAtCursor();
+    if (index === null) return;
+    OnSlotClicked(index);
+  });
+  panel.SetPanelEvent("oncontextmenu", function () {
+    const index = SlotIndexAtCursor();
+    if (index === null) return;
+    ClearSlot(index);
+  });
+  $.RegisterEventHandler("DragEnter", panel, function () {
+    if (drag) drag.overWheel = true;
+    return true;
+  });
+  $.RegisterEventHandler("DragLeave", panel, function () {
+    return true;
+  });
+  $.RegisterEventHandler("DragDrop", panel, function () {
+    if (drag) drag.overWheel = true;
+    return true;
+  });
 }
 
 (function () {
   const close = $("#StickerClose");
   const dim = $("#StickerDim");
-  const lootbox = $("#OpenLootboxButton");
-  const hideRow = $("#HideLockedRow");
 
   if (close) close.SetPanelEvent("onactivate", Close);
   if (dim) dim.SetPanelEvent("onactivate", Close);
-  if (lootbox) lootbox.SetPanelEvent("onactivate", OpenLootbox);
-  if (hideRow) hideRow.SetPanelEvent("onactivate", OnHideLockedToggled);
+
+  BindWheelInput($("#WheelSlots"));
 
   $.RegisterKeyBind($.GetContextPanel(), "key_escape", function () {
     if (IsOpen()) Close();
   });
 
   config.TrinityOpenStickerEditor = Open;
+  config.TrinityCloseStickerEditor = Close;
 
   GameEvents.Subscribe("trinity_warmup_ended", function () {
-    Close();
-    CloseReveal();
+    if (config.trinityStickerUiOverride !== true) Close();
   });
-  GameEvents.Subscribe("trinity_sticker_opened", function (event) {
-    openingLootbox = false;
-    ShowReveal(event.sticker, event.duplicate);
-    if (IsOpen()) Render();
-  });
-  CustomNetTables.SubscribeNetTableListener("trinity_stickers", function () {
-    localSlots = null;
-    if (IsOpen()) Render();
+  CustomNetTables.SubscribeNetTableListener("trinity_stickers", function (_table, key) {
+    if (String(key) !== String(LocalPlayerID())) return;
+    const incoming = SlotsFromData(StickerData());
+    if (localSlots && SlotsEqual(localSlots, incoming)) {
+      localSlots = null;
+    }
+    if (IsOpen() && !drag) Render();
   });
 })();

@@ -69,24 +69,32 @@ function GetReductionFromArmor(armor)
 end
 
 function AddModifierLifesteal(parent, stack)
+	if not parent or parent:IsNull() then return end
+	stack = stack or 0
+	if stack == 0 then return end
+
 	local modifier = parent:FindModifierByName("modifier_lifesteal_custom")
 
 	if modifier then
 		modifier:SetStackCount(modifier:GetStackCount() + stack)
 	else
- 		local modif = parent:AddNewModifier(parent, nil, "modifier_lifesteal_custom", {})
+		local modif = parent:AddNewModifier(parent, nil, "modifier_lifesteal_custom", {})
+		if not modif then return end
 		modif:SetStackCount(modif:GetStackCount() + stack)
- 	end
+	end
 end
- 
 
 function RemoveModifierLifesteal(parent, stack)
+	if not parent or parent:IsNull() then return end
+
 	local modifier = parent:FindModifierByName("modifier_lifesteal_custom")
-	modifier:SetStackCount(modifier:GetStackCount() - stack)
+	if not modifier then return end
+
+	modifier:SetStackCount(modifier:GetStackCount() - (stack or 0))
 
 	if modifier:GetStackCount() <= 0 then
- 		modifier:Destroy()
- 	end
+		modifier:Destroy()
+	end
 end
 
 function HasShard(parent)

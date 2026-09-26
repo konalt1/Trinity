@@ -11,34 +11,44 @@ const CHAT_STICKER_VIDEO_ROOT = "file://{resources}/videos/custom_game";
 const CHAT_STICKER_SIZE = 120;
 const CHAT_STICKER_MESSAGE_OFFSET_X = 205;
 const CHAT_STICKER_SOUNDS = {
-  Gura: "high_five.impact",
+  /* TRINITY_STICKER_SOUNDS_BEGIN */
+  Gura: "Wheel.Gura",
   NeuroHug: "Hero_Chen.HolyPersuasion",
-  Watson: "General.Buy",
+  Watson: "Wheel.Watson",
   Anime: "Hero_Juggernaut.OmniSlash",
-  Neurodance: "Hero_Weaver.Shukuchi",
+  Neurodance: "Wheel.Neurodance",
   Choso: "Wheel.Choso",
   StickerOne: "high_five.impact",
-  StickerTwo: "General.Buy",
+  StickerTwo: "Wheel.StickerTwo",
+  NO_GOD: "Wheel.NO_GOD",
+  /* TRINITY_STICKER_SOUNDS_END */
 };
 const STICKER_MAX_TIME = {
-  Gura: 1,
+  /* TRINITY_STICKER_MAX_TIME_BEGIN */
+  Gura: 2.4,
   NeuroHug: 1.5,
-  Watson: 1.5,
+  Watson: 2.1,
   Anime: 1.5,
-  Neurodance: 1.5,
+  Neurodance: 7.5,
   Choso: 0.7,
   StickerOne: 1.5,
-  StickerTwo: 1,
+  StickerTwo: 1.2,
+  NO_GOD: 2.8,
+  /* TRINITY_STICKER_MAX_TIME_END */
 };
 var rings = [[Array(8).fill(""), Array(8).fill(true)]];
 const loadTableHeroFromNet = () => {
   const playerID = Players.GetLocalPlayer();
   const data = CustomNetTables.GetTableValue("trinity_stickers", String(playerID)) || {};
+  const owned = data.owned || {};
   tableHero = {};
   for (let i = 0; i < 8; i++) {
     const sound = data["slot" + i] || "";
+    const entry = owned[sound];
+    const elite = !!(entry && (entry.quality == 2 || entry == 2));
     tableHero[String(i)] = {
       sound: sound,
+      elite: elite,
       maxTime: sound ? STICKER_MAX_TIME[sound] || 1.5 : 0,
     };
   }
@@ -56,29 +66,24 @@ const initChatWheel = () => {
     $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0).visible = Boolean(rings[0][1][i]);
-    let name = "";
-
     if (!tableHero) {
       initTableHero();
     }
-    if (tableHero) {
-      name = tableHero[i]?.sound || "";
-    }
+    const slot = tableHero ? tableHero[String(i)] || tableHero[i] : null;
+    const name = (slot && slot.sound) || "";
     const hasSound = name !== "";
+    const elite = !!(slot && slot.elite);
     const PhraseLabel = $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0)
       .GetChild(0);
-    PhraseLabel.text = $.Localize(hasSound ? "#chat_wheel_donate_sound_" + name : "#chat_wheel_donate_sound_empty");
+    const labelText = $.Localize(hasSound ? "#chat_wheel_donate_sound_" + name : "#chat_wheel_donate_sound_empty");
+    PhraseLabel.text = hasSound && elite ? labelText + " ★" : labelText;
     const phrase = $("#Phrase" + i)
       .GetChild(0)
       .GetChild(0)
       .GetChild(0);
     phrase.style.opacity = hasSound ? "1" : "0.3";
-    $("#Phrase" + i)
-      .GetChild(0)
-      .GetChild(0)
-      .GetChild(1).style.backgroundSize = "100%";
     $("#Bubble").style.backgroundImage = `url('s2r://panorama/images/chat_wheel/center_cursor_png.vtex')`;
   }
 };
@@ -97,26 +102,16 @@ function StopWheel() {
   $("#Wheel").visible = false;
   $("#Bubble").visible = false;
   $("#PhrasesContainer").visible = false;
-  const cooldown = CustomNetTables.GetTableValue("cooldown_info", `${Players.GetLocalPlayer()}`)?.cooldown_chat || 0;
+  if (selected_sound_current || selected_sound_current === 0) {
+    const soundName = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].sound : undefined;
+    const maxTime = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].maxTime : undefined;
 
-  if (cooldown == 0) {
-    if (selected_sound_current || selected_sound_current === 0) {
-      const soundName = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].sound : undefined;
-      const maxTime = tableHero[selected_sound_current.toString()] ? tableHero[selected_sound_current.toString()].maxTime : undefined;
-
-      if (soundName) {
-        GameEvents.SendCustomGameEventToServer("chat_wheel_select", {
-          select: soundName,
-          maxTime: maxTime || STICKER_MAX_TIME[soundName] || 1.5,
-        });
-      }
+    if (soundName) {
+      GameEvents.SendCustomGameEventToServer("chat_wheel_select", {
+        select: soundName,
+        maxTime: maxTime || STICKER_MAX_TIME[soundName] || 1.5,
+      });
     }
-  } else {
-    GameEvents.SendEventClientSide("dota_hud_error_message", {
-      message: $.Localize("#dota_error_cooldown_chat_wheel"),
-      reason: 80,
-      sequenceNumber: 0,
-    });
   }
   if (nowselect != 0) {
     $("#PhrasesContainer").RemoveAndDeleteChildren();
@@ -255,7 +250,7 @@ const CreateVideoHeadMessage = (data) => {
     style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; visibility: collapse;`,
     controls: "none",
     repeat: "true",
-    disableaudio: "false",
+    disableaudio: data.elite == 1 ? "false" : "true",
     autoplay: "onload",
     src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
@@ -458,7 +453,7 @@ const CreateVideoChatMessage = (data) => {
     style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; horizontal-align: left; margin-left: ${CHAT_STICKER_MESSAGE_OFFSET_X}px;`,
     controls: "none",
     repeat: "true",
-    disableaudio: "false",
+    disableaudio: data.elite == 1 ? "false" : "true",
     autoplay: "onload",
     src: `${CHAT_STICKER_VIDEO_ROOT}/${data.sound}.webm`,
   });
@@ -486,8 +481,11 @@ const CreateVideoChatMessage = (data) => {
   });
 
   const stickerText = $.Localize(`chat_wheel_donate_sound_${data.sound}`, playerLine);
+  const icon = data.elite == 1
+    ? "<font color='#e2c56a'>★</font>  "
+    : "<img src='file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd' class='ChatWheelIcon' />  ";
   playerLine.text = `${CHAT_STICKER_MESSAGE_INDENT}<font color='${playerColor}'>${playerName}</font> : `
-    + "<img src='file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd' class='ChatWheelIcon' />  "
+    + icon
     + stickerText;
 
   $.Schedule(7, () => {
@@ -500,8 +498,10 @@ const CreateVideoChatMessage = (data) => {
 };
 
 GameEvents.Subscribe("chat_wheel_send_sound", (event) => {
-  const soundEvent = CHAT_STICKER_SOUNDS[event.sound];
-  if (soundEvent) Game.EmitSound(soundEvent);
+  if (event.elite == 1) {
+    const soundEvent = CHAT_STICKER_SOUNDS[event.sound];
+    if (soundEvent) Game.EmitSound(soundEvent);
+  }
 
   const shownAboveHero = CreateVideoHeadMessage(event);
   if (!shownAboveHero) CreateVideoChatMessage(event);

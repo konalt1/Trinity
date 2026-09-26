@@ -18,7 +18,7 @@ local DEBUG_VISION_DURATION = 5
 local ROLL_SPEED = 550
 local ROLL_TURN_RATE = 120
 local ROLL_TREE_RADIUS = 180
-local ALLIED_LIFETIME = 60
+local ALLIED_LIFETIME = { 20, 30, 40, 50, 60 }
 local ROLL_THINK = 0.03
 
 local LEVEL_CONFIG = {
@@ -51,6 +51,11 @@ end
 
 local function NormalizeLevel(level)
 	return math.max(1, math.floor(tonumber(level) or 1))
+end
+
+local function GetAlliedLifetime(level)
+	level = math.min(NormalizeLevel(level), #ALLIED_LIFETIME)
+	return ALLIED_LIFETIME[level] or ALLIED_LIFETIME[#ALLIED_LIFETIME] or 60
 end
 
 local function ScaleFromBase(base, perLevel, level)
@@ -288,7 +293,7 @@ function PrimalBeastBoss:PrepareAllied(boss, level)
 	boss.primalBeastAllied = true
 	boss:SetModelScale(MODEL_SCALE)
 	boss:RemoveModifierByName("modifier_invulnerable")
-	boss:AddNewModifier(boss, nil, "modifier_kill", { duration = ALLIED_LIFETIME })
+	boss:AddNewModifier(boss, nil, "modifier_kill", { duration = GetAlliedLifetime(level) })
 end
 
 function PrimalBeastBoss:TryCastTrample(boss)

@@ -17,6 +17,7 @@
 #PhrasesContainer {
   width: 100%;
   height: 100%;
+  overflow: noclip;
 }
 
 .Phrase.IsSpray {
@@ -242,83 +243,35 @@
 }
 
 #Phrase0 {
-  margin-bottom: 220px;
-  text-align: center;
-  & > Panel {
-    horizontal-align: center;
-  }
+  transform: translate3d(0px, -198px, 0px);
 }
 
 #Phrase1 {
-  margin-bottom: 125px;
-  margin-left: 410px;
-  & > Panel {
-    horizontal-align: right;
-  }
+  transform: translate3d(140px, -140px, 0px);
 }
 
 #Phrase2 {
-  margin-top: 0px;
-  margin-left: 500px;
-  & > Panel {
-    horizontal-align: center;
-  }
+  transform: translate3d(198px, 0px, 0px);
 }
 
 #Phrase3 {
-  margin-top: 125px;
-  margin-left: 410px;
+  transform: translate3d(140px, 140px, 0px);
 }
 
 #Phrase4 {
-  margin-top: 220px;
+  transform: translate3d(0px, 198px, 0px);
 }
 
 #Phrase5 {
-  margin-top: 125px;
-  margin-right: 410px;
-  & > Panel {
-    horizontal-align: center;
-  }
+  transform: translate3d(-140px, 140px, 0px);
 }
 
 #Phrase6 {
-  margin-right: 500px;
-  & > Panel {
-    horizontal-align: center;
-  }
+  transform: translate3d(-198px, 0px, 0px);
 }
 
 #Phrase7 {
-  margin-bottom: 125px;
-  margin-right: 410px;
-  & > Panel {
-    horizontal-align: left;
-  }
-}
-
-#Phrase1 > Panel,
-#Phrase2 > Panel,
-#Phrase3 > Panel {
-  horizontal-align: left;
-}
-
-#Phrase1 Label,
-#Phrase2 Label,
-#Phrase3 Label {
-  text-align: left;
-}
-
-#Phrase5 > Panel,
-#Phrase6 > Panel,
-#Phrase7 > Panel {
-  horizontal-align: right;
-}
-
-#Phrase5 Label,
-#Phrase6 Label,
-#Phrase7 Label {
-  text-align: right;
+  transform: translate3d(-140px, -140px, 0px);
 }
 
 .ForWheel0 {
@@ -378,6 +331,10 @@
   height: 25px;
 }
 
+.hero_level {
+  visibility: collapse;
+}
+
 .BlockChatWheel {
   width: 50%;
   height: 100%;
@@ -430,7 +387,8 @@
   horizontal-align: center;
   vertical-align: center;
   height: 62px;
-  width: 300px;
+  width: fit-children;
+  max-width: 200px;
   overflow: noclip;
   padding: 0px;
 }
@@ -449,7 +407,9 @@
   font-weight: semi-bold;
   font-family: "Radiance";
   vertical-align: center;
+  horizontal-align: center;
+  text-align: center;
   text-shadow: 2px 2px 8px 3 #333333b0;
   height: 100%;
-  max-width: 300px;
+  max-width: 200px;
 }

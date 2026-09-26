@@ -46,19 +46,48 @@ function CaravanCourierBehavior()
         return nil
     end
 
+    local slot = thisEntity.caravanSlotIndex or 1
+    local dest = CourierCaravan:GetFollowPosition(aghanim, slot)
+    local dist = (thisEntity:GetAbsOrigin() - dest):Length2D()
+    CourierCaravan:UpdateCatchUp(thisEntity, dist)
+
+    local leash = CourierCaravan.LEASH_RADIUS or 1100
+    local origin = thisEntity:GetAbsOrigin()
+    local lastPos = thisEntity.caravanStuckPos
+    local moved = lastPos and (origin - lastPos):Length2D() or 999
+    thisEntity.caravanStuckPos = origin
+    if dist > 180 and moved < 8 then
+        thisEntity.caravanStuckThinks = (thisEntity.caravanStuckThinks or 0) + 1
+    else
+        thisEntity.caravanStuckThinks = 0
+    end
+
+    if dist > leash or (thisEntity.caravanStuckThinks or 0) >= 6 then
+        print(string.format(
+            "[CourierCaravan] Unstuck %s slot=%s dist=%.0f stuck=%s",
+            thisEntity:GetUnitName(),
+            tostring(slot),
+            dist,
+            tostring(thisEntity.caravanStuckThinks)
+        ))
+        CourierCaravan:PlaceCourier(thisEntity, dest)
+        thisEntity.caravanStuckThinks = 0
+        thisEntity.caravanStuckPos = dest
+        return 0.15
+    end
+
     if CourierCaravan:IsFleeing(thisEntity) then
-        CourierCaravan:UpdateCatchUp(thisEntity, 0)
+        if dist >= (CourierCaravan.SLOT_MAX_OFFSET or 700) then
+            MoveTo(dest)
+            return 0.15
+        end
+
         local fleePosition = CourierCaravan:GetFleePosition(thisEntity)
         if fleePosition then
             MoveTo(fleePosition)
             return 0.15
         end
     end
-
-    local slot = thisEntity.caravanSlotIndex or 1
-    local dest = CourierCaravan:GetFollowPosition(aghanim, slot)
-    local dist = (thisEntity:GetAbsOrigin() - dest):Length2D()
-    CourierCaravan:UpdateCatchUp(thisEntity, dist)
 
     if CourierCaravan:IsAghanimStationary(aghanim) and dist <= FOLLOW_IDLE_RANGE then
         HoldIdle()

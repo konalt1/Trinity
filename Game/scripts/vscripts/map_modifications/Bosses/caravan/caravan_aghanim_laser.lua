@@ -47,7 +47,8 @@ function caravan_aghanim_laser:OnSpellStart()
         CourierCaravan:MarkAghanimBusy(caster, duration + 0.1)
     end
 
-    caster:StartGesture(ACT_DOTA_CAST_ABILITY_2)
+    caster:RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
+    caster:StartGesture(ACT_DOTA_CHANNEL_ABILITY_2)
     caster:EmitSound("Hero_Leshrac.Pulse_Nova")
 
     local assets = Assets()
@@ -79,6 +80,7 @@ function caravan_aghanim_laser:OnChannelFinish()
     if caster and not caster:IsNull() then
         caster:StopSound("Hero_Leshrac.Pulse_Nova")
         caster:RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
+        caster:RemoveGesture(ACT_DOTA_CHANNEL_ABILITY_2)
     end
 
     if self.channelFx then

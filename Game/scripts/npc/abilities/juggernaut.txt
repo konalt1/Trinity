@@ -51,13 +51,11 @@
 			"mind_power_multiplier"			"1.5"
 			"shard_bonus_radius"
 			{
-				"value"						"100"
-				"RequiresShard"				"1"
+				"special_bonus_shard"		"100"
 			}
 			"shard_movement_slow"
 			{
-				"value"						"35"
-				"RequiresShard"				"1"
+				"special_bonus_shard"		"35"
 			}
 		}
 	}
@@ -151,7 +149,7 @@
             //-------------------------------------------------------------------------------------------------------------
             "BaseClass"                     "ability_lua"
             "ScriptFile"                    "abilities/juggernaut/juggernaut_swift_slash_lua/juggernaut_swift_slash_lua"
-            "AbilityTextureName"            "juggernaut_omni_slash"
+            "AbilityTextureName"            "juggernaut_swift_slash"
             
             // Ability General
             //-------------------------------------------------------------------------------------------------------------

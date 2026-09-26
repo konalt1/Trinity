@@ -24,6 +24,25 @@ local WARMUP_SPAWN_GOOD_ENTITY = "trinity_warmup_spawn_good"
 local WARMUP_SPAWN_BAD_ENTITY = "trinity_warmup_spawn_bad"
 local WARMUP_DUMMY_SPAWN_ENTITY = "trinity_warmup_dummy"
 local WARMUP_DUMMY_UNIT = "npc_dota_hero_target_dummy"
+local WARMUP_CAMERA_LERP = 1.0
+
+local WARMUP_WARD_CLASSNAMES = {
+	"npc_dota_ward_base",
+	"npc_dota_ward_base_truesight",
+	"npc_dota_observer_wards",
+	"npc_dota_sentry_wards",
+}
+
+local WARMUP_WARD_UNITS = {
+	npc_dota_observer_wards = true,
+	npc_dota_sentry_wards = true,
+}
+
+-- ItemStockInitial из npc/Items.txt: observer 2, sentry 3.
+local WARMUP_WARD_STOCK = {
+	{ item = "item_ward_observer", count = 2 },
+	{ item = "item_ward_sentry", count = 3 },
+}
 
 function DraftSpawn:Init()
 	if self._listeners_registered then
@@ -41,8 +60,23 @@ function DraftSpawn:Init()
 	self._resettingHero = {}
 	self._cameraSnapTimers = {}
 	if self.debugEnabled == nil then
-		self.debugEnabled = true
+		self.debugEnabled = false
 	end
+
+	if not _G.DRAFT_SPAWN_HUD_TEST_COMMAND_REGISTERED then
+		_G.DRAFT_SPAWN_HUD_TEST_COMMAND_REGISTERED = true
+		Convars:RegisterCommand("draft_spawn_hud_test", function(_, value)
+			local cycles = math.max(1, math.floor(tonumber(value) or 10))
+			Timers:CreateTimer(2, function()
+				DraftSpawn:StartHudTest(cycles)
+				return nil
+			end)
+		end, "Run warmup HUD ability test N times: draft_spawn_hud_test [cycles]", FCVAR_CHEAT)
+	end
+
+	CustomGameEventManager:RegisterListener("trinity_hud_test_report", function(_, event)
+		DraftSpawn:OnHudTestClientReport(event)
+	end)
 
 	if not _G.DRAFT_SPAWN_DEBUG_COMMAND_REGISTERED then
 		_G.DRAFT_SPAWN_DEBUG_COMMAND_REGISTERED = true
@@ -71,6 +105,15 @@ function DraftSpawn:Init()
 	CustomGameEventManager:RegisterListener("trinity_warmup_refresh", function(_, event)
 		DraftSpawn:OnWarmupRefresh(event)
 	end)
+
+	local ok, cfg = pcall(require, "autotest_config")
+	if ok and type(cfg) == "table" and cfg.auto_hud_test then
+		local cycles = math.max(1, math.floor(tonumber(cfg.cycles) or 10))
+		Timers:CreateTimer(8, function()
+			DraftSpawn:StartHudTest(cycles)
+			return nil
+		end)
+	end
 end
 
 local STATE_NAMES = {
@@ -86,7 +129,7 @@ local STATE_NAMES = {
 }
 
 function DraftSpawn:DebugEnabled()
-	return self.debugEnabled ~= false
+	return self.debugEnabled == true
 end
 
 function DraftSpawn:DebugDayNight(action, before)
@@ -310,6 +353,7 @@ function DraftSpawn:OnGameRulesStateChange()
 		self:SyncPreGameTime()
 		self:RandomUnpickedHeroes()
 		self:EnsureWarmupZone()
+		self:LockNightUntilLanePhase()
 		if self:GetRemainingUntilWarmupEnd() <= 0.05 then
 			self:EndWarmup()
 		end
@@ -317,6 +361,8 @@ function DraftSpawn:OnGameRulesStateChange()
 		self:EnsureMatchStartTimer()
 		if self:GetRemainingUntilZeroClock() <= 0.05 then
 			self:StartLanePhase()
+		else
+			self:LockNightUntilLanePhase()
 		end
 	end
 end
@@ -429,38 +475,86 @@ function DraftSpawn:EnsureMatchStartTimer()
 	end)
 end
 
-function DraftSpawn:LockNightUntilLanePhase()
+function DraftSpawn:SetDaynightCycleDisabled(disabled)
+	local mode = GameRules:GetGameModeEntity()
+	if mode and mode.SetDaynightCycleDisabled then
+		mode:SetDaynightCycleDisabled(disabled)
+	end
+end
+
+function DraftSpawn:ApplyNightLighting()
+	-- Цикл должен быть включён в кадр смены времени: иначе клиент
+	-- замораживает текущий (дневной) свет и GetTimeOfDay расходится с картинкой.
+	self:SetDaynightCycleDisabled(false)
+	GameRules:SetTimeOfDay(0.75)
+	self:SetDaynightCycleDisabled(true)
+	self._daynightCycleLocked = true
+end
+
+function DraftSpawn:ScheduleNightLightingFollowup()
+	if self._nightFollowupArmed or self.matchStarted then
+		return
+	end
+	self._nightFollowupArmed = true
+	Timers:CreateTimer(0.25, function()
+		if self.matchStarted then
+			return nil
+		end
+		local before = GameRules:GetTimeOfDay()
+		self:ApplyNightLighting()
+		self:DebugDayNight("night-followup", before)
+		return nil
+	end)
+end
+
+function DraftSpawn:LockNightUntilLanePhase(forceClientPush)
+	if self.matchStarted then
+		return
+	end
+
 	local before = GameRules:GetTimeOfDay()
 	local drifted = math.abs((before or 0) - 0.75) > 0.02
-
-	-- Вызывается каждые 0.1 сек: движок трогаем только при расхождении,
-	-- иначе каждый SetTimeOfDay заново запускает клиентский ночной эмбиент.
-	if drifted or not self._daynightCycleLocked then
-		local mode = GameRules:GetGameModeEntity()
-		if mode and mode.SetDaynightCycleDisabled then
-			mode:SetDaynightCycleDisabled(true)
-		end
-		self._daynightCycleLocked = true
-	end
-
-	if drifted then
-		GameRules:SetTimeOfDay(0.75)
-	end
-
 	local key = self:StateName() .. ":" .. tostring(self.warmupEnded)
-	if drifted or self._lastNightDebugKey ~= key then
+	local stateChanged = self._lastNightApplyKey ~= key
+	local state = GameRules:State_Get()
+	local worldVisible = forceClientPush == true
+		or state == DOTA_GAMERULES_STATE_PRE_GAME
+		or state == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS
+
+	-- Тик 0.1 с без дрейфа движок не трогает — иначе снова копится ночной эмбиент.
+	-- Смена стейта и вход игрока на карту обязаны повторно слать SetTimeOfDay:
+	-- первый вызов в HERO_SELECTION обновляет только сервер, клиент ещё не рисует мир.
+	local shouldApply = drifted or stateChanged or forceClientPush or not self._daynightCycleLocked
+	if worldVisible and not self._nightClientPushed then
+		shouldApply = true
+	end
+
+	if shouldApply then
+		self:ApplyNightLighting()
+		self._lastNightApplyKey = key
+		if worldVisible then
+			self._nightClientPushed = true
+			self:ScheduleNightLightingFollowup()
+		end
+	end
+
+	if drifted or stateChanged or forceClientPush then
 		self._lastNightDebugKey = key
-		self:DebugDayNight(drifted and "night-restore" or "night-hold", before)
+		local action = "night-hold"
+		if drifted then
+			action = "night-restore"
+		elseif forceClientPush or (worldVisible and shouldApply) then
+			action = "night-push"
+		elseif stateChanged then
+			action = "night-sync"
+		end
+		self:DebugDayNight(action, before)
 	end
 end
 
 function DraftSpawn:FreezeEngineMatchSystems()
 	GameRules:SetGoldPerTick(0)
 	self:LockNightUntilLanePhase()
-
-	pcall(function()
-		SendToServerConsole("dota_creeps_no_spawning 1")
-	end)
 	self:SetEngineHeroKillRewardsEnabled(false)
 end
 
@@ -469,25 +563,18 @@ function DraftSpawn:EnableWarmupEndSystems()
 	GameRules:SetGoldPerTick(2)
 	self:SetEngineHeroKillRewardsEnabled(true)
 	self:LockNightUntilLanePhase()
-
-	pcall(function()
-		SendToServerConsole("dota_creeps_no_spawning 1")
-	end)
 end
 
 function DraftSpawn:EnableLanePhaseSystems()
 	local before = GameRules:GetTimeOfDay()
-	local mode = GameRules:GetGameModeEntity()
-	if mode and mode.SetDaynightCycleDisabled then
-		mode:SetDaynightCycleDisabled(false)
-	end
+	self:SetDaynightCycleDisabled(false)
 	self._daynightCycleLocked = false
+	self._nightClientPushed = false
+	self._nightFollowupArmed = false
+	self._lastNightApplyKey = nil
+	self._nightPushedPlayers = {}
 	GameRules:SetTimeOfDay(0.25)
 	self:DebugDayNight("day-start", before)
-
-	pcall(function()
-		SendToServerConsole("dota_creeps_no_spawning 0")
-	end)
 end
 
 function DraftSpawn:HoldEngineMatchStart()
@@ -812,7 +899,7 @@ function DraftSpawn:PlaceHeroInWarmupZone(hero)
 
 end
 
-function DraftSpawn:SnapCameraToHero(hero, origin)
+function DraftSpawn:SnapCameraToHero(hero, origin, lerp, fromOrigin)
 	if not hero or hero:IsNull() then
 		return
 	end
@@ -822,25 +909,49 @@ function DraftSpawn:SnapCameraToHero(hero, origin)
 		return
 	end
 
+	lerp = math.max(0, tonumber(lerp) or 0)
 	origin = origin or hero:GetAbsOrigin()
-	-- Не вешаем SetCameraTarget: камера тогда едет со спавна фонтана за героем.
+	if not origin then
+		return
+	end
+
+	if lerp > 0 then
+		local now = GameRules:GetGameTime()
+		local last = self._cameraSnapTimers[playerID]
+		if last and (now - last) < 0.25 then
+			return
+		end
+		self._cameraSnapTimers[playerID] = now
+		fromOrigin = fromOrigin or self:GetFountainSpawnOrigin(playerID)
+	end
+
+	-- Не вешаем SetCameraTarget: камера должна ехать к позиции героя, а не следовать за ним.
+	-- Перелёт делает клиент: нативный lerp во время пика не двигает камеру.
+	local pin = (lerp > 0 and fromOrigin) or origin
 	if PlayerResource.SetCameraTarget then
 		PlayerResource:SetCameraTarget(playerID, nil)
 	end
 	if PlayerResource.SetCameraTargetPositionTime then
-		PlayerResource:SetCameraTargetPositionTime(playerID, origin, 0, 0, 0)
+		PlayerResource:SetCameraTargetPositionTime(playerID, pin, 0, 0, 0)
 	elseif PlayerResource.SetCameraTargetPosition then
-		PlayerResource:SetCameraTargetPosition(playerID, origin, 0)
+		PlayerResource:SetCameraTargetPosition(playerID, pin, 0)
 	end
 
 	local player = PlayerResource:GetPlayer(playerID)
 	if player then
-		CustomGameEventManager:Send_ServerToPlayer(player, "trinity_player_entered_map", {
+		local payload = {
 			player_id = playerID,
 			x = origin.x,
 			y = origin.y,
 			z = origin.z,
-		})
+			lerp = lerp,
+		}
+		if fromOrigin then
+			payload.from_x = fromOrigin.x
+			payload.from_y = fromOrigin.y
+			payload.from_z = fromOrigin.z
+		end
+		CustomGameEventManager:Send_ServerToPlayer(player, "trinity_player_entered_map", payload)
 	end
 end
 
@@ -962,13 +1073,14 @@ function DraftSpawn:OnNPCSpawned(keys)
 	if self:IsSandboxActive() then
 		self._warmupSpawned = self._warmupSpawned or {}
 		local firstSpawn = self._warmupSpawned[playerID] ~= true
+		local fromOrigin = firstSpawn and npc:GetAbsOrigin() or nil
 		if firstSpawn and npc.AddNoDraw then
 			npc:AddNoDraw()
 		end
 		self:PlaceHeroInWarmupZone(npc)
 		if firstSpawn then
 			self._warmupSpawned[playerID] = true
-			self:SnapCameraToHero(npc, npc:GetAbsOrigin())
+			self:SnapCameraToHero(npc, npc:GetAbsOrigin(), WARMUP_CAMERA_LERP, fromOrigin or self:GetFountainSpawnOrigin(playerID))
 			Timers:CreateTimer(0.05, function()
 				if npc and not npc:IsNull() and npc.RemoveNoDraw then
 					npc:RemoveNoDraw()
@@ -1125,6 +1237,9 @@ function DraftSpawn:EndWarmup()
 	self:ResetPlayersGold()
 	self:ResetPlayersKDA()
 	self:StripWarmupItems()
+	self:RemoveWarmupWards()
+	self:RegrowWarmupTrees()
+	self:RestoreWardShopStock()
 
 	self.heroKillRewardsEnabled = true
 	if KillfeedSystem and KillfeedSystem.RefreshHeroKillBounties then
@@ -1139,6 +1254,8 @@ function DraftSpawn:EndWarmup()
 		self:ResetPlayersGold()
 		self:ResetPlayersKDA()
 		self:StripWarmupItems()
+		self:RemoveWarmupWards()
+		self:RegrowWarmupTrees()
 
 		return nil
 	end)
@@ -1147,6 +1264,8 @@ function DraftSpawn:EndWarmup()
 		self:ResetPlayersGold()
 		self:ResetPlayersKDA()
 		self:StripWarmupItems()
+		self:RemoveWarmupWards()
+		self:RegrowWarmupTrees()
 
 		return nil
 	end)
@@ -1238,15 +1357,22 @@ function DraftSpawn:NotifyWarmupStarted(playerID)
 	local remaining = math.max(0, self:GetRemainingUntilMatchStart())
 	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
 	local origin = hero and not hero:IsNull() and hero:GetAbsOrigin() or self:GetWarmupSpawnOrigin(hero)
+	local fromOrigin = self:GetFountainSpawnOrigin(playerID)
 	local payload = {
 		player_id = playerID,
 		gold = self:GetWarmupGold(),
 		remaining = remaining,
+		lerp = WARMUP_CAMERA_LERP,
 	}
 	if origin then
 		payload.x = origin.x
 		payload.y = origin.y
 		payload.z = origin.z
+	end
+	if fromOrigin then
+		payload.from_x = fromOrigin.x
+		payload.from_y = fromOrigin.y
+		payload.from_z = fromOrigin.z
 	end
 
 	CustomGameEventManager:Send_ServerToPlayer(player, "trinity_warmup_started", payload)
@@ -1270,6 +1396,274 @@ function DraftSpawn:NotifyWarmupEnded()
 		text_token = "#trinity_warmup_ended",
 	})
 
+	if self._hudTest and self._hudTest.active and not self._hudTest.waitingClient then
+		Timers:CreateTimer(1.0, function()
+			self:RunHudTestVerification()
+			return nil
+		end)
+	end
+end
+
+function DraftSpawn:StartHudTest(cycles)
+	cycles = math.max(1, math.floor(tonumber(cycles) or 10))
+	self._hudTest = {
+		active = true,
+		total = cycles,
+		cycle = 0,
+		passed = 0,
+		failed = 0,
+		waitingClient = false,
+	}
+
+	SendToServerConsole("sv_cheats 1")
+	SendToServerConsole("host_timescale 10")
+	SendToServerConsole("jointeam good")
+	SendToServerConsole("con_logfile D:/Trinity/tools/hud-test.log")
+	print(string.format("[TrinityHudTest] START total_cycles=%d", cycles))
+	if CustomNetTables then
+		CustomNetTables:SetTableValue("trinity_hud_test", "state", {
+			status = "running",
+			total = cycles,
+			cycle = 0,
+			passed = 0,
+			failed = 0,
+		})
+	end
+
+	self:EnsureHudTestHeroes()
+	self:StressWarmupHeroesForHudTest()
+
+	if self.warmupEnded then
+		Timers:CreateTimer(1.0, function()
+			self:RunHudTestVerification()
+			return nil
+		end)
+	end
+end
+
+function DraftSpawn:EnsureHudTestHeroes()
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsMatchPlayer(playerID) and not PlayerResource:HasSelectedHero(playerID) then
+			local player = PlayerResource:GetPlayer(playerID)
+			if player then
+				player:MakeRandomHeroSelection()
+			end
+		end
+	end
+end
+
+function DraftSpawn:StressWarmupHeroesForHudTest()
+	if not self:IsSandboxActive() then
+		return
+	end
+
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsMatchPlayer(playerID) then
+			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+			if hero and not hero:IsNull() then
+				self:SetExactGold(playerID, self:GetWarmupGold())
+				while hero:GetLevel() < 2 do
+					hero:HeroLevelUp(true)
+				end
+
+				for slot = 0, hero:GetAbilityCount() - 1 do
+					local ability = hero:GetAbilityByIndex(slot)
+					if ability and not ability:IsNull() and self:ShouldResetAbilityToUnskilled(ability) then
+						if ability:GetLevel() < 1 then
+							ability:SetLevel(1)
+						end
+						break
+					end
+				end
+			end
+		end
+	end
+end
+
+function DraftSpawn:CountLearnableAbilities(hero)
+	if not hero or hero:IsNull() or not hero.GetAbilityCount then
+		return 0, 0, "no hero"
+	end
+
+	local learnable = 0
+	local visible = 0
+	for slot = 0, hero:GetAbilityCount() - 1 do
+		local ability = hero:GetAbilityByIndex(slot)
+		if ability and not ability:IsNull() and self:ShouldResetAbilityToUnskilled(ability) then
+			learnable = learnable + 1
+			if not ability:IsHidden() then
+				visible = visible + 1
+			end
+		end
+	end
+
+	if learnable < 3 then
+		return learnable, visible, "too few learnable abilities"
+	end
+	if visible < 3 then
+		return learnable, visible, "hidden learnable abilities"
+	end
+
+	return learnable, visible, nil
+end
+
+function DraftSpawn:VerifyServerAbilitiesForHudTest()
+	local playerID = 0
+	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+	if not hero or hero:IsNull() then
+		return false, "no hero entity"
+	end
+
+	local learnable, visible, reason = self:CountLearnableAbilities(hero)
+	if reason then
+		return false, string.format("%s (learnable=%d visible=%d)", reason, learnable, visible)
+	end
+
+	return true, string.format("learnable=%d visible=%d", learnable, visible)
+end
+
+function DraftSpawn:RunHudTestVerification()
+	if not self._hudTest or not self._hudTest.active or self._hudTest.waitingClient then
+		return
+	end
+
+	self._hudTest.cycle = (self._hudTest.cycle or 0) + 1
+	local cycle = self._hudTest.cycle
+	local serverOk, serverDetail = self:VerifyServerAbilitiesForHudTest()
+	self._hudTest.pendingServerOk = serverOk
+	self._hudTest.pendingServerDetail = serverDetail or ""
+
+	local player = PlayerResource:GetPlayer(0)
+	if not player then
+		self:FinishHudTestCycle(cycle, serverOk, false, 0, 0, "no local player")
+		return
+	end
+
+	self._hudTest.waitingClient = true
+	CustomGameEventManager:Send_ServerToPlayer(player, "trinity_hud_test_request", {
+		cycle = cycle,
+	})
+
+	Timers:CreateTimer(3.0, function()
+		if self._hudTest and self._hudTest.waitingClient and self._hudTest.cycle == cycle then
+			self:FinishHudTestCycle(cycle, self._hudTest.pendingServerOk, false, 0, 0, "client timeout")
+		end
+		return nil
+	end)
+end
+
+function DraftSpawn:OnHudTestClientReport(event)
+	if not self._hudTest or not self._hudTest.active or not self._hudTest.waitingClient then
+		return
+	end
+
+	local cycle = tonumber(event and event.cycle) or self._hudTest.cycle
+	if cycle ~= self._hudTest.cycle then
+		return
+	end
+
+	local visibleSlots = tonumber(event and event.visible_slots) or 0
+	local totalSlots = tonumber(event and event.total_slots) or 0
+	local clientOk = visibleSlots >= 3
+	self:FinishHudTestCycle(
+		cycle,
+		self._hudTest.pendingServerOk == true,
+		clientOk,
+		visibleSlots,
+		totalSlots,
+		nil
+	)
+end
+
+function DraftSpawn:FinishHudTestCycle(cycle, serverOk, clientOk, visibleSlots, totalSlots, extraReason)
+	if not self._hudTest or not self._hudTest.active then
+		return
+	end
+
+	self._hudTest.waitingClient = false
+	local passed = serverOk and clientOk
+	if passed then
+		self._hudTest.passed = (self._hudTest.passed or 0) + 1
+	else
+		self._hudTest.failed = (self._hudTest.failed or 0) + 1
+	end
+
+	local status = passed and "PASS" or "FAIL"
+	local reason = extraReason
+	if not passed and not reason then
+		reason = string.format(
+			"server=%s client_visible=%d",
+			self._hudTest.pendingServerDetail or "?",
+			visibleSlots
+		)
+	end
+
+	print(string.format(
+		"[TrinityHudTest] CYCLE %d/%d %s visible=%d total=%d %s",
+		cycle,
+		self._hudTest.total,
+		status,
+		visibleSlots,
+		totalSlots,
+		reason or ""
+	))
+	if CustomNetTables then
+		CustomNetTables:SetTableValue("trinity_hud_test", "state", {
+			status = "running",
+			total = self._hudTest.total,
+			cycle = cycle,
+			passed = self._hudTest.passed or 0,
+			failed = self._hudTest.failed or 0,
+			last_status = status,
+			last_visible = visibleSlots,
+			last_total = totalSlots,
+			last_reason = reason or "",
+		})
+	end
+
+	if cycle < self._hudTest.total then
+		Timers:CreateTimer(0.5, function()
+			self:PrepareNextHudTestCycle()
+			return nil
+		end)
+	else
+		print(string.format(
+			"[TrinityHudTest] ALL DONE passed=%d failed=%d",
+			self._hudTest.passed or 0,
+			self._hudTest.failed or 0
+		))
+		if CustomNetTables then
+			CustomNetTables:SetTableValue("trinity_hud_test", "state", {
+				status = "done",
+				total = self._hudTest.total,
+				cycle = cycle,
+				passed = self._hudTest.passed or 0,
+				failed = self._hudTest.failed or 0,
+			})
+		end
+		self._hudTest = nil
+	end
+end
+
+function DraftSpawn:PrepareNextHudTestCycle()
+	self.warmupEnded = false
+	self.sandboxActive = true
+	self.matchStarted = false
+	self.heroKillRewardsEnabled = false
+	self._matchTimerArmed = false
+	self._selectionThinkArmed = false
+
+	local draftDuration = self:GetDraftDuration()
+	self.draftStartTime = GameRules:GetGameTime() - math.max(0, draftDuration - 5)
+
+	self:FreezeEngineMatchSystems()
+	self:EnableSandboxEconomy()
+	self._warmupZoneReady = false
+	self:EnsureWarmupZone()
+	self:SyncPreGameTime()
+	self:EnsureSelectionThink()
+	self:EnsureMatchStartTimer()
+	self:StressWarmupHeroesForHudTest()
 end
 
 function DraftSpawn:GetHeroStartLevel()
@@ -1325,7 +1719,7 @@ function DraftSpawn:AbilityKvHasBehavior(ability, flag)
 	return string.find(behavior, flag, 1, true) ~= nil
 end
 
-function DraftSpawn:AbilityKvIsEnabled(ability, key)
+function DraftSpawn:AbilityKvFlagEnabled(ability, key)
 	if not ability or ability:IsNull() or not key then
 		return false
 	end
@@ -1336,6 +1730,9 @@ function DraftSpawn:AbilityKvIsEnabled(ability, key)
 	end
 
 	local value = kv[key]
+	if value == nil then
+		value = kv[string.lower(key)]
+	end
 	return value == "1" or value == 1 or value == true or value == "true"
 end
 
@@ -1344,14 +1741,19 @@ function DraftSpawn:ShouldShowGrantedAbility(hero, ability)
 		return false
 	end
 
-	if self:AbilityKvIsEnabled(ability, "IsGrantedByShard") then
+	if self:AbilityKvFlagEnabled(ability, "IsGrantedByShard") then
 		return HasShard and HasShard(hero) or false
 	end
-	if self:AbilityKvIsEnabled(ability, "IsGrantedByScepter") then
+	if self:AbilityKvFlagEnabled(ability, "IsGrantedByScepter") then
 		return hero.HasScepter and hero:HasScepter() or false
 	end
 
 	return true
+end
+
+function DraftSpawn:IsItemGrantedAbility(ability)
+	return self:AbilityKvFlagEnabled(ability, "IsGrantedByShard")
+		or self:AbilityKvFlagEnabled(ability, "IsGrantedByScepter")
 end
 
 function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
@@ -1378,13 +1780,11 @@ function DraftSpawn:ShouldResetAbilityToUnskilled(ability)
 	if ability.IsInnate and ability:IsInnate() then
 		return false
 	end
-
-	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
-	if self:AbilityKvIsEnabled(ability, "IsGrantedByShard")
-		or self:AbilityKvIsEnabled(ability, "IsGrantedByScepter") then
+	if self:IsItemGrantedAbility(ability) then
 		return false
 	end
 
+	local kv = ability.GetAbilityKeyValues and ability:GetAbilityKeyValues() or nil
 	local kvType = kv and (kv.AbilityType or kv.abilitytype) or nil
 	local kvIsUltimate = kvType == "DOTA_ABILITY_TYPE_ULTIMATE"
 	local kvHidden = self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN")
@@ -1431,35 +1831,30 @@ function DraftSpawn:RestoreAbilityHiddenState(hero)
 	for slot = 0, hero:GetAbilityCount() - 1 do
 		local ability = hero:GetAbilityByIndex(slot)
 		if ability and not ability:IsNull() then
-			local abilityName = ability:GetAbilityName()
-			-- Roll Up HUD is owned by modifier_pangolier_mind_power (visible only in the ball).
-			if abilityName ~= "pangolier_rollup" and abilityName ~= "pangolier_rollup_stop" then
-				local grantedByItem = self:AbilityKvIsEnabled(ability, "IsGrantedByShard")
-					or self:AbilityKvIsEnabled(ability, "IsGrantedByScepter")
-				if grantedByItem then
-					local show = self:ShouldShowGrantedAbility(hero, ability)
-					if show then
-						if ability:IsHidden() then
-							ability:SetHidden(false)
-						end
-						if ability:GetLevel() < 1 then
-							ability:SetLevel(1)
-						end
-					else
-						if ability:GetLevel() ~= 0 then
-							ability:SetLevel(0)
-						end
-						if not ability:IsHidden() then
-							ability:SetHidden(true)
-						end
+			local grantedByItem = self:IsItemGrantedAbility(ability)
+			if grantedByItem then
+				local show = self:ShouldShowGrantedAbility(hero, ability)
+				if show then
+					if ability:IsHidden() then
+						ability:SetHidden(false)
 					end
-				elseif self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN") then
+					if ability:GetLevel() < 1 then
+						ability:SetLevel(1)
+					end
+				else
+					if ability:GetLevel() ~= 0 then
+						ability:SetLevel(0)
+					end
 					if not ability:IsHidden() then
 						ability:SetHidden(true)
 					end
-				elseif self:ShouldResetAbilityToUnskilled(ability) and ability:IsHidden() then
-					ability:SetHidden(false)
 				end
+			elseif self:AbilityKvHasBehavior(ability, "DOTA_ABILITY_BEHAVIOR_HIDDEN") then
+				if not ability:IsHidden() then
+					ability:SetHidden(true)
+				end
+			elseif self:ShouldResetAbilityToUnskilled(ability) and ability:IsHidden() then
+				ability:SetHidden(false)
 			end
 		end
 	end
@@ -1504,6 +1899,62 @@ function DraftSpawn:RestoreAbilityCastLayouts(hero)
 	end
 end
 
+function DraftSpawn:MarkHeroAbilityButtonsDirty(hero)
+	if not hero or hero:IsNull() or not hero.GetAbilityCount then
+		return
+	end
+
+	for slot = 0, hero:GetAbilityCount() - 1 do
+		local ability = hero:GetAbilityByIndex(slot)
+		if ability and not ability:IsNull() and ability.MarkAbilityButtonDirty then
+			ability:MarkAbilityButtonDirty()
+		end
+	end
+end
+
+-- ReplaceHeroWith keeps the native ability HUD bound to warmup levels.
+-- Level 0 ultimates never send a level-changed event, so leftover pips stay.
+function DraftSpawn:RefreshAbilityHud(hero)
+	if not hero or hero:IsNull() then
+		return
+	end
+
+	self:MarkHeroAbilityButtonsDirty(hero)
+	if hero.SetAbilityPoints then
+		hero:SetAbilityPoints(self:GetStartAbilityPoints())
+	end
+end
+
+function DraftSpawn:ScheduleAbilityHudRefresh(hero)
+	if not hero or hero:IsNull() then
+		return
+	end
+
+	hero._trinityAbilityHudRefresh = (hero._trinityAbilityHudRefresh or 0) + 1
+	local token = hero._trinityAbilityHudRefresh
+	local points = self:GetStartAbilityPoints()
+
+	if hero.SetAbilityPoints then
+		hero:SetAbilityPoints(points + 1)
+	end
+	self:MarkHeroAbilityButtonsDirty(hero)
+
+	local delays = { 0.05, 0.15, 0.35, 0.75 }
+	for i = 1, #delays do
+		local delay = delays[i]
+		Timers:CreateTimer(delay, function()
+			if not hero or hero:IsNull() then
+				return nil
+			end
+			if hero._trinityAbilityHudRefresh ~= token then
+				return nil
+			end
+			self:RefreshAbilityHud(hero)
+			return nil
+		end)
+	end
+end
+
 function DraftSpawn:ApplyMatchStartHeroState(hero)
 	if not hero or hero:IsNull() then
 		return
@@ -1514,6 +1965,9 @@ function DraftSpawn:ApplyMatchStartHeroState(hero)
 	self:ResetHeroAbilitiesToStart(hero)
 	self:RestoreAbilityHiddenState(hero)
 	self:RestoreAbilityCastLayouts(hero)
+	if ChenBarrackRestoreMatchStartAbilities then
+		ChenBarrackRestoreMatchStartAbilities(hero)
+	end
 	self:EnsureTownPortalScroll(hero)
 end
 
@@ -1527,6 +1981,7 @@ function DraftSpawn:PrepareHeroForMatchStart(hero, playerID)
 		hero:HeroLevelUp(false)
 	end
 	self:ApplyMatchStartHeroState(hero)
+	self:ScheduleAbilityHudRefresh(hero)
 
 	self._startingItems = self._startingItems or {}
 	self._startingItems[playerID] = nil
@@ -1674,6 +2129,52 @@ function DraftSpawn:EnsureTownPortalScroll(hero)
 	end
 end
 
+function DraftSpawn:RemoveWarmupWards()
+	for i = 1, #WARMUP_WARD_CLASSNAMES do
+		local wards = Entities:FindAllByClassname(WARMUP_WARD_CLASSNAMES[i]) or {}
+		for j = 1, #wards do
+			local ward = wards[j]
+			if ward and not ward:IsNull() then
+				local unitName = ward.GetUnitName and ward:GetUnitName() or ""
+				if WARMUP_WARD_UNITS[unitName] then
+					UTIL_Remove(ward)
+				end
+			end
+		end
+	end
+end
+
+function DraftSpawn:RegrowWarmupTrees()
+	local ok = pcall(function()
+		GridNav:RegrowAllTrees()
+	end)
+	if ok then
+		return
+	end
+
+	local trees = Entities:FindAllByClassname("ent_dota_tree") or {}
+	for i = 1, #trees do
+		local tree = trees[i]
+		if tree and not tree:IsNull() and tree.GrowBack then
+			pcall(function()
+				tree:GrowBack()
+			end)
+		end
+	end
+end
+
+function DraftSpawn:RestoreWardShopStock()
+	local teams = { DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS }
+	for i = 1, #WARMUP_WARD_STOCK do
+		local entry = WARMUP_WARD_STOCK[i]
+		for j = 1, #teams do
+			pcall(function()
+				GameRules:SetItemStockCount(entry.count, teams[j], entry.item, -1)
+			end)
+		end
+	end
+end
+
 function DraftSpawn:StripWarmupGroundItems()
 	local drops = Entities:FindAllByClassname("dota_item_drop") or {}
 	for i = 1, #drops do
@@ -1785,11 +2286,12 @@ function DraftSpawn:EnterMapForPlayer(playerID, hero)
 	hero:SetControllableByPlayer(playerID, true)
 
 	if self:IsSandboxActive() then
+		local fromOrigin = self:GetFountainSpawnOrigin(playerID) or hero:GetAbsOrigin()
 		if hero.AddNoDraw then
 			hero:AddNoDraw()
 		end
 		self:PlaceHeroInWarmupZone(hero)
-		self:SnapCameraToHero(hero, hero:GetAbsOrigin())
+		self:SnapCameraToHero(hero, hero:GetAbsOrigin(), WARMUP_CAMERA_LERP, fromOrigin)
 		Timers:CreateTimer(0.05, function()
 			if hero and not hero:IsNull() and hero.RemoveNoDraw then
 				hero:RemoveNoDraw()
@@ -1800,6 +2302,12 @@ function DraftSpawn:EnterMapForPlayer(playerID, hero)
 		self:PlaceHeroAtFountain(hero)
 	else
 		self:SnapCameraToHero(hero, hero:GetAbsOrigin())
+	end
+
+	self._nightPushedPlayers = self._nightPushedPlayers or {}
+	if not self._nightPushedPlayers[playerID] then
+		self._nightPushedPlayers[playerID] = true
+		self:LockNightUntilLanePhase(true)
 	end
 
 	self:GiveWarmupGold(playerID)
@@ -1831,6 +2339,9 @@ function DraftSpawn:OnPlayerReconnect(keys)
 	local state = GameRules:State_Get()
 	if self:IsSandboxActive() or state == DOTA_GAMERULES_STATE_HERO_SELECTION or state == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		self._warmupHeroNotified[playerID] = nil
+		if self._nightPushedPlayers then
+			self._nightPushedPlayers[playerID] = nil
+		end
 		self:EnterMapForPlayer(playerID)
 	end
 end

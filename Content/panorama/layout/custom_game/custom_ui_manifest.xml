@@ -7,8 +7,10 @@
         <include src="file://{resources}/scripts/custom_game/draft_spawn.js" />
     </scripts>
     <Panel>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chen_barrack_hud/chen_barrack_hud.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/warmup_widget/warmup_widget.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/sticker_editor/sticker_editor.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/lootbox/lootbox.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hud_cleanup.xml"/>

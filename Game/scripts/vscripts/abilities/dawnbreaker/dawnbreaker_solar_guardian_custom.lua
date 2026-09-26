@@ -10,12 +10,24 @@ LinkLuaModifier(
 	"abilities/dawnbreaker/dawnbreaker_solar_guardian_custom",
 	LUA_MODIFIER_MOTION_NONE
 )
+LinkLuaModifier(
+	"modifier_dawnbreaker_solar_guardian_custom_tracker_active",
+	"abilities/dawnbreaker/dawnbreaker_solar_guardian_custom",
+	LUA_MODIFIER_MOTION_NONE
+)
+LinkLuaModifier(
+	"modifier_dawnbreaker_celestial_hammer_custom_nohammer",
+	"abilities/dawnbreaker/dawnbreaker_celestial_hammer_custom",
+	LUA_MODIFIER_MOTION_NONE
+)
 LinkLuaModifier("modifier_generic_arc_lua", "modifiers/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH)
 
 dawnbreaker_solar_guardian_custom = class({})
 
 local ULT_NAME = "dawnbreaker_solar_guardian_custom"
 local RELEASE_NAME = "dawnbreaker_solar_guardian_release_custom"
+local WORLD_EDGE_MARGIN = 128
+local WORLD_EDGE_EPSILON = 8
 
 local function Clamp(value, min_value, max_value)
 	return math.max(min_value, math.min(max_value, value))
@@ -23,6 +35,60 @@ end
 
 local function IsValidEntity(entity)
 	return entity and not entity:IsNull()
+end
+
+local function GetSafeWorldBounds()
+	return GetWorldMinX() + WORLD_EDGE_MARGIN,
+		GetWorldMaxX() - WORLD_EDGE_MARGIN,
+		GetWorldMinY() + WORLD_EDGE_MARGIN,
+		GetWorldMaxY() - WORLD_EDGE_MARGIN
+end
+
+local function IsInsideWorldBounds(position)
+	if not position then
+		return false
+	end
+
+	local minX, maxX, minY, maxY = GetSafeWorldBounds()
+	return position.x >= minX
+		and position.x <= maxX
+		and position.y >= minY
+		and position.y <= maxY
+end
+
+local function ClampAlongRayToWorldBounds(origin, destination)
+	local dest = Vector(destination.x, destination.y, destination.z or 0)
+	if IsInsideWorldBounds(dest) then
+		return GetGroundPosition(dest, nil), false
+	end
+
+	local minX, maxX, minY, maxY = GetSafeWorldBounds()
+	local dx = dest.x - origin.x
+	local dy = dest.y - origin.y
+	local t = 1
+
+	if dest.x > maxX and dx > 0 then
+		t = math.min(t, (maxX - origin.x) / dx)
+	end
+	if dest.x < minX and dx < 0 then
+		t = math.min(t, (minX - origin.x) / dx)
+	end
+	if dest.y > maxY and dy > 0 then
+		t = math.min(t, (maxY - origin.y) / dy)
+	end
+	if dest.y < minY and dy < 0 then
+		t = math.min(t, (minY - origin.y) / dy)
+	end
+
+	t = Clamp(t, 0, 1)
+	local clamped = Vector(origin.x + dx * t, origin.y + dy * t, origin.z or 0)
+	return GetGroundPosition(clamped, nil), true
+end
+
+local function SetGuardianRadiusControls(particle, origin, radius)
+	ParticleManager:SetParticleControl(particle, 0, origin)
+	ParticleManager:SetParticleControl(particle, 1, origin)
+	ParticleManager:SetParticleControl(particle, 2, Vector(radius, radius, radius))
 end
 
 function dawnbreaker_solar_guardian_custom:Precache(context)
@@ -33,7 +99,6 @@ function dawnbreaker_solar_guardian_custom:Precache(context)
 	PrecacheResource("particle", "particles/units/heroes/hero_dawnbreaker/dawnbreaker_solar_guardian.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_dawnbreaker/dawnbreaker_solar_guardian_landing.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_dawnbreaker/dawnbreaker_solar_guardian_aoe.vpcf", context)
-	PrecacheResource("particle", "particles/units/heroes/hero_dawnbreaker/dawnbreaker_celestial_hammer_projectile.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_dawnbreaker.vsndevts", context)
 end
@@ -102,9 +167,13 @@ function dawnbreaker_solar_guardian_custom:GetLandingRadius(distance)
 	local max_range = self:GetSpecialValueFor("max_range")
 	local min_radius = self:GetSpecialValueFor("min_radius")
 	local max_radius = self:GetSpecialValueFor("max_radius")
+	local grow = self:GetSpecialValueFor("radius_grow_multiplier")
+	if grow < 1 then
+		grow = 2.5
+	end
 	local t = 0
 	if max_range > min_range then
-		t = Clamp((distance - min_range) / (max_range - min_range), 0, 1)
+		t = Clamp((distance - min_range) / (max_range - min_range) * grow, 0, 1)
 	end
 	local radius = min_radius + (max_radius - min_radius) * t
 	if GetHeroBonusSpellAoE then
@@ -117,6 +186,16 @@ function dawnbreaker_solar_guardian_custom:GetTrackerRadius(location)
 	local origin = self.tracker_origin or self:GetCaster():GetAbsOrigin()
 	local distance = self:GetLandingDistance((location - origin):Length2D())
 	return self:GetLandingRadius(distance)
+end
+
+function dawnbreaker_solar_guardian_custom:GetTrackerWorldOrigin()
+	if not self.tracker_active then
+		return nil
+	end
+	if IsValidEntity(self.tracker_dummy) then
+		return self.tracker_dummy:GetAbsOrigin()
+	end
+	return nil
 end
 
 function dawnbreaker_solar_guardian_custom:CastFilterResultLocation(location)
@@ -201,6 +280,7 @@ function dawnbreaker_solar_guardian_custom:OnSpellStart()
 	})
 
 	self:ShowReleaseAbility()
+	self:StartThrownHammer()
 	caster:EmitSound("Hero_Dawnbreaker.Celestial_Hammer.Cast")
 end
 
@@ -210,8 +290,12 @@ function dawnbreaker_solar_guardian_custom:OnProjectileThink_ExtraData(location,
 	end
 
 	local dummy = EntIndexToHScript(data.dummy)
+	local origin = self.tracker_origin or self:GetCaster():GetAbsOrigin()
+	local clamped, hit_world_edge = ClampAlongRayToWorldBounds(origin, location)
+
 	if IsValidEntity(dummy) then
-		dummy:SetAbsOrigin(location)
+		dummy:SetAbsOrigin(clamped)
+		self:SyncThrownWeapon(dummy)
 		local tracker = dummy:FindModifierByName("modifier_dawnbreaker_solar_guardian_custom_tracker")
 		if tracker then
 			tracker:UpdateMarkerVisuals()
@@ -223,8 +307,7 @@ function dawnbreaker_solar_guardian_custom:OnProjectileThink_ExtraData(location,
 		return
 	end
 
-	local origin = self.tracker_origin or self:GetCaster():GetAbsOrigin()
-	if (location - origin):Length2D() >= self:GetSpecialValueFor("max_range") - 8 then
+	if hit_world_edge or (clamped - origin):Length2D() >= self:GetSpecialValueFor("max_range") - WORLD_EDGE_EPSILON then
 		self:ConfirmTracker()
 	end
 end
@@ -254,6 +337,9 @@ function dawnbreaker_solar_guardian_custom:ShowReleaseAbility()
 	if release:IsHidden() then
 		release:SetHidden(false)
 	end
+	if IsServer() and not caster:HasModifier("modifier_dawnbreaker_solar_guardian_custom_tracker_active") then
+		caster:AddNewModifier(caster, self, "modifier_dawnbreaker_solar_guardian_custom_tracker_active", {})
+	end
 end
 
 function dawnbreaker_solar_guardian_custom:HideReleaseAbility()
@@ -270,6 +356,9 @@ function dawnbreaker_solar_guardian_custom:HideReleaseAbility()
 		release:SetHidden(true)
 	end
 	release:SetActivated(false)
+	if IsServer() then
+		caster:RemoveModifierByName("modifier_dawnbreaker_solar_guardian_custom_tracker_active")
+	end
 	if self:IsHidden() then
 		self:SetHidden(false)
 	end
@@ -282,7 +371,87 @@ function dawnbreaker_solar_guardian_custom:StopTrackerProjectile()
 	end
 end
 
+function dawnbreaker_solar_guardian_custom:StartThrownHammer()
+	local caster = self:GetCaster()
+	if not IsValidEntity(caster) then
+		return
+	end
+
+	local hammer = caster:FindAbilityByName("dawnbreaker_celestial_hammer_custom")
+	caster:AddNewModifier(caster, hammer or self, "modifier_dawnbreaker_celestial_hammer_custom_nohammer", {
+		skip_hide_weapon = 1,
+	})
+	self:AttachWeaponToTracker()
+end
+
+function dawnbreaker_solar_guardian_custom:FinishThrownHammer()
+	local caster = self:GetCaster()
+	if IsValidEntity(caster) then
+		caster:RemoveModifierByName("modifier_dawnbreaker_celestial_hammer_custom_nohammer")
+	end
+end
+
+function dawnbreaker_solar_guardian_custom:AttachWeaponToTracker()
+	if not IsValidEntity(self.tracker_dummy) then
+		return
+	end
+
+	local caster = self:GetCaster()
+	if not IsValidEntity(caster) or not caster.GetTogglableWearable then
+		return
+	end
+
+	local weapon = caster:GetTogglableWearable(DOTA_LOADOUT_TYPE_WEAPON)
+	if not weapon then
+		return
+	end
+
+	self.thrown_weapon = weapon
+	self:SyncThrownWeapon(self.tracker_dummy)
+	weapon:FollowEntity(self.tracker_dummy, false)
+end
+
+function dawnbreaker_solar_guardian_custom:SyncThrownWeapon(dummy)
+	if not IsValidEntity(dummy) then
+		return
+	end
+
+	if self.tracker_direction then
+		dummy:SetForwardVector(self.tracker_direction)
+	end
+
+	local weapon = self.thrown_weapon
+	if not weapon or (weapon.IsNull and weapon:IsNull()) then
+		return
+	end
+
+	weapon:SetAbsOrigin(dummy:GetAbsOrigin())
+	if self.tracker_direction then
+		local angles = VectorToAngles(self.tracker_direction)
+		weapon:SetAbsAngles(angles.x, angles.y, angles.z)
+	end
+end
+
+function dawnbreaker_solar_guardian_custom:RestoreThrownWeapon()
+	local weapon = self.thrown_weapon
+	self.thrown_weapon = nil
+	if not weapon or (weapon.IsNull and weapon:IsNull()) then
+		return
+	end
+
+	local caster = self:GetCaster()
+	if not IsValidEntity(caster) then
+		return
+	end
+
+	weapon:FollowEntity(caster, true)
+	if weapon.RemoveEffects then
+		weapon:RemoveEffects(EF_NODRAW)
+	end
+end
+
 function dawnbreaker_solar_guardian_custom:DestroyTrackerDummy()
+	self:RestoreThrownWeapon()
 	if IsValidEntity(self.tracker_dummy) then
 		local modifier = self.tracker_dummy:FindModifierByName("modifier_dawnbreaker_solar_guardian_custom_tracker")
 		if modifier then
@@ -302,6 +471,7 @@ function dawnbreaker_solar_guardian_custom:CancelTracker()
 	self.tracker_active = false
 	self:StopTrackerProjectile()
 	self:DestroyTrackerDummy()
+	self:FinishThrownHammer()
 	self:HideReleaseAbility()
 end
 
@@ -320,27 +490,32 @@ function dawnbreaker_solar_guardian_custom:ConfirmTracker()
 
 	self:StopTrackerProjectile()
 	self:DestroyTrackerDummy()
+	self:FinishThrownHammer()
 	self:HideReleaseAbility()
 
 	if not caster:IsAlive() then
 		return
 	end
 
-	local offset = location - origin
-	offset.z = 0
+	location = ClampAlongRayToWorldBounds(origin, location)
+
+	local hammer_offset = location - origin
+	hammer_offset.z = 0
+	local radius = self:GetLandingRadius(self:GetLandingDistance(hammer_offset:Length2D()))
+
+	local leap_offset = location - caster:GetAbsOrigin()
+	leap_offset.z = 0
+	local distance = leap_offset:Length2D()
 	local direction = self.tracker_direction
-	if offset:Length2D() >= 1 then
-		direction = offset:Normalized()
+	if distance >= 1 then
+		direction = leap_offset:Normalized()
 	elseif not direction then
 		direction = caster:GetForwardVector()
 		direction.z = 0
 		direction = direction:Normalized()
 	end
 
-	local distance = self:GetLandingDistance(offset:Length2D())
-	local destination = GetGroundPosition(origin + direction * distance, caster)
-	local radius = self:GetLandingRadius(distance)
-	self:LeapTo(destination, direction, distance, radius)
+	self:LeapTo(location, direction, distance, radius)
 end
 
 function dawnbreaker_solar_guardian_custom:LeapTo(destination, direction, distance, radius)
@@ -378,6 +553,20 @@ function dawnbreaker_solar_guardian_custom:LeapTo(destination, direction, distan
 			caster:FadeGesture(ACT_DOTA_CAST_ABILITY_4)
 		end)
 	end
+end
+
+modifier_dawnbreaker_solar_guardian_custom_tracker_active = class({})
+
+function modifier_dawnbreaker_solar_guardian_custom_tracker_active:IsHidden()
+	return true
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_tracker_active:IsPurgable()
+	return false
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_tracker_active:RemoveOnDeath()
+	return true
 end
 
 dawnbreaker_solar_guardian_release_custom = class({})
@@ -422,30 +611,23 @@ function modifier_dawnbreaker_solar_guardian_custom_tracker:OnCreated(kv)
 	end
 
 	local parent = self:GetParent()
-	local caster = self:GetCaster()
-	local team = caster:GetTeamNumber()
 	local velocity = Vector(kv.dir_x or 0, kv.dir_y or 0, 0)
+	if velocity:Length2D() > 0 then
+		parent:SetForwardVector(velocity:Normalized())
+	end
 
-	local trail = ParticleManager:CreateParticleForTeam(
-		"particles/units/heroes/hero_dawnbreaker/dawnbreaker_celestial_hammer_projectile.vpcf",
-		PATTACH_ABSORIGIN_FOLLOW,
-		parent,
-		team
-	)
-	ParticleManager:SetParticleControl(trail, 1, velocity)
-	ParticleManager:SetParticleControl(trail, 4, Vector(1, 0, 0))
-	self:AddParticle(trail, false, false, -1, false, false)
-
-	self.marker = ParticleManager:CreateParticleForTeam(
-		"particles/units/heroes/hero_dawnbreaker/dawnbreaker_solar_guardian_aoe.vpcf",
-		PATTACH_WORLDORIGIN,
-		nil,
-		team
-	)
-	self:AddParticle(self.marker, false, false, -1, false, false)
 	parent:EmitSound("Hero_Dawnbreaker.Celestial_Hammer.Projectile")
 	self:StartIntervalThink(0.03)
 	self:OnIntervalThink()
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_tracker:DestroyMarker()
+	if not self.marker then
+		return
+	end
+	ParticleManager:DestroyParticle(self.marker, false)
+	ParticleManager:ReleaseParticleIndex(self.marker)
+	self.marker = nil
 end
 
 function modifier_dawnbreaker_solar_guardian_custom_tracker:GetRadiusForLocation(location)
@@ -460,18 +642,27 @@ function modifier_dawnbreaker_solar_guardian_custom_tracker:GetRadiusForLocation
 end
 
 function modifier_dawnbreaker_solar_guardian_custom_tracker:UpdateMarkerVisuals()
-	if not IsServer() or not self.marker then
+	if not IsServer() then
 		return
 	end
 
 	local parent = self:GetParent()
 	local location = GetGroundPosition(parent:GetAbsOrigin(), parent)
 	local radius = self:GetRadiusForLocation(location)
-	local radius_cp = Vector(radius, radius, radius)
+	local last_radius = self.marker_radius or 0
+	if not self.marker or math.abs(radius - last_radius) >= 8 then
+		self:DestroyMarker()
+		local caster = self:GetCaster()
+		self.marker = ParticleManager:CreateParticleForTeam(
+			"particles/units/heroes/hero_dawnbreaker/dawnbreaker_solar_guardian_aoe.vpcf",
+			PATTACH_WORLDORIGIN,
+			parent,
+			caster:GetTeamNumber()
+		)
+		self.marker_radius = radius
+	end
 
-	ParticleManager:SetParticleControl(self.marker, 0, location)
-	ParticleManager:SetParticleControl(self.marker, 1, location)
-	ParticleManager:SetParticleControl(self.marker, 2, radius_cp)
+	SetGuardianRadiusControls(self.marker, location, radius)
 end
 
 function modifier_dawnbreaker_solar_guardian_custom_tracker:OnIntervalThink()
@@ -485,6 +676,10 @@ function modifier_dawnbreaker_solar_guardian_custom_tracker:OnDestroy()
 
 	local ability = self:GetAbility()
 	self:GetParent():StopSound("Hero_Dawnbreaker.Celestial_Hammer.Projectile")
+	self:DestroyMarker()
+	if ability and ability.RestoreThrownWeapon then
+		ability:RestoreThrownWeapon()
+	end
 	if ability and ability.tracker_active and not self.skip_cancel then
 		ability:CancelTracker()
 	end
@@ -505,7 +700,7 @@ function modifier_dawnbreaker_solar_guardian_custom_leap:OnCreated(kv)
 	if not IsServer() then
 		return
 	end
-	self.radius = kv.radius or self:GetAbility():GetSpecialValueFor("min_radius")
+	self.radius = tonumber(kv.radius) or self:GetAbility():GetSpecialValueFor("min_radius")
 	local parent = self:GetParent()
 	local trail = ParticleManager:CreateParticle(
 		"particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf",
@@ -538,6 +733,9 @@ function modifier_dawnbreaker_solar_guardian_custom_leap:OnDestroy()
 	caster:StartGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
 	local origin = GetGroundPosition(caster:GetAbsOrigin(), caster)
 	local radius = self.radius
+	if ability and ability.GetTrackerRadius then
+		radius = ability:GetTrackerRadius(origin)
+	end
 	local damage = ability:GetSpecialValueFor("damage")
 	local stun = ability:GetSpecialValueFor("stun_duration")
 
@@ -550,9 +748,7 @@ function modifier_dawnbreaker_solar_guardian_custom_leap:OnDestroy()
 		PATTACH_WORLDORIGIN,
 		caster
 	)
-	ParticleManager:SetParticleControl(landing, 0, origin)
-	ParticleManager:SetParticleControl(landing, 1, origin)
-	ParticleManager:SetParticleControl(landing, 2, Vector(radius, radius, radius))
+	SetGuardianRadiusControls(landing, origin, radius)
 	ParticleManager:ReleaseParticleIndex(landing)
 
 	local enemies = FindUnitsInRadius(

@@ -138,30 +138,6 @@ local MIND_POWER_RULES = {
     largo_song_fight_song = {
         burst_damage = 1.0,
     },
-    -- Numeric multiplier: vanilla Aether Remnant has no mind_power_multiplier KV.
-    -- Server scaling is applied by modifier_void_spirit_mind_power, not by rewriting the ability.
-    void_spirit_aether_remnant = {
-        impact_damage = 1.0,
-    },
-    void_spirit_dissimilate_trinity = {
-        damage = "mind_power_multiplier",
-    },
-    void_spirit_astral_step_trinity = {
-        pop_damage = "mind_power_multiplier",
-    },
-    pangolier_shield_crash_trinity = {
-        damage = "mind_power_multiplier",
-    },
-    pangolier_heartpiercer_trinity = {
-        bleed_dps = "mind_power_multiplier",
-    },
-    pangolier_duelist_rhythm_trinity = {
-        bonus_damage = "mind_power_multiplier",
-    },
-    -- Numeric multiplier: vanilla Rolling Thunder has no mind_power_multiplier KV.
-    pangolier_gyroshell = {
-        damage = 1.0,
-    },
 }
 
 CustomAbilityTooltips.MIND_POWER_RULES = MIND_POWER_RULES

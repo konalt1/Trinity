@@ -2,6 +2,7 @@ require ("Timers")
 require ("game_managers/draft_spawn")
 require ("game_settings")
 require ("utils/util")
+require ("utils/lua_memory_debug")
 require ("game_managers/creep_bounty_comeback")
 require ("game_managers/killfeed_system")
 require ("gamemode")
@@ -9,6 +10,7 @@ require ("item_drop")
 require ("game_managers/config")
 require ("game_managers/trinity_player_data")
 require ("game_managers/trinity_stickers")
+require ("game_managers/trinity_analytics")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
 require ("map_modifications/Bosses/primal_beast/primal_beast_boss")
@@ -36,16 +38,6 @@ require ("abilities/dawnbreaker/dawnbreaker_fire_wreath")
 require ("abilities/largo/largo_childhood_memories")
 require ("abilities/largo/largo_catchy_lick")
 require ("abilities/largo/largo_frogstomp")
-require ("abilities/void_spirit/void_spirit_mind_power")
-require ("abilities/void_spirit/void_spirit_dissimilate_trinity")
-require ("abilities/void_spirit/void_spirit_astral_step_trinity")
-require ("abilities/void_spirit/void_spirit_astral_reduction")
-require ("abilities/pangolier/pangolier_shield_crash_trinity")
-require ("abilities/pangolier/pangolier_heartpiercer_trinity")
-require ("abilities/pangolier/pangolier_duelist_rhythm_trinity")
-require ("abilities/antimage/antimage_dodge_trinity")
-require ("abilities/antimage/antimage_counterspell_trinity")
-require ("abilities/antimage/antimage_antimagic_mark_trinity")
 require ("items/item_kaya_mind_power")
 require ("items/item_yasha_and_kaya")
 require ("items/item_mage_slayer")
@@ -65,16 +57,8 @@ require ("abilities/chen/chen_ultimate_aura")
 require ("abilities/lich/frost_shield/lich_frost_shield_lua")
 require ("abilities/lich/ability_sinister_gaze")
 
-local function SafeRequire(path)
-	local ok, err = pcall(require, path)
-	if not ok then
-		print("[Trinity] require failed: " .. path)
-		print(tostring(err))
-	end
-end
-
-SafeRequire("abilities/ogre_magi/ogre_magi_reroll")
-SafeRequire("abilities/ogre_magi/ogre_magi_aghanim_club")
+require ("abilities/ogre_magi/ogre_magi_reroll")
+require ("abilities/ogre_magi/ogre_magi_aghanim_club")
 require ("abilities/lich/frost_blast/lich_frost_blast_lua")
 
 -- Загружаем модификаторы
@@ -116,7 +100,12 @@ function Precache( context )
 	PrecacheResource( "model", "models/heroes/snapfire/snapfire_customgame.vmdl", context )
 	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts", context )
 	PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_snapfire.vsndevts", context )
-	PrecacheResource( "particle_folder", "particles/units/heroes/hero_snapfire", context )
+	-- Прекеш юнита тянет ProjectileModel и все способности из KV, включая ванильный
+	-- Firesnap Cookie. Раньше здесь стоял particle_folder на hero_snapfire: 239 .vpcf,
+	-- из которых около сотни принадлежат Scatterblast, Lil' Shredder, loadout и
+	-- скипетровым версиям — их у Мортимера нет.
+	PrecacheUnitByNameSync( "npc_mortimer_boss", context )
+	PrecacheUnitByNameSync( "npc_mortimer_boss_finale", context )
 
 	-- Primal Beast boss (base skeleton + default wearables 769-772)
 	PrecacheResource( "model", "models/heroes/primal_beast/primal_beast_base.vmdl", context )
@@ -128,18 +117,6 @@ function Precache( context )
 	PrecacheResource( "particle_folder", "particles/units/heroes/hero_primal_beast", context )
 	PrecacheUnitByNameSync("npc_dota_hero_primal_beast", context)
 	PrecacheUnitByNameSync("npc_primal_beast_boss", context)
-
-	-- Anti-Mage (Уклон / Антискилл / Метка)
-	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts", context )
-	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_void_spirit.vsndevts", context )
-	PrecacheResource( "particle", "particles/units/heroes/hero_antimage/antimage_counter.vpcf", context )
-	PrecacheResource( "particle", "particles/status_fx/status_effect_antimage_counter.vpcf", context )
-	PrecacheResource( "particle_folder", "particles/antimages", context )
-	PrecacheResource( "particle", "particles/antimages/drow_arcana_v2_marksmanship_attack_triangles_frost.vpcf", context )
-	PrecacheResource( "particle", "particles/generic_gameplay/generic_stunned.vpcf", context )
-	PrecacheResource( "particle", "particles/generic_gameplay/generic_manaburn.vpcf", context )
-	PrecacheResource( "particle", "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step.vpcf", context )
-	PrecacheResource( "particle", "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step_impact.vpcf", context )
 
 	-- Courier caravan (Labyrinth Aghanim model + creature particles)
 	if not CaravanAssets then
@@ -395,6 +372,12 @@ function CAddonTemplateGameMode:InitGameMode()
 	end
 	if TrinityStickers and TrinityStickers.Init then
 		TrinityStickers:Init()
+	end
+	if TrinityAnalytics and TrinityAnalytics.Init then
+		TrinityAnalytics:Init()
+	end
+	if LuaMemoryDebug and LuaMemoryDebug.Init then
+		LuaMemoryDebug.Init()
 	end
 	
 	-- Создаём спавнер рошанов при старте игры (раскомментируйте и укажите нужные координаты)

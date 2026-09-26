@@ -14,7 +14,13 @@ GameMode.ancients = GameMode.ancients or {} -- Таблица тронов
 if GameMode.lane_creeps_spawned == nil then
 	GameMode.lane_creeps_spawned = false -- Флаг спавна лейн крипов
 end
-GameMode.CHAT_WHEEL_COOLDOWN = 20
+GameMode.CHAT_WHEEL_COOLDOWN = 0
+
+-- Останавливаем монитор, если этот файл перечитан через script_reload.
+GameMode.neutralSpawnDebugEnabled = false
+if Timers and Timers.RemoveTimer then
+	Timers:RemoveTimer("trinity_neutral_respawn_debug_think")
+end
 
 GameMode.wave_list = {
 	[1]={reward_gold=250,reward_exp=500,
@@ -499,12 +505,6 @@ function GameMode:OnNPCSpawned(data)
        self:SyncLargoEncore(npc)
    end
 
-   if npc:IsHero() and npc:GetUnitName() == "npc_dota_hero_pangolier" then
-       if not npc:HasModifier("modifier_pangolier_mind_power") then
-           npc:AddNewModifier(npc, nil, "modifier_pangolier_mind_power", {})
-       end
-   end
-
    -- Отслеживаем спавн лейн крипов
    if npc:IsCreep() and not npc:IsNeutralUnitType() and not GameMode.lane_creeps_spawned then
        GameMode.lane_creeps_spawned = true
@@ -656,22 +656,6 @@ function GameMode:ExecuteOrderFilter(data)
 		return false
 	end
 
-	if VoidSpiritAetherRemnantHandleOrder then
-		VoidSpiritAetherRemnantHandleOrder(data)
-	end
-
-	if VoidSpiritDissimilateHandleOrder and VoidSpiritDissimilateHandleOrder(data) == false then
-		return false
-	end
-
-	if AntimageCounterspellHandleOrder and AntimageCounterspellHandleOrder(data) == false then
-		return false
-	end
-
-	if PrimalBeastBossHandleOrder and PrimalBeastBossHandleOrder(data) == false then
-		return false
-	end
-
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
 	end
@@ -713,9 +697,6 @@ function GameMode:OnEntityKilled(keys)
 	local unit_name = unit:GetUnitName()
 	if MortimerBoss and MortimerBoss.OnEntityKilled then
 		MortimerBoss:OnEntityKilled(unit, keys)
-	end
-	if PrimalBeastBoss and PrimalBeastBoss.OnEntityKilled then
-		PrimalBeastBoss:OnEntityKilled(unit, keys)
 	end
 	if CourierCaravan and CourierCaravan.OnEntityKilled then
 		CourierCaravan:OnEntityKilled(unit)
@@ -838,6 +819,7 @@ function GameMode:OnChatWheelSelect(data)
       hero = hero:entindex(),
       playerID = data.PlayerID,
       sound = sound,
+	  elite = (TrinityStickers and TrinityStickers:IsElite(data.PlayerID, sound)) and 1 or 0,
 	  maxTime = TrinityStickers and TrinityStickers:MaxTime(sound) or data.maxTime
     });
 end

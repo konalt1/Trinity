@@ -30,6 +30,10 @@ function IsWarmupActive() {
     return config.trinityWarmupActive === true;
 }
 
+function IsStickerUiAvailable() {
+    return IsWarmupActive() || config.trinityStickerUiOverride === true;
+}
+
 function GetLocalHeroLevel() {
     const playerID = Players.GetLocalPlayer();
     if (playerID < 0) {
@@ -71,10 +75,26 @@ function UpdateVisibility() {
         return;
     }
 
-    const visible = IsWarmupActive() && IsLocalPlayerOnMatchTeam() && HasLocalHero();
-    column.SetHasClass("Hidden", !visible);
-    column.hittest = visible;
-    column.hittestchildren = visible;
+    const canUseWidget = IsLocalPlayerOnMatchTeam() && HasLocalHero();
+    const warmupVisible = canUseWidget && IsWarmupActive();
+    const stickerUiVisible = canUseWidget && IsStickerUiAvailable();
+    const columnVisible = warmupVisible || stickerUiVisible;
+    const stickers = $("#WarmupStickers");
+    const lootboxes = $("#WarmupLootboxes");
+    const warmup = $("#WarmupWidget");
+
+    column.SetHasClass("Hidden", !columnVisible);
+    column.hittest = columnVisible;
+    column.hittestchildren = columnVisible;
+    if (stickers) {
+        stickers.SetHasClass("Hidden", !stickerUiVisible);
+    }
+    if (lootboxes) {
+        lootboxes.SetHasClass("Hidden", !stickerUiVisible);
+    }
+    if (warmup) {
+        warmup.SetHasClass("Hidden", !warmupVisible);
+    }
 }
 
 function UpdateLevelButtons() {
@@ -126,6 +146,12 @@ function OnOpenStickers() {
     }
 }
 
+function OnOpenLootbox() {
+    if (typeof config.TrinityOpenLootbox === "function") {
+        config.TrinityOpenLootbox();
+    }
+}
+
 function Tick() {
     if (!CONTEXT || !CONTEXT.IsValid()) {
         return;
@@ -145,9 +171,13 @@ function Init() {
     const maxLevel = $("#WarmupMaxLevel");
     const refresh = $("#WarmupRefresh");
     const stickers = $("#WarmupStickers");
+    const lootboxes = $("#WarmupLootboxes");
 
     if (stickers) {
         stickers.SetPanelEvent("onactivate", OnOpenStickers);
+    }
+    if (lootboxes) {
+        lootboxes.SetPanelEvent("onactivate", OnOpenLootbox);
     }
     if (levelUp) {
         levelUp.SetPanelEvent("onactivate", OnLevelUp);
@@ -180,6 +210,20 @@ function Init() {
         UpdateVisibility();
         UpdateLevelButtons();
         UpdateTimer();
+    });
+
+    GameEvents.Subscribe("trinity_sticker_ui_override", function (event) {
+        config.trinityStickerUiOverride = !!event
+            && (event.enabled === true || Number(event.enabled) === 1);
+        if (!IsStickerUiAvailable()) {
+            if (typeof config.TrinityCloseStickerEditor === "function") {
+                config.TrinityCloseStickerEditor();
+            }
+            if (typeof config.TrinityCloseLootbox === "function") {
+                config.TrinityCloseLootbox();
+            }
+        }
+        UpdateVisibility();
     });
 
     UpdateVisibility();
