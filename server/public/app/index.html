@@ -15,7 +15,7 @@
                 tab = legacy[raw];
                 view = "abilities";
             }
-            if (view !== "analytics" && view !== "players" && view !== "abilities" && view !== "stickers") {
+            if (view !== "analytics" && view !== "players" && view !== "abilities" && view !== "stickers" && view !== "shop") {
                 view = "home";
             }
             if (tab !== "numbers" && tab !== "check") {
@@ -49,6 +49,10 @@
         <a class="rail-item" data-nav="stickers" data-hotkey="5" href="/?view=stickers">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5 12.5 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/><path d="M20 12.5h-5a2.5 2.5 0 0 0-2.5 2.5v5"/></svg>
             <span class="rail-tip">Stickers <kbd>5</kbd></span>
+        </a>
+        <a class="rail-item" data-nav="shop" data-hotkey="6" href="/?view=shop">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7v7H4zM13 7h7v7h-7zM4 16h7v4H4zM13 16h7v4h-7z"/></svg>
+            <span class="rail-tip">Магазин <kbd>6</kbd></span>
         </a>
     </nav>
 
@@ -101,6 +105,15 @@
                 <input id="sticker-search" type="search" placeholder="Найти стикер" autocomplete="off">
             </label>
             <nav id="sticker-list" class="sticker-picker" aria-label="Выбор стикера"></nav>
+        </div>
+
+        <div class="side-block view-shop">
+            <div class="side-head">
+                <h2 class="side-title">Категории</h2>
+                <span class="side-count" id="shop-cat-count"></span>
+            </div>
+            <p class="side-note" id="shop-side-note">Перетащи предмет из пула в подкатегорию. Больше двух мест — жёлтая плашка.</p>
+            <nav id="shop-cat-list" class="sticker-picker" aria-label="Выбор категории"></nav>
         </div>
     </aside>
 
@@ -487,13 +500,17 @@
                 </div>
 
                 <aside class="ability-preview" id="ability-preview">
-                    <h2 class="preview-title">Как увидит игрок</h2>
-                    <div class="preview-col">
-                        <span class="preview-lang">Русский</span>
+                    <div class="preview-head">
+                        <h2 class="preview-title">Как увидит игрок</h2>
+                        <div class="chip-row preview-langs" id="preview-langs">
+                            <button type="button" class="chip" data-preview-lang="ru" aria-pressed="true">Русский</button>
+                            <button type="button" class="chip" data-preview-lang="en" aria-pressed="false">English</button>
+                        </div>
+                    </div>
+                    <div class="preview-col" data-preview-lang="ru">
                         <div id="tt-ru" class="dota-tt"></div>
                     </div>
-                    <div class="preview-col">
-                        <span class="preview-lang">English</span>
+                    <div class="preview-col hidden" data-preview-lang="en">
                         <div id="tt-en" class="dota-tt"></div>
                     </div>
                 </aside>
@@ -626,6 +643,32 @@
                     </section>
                 </aside>
             </div>
+        </section>
+
+        <section class="page view-shop">
+            <form id="shop-form">
+                <header class="page-head">
+                    <div>
+                        <h1 id="shop-title">Магазин</h1>
+                        <p class="page-sub" id="shop-sub">Один предмет слева, все категории справа. Сохранение пишет только списки в shop_data.js, «Базовые» не трогает.</p>
+                    </div>
+                    <span class="dirty-flag hidden">не сохранено</span>
+                </header>
+                <div class="shop-toolbar">
+                    <label class="field search shop-search">
+                        <input id="shop-search" type="search" placeholder="Найти предмет" autocomplete="off">
+                    </label>
+                    <span class="shop-stats" id="shop-stats"></span>
+                    <button type="button" id="shop-clear">Очистить всё</button>
+                    <button type="submit" class="primary" id="shop-save">Сохранить</button>
+                    <span class="action-hint">Ctrl + S</span>
+                </div>
+                <div class="shop-workspace">
+                    <aside class="shop-current" id="shop-current"></aside>
+                    <div class="shop-board" id="shop-board"></div>
+                </div>
+                <div class="shop-tooltip hidden" id="shop-tooltip" role="tooltip"></div>
+            </form>
         </section>
     </main>
 

@@ -13,3 +13,5 @@ require __DIR__ . '/StickerStudio.php';
 require __DIR__ . '/Analytics.php';
 require __DIR__ . '/KeyValues.php';
 require __DIR__ . '/AbilityStudio.php';
+require __DIR__ . '/ShopStudio.php';
+require __DIR__ . '/MatchApi.php';

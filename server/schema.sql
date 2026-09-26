@@ -143,3 +143,60 @@ CREATE TABLE IF NOT EXISTS analytics_snapshots (
     KEY idx_analytics_hero_match (hero, match_id),
     CONSTRAINT fk_analytics_snapshots_match FOREIGN KEY (match_id) REFERENCES analytics_matches (match_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS match_sessions (
+    match_id VARCHAR(64) NOT NULL,
+    match_key VARCHAR(64) NOT NULL DEFAULT '',
+    map_name VARCHAR(64) NOT NULL DEFAULT '',
+    cluster_id INT NOT NULL DEFAULT 0,
+    region_id INT NOT NULL DEFAULT 0,
+    cheats TINYINT(1) NOT NULL DEFAULT 0,
+    started_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (match_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS match_results (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    match_id VARCHAR(64) NOT NULL,
+    steamid BIGINT UNSIGNED NOT NULL,
+    hero_name VARCHAR(64) NOT NULL DEFAULT '',
+    team TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    win TINYINT(1) NOT NULL DEFAULT 0,
+    kills INT NOT NULL DEFAULT 0,
+    deaths INT NOT NULL DEFAULT 0,
+    assists INT NOT NULL DEFAULT 0,
+    networth INT NOT NULL DEFAULT 0,
+    gpm INT NOT NULL DEFAULT 0,
+    xpm INT NOT NULL DEFAULT 0,
+    level INT NOT NULL DEFAULT 0,
+    items_json TEXT NULL,
+    end_time INT NOT NULL DEFAULT 0,
+    is_leaver TINYINT(1) NOT NULL DEFAULT 0,
+    rating_before INT NOT NULL DEFAULT 1000,
+    rating_change INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_match_results_player (match_id, steamid)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS match_leaves (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    match_id VARCHAR(64) NOT NULL,
+    steamid BIGINT UNSIGNED NOT NULL,
+    leave_time INT NOT NULL DEFAULT 0,
+    safe_to_leave TINYINT(1) NOT NULL DEFAULT 0,
+    player_name VARCHAR(64) NOT NULL DEFAULT '',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS match_reports (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    match_id VARCHAR(64) NOT NULL,
+    reporter BIGINT UNSIGNED NOT NULL,
+    reported1 BIGINT UNSIGNED NOT NULL,
+    reported2 BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    report_type INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;

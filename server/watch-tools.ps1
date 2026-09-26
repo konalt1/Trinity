@@ -1,5 +1,6 @@
-# Hidden watcher: start local backend when Dota 2 Workshop Tools launches,
-# stop PHP and any MariaDB we started when all dota2.exe processes exit.
+# Hidden watcher: start local backend when dota2.exe is running
+# (Workshop Tools or an arcade local host), stop PHP and any MariaDB we
+# started when all dota2.exe processes exit.
 param(
     [switch]$Install
 )
@@ -50,13 +51,12 @@ try {
     $dotaGoneSince = $null
 
     while ($true) {
-        $tools = Test-TrinityToolsRunning
         $dota = Test-TrinityDota2Running
 
-        if ($tools) {
+        if ($dota) {
             if (-not $holdUntilDotaExits) {
                 try {
-                    Write-TrinityWatchLog "tools detected, starting backend"
+                    Write-TrinityWatchLog "dota2 detected, starting backend"
                     Start-TrinityLocalBackend -Detached -Hidden | Out-Null
                     Write-TrinityWatchLog "backend up"
                 } catch {

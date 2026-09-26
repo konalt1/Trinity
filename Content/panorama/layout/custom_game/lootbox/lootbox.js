@@ -66,6 +66,17 @@ const ROULETTE_LAND_SOUND = "ui.treasure_01";
 // Единственная ручка размера стикера внутри круга. CSS на Movie не работает — менять здесь.
 const MOVIE_SCALE = 0.5;
 const config = GameUI.CustomUIConfig();
+// Каждая новая сокровищница — новый курьер. Юниты описаны в npc_units_custom.txt.
+const LOOTBOX_COURIERS = [
+  "npc_trinity_lootbox_courier_babyroshan",
+  "npc_trinity_lootbox_courier_babyroshan_crownfall",
+  "npc_trinity_lootbox_courier_juggernaut_dog",
+  "npc_trinity_lootbox_courier_donkey_unicorn",
+  "npc_trinity_lootbox_courier_axolotl",
+  "npc_trinity_lootbox_courier_shroomy",
+  "npc_trinity_lootbox_courier_hamster",
+  "npc_trinity_lootbox_courier_echo_wisp",
+];
 
 let openingLootbox = false;
 let hoverSoundGuid = 0;
@@ -105,6 +116,26 @@ function OwnedMap(data) {
 
 function IsElite(info) {
   return !!info && info.quality === QUALITY_ELITE;
+}
+
+// Редкость берётся из весов дропа: стикер редкий, если его нормальный вес ниже самого частого.
+function NormalWeights() {
+  const weights = {};
+  let max = 0;
+  for (let i = 0; i < STICKER_ROLL_POOL.length; i++) {
+    const item = STICKER_ROLL_POOL[i];
+    if (item.quality !== QUALITY_NORMAL) continue;
+    weights[item.key] = item.weight;
+    if (item.weight > max) max = item.weight;
+  }
+  return { weights: weights, max: max };
+}
+
+const NORMAL_WEIGHTS = NormalWeights();
+
+function IsRare(key) {
+  const weight = NORMAL_WEIGHTS.weights[key];
+  return weight != null && weight < NORMAL_WEIGHTS.max;
 }
 
 function StickerName(key) {
@@ -214,42 +245,71 @@ function CreatePreviewMovie(parent, key, hoverPanel) {
   });
 }
 
+const ELITE_COPIES = 5;
+
 function CreateStickerTile(parent, key, info) {
   const elite = IsElite(info);
   const tile = $.CreatePanel("Panel", parent, "LootboxSticker" + key);
   tile.AddClass("LootboxSticker");
   if (elite) tile.AddClass("Elite");
+  else if (!info) tile.AddClass("Locked");
 
-  const stage = $.CreatePanel("Panel", tile, "");
-  stage.AddClass("LootboxStickerStage");
-  DisableHittest(stage);
+  const ring = $.CreatePanel("Panel", tile, "");
+  ring.AddClass("LootboxPreviewRing");
+  DisableHittest(ring);
 
-  const glow = $.CreatePanel("Panel", stage, "");
-  glow.AddClass("LootboxStickerGlow");
-  DisableHittest(glow);
-
-  const preview = $.CreatePanel("Panel", stage, "");
+  const preview = $.CreatePanel("Panel", ring, "");
   preview.AddClass("LootboxPreview");
   DisableHittest(preview);
   CreatePreviewMovie(preview, key, tile);
+
+  if (IsRare(key)) {
+    const rare = $.CreatePanel("Label", tile, "");
+    rare.AddClass("LootboxRareTag");
+    rare.text = $.Localize("#lootbox_rare");
+    DisableHittest(rare);
+  }
 
   const name = $.CreatePanel("Label", tile, "");
   name.AddClass("LootboxStickerName");
   name.text = StickerName(key);
   DisableHittest(name);
 
-  const copies = $.CreatePanel("Label", tile, "");
-  copies.AddClass("LootboxCopies");
+  const status = $.CreatePanel("Panel", tile, "");
+  status.AddClass("LootboxStatus");
+  DisableHittest(status);
   if (elite) {
-    copies.text = $.Localize("#sticker_editor_elite");
+    const label = $.CreatePanel("Label", status, "");
+    label.AddClass("LootboxEliteLabel");
+    label.text = "★ " + $.Localize("#sticker_editor_elite");
   } else if (info) {
-    copies.text = FormatToken("#sticker_editor_copies", info.copies || 1);
+    const copies = Math.max(1, Math.min(ELITE_COPIES, Number(info.copies) || 1));
+    for (let i = 0; i < ELITE_COPIES; i++) {
+      const pip = $.CreatePanel("Panel", status, "");
+      pip.AddClass("LootboxPip");
+      if (i < copies) pip.AddClass("Filled");
+    }
   } else {
-    copies.text = $.Localize("#lootbox_copies_none");
+    const label = $.CreatePanel("Label", status, "");
+    label.AddClass("LootboxLockedLabel");
+    label.text = $.Localize("#lootbox_not_opened");
   }
-  DisableHittest(copies);
 
   return tile;
+}
+
+let currentCourier = "";
+
+function ShowNextCourier() {
+  const scene = $("#TreasureModel");
+  if (!scene || LOOTBOX_COURIERS.length === 0) return;
+  let next = currentCourier;
+  while (next === currentCourier && LOOTBOX_COURIERS.length > 1) {
+    next = LOOTBOX_COURIERS[Math.floor(Math.random() * LOOTBOX_COURIERS.length)];
+  }
+  if (LOOTBOX_COURIERS.length === 1) next = LOOTBOX_COURIERS[0];
+  currentCourier = next;
+  scene.SetUnit(next, "", false);
 }
 
 function Render() {
@@ -283,6 +343,7 @@ function Open() {
     config.TrinityCloseStickerEditor();
   }
   CloseReveal();
+  ShowNextCourier();
   modal.AddClass("Visible");
   modal.hittest = true;
   modal.hittestchildren = true;
@@ -362,7 +423,15 @@ function CreateRouletteSlot(parent, item, index) {
   if (elite) slot.AddClass("Elite");
   DisableHittest(slot);
 
-  const preview = $.CreatePanel("Panel", slot, "");
+  const card = $.CreatePanel("Panel", slot, "");
+  card.AddClass("RouletteCard");
+  DisableHittest(card);
+
+  const ring = $.CreatePanel("Panel", card, "");
+  ring.AddClass("RoulettePreviewRing");
+  DisableHittest(ring);
+
+  const preview = $.CreatePanel("Panel", ring, "");
   preview.AddClass("RoulettePreview");
   DisableHittest(preview);
 
@@ -380,10 +449,14 @@ function CreateRouletteSlot(parent, item, index) {
     if (movie.IsValid()) movie.Stop();
   });
 
-  const name = $.CreatePanel("Label", slot, "");
+  const name = $.CreatePanel("Label", card, "");
   name.AddClass("RouletteSlotName");
   name.text = StickerName(item.key);
   DisableHittest(name);
+
+  const strip = $.CreatePanel("Panel", card, "");
+  strip.AddClass("RouletteQualityStrip");
+  DisableHittest(strip);
   return slot;
 }
 
@@ -554,6 +627,8 @@ function ShowReveal(event) {
   window.RemoveClass("Spinning");
   StopHoverSound();
   const elite = Number(event.quality) === QUALITY_ELITE;
+  const eyebrow = $("#RevealEyebrow");
+  if (eyebrow) eyebrow.text = $.Localize(elite ? "#lootbox_reveal_elite" : "#lootbox_reveal_new");
   if (name) name.text = StickerName(sticker);
   if (card) card.SetHasClass("Elite", elite);
   if (quality) quality.text = $.Localize(elite ? "#sticker_editor_elite" : "#sticker_editor_normal");
@@ -581,7 +656,9 @@ function ShowReveal(event) {
 function CloseReveal() {
   CancelRoulette();
   const window = LootboxWindow();
+  const wasRevealing = !!window && window.BHasClass("ShowingReveal");
   if (window) window.RemoveClass("ShowingReveal");
+  if (wasRevealing) ShowNextCourier();
   openingLootbox = false;
   StopHoverSound();
   const host = $("#RevealMovieHost");

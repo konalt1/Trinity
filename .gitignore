@@ -24,5 +24,6 @@ Game/tools_thumbnail_cache.sqlite3
 server/config.php
 server/.local-runtime.json
 server/logs/
+server/cache/
 server/public/stickers/media/
 server/tools/sticker-convert/.venv/

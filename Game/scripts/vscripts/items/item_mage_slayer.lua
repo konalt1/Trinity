@@ -5,6 +5,9 @@ LinkLuaModifier("modifier_item_mage_slayer_debuff", "items/item_mage_slayer", LU
 -- Используем SetDamageFilter — вызывается при любом уроне, можно применить дебафф.
 function MageSlayer_DamageFilter(event)
     if not IsServer() then return true end
+    if BuybackStatues and BuybackStatues.DamageFilter and BuybackStatues:DamageFilter(event) == false then
+        return false
+    end
     local victim_idx = event.entindex_victim_const or event.entindex_victim
     local attacker_idx = event.entindex_attacker_const or event.entindex_attacker
     local victim = victim_idx and EntIndexToHScript(victim_idx) or nil

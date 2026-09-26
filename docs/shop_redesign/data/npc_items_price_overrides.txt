@@ -1,0 +1,127 @@
+// ЧЕРНОВИК. Единые цены по ценовым категориям (2 400 / 3 500 / 4 700 / 5 500).
+// Исходные ванильные цены взяты из OpenDota dotaconstants (может отличаться от патча в игре) —
+// перед применением сверить с items.txt текущей Dota 2.
+// Цена собираемого предмета в Доте = сумма компонентов + рецепт, поэтому меняется ItemCost рецепта.
+// Куда класть: файл переопределений предметов Trinity (npc_items_custom.txt или его #base).
+
+"DOTAAbilities"
+{
+	// Skull Basher: 2875 -> 2400 (категория 1)
+	"item_recipe_basher"
+	{
+		"ItemCost"	"350"
+	}
+	// Blade Mail: 2400 -> 2400 (категория 1) — без изменений
+	// Blink Dagger: 2250 -> 2400 (категория 1)
+	"item_blink"
+	{
+		"ItemCost"	"2400"
+	}
+	// Eul's Scepter of Divinity: 2600 -> 2400 (категория 1)
+	"item_recipe_cyclone"
+	{
+		"ItemCost"	"475"
+	}
+	// Force Staff: 2200 -> 2400 (категория 1)
+	"item_recipe_force_staff"
+	{
+		"ItemCost"	"1150"
+	}
+	// Glimmer Cape: 2150 -> 2400 (категория 1)
+	"item_recipe_glimmer_cape"
+	{
+		"ItemCost"	"1050"
+	}
+	// Hand of Midas: 2200 -> 2400 (категория 1)
+	"item_recipe_hand_of_midas"
+	{
+		"ItemCost"	"1950"
+	}
+	// Mekansm: 1775 -> 2400 (категория 1)
+	"item_recipe_mekansm"
+	{
+		"ItemCost"	"1475"
+	}
+	// Rod of Atos: 2250 -> 2400 (категория 1)
+	"item_recipe_rod_of_atos"
+	{
+		"ItemCost"	"400"
+	}
+	// Aeon Disk: 3000 -> 3500 (категория 2)
+	"item_recipe_aeon_disk"
+	{
+		"ItemCost"	"1700"
+	}
+	// Desolator: 3500 -> 3500 (категория 2) — без изменений
+	// Shadow Blade: 3250 -> 3500 (категория 2)
+	// ВНИМАНИЕ: в ванили рецепта нет, нужен новый рецепт за 250. См. README, раздел «Цены».
+	// Maelstrom: 2950 -> 3500 (категория 2)
+	// ВНИМАНИЕ: в ванили рецепта нет, нужен новый рецепт за 550. См. README, раздел «Цены».
+	// Pipe of Insight: 3725 -> 3500 (категория 2)
+	"item_recipe_pipe"
+	{
+		"ItemCost"	"450"
+	}
+	// Battle Fury: 3900 -> 4700 (категория 3)
+	"item_recipe_bfury"
+	{
+		"ItemCost"	"1200"
+	}
+	// Black King Bar: 4050 -> 4700 (категория 3)
+	"item_recipe_black_king_bar"
+	{
+		"ItemCost"	"2100"
+	}
+	// Guardian Greaves: 4450 -> 4700 (категория 3)
+	"item_recipe_guardian_greaves"
+	{
+		"ItemCost"	"800"
+	}
+	// Hurricane Pike: 4550 -> 4700 (категория 3)
+	"item_recipe_hurricane_pike"
+	{
+		"ItemCost"	"300"
+	}
+	// Manta Style: 4650 -> 4700 (категория 3)
+	"item_recipe_manta"
+	{
+		"ItemCost"	"1600"
+	}
+	// Radiance: 4700 -> 4700 (категория 3) — без изменений
+	// Linken's Sphere: 4800 -> 4700 (категория 3)
+	"item_recipe_sphere"
+	{
+		"ItemCost"	"500"
+	}
+	// Abyssal Blade: 6250 -> 5500 (категория 4)
+	"item_recipe_abyssal_blade"
+	{
+		"ItemCost"	"1000"
+	}
+	// Butterfly: 5450 -> 5500 (категория 4)
+	// ВНИМАНИЕ: в ванили рецепта нет, нужен новый рецепт за 50. См. README, раздел «Цены».
+	// Daedalus: 5200 -> 5500 (категория 4)
+	"item_recipe_greater_crit"
+	{
+		"ItemCost"	"1300"
+	}
+	// Heart of Tarrasque: 5300 -> 5500 (категория 4)
+	"item_recipe_heart"
+	{
+		"ItemCost"	"1000"
+	}
+	// Mjollnir: 5500 -> 5500 (категория 4)
+	// ВНИМАНИЕ: ванильный рецепт 550 нужно убрать (компоненты уже дают 5500). См. README.
+	// Monkey King Bar: 5000 -> 5500 (категория 4)
+	"item_recipe_monkey_king_bar"
+	{
+		"ItemCost"	"1400"
+	}
+	// Satanic: 5050 -> 5500 (категория 4)
+	// ВНИМАНИЕ: в ванили рецепта нет, нужен новый рецепт за 450. См. README, раздел «Цены».
+	// Scythe of Vyse: 5200 -> 5500 (категория 4)
+	"item_recipe_sheepstick"
+	{
+		"ItemCost"	"1000"
+	}
+}

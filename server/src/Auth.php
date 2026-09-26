@@ -27,6 +27,11 @@ final class Auth
             return $header;
         }
 
+        $dedicated = $_SERVER['HTTP_DEDICATED_KEY'] ?? '';
+        if (is_string($dedicated) && $dedicated !== '') {
+            return $dedicated;
+        }
+
         $query = $_GET['key'] ?? '';
         return is_string($query) ? $query : '';
     }

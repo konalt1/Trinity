@@ -95,7 +95,7 @@ local function Endpoint(path)
 	if TrinityPlayerData and TrinityPlayerData.ApiUrl then
 		return TrinityPlayerData.ApiUrl(path)
 	end
-	return "http://162.246.19.210" .. path
+	return "http://127.0.0.1:8080" .. path
 end
 
 local function GameTime()

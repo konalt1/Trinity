@@ -247,7 +247,7 @@ const CreateVideoHeadMessage = (data) => {
 
   const newPanel = $.CreatePanel("Movie", hudRoot, "", {
     selectionpos: "auto",
-    style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; visibility: collapse;`,
+    style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; background-color: none; visibility: collapse;`,
     controls: "none",
     repeat: "true",
     disableaudio: data.elite == 1 ? "false" : "true",
@@ -450,7 +450,7 @@ const CreateVideoChatMessage = (data) => {
 
   const movie = $.CreatePanel("Movie", message, "", {
     selectionpos: "auto",
-    style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; horizontal-align: left; margin-left: ${CHAT_STICKER_MESSAGE_OFFSET_X}px;`,
+    style: `width: ${CHAT_STICKER_SIZE}px; height: ${CHAT_STICKER_SIZE}px; border-radius: 50%; background-color: none; horizontal-align: left; margin-left: ${CHAT_STICKER_MESSAGE_OFFSET_X}px;`,
     controls: "none",
     repeat: "true",
     disableaudio: data.elite == 1 ? "false" : "true",

@@ -13,6 +13,7 @@
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/lootbox/lootbox.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/trinity_shop/trinity_shop.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hud_cleanup.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui/game_events/panel.xml"/>
     </Panel>

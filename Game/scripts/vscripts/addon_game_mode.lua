@@ -4,17 +4,22 @@ require ("game_settings")
 require ("utils/util")
 require ("utils/lua_memory_debug")
 require ("game_managers/creep_bounty_comeback")
+require ("game_managers/neutral_stack_reward")
 require ("game_managers/killfeed_system")
 require ("gamemode")
 require ("item_drop")
 require ("game_managers/config")
+require ("utils/http_relay")
 require ("game_managers/trinity_player_data")
+require ("game_managers/trinity_match")
 require ("game_managers/trinity_stickers")
+require ("game_managers/trinity_shop")
 require ("game_managers/trinity_analytics")
 require ("game_managers/custom_ability_tooltips")
 require ("map_modifications/Bosses/mortimer_boss")
 require ("map_modifications/Bosses/primal_beast/primal_beast_boss")
 require ("map_modifications/Bosses/caravan/caravan_event")
+require ("game_managers/buyback_statues")
 
 -- Загружаем способности
 require ("abilities/mind_power")
@@ -76,6 +81,11 @@ function Precache( context )
 	PrecacheResource( "particle", "particles/econ/events/plus/high_five/high_five_impact.vpcf", context )
 	PrecacheResource( "particle", "particles/generic_gameplay/launchpad_progress_ring.vpcf", context )
 	PrecacheResource( "particle", "particles/items5_fx/repair_kit.vpcf", context )
+	PrecacheResource( "model", "models/development/invisiblebox.vmdl", context )
+	PrecacheResource( "particle", "particles/status_fx/status_effect_medusa_stone_gaze.vpcf", context )
+	PrecacheResource( "particle", "particles/status_fx/status_effect_earth_spirit_petrify.vpcf", context )
+	PrecacheResource( "particle", "particles/status_fx/status_effect_effigy_jade_stone.vpcf", context )
+	PrecacheUnitByNameSync( "npc_trinity_buyback_statue", context )
 	PrecacheResource( "particle", "particles/base_attacks/ranged_tower_good.vpcf", context )
 	PrecacheResource( "particle", "particles/base_attacks/ranged_tower_bad.vpcf", context )
 	
@@ -362,16 +372,30 @@ function CAddonTemplateGameMode:InitGameMode()
 		CreepBountyComeback.Init()
 	end
 
+	if NeutralStackReward and NeutralStackReward.Init then
+		NeutralStackReward:Init()
+	end
+
 	if DraftSpawn and DraftSpawn.Init then
 		DraftSpawn:Init()
+	end
+
+	if BuybackStatues and BuybackStatues.Init then
+		BuybackStatues:Init()
 	end
 
 	InitGameManagers()
 	if TrinityPlayerData and TrinityPlayerData.Init then
 		TrinityPlayerData:Init()
 	end
+	if TrinityMatch and TrinityMatch.Init then
+		TrinityMatch:Init()
+	end
 	if TrinityStickers and TrinityStickers.Init then
 		TrinityStickers:Init()
+	end
+	if TrinityShop and TrinityShop.Init then
+		TrinityShop:Init()
 	end
 	if TrinityAnalytics and TrinityAnalytics.Init then
 		TrinityAnalytics:Init()

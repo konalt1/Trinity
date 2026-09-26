@@ -377,7 +377,7 @@ Post = function(path, body, playerID, extra)
 					})
 				end
 			end
-			DebugPrint("post ok", path, playerID)
+			DebugPrint("post ok", path, playerID, "lootboxes", player.lootboxes)
 		else
 			DebugPrint("post failed", path, meta.status, response and response.error)
 			if extra and extra.event then

@@ -6,18 +6,13 @@ if TrinityPlayerData == nil then
 	TrinityPlayerData = {}
 end
 
-TrinityPlayerData.BASE_URL = "http://162.246.19.210"
-TrinityPlayerData.KEY_VERSION = "trinity"
-TrinityPlayerData.TOOLS_KEY = "trinity-tools-local"
+TrinityPlayerData.BASE_URL = Http.BASE_URL
+TrinityPlayerData.KEY_VERSION = Http.KEY_VERSION
+TrinityPlayerData.TOOLS_KEY = Http.TOOLS_KEY
 TrinityPlayerData.DEFAULT_RATING = 1000
 TrinityPlayerData.NET_TABLE = "trinity_player_data"
 
 TrinityPlayerData.profiles = TrinityPlayerData.profiles or {}
-
-local INVALID_KEY_MARKERS = {
-	Invalid_NotOnDedicatedServer = true,
-	Invalid_NotDedicatedServer = true,
-}
 
 local function DebugEnabled()
 	return TrinityPlayerData.debugEnabled == true
@@ -29,38 +24,9 @@ local function DebugPrint(...)
 	end
 end
 
-local function DedicatedKey()
-	local ok, key = pcall(function()
-		if GetDedicatedServerKeyV3 then
-			return GetDedicatedServerKeyV3(TrinityPlayerData.KEY_VERSION)
-		end
-		if GetDedicatedServerKeyV2 then
-			return GetDedicatedServerKeyV2(TrinityPlayerData.KEY_VERSION)
-		end
-		return nil
-	end)
-	if not ok or type(key) ~= "string" or key == "" then
-		return nil
-	end
-	if INVALID_KEY_MARKERS[key] or string.sub(key, 1, 8) == "Invalid_" then
-		return nil
-	end
-	return key
-end
-
-local function AuthKey()
-	local dedicated = DedicatedKey()
-	if dedicated then
-		DebugPrint("auth dedicated")
-		return dedicated
-	end
-	DebugPrint("auth tools")
-	return TrinityPlayerData.TOOLS_KEY
-end
-
 local function AuthHeaders()
 	return {
-		["X-Trinity-Key"] = AuthKey(),
+		["X-Trinity-Key"] = Http.AuthKey(),
 	}
 end
 
@@ -144,9 +110,22 @@ function TrinityPlayerData:LoadPlayer(playerID)
 	local url = Endpoint("/v1/players?steamid=" .. steamid)
 	Http.Request("GET", url, { headers = AuthHeaders() }, function(body, meta)
 		if meta.status ~= 200 or not body or body.ok ~= true or type(body.player) ~= "table" then
-			DebugPrint("load failed", playerID, steamid, meta.status)
+			self._loadTries = self._loadTries or {}
+			self._loadRetry = self._loadRetry or {}
+			local tries = (self._loadTries[playerID] or 0) + 1
+			self._loadTries[playerID] = tries
+			DebugPrint("load failed", playerID, steamid, meta.status, "try", tries, "state", GameRules:State_Get())
+			if tries < 12 and not self._loadRetry[playerID] then
+				self._loadRetry[playerID] = true
+				Timers:CreateTimer(5, function()
+					self._loadRetry[playerID] = nil
+					self:LoadPlayer(playerID)
+				end)
+			end
 			return
 		end
+		self._loadTries[playerID] = nil
+		self._loadRetry[playerID] = nil
 
 		local player = body.player
 		Publish(playerID, {
@@ -162,7 +141,7 @@ function TrinityPlayerData:LoadPlayer(playerID)
 		if TrinityStickers and TrinityStickers.GrantDailyBox then
 			TrinityStickers:GrantDailyBox(playerID)
 		end
-		DebugPrint("loaded", playerID, steamid, "games", player.games, "rating", player.rating)
+		DebugPrint("loaded", playerID, steamid, "games", player.games, "rating", player.rating, "lootboxes", player.lootboxes)
 	end)
 end
 
@@ -255,6 +234,8 @@ function TrinityPlayerData:OnGameRulesStateChange()
 			TrinityStickers._winGranted = false
 			TrinityStickers._dailyGranted = {}
 		end
+	elseif state == DOTA_GAMERULES_STATE_PRE_GAME or state == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		self:LoadAllPlayers()
 	elseif state == DOTA_GAMERULES_STATE_POST_GAME then
 		self:SaveMatch()
 		if TrinityStickers and TrinityStickers.GrantWinBoxes then
@@ -269,6 +250,8 @@ function TrinityPlayerData:Init()
 	end
 	self._initialized = true
 	self._saved = false
+	self._loadTries = {}
+	self._loadRetry = {}
 	if self.debugEnabled == nil then
 		self.debugEnabled = false
 	end
@@ -283,12 +266,12 @@ function TrinityPlayerData:Init()
 				TrinityPlayerData.debugEnabled = normalized == "1" or normalized == "true" or normalized == "on"
 			end
 			print("[TrinityBackend] debug " .. (TrinityPlayerData.debugEnabled and "ON" or "OFF"))
-		end, "Toggle backend HTTP debug: trinity_backend_debug [0|1]", FCVAR_CHEAT)
+		end, "Toggle backend HTTP debug: trinity_backend_debug [0|1]", 0)
 		Convars:RegisterCommand("trinity_backend_ping", function()
 			TrinityPlayerData:Ping(function(ok)
 				print("[TrinityBackend] ping " .. (ok and "ok" or "fail"))
 			end)
-		end, "Ping Trinity PHP /v1/health", FCVAR_CHEAT)
+		end, "Ping Trinity PHP /v1/health", 0)
 	end
 
 	ListenToGameEvent("player_connect_full", Dynamic_Wrap(self, "OnConnectFull"), self)

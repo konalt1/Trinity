@@ -1930,4 +1930,135 @@
         "VisionNighttimeRange"          "700"
         "UnitRelationshipClass"         "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
     }
+
+    // Курьеры-сокровищницы в окне лутбокса (DOTAScenePanel в lootbox.xml, список LOOTBOX_COURIERS в lootbox.js). Только для UI.
+    "npc_trinity_lootbox_courier_babyroshan"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/courier/baby_rosh/babyroshan.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_babyroshan_crownfall"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/courier/baby_rosh/babyroshan_crownfall.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_juggernaut_dog"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/courier/juggernaut_dog/juggernaut_dog.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_donkey_unicorn"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/courier/donkey_unicorn/donkey_unicorn.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_axolotl"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/items/courier/axolotl/axolotl.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_shroomy"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/items/courier/shroomy/shroomy.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_hamster"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/items/courier/hamster_courier/hamster_courier_lv1.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+    "npc_trinity_lootbox_courier_echo_wisp"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"                         "models/items/courier/echo_wisp/echo_wisp.vmdl"
+        "ModelScale"                    "1"
+        "AttackCapabilities"            "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"          "DOTA_UNIT_CAP_MOVE_NONE"
+        "VisionDaytimeRange"            "0"
+        "VisionNighttimeRange"          "0"
+    }
+
+    // Статуя байбека. Модель героя, камень и масштаб задаёт Lua после пика.
+    "npc_trinity_buyback_statue"
+    {
+        "BaseClass"                 "npc_dota_building"
+        "Model"                     "models/development/invisiblebox.vmdl"
+        "SoundSet"                  ""
+        "Level"                     "1"
+        "ModelScale"                "1"
+        "ConsideredHero"            "0"
+        "CanBeDominated"            "0"
+        "HasInventory"              "0"
+        "UseNeutralCreepBehavior"   "0"
+
+        "ArmorPhysical"             "5"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"           "0"
+        "AttackDamageMax"           "0"
+        "AttackRate"                "1.0"
+        "AttackAcquisitionRange"    "0"
+        "AttackRange"               "0"
+
+        "BoundsHullName"            "DOTA_HULL_SIZE_HERO"
+        "RingRadius"                "80"
+        "HealthBarOffset"           "280"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+        "MovementSpeed"             "0"
+        "MovementTurnRate"          "0"
+
+        "StatusHealth"              "3000"
+        "StatusHealthRegen"         "0"
+        "StatusMana"                "0"
+        "StatusManaRegen"           "0"
+
+        "VisionDaytimeRange"        "0"
+        "VisionNighttimeRange"      "0"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+        "CombatClassAttack"         "DOTA_COMBAT_CLASS_ATTACK_BASIC"
+        "CombatClassDefend"         "DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+        "UnitRelationshipClass"     "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+    }
 }

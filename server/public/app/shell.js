@@ -6,6 +6,7 @@
         players: "Trinity Игроки",
         abilities: "Trinity Способности",
         stickers: "Trinity Stickers",
+        shop: "Trinity Магазин",
     };
 
     const params = new URLSearchParams(location.search);
@@ -21,7 +22,7 @@
         history.replaceState(null, "", `/?${params.toString()}`);
     }
 
-    if (view !== "analytics" && view !== "players" && view !== "abilities" && view !== "stickers") {
+    if (view !== "analytics" && view !== "players" && view !== "abilities" && view !== "stickers" && view !== "shop") {
         view = "home";
     }
     if (tab !== "numbers" && tab !== "check") {
@@ -155,6 +156,10 @@
     }
     if (view === "abilities") {
         loadApp("/app/abilities.js");
+        return;
+    }
+    if (view === "shop") {
+        loadApp("/app/shop.js");
         return;
     }
 

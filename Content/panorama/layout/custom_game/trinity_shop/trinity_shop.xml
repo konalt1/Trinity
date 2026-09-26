@@ -1,0 +1,108 @@
+<!--
+  Trinity: новый магазин по категориям.
+  Куда: Content/panorama/layout/custom_game/trinity_shop/trinity_shop.xml
+  Подключение: custom_ui_manifest.xml → <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/trinity_shop/trinity_shop.xml" />
+  Корневая панель этого layout при старте переносится JS-ом внутрь нативного магазина (см. trinity_shop.js, AttachToNativeShop).
+-->
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/trinity_shop/trinity_shop.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/trinity_shop/shop_data.js" />
+		<include src="file://{resources}/scripts/custom_game/trinity_shop/hero_item_weights.js" />
+		<include src="file://{resources}/scripts/custom_game/trinity_shop/trinity_shop.js" />
+	</scripts>
+
+	<snippets>
+		<snippet name="CategoryTile">
+			<Button class="CategoryTile">
+				<Image id="CategoryArt" class="CategoryArt" scaling="stretch-to-fit-preserve-aspect" />
+				<Label id="CategoryName" class="CategoryName" />
+			</Button>
+		</snippet>
+
+		<snippet name="SubcategoryButton">
+			<Button class="SubButton">
+				<DOTAItemImage id="SubIcon" class="SubIcon" />
+				<Label id="SubName" class="SubName" />
+			</Button>
+		</snippet>
+
+		<snippet name="AttributeSegment">
+			<Button class="AttrSegment">
+				<Image id="AttrIcon" class="AttrIcon" scaling="stretch-to-fit-preserve-aspect" />
+				<Panel id="AttrBar" class="AttrBar" />
+			</Button>
+		</snippet>
+
+		<snippet name="ItemCard">
+			<Panel class="ItemCard">
+				<!-- Пятно ценовой категории поверх, в правом верхнем углу. Иконка (DOTAShopItem) — вне кнопки,
+				     чтобы работало нативное перетаскивание; кнопка — только текстовая часть. -->
+				<Panel class="TierCorner" hittest="false" />
+				<Panel class="ItemRow">
+					<DOTAItemImage id="ItemIcon" class="ItemIcon" hittest="false" />
+					<Button id="ItemText" class="ItemText">
+						<Panel class="ItemTopRow">
+							<Label id="ItemName" class="ItemName" />
+							<Panel class="ItemPrice">
+								<Label id="ItemPriceLabel" class="ItemPriceLabel" />
+								<Panel class="GoldIcon" />
+							</Panel>
+						</Panel>
+						<Label id="ItemDesc" class="ItemDesc" />
+					</Button>
+				</Panel>
+			</Panel>
+		</snippet>
+	</snippets>
+
+	<Panel class="TrinityShopRoot" hittest="false">
+		<!-- Переключатель вида. Виден в обоих режимах, стоит в шапке магазина справа от поиска. -->
+		<Panel id="ViewToggle">
+			<Button id="ViewNewButton" class="ViewToggleButton" onactivate="SetShopMode('new')"
+				onmouseover="UIShowTextTooltip(#trinity_shop_view_categories)" onmouseout="UIHideTextTooltip()">
+				<Panel class="ViewIcon ViewIconTiles" />
+			</Button>
+			<Button id="ViewOldButton" class="ViewToggleButton" onactivate="SetShopMode('old')"
+				onmouseover="UIShowTextTooltip(#trinity_shop_view_classic)" onmouseout="UIHideTextTooltip()">
+				<Panel class="ViewIcon ViewIconGrid" />
+			</Button>
+		</Panel>
+
+		<!-- Новый магазин. Занимает место нативной сетки предметов (GridMainShop). -->
+		<Panel id="NewShop">
+			<Panel id="CategoryGrid" />
+
+			<Panel id="CategoryView">
+				<Panel class="CategoryHeader">
+					<Button id="BackButton" class="BackButton" onactivate="CloseCategory()"
+						onmouseover="UIShowTextTooltip(#trinity_shop_back)" onmouseout="UIHideTextTooltip()">
+						<Panel class="BackArrow" />
+					</Button>
+					<Image id="CategoryHeaderArt" scaling="stretch-to-fit-preserve-aspect" />
+					<Label id="CategoryHeaderName" />
+				</Panel>
+				<Panel id="SubcategoryRow" />
+				<Panel id="AttributeStrip" />
+				<Panel id="ItemList" />
+				<Label id="EmptyLabel" text="#trinity_shop_empty" />
+				<!-- Виджет сборки выбранного предмета: сверху «собирается в», в центре предмет, снизу компоненты и рецепт.
+				     Места под верхний и нижний ряд зарезервированы всегда, высота не прыгает. -->
+				<Panel id="BuildTree">
+					<Panel id="BuildTreeCanvas">
+						<Panel id="TreeLines" hittest="false" />
+						<Panel id="TreeUpRow" class="TreeRow" />
+						<Panel id="TreeItemRow" class="TreeRow" />
+						<Panel id="TreeCompRow" class="TreeRow" />
+					</Panel>
+					<Button id="BuildTreeClose" class="BuildTreeClose" onactivate="SelectItem(null)">
+						<Label text="×" />
+					</Button>
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

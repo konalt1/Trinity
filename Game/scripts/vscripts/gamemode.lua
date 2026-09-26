@@ -641,6 +641,13 @@ function GameMode:ModifyExperienceFilter(data)
 end
 
 function GameMode:ExecuteOrderFilter(data)
+	if data.order_type == DOTA_UNIT_ORDER_BUYBACK then
+		if BuybackStatues and BuybackStatues.FilterBuybackOrder then
+			return BuybackStatues:FilterBuybackOrder(data)
+		end
+		return true
+	end
+
 	if DraftSpawn and DraftSpawn.ExecuteOrderFilter then
 		local result = DraftSpawn:ExecuteOrderFilter(data)
 		if result == false then

@@ -9,6 +9,7 @@ const state = {
     selectedAbility: null,
     ability: null,
     locField: null,
+    previewLang: "ru",
 };
 
 function $(id) {
@@ -58,8 +59,20 @@ function hasIssue(abilityId) {
     return state.issues.has(abilityId);
 }
 
-function ownerHasIssue(abilities) {
-    return abilities.some((skill) => hasIssue(skill.id));
+function rowInScope(row, owner) {
+    return !!owner && (row.scopes || []).includes(owner.id);
+}
+
+function ownerHasIssue(owner) {
+    return (state.report && state.report.rows || []).some((row) => rowInScope(row, owner));
+}
+
+function scopeStats(owner) {
+    const empty = { checked: 0, matched: 0, mismatched: 0, missing: 0 };
+    if (!state.report || !owner) {
+        return empty;
+    }
+    return (state.report.scopes || {})[owner.id] || empty;
 }
 
 function escapeHtml(value) {
@@ -219,6 +232,16 @@ function renderTooltip(target, loc, kv, icon, abilityId) {
     `;
 }
 
+function setPreviewLang(lang) {
+    state.previewLang = lang === "en" ? "en" : "ru";
+    document.querySelectorAll("#preview-langs [data-preview-lang]").forEach((button) => {
+        button.setAttribute("aria-pressed", button.getAttribute("data-preview-lang") === state.previewLang ? "true" : "false");
+    });
+    document.querySelectorAll("#ability-preview .preview-col").forEach((col) => {
+        col.classList.toggle("hidden", col.getAttribute("data-preview-lang") !== state.previewLang);
+    });
+}
+
 function refreshPreview() {
     if (!state.ability) {
         return;
@@ -376,7 +399,7 @@ function renderSidebar() {
     const list = $("ability-hero-list");
     list.innerHTML = "";
     state.catalog.heroes.filter((hero) => {
-        if (state.onlyIssues && !ownerHasIssue(hero.abilities)) {
+        if (state.onlyIssues && !ownerHasIssue({ type: "hero", id: hero.id })) {
             return false;
         }
         if (!query) {
@@ -401,7 +424,7 @@ function renderSidebar() {
         name.className = "name";
         name.textContent = hero.title;
         button.append(img, name);
-        if (ownerHasIssue(hero.abilities)) {
+        if (ownerHasIssue({ type: "hero", id: hero.id })) {
             const flag = document.createElement("span");
             flag.className = "flag";
             flag.title = "Есть расхождения RU и EN";
@@ -460,12 +483,12 @@ function renderIssueList() {
         list.innerHTML = "";
         return;
     }
-    const rows = state.report.rows || [];
-    const missing = rows.filter((row) => row.tags.includes("missing")).length;
-    summary.textContent = `Проверено ${state.report.checked}, сходится ${state.report.matched}. Проблем ${state.report.mismatched}, из них без английского текста ${missing}.`;
+    const stats = scopeStats(state.selectedOwner);
+    const rows = (state.report.rows || []).filter((row) => rowInScope(row, state.selectedOwner));
+    summary.textContent = `Проверено ${stats.checked}, сходится ${stats.matched}. Проблем ${stats.mismatched}, из них без английского текста ${stats.missing}.`;
     if (badge) {
-        badge.textContent = String(rows.length);
-        badge.classList.toggle("hidden", rows.length === 0);
+        badge.textContent = String(stats.mismatched);
+        badge.classList.toggle("hidden", stats.mismatched === 0);
     }
     document.querySelectorAll("#loc-filters [data-filter]").forEach((button) => {
         button.setAttribute("aria-pressed", button.getAttribute("data-filter") === state.locFilter ? "true" : "false");
@@ -512,7 +535,13 @@ function renderIssueList() {
         preview.textContent = row.en_preview || "Нет английского описания";
         button.append(img, name, meta, preview);
         button.addEventListener("click", () => {
-            selectOwner(ownerFromLocRow(row), row.id)
+            const owner = ownerFromLocRow(row);
+            const current = state.selectedOwner;
+            const sameOwner = current && owner.type === current.type && owner.id === current.id;
+            const open = rowInScope(row, current) && !sameOwner
+                ? selectAbility(row.id)
+                : selectOwner(owner, row.id);
+            open
                 .then(() => setTab("texts"))
                 .catch((error) => notify(String(error.message || error), false));
         });
@@ -608,10 +637,11 @@ async function selectOwner(owner, abilityId) {
     const pick = abilityId || (abilities[0] ? abilities[0].id : null);
     if (pick) {
         await selectAbility(pick);
-        return;
+    } else {
+        state.selectedAbility = null;
+        setEditorsVisible(false);
     }
-    state.selectedAbility = null;
-    setEditorsVisible(false);
+    renderIssueList();
 }
 
 async function selectAbility(id) {
@@ -634,6 +664,7 @@ async function selectAbility(id) {
     fillKvForm(body.ability);
     Trinity.setDirty(false);
     refreshPreview();
+    renderIssueList();
 }
 
 async function loadReport() {
@@ -691,24 +722,20 @@ async function boot() {
     const group = params.get("group");
     const ability = params.get("ability");
 
+    if (hero && state.catalog.heroes.some((item) => item.id === hero)) {
+        await selectOwner({ type: "hero", id: hero }, ability || undefined);
+        return;
+    }
+    if (group && state.catalog.groups.some((item) => item.id === group)) {
+        await selectOwner({ type: "group", id: group }, ability || undefined);
+        return;
+    }
     if (ability) {
         const owner = ownerForAbility(ability);
         if (owner) {
             await selectOwner(owner, ability);
             return;
         }
-    }
-    if (hero && state.catalog.heroes.some((item) => item.id === hero)) {
-        await selectOwner({ type: "hero", id: hero });
-        return;
-    }
-    if (group && state.catalog.groups.some((item) => item.id === group)) {
-        await selectOwner({ type: "group", id: group });
-        return;
-    }
-    if (state.report && state.report.rows && state.report.rows[0] && state.tab === "check") {
-        renderHead();
-        return;
     }
     if (state.catalog.heroes[0]) {
         await selectOwner({ type: "hero", id: state.catalog.heroes[0].id });
@@ -724,6 +751,12 @@ $("ability-only-issues").addEventListener("click", (event) => {
 });
 
 $("loc-search").addEventListener("input", renderIssueList);
+
+document.querySelectorAll("#preview-langs [data-preview-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+        setPreviewLang(button.getAttribute("data-preview-lang"));
+    });
+});
 
 document.querySelectorAll("#loc-filters [data-filter]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -797,6 +830,7 @@ locForm.addEventListener("submit", async (event) => {
             notify("Тексты записаны, но отчёт сверки не обновился", false);
         }
         renderIssueList();
+        renderSidebar();
         await selectAbility(state.ability.id);
     } catch (error) {
         notify(String(error.message || error), false);

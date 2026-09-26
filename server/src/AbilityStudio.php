@@ -312,6 +312,11 @@ final class AbilityStudio
         $ok = 0;
         $emptyBoth = 0;
         $issueCounts = [];
+        $prefixes = self::heroPrefixes();
+        $scopes = [];
+        foreach (array_merge(self::activeHeroes(), ['shared', 'units']) as $scopeId) {
+            $scopes[$scopeId] = ['checked' => 0, 'matched' => 0, 'mismatched' => 0, 'missing' => 0];
+        }
 
         foreach (array_keys($ids) as $id) {
             $ru = self::locFields($id, $ruMap);
@@ -372,16 +377,6 @@ final class AbilityStudio
                 $tags['params'] = true;
             }
 
-            if ($issues === []) {
-                $ok++;
-                continue;
-            }
-
-            foreach ($issues as $issue) {
-                $key = preg_replace('/^абзацы \d+\/\d+$/', 'абзацы', $issue) ?? $issue;
-                $issueCounts[$key] = ($issueCounts[$key] ?? 0) + 1;
-            }
-
             $owner = $owners[$id] ?? [
                 'type' => 'group',
                 'id' => 'shared',
@@ -389,6 +384,24 @@ final class AbilityStudio
                 'label' => '',
                 'icon' => self::iconUrl($id, $id),
             ];
+            $scopeIds = self::reportScopeIds($id, $owner['id'], $index, $prefixes);
+            $missing = isset($tags['missing']);
+            if ($issues === []) {
+                foreach ($scopeIds as $scopeId) {
+                    self::addScopeCount($scopes, $scopeId, true, false);
+                }
+                $ok++;
+                continue;
+            }
+
+            foreach ($scopeIds as $scopeId) {
+                self::addScopeCount($scopes, $scopeId, false, $missing);
+            }
+            foreach ($issues as $issue) {
+                $key = preg_replace('/^абзацы \d+\/\d+$/', 'абзацы', $issue) ?? $issue;
+                $issueCounts[$key] = ($issueCounts[$key] ?? 0) + 1;
+            }
+
             $rows[] = [
                 'id' => $id,
                 'owner_type' => $owner['type'],
@@ -396,6 +409,7 @@ final class AbilityStudio
                 'owner_title' => $owner['title'],
                 'label' => $owner['label'],
                 'icon' => $owner['icon'],
+                'scopes' => $scopeIds,
                 'ru_name' => $ru['name'],
                 'en_name' => $en['name'],
                 'issues' => $issues,
@@ -417,6 +431,7 @@ final class AbilityStudio
             'mismatched' => count($rows),
             'empty_both' => $emptyBoth,
             'issue_counts' => $issueCounts,
+            'scopes' => $scopes,
             'rows' => $rows,
         ]);
     }
@@ -989,6 +1004,67 @@ final class AbilityStudio
         }
 
         return $ids;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function heroPrefixes(): array
+    {
+        $prefixes = [];
+        foreach (self::activeHeroes() as $heroId) {
+            $short = preg_replace('/^npc_dota_hero_/', '', $heroId) ?? $heroId;
+            $prefixes[$short . '_'] = $heroId;
+        }
+        uksort($prefixes, static function (string $left, string $right): int {
+            return strlen($right) <=> strlen($left);
+        });
+
+        return $prefixes;
+    }
+
+    /**
+     * @param array<string, array<string, mixed>> $index
+     * @param array<string, string> $prefixes
+     * @return list<string>
+     */
+    private static function reportScopeIds(string $abilityId, string $ownerId, array $index, array $prefixes): array
+    {
+        $scopeIds = [$ownerId];
+        foreach ($prefixes as $prefix => $heroId) {
+            if (str_starts_with($abilityId, $prefix) && !in_array($heroId, $scopeIds, true)) {
+                $scopeIds[] = $heroId;
+                break;
+            }
+        }
+        $file = (string) ($index[$abilityId]['file'] ?? '');
+        if ($file === 'units.txt' && !in_array('units', $scopeIds, true)) {
+            $scopeIds[] = 'units';
+        }
+        if ($file === 'shared.txt' && !in_array('shared', $scopeIds, true)) {
+            $scopeIds[] = 'shared';
+        }
+
+        return $scopeIds;
+    }
+
+    /**
+     * @param array<string, array{checked: int, matched: int, mismatched: int, missing: int}> $scopes
+     */
+    private static function addScopeCount(array &$scopes, string $scopeId, bool $matched, bool $missing): void
+    {
+        if (!isset($scopes[$scopeId])) {
+            $scopes[$scopeId] = ['checked' => 0, 'matched' => 0, 'mismatched' => 0, 'missing' => 0];
+        }
+        $scopes[$scopeId]['checked']++;
+        if ($matched) {
+            $scopes[$scopeId]['matched']++;
+            return;
+        }
+        $scopes[$scopeId]['mismatched']++;
+        if ($missing) {
+            $scopes[$scopeId]['missing']++;
+        }
     }
 
     /**

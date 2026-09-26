@@ -1,6 +1,7 @@
 <root>
     <styles>
         <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+        <include src="file://{resources}/layout/custom_game/styles/main.css"/>
         <include src="file://{resources}/layout/custom_game/lootbox/lootbox.css"/>
     </styles>
     <scripts>
@@ -10,19 +11,49 @@
         <Panel id="LootboxModal" class="LootboxModal" hittest="false" hittestchildren="false">
             <Button id="LootboxDim" class="LootboxDim"/>
             <Panel id="LootboxWindow" class="LootboxWindow">
+                <Image class="LootboxBackdropImage" src="s2r://panorama/images/loadout_backgrounds/loadout_bg_sky_003_jpg.vtex" scaling="stretch-to-cover-preserve-aspect" hittest="false"/>
+                <Panel class="LootboxVignette" hittest="false"/>
+
+                <Panel class="LootboxHeader" hittest="false">
+                    <Label class="LootboxTitle" text="#lootbox_treasure_title"/>
+                    <Panel class="LootboxSubtitleRow">
+                        <Panel class="LootboxSubtitleLine LeftLine"/>
+                        <Label class="LootboxContains" text="#lootbox_contains_one"/>
+                        <Panel class="LootboxSubtitleLine RightLine"/>
+                    </Panel>
+                </Panel>
+
+                <Panel id="LootboxIdleStage" class="LootboxIdleStage" hittest="false">
+                    <Panel class="TreasureHalo" hittest="false"/>
+                    <Panel class="TreasureFloor" hittest="false"/>
+                    <Button id="TreasureChestButton" class="TreasureChestButton">
+                        <DOTAScenePanel id="TreasureModel" class="TreasureModel" unit="npc_trinity_lootbox_courier_babyroshan" particleonly="false" hittest="false"/>
+                        <Label id="TreasureCount" class="TreasureCount" hittest="false"/>
+                    </Button>
+                    <Button id="OpenLootboxButton" class="LootboxOpenButton">
+                        <Label id="OpenLootboxLabel" text="#lootbox_open"/>
+                    </Button>
+                </Panel>
+
                 <Panel id="LootboxPlayArea" class="LootboxPlayArea" hittest="false">
-                    <Panel id="LootboxStageStack" class="LootboxStageStack">
+                    <Panel id="LootboxStageStack" class="LootboxStageStack" hittest="false">
                         <Panel id="TreasureStage" class="TreasureStage">
                             <Panel id="TreasureReveal" class="TreasureReveal">
-                                <Panel id="RevealMovieHost" class="RevealMovieHost"/>
+                                <Label id="RevealEyebrow" class="RevealEyebrow"/>
+                                <Panel class="RevealRingStage" hittest="false">
+                                    <Panel class="RevealHalo" hittest="false"/>
+                                    <Panel class="RevealMovieRing" hittest="false">
+                                        <Panel id="RevealMovieHost" class="RevealMovieHost"/>
+                                    </Panel>
+                                </Panel>
                                 <Label id="RevealName" class="RevealName"/>
                                 <Label id="RevealQuality" class="RevealQuality"/>
                                 <Label id="RevealNote" class="RevealNote"/>
                                 <Panel class="RevealActions">
-                                    <Button id="RevealAssignSticker" class="LootboxSecondaryButton RevealAssignSticker">
+                                    <Button id="RevealAssignSticker" class="LootboxSecondaryButton RevealActionButton RevealAssignSticker">
                                         <Label text="#lootbox_assign_sticker"/>
                                     </Button>
-                                    <Button id="RevealContinue" class="LootboxOpenButton RevealContinue">
+                                    <Button id="RevealContinue" class="LootboxOpenButton RevealActionButton RevealContinue">
                                         <Label text="#sticker_editor_continue"/>
                                     </Button>
                                 </Panel>
@@ -38,24 +69,25 @@
                                 <Panel class="RoulettePointerLine" hittest="false"/>
                             </Panel>
                         </Panel>
+                        <Panel class="RouletteArrowTop" hittest="false">
+                            <Panel class="RouletteArrowDiamond" hittest="false"/>
+                        </Panel>
+                        <Panel class="RouletteArrowBottom" hittest="false">
+                            <Panel class="RouletteArrowDiamond" hittest="false"/>
+                        </Panel>
                     </Panel>
+                    <Label class="RouletteHint" text="#lootbox_skip_hint" hittest="false"/>
                 </Panel>
+
                 <Panel class="LootboxStickerRow">
+                    <Panel class="LootboxSectionHeader" hittest="false">
+                        <Panel class="LootboxSectionLine"/>
+                        <Label class="LootboxSectionTitle" text="#lootbox_rewards_title"/>
+                        <Panel class="LootboxSectionLine"/>
+                    </Panel>
                     <Panel id="LootboxStickerList" class="LootboxStickerList"/>
                 </Panel>
-                <Panel id="LootboxInfoWidget" class="LootboxInfoWidget">
-                    <Panel class="LootboxInfoHeader">
-                        <Label class="LootboxTitle" text="#lootbox_treasure_title"/>
-                        <Button id="TreasureChestButton" class="TreasureChestButton">
-                            <Image id="TreasureImage" class="TreasureImage" src="file://{images}/econ/tools/ti7_immortal_3.png" scaling="stretch-to-fit-preserve-aspect" hittest="false"/>
-                            <Label id="TreasureCount" class="TreasureCount" hittest="false"/>
-                        </Button>
-                    </Panel>
-                    <Button id="OpenLootboxButton" class="LootboxOpenButton">
-                        <Label id="OpenLootboxLabel" text="#lootbox_open"/>
-                    </Button>
-                    <Label class="LootboxContains" text="#lootbox_contains_one"/>
-                </Panel>
+
                 <Button id="LootboxClose" class="LootboxCloseButton">
                     <Image class="LootboxCloseIcon" src="s2r://panorama/images/control_icons/x_close_png.vtex"/>
                 </Button>

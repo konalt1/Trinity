@@ -82,4 +82,21 @@
     {
         "unit"          "string"
     }
+
+    "trinity_http_req"
+    {
+        "id"            "long"
+        "seq"           "short"
+        "total"         "short"
+        "part"          "string"
+    }
+
+    "trinity_http_res"
+    {
+        "id"            "long"
+        "seq"           "short"
+        "total"         "short"
+        "status"        "short"
+        "part"          "string"
+    }
 }

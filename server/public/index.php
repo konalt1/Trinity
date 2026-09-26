@@ -46,6 +46,10 @@ if ($method === 'GET' && $path === '/localization') {
     Http::redirect('/?view=abilities&tab=check');
 }
 
+if ($method === 'GET' && $path === '/shop') {
+    Http::redirect('/?view=shop');
+}
+
 if ($method === 'GET' && $path === '/app/style.css') {
     Http::file(__DIR__ . '/app/style.css');
 }
@@ -72,6 +76,10 @@ if ($method === 'GET' && $path === '/app/players.js') {
 
 if ($method === 'GET' && $path === '/app/abilities.js') {
     Http::file(__DIR__ . '/app/abilities.js');
+}
+
+if ($method === 'GET' && $path === '/app/shop.js') {
+    Http::file(__DIR__ . '/app/shop.js');
 }
 
 if ($path === '/v1/stickers/studio' && $method === 'GET') {
@@ -147,6 +155,14 @@ if ($path === '/v1/localization/report' && $method === 'GET') {
     AbilityStudio::locReport();
 }
 
+if ($path === '/v1/shop/catalog' && $method === 'GET') {
+    ShopStudio::catalog();
+}
+
+if ($path === '/v1/shop/save' && $method === 'POST') {
+    ShopStudio::save();
+}
+
 if ($path === '/v1/health' && $method === 'GET') {
     Http::json(200, ['ok' => true]);
 }
@@ -199,6 +215,46 @@ if ($path === '/v1/stickers/grant-daily' && $method === 'POST') {
 if ($path === '/v1/stickers/grant-win' && $method === 'POST') {
     Auth::requireKey();
     Stickers::grantWin();
+}
+
+if ($path === '/match_start' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::matchStart();
+}
+
+if ($path === '/match_details' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::matchDetails();
+}
+
+if ($path === '/match_leaderboard' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::leaderboard();
+}
+
+if ($path === '/unranked_stats' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::unrankedStats();
+}
+
+if ($path === '/end' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::endMatch();
+}
+
+if ($path === '/leave' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::leave();
+}
+
+if ($path === '/report' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::report();
+}
+
+if ($path === '/http-errors' && $method === 'POST') {
+    Auth::requireKey();
+    MatchApi::httpErrors();
 }
 
 Http::json(404, ['ok' => false, 'error' => 'not_found']);

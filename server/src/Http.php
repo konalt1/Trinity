@@ -35,16 +35,26 @@ final class Http
     public static function body(): array
     {
         $raw = file_get_contents('php://input');
-        if (!is_string($raw) || $raw === '') {
-            return [];
+        if (is_string($raw) && $raw !== '') {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
         }
 
-        $decoded = json_decode($raw, true);
-        if (!is_array($decoded)) {
+        $posted = $_POST['body'] ?? null;
+        if (is_string($posted) && $posted !== '') {
+            $decoded = json_decode($posted, true);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        if (is_string($raw) && $raw !== '') {
             self::json(400, ['ok' => false, 'error' => 'invalid_json']);
         }
 
-        return $decoded;
+        return [];
     }
 
     public static function redirect(string $location, int $status = 302): void

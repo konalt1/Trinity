@@ -270,7 +270,6 @@ final class StickerStudio
 
         $webmTmp = $tmpDir . DIRECTORY_SEPARATOR . 'sticker.webm';
         $mp4Tmp = $tmpDir . DIRECTORY_SEPARATOR . 'sticker.mp4';
-        $filter = self::videoFilter($speed);
         $prefix = [$ffmpeg, '-y', '-hide_banner', '-loglevel', 'error'];
         $inputArgs = ['-i', $input];
 
@@ -286,9 +285,11 @@ final class StickerStudio
                 ];
             } elseif (in_array($file['ext'], ['png', 'jpg', 'jpeg', 'webp'], true)) {
                 $prefix = [$ffmpeg, '-y', '-hide_banner', '-loglevel', 'error', '-loop', '1', '-t', '2'];
+            } elseif ($file['ext'] === 'webm') {
+                $prefix = array_merge($prefix, self::webmDecoderArgs($input));
             }
 
-            self::encodeVideoOutputs($prefix, $inputArgs, $filter, $mp4Tmp, $webmTmp);
+            self::encodeVideoOutputs($prefix, $inputArgs, $speed, $mp4Tmp, $webmTmp);
             self::ensureDir(dirname(self::gameWebmPath($key)));
             self::ensureDir(dirname(self::previewMp4Path($key)));
             if (!copy($webmTmp, self::gameWebmPath($key)) || !copy($mp4Tmp, self::previewMp4Path($key))) {
@@ -306,9 +307,9 @@ final class StickerStudio
             Http::json(500, ['ok' => false, 'error' => 'ffmpeg_missing']);
         }
 
-        $source = self::previewMp4Path($key);
+        $source = self::gameWebmPath($key);
         if (!is_file($source)) {
-            $source = self::gameWebmPath($key);
+            $source = self::previewMp4Path($key);
         }
         if (!is_file($source)) {
             Http::json(400, ['ok' => false, 'error' => 'video_missing']);
@@ -332,11 +333,14 @@ final class StickerStudio
         $webmTmp = $tmpDir . DIRECTORY_SEPARATOR . 'sticker.webm';
         $mp4Tmp = $tmpDir . DIRECTORY_SEPARATOR . 'sticker.mp4';
         $prefix = [$ffmpeg, '-y', '-hide_banner', '-loglevel', 'error'];
+        if ($ext === 'webm') {
+            $prefix = array_merge($prefix, self::webmDecoderArgs($input));
+        }
         try {
             self::encodeVideoOutputs(
                 $prefix,
                 ['-i', $input],
-                self::videoFilter($speed),
+                $speed,
                 $mp4Tmp,
                 $webmTmp
             );
@@ -354,12 +358,12 @@ final class StickerStudio
     private static function encodeVideoOutputs(
         array $prefix,
         array $inputArgs,
-        string $filter,
+        float $speed,
         string $mp4Tmp,
         string $webmTmp
     ): void {
         self::run(array_merge($prefix, $inputArgs, [
-            '-vf', $filter,
+            '-vf', self::videoFilter($speed, false),
             '-c:v', 'libx264',
             '-pix_fmt', 'yuv420p',
             '-crf', '23',
@@ -368,26 +372,61 @@ final class StickerStudio
             $mp4Tmp,
         ]));
         self::run(array_merge($prefix, $inputArgs, [
-            '-vf', $filter,
+            '-vf', self::videoFilter($speed, true),
             '-c:v', 'libvpx-vp9',
+            '-pix_fmt', 'yuva420p',
+            '-auto-alt-ref', '0',
             '-b:v', '0',
-            '-crf', '32',
-            '-pix_fmt', 'yuv420p',
+            '-crf', '22',
+            '-deadline', 'good',
+            '-cpu-used', '1',
+            '-row-mt', '1',
             '-an',
             $webmTmp,
         ]));
     }
 
-    private static function videoFilter(float $speed): string
+    private static function videoFilter(float $speed, bool $alpha): string
     {
         $filter = 'scale=' . self::VIDEO_SIZE . ':' . self::VIDEO_SIZE
             . ':force_original_aspect_ratio=increase,crop=' . self::VIDEO_SIZE . ':' . self::VIDEO_SIZE
-            . ',format=yuv420p';
+            . ',format=' . ($alpha ? 'yuva420p' : 'yuv420p');
         if (abs($speed - 1.0) >= 0.001) {
             $filter = 'setpts=' . self::formatNumber(1.0 / $speed) . '*PTS,' . $filter;
         }
 
         return $filter;
+    }
+
+    /** @return list<string> */
+    private static function webmDecoderArgs(string $path): array
+    {
+        $codec = self::probeVideoCodec($path);
+        if ($codec === 'vp8') {
+            return ['-c:v', 'libvpx'];
+        }
+        if ($codec === 'vp9') {
+            return ['-c:v', 'libvpx-vp9'];
+        }
+
+        return [];
+    }
+
+    private static function probeVideoCodec(string $path): string
+    {
+        $probe = self::ffprobePath();
+        if ($probe === null) {
+            return '';
+        }
+
+        return strtolower(trim(self::run([
+            $probe,
+            '-v', 'error',
+            '-select_streams', 'v:0',
+            '-show_entries', 'stream=codec_name',
+            '-of', 'csv=p=0',
+            $path,
+        ], 'ffprobe_failed')));
     }
 
     private static function clampVideoSpeed(float $speed): float
