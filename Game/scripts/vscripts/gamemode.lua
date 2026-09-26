@@ -444,6 +444,14 @@ function GameMode:OnNPCSpawned(data)
 		EnsureYashaCombinationArmor(npc)
 	end
 
+	if EnsureStygianDesolatorCrit then
+		EnsureStygianDesolatorCrit(npc)
+	end
+
+	if EnsureShopReworkInherit then
+		EnsureShopReworkInherit(npc)
+	end
+
 	if KillfeedSystem and KillfeedSystem.OnNPCSpawned then
 		KillfeedSystem:OnNPCSpawned(npc)
 	end
@@ -658,6 +666,18 @@ function GameMode:ExecuteOrderFilter(data)
 
 	if ChenBarrackWorkerHandleOrder then
 		return ChenBarrackWorkerHandleOrder(data)
+	end
+
+	return true
+end
+
+function GameMode:DamageFilter(event)
+	if MageSlayer_DamageFilter and MageSlayer_DamageFilter(event) == false then
+		return false
+	end
+
+	if TrinityItemInherit_DamageFilter and TrinityItemInherit_DamageFilter(event) == false then
+		return false
 	end
 
 	return true

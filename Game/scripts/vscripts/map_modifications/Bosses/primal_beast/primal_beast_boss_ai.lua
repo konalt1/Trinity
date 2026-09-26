@@ -1,6 +1,6 @@
 local AGGRO_RADIUS = 1200
 local COMBAT_TIMEOUT = 15
-local PULVERIZE_RANGE = 200
+local PULVERIZE_RANGE = 280
 local ROCK_THROW_MIN_RANGE = 550
 local ROCK_THROW_MAX_RANGE = 1800
 local WAYPOINT_REACH_DISTANCE = 100
@@ -65,6 +65,9 @@ local function MoveAlongPathway()
 
 		if not waypointPosition then
 			thisEntity.reachedFinalPoint = true
+			if PrimalBeastBoss then
+				PrimalBeastBoss:ClearTowerAggro(thisEntity)
+			end
 			UTIL_Remove(thisEntity)
 			return nil
 		end
@@ -149,7 +152,14 @@ function PrimalBeastBossBehavior()
 		thisEntity.lastHealth = health
 	end
 
+	if PrimalBeastBoss and PrimalBeastBoss.AggroTowers then
+		PrimalBeastBoss:AggroTowers(thisEntity)
+	end
+
 	if thisEntity:IsChanneling() or thisEntity:GetCurrentActiveAbility() then
+		return 0.1
+	end
+	if thisEntity:HasModifier("modifier_primal_beast_boss_pulverize_warn_trinity") then
 		return 0.1
 	end
 
@@ -162,9 +172,15 @@ function PrimalBeastBossBehavior()
 	if enemy and IsUsable(thisEntity.pulverize) then
 		local distance = (enemy:GetAbsOrigin() - thisEntity:GetAbsOrigin()):Length2D()
 		if distance <= PULVERIZE_RANGE then
-			FacePosition(enemy:GetAbsOrigin())
-			thisEntity:CastAbilityOnTarget(enemy, thisEntity.pulverize, -1)
-			return 0.4
+			if PrimalBeastBoss and PrimalBeastBoss.StartPulverizeTelegraph then
+				if PrimalBeastBoss:StartPulverizeTelegraph(thisEntity, enemy) then
+					return 0.1
+				end
+			else
+				FacePosition(enemy:GetAbsOrigin())
+				thisEntity:CastAbilityOnTarget(enemy, thisEntity.pulverize, -1)
+				return 0.4
+			end
 		end
 	end
 

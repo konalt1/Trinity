@@ -1620,8 +1620,8 @@
         "Level"                     "1"
         "ModelScale"                "1.8"
         "IsBoss"                    "1"
-        "IsAncient"                 "1"
-        "ConsideredHero"            "1"
+        "IsAncient"                 "0"
+        "ConsideredHero"            "0"
         "CanBeDominated"            "0"
         "UseNeutralCreepBehavior"   "0"
 

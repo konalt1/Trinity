@@ -1,0 +1,3 @@
+// Trinity — item KV index (included from npc_items_custom.txt)
+#base "shop_rework.txt"
+#base "recipe_overrides.txt"

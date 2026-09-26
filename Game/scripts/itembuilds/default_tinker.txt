@@ -8,11 +8,9 @@
 	{	
 		"#DOTA_Item_Build_Starting_Items"
 		{
-			"item"		"item_tango"
-			"item"		"item_faerie_fire"
+			"item"		"item_foragers_kit"
 			"item"		"item_mantle"
 			"item"		"item_circlet"
-			"item"		"item_branches"
 			"item"		"item_branches"
 		}
 		

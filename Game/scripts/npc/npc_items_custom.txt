@@ -1,3 +1,5 @@
+#base "items/_index.txt"
+
 "DOTAAbilities"
 {
     "item_aghanims_shard"

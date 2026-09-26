@@ -1,0 +1,82 @@
+"neutral_items"
+{
+	"madstone_limits"
+	{
+		"madstone_no_limit_time"		"70:00"
+	}
+
+	"neutral_tiers"
+	{
+		"1"
+		{
+			"start_time"				"0:00"
+			"trinket_options"			"0"
+			"enhancement_options"		"0"
+			"craft_cost"				"6"
+			"xp_bonus"					"0"
+			"items"
+			{
+			}
+			"enhancements"
+			{
+			}
+		}
+		"2"
+		{
+			"start_time"				"15:00"
+			"trinket_options"			"0"
+			"enhancement_options"		"0"
+			"craft_cost"				"10"
+			"xp_bonus"					"0"
+			"items"
+			{
+			}
+			"enhancements"
+			{
+			}
+		}
+		"3"
+		{
+			"start_time"				"25:00"
+			"trinket_options"			"0"
+			"enhancement_options"		"0"
+			"craft_cost"				"10"
+			"xp_bonus"					"0"
+			"items"
+			{
+			}
+			"enhancements"
+			{
+			}
+		}
+		"4"
+		{
+			"start_time"				"35:00"
+			"trinket_options"			"0"
+			"enhancement_options"		"0"
+			"craft_cost"				"10"
+			"xp_bonus"					"0"
+			"items"
+			{
+			}
+			"enhancements"
+			{
+			}
+		}
+		"5"
+		{
+			"start_time"				"60:00"
+			"trinket_options"			"0"
+			"enhancement_options"		"0"
+			"craft_cost"				"10"
+			"recraft_cost"				"10"
+			"xp_bonus"					"0"
+			"items"
+			{
+			}
+			"enhancements"
+			{
+			}
+		}
+	}
+}

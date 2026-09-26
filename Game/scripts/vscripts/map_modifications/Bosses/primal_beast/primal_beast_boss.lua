@@ -9,9 +9,11 @@ local TRAMPLE_MODIFIER = "modifier_primal_beast_trample"
 local UPROAR_ABILITY = "primal_beast_uproar"
 local PULVERIZE_ABILITY = "primal_beast_pulverize"
 local ROCK_THROW_ABILITY = "primal_beast_rock_throw"
+local MODEL_SCALE = 1.8
 local RIDER_ATTACH = "spine_2"
 local RIDER_HEIGHT_OFFSET = 90
-local MODEL_SCALE = 1.8
+local RIDER_MIN_HEIGHT = 250
+local MARKER_PARTICLE = "particles/generic_gameplay/generic_has_quest.vpcf"
 local MOUNT_RANGE = 250
 local DEBUG_VISION_RADIUS = 800
 local DEBUG_VISION_DURATION = 5
@@ -20,6 +22,21 @@ local ROLL_TURN_RATE = 120
 local ROLL_TREE_RADIUS = 180
 local ALLIED_LIFETIME = { 20, 30, 40, 50, 60 }
 local ROLL_THINK = 0.03
+local TRAMPLE_STEP = 140
+local TRAMPLE_RADIUS = 200
+local TRAMPLE_BASE_DAMAGE = 60
+local TRAMPLE_ATTACK_FACTOR = 0.35
+local MARKER_MODIFIER = "modifier_primal_beast_boss_marker_trinity"
+local PULVERIZE_WARN_MODIFIER = "modifier_primal_beast_boss_pulverize_warn_trinity"
+local PULVERIZE_WARN_DURATION = 1.8
+local PULVERIZE_RANGE = 280
+local TOWER_AGGRO_RANGE = 800
+local PULVERIZE_BANG_MODEL = "models/props_consumables/high_five/mh_poogie/poogie_exclamation.vmdl"
+local PULVERIZE_BANG_ANIM = "wave_v1"
+local PULVERIZE_BANG_SCALE = 5.0
+local PULVERIZE_BANG_HEIGHT = 380
+local PULVERIZE_WAVE_PARTICLE = "particles/econ/items/queen_of_pain/qop_2022_immortal/queen_2022_scream_of_pain_owner_wave_edge.vpcf"
+local PULVERIZE_WARN_SOUND = "primal_beast_primal_intro_02"
 
 local LEVEL_CONFIG = {
 	health = { base = 3500, per_level = 3000 },
@@ -44,6 +61,8 @@ local ALLIED_HIDDEN_ABILITIES = {
 LinkLuaModifier(MOUNTABLE_MODIFIER, "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier(RIDER_MODIFIER, "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier(ROLL_MODIFIER, "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier(MARKER_MODIFIER, "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier(PULVERIZE_WARN_MODIFIER, "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 
 local function IsAlive(unit)
 	return unit and (not unit.IsNull or not unit:IsNull()) and unit:IsAlive()
@@ -81,15 +100,44 @@ local function SetAbilityVisible(ability, visible, level)
 	end
 end
 
-local function GetRiderAttachIndex(beast)
-	if not beast.ScriptLookupAttachment then
-		return 0
+local function IsFiniteVec(v)
+	return v
+		and v.x == v.x and v.y == v.y and v.z == v.z
+		and math.abs(v.x) < 16000
+		and math.abs(v.y) < 16000
+		and v.z > -2000
+		and v.z < 4000
+end
+
+local function IsValidHandle(entity)
+	return entity and (not entity.IsNull or not entity:IsNull())
+end
+
+local function GetRiderWorldOrigin(beast)
+	local base = beast:GetAbsOrigin()
+	local origin = base
+	if beast.ScriptLookupAttachment and beast.GetAttachmentOrigin then
+		local attach = beast:ScriptLookupAttachment(RIDER_ATTACH)
+		if not attach or attach == 0 then
+			attach = beast:ScriptLookupAttachment("attach_hitloc")
+		end
+		if attach and attach ~= 0 then
+			local bone = beast:GetAttachmentOrigin(attach)
+			if IsFiniteVec(bone) then
+				origin = bone
+			end
+		end
 	end
-	local attach = beast:ScriptLookupAttachment(RIDER_ATTACH)
-	if attach ~= 0 then
-		return attach
+
+	local sit = Vector(origin.x, origin.y, origin.z + RIDER_HEIGHT_OFFSET)
+	local minZ = base.z + RIDER_MIN_HEIGHT
+	if sit.z < minZ then
+		sit.z = minZ
 	end
-	return beast:ScriptLookupAttachment("attach_hitloc")
+	if not IsFiniteVec(sit) then
+		return Vector(base.x, base.y, minZ)
+	end
+	return sit
 end
 
 local function PlaceRiderOnSpine(hero, beast)
@@ -97,24 +145,60 @@ local function PlaceRiderOnSpine(hero, beast)
 		return
 	end
 
-	local attach = GetRiderAttachIndex(beast)
-	local origin
-	if attach and attach ~= 0 and beast.GetAttachmentOrigin then
-		origin = beast:GetAttachmentOrigin(attach)
-	else
-		origin = beast:GetAbsOrigin()
-	end
-	hero:SetAbsOrigin(Vector(origin.x, origin.y, origin.z + RIDER_HEIGHT_OFFSET))
+	hero:SetAbsOrigin(GetRiderWorldOrigin(beast))
 
 	local busy = (hero.IsAttacking and hero:IsAttacking())
 		or (hero.IsChanneling and hero:IsChanneling())
-		or (hero.GetAttackTarget and hero:GetAttackTarget())
 		or (hero.GetCurrentActiveAbility and hero:GetCurrentActiveAbility())
 	if busy then
 		return
 	end
 
 	hero:SetAbsAngles(0, beast:GetAnglesAsVector().y, 0)
+end
+
+local function DetachRider(hero)
+	if not IsValidHandle(hero) or not hero.primalBeastMounted then
+		return
+	end
+	hero.primalBeastMounted = nil
+	if hero.SetParent then
+		hero:SetParent(nil, "")
+	end
+	if hero.FollowEntity then
+		hero:FollowEntity(hero, false)
+	end
+end
+
+local function AttachRider(hero, beast)
+	if not IsAlive(hero) or not IsAlive(beast) then
+		return
+	end
+	DetachRider(hero)
+	hero.primalBeastMounted = true
+	PlaceRiderOnSpine(hero, beast)
+end
+
+local function RemoveMarkerDummy(dummy)
+	if not IsValidHandle(dummy) then
+		return
+	end
+	UTIL_Remove(dummy)
+end
+
+function PrimalBeastBoss:DestroyMountMarkers(beast)
+	if not beast then
+		return
+	end
+	if beast.primalBeastMarkerFx then
+		ParticleManager:DestroyParticle(beast.primalBeastMarkerFx, false)
+		ParticleManager:ReleaseParticleIndex(beast.primalBeastMarkerFx)
+		beast.primalBeastMarkerFx = nil
+	end
+	RemoveMarkerDummy(beast.primalBeastSaddle)
+	RemoveMarkerDummy(beast.primalBeastArrow)
+	beast.primalBeastSaddle = nil
+	beast.primalBeastArrow = nil
 end
 
 local function IsWalkable(position)
@@ -236,7 +320,10 @@ function PrimalBeastBoss:PrepareHiddenTrample(boss)
 
 	trample:SetLevel(math.max(1, trample:GetMaxLevel()))
 	trample:SetHidden(true)
-	trample:SetActivated(true)
+	trample:SetActivated(false)
+	if boss.RemoveModifierByName then
+		boss:RemoveModifierByName(TRAMPLE_MODIFIER)
+	end
 end
 
 local function LockSelectionToHero(playerID, hero)
@@ -285,9 +372,18 @@ function PrimalBeastBoss:PrepareAllied(boss, level)
 
 	self:ApplyLevel(boss, level)
 	for _, name in ipairs(ALLIED_HIDDEN_ABILITIES) do
-		SetAbilityVisible(boss:FindAbilityByName(name), false)
+		local ability = boss:FindAbilityByName(name)
+		if ability then
+			ability:SetLevel(0)
+			ability:SetHidden(true)
+			ability:SetActivated(false)
+		end
 	end
-	self:PrepareHiddenTrample(boss)
+	if boss.RemoveModifierByName then
+		boss:RemoveModifierByName(TRAMPLE_MODIFIER)
+		boss:RemoveModifierByName("modifier_primal_beast_pulverize")
+		boss:RemoveModifierByName("modifier_primal_beast_uproar")
+	end
 	self:SetAttackEnabled(boss, false)
 	boss.pathwayEnabled = false
 	boss.primalBeastAllied = true
@@ -296,28 +392,259 @@ function PrimalBeastBoss:PrepareAllied(boss, level)
 	boss:AddNewModifier(boss, nil, "modifier_kill", { duration = GetAlliedLifetime(level) })
 end
 
-function PrimalBeastBoss:TryCastTrample(boss)
+local function AbilitySpecial(ability, names, fallback)
+	if not ability then
+		return fallback
+	end
+	for _, name in ipairs(names) do
+		local value = ability:GetSpecialValueFor(name)
+		if value and value ~= 0 then
+			return value
+		end
+	end
+	return fallback
+end
+
+function PrimalBeastBoss:ApplyTramplePulse(boss)
 	if not IsAlive(boss) then
 		return
 	end
+	if boss.HasModifier and boss:HasModifier(TRAMPLE_MODIFIER) then
+		boss:RemoveModifierByName(TRAMPLE_MODIFIER)
+	end
 
 	local trample = boss:FindAbilityByName(TRAMPLE_ABILITY)
-	if not trample or trample:GetLevel() < 1 then
+	local radius = AbilitySpecial(trample, { "effect_radius" }, TRAMPLE_RADIUS)
+	local baseDamage = AbilitySpecial(trample, { "base_damage", "damage" }, TRAMPLE_BASE_DAMAGE)
+	local factor = AbilitySpecial(trample, { "attack_damage", "attack_factor" }, TRAMPLE_ATTACK_FACTOR)
+	if factor > 1 then
+		factor = factor / 100
+	end
+
+	local attack = 0
+	if boss.GetAverageTrueAttackDamage then
+		attack = boss:GetAverageTrueAttackDamage(nil) or 0
+	end
+
+	local enemies = FindUnitsInRadius(
+		boss:GetTeamNumber(),
+		boss:GetAbsOrigin(),
+		nil,
+		radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false
+	)
+
+	local rider = boss.primalBeastRider
+	local damage = baseDamage + attack * factor
+	for _, enemy in ipairs(enemies) do
+		if IsAlive(enemy) and enemy ~= boss and enemy ~= rider then
+			ApplyDamage({
+				victim = enemy,
+				attacker = boss,
+				damage = damage,
+				damage_type = DAMAGE_TYPE_MAGICAL,
+				ability = trample,
+			})
+		end
+	end
+end
+
+function PrimalBeastBoss:TryCastPulverize(boss, target)
+	if not IsAlive(boss) or boss.primalBeastAllied then
+		return false
+	end
+
+	local pulverize = boss:FindAbilityByName(PULVERIZE_ABILITY)
+	if not pulverize or pulverize:GetLevel() < 1 or not pulverize:IsFullyCastable() then
+		return false
+	end
+
+	if not IsAlive(target) or (target:GetAbsOrigin() - boss:GetAbsOrigin()):Length2D() > PULVERIZE_RANGE then
+		local enemies = FindUnitsInRadius(
+			boss:GetTeamNumber(),
+			boss:GetAbsOrigin(),
+			nil,
+			PULVERIZE_RANGE,
+			DOTA_UNIT_TARGET_TEAM_ENEMY,
+			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+			DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+			FIND_CLOSEST,
+			false
+		)
+		target = nil
+		for _, enemy in ipairs(enemies) do
+			if IsAlive(enemy) and boss:CanEntityBeSeenByMyTeam(enemy) then
+				target = enemy
+				break
+			end
+		end
+	end
+	if not IsAlive(target) then
+		return false
+	end
+
+	local direction = target:GetAbsOrigin() - boss:GetAbsOrigin()
+	direction.z = 0
+	if direction:Length2D() > 0 then
+		boss:SetForwardVector(direction:Normalized())
+	end
+	boss:CastAbilityOnTarget(target, pulverize, -1)
+	return true
+end
+
+function PrimalBeastBoss:StartPulverizeTelegraph(boss, target)
+	if not IsAlive(boss) or boss.primalBeastAllied then
+		return false
+	end
+	if boss:HasModifier(PULVERIZE_WARN_MODIFIER) then
+		return false
+	end
+	if not IsAlive(target) then
+		return false
+	end
+
+	local pulverize = boss:FindAbilityByName(PULVERIZE_ABILITY)
+	if not pulverize or pulverize:GetLevel() < 1 or not pulverize:IsFullyCastable() then
+		return false
+	end
+
+	boss:Stop()
+	boss.primalBeastPulverizeTarget = target
+	local direction = target:GetAbsOrigin() - boss:GetAbsOrigin()
+	direction.z = 0
+	if direction:Length2D() > 0 then
+		boss:SetForwardVector(direction:Normalized())
+	end
+	boss:AddNewModifier(boss, nil, PULVERIZE_WARN_MODIFIER, {
+		duration = PULVERIZE_WARN_DURATION,
+	})
+	return true
+end
+
+function PrimalBeastBoss:ClearTowerAggro(boss)
+	local forced = boss and boss.primalBeastTowerAggro
+	if not forced then
+		return
+	end
+	for _, tower in pairs(forced) do
+		if IsValidHandle(tower) and tower.SetForceAttackTarget then
+			tower:SetForceAttackTarget(nil)
+		end
+	end
+	boss.primalBeastTowerAggro = nil
+end
+
+function PrimalBeastBoss:ReleaseParentedUnits(boss)
+	if not IsValidHandle(boss) then
 		return
 	end
 
-	trample:EndCooldown()
-	if boss.SetMana and boss.GetMaxMana then
-		boss:SetMana(boss:GetMaxMana())
+	local origin = boss:GetAbsOrigin()
+	local flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+	for _, team in ipairs({ DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS, DOTA_TEAM_NEUTRALS }) do
+		local units = FindUnitsInRadius(
+			team,
+			origin,
+			nil,
+			600,
+			DOTA_UNIT_TARGET_TEAM_BOTH,
+			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+			flags,
+			FIND_ANY_ORDER,
+			false
+		)
+		for _, unit in ipairs(units) do
+			if IsValidHandle(unit) and unit ~= boss and unit.GetMoveParent and unit:GetMoveParent() == boss then
+				if unit.SetParent then
+					unit:SetParent(nil, "")
+				end
+				if unit.FollowEntity then
+					unit:FollowEntity(unit, false)
+				end
+				FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), false)
+			end
+		end
 	end
-	if boss:HasModifier(TRAMPLE_MODIFIER) then
-		return
-	end
-	if boss:IsChanneling() then
+end
+
+function PrimalBeastBoss:CleanupCombat(boss)
+	if not IsValidHandle(boss) then
 		return
 	end
 
-	boss:CastAbilityNoTarget(trample, -1)
+	self:ClearTowerAggro(boss)
+	self:DestroyMountMarkers(boss)
+	if boss.Stop then
+		boss:Stop()
+	end
+	if boss.Interrupt then
+		boss:Interrupt()
+	end
+	if boss.RemoveModifierByName then
+		boss:RemoveModifierByName(PULVERIZE_WARN_MODIFIER)
+		boss:RemoveModifierByName("modifier_primal_beast_pulverize")
+		boss:RemoveModifierByName(TRAMPLE_MODIFIER)
+	end
+	self:ReleaseParentedUnits(boss)
+end
+
+function PrimalBeastBoss:AggroTowers(boss)
+	if not IsAlive(boss) or boss.primalBeastAllied then
+		self:ClearTowerAggro(boss)
+		return
+	end
+
+	boss.primalBeastTowerAggro = boss.primalBeastTowerAggro or {}
+	local seen = {}
+	local towers = {}
+	for _, team in ipairs({ DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS }) do
+		local found = FindUnitsInRadius(
+			team,
+			boss:GetAbsOrigin(),
+			nil,
+			TOWER_AGGRO_RANGE,
+			DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+			DOTA_UNIT_TARGET_BUILDING,
+			DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+			FIND_ANY_ORDER,
+			false
+		)
+		for _, unit in ipairs(found) do
+			towers[#towers + 1] = unit
+		end
+	end
+
+	for _, tower in ipairs(towers) do
+		if IsAlive(tower) and tower.IsTower and tower:IsTower() then
+			seen[tower:entindex()] = true
+			local attackTarget = tower.GetAttackTarget and tower:GetAttackTarget() or nil
+			if IsAlive(attackTarget) and attackTarget.IsRealHero and attackTarget:IsRealHero() then
+				if tower.SetForceAttackTarget then
+					tower:SetForceAttackTarget(nil)
+				end
+				boss.primalBeastTowerAggro[tower:entindex()] = nil
+			else
+				if tower.SetForceAttackTarget then
+					tower:SetForceAttackTarget(boss)
+				end
+				tower:MoveToTargetToAttack(boss)
+				boss.primalBeastTowerAggro[tower:entindex()] = tower
+			end
+		end
+	end
+
+	for index, tower in pairs(boss.primalBeastTowerAggro) do
+		if not seen[index] then
+			if IsValidHandle(tower) and tower.SetForceAttackTarget then
+				tower:SetForceAttackTarget(nil)
+			end
+			boss.primalBeastTowerAggro[index] = nil
+		end
+	end
 end
 
 function PrimalBeastBoss:Steer(beast, position)
@@ -344,7 +671,6 @@ function PrimalBeastBoss:Dismount(beast)
 	beast.primalBeastRider = nil
 	beast:RemoveModifierByName(ROLL_MODIFIER)
 	if beast.primalBeastAllied then
-		self:PrepareHiddenTrample(beast)
 		self:SetAttackEnabled(beast, false)
 	else
 		self:SetTrampleHidden(beast, true)
@@ -356,6 +682,7 @@ function PrimalBeastBoss:Dismount(beast)
 
 	local playerID = rider:GetPlayerOwnerID()
 	rider:RemoveModifierByName(RIDER_MODIFIER)
+	DetachRider(rider)
 	FindClearSpaceForUnit(rider, beast:GetAbsOrigin(), true)
 	rider:Stop()
 
@@ -396,15 +723,10 @@ function PrimalBeastBoss:Mount(hero, beast)
 	hero.primalBeastMount = beast
 	hero:Interrupt()
 	hero:Stop()
+	self:DestroyMountMarkers(beast)
 	hero:AddNewModifier(beast, nil, RIDER_MODIFIER, {})
-	PlaceRiderOnSpine(hero, beast)
+	AttachRider(hero, beast)
 
-	local mountable = beast:FindModifierByName(MOUNTABLE_MODIFIER)
-	if mountable then
-		mountable:ForceRefresh()
-	end
-
-	self:PrepareHiddenTrample(beast)
 	self:SetAttackEnabled(beast, false)
 	if not beast:HasModifier(ROLL_MODIFIER) then
 		beast:AddNewModifier(beast, nil, ROLL_MODIFIER, {})
@@ -414,38 +736,40 @@ function PrimalBeastBoss:Mount(hero, beast)
 	end
 	LockSelectionToHero(playerID, hero)
 	self:Steer(beast, beast:GetAbsOrigin() + beast:GetForwardVector() * 200)
-	self:TryCastTrample(beast)
-	beast:StartGesture(ACT_DOTA_RUN)
 	return true
 end
 
 function PrimalBeastBoss:ConvertToAlly(killedBoss, team)
-	if not killedBoss or (killedBoss.IsNull and killedBoss:IsNull()) then
+	if not IsValidHandle(killedBoss) then
 		return
 	end
 	if not GetPlayerTeam(team) then
 		return
 	end
+	if killedBoss.primalBeastConverting then
+		return
+	end
+	killedBoss.primalBeastConverting = true
 
 	local position = killedBoss:GetAbsOrigin()
 	local forward = killedBoss:GetForwardVector()
 	local level = killedBoss.primalBeastLevel or killedBoss.spawnNumber or 1
-	killedBoss:AddNoDraw()
-
-	local ally = CreateUnitByName(BOSS_NAME, position, true, nil, nil, team)
-	if not ally then
-		print("[PrimalBeastBoss] Failed to create allied mount")
-		return
+	self:CleanupCombat(killedBoss)
+	if killedBoss.AddNoDraw then
+		killedBoss:AddNoDraw()
 	end
 
-	ally:SetForwardVector(forward)
-	self:PrepareAllied(ally, level)
-	ally:AddNewModifier(ally, nil, MOUNTABLE_MODIFIER, {})
-
-	Timers:CreateTimer(0.05, function()
-		if killedBoss and not killedBoss:IsNull() then
-			UTIL_Remove(killedBoss)
+	Timers:CreateTimer(0.35, function()
+		local ally = CreateUnitByName(BOSS_NAME, position, false, nil, nil, team)
+		if not ally then
+			print("[PrimalBeastBoss] Failed to create allied mount")
+			return nil
 		end
+
+		ally:SetAbsOrigin(GetGroundPosition(position, ally))
+		ally:SetForwardVector(forward)
+		PrimalBeastBoss:PrepareAllied(ally, level)
+		ally:AddNewModifier(ally, nil, MOUNTABLE_MODIFIER, {})
 		return nil
 	end)
 end
@@ -458,13 +782,17 @@ function PrimalBeastBoss:OnEntityKilled(unit, event)
 		return
 	end
 	if unit.reachedFinalPoint then
+		self:CleanupCombat(unit)
 		return
 	end
 
 	if unit.primalBeastAllied then
+		self:CleanupCombat(unit)
 		self:Dismount(unit)
 		return
 	end
+
+	self:CleanupCombat(unit)
 
 	local attackerIndex = event and (event.entindex_attacker or event.entindex_attacker_const)
 	local attacker = attackerIndex and EntIndexToHScript(attackerIndex) or nil
@@ -473,9 +801,9 @@ function PrimalBeastBoss:OnEntityKilled(unit, event)
 end
 
 local STEER_AND_BLOCK_ORDERS = {
-	[DOTA_UNIT_ORDER_MOVE_TO_POSITION] = true,
-	[DOTA_UNIT_ORDER_MOVE_TO_TARGET] = true,
-	[DOTA_UNIT_ORDER_ATTACK_MOVE] = true,
+	[DOTA_UNIT_ORDER_MOVE_TO_POSITION or 1] = true,
+	[DOTA_UNIT_ORDER_MOVE_TO_TARGET or 2] = true,
+	[DOTA_UNIT_ORDER_ATTACK_MOVE or 3] = true,
 }
 
 local function OrderPosition(data)
@@ -611,37 +939,25 @@ function modifier_primal_beast_boss_mountable_trinity:GetTexture()
 	return "primal_beast_trample"
 end
 
+function modifier_primal_beast_boss_mountable_trinity:GetEffectName()
+	return MARKER_PARTICLE
+end
+
+function modifier_primal_beast_boss_mountable_trinity:GetEffectAttachType()
+	return PATTACH_OVERHEAD_FOLLOW
+end
+
 function modifier_primal_beast_boss_mountable_trinity:OnCreated()
 	if not IsServer() then
 		return
 	end
-	self:StartIntervalThink(0.2)
-end
-
-function modifier_primal_beast_boss_mountable_trinity:OnIntervalThink()
-	if not IsServer() then
-		return
-	end
-
-	local parent = self:GetParent()
-	if not IsAlive(parent) then
-		return
-	end
-
-	local rider = parent.primalBeastRider
-	if not IsAlive(rider) then
-		return
-	end
-	PrimalBeastBoss:TryCastTrample(parent)
+	PrimalBeastBoss:DestroyMountMarkers(self:GetParent())
 end
 
 function modifier_primal_beast_boss_mountable_trinity:CheckState()
-	local parent = self:GetParent()
-	local hasRider = parent and parent.primalBeastRider and IsAlive(parent.primalBeastRider)
 	return {
-		[MODIFIER_STATE_ROOTED] = not hasRider,
+		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_DISARMED] = true,
-		[MODIFIER_STATE_UNSELECTABLE] = hasRider,
 	}
 end
 
@@ -649,7 +965,9 @@ function modifier_primal_beast_boss_mountable_trinity:OnDestroy()
 	if not IsServer() then
 		return
 	end
-	PrimalBeastBoss:Dismount(self:GetParent())
+	local parent = self:GetParent()
+	PrimalBeastBoss:DestroyMountMarkers(parent)
+	PrimalBeastBoss:Dismount(parent)
 end
 
 modifier_primal_beast_boss_rider_trinity = class({})
@@ -671,7 +989,7 @@ function modifier_primal_beast_boss_rider_trinity:CheckState()
 		[MODIFIER_STATE_INVULNERABLE] = true,
 		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-		[MODIFIER_STATE_ROOTED] = true,
+		[MODIFIER_STATE_FLYING] = true,
 	}
 end
 
@@ -679,7 +997,7 @@ function modifier_primal_beast_boss_rider_trinity:OnCreated()
 	if not IsServer() then
 		return
 	end
-	self:StartIntervalThink(ROLL_THINK)
+	self:StartIntervalThink(0.25)
 end
 
 function modifier_primal_beast_boss_rider_trinity:OnIntervalThink()
@@ -695,11 +1013,7 @@ function modifier_primal_beast_boss_rider_trinity:OnIntervalThink()
 	local beast = parent.primalBeastMount
 	if not IsAlive(beast) then
 		self:Destroy()
-		return
 	end
-
-	PlaceRiderOnSpine(parent, beast)
-	LockSelectionToHero(parent:GetPlayerOwnerID(), parent)
 end
 
 function modifier_primal_beast_boss_rider_trinity:OnDestroy()
@@ -713,6 +1027,7 @@ function modifier_primal_beast_boss_rider_trinity:OnDestroy()
 	end
 
 	parent.primalBeastMount = nil
+	DetachRider(parent)
 end
 
 modifier_primal_beast_boss_roll_trinity = class({})
@@ -732,9 +1047,11 @@ function modifier_primal_beast_boss_roll_trinity:OnCreated()
 
 	local parent = self:GetParent()
 	self.desiredDir = Flatten(parent:GetForwardVector())
+	self.trampleDist = 0
 	parent:Stop()
-	parent:FadeGesture(ACT_DOTA_IDLE)
-	parent:StartGesture(ACT_DOTA_RUN)
+	if parent.HasModifier and parent:HasModifier(TRAMPLE_MODIFIER) then
+		parent:RemoveModifierByName(TRAMPLE_MODIFIER)
+	end
 	self:StartIntervalThink(ROLL_THINK)
 end
 
@@ -756,6 +1073,7 @@ end
 
 function modifier_primal_beast_boss_roll_trinity:CheckState()
 	return {
+		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_DISARMED] = true,
 	}
 end
@@ -767,16 +1085,11 @@ function modifier_primal_beast_boss_roll_trinity:DeclareFunctions()
 		MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
 		MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING,
 		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
-		MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
 	}
 end
 
 function modifier_primal_beast_boss_roll_trinity:GetOverrideAnimation()
 	return ACT_DOTA_RUN
-end
-
-function modifier_primal_beast_boss_roll_trinity:GetActivityTranslationModifiers()
-	return "haste"
 end
 
 function modifier_primal_beast_boss_roll_trinity:GetModifierIgnoreMovespeedLimit()
@@ -820,8 +1133,11 @@ function modifier_primal_beast_boss_roll_trinity:UpdateHorizontalMotion(me, dt)
 
 	local origin = me:GetAbsOrigin()
 	local nextPos = GetGroundPosition(origin + newForward * ROLL_SPEED * dt, me)
-	if IsWalkable(nextPos) then
+	if IsFiniteVec(nextPos) and IsWalkable(nextPos) then
 		me:SetAbsOrigin(nextPos)
+		if IsAlive(me.primalBeastRider) then
+			self.trampleDist = (self.trampleDist or 0) + ROLL_SPEED * dt
+		end
 	end
 
 	if GridNav and GridNav.DestroyTreesAroundPoint then
@@ -832,4 +1148,177 @@ function modifier_primal_beast_boss_roll_trinity:UpdateHorizontalMotion(me, dt)
 	if IsAlive(rider) then
 		PlaceRiderOnSpine(rider, me)
 	end
+
+	if IsAlive(rider) and (self.trampleDist or 0) >= TRAMPLE_STEP then
+		self.trampleDist = 0
+		PrimalBeastBoss:ApplyTramplePulse(me)
+	end
+end
+
+modifier_primal_beast_boss_marker_trinity = class({})
+
+function modifier_primal_beast_boss_marker_trinity:IsHidden()
+	return true
+end
+
+function modifier_primal_beast_boss_marker_trinity:IsPurgable()
+	return false
+end
+
+function modifier_primal_beast_boss_marker_trinity:CheckState()
+	return {
+		[MODIFIER_STATE_INVULNERABLE] = true,
+		[MODIFIER_STATE_UNSELECTABLE] = true,
+		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
+		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+		[MODIFIER_STATE_NO_TEAM_MOVE_TO] = true,
+		[MODIFIER_STATE_NO_TEAM_SELECT] = true,
+		[MODIFIER_STATE_ATTACK_IMMUNE] = true,
+		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
+		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+		[MODIFIER_STATE_ROOTED] = true,
+		[MODIFIER_STATE_DISARMED] = true,
+	}
+end
+
+modifier_primal_beast_boss_pulverize_warn_trinity = class({})
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:IsHidden()
+	return true
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:IsPurgable()
+	return false
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:GetPriority()
+	return MODIFIER_PRIORITY_ULTRA
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:CheckState()
+	return {
+		[MODIFIER_STATE_ROOTED] = true,
+		[MODIFIER_STATE_DISARMED] = true,
+	}
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+		MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
+	}
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:GetOverrideAnimation()
+	return ACT_DOTA_CAST_ABILITY_1
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:GetActivityTranslationModifiers()
+	return "effigy"
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:OnCreated(kv)
+	if not IsServer() then
+		return
+	end
+
+	self.targetIndex = kv and tonumber(kv.target) or nil
+	local parent = self:GetParent()
+	parent:Stop()
+	parent:AddActivityModifier("effigy")
+	if parent.LookupSequence and parent.ResetSequence then
+		local seq = parent:LookupSequence("pb_cast_onslaught_effigy")
+		if seq and seq >= 0 then
+			parent:ResetSequence(seq)
+		end
+	end
+	parent:StartGesture(ACT_DOTA_CAST_ABILITY_1)
+	parent:EmitSound(PULVERIZE_WARN_SOUND)
+
+	local origin = parent:GetAbsOrigin()
+	self.waveFx = ParticleManager:CreateParticle(PULVERIZE_WAVE_PARTICLE, PATTACH_ABSORIGIN_FOLLOW, parent)
+	ParticleManager:SetParticleControl(self.waveFx, 0, origin)
+	ParticleManager:SetParticleControl(self.waveFx, 1, Vector(700, 0, 0))
+	ParticleManager:SetParticleControl(self.waveFx, 2, Vector(700, 0, 0))
+
+	self.bang = SpawnEntityFromTableSynchronous("prop_dynamic", {
+		origin = origin,
+		model = PULVERIZE_BANG_MODEL,
+		DefaultAnim = PULVERIZE_BANG_ANIM,
+		HoldAnimation = "1",
+	})
+	if IsValidHandle(self.bang) then
+		if self.bang.SetModelScale then
+			self.bang:SetModelScale(PULVERIZE_BANG_SCALE)
+		end
+		if DoEntFireByInstanceHandle then
+			DoEntFireByInstanceHandle(self.bang, "SetAnimation", PULVERIZE_BANG_ANIM, 0, nil, nil)
+		end
+	end
+
+	self:StartIntervalThink(0.03)
+	self:OnIntervalThink()
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:OnIntervalThink()
+	if not IsServer() then
+		return
+	end
+
+	local parent = self:GetParent()
+	local bang = self.bang
+	if not IsAlive(parent) or not IsValidHandle(bang) then
+		return
+	end
+
+	local origin
+	if parent.ScriptLookupAttachment and parent.GetAttachmentOrigin then
+		local attach = parent:ScriptLookupAttachment("attach_hitloc")
+		if attach and attach ~= 0 then
+			origin = parent:GetAttachmentOrigin(attach)
+		end
+	end
+	if not origin then
+		origin = parent:GetAbsOrigin() + Vector(0, 0, 280)
+	end
+	bang:SetAbsOrigin(Vector(origin.x, origin.y, origin.z + PULVERIZE_BANG_HEIGHT))
+end
+
+function modifier_primal_beast_boss_pulverize_warn_trinity:OnDestroy()
+	if not IsServer() then
+		return
+	end
+
+	local parent = self:GetParent()
+	if IsValidHandle(parent) then
+		parent:FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+		if parent.ClearActivityModifiers then
+			parent:ClearActivityModifiers()
+		end
+	end
+
+	if self.waveFx then
+		ParticleManager:DestroyParticle(self.waveFx, false)
+		ParticleManager:ReleaseParticleIndex(self.waveFx)
+		self.waveFx = nil
+	end
+	if IsValidHandle(self.bang) then
+		UTIL_Remove(self.bang)
+	end
+	self.bang = nil
+
+	if not IsAlive(parent) or parent.primalBeastAllied then
+		return
+	end
+
+	local target = parent.primalBeastPulverizeTarget
+	Timers:CreateTimer(0.05, function()
+		if not IsAlive(parent) then
+			return nil
+		end
+		PrimalBeastBoss:TryCastPulverize(parent, target or parent.primalBeastPulverizeTarget)
+		parent.primalBeastPulverizeTarget = nil
+		return nil
+	end)
 end

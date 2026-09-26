@@ -4,6 +4,7 @@ LinkLuaModifier("modifier_item_yasha_combination_armor", "items/item_yasha_and_k
 local YASHA_ARMOR_ITEMS = {
     item_sange_and_yasha = true,
     item_yasha_and_kaya = true,
+    item_trident = true,
 }
 
 function EnsureYashaCombinationArmor(hero)

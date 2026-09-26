@@ -469,6 +469,18 @@ flowchart TD
 - Масштабирование уровней: `Game/scripts/vscripts/map_modifications/Bosses/mortimer_level_scaling.lua`.
 - `npc_dota_roshan_pathway` и `ai_roshan_pathway.lua` сохранены как legacy-реализация, но текущим спавнером не используются.
 
+<<<<<<< Updated upstream
+=======
+#### Primal Beast pathway
+
+- Юнит `npc_primal_beast_boss`, `npc_dota_creature`, модель `primal_beast_base.vmdl` плюс дефолтные wearables `769–772` (голова / руки / спина / ноги). Враждебный спавн — нейтрал, **не ancient**, чтобы вышки могли его бить. Способности ванильные max level: `primal_beast_uproar` (Аганим через `modifier_item_ultimate_scepter_consumed`), `primal_beast_pulverize`, `primal_beast_rock_throw` (шард через `modifier_item_aghanims_shard`). `primal_beast_trample` у враждебного скрыт. Враждебный бьёт с руки и преследует цель в агро. Перед Pulverize **1,8 сек** телеграф: `pb_cast_onslaught_effigy`, VO `primal_intro_02`, восклицательный `poogie_exclamation` (`wave_v1`) и красная волна QoP 2022; сам каст идёт после телеграфа.
+- Уровень с ротации масштабирует здоровье, броню и урон атаки теми же формулами, что Мортимер: `3500 + 3000 × (L − 1)`, `20 + 5 × (L − 1)`, `200 + 100 × (L − 1)`.
+- Идёт по тому же маршруту и агро, что Мортимер. На финальной точке исчезает без конверта в маунта.
+- После убийства игроками на трупе появляется союзный экземпляр без автоатаки, живёт **1 минуту** (`modifier_kill`). Способности зверя скрыты: Trample кастуется сам, без кулдауна. `ModelScale` **1.8**. Пока никто не сидит, над зверем крутятся седло `toxic_siege_armored_saddle` и зелёная `arrow.vmdl` (стрелка сверху, указывает на седло, без подскока). ПКМ союзного героя в ~250 сажает на спину: герой не парентится к `spine_2`, а каждый кадр ставится в точку аттача, стоя прямо. С спины можно атаковать и кастовать. Игрок остаётся на герое: ПКМ по земле ведёт зверя как Rolling Thunder; пока едет, играет `pb_run_haste` (`ACT_DOTA_RUN` + `haste`). Смерть союзного зверя спешивает героя.
+- Чит: `spawn_primal_beast_boss [x y z]`.
+- Lua: `Game/scripts/vscripts/map_modifications/Bosses/primal_beast/`.
+
+>>>>>>> Stashed changes
 ### Shard Shrine
 
 - `map_modifications/shard_shrine.lua`
@@ -836,12 +848,47 @@ KV: `Game/scripts/npc/abilities/shared.txt`
 
 ## Предметы
 
+Нейтральные предметы выключены (`SetAllowNeutralItemDrops(false)`, пустой `npc_neutral_items_custom.txt`). Бывшие нейтралки остаются теми же `item_*` именами, чтобы сохранились ванильные C++-способности. Статы компонентов копируются в `AbilityValues` апгрейда; Lua `item_shop_rework_inherit.lua` добирает ключи, которые C++ класса результата не читает, и уникальные пассивки компонентов. Апгрейд с более сильным активом того же типа оставляет актив результата (Force, BKB, Blade Mail, Radiance aura, Shiva blast, Ex Machina). Passive-результат не получает вторую кнопку (нет Veil на Catalyst, нет Soul Ring на Bloodrite). Pollinate на Shiva — пассивная аура, не второй клик. Afterburn с Dragon Scale идёт дальше на Cloak of Flames и Radiance. Gut 'Em и Javelin идут с Shiv на Mind Breaker.
+
+| Предмет | Сборка | Цена | Особенность |
+|---------|--------|------|-------------|
+| `item_foragers_kit` | 2× Branch + 90 | 200 | Вместо Tango / Faerie Fire |
+| `item_chipped_vest` | покупка | 950 | Возврат урона. В Blade Mail вместо Splintmail |
+| `item_essence_ring` | Regen + 2× Gauntlets + 195 | 650 | Ванильный актив |
+| `item_dragon_scale` | покупка | 225 | Ванильный burn. В Cloak of Flames вместо Voodoo Mask |
+| `item_cloak_of_flames` | Shawl + Dragon Scale + 200 | 875 | Immolate C++ + Afterburn и броня/MR компонентов. В Radiance вместо Talisman |
+| `item_psychic_headband` | Fluffy Hat + Mantle + 410 | 800 | Ванильный толчок. В Force Staff вместо Fluffy Hat |
+| `item_jidi_pollen_bag` | Orb of Frost + Orb of Venom + 250 | 900 | Ванильный клик Pollinate + орбы Lua. В Shiva's вместо Chasm Stone |
+| `item_minotaur_horn` | покупка | 1000 | Ванильный короткий BKB. В BKB вместо Ogre Axe |
+| `item_serrated_shiv` | Falcon Blade + Javelin + 375 | 2400 | Gut 'Em C++ + Javelin Lua. Дальше в Mind Breaker |
+| `item_conjurers_catalyst` | Phylactery + Veil + 400 | 4700 | Взрыв C++ + Phylactery Lua + Spell Weakness аура как у Bloodstone |
+| `item_desolator_2` | Desolator + Crystalys + 400 | 5900 | Порча C++; крит и стаки Lua `items/item_desolator_2.lua` |
+| `item_dezun_bloodrite` | Chasm Stone + Soul Ring + 195 | 1800 | Ванильный Bloodrite (HP за AoE) + статы компонентов |
+| `item_fallen_sky` | Diadem + Kaya + 250 | 3350 | Вместо Meteor Hammer. Ванильный удар с неба |
+| `item_divine_regalia` | Blades + Broadsword + 750 | 2200 | В Rapier вместо Demon Edge |
+| `item_vambrace` | Gauntlets + Slippers + Mantle | 420 | Ванильный переключатель статов. В Power Treads вместо пояса/эльфов/робы |
+| `item_mind_breaker` | Serrated Shiv + Oblivion Staff + 375 | 4400 | Молчание C++ + Gut 'Em и Javelin с Shiv |
+| `item_ninja_gear` | покупка | 900 | Вместо Smoke. Ванильный смок |
+| `item_mirror_shield` | покупка | 1000 | Ванильный reflect. В Lotus Orb вместо Tiara |
+| `item_iron_talon` | Quelling + Ring of Protection | 275 | Ванильный квайл/каст по крипу. В Midas вместо рецепта с перчатками |
+| `item_trident` | Sange + Yasha + Kaya (или пара + оставшийся) | 6301 | Ванильные статы тройки |
+| `item_mango_tree` | 2× Branch + 40 | 150 | Вместо Enchanted Mango. Ванильное дерево |
+| `item_greater_faerie_fire` | покупка | 200 | Ванильный расходник |
+| `item_ex_machina` | Refresher + 1500 | 6500 | Сбрасывает КД предметов и способностей. Сама себя не рефрешит. Ванильный каст IMMEDIATE, способности дописывает Lua |
+
+`items/item_shop_rework_inherit.lua` вешает ванильные C++-модификаторы компонентов на апгрейд (`modifier_dragon_scale_burn`, `modifier_item_jidi_pollen_bag`, Javelin, Gut 'Em, орбы, Phylactery, Mirror Shield). Атаки идут через `GameMode:DamageFilter` (в Trinity `OnAttackLanded` у предметов не стреляет); Mage Slayer тоже вызывается из этого фильтра, а не ставит свой. Статы, которых C++ не читает, по-прежнему добирает Lua. Броня линейки Yasha — `items/item_yasha_and_kaya.lua`. Refresher собирается из одного Ring of Tarrasque. ExecuteOrderFilter не трогается.
+
+KV: `Game/scripts/npc/npc_items_custom.txt` → `#base "items/_index.txt"`. Дамп `Game/scripts/npc/Items.txt` движком не загружается. Tango, Tango Single, Faerie Fire, Enchanted Mango, Smoke и Meteor Hammer скрыты (`IsObsolete`).
+
+Новые рецепты, которых нет в ванили, обязаны иметь `"BaseClass" "item_datadriven"`, иначе покупка падает с `entity class is NULL`. Раскладка: `Game/scripts/shops.txt`, `shops/new2_shops.txt`, `shops/dota3v3_shops.txt` — один предмет в одной категории. `SecretShop 0` у бывших secret-предметов, чтобы при `UNIVERSAL_SHOP_MODE` они не рисовались дважды. Оверлей `AbilityValues` полностью заменяет блок, поэтому в оверлее копируются все ключи апгрейда. Tooltip: ванильный `<h1>` Active/Passive, для доп. статов токены `+$str` / `+$all` и т.д., без выдуманных Description.
+
+Прочие кастомные предметы:
+
 | Предмет | Файл | Особенность |
 |---------|------|-------------|
 | `item_kaya_mind_power` | `items/item_kaya_mind_power.lua` | Бонус Mind Power |
 | `item_mage_slayer` | `items/item_mage_slayer.lua` | Дебафф Mind Power через DamageFilter |
-
-KV предметов: `Game/scripts/npc/items/` (если есть) + lua-реализация.
+| `item_shop_rework_inherit` | `items/item_shop_rework_inherit.lua` | Наследование статов и эффектов шоп-сборок |
 
 Магазин у фонтана универсальный (`UNIVERSAL_SHOP_MODE = true` в `game_settings.lua`): предметы бывшей боковой лавки и секретной лавки покупаются в обычном магазине. После разминки режим не сбрасывается.
 

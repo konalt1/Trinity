@@ -14,6 +14,22 @@ LinkLuaModifier("modifier_caravan_aghanim_shard_slow", "map_modifications/Bosses
 LinkLuaModifier("modifier_primal_beast_boss_mountable_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_primal_beast_boss_rider_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_primal_beast_boss_roll_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+<<<<<<< Updated upstream
 LinkLuaModifier("modifier_largo_catchy_lick_buff", "abilities/largo/largo_catchy_lick", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_catchy_lick_pull", "abilities/largo/largo_catchy_lick", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_frogstomp_debuff", "abilities/largo/largo_frogstomp", LUA_MODIFIER_MOTION_NONE)
+=======
+LinkLuaModifier("modifier_primal_beast_boss_marker_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_primal_beast_boss_pulverize_warn_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_yasha_combination_armor", "items/item_yasha_and_kaya", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_desolator_2_trinity_crit", "items/item_desolator_2", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_item_inherit", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_afterburn", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_pollinate_aura", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_pollinate_debuff", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_orb_frost", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_orb_venom", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_spell_weakness_aura", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_spell_weakness_debuff", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_trinity_phylactery_slow", "items/item_shop_rework_inherit", LUA_MODIFIER_MOTION_NONE)
+>>>>>>> Stashed changes

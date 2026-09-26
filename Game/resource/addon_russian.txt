@@ -1434,5 +1434,251 @@
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave"					"Волна пустоты"
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave_Description"		"Замедлен волной пустоты."
 
+<<<<<<< Updated upstream
+=======
+		// Pangolier
+		"DOTA_Tooltip_ability_pangolier_swashbuckle"									"Выпад"
+		"DOTA_Tooltip_ability_pangolier_swashbuckle_Description"						"Pangolier бросается в указанную точку и несколько раз бьёт шпагой в выбранном направлении. Удары замедляют врагов и считаются атаками."
+
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity"							"Щиток"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_Description"				"Pangolier прыгает вперёд и бьёт щитом по земле, нанося физический урон врагам вокруг.
+
+		Если удар задевает вражеского героя, Pangolier получает барьер на все типы урона.
+
+		Во время Колобка он подпрыгивает и продолжает катиться.
+
+		Урон: %damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_scepter_description"		"При применении Pangolier бьёт Выпадом в четыре стороны: по два удара на каждую. Эти удары наносят %scepter_damage_pct%%% урона."
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_damage"					"УРОН:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_hero_stacks"				"БАРЬЕР:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_duration"				"ДЛИТЕЛЬНОСТЬ БАРЬЕРА:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_radius"					"РАДИУС:"
+		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier"				"Щиток"
+		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier_Description"	"Барьер поглощает урон."
+
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity"							"Изящное попадание"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Пассивно.</b> Атаки Pangolier и удары Выпада с шансом вскрывают рану.
+
+		Цель кровоточит: получает периодический физический урон и замедляется."
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_description"		"За каждого вражеского героя вокруг увеличивает шанс попадания на %shard_chance_per_hero%%%."
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_proc_chance"				"%ШАНС:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_bleed_dps"				"УРОН В СЕКУНДУ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_movement_slow_pct"		"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_chance_per_hero"	"%ШАНС ЗА ГЕРОЯ:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_radius"			"РАДИУС:"
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark"					"Изящное попадание"
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Кровоточит и замедлен."
+
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity"						"Ритм дуэлянта"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Пассивно.</b> Pangolier набирает Ритм, применяя разные способности. Повтор той же способности Ритм не увеличивает.
+
+		Каждая уникальная способность усиливает следующую обычную атаку: дополнительный физический урон и критический удар. Чем длиннее связка, тем сильнее удар.
+
+		После атаки Ритм сбрасывается.
+
+		Урон за способность: %bonus_damage% + Сила магии × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"МАКС. СПОСОБНОСТЕЙ:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_combo_duration"		"ДЛИТЕЛЬНОСТЬ РИТМА:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"УРОН ЗА СПОСОБНОСТЬ:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_mind_power_multiplier"	"МНОЖИТЕЛЬ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_per_style"		"%КРИТ ЗА СПОСОБНОСТЬ:"
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo"				"Ритм дуэлянта"
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Счётчик разных способностей. Следующая обычная атака усилена."
+
+		"DOTA_Tooltip_ability_pangolier_rollup"										"Скаток"
+		"DOTA_Tooltip_ability_pangolier_rollup_Description"							"Pangolier замирает в шаре. Он получает иммунитет к отрицательным эффектам и бонус к сопротивлению магии и может поворачиваться.
+
+		Если вражеский герой атакует Pangolier, тот откатывается от атакующего и наносит урон Колобка врагам на пути.
+
+		Способность доступна только во время Колобка."
+		"DOTA_Tooltip_ability_pangolier_rollup_duration"								"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_pangolier_rollup_stop"									"Стоп"
+
+		"DOTA_Tooltip_ability_pangolier_gyroshell"									"Колобок"
+		"DOTA_Tooltip_ability_pangolier_gyroshell_Description"						"Pangolier сворачивается в шар и катится вперёд. Он получает иммунитет к отрицательным эффектам и бонус к сопротивлению магии. Столкновение с врагом отбрасывает его, наносит урон и оглушает.
+
+		Во время качения доступен Скаток.
+
+		Урон: %damage% + Сила магии × 1."
+		"DOTA_Tooltip_ability_pangolier_gyroshell_shard_description"					""
+		"DOTA_Tooltip_ability_pangolier_gyroshell_stop"								"Стоп"
+
+		"DOTA_Tooltip_ability_antimage_mana_break"									"Выжигание маны"
+		"DOTA_Tooltip_ability_antimage_mana_break_Description"						"<b>Пассивно.</b> Атаки Anti-Mage сжигают ману цели и наносят урон, равный доле от сожжённой маны."
+		"DOTA_Tooltip_ability_antimage_mana_break_Note0"								"Атаки иллюзий сжигают только часть обычного объёма маны."
+		"DOTA_Tooltip_ability_antimage_mana_break_scepter_Description"				"Увеличивает сжигание максимальной маны за атаку."
+		"DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit"						"СЖИГАНИЕ МАНЫ ЗА АТАКУ:"
+		"DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit_pct"					"%СЖИГАНИЕ МАКС. МАНЫ:"
+		"DOTA_Tooltip_ability_antimage_mana_break_percent_damage_per_burn"			"%УРОН ОТ СОЖЖЁННОЙ МАНЫ:"
+
+		"DOTA_Tooltip_ability_antimage_dodge_trinity"								"Уклон"
+		"DOTA_Tooltip_ability_antimage_dodge_trinity_Description"					"Anti-Mage резко ускоряется и проносится в выбранную точку.
+
+		Сбивает с цели снаряды."
+		"DOTA_Tooltip_ability_antimage_dodge_trinity_range"							"ДАЛЬНОСТЬ:"
+
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity"						"Антискилл"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Description"			"Anti-Mage вешает на выбранного врага щит Антискилла.
+
+		<b>Пассивно.</b> Anti-Mage получает сопротивление магии.
+
+		Если цель применяет способность, заклинание не срабатывает, уходит в перезарядку, и щит спадает.
+
+		Метка Анти Магии срабатывает, как при обычном применении."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Note0"					"Пассивное сопротивление магии отключается истощением. Предметы щит не блокирует."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_magic_resistance"		"%СОПРОТИВЛЕНИЕ МАГИИ:"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock"					"Антискилл"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock_Description"		"Следующая способность не сработает и уйдёт в перезарядку."
+
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity"						"Метка Анти Магии"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_Description"			"<b>Пассивно.</b> Когда вражеский герой в радиусе применяет способность, Anti-Mage вешает на него метку.
+
+		Способность, заблокированная Антискиллом, тоже вешает метку.
+
+		Помеченного героя видно. Anti-Mage наносит ему повышенный урон, а атаки сильнее выжигают ману.
+
+		Атака Anti-Mage по метке оглушает цель и снимает метку."
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_radius"				"РАДИУС:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_duration"				"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_damage_pct"		"%ДОП. УРОН:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_mana_burn"		"ДОП. СЖИГАНИЕ МАНЫ:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_stun_duration"			"ОГЛУШЕНИЕ:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_vision_radius"			"РАДИУС ОБЗОРА:"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff"				"Метка Анти Магии"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"Героя видно. Атака Anti-Mage оглушает и снимает метку."
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash"					"Метка Анти Магии"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash_Description"		"Оглушён атакой Anti-Mage."
+
+		"DOTA_Tooltip_ability_item_foragers_kit_bonus_all_stats"					"+$all"
+		"DOTA_Tooltip_ability_item_foragers_kit_bonus_health_regen"				"+$hp_regen"
+
+		"DOTA_Tooltip_ability_item_cloak_of_flames_Description"					"<h1>Пассивная: Immolate</h1>Жжёт врагов вокруг, нанося %damage% урона в секунду. Иллюзии наносят %damage_illusions% урона в секунду.\n\n<h1>Пассивная: Afterburn</h1>Атаки поджигают цель, нанося %damage_per_sec% урона в секунду в течение %duration% сек."
+		"DOTA_Tooltip_ability_item_radiance_Description"							"<h1>Переключаемая: Burn</h1>Когда эффект включён, сжигает врагов вокруг, нанося %aura_damage% урона в секунду. Иллюзии наносят %aura_damage_illusions% урона в секунду.\n\n<h1>Пассивная: Afterburn</h1>Атаки поджигают цель, нанося %damage_per_sec% урона в секунду в течение %duration% сек."
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_Description"					"<h1>Активная: Pollinate</h1>Покрывает врагов вокруг пыльцой: снижает восстановление здоровья на %health_regen_loss%%% и наносит %hp_damage%%% от максимального здоровья магическим уроном за время действия.\n\n<h1>Пассивная: Orb of Frost</h1>Атаки замедляют и снижают исцеление.\n\n<h1>Пассивная: Orb of Venom</h1>Атаки отравляют цель."
+		"DOTA_Tooltip_ability_item_shivas_guard_Description"						"<h1>Активная: Arctic Blast</h1>Выпускает ледяную волну, наносящую урон и замедляющую врагов.\n\n<h1>Пассивная: Freezing Aura</h1>Снижает скорость атаки врагов вокруг.\n\n<h1>Пассивная: Pollinate</h1>Постоянно покрывает врагов вокруг пыльцой: снижает восстановление здоровья на %health_regen_loss%%% и наносит %hp_damage%%% от максимального здоровья в секунду.\n\n<h1>Пассивная: Orb of Frost</h1>Атаки замедляют и снижают исцеление.\n\n<h1>Пассивная: Orb of Venom</h1>Атаки отравляют цель."
+		"DOTA_Tooltip_ability_item_serrated_shiv_Description"					"<h1>Пассивная: Gut 'Em</h1>Атаки с шансом %proc_chance%%% наносят магический урон, равный %hp_dmg%%% текущего здоровья цели.\n\n<h1>Пассивная: Javelin</h1>Атаки с шансом %bonus_chance%%% наносят %bonus_chance_damage% дополнительного магического урона."
+		"DOTA_Tooltip_ability_item_mind_breaker_Description"						"<h1>Пассивная: Silence Strike</h1>Атаки накладывают безмолвие и наносят дополнительный магический урон.\n\n<h1>Пассивная: Gut 'Em</h1>Атаки с шансом %proc_chance%%% наносят магический урон, равный %hp_dmg%%% текущего здоровья цели.\n\n<h1>Пассивная: Javelin</h1>Атаки с шансом %bonus_chance%%% наносят %bonus_chance_damage% дополнительного магического урона."
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_Description"				"<h1>Пассивная: Explosion</h1>Когда враг получает от владельца больше %damage_threshold% урона, вокруг цели происходит взрыв.\n\n<h1>Пассивная: Empower Spell</h1>Следующая способность по герою наносит %bonus_spell_damage% дополнительного урона и замедляет цель.\n\n<h1>Пассивная: Spell Weakness</h1>Враги вокруг получают на %aura_spell_vulnerability%%% больше магического урона."
+		"DOTA_Tooltip_ability_item_lotus_orb_Description"						"<h1>Активная: Echo Shell</h1>Создаёт щит, который отражает большинство направленных заклинаний.\n\n<h1>Пассивная: Echo Shield</h1>С шансом %reflect_chance%%% блокирует и отражает направленное заклинание."
+
+		"DOTA_Tooltip_ability_item_essence_ring_bonus_strength"					"+$str"
+		"DOTA_Tooltip_ability_item_essence_ring_bonus_health_regen"				"+$hp_regen"
+
+		"DOTA_Tooltip_ability_item_psychic_headband_bonus_intellect"				"+$int"
+		"DOTA_Tooltip_ability_item_psychic_headband_bonus_health"				"+$health"
+
+		"DOTA_Tooltip_ability_item_minotaur_horn_bonus_strength"					"+$str"
+
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_damage"					"+$damage"
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_health"					"+$health"
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_mana_regen"				"+$mana_regen"
+
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_slow_melee"					"%ЗАМЕДЛЕНИЕ (БЛИЖНИЙ БОЙ):"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_slow_ranged"					"%ЗАМЕДЛЕНИЕ (ДАЛЬНИЙ БОЙ):"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_heal_reduction"				"%СНИЖЕНИЕ ИСЦЕЛЕНИЯ:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_frost_duration"				"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_venom_damage"					"УРОН ЯДА:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_poison_duration"				"ДЛИТЕЛЬНОСТЬ ЯДА:"
+
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_chance"					"%ШАНС JAVELIN:"
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_chance_damage"			"УРОН JAVELIN:"
+
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_all_stats"			"+$all"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_spell_damage"		"ДОП. УРОН:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_slow"						"%ЗАМЕДЛЕНИЕ:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_slow_duration"				"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_phylactery_cooldown"		"ПЕРЕЗАРЯДКА УСИЛЕНИЯ:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_aura_spell_vulnerability"	"%СЛАБОСТЬ К ЗАКЛИНАНИЯМ:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_aura_radius"				"РАДИУС АУРЫ:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_health_regen"		"+$hp_regen"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_mana_regen"			"+$mana_regen"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_health"				"+$health"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_intellect"			"+$int"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_spell_amp"					"%+$spell_amp"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_spell_lifesteal"			"%+$spell_lifesteal"
+
+		"DOTA_Tooltip_ability_item_desolator_2"									"Стигийский дезолятор"
+		"DOTA_Tooltip_ability_item_recipe_desolator_2"							"Рецепт: Стигийский дезолятор"
+		"DOTA_Tooltip_ability_item_desolator_2_crit_chance"						"%ШАНС КРИТА:"
+		"DOTA_Tooltip_ability_item_desolator_2_crit_multiplier"					"%КРИТ:"
+		"DOTA_Tooltip_ability_item_desolator_2_bonus_damage_per_kill"			"УРОН ЗА УБИЙСТВО:"
+		"DOTA_Tooltip_ability_item_desolator_2_bonus_damage_per_assist"			"УРОН ЗА АССИСТ:"
+		"DOTA_Tooltip_ability_item_desolator_2_max_damage"						"МАКС. УРОН ЗА УБИЙСТВА:"
+
+		"DOTA_Tooltip_ability_item_dezun_bloodrite_bonus_strength"				"+$str"
+		"DOTA_Tooltip_ability_item_dezun_bloodrite_bonus_armor"					"+$armor"
+		"DOTA_Tooltip_ability_item_dezun_bloodrite_aoe_bonus"					"+ к радиусу заклинаний"
+
+		"DOTA_Tooltip_ability_item_fallen_sky_bonus_all_stats"					"+$all"
+		"DOTA_Tooltip_ability_item_fallen_sky_mind_power_bonus"					"+ к силе магии"
+		"DOTA_Tooltip_ability_item_fallen_sky_mana_regen_multiplier"				"%+$mana_regen"
+
+		"DOTA_Tooltip_ability_item_divine_regalia_bonus_damage"					"+$damage"
+
+		"DOTA_Tooltip_ability_item_blade_mail_bonus_health_regen"				"+$hp_regen"
+		"DOTA_Tooltip_ability_item_force_staff_cast_range"						"+ к дальности заклинаний"
+		"DOTA_Tooltip_ability_item_hurricane_pike_cast_range"					"+ к дальности заклинаний"
+		"DOTA_Tooltip_ability_item_radiance_bonus_armor"							"+$armor"
+		"DOTA_Tooltip_ability_item_radiance_magic_resistance"					"%+$spell_resist"
+		"DOTA_Tooltip_ability_item_radiance_damage_per_sec"						"УРОН AFTERBURN:"
+		"DOTA_Tooltip_ability_item_radiance_duration"							"ДЛИТЕЛЬНОСТЬ AFTERBURN:"
+		"DOTA_Tooltip_ability_item_cloak_of_flames_damage_per_sec"				"УРОН AFTERBURN:"
+		"DOTA_Tooltip_ability_item_cloak_of_flames_duration"						"ДЛИТЕЛЬНОСТЬ AFTERBURN:"
+		"DOTA_Tooltip_ability_item_shivas_guard_health_regen_loss"				"%ПОТЕРЯ РЕГЕНЕРАЦИИ:"
+		"DOTA_Tooltip_ability_item_shivas_guard_hp_damage"						"%УРОН ОТ МАКС. HP:"
+		"DOTA_Tooltip_ability_item_shivas_guard_debuff_radius"					"РАДИУС POLLINATE:"
+		"DOTA_Tooltip_ability_item_shivas_guard_slow_melee"						"%ЗАМЕДЛЕНИЕ (БЛИЖНИЙ БОЙ):"
+		"DOTA_Tooltip_ability_item_shivas_guard_slow_ranged"						"%ЗАМЕДЛЕНИЕ (ДАЛЬНИЙ БОЙ):"
+		"DOTA_Tooltip_ability_item_shivas_guard_heal_reduction"					"%СНИЖЕНИЕ ИСЦЕЛЕНИЯ:"
+		"DOTA_Tooltip_ability_item_shivas_guard_frost_duration"					"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+		"DOTA_Tooltip_ability_item_shivas_guard_venom_damage"					"УРОН ЯДА:"
+		"DOTA_Tooltip_ability_item_shivas_guard_poison_duration"					"ДЛИТЕЛЬНОСТЬ ЯДА:"
+		"DOTA_Tooltip_ability_item_lotus_orb_reflect_chance"					"%ШАНС ОТРАЖЕНИЯ:"
+		"DOTA_Tooltip_ability_item_hand_of_midas_bonus_armor"					"+$armor"
+		"DOTA_Tooltip_ability_item_mind_breaker_proc_chance"					"%ШАНС GUT 'EM:"
+		"DOTA_Tooltip_ability_item_mind_breaker_hp_dmg"							"%УРОН ОТ ТЕК. HP:"
+		"DOTA_Tooltip_ability_item_mind_breaker_hp_dmg_rosh"					"УРОН ПО РОШАНУ:"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_chance"					"%ШАНС JAVELIN:"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_chance_damage"			"УРОН JAVELIN:"
+		"DOTA_Tooltip_modifier_trinity_afterburn"								"Afterburn"
+		"DOTA_Tooltip_modifier_trinity_afterburn_Description"					"Получает периодический магический урон."
+		"DOTA_Tooltip_modifier_trinity_pollinate_debuff"						"Pollinate"
+		"DOTA_Tooltip_modifier_trinity_pollinate_debuff_Description"				"Регенерация ослаблена. Теряет здоровье от максимального запаса."
+		"DOTA_Tooltip_modifier_trinity_orb_frost"								"Orb of Frost"
+		"DOTA_Tooltip_modifier_trinity_orb_frost_Description"					"Замедлен. Исцеление ослаблено."
+		"DOTA_Tooltip_modifier_trinity_orb_venom"								"Orb of Venom"
+		"DOTA_Tooltip_modifier_trinity_orb_venom_Description"					"Получает периодический магический урон."
+		"DOTA_Tooltip_modifier_trinity_spell_weakness_debuff"					"Слабость к заклинаниям"
+		"DOTA_Tooltip_modifier_trinity_spell_weakness_debuff_Description"		"Получает увеличенный магический урон."
+		"DOTA_Tooltip_modifier_trinity_phylactery_slow"							"Phylactery"
+		"DOTA_Tooltip_modifier_trinity_phylactery_slow_Description"				"Замедлен усиленным заклинанием."
+		"DOTA_Tooltip_ability_item_rapier_outgoing_damage"						"%+ к исходящему урону"
+		"DOTA_Tooltip_ability_item_lotus_orb_bonus_all_stats"					"+$all"
+
+		"DOTA_Tooltip_ability_item_dragon_scale_bonus_armor"					"+$armor"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_damage"					"+$damage"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_health"					"+$health"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_mana_regen"				"+$mana_regen"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_intellect"				"+$int"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_attack_speed"				"+$attack"
+		"DOTA_Tooltip_ability_item_ninja_gear_bonus_agility"					"+$agi"
+		"DOTA_Tooltip_ability_item_mirror_shield_bonus_all_stats"				"+$all"
+		"DOTA_Tooltip_ability_item_mirror_shield_all_stats"						"+$all"
+		"DOTA_Tooltip_ability_item_iron_talon_bonus_armor"						"+$armor"
+		"DOTA_Tooltip_ability_item_trident_mind_power_bonus"					"+ к силе магии"
+		"DOTA_Tooltip_ability_item_mango_tree_bonus_all_stats"					"+$all"
+		"DOTA_Tooltip_ability_item_ex_machina_Note0"							"Сбрасывает перезарядку способностей и предметов, кроме себя."
+		"DOTA_Tooltip_ability_item_ex_machina_bonus_health_regen"				"+$hp_regen"
+		"DOTA_Tooltip_ability_item_ex_machina_bonus_mana_regen"					"+$mana_regen"
+		"DOTA_Tooltip_ability_item_recipe_ex_machina"							"Рецепт: Ex Machina"
+		"DOTA_Tooltip_ability_item_recipe_vambrace"							"Рецепт: Наручи"
+		"DOTA_Tooltip_ability_item_recipe_mind_breaker"							"Рецепт: Крушитель разума"
+		"DOTA_Tooltip_ability_item_recipe_mango_tree"							"Рецепт: Манговое дерево"
+
+>>>>>>> Stashed changes
 	}
 }

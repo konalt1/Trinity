@@ -1,0 +1,390 @@
+"DOTAAbilities"
+{
+	//=================================================================================================================
+	// Blade Mail: Broadsword + Chipped Vest + 450 = 2400
+	// Vest даёт реген вместо брони Splintmail. Возврат Blade Mail — апгрейд возврата жилета.
+	//=================================================================================================================
+	"item_recipe_blade_mail"
+	{
+		"ItemCost"						"450"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_blade_mail"
+		"ItemRequirements"
+		{
+			"01"						"item_broadsword;item_chipped_vest"
+		}
+	}
+
+	"item_blade_mail"
+	{
+		"AbilityValues"
+		{
+			"bonus_damage"					"15"
+			"bonus_armor"					"0"
+			"bonus_intellect"				"0"
+			"bonus_health_regen"			"3"
+			"duration"						"5.5"
+			"passive_reflection_constant"	"10"
+			"passive_reflection_pct"		"15"
+			"active_reflection_pct"			"85"
+		}
+	}
+
+	//=================================================================================================================
+	// Force Staff: Staff of Wizardry + Psychic Headband + 400 = 2200
+	//=================================================================================================================
+	"item_recipe_force_staff"
+	{
+		"ItemCost"						"400"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_force_staff"
+		"ItemRequirements"
+		{
+			"01"						"item_staff_of_wizardry;item_psychic_headband"
+		}
+	}
+
+	"item_force_staff"
+	{
+		"AbilityValues"
+		{
+			"bonus_intellect"		"18"
+			"bonus_health"			"125"
+			"cast_range"			"75"
+			"push_length"			"600"
+			"enemy_cast_range"		"850"
+			"push_time"				"0.5"
+		}
+	}
+
+	//=================================================================================================================
+	// Radiance: Sacred Relic + Cloak of Flames = 4275
+	// Огненная аура Radiance — апгрейд ауры плаща. Статы Shawl/Dragon Scale остаются.
+	//=================================================================================================================
+	"item_recipe_radiance"
+	{
+		"ItemCost"						"0"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_radiance"
+		"ItemRequirements"
+		{
+			"01"						"item_relic;item_cloak_of_flames"
+		}
+	}
+
+	"item_radiance"
+	{
+		"ItemCost"						"4275"
+		"AbilityValues"
+		{
+			"bonus_damage"				"55"
+			"aura_damage"				"60"
+			"aura_damage_illusions"		"35"
+			"upgrade_day_vision"		"250"
+			"evasion"					"0"
+			"blind_pct"					"0"
+			"bonus_armor"				"3"
+			"magic_resistance"			"10"
+			"damage_per_sec"			"22"
+			"duration"					"3"
+			"aura_radius"
+			{
+				"value"					"650"
+				"affected_by_aoe_increase"	"1"
+			}
+			"illusion_multiplier_pct"	"100"
+		}
+	}
+
+	//=================================================================================================================
+	// Shiva's Guard: Platemail + Splintmail + Pollen Bag + 1250 = 4500
+	//=================================================================================================================
+	"item_recipe_shivas_guard"
+	{
+		"ItemCost"						"1250"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_shivas_guard"
+		"ItemRequirements"
+		{
+			"01"						"item_platemail;item_splintmail;item_jidi_pollen_bag"
+		}
+	}
+
+	"item_shivas_guard"
+	{
+		"AbilityValues"
+		{
+			"bonus_hp_regen"			"0"
+			"bonus_armor"				"17"
+			"bonus_aoe"					"0"
+			"aura_radius"
+			{
+				"value"					"1200"
+				"affected_by_aoe_increase"	"1"
+			}
+			"aura_attack_speed"			"-40"
+			"blast_damage"				"260"
+			"blast_movement_speed"		"-40"
+			"blast_debuff_duration"		"4.0"
+			"blast_radius"
+			{
+				"value"					"825"
+				"affected_by_aoe_increase"	"1"
+			}
+			"blast_speed"				"400"
+			"health_regen_loss"			"30"
+			"hp_damage"					"5"
+			"debuff_radius"				"700"
+			"damage_interval"			"1"
+			"slow_melee"				"-6"
+			"slow_ranged"				"-13"
+			"heal_reduction"			"13"
+			"frost_duration"			"3"
+			"venom_damage"				"10"
+			"poison_duration"			"3"
+		}
+	}
+
+	//=================================================================================================================
+	// Black King Bar: Mithril Hammer + Minotaur Horn + 1450 = 4050
+	//=================================================================================================================
+	"item_recipe_black_king_bar"
+	{
+		"ItemCost"						"1450"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_black_king_bar"
+		"ItemRequirements"
+		{
+			"01"						"item_mithril_hammer;item_minotaur_horn"
+		}
+	}
+
+	"item_black_king_bar"
+	{
+		"AbilityValues"
+		{
+			"bonus_strength"		"8"
+			"bonus_damage"			"24"
+			"duration"				"9 8 7"
+			"max_level"				"3"
+			"model_scale"			"30"
+			"spell_reduce"			"60"
+		}
+	}
+
+	//=================================================================================================================
+	// Divine Rapier: Sacred Relic + Divine Regalia = 5600
+	//=================================================================================================================
+	"item_recipe_rapier"
+	{
+		"ItemCost"						"0"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_rapier"
+		"ItemRequirements"
+		{
+			"01"						"item_relic;item_divine_regalia"
+		}
+	}
+
+	"item_rapier"
+	{
+		"AbilityValues"
+		{
+			"bonus_spell_amp"		"25"
+			"bonus_damage"			"250"
+			"bonus_damage_base"		"100"
+			"outgoing_damage"		"15"
+		}
+	}
+
+	//=================================================================================================================
+	// Hurricane Pike: Force Staff + Dragon Lance. Каст-рейндж и интеллект Headband идут дальше по лестнице.
+	//=================================================================================================================
+	"item_hurricane_pike"
+	{
+		"AbilityValues"
+		{
+			"bonus_intellect"		"18"
+			"bonus_health"			"200"
+			"bonus_agility"			"20"
+			"bonus_strength"		"15"
+			"cast_range"			"75"
+			"base_attack_range"		"130"
+			"push_length"			"600"
+			"enemy_length"			"425"
+			"range_duration"		"6"
+			"cast_range_enemy"		"425"
+			"max_attacks"			"5"
+			"bonus_attack_speed"	"100"
+			"push_time"				"0.5"
+			"dizzy_duration"		"0"
+			"dizzy_distance_pct"	"0"
+		}
+	}
+
+	//=================================================================================================================
+	// Power Treads: Boots + Gloves + Vambrace
+	//=================================================================================================================
+	"item_recipe_power_treads"
+	{
+		"ItemCost"						"30"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_power_treads"
+		"ItemRequirements"
+		{
+			"01"						"item_boots*;item_gloves;item_vambrace"
+		}
+	}
+
+	"item_power_treads"
+	{
+		"ItemCost"						"1400"
+		"AbilityValues"
+		{
+			"bonus_movement_speed_ranged"	"45"
+			"bonus_movement_speed_melee"	"55"
+			"bonus_stat"					"10"
+			"bonus_attack_speed"			"25"
+			"bonus_damage"					"0"
+		}
+	}
+
+	//=================================================================================================================
+	// Hand of Midas: Gloves + Iron Talon
+	//=================================================================================================================
+	"item_recipe_hand_of_midas"
+	{
+		"ItemCost"						"1475"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_hand_of_midas"
+		"ItemRequirements"
+		{
+			"01"						"item_gloves*;item_iron_talon"
+		}
+	}
+
+	//=================================================================================================================
+	// Lotus Orb: Perseverance + Platemail + Mirror Shield
+	//=================================================================================================================
+	"item_recipe_lotus_orb"
+	{
+		"ItemCost"						"250"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lotus_orb"
+		"ItemRequirements"
+		{
+			"01"						"item_pers;item_platemail;item_mirror_shield"
+		}
+	}
+
+	"item_lotus_orb"
+	{
+		"ItemCost"						"4050"
+		"AbilityValues"
+		{
+			"bonus_armor"			"10"
+			"bonus_health_regen"	"6.5"
+			"bonus_mana_regen"		"4.0"
+			"bonus_mana"			"0"
+			"active_duration"		"5"
+			"bonus_all_stats"		"6"
+			"all_stats"				"6"
+			"reflect_chance"		"75"
+			"block_cooldown"		"12.0"
+		}
+	}
+
+	//=================================================================================================================
+	// Refresher: Ring of Tarrasque only. Tiara убрана.
+	//=================================================================================================================
+	"item_recipe_refresher"
+	{
+		"ItemCost"						"3300"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_refresher"
+		"ItemRequirements"
+		{
+			"01"						"item_ring_of_tarrasque"
+		}
+	}
+
+	"item_hand_of_midas"
+	{
+		"AbilityValues"
+		{
+			"bonus_attack_speed"	"35"
+			"bonus_gold"			"160"
+			"bonus_armor"			"2"
+		}
+	}
+
+	"item_tiara_of_selemene"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_ring_of_tarrasque"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_energy_booster"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_vitality_booster"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_point_booster"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_platemail"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_talisman_of_evasion"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_hyperstone"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_ultimate_orb"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_demon_edge"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_mystic_staff"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_reaver"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_eagle"
+	{
+		"SecretShop"					"0"
+	}
+
+	"item_relic"
+	{
+		"SecretShop"					"0"
+	}
+}

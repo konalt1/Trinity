@@ -1375,6 +1375,7 @@
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave"					"Void Wave"
 		"DOTA_Tooltip_modifier_void_spirit_astral_reduction_wave_Description"		"Slowed by a void wave."
 
+<<<<<<< Updated upstream
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_Description"					"Largo gets ready to groove. He is disarmed and his ability bar switches to 3 song abilities, each with different effects. Songs are only effective if strummed on the beat. 
 		Every time he strums successfully, he gains a stack of Groovin'. Each stack gives him bonus armor and reduces the mana cost of every song, but he loses a stack if he misses a beat. Stacks linger for a short duration when Largo's song ends."
 		"DOTA_Tooltip_ability_largo_amphibian_rhapsody_scepter_description"					"Largo can play two songs per beat by strumming both at the same time."
@@ -1382,5 +1383,252 @@
 		"DOTA_Tooltip_ability_largo_song_double_time_Description"					"Largo plays a song that increases nearby friendly units' movement speed and grants a brief slow resistance."
 		"DOTA_Tooltip_ability_largo_song_good_vibrations"					"Island Elixir"
 		"DOTA_Tooltip_ability_largo_song_good_vibrations_Description"					"Largo plays a song that heals nearby friendly heroes."
+=======
+		// Pangolier
+		"DOTA_Tooltip_ability_pangolier_swashbuckle"									"Lunge"
+		"DOTA_Tooltip_ability_pangolier_swashbuckle_Description"						"Pangolier dashes to the targeted point, then slashes in the chosen direction. The strikes slow enemies and count as attacks."
+
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity"							"Shield"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_Description"				"Pangolier leaps forward and slams his shield into the ground, dealing physical damage to nearby enemies.
+
+		If the slam hits an enemy hero, Pangolier gains an all-damage barrier.
+
+		During Kolobok he hops and keeps rolling.
+
+		Damage: %damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_scepter_description"		"On cast, Pangolier strikes with Lunge in four directions: two slashes each. These slashes deal %scepter_damage_pct%%% damage."
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_damage"					"DAMAGE:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_hero_stacks"				"BARRIER:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_duration"				"BARRIER DURATION:"
+		"DOTA_Tooltip_ability_pangolier_shield_crash_trinity_radius"					"RADIUS:"
+		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier"				"Shield"
+		"DOTA_Tooltip_modifier_pangolier_shield_crash_trinity_barrier_Description"	"Barrier absorbs damage."
+
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity"							"Elegant Strike"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_Description"				"<b>Passive.</b> Pangolier's attacks and Lunge slashes have a chance to open a wound.
+
+		The target bleeds: they take physical damage over time and are slowed.
+
+		Damage per second: %bleed_dps% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_description"		"Increases strike chance by %shard_chance_per_hero%%% for each nearby enemy hero."
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_proc_chance"				"%CHANCE:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_bleed_dps"				"DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_movement_slow_pct"		"%SLOW:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_chance_per_hero"	"%CHANCE PER HERO:"
+		"DOTA_Tooltip_ability_pangolier_heartpiercer_trinity_shard_radius"			"RADIUS:"
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark"					"Elegant Strike"
+		"DOTA_Tooltip_modifier_pangolier_heartpiercer_trinity_mark_Description"		"Bleeding and slowed."
+
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity"						"Duelist's Rhythm"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_Description"			"<b>Passive.</b> Pangolier builds Rhythm by using different abilities. Repeating the same ability does not increase Rhythm.
+
+		Each unique ability empowers his next regular attack: bonus physical damage and a critical strike. A longer chain makes the hit stronger.
+
+		The attack spends Rhythm.
+
+		Damage per ability: %bonus_damage% + Spell Power × %mind_power_multiplier%."
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_max_styles"			"MAX ABILITIES:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_combo_duration"		"RHYTHM DURATION:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_bonus_damage"			"DAMAGE PER ABILITY:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_mind_power_multiplier"	"SPELL POWER MULTIPLIER:"
+		"DOTA_Tooltip_ability_pangolier_duelist_rhythm_trinity_crit_per_style"		"%CRIT PER ABILITY:"
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo"				"Duelist's Rhythm"
+		"DOTA_Tooltip_modifier_pangolier_duelist_rhythm_trinity_combo_Description"	"Counts different abilities. The next regular attack is empowered."
+
+		"DOTA_Tooltip_ability_pangolier_rollup"										"Roll Up"
+		"DOTA_Tooltip_ability_pangolier_rollup_Description"							"Pangolier stops in place as a ball. He gains debuff immunity and bonus magic resistance, and can still turn.
+
+		If an enemy hero attacks Pangolier, he rolls away from the attacker and applies Kolobok damage to enemies in the way.
+
+		This ability is available only during Kolobok."
+		"DOTA_Tooltip_ability_pangolier_rollup_duration"								"DURATION:"
+		"DOTA_Tooltip_ability_pangolier_rollup_stop"									"Stop"
+
+		"DOTA_Tooltip_ability_pangolier_gyroshell"									"Kolobok"
+		"DOTA_Tooltip_ability_pangolier_gyroshell_Description"						"Pangolier curls into a ball and rolls forward. He gains debuff immunity and bonus magic resistance. Colliding with an enemy knocks them back, deals damage, and stuns them.
+
+		Roll Up is available while rolling.
+
+		Damage: %damage% + Spell Power × 1."
+		"DOTA_Tooltip_ability_pangolier_gyroshell_shard_description"					""
+		"DOTA_Tooltip_ability_pangolier_gyroshell_stop"								"Stop"
+
+		"DOTA_Tooltip_ability_antimage_mana_break"									"Mana Break"
+		"DOTA_Tooltip_ability_antimage_mana_break_Description"						"<b>Passive.</b> Anti-Mage's attacks burn the target's mana and deal damage equal to a portion of mana burned."
+		"DOTA_Tooltip_ability_antimage_mana_break_Note0"								"Illusion attacks burn only a portion of the usual mana."
+		"DOTA_Tooltip_ability_antimage_mana_break_scepter_Description"				"Increases max mana burned per attack."
+		"DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit"						"MANA BURNED PER HIT:"
+		"DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit_pct"					"%MAX MANA BURNED:"
+		"DOTA_Tooltip_ability_antimage_mana_break_percent_damage_per_burn"			"%DAMAGE FROM BURNED MANA:"
+
+		"DOTA_Tooltip_ability_antimage_dodge_trinity"								"Dodge"
+		"DOTA_Tooltip_ability_antimage_dodge_trinity_Description"					"Anti-Mage bursts forward and dashes to the chosen point.
+
+		Dodges projectiles."
+		"DOTA_Tooltip_ability_antimage_dodge_trinity_range"							"RANGE:"
+
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity"						"Antiskill"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Description"			"Anti-Mage places a Counterspell shell on the chosen enemy.
+
+		<b>Passive.</b> Anti-Mage gains magic resistance.
+
+		If the target uses an ability, the spell does not go off, goes on cooldown, and the shell ends.
+
+		Anti-Magic Mark applies as if the ability was used."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_Note0"					"Passive magic resistance is disabled by Break. Items are not blocked."
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_magic_resistance"		"%MAGIC RESISTANCE:"
+		"DOTA_Tooltip_ability_antimage_counterspell_trinity_duration"				"DURATION:"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock"					"Antiskill"
+		"DOTA_Tooltip_modifier_antimage_counterspell_trinity_lock_Description"		"The next ability will not go off and will go on cooldown."
+
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity"						"Anti-Magic Mark"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_Description"			"<b>Passive.</b> When an enemy hero in radius casts an ability, Anti-Mage marks them.
+
+		A spell blocked by Antiskill also applies the mark.
+
+		The marked hero is revealed. Anti-Mage deals bonus damage to them, and his attacks burn extra mana.
+
+		Anti-Mage's attack against the mark stuns the target and removes the mark."
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_radius"				"RADIUS:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_duration"				"DURATION:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_damage_pct"		"%BONUS DAMAGE:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_bonus_mana_burn"		"BONUS MANA BURN:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_stun_duration"			"STUN:"
+		"DOTA_Tooltip_ability_antimage_antimagic_mark_trinity_vision_radius"			"VISION RADIUS:"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff"				"Anti-Magic Mark"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_debuff_Description"	"This hero is revealed. Anti-Mage's attack stuns and removes the mark."
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash"					"Anti-Magic Mark"
+		"DOTA_Tooltip_modifier_antimage_antimagic_mark_trinity_bash_Description"		"Stunned by Anti-Mage's attack."
+
+		"DOTA_Tooltip_ability_item_foragers_kit_bonus_all_stats"					"+$all"
+		"DOTA_Tooltip_ability_item_foragers_kit_bonus_health_regen"				"+$hp_regen"
+
+		"DOTA_Tooltip_ability_item_cloak_of_flames_Description"					"<h1>Passive: Immolate</h1>Burns nearby enemies for %damage% damage per second. Illusions deal %damage_illusions% damage per second.\n\n<h1>Passive: Afterburn</h1>Attacks burn the target for %damage_per_sec% damage per second for %duration% seconds."
+		"DOTA_Tooltip_ability_item_radiance_Description"							"<h1>Toggle: Burn</h1>When active, burns nearby enemies for %aura_damage% damage per second. Illusions deal %aura_damage_illusions% damage per second.\n\n<h1>Passive: Afterburn</h1>Attacks burn the target for %damage_per_sec% damage per second for %duration% seconds."
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_Description"					"<h1>Active: Pollinate</h1>Coats nearby enemies in pollen, reducing health restoration by %health_regen_loss%%% and dealing %hp_damage%%% of max health as magical damage over the duration.\n\n<h1>Passive: Orb of Frost</h1>Attacks slow the target and reduce healing.\n\n<h1>Passive: Orb of Venom</h1>Attacks poison the target."
+		"DOTA_Tooltip_ability_item_shivas_guard_Description"						"<h1>Active: Arctic Blast</h1>Emits a freezing wave that damages and slows enemies.\n\n<h1>Passive: Freezing Aura</h1>Reduces attack speed of nearby enemies.\n\n<h1>Passive: Pollinate</h1>Nearby enemies are coated in pollen, reducing health restoration by %health_regen_loss%%% and taking %hp_damage%%% of max health per second.\n\n<h1>Passive: Orb of Frost</h1>Attacks slow the target and reduce healing.\n\n<h1>Passive: Orb of Venom</h1>Attacks poison the target."
+		"DOTA_Tooltip_ability_item_serrated_shiv_Description"					"<h1>Passive: Gut 'Em</h1>Attacks have a %proc_chance%%% chance to deal %hp_dmg%%% of the target's current health as magical damage.\n\n<h1>Passive: Javelin</h1>Attacks have a %bonus_chance%%% chance to deal %bonus_chance_damage% bonus magical damage."
+		"DOTA_Tooltip_ability_item_mind_breaker_Description"						"<h1>Passive: Silence Strike</h1>Attacks silence the target and deal bonus magical damage.\n\n<h1>Passive: Gut 'Em</h1>Attacks have a %proc_chance%%% chance to deal %hp_dmg%%% of the target's current health as magical damage.\n\n<h1>Passive: Javelin</h1>Attacks have a %bonus_chance%%% chance to deal %bonus_chance_damage% bonus magical damage."
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_Description"				"<h1>Passive: Explosion</h1>When an enemy takes more than %damage_threshold% damage from the owner, an explosion hits around the target.\n\n<h1>Passive: Empower Spell</h1>The next spell against a hero deals %bonus_spell_damage% bonus damage and slows the target.\n\n<h1>Passive: Spell Weakness</h1>Nearby enemies take %aura_spell_vulnerability%%% extra magical damage."
+		"DOTA_Tooltip_ability_item_lotus_orb_Description"						"<h1>Active: Echo Shell</h1>Applies a shield that reflects most targeted spells.\n\n<h1>Passive: Echo Shield</h1>%reflect_chance%%% chance to block and reflect a targeted spell."
+
+		"DOTA_Tooltip_ability_item_essence_ring_bonus_strength"					"+$str"
+		"DOTA_Tooltip_ability_item_essence_ring_bonus_health_regen"				"+$hp_regen"
+
+		"DOTA_Tooltip_ability_item_psychic_headband_bonus_intellect"				"+$int"
+		"DOTA_Tooltip_ability_item_psychic_headband_bonus_health"				"+$health"
+
+		"DOTA_Tooltip_ability_item_minotaur_horn_bonus_strength"					"+$str"
+
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_damage"					"+$damage"
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_health"					"+$health"
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_mana_regen"				"+$mana_regen"
+
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_slow_melee"					"%MELEE SLOW:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_slow_ranged"					"%RANGED SLOW:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_heal_reduction"				"%HEAL REDUCTION:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_frost_duration"				"SLOW DURATION:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_venom_damage"					"POISON DAMAGE:"
+		"DOTA_Tooltip_ability_item_jidi_pollen_bag_poison_duration"				"POISON DURATION:"
+
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_chance"					"%JAVELIN CHANCE:"
+		"DOTA_Tooltip_ability_item_serrated_shiv_bonus_chance_damage"			"JAVELIN DAMAGE:"
+
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_all_stats"			"+$all"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_health_regen"		"+$hp_regen"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_mana_regen"			"+$mana_regen"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_health"				"+$health"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_intellect"			"+$int"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_spell_amp"					"%+$spell_amp"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_spell_lifesteal"			"%+$spell_lifesteal"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_bonus_spell_damage"		"BONUS DAMAGE:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_slow"						"%SLOW:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_slow_duration"				"SLOW DURATION:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_phylactery_cooldown"		"EMPOWER COOLDOWN:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_aura_spell_vulnerability"	"%SPELL WEAKNESS:"
+		"DOTA_Tooltip_ability_item_conjurers_catalyst_aura_radius"				"AURA RADIUS:"
+
+		"DOTA_Tooltip_ability_item_desolator_2"									"Stygian Desolator"
+		"DOTA_Tooltip_ability_item_recipe_desolator_2"							"Recipe: Stygian Desolator"
+		"DOTA_Tooltip_ability_item_desolator_2_crit_chance"						"%CRIT CHANCE:"
+		"DOTA_Tooltip_ability_item_desolator_2_crit_multiplier"					"%CRIT:"
+		"DOTA_Tooltip_ability_item_desolator_2_bonus_damage_per_kill"			"DAMAGE PER KILL:"
+		"DOTA_Tooltip_ability_item_desolator_2_bonus_damage_per_assist"			"DAMAGE PER ASSIST:"
+		"DOTA_Tooltip_ability_item_desolator_2_max_damage"						"MAX KILL DAMAGE:"
+
+		"DOTA_Tooltip_ability_item_dezun_bloodrite_bonus_strength"				"+$str"
+		"DOTA_Tooltip_ability_item_dezun_bloodrite_bonus_armor"					"+$armor"
+		"DOTA_Tooltip_ability_item_dezun_bloodrite_aoe_bonus"					"+ Spell AoE"
+
+		"DOTA_Tooltip_ability_item_fallen_sky_bonus_all_stats"					"+$all"
+		"DOTA_Tooltip_ability_item_fallen_sky_mind_power_bonus"					"+ Spell Power"
+		"DOTA_Tooltip_ability_item_fallen_sky_mana_regen_multiplier"				"%+$mana_regen"
+
+		"DOTA_Tooltip_ability_item_divine_regalia_bonus_damage"					"+$damage"
+
+		"DOTA_Tooltip_ability_item_blade_mail_bonus_health_regen"				"+$hp_regen"
+		"DOTA_Tooltip_ability_item_force_staff_cast_range"						"+ Cast Range"
+		"DOTA_Tooltip_ability_item_hurricane_pike_cast_range"					"+ Cast Range"
+		"DOTA_Tooltip_ability_item_radiance_bonus_armor"							"+$armor"
+		"DOTA_Tooltip_ability_item_radiance_magic_resistance"					"%+$spell_resist"
+		"DOTA_Tooltip_ability_item_radiance_damage_per_sec"						"AFTERBURN DAMAGE:"
+		"DOTA_Tooltip_ability_item_radiance_duration"							"AFTERBURN DURATION:"
+		"DOTA_Tooltip_ability_item_cloak_of_flames_damage_per_sec"				"AFTERBURN DAMAGE:"
+		"DOTA_Tooltip_ability_item_cloak_of_flames_duration"						"AFTERBURN DURATION:"
+		"DOTA_Tooltip_ability_item_shivas_guard_health_regen_loss"				"%HEALTH REGEN LOSS:"
+		"DOTA_Tooltip_ability_item_shivas_guard_hp_damage"						"%MAX HEALTH DAMAGE:"
+		"DOTA_Tooltip_ability_item_shivas_guard_debuff_radius"					"POLLINATE RADIUS:"
+		"DOTA_Tooltip_ability_item_shivas_guard_slow_melee"						"%MELEE SLOW:"
+		"DOTA_Tooltip_ability_item_shivas_guard_slow_ranged"						"%RANGED SLOW:"
+		"DOTA_Tooltip_ability_item_shivas_guard_heal_reduction"					"%HEAL REDUCTION:"
+		"DOTA_Tooltip_ability_item_shivas_guard_frost_duration"					"SLOW DURATION:"
+		"DOTA_Tooltip_ability_item_shivas_guard_venom_damage"					"POISON DAMAGE:"
+		"DOTA_Tooltip_ability_item_shivas_guard_poison_duration"					"POISON DURATION:"
+		"DOTA_Tooltip_ability_item_lotus_orb_reflect_chance"					"%REFLECT CHANCE:"
+		"DOTA_Tooltip_ability_item_hand_of_midas_bonus_armor"					"+$armor"
+		"DOTA_Tooltip_ability_item_mind_breaker_proc_chance"					"%GUT 'EM CHANCE:"
+		"DOTA_Tooltip_ability_item_mind_breaker_hp_dmg"							"%CURRENT HP DAMAGE:"
+		"DOTA_Tooltip_ability_item_mind_breaker_hp_dmg_rosh"					"ROSHAN DAMAGE:"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_chance"					"%JAVELIN CHANCE:"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_chance_damage"			"JAVELIN DAMAGE:"
+		"DOTA_Tooltip_modifier_trinity_afterburn"								"Afterburn"
+		"DOTA_Tooltip_modifier_trinity_afterburn_Description"					"Taking magical damage over time."
+		"DOTA_Tooltip_modifier_trinity_pollinate_debuff"						"Pollinate"
+		"DOTA_Tooltip_modifier_trinity_pollinate_debuff_Description"				"Health regeneration reduced. Taking damage based on max health."
+		"DOTA_Tooltip_modifier_trinity_orb_frost"								"Orb of Frost"
+		"DOTA_Tooltip_modifier_trinity_orb_frost_Description"					"Slowed. Healing is reduced."
+		"DOTA_Tooltip_modifier_trinity_orb_venom"								"Orb of Venom"
+		"DOTA_Tooltip_modifier_trinity_orb_venom_Description"					"Taking magical damage over time."
+		"DOTA_Tooltip_modifier_trinity_spell_weakness_debuff"					"Spell Weakness"
+		"DOTA_Tooltip_modifier_trinity_spell_weakness_debuff_Description"		"Taking extra magic damage."
+		"DOTA_Tooltip_modifier_trinity_phylactery_slow"							"Phylactery"
+		"DOTA_Tooltip_modifier_trinity_phylactery_slow_Description"				"Slowed by an empowered spell."
+		"DOTA_Tooltip_ability_item_rapier_outgoing_damage"						"%+ Outgoing Damage"
+		"DOTA_Tooltip_ability_item_lotus_orb_bonus_all_stats"					"+$all"
+
+		"DOTA_Tooltip_ability_item_dragon_scale_bonus_armor"					"+$armor"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_damage"					"+$damage"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_health"					"+$health"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_mana_regen"				"+$mana_regen"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_intellect"				"+$int"
+		"DOTA_Tooltip_ability_item_mind_breaker_bonus_attack_speed"				"+$attack"
+		"DOTA_Tooltip_ability_item_ninja_gear_bonus_agility"					"+$agi"
+		"DOTA_Tooltip_ability_item_mirror_shield_bonus_all_stats"				"+$all"
+		"DOTA_Tooltip_ability_item_mirror_shield_all_stats"						"+$all"
+		"DOTA_Tooltip_ability_item_iron_talon_bonus_armor"						"+$armor"
+		"DOTA_Tooltip_ability_item_trident_mind_power_bonus"					"+ Spell Power"
+		"DOTA_Tooltip_ability_item_mango_tree_bonus_all_stats"					"+$all"
+		"DOTA_Tooltip_ability_item_ex_machina_Note0"							"Refreshes ability and item cooldowns, except its own."
+		"DOTA_Tooltip_ability_item_ex_machina_bonus_health_regen"				"+$hp_regen"
+		"DOTA_Tooltip_ability_item_ex_machina_bonus_mana_regen"					"+$mana_regen"
+		"DOTA_Tooltip_ability_item_recipe_ex_machina"							"Recipe: Ex Machina"
+		"DOTA_Tooltip_ability_item_recipe_vambrace"							"Recipe: Vambrace"
+		"DOTA_Tooltip_ability_item_recipe_mind_breaker"							"Recipe: Mind Breaker"
+		"DOTA_Tooltip_ability_item_recipe_mango_tree"							"Recipe: Mango Tree"
+
+>>>>>>> Stashed changes
 	}
 }

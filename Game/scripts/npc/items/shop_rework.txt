@@ -1,0 +1,1114 @@
+"DOTAAbilities"
+{
+	//=================================================================================================================
+	// Hide laning consumables
+	//=================================================================================================================
+	"item_tango"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	"item_tango_single"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	"item_faerie_fire"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	"item_enchanted_mango"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	"item_smoke_of_deceit"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	"item_meteor_hammer"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	"item_recipe_meteor_hammer"
+	{
+		"ItemPurchasable"				"0"
+		"IsObsolete"					"1"
+	}
+
+	//=================================================================================================================
+	// Forager's Kit — 2 Branch + recipe = 200
+	//=================================================================================================================
+	"item_recipe_foragers_kit"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"90"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_foragers_kit"
+		"ItemRequirements"
+		{
+			"01"						"item_branches;item_branches"
+		}
+	}
+
+	"item_foragers_kit"
+	{
+		"ItemCost"						"200"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"common"
+		"ItemShopTags"					"regen_health;laning;farming"
+		"SuggestPregame"				"1"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"gold_amount"				"0"
+			"radius"					"1200"
+			"tree_radius"				"250"
+			"tree_creation_interval"	"5.0"
+			"max_trees"					"3"
+			"old_destroy_radius"		"2500"
+			"bonus_all_stats"			"2"
+			"bonus_health_regen"		"2"
+		}
+	}
+
+	//=================================================================================================================
+	// Chipped Vest — 950, replaces Splintmail in Blade Mail
+	//=================================================================================================================
+	"item_chipped_vest"
+	{
+		"ItemCost"						"950"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"component"
+		"ItemShopTags"					"armor;hard_to_tag;tank"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"hp_regen"					"3"
+			"damage_return_hero"		"25"
+			"damage_return_creep"		"12"
+		}
+	}
+
+	//=================================================================================================================
+	// Essence Ring — Ring of Regen + 2 Gauntlets + recipe = 650
+	//=================================================================================================================
+	"item_recipe_essence_ring"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"195"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_essence_ring"
+		"ItemRequirements"
+		{
+			"01"						"item_ring_of_regen;item_gauntlets;item_gauntlets"
+		}
+	}
+
+	"item_essence_ring"
+	{
+		"ItemCost"						"650"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"common"
+		"ItemShopTags"					"str;regen_health;boost_health"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"25.0"
+		"AbilityManaCost"				"160"
+		"AbilityValues"
+		{
+			"bonus_int"					"0"
+			"mp_regen"					"0"
+			"bonus_strength"			"6"
+			"bonus_health_regen"		"1.5"
+			"health_gain"				"200"
+			"health_gain_duration"		"10"
+		}
+	}
+
+	//=================================================================================================================
+	// Cloak of Flames — Shawl + Dragon Scale + recipe = 875
+	//=================================================================================================================
+	"item_recipe_cloak_of_flames"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"200"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_cloak_of_flames"
+		"ItemRequirements"
+		{
+			"01"						"item_shawl;item_dragon_scale"
+		}
+	}
+
+	"item_cloak_of_flames"
+	{
+		"ItemCost"						"875"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"rare"
+		"ItemShopTags"					"magic_resist;magic_dmg;hard_to_tag"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"armor"						"3"
+			"magic_resistance"			"10"
+			"damage"					"20"
+			"radius"
+			{
+				"value"					"400"
+				"affected_by_aoe_increase"	"1"
+			}
+			"damage_illusions"			"12"
+			"damage_per_sec"			"22"
+			"duration"					"3"
+		}
+	}
+
+	//=================================================================================================================
+	// Psychic Headband — Fluffy Hat + Mantle + recipe = 800
+	//=================================================================================================================
+	"item_recipe_psychic_headband"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"410"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_psychic_headband"
+		"ItemRequirements"
+		{
+			"01"						"item_fluffy_hat;item_mantle"
+		}
+	}
+
+	"item_psychic_headband"
+	{
+		"ItemCost"						"800"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"common"
+		"ItemShopTags"					"int;hard_to_tag;escape"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCastRange"				"600"
+		"AbilityCooldown"				"15"
+		"AbilityValues"
+		{
+			"intelligence_pct"			"0"
+			"bonus_intellect"			"8"
+			"bonus_health"				"125"
+			"cast_range"				"75"
+			"push_length"				"400"
+			"push_duration"				"0.3"
+		}
+	}
+
+	//=================================================================================================================
+	// Jidi Pollen Bag — Orb of Frost + Orb of Venom + recipe = 900
+	//=================================================================================================================
+	"item_recipe_jidi_pollen_bag"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"250"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_jidi_pollen_bag"
+		"ItemRequirements"
+		{
+			"01"						"item_orb_of_frost;item_orb_of_venom"
+		}
+	}
+
+	"item_jidi_pollen_bag"
+	{
+		"ItemCost"						"900"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"rare"
+		"ItemShopTags"					"hard_to_tag;magic_dmg;unique"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"25"
+		"AbilityValues"
+		{
+			"health_regen_loss"			"30"
+			"hp_damage"					"5"
+			"debuff_radius"				"700"
+			"debuff_duration"			"8"
+			"damage_interval"			"1"
+			"slow_melee"				"-6"
+			"slow_ranged"				"-13"
+			"heal_reduction"			"13"
+			"frost_duration"			"3"
+			"venom_damage"				"10"
+			"poison_duration"			"3"
+		}
+	}
+
+	//=================================================================================================================
+	// Minotaur Horn — 1000, replaces Ogre Axe in BKB
+	//=================================================================================================================
+	"item_minotaur_horn"
+	{
+		"ItemCost"						"1000"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"component"
+		"ItemShopTags"					"str;hard_to_tag;escape;tank"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"50.0"
+		"AbilityValues"
+		{
+			"duration"					"1.25"
+			"magic_resist"				"40"
+			"model_scale"				"20"
+			"bonus_strength"			"8"
+		}
+	}
+
+	//=================================================================================================================
+	// Serrated Shiv — Falcon Blade + Javelin + recipe = 2400
+	//=================================================================================================================
+	"item_recipe_serrated_shiv"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"375"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_serrated_shiv"
+		"ItemRequirements"
+		{
+			"01"						"item_falcon_blade;item_javelin"
+		}
+	}
+
+	"item_serrated_shiv"
+	{
+		"ItemCost"						"2400"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"epic"
+		"ItemShopTags"					"damage;unique;dps"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"1.5"
+		"AbilityValues"
+		{
+			"proc_chance"				"18"
+			"hp_dmg"					"6"
+			"hp_dmg_rosh"				"120"
+			"bonus_chance"				"25"
+			"bonus_chance_damage"		"60"
+			"bonus_damage"				"22"
+			"bonus_health"				"200"
+			"bonus_mana_regen"			"1.8"
+		}
+	}
+
+	//=================================================================================================================
+	// Conjurer's Catalyst — Phylactery + Veil + recipe = 4700
+	//=================================================================================================================
+	"item_recipe_conjurers_catalyst"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"400"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_conjurers_catalyst"
+		"ItemRequirements"
+		{
+			"01"						"item_phylactery;item_veil_of_discord"
+		}
+	}
+
+	"item_conjurers_catalyst"
+	{
+		"ItemCost"						"4700"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"epic"
+		"ItemShopTags"					"int;magic_dmg;hard_to_tag"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_DONT_PROC_OTHER_ABILITIES"
+		"AbilityValues"
+		{
+			"duration"					"6"
+			"damage_threshold"			"200"
+			"damage_aoe"
+			{
+				"value"					"350"
+				"affected_by_aoe_increase"	"1"
+			}
+			"damage"					"100"
+			"damage_creep"				"40"
+			"cooldown"					"0.1"
+			"bonus_all_stats"			"6"
+			"bonus_health_regen"		"5.5"
+			"bonus_mana_regen"			"2.25"
+			"bonus_health"				"175"
+			"bonus_intellect"			"10"
+			"spell_amp"					"10"
+			"spell_lifesteal"			"18"
+			"bonus_spell_damage"		"150"
+			"slow"						"30"
+			"slow_duration"				"3"
+			"phylactery_cooldown"		"9"
+			"aura_spell_vulnerability"	"10"
+			"aura_radius"
+			{
+				"value"					"1200"
+				"affected_by_aoe_increase"	"1"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Stygian Desolator — Desolator + Crystalys + recipe = 5900
+	//=================================================================================================================
+	"item_recipe_desolator_2"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"400"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_desolator_2"
+		"ItemRequirements"
+		{
+			"01"						"item_desolator;item_lesser_crit"
+		}
+	}
+
+	"item_desolator_2"
+	{
+		"ItemCost"						"5900"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"artifact"
+		"ItemShopTags"					"damage;unique;dps;crit"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityValues"
+		{
+			"bonus_damage"				"87"
+			"corruption_armor"			"-6"
+			"corruption_duration"		"7.0"
+			"bonus_damage_per_kill"		"2"
+			"bonus_damage_per_assist"	"1"
+			"max_damage"				"30"
+			"crit_chance"				"30"
+			"crit_multiplier"			"160"
+			"tooltip_crit_damage"		"60"
+		}
+	}
+
+	//=================================================================================================================
+	// Dezun Bloodrite — Chasm Stone + Soul Ring + recipe = 1800
+	//=================================================================================================================
+	"item_recipe_dezun_bloodrite"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"195"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_dezun_bloodrite"
+		"ItemRequirements"
+		{
+			"01"						"item_chasm_stone;item_soul_ring"
+		}
+	}
+
+	"item_dezun_bloodrite"
+	{
+		"ItemCost"						"1800"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"rare"
+		"ItemShopTags"					"str;hard_to_tag;magic_dmg;aoe"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityValues"
+		{
+			"health_pct"				"20"
+			"aoe_pct"					"12"
+			"aoe_bonus"					"40"
+			"bonus_strength"			"6"
+			"bonus_armor"				"2"
+		}
+	}
+
+	//=================================================================================================================
+	// Fallen Sky — Diadem + Kaya + recipe = 3350 (replaces Meteor Hammer)
+	//=================================================================================================================
+	"item_recipe_fallen_sky"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"250"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"ItemIsNeutralActiveDrop"		"0"
+		"IsObsolete"					"0"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_fallen_sky"
+		"ItemRequirements"
+		{
+			"01"						"item_diadem;item_kaya"
+		}
+	}
+
+	"item_fallen_sky"
+	{
+		"ItemCost"						"3350"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"epic"
+		"ItemShopTags"					"farming;magic_dmg;disable"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCastRange"				"1200"
+		"AbilityCooldown"				"24.0"
+		"AbilityValues"
+		{
+			"bonus_intellect"			"16"
+			"bonus_all_stats"			"6"
+			"bonus_health_regen"		"0"
+			"bonus_mana_regen"			"0"
+			"mind_power_bonus"			"20"
+			"mana_regen_multiplier"		"40"
+			"burn_dps_buildings"		"50"
+			"burn_dps_units"			"60"
+			"burn_duration"				"6"
+			"stun_duration"				"1.5"
+			"burn_interval"				"1.0"
+			"land_time"					"1"
+			"impact_radius"
+			{
+				"value"					"350"
+				"affected_by_aoe_increase"	"1"
+			}
+			"max_duration"				"2.5"
+			"impact_damage_buildings"	"90"
+			"impact_damage_units"		"150"
+			"blink_damage_cooldown"		"3.0"
+		}
+	}
+
+	//=================================================================================================================
+	// Divine Regalia — Blades of Attack + Broadsword + recipe = 2200
+	//=================================================================================================================
+	"item_recipe_divine_regalia"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"750"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_divine_regalia"
+		"ItemRequirements"
+		{
+			"01"						"item_blades_of_attack;item_broadsword"
+		}
+	}
+
+	"item_divine_regalia"
+	{
+		"ItemCost"						"2200"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"epic"
+		"ItemShopTags"					"damage;dps"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"outgoing_damage"			"15"
+			"bonus_damage"				"24"
+		}
+	}
+
+	//=================================================================================================================
+	// Dragon Scale — 225, replaces Voodoo Mask in Cloak of Flames
+	//=================================================================================================================
+	"item_dragon_scale"
+	{
+		"ItemCost"						"225"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"component"
+		"ItemShopTags"					"armor;hard_to_tag"
+		"SuggestPregame"				"1"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"bonus_armor"				"3"
+			"damage_per_sec"			"22"
+			"duration"					"3"
+		}
+	}
+
+	//=================================================================================================================
+	// Vambrace — Gauntlets + Slippers + Mantle = 420
+	//=================================================================================================================
+	"item_recipe_vambrace"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"0"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_vambrace"
+		"ItemRequirements"
+		{
+			"01"						"item_gauntlets;item_slippers;item_mantle"
+		}
+	}
+
+	"item_vambrace"
+	{
+		"ItemCost"						"420"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"common"
+		"ItemShopTags"					"damage;int;agi;str"
+		"SuggestPregame"				"1"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"bonus_primary_stat"		"8"
+			"bonus_secondary_stat"		"3"
+			"bonus_spell_amp"			"8"
+			"bonus_magic_resistance"	"10"
+			"bonus_attack_speed"		"15"
+		}
+	}
+
+	//=================================================================================================================
+	// Mind Breaker — Serrated Shiv + Oblivion Staff + 375 = 4400
+	//=================================================================================================================
+	"item_recipe_mind_breaker"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"375"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_mind_breaker"
+		"ItemRequirements"
+		{
+			"01"						"item_serrated_shiv;item_oblivion_staff"
+		}
+	}
+
+	"item_mind_breaker"
+	{
+		"ItemCost"						"4400"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"epic"
+		"ItemShopTags"					"int;hard_to_tag;damage"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"16.0"
+		"AbilityValues"
+		{
+			"magic_damage"				"60"
+			"attack_speed"				"35"
+			"duration"					"1.5"
+			"bonus_damage"				"22"
+			"bonus_health"				"200"
+			"bonus_mana_regen"			"3.05"
+			"bonus_intellect"			"10"
+			"proc_chance"				"18"
+			"hp_dmg"					"6"
+			"hp_dmg_rosh"				"120"
+			"bonus_chance"				"25"
+			"bonus_chance_damage"		"60"
+		}
+	}
+
+	//=================================================================================================================
+	// Ninja Gear — reusable smoke, 900
+	//=================================================================================================================
+	"item_ninja_gear"
+	{
+		"ItemCost"						"900"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"rare"
+		"ItemShopTags"					"agi;move_speed;hard_to_tag;escape"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"60.0"
+		"AbilityManaCost"				"100"
+		"AbilityValues"
+		{
+			"bonus_agility"				"12"
+			"passive_movement_bonus"	"20"
+			"visibility_radius"			"1025"
+			"duration"					"15.0"
+			"bonus_movement_speed"		"15"
+			"secondary_application_radius"	"0"
+		}
+	}
+
+	//=================================================================================================================
+	// Mirror Shield — 1000, replaces Energy Booster / Tiara in Lotus Orb
+	//=================================================================================================================
+	"item_mirror_shield"
+	{
+		"ItemCost"						"1000"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"component"
+		"ItemShopTags"					"int;agi;str;hard_to_tag"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"reflect_chance"			"75"
+			"all_stats"					"6"
+			"block_cooldown"			"12.0"
+		}
+	}
+
+	//=================================================================================================================
+	// Iron Talon — Quelling Blade + Ring of Protection = 275
+	//=================================================================================================================
+	"item_recipe_iron_talon"
+	{
+		"ItemCost"						"0"
+		"ItemPurchasable"				"1"
+		"IsObsolete"					"0"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_iron_talon"
+		"ItemRequirements"
+		{
+			"01"						"item_quelling_blade;item_ring_of_protection"
+		}
+	}
+
+	"item_iron_talon"
+	{
+		"ItemCost"						"275"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"common"
+		"ItemShopTags"					"damage;farming"
+		"SuggestPregame"				"1"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"bonus_attack_speed"		"0"
+			"quelling_range_tooltip"	"350"
+			"cast_range_ward"			"450"
+			"creep_damage_pct"			"80"
+			"bonus_armor"				"2"
+			"alternative_cooldown"		"4"
+		}
+	}
+
+	//=================================================================================================================
+	// Trident — Sange + Yasha + Kaya
+	//=================================================================================================================
+	"item_recipe_trident"
+	{
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"1"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"SecretShop"					"0"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_trident"
+		"ItemRequirements"
+		{
+			"01"						"item_kaya;item_sange;item_yasha"
+			"02"						"item_kaya_and_sange;item_yasha"
+			"03"						"item_sange_and_yasha;item_kaya"
+			"04"						"item_yasha_and_kaya;item_sange"
+		}
+	}
+
+	"item_trident"
+	{
+		"ItemCost"						"6301"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"artifact"
+		"ItemShopTags"					"str;agi;int;unique"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityValues"
+		{
+			"bonus_strength"			"30"
+			"bonus_agility"				"30"
+			"bonus_intellect"			"30"
+			"status_resistance"			"30"
+			"bonus_attack_speed"		"30"
+			"bonus_armor"				"30"
+			"hp_regen_amp"				"30"
+			"mana_regen_multiplier"		"30"
+			"mind_power_bonus"			"50"
+			"magic_damage_attack"		"30"
+		}
+	}
+
+	//=================================================================================================================
+	// Mango Tree — 2 Branch + recipe = 150, replaces Enchanted Mango
+	//=================================================================================================================
+	"item_recipe_mango_tree"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"40"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_mango_tree"
+		"ItemRequirements"
+		{
+			"01"						"item_branches;item_branches"
+		}
+	}
+
+	"item_mango_tree"
+	{
+		"ItemCost"						"150"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"consumable"
+		"ItemShopTags"					"consumable;laning"
+		"SuggestPregame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"ItemInitialCharges"			"1"
+		"ItemPermanent"					"0"
+		"AbilityCastRange"				"200"
+		"AbilityValues"
+		{
+			"seconds"					"60"
+			"bonus_all_stats"			"2"
+		}
+	}
+
+	//=================================================================================================================
+	// Greater Faerie Fire — 200
+	//=================================================================================================================
+	"item_greater_faerie_fire"
+	{
+		"ItemCost"						"200"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"consumable"
+		"ItemShopTags"					"consumable;laning;damage"
+		"SuggestPregame"				"1"
+		"SuggestEarlygame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"ItemInitialCharges"			"3"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"				"10.0"
+		"AbilityValues"
+		{
+			"bonus_damage"				"20"
+			"hp_restore"				"250"
+		}
+	}
+
+	//=================================================================================================================
+	// Ex Machina — Refresher upgrade. Ванильный рефреш предметов + способностей.
+	//=================================================================================================================
+	"item_recipe_ex_machina"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_recipe"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"1500"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_ex_machina"
+		"ItemRequirements"
+		{
+			"01"						"item_refresher"
+		}
+	}
+
+	"item_ex_machina"
+	{
+		"ItemCost"						"6500"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"Model"							"models/props_gameplay/red_box.vmdl"
+		"ItemShareability"				"DOTA_ITEM_NOT_SHAREABLE"
+		"ItemIsNeutralActiveDrop"		"0"
+		"ItemIsNeutralPassiveDrop"		"0"
+		"ItemIsNeutralDrop"				"0"
+		"NeutralTier"					"0"
+		"ItemNeutralTier"				"0"
+		"SecretShop"					"0"
+		"ItemQuality"					"rare"
+		"ItemShopTags"					"regen_health;regen_mana;hard_to_tag;teamfight"
+		"SuggestLategame"				"1"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+		"AbilityCooldown"				"60.0"
+		"AbilityManaCost"				"350"
+		"AbilityValues"
+		{
+			"bonus_armor"				"0"
+			"bonus_health_regen"		"14"
+			"bonus_mana_regen"			"7.0"
+		}
+	}
+}

@@ -172,18 +172,8 @@ MIND_POWER_MODIFIER_REGISTRY["modifier_item_mage_slayer_debuff"] = function(modi
     return -((ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_debuff") or 0)
 end
 
--- Регистрация DamageFilter (обход: OnAttackLanded не работает для предметов)
-if Timers then
-    Timers:CreateTimer(0.5, function()
-        local gm = GameRules and GameRules:GetGameModeEntity()
-        if gm and gm.SetDamageFilter then
-            gm:SetDamageFilter(MageSlayer_DamageFilter, nil)
-        else
-            print("[Mage Slayer] ERROR: SetDamageFilter not available")
-        end
-        return nil
-    end)
-end
+-- Регистрация DamageFilter перенесена в GameMode:DamageFilter,
+-- чтобы не затирать остальные фильтры.
 
 function modifier_item_mage_slayer_debuff:OnTooltip()
     return self:GetStackCount()
