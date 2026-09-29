@@ -129,8 +129,30 @@
     saturation: 0.2;
 }
 
-#WarmupRefresh.WarmupButton {
+#WarmupFinish {
+    flow-children: right;
     margin-bottom: 0px;
+}
+
+#WarmupFinish #WarmupFinishLabel {
+    width: fill-parent-flow(1);
+    text-align: left;
+    padding-left: 4px;
+}
+
+#WarmupFinish #WarmupFinishCount {
+    width: 52px;
+    text-align: right;
+    padding-right: 4px;
+}
+
+#WarmupFinish.Voted {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#3d6b45), to(#24402a));
+}
+
+#WarmupFinish.Voted:disabled {
+    brightness: 1;
+    saturation: 1;
 }
 
 .WarmupButton Label {

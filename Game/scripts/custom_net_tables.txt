@@ -8,6 +8,7 @@
         "trinity_match",
         "trinity_stickers",
         "chen_barrack",
-        "trinity_hud_test"
+        "trinity_hud_test",
+        "trinity_warmup"
     ]
 }

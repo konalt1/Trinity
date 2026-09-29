@@ -717,6 +717,25 @@ function modifier_dawnbreaker_solar_guardian_custom_leap:OnCreated(kv)
 		true
 	)
 	self:AddParticle(trail, false, false, -1, false, false)
+
+	self.bonus_vision = 0
+	self.vision_cap = self:GetScepterValue("scepter_bonus_vision")
+	self.vision_growth = self:GetScepterValue("scepter_vision_growth_rate")
+	if self.vision_cap > 0 and self.vision_growth > 0 then
+		self:StartIntervalThink(FrameTime())
+	end
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:OnIntervalThink()
+	if not IsServer() then
+		return
+	end
+
+	self.bonus_vision = math.min(self.vision_cap, self.bonus_vision + self.vision_growth * FrameTime())
+	self:SetStackCount(math.floor(self.bonus_vision + 0.5))
+	if self.bonus_vision >= self.vision_cap then
+		self:StartIntervalThink(-1)
+	end
 end
 
 function modifier_dawnbreaker_solar_guardian_custom_leap:OnDestroy()
@@ -780,6 +799,14 @@ function modifier_dawnbreaker_solar_guardian_custom_leap:OnDestroy()
 	end
 end
 
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetScepterValue(name)
+	local ability = self:GetAbility()
+	if not ability or ability:IsNull() then
+		return 0
+	end
+	return ability:GetSpecialValueFor(name)
+end
+
 function modifier_dawnbreaker_solar_guardian_custom_leap:CheckState()
 	return {
 		[MODIFIER_STATE_INVULNERABLE] = true,
@@ -789,10 +816,48 @@ function modifier_dawnbreaker_solar_guardian_custom_leap:CheckState()
 	}
 end
 
+function modifier_dawnbreaker_solar_guardian_custom_leap:IsAura()
+	return self:GetScepterValue("scepter_truesight_radius") > 0
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetModifierAura()
+	return "modifier_truesight"
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetAuraRadius()
+	return self:GetScepterValue("scepter_truesight_radius")
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetAuraDuration()
+	return 0
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetAuraSearchTeam()
+	return DOTA_UNIT_TARGET_TEAM_ENEMY
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetAuraSearchType()
+	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_OTHER
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetAuraSearchFlags()
+	return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+end
+
 function modifier_dawnbreaker_solar_guardian_custom_leap:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+		MODIFIER_PROPERTY_BONUS_DAY_VISION,
+		MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
 	}
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetBonusDayVision()
+	return self:GetStackCount()
+end
+
+function modifier_dawnbreaker_solar_guardian_custom_leap:GetBonusNightVision()
+	return self:GetStackCount()
 end
 
 function modifier_dawnbreaker_solar_guardian_custom_leap:GetOverrideAnimation()

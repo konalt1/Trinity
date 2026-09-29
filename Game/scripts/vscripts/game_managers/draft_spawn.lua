@@ -1,5 +1,6 @@
 ﻿-- Ранний выход на карту после пика: игрок не ждёт чужой выбор.
--- Разминка длится HERO_SELECTION_TIME с часами от -1:30. В -0:30 — вайп, тик золота/опыта и FB.
+-- Разминка длится WARMUP_TIME (не зависит от HERO_SELECTION_TIME); часы стартуют с -(WARMUP_TIME + 0:30).
+-- В -0:30 — вайп, тик золота/опыта и FB. Пик закрывается по HERO_SELECTION_TIME (не позже 0:00).
 -- Крипы, день и уязвимость башен — в 0:00.
 
 if DraftSpawn == nil then
@@ -25,6 +26,10 @@ local WARMUP_SPAWN_BAD_ENTITY = "trinity_warmup_spawn_bad"
 local WARMUP_DUMMY_SPAWN_ENTITY = "trinity_warmup_dummy"
 local WARMUP_DUMMY_UNIT = "npc_dota_hero_target_dummy"
 local WARMUP_CAMERA_LERP = 1.0
+local WARMUP_SHOP_TYPE = DOTA_SHOP_HOME or 0
+local WARMUP_SHOP_PADDING = 128
+local WARMUP_SHOP_FALLBACK_RADIUS = 1500
+local COURIER_RESPAWN_OFFSET = 150
 
 local WARMUP_WARD_CLASSNAMES = {
 	"npc_dota_ward_base",
@@ -56,6 +61,7 @@ function DraftSpawn:Init()
 	self._matchStartQueue = {}
 	self._warmupHeroNotified = {}
 	self._warmupSpawned = {}
+	self._warmupFinishVotes = {}
 	self._startingItems = {}
 	self._resettingHero = {}
 	self._cameraSnapTimers = {}
@@ -104,6 +110,9 @@ function DraftSpawn:Init()
 	end)
 	CustomGameEventManager:RegisterListener("trinity_warmup_refresh", function(_, event)
 		DraftSpawn:OnWarmupRefresh(event)
+	end)
+	CustomGameEventManager:RegisterListener("trinity_warmup_finish", function(_, event)
+		DraftSpawn:OnWarmupFinishVote(event)
 	end)
 
 	local ok, cfg = pcall(require, "autotest_config")
@@ -215,11 +224,21 @@ function DraftSpawn:ResetPlayersKDA()
 end
 
 function DraftSpawn:GetWarmupGold()
-	return 9999
+	return 99999
 end
 
-function DraftSpawn:GetDraftDuration()
-	return HERO_SELECTION_TIME or 60
+function DraftSpawn:GetWarmupDuration()
+	return math.max(0, tonumber(WARMUP_TIME) or 60)
+end
+
+-- Пик не может пережить 0:00: иначе движок остаётся в HERO_SELECTION при старте крипов.
+function DraftSpawn:GetHeroSelectionDuration()
+	local pick = math.max(0, tonumber(HERO_SELECTION_TIME) or 60)
+	return math.min(pick, self:GetClockDuration())
+end
+
+function DraftSpawn:GetRemainingUntilPickEnd()
+	return self:GetHeroSelectionDuration() - self:GetElapsedSinceDraft()
 end
 
 function DraftSpawn:GetPostWarmupPregameDuration()
@@ -227,7 +246,7 @@ function DraftSpawn:GetPostWarmupPregameDuration()
 end
 
 function DraftSpawn:GetClockDuration()
-	return self:GetDraftDuration() + self:GetPostWarmupPregameDuration()
+	return self:GetWarmupDuration() + self:GetPostWarmupPregameDuration()
 end
 
 function DraftSpawn:GetElapsedSinceDraft()
@@ -312,7 +331,7 @@ function DraftSpawn:GetRemainingUntilWarmupEnd()
 	if self.warmupEnded or self.matchStarted then
 		return 0
 	end
-	return self:GetDraftDuration() - self:GetElapsedSinceDraft()
+	return self:GetWarmupDuration() - self:GetElapsedSinceDraft()
 end
 
 function DraftSpawn:GetRemainingUntilZeroClock()
@@ -382,6 +401,9 @@ function DraftSpawn:OnHeroSelectionStarted()
 	self:SyncPreGameTime()
 	self:EnsureSelectionThink()
 	self:EnsureMatchStartTimer()
+	self._warmupFinishVotes = {}
+	self._warmupFinishVoteSignature = nil
+	self:PublishWarmupFinishVote()
 
 end
 
@@ -401,7 +423,7 @@ function DraftSpawn:EnsureSelectionThink()
 
 		self:SyncPreGameTime()
 
-		if self:GetRemainingUntilMatchStart() <= 0 then
+		if self:GetRemainingUntilPickEnd() <= 0 then
 			self:RandomUnpickedHeroes()
 		end
 
@@ -439,6 +461,7 @@ function DraftSpawn:EnsureMatchStartTimer()
 			if state == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 				self:FreezeEngineMatchSystems()
 			end
+			self:TryEndWarmupByVote()
 			return 0.1
 		end
 
@@ -781,9 +804,104 @@ function DraftSpawn:EnsureWarmupZone()
 	self._warmupTriggerIsInterior = self:IsPointTouchingWarmupTrigger(spawnOrigin, 8)
 	self._warmupZoneReady = true
 	self._warmupZoneActive = true
+	self:EnsureWarmupShop()
 	self:PlaceAllHeroesInWarmupZone()
 	self:SpawnWarmupDummy()
 	return true
+end
+
+-- Магазин на площадке разминки: герой в зоне магазина, покупки идут сразу в инвентарь,
+-- продажа и тайник доступны. Удаляется вместе с зоной в -0:30.
+function DraftSpawn:AddWarmupShopArea(areas, minx, maxx, miny, maxy)
+	local center = GetGroundPosition(Vector((minx + maxx) * 0.5, (miny + maxy) * 0.5, 0), nil)
+	local halfX = (maxx - minx) * 0.5
+	local halfY = (maxy - miny) * 0.5
+	local radius = math.sqrt(halfX * halfX + halfY * halfY) + WARMUP_SHOP_PADDING
+	areas[#areas + 1] = { origin = center, radius = radius }
+end
+
+function DraftSpawn:GetWarmupShopAreas()
+	local areas = {}
+	local triggers = self._warmupTriggers or {}
+
+	if self._warmupTriggerIsInterior then
+		for i = 1, #triggers do
+			local b = self:GetEntityWorldBounds(triggers[i])
+			if b then
+				self:AddWarmupShopArea(areas, b.minx, b.maxx, b.miny, b.maxy)
+			end
+		end
+	else
+		-- Триггер — стенки вокруг площадки: магазин на всю их общую рамку.
+		local u = nil
+		for i = 1, #triggers do
+			local b = self:GetEntityWorldBounds(triggers[i])
+			if b then
+				if not u then
+					u = { minx = b.minx, maxx = b.maxx, miny = b.miny, maxy = b.maxy }
+				else
+					u.minx = math.min(u.minx, b.minx)
+					u.maxx = math.max(u.maxx, b.maxx)
+					u.miny = math.min(u.miny, b.miny)
+					u.maxy = math.max(u.maxy, b.maxy)
+				end
+			end
+		end
+		if u then
+			self:AddWarmupShopArea(areas, u.minx, u.maxx, u.miny, u.maxy)
+		end
+	end
+
+	if #areas == 0 then
+		local spawns = self._warmupSpawns or { any = {}, good = {}, bad = {} }
+		for _, list in pairs(spawns) do
+			for i = 1, #list do
+				local spawn = list[i]
+				if spawn and not spawn:IsNull() then
+					areas[#areas + 1] = { origin = spawn:GetAbsOrigin(), radius = WARMUP_SHOP_FALLBACK_RADIUS }
+				end
+			end
+		end
+	end
+
+	return areas
+end
+
+function DraftSpawn:EnsureWarmupShop()
+	if self._warmupShops or not self:IsSandboxActive() then
+		return
+	end
+	if not SpawnDOTAShopTriggerRadiusApproximate then
+		print("[DraftSpawn] warmup shop: SpawnDOTAShopTriggerRadiusApproximate unavailable")
+		return
+	end
+
+	local shops = {}
+	local areas = self:GetWarmupShopAreas()
+	for i = 1, #areas do
+		local area = areas[i]
+		local ok, shop = pcall(SpawnDOTAShopTriggerRadiusApproximate, area.origin, area.radius)
+		if ok and shop and not shop:IsNull() then
+			if shop.SetShopType then
+				shop:SetShopType(WARMUP_SHOP_TYPE)
+			end
+			shops[#shops + 1] = shop
+		else
+			print("[DraftSpawn] warmup shop spawn failed: " .. tostring(shop))
+		end
+	end
+	self._warmupShops = shops
+end
+
+function DraftSpawn:RemoveWarmupShop()
+	local shops = self._warmupShops or {}
+	self._warmupShops = nil
+	for i = 1, #shops do
+		local shop = shops[i]
+		if shop and not shop:IsNull() then
+			UTIL_Remove(shop)
+		end
+	end
 end
 
 function DraftSpawn:PlaceAllHeroesInWarmupZone()
@@ -1047,6 +1165,75 @@ function DraftSpawn:PlaceAllHeroesAtFountain(snapCamera)
 	end
 end
 
+function DraftSpawn:GetPlayerCouriers(playerID)
+	local list = {}
+	local seen = {}
+	local function add(courier)
+		if courier and not courier:IsNull() and not seen[courier:entindex()]
+			and courier.IsCourier and courier:IsCourier() then
+			seen[courier:entindex()] = true
+			list[#list + 1] = courier
+		end
+	end
+
+	if PlayerResource.GetPreferredCourierForPlayer then
+		local ok, preferred = pcall(PlayerResource.GetPreferredCourierForPlayer, PlayerResource, playerID)
+		if ok then
+			add(preferred)
+		end
+	end
+
+	local couriers = Entities:FindAllByClassname("npc_dota_courier") or {}
+	for i = 1, #couriers do
+		local courier = couriers[i]
+		if courier and not courier:IsNull() and courier:GetPlayerOwnerID() == playerID then
+			add(courier)
+		end
+	end
+	return list
+end
+
+-- После вайпа курьеры остаются там, где были на разминке: возвращаем их к героям.
+function DraftSpawn:PlaceCourierNearHero(courier, hero)
+	if not courier or courier:IsNull() or not hero or hero:IsNull() then
+		return
+	end
+
+	if not courier:IsAlive() and courier.RespawnUnit then
+		courier:RespawnUnit()
+	end
+	if not courier:IsAlive() then
+		return
+	end
+
+	local heroOrigin = hero:GetAbsOrigin()
+	local origin = GetGroundPosition(heroOrigin + RandomVector(COURIER_RESPAWN_OFFSET), courier)
+	FindClearSpaceForUnit(courier, origin, true)
+	if courier.Stop then
+		courier:Stop()
+	end
+	courier:SetHealth(courier:GetMaxHealth())
+end
+
+function DraftSpawn:PlaceCouriersNearHero(playerID)
+	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+	if not hero or hero:IsNull() then
+		return
+	end
+	local couriers = self:GetPlayerCouriers(playerID)
+	for i = 1, #couriers do
+		self:PlaceCourierNearHero(couriers[i], hero)
+	end
+end
+
+function DraftSpawn:PlaceAllCouriersNearHeroes()
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsMatchPlayer(playerID) then
+			self:PlaceCouriersNearHero(playerID)
+		end
+	end
+end
+
 function DraftSpawn:OnNPCSpawned(keys)
 	local npc = keys and keys.entindex and EntIndexToHScript(keys.entindex) or nil
 	if not npc or npc:IsNull() or not npc.IsRealHero or not npc:IsRealHero() then
@@ -1219,6 +1406,7 @@ function DraftSpawn:DisableWarmupZone()
 	end
 
 	self:RemoveWarmupDummy()
+	self:RemoveWarmupShop()
 end
 
 function DraftSpawn:EndWarmup()
@@ -1230,10 +1418,14 @@ function DraftSpawn:EndWarmup()
 	self.sandboxActive = false
 
 	self:DisableWarmupZone()
-	self:RandomUnpickedHeroes()
+	-- Пик может быть длиннее разминки: тогда оставшиеся доберут героя сами и выйдут у фонтана.
+	if self:GetRemainingUntilPickEnd() <= 0.05 then
+		self:RandomUnpickedHeroes()
+	end
 	self:DisableSandboxEconomy()
 	self:ResetWarmupHeroes()
 	self:PlaceAllHeroesAtFountain()
+	self:PlaceAllCouriersNearHeroes()
 	self:ResetPlayersGold()
 	self:ResetPlayersKDA()
 	self:StripWarmupItems()
@@ -1251,6 +1443,7 @@ function DraftSpawn:EndWarmup()
 
 	Timers:CreateTimer(0, function()
 		self:PlaceAllHeroesAtFountain(false)
+		self:PlaceAllCouriersNearHeroes()
 		self:ResetPlayersGold()
 		self:ResetPlayersKDA()
 		self:StripWarmupItems()
@@ -1261,6 +1454,7 @@ function DraftSpawn:EndWarmup()
 	end)
 	Timers:CreateTimer(0.1, function()
 		self:PlaceAllHeroesAtFountain(false)
+		self:PlaceAllCouriersNearHeroes()
 		self:ResetPlayersGold()
 		self:ResetPlayersKDA()
 		self:StripWarmupItems()
@@ -1653,8 +1847,8 @@ function DraftSpawn:PrepareNextHudTestCycle()
 	self._matchTimerArmed = false
 	self._selectionThinkArmed = false
 
-	local draftDuration = self:GetDraftDuration()
-	self.draftStartTime = GameRules:GetGameTime() - math.max(0, draftDuration - 5)
+	local warmupDuration = self:GetWarmupDuration()
+	self.draftStartTime = GameRules:GetGameTime() - math.max(0, warmupDuration - 5)
 
 	self:FreezeEngineMatchSystems()
 	self:EnableSandboxEconomy()
@@ -2300,6 +2494,7 @@ function DraftSpawn:EnterMapForPlayer(playerID, hero)
 		end)
 	elseif self.warmupEnded then
 		self:PlaceHeroAtFountain(hero)
+		self:PlaceCouriersNearHero(playerID)
 	else
 		self:SnapCameraToHero(hero, hero:GetAbsOrigin())
 	end
@@ -2529,6 +2724,84 @@ function DraftSpawn:RefreshWarmupAbility(ability)
 	if ability.RefreshCharges then
 		ability:RefreshCharges()
 	end
+end
+
+function DraftSpawn:IsWarmupVotePlayer(playerID)
+	if not self:IsMatchPlayer(playerID) then
+		return false
+	end
+
+	local state = PlayerResource:GetConnectionState(playerID)
+	return state == DOTA_CONNECTION_STATE_CONNECTED or state == DOTA_CONNECTION_STATE_LOADING
+end
+
+function DraftSpawn:CollectWarmupFinishVote()
+	self._warmupFinishVotes = self._warmupFinishVotes or {}
+	local votedIds = {}
+	local total = 0
+	local ready = 0
+
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsWarmupVotePlayer(playerID) then
+			total = total + 1
+			if self._warmupFinishVotes[playerID] then
+				ready = ready + 1
+				votedIds[#votedIds + 1] = tostring(playerID)
+			end
+		else
+			self._warmupFinishVotes[playerID] = nil
+		end
+	end
+
+	return ready, total, table.concat(votedIds, ",")
+end
+
+function DraftSpawn:PublishWarmupFinishVote()
+	local ready, total, voted = self:CollectWarmupFinishVote()
+	local signature = tostring(ready) .. "/" .. tostring(total) .. ":" .. voted
+	local allReady = total > 0 and ready == total
+	if self._warmupFinishVoteSignature == signature then
+		return allReady
+	end
+
+	self._warmupFinishVoteSignature = signature
+	CustomNetTables:SetTableValue("trinity_warmup", "finish_vote", {
+		ready = ready,
+		total = total,
+		voted = voted,
+	})
+	return allReady
+end
+
+function DraftSpawn:TryEndWarmupByVote()
+	if not self:IsSandboxActive() then
+		return
+	end
+	if self:PublishWarmupFinishVote() then
+		self:EndWarmup()
+	end
+end
+
+function DraftSpawn:OnWarmupFinishVote(event)
+	if not self:IsSandboxActive() or not event then
+		return
+	end
+
+	local playerID = event.PlayerID
+	if playerID == nil then
+		playerID = event.player_id
+	end
+	if not self:IsWarmupVotePlayer(playerID) then
+		return
+	end
+
+	self._warmupFinishVotes = self._warmupFinishVotes or {}
+	if self._warmupFinishVotes[playerID] then
+		return
+	end
+
+	self._warmupFinishVotes[playerID] = true
+	self:TryEndWarmupByVote()
 end
 
 function DraftSpawn:OnWarmupRefresh(event)

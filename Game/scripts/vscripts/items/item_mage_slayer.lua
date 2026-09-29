@@ -5,9 +5,6 @@ LinkLuaModifier("modifier_item_mage_slayer_debuff", "items/item_mage_slayer", LU
 -- Используем SetDamageFilter — вызывается при любом уроне, можно применить дебафф.
 function MageSlayer_DamageFilter(event)
     if not IsServer() then return true end
-    if BuybackStatues and BuybackStatues.DamageFilter and BuybackStatues:DamageFilter(event) == false then
-        return false
-    end
     local victim_idx = event.entindex_victim_const or event.entindex_victim
     local attacker_idx = event.entindex_attacker_const or event.entindex_attacker
     local victim = victim_idx and EntIndexToHScript(victim_idx) or nil
@@ -175,9 +172,13 @@ MIND_POWER_MODIFIER_REGISTRY["modifier_item_mage_slayer_debuff"] = function(modi
     return -((ability and not ability:IsNull()) and ability:GetSpecialValueFor("mind_power_debuff") or 0)
 end
 
--- Регистрация DamageFilter (обход: OnAttackLanded не работает для предметов)
+-- DamageFilter один на игру. Его ставит BuybackStatues и передаёт сюда урон не по статуе.
+-- Если статуй нет, фильтр Mage Slayer регистрируется сам.
 if Timers then
     Timers:CreateTimer(0.5, function()
+        if BuybackStatues and BuybackStatues.InstallDamageFilter then
+            return nil
+        end
         local gm = GameRules and GameRules:GetGameModeEntity()
         if gm and gm.SetDamageFilter then
             gm:SetDamageFilter(MageSlayer_DamageFilter, nil)

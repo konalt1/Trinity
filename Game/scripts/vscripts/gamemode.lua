@@ -559,6 +559,11 @@ function GameMode:OnChenInventoryChanged(data)
 	if hero and not hero:IsNull() and hero:IsRealHero() then
 		self:SyncLargoEncore(hero)
 	end
+
+	-- Grove Bow / Паразма: дальность атаки только дальникам (items/item_ranged_attack_range.lua)
+	if hero and not hero:IsNull() and hero.IsHero and hero:IsHero() and TrinityRangedAttackRange then
+		TrinityRangedAttackRange.Ensure(hero)
+	end
 end
 
 function GameMode:SchedulePudgeHookScepterSync(hero)
@@ -604,6 +609,11 @@ function GameMode:OnInventoryUpdate(data)
 	if hero and not hero:IsNull() and hero:IsRealHero() then
 		self:SyncLargoEncore(hero)
 	end
+
+	-- Grove Bow / Паразма: дальность атаки только дальникам (items/item_ranged_attack_range.lua)
+	if hero and not hero:IsNull() and hero.IsHero and hero:IsHero() and TrinityRangedAttackRange then
+		TrinityRangedAttackRange.Ensure(hero)
+	end
 end
 
 function GameMode:ModifyGoldFilter(data)
@@ -640,7 +650,23 @@ function GameMode:ModifyExperienceFilter(data)
 	return true
 end
 
+function GameMode:ModifierGainedFilter(data)
+	if NeutralStackReward and NeutralStackReward.ModifierGainedFilter then
+		if NeutralStackReward:ModifierGainedFilter(data) == false then
+			return false
+		end
+	end
+	return true
+end
+
 function GameMode:ExecuteOrderFilter(data)
+	if NeutralStackReward and NeutralStackReward.OnOrder then
+		local ok, err = pcall(NeutralStackReward.OnOrder, NeutralStackReward, data)
+		if not ok then
+			print("[NeutralStack] order hook error: " .. tostring(err))
+		end
+	end
+
 	if data.order_type == DOTA_UNIT_ORDER_BUYBACK then
 		if BuybackStatues and BuybackStatues.FilterBuybackOrder then
 			return BuybackStatues:FilterBuybackOrder(data)

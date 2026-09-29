@@ -62,11 +62,17 @@ var TRINITY_SHOP_DATA = {
                     "color": "#e8634f",
                     "items": [
                         "item_quelling_blade",
+                        "item_iron_talon",
                         "item_blades_of_attack",
+                        "item_cloak_of_flames",
+                        "item_minotaur_horn",
+                        "item_havoc_hammer",
+                        "item_giants_ring",
                         "item_lesser_crit",
                         "item_greater_crit",
                         "item_radiance",
                         "item_revenants_brooch",
+                        "item_divine_regalia",
                         "item_rapier",
                         "item_satanic",
                         "item_armlet",
@@ -117,14 +123,17 @@ var TRINITY_SHOP_DATA = {
                         "item_orb_of_corrosion",
                         "item_monkey_king_bar",
                         "item_desolator",
+                        "item_desolator_2",
                         "item_maelstrom",
                         "item_mjollnir",
                         "item_bfury",
                         "item_hydras_breath",
                         "item_specialists_array",
                         "item_echo_sabre",
+                        "item_grove_bow",
                         "item_witch_blade",
                         "item_devastator",
+                        "item_ballista",
                         "item_gungir",
                         "item_basher",
                         "item_abyssal_blade",
@@ -177,6 +186,8 @@ var TRINITY_SHOP_DATA = {
                     "items": [
                         "item_ring_of_protection",
                         "item_chainmail",
+                        "item_chipped_vest",
+                        "item_poor_mans_shield",
                         "item_vanguard",
                         "item_ghost",
                         "item_butterfly",
@@ -243,7 +254,7 @@ var TRINITY_SHOP_DATA = {
                         "item_ethereal_blade",
                         "item_phylactery",
                         "item_angels_demise",
-                        "item_arcane_blink",
+                        "item_fallen_sky",
                         "item_shivas_guard",
                         "item_null_talisman",
                         "item_kaya"
@@ -332,8 +343,9 @@ var TRINITY_SHOP_DATA = {
                     "color": "#5b9bff",
                     "items": [
                         "item_blink",
+                        "item_spider_legs",
                         "item_shadow_amulet",
-                        "item_arcane_blink",
+                        "item_fallen_sky",
                         "item_overwhelming_blink",
                         "item_swift_blink",
                         "item_force_staff",
@@ -364,7 +376,8 @@ var TRINITY_SHOP_DATA = {
                         "item_rod_of_atos",
                         "item_cyclone",
                         "item_wind_waker",
-                        "item_meteor_hammer"
+                        "item_meteor_hammer",
+                        "item_fallen_sky"
                     ]
                 },
                 {
@@ -457,8 +470,8 @@ var TRINITY_SHOP_DATA = {
     ],
     "items": {
         "item_bfury": {
-            "tier": 2,
-            "price": 4700,
+            "tier": -1,
+            "price": 3900,
             "categories": [
                 "damage"
             ],
@@ -466,8 +479,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_bfury"
         },
         "item_basher": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 2875,
             "categories": [
                 "damage",
                 "control"
@@ -478,8 +491,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_basher"
         },
         "item_abyssal_blade": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 6250,
             "categories": [
                 "damage",
                 "control"
@@ -490,8 +503,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_abyssal_blade"
         },
         "item_satanic": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 5050,
             "categories": [
                 "damage",
                 "survival"
@@ -510,6 +523,90 @@ var TRINITY_SHOP_DATA = {
             "attributes": [],
             "descToken": "#trinity_shop_desc_item_desolator"
         },
+        "item_havoc_hammer": {
+            "tier": -1,
+            "price": 2800,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_havoc_hammer"
+        },
+        "item_giants_ring": {
+            "tier": -1,
+            "price": 4800,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [
+                "str"
+            ],
+            "descToken": "#trinity_shop_desc_item_giants_ring"
+        },
+        "item_spider_legs": {
+            "tier": -1,
+            "price": 1425,
+            "categories": [
+                "mobility",
+                "survival"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_spider_legs"
+        },
+        "item_minotaur_horn": {
+            "tier": -1,
+            "price": 1700,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_minotaur_horn"
+        },
+        "item_iron_talon": {
+            "tier": -1,
+            "price": 500,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_iron_talon"
+        },
+        "item_cloak_of_flames": {
+            "tier": -1,
+            "price": 2500,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_cloak_of_flames"
+        },
+        "item_desolator_2": {
+            "tier": -1,
+            "price": 6000,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_desolator_2"
+        },
+        "item_chipped_vest": {
+            "tier": -1,
+            "price": 950,
+            "categories": [
+                "survival"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_chipped_vest"
+        },
+        "item_poor_mans_shield": {
+            "tier": -1,
+            "price": 700,
+            "categories": [
+                "survival"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_poor_mans_shield"
+        },
         "item_radiance": {
             "tier": 2,
             "price": 4700,
@@ -520,8 +617,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_radiance"
         },
         "item_greater_crit": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 5100,
             "categories": [
                 "damage"
             ],
@@ -529,8 +626,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_greater_crit"
         },
         "item_monkey_king_bar": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 5000,
             "categories": [
                 "damage"
             ],
@@ -538,8 +635,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_monkey_king_bar"
         },
         "item_maelstrom": {
-            "tier": 1,
-            "price": 3500,
+            "tier": -1,
+            "price": 2950,
             "categories": [
                 "damage"
             ],
@@ -547,8 +644,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_maelstrom"
         },
         "item_invis_sword": {
-            "tier": 1,
-            "price": 3500,
+            "tier": -1,
+            "price": 3250,
             "categories": [
                 "damage",
                 "mobility"
@@ -565,9 +662,18 @@ var TRINITY_SHOP_DATA = {
             "attributes": [],
             "descToken": "#trinity_shop_desc_item_lesser_crit"
         },
+        "item_divine_regalia": {
+            "tier": -1,
+            "price": 3800,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_divine_regalia"
+        },
         "item_rapier": {
             "tier": -1,
-            "price": 5600,
+            "price": 6000,
             "categories": [
                 "damage",
                 "magic"
@@ -694,6 +800,18 @@ var TRINITY_SHOP_DATA = {
             "attributes": [],
             "descToken": "#trinity_shop_desc_item_hydras_breath"
         },
+        "item_grove_bow": {
+            "tier": -1,
+            "price": 2800,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [
+                "int",
+                "agi"
+            ],
+            "descToken": "#trinity_shop_desc_item_grove_bow"
+        },
         "item_witch_blade": {
             "tier": -1,
             "price": 2775,
@@ -714,9 +832,23 @@ var TRINITY_SHOP_DATA = {
                 "magic"
             ],
             "attributes": [
-                "int"
+                "int",
+                "agi"
             ],
             "descToken": "#trinity_shop_desc_item_devastator"
+        },
+        "item_ballista": {
+            "tier": -1,
+            "price": 5900,
+            "categories": [
+                "damage"
+            ],
+            "attributes": [
+                "agi",
+                "str",
+                "int"
+            ],
+            "descToken": "#trinity_shop_desc_item_ballista"
         },
         "item_falcon_blade": {
             "tier": -1,
@@ -739,8 +871,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_orb_of_corrosion"
         },
         "item_butterfly": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 5450,
             "categories": [
                 "damage",
                 "survival",
@@ -761,8 +893,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_mjollnir"
         },
         "item_manta": {
-            "tier": 2,
-            "price": 4700,
+            "tier": -1,
+            "price": 4650,
             "categories": [
                 "damage",
                 "survival",
@@ -830,8 +962,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_black_king_bar"
         },
         "item_sphere": {
-            "tier": 2,
-            "price": 4700,
+            "tier": -1,
+            "price": 4800,
             "categories": [
                 "survival",
                 "support"
@@ -844,8 +976,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_sphere"
         },
         "item_pipe": {
-            "tier": 1,
-            "price": 3500,
+            "tier": -1,
+            "price": 3725,
             "categories": [
                 "survival",
                 "support"
@@ -854,8 +986,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_pipe"
         },
         "item_glimmer_cape": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 2150,
             "categories": [
                 "survival",
                 "support"
@@ -864,8 +996,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_glimmer_cape"
         },
         "item_guardian_greaves": {
-            "tier": 2,
-            "price": 4700,
+            "tier": -1,
+            "price": 4450,
             "categories": [
                 "magic",
                 "mobility",
@@ -899,7 +1031,7 @@ var TRINITY_SHOP_DATA = {
         },
         "item_mage_slayer": {
             "tier": -1,
-            "price": 2800,
+            "price": 3100,
             "categories": [
                 "damage",
                 "survival"
@@ -908,8 +1040,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_mage_slayer"
         },
         "item_heart": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 5200,
             "categories": [
                 "survival"
             ],
@@ -929,8 +1061,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_blade_mail"
         },
         "item_aeon_disk": {
-            "tier": 1,
-            "price": 3500,
+            "tier": -1,
+            "price": 3000,
             "categories": [
                 "survival"
             ],
@@ -1049,8 +1181,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_helm_of_the_overlord"
         },
         "item_sheepstick": {
-            "tier": 3,
-            "price": 5500,
+            "tier": -1,
+            "price": 5975,
             "categories": [
                 "magic",
                 "control"
@@ -1061,8 +1193,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_sheepstick"
         },
         "item_cyclone": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 2600,
             "categories": [
                 "magic",
                 "mobility",
@@ -1075,8 +1207,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_cyclone"
         },
         "item_rod_of_atos": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 2250,
             "categories": [
                 "magic",
                 "control"
@@ -1087,8 +1219,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_rod_of_atos"
         },
         "item_hurricane_pike": {
-            "tier": 2,
-            "price": 4700,
+            "tier": -1,
+            "price": 4450,
             "categories": [
                 "damage",
                 "mobility",
@@ -1263,8 +1395,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_yasha_and_kaya"
         },
         "item_blink": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 2250,
             "categories": [
                 "mobility"
             ],
@@ -1295,21 +1427,24 @@ var TRINITY_SHOP_DATA = {
             ],
             "descToken": "#trinity_shop_desc_item_swift_blink"
         },
-        "item_arcane_blink": {
+        "item_fallen_sky": {
             "tier": -1,
-            "price": 6800,
+            "price": 6000,
             "categories": [
                 "magic",
-                "mobility"
+                "mobility",
+                "control"
             ],
             "attributes": [
-                "int"
+                "agi",
+                "int",
+                "str"
             ],
-            "descToken": "#trinity_shop_desc_item_arcane_blink"
+            "descToken": "#trinity_shop_desc_item_fallen_sky"
         },
         "item_force_staff": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 2200,
             "categories": [
                 "mobility",
                 "support"
@@ -1338,8 +1473,8 @@ var TRINITY_SHOP_DATA = {
             "descToken": "#trinity_shop_desc_item_travel_boots_2"
         },
         "item_mekansm": {
-            "tier": 0,
-            "price": 2400,
+            "tier": -1,
+            "price": 1775,
             "categories": [
                 "survival",
                 "support"
@@ -1934,20 +2069,20 @@ var TRINITY_SHOP_DATA = {
     },
     "recipes": {
         "item_abyssal_blade": {
-            "price": 5500,
+            "price": 6250,
             "components": [
                 "item_basher",
                 "item_sange"
             ],
-            "recipe": 1000
+            "recipe": 1275
         },
         "item_aeon_disk": {
-            "price": 3500,
+            "price": 3000,
             "components": [
                 "item_vitality_booster",
                 "item_energy_booster"
             ],
-            "recipe": 1700
+            "recipe": 1200
         },
         "item_aether_lens": {
             "price": 2275,
@@ -1979,13 +2114,13 @@ var TRINITY_SHOP_DATA = {
             ],
             "recipe": 0
         },
-        "item_arcane_blink": {
-            "price": 6950,
+        "item_fallen_sky": {
+            "price": 6000,
             "components": [
                 "item_blink",
-                "item_mystic_staff"
+                "item_meteor_hammer"
             ],
-            "recipe": 1750
+            "recipe": 900
         },
         "item_arcane_boots": {
             "price": 1500,
@@ -2015,12 +2150,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 1300
         },
         "item_basher": {
-            "price": 2400,
+            "price": 2875,
             "components": [
                 "item_mithril_hammer",
                 "item_belt_of_strength"
             ],
-            "recipe": 350
+            "recipe": 825
         },
         "item_belt_of_strength": {
             "price": 450,
@@ -2028,28 +2163,28 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_bfury": {
-            "price": 4700,
+            "price": 3900,
             "components": [
                 "item_pers",
                 "item_broadsword",
                 "item_broadsword",
                 "item_quelling_blade"
             ],
-            "recipe": 1200
+            "recipe": 400
         },
         "item_black_king_bar": {
             "price": 4700,
             "components": [
-                "item_mithril_hammer",
+                "item_minotaur_horn",
                 "item_ogre_axe"
             ],
-            "recipe": 2100
+            "recipe": 2000
         },
         "item_blade_mail": {
             "price": 2400,
             "components": [
                 "item_broadsword",
-                "item_splintmail"
+                "item_chipped_vest"
             ],
             "recipe": 450
         },
@@ -2069,7 +2204,7 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_blink": {
-            "price": 2400,
+            "price": 2250,
             "components": [],
             "recipe": 0
         },
@@ -2132,13 +2267,13 @@ var TRINITY_SHOP_DATA = {
             "recipe": 250
         },
         "item_butterfly": {
-            "price": 5500,
+            "price": 5450,
             "components": [
                 "item_eagle",
                 "item_claymore",
                 "item_talisman_of_evasion"
             ],
-            "recipe": 50
+            "recipe": 0
         },
         "item_chainmail": {
             "price": 500,
@@ -2146,7 +2281,7 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_chasm_stone": {
-            "price": 900,
+            "price": 800,
             "components": [],
             "recipe": 0
         },
@@ -2196,13 +2331,13 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_cyclone": {
-            "price": 2400,
+            "price": 2600,
             "components": [
                 "item_staff_of_wizardry",
                 "item_void_stone",
                 "item_wind_lace"
             ],
-            "recipe": 475
+            "recipe": 675
         },
         "item_dagon": {
             "price": 3000,
@@ -2231,9 +2366,17 @@ var TRINITY_SHOP_DATA = {
             "price": 5975,
             "components": [
                 "item_witch_blade",
-                "item_mystic_staff"
+                "item_grove_bow"
             ],
             "recipe": 400
+        },
+        "item_ballista": {
+            "price": 5900,
+            "components": [
+                "item_dragon_lance",
+                "item_grove_bow"
+            ],
+            "recipe": 1200
         },
         "item_diadem": {
             "price": 1000,
@@ -2257,12 +2400,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 800
         },
         "item_dragon_lance": {
-            "price": 2000,
+            "price": 1900,
             "components": [
                 "item_blade_of_alacrity",
                 "item_belt_of_strength"
             ],
-            "recipe": 550
+            "recipe": 450
         },
         "item_eagle": {
             "price": 2800,
@@ -2320,12 +2463,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_force_staff": {
-            "price": 2400,
+            "price": 2200,
             "components": [
                 "item_staff_of_wizardry",
                 "item_fluffy_hat"
             ],
-            "recipe": 1150
+            "recipe": 950
         },
         "item_gauntlets": {
             "price": 140,
@@ -2338,12 +2481,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_glimmer_cape": {
-            "price": 2400,
+            "price": 2150,
             "components": [
                 "item_shadow_amulet",
                 "item_shawl"
             ],
-            "recipe": 1050
+            "recipe": 800
         },
         "item_gloves": {
             "price": 450,
@@ -2351,36 +2494,37 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_greater_crit": {
-            "price": 5500,
+            "price": 5100,
             "components": [
                 "item_lesser_crit",
                 "item_demon_edge"
             ],
-            "recipe": 1300
+            "recipe": 900
         },
         "item_guardian_greaves": {
-            "price": 4700,
+            "price": 4450,
             "components": [
                 "item_arcane_boots",
                 "item_mekansm"
             ],
-            "recipe": 800
+            "recipe": 1175
         },
         "item_gungir": {
-            "price": 4800,
+            "price": 4650,
             "components": [
                 "item_rod_of_atos",
                 "item_point_booster",
                 "item_chasm_stone"
             ],
-            "recipe": 300
+            "recipe": 400
         },
         "item_hand_of_midas": {
             "price": 2400,
             "components": [
-                "item_gloves"
+                "item_gloves",
+                "item_iron_talon"
             ],
-            "recipe": 1950
+            "recipe": 1450
         },
         "item_harpoon": {
             "price": 4700,
@@ -2398,12 +2542,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 250
         },
         "item_heart": {
-            "price": 5500,
+            "price": 5200,
             "components": [
                 "item_reaver",
                 "item_ring_of_tarrasque"
             ],
-            "recipe": 1000
+            "recipe": 700
         },
         "item_heavens_halberd": {
             "price": 3400,
@@ -2444,12 +2588,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 1340
         },
         "item_hurricane_pike": {
-            "price": 4700,
+            "price": 4450,
             "components": [
                 "item_force_staff",
                 "item_dragon_lance"
             ],
-            "recipe": 300
+            "recipe": 350
         },
         "item_hydras_breath": {
             "price": 5900,
@@ -2466,13 +2610,13 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_invis_sword": {
-            "price": 3500,
+            "price": 3250,
             "components": [
                 "item_claymore",
                 "item_blitz_knuckles",
                 "item_shadow_amulet"
             ],
-            "recipe": 250
+            "recipe": 0
         },
         "item_javelin": {
             "price": 900,
@@ -2518,16 +2662,16 @@ var TRINITY_SHOP_DATA = {
             "recipe": 250
         },
         "item_maelstrom": {
-            "price": 3500,
+            "price": 2950,
             "components": [
                 "item_mithril_hammer",
                 "item_javelin",
                 "item_gloves"
             ],
-            "recipe": 550
+            "recipe": 0
         },
         "item_mage_slayer": {
-            "price": 2800,
+            "price": 3100,
             "components": [
                 "item_pers",
                 "item_cloak",
@@ -2551,12 +2695,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 150
         },
         "item_manta": {
-            "price": 4700,
+            "price": 4650,
             "components": [
                 "item_yasha",
                 "item_diadem"
             ],
-            "recipe": 1600
+            "recipe": 1550
         },
         "item_mantle": {
             "price": 140,
@@ -2572,12 +2716,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_mekansm": {
-            "price": 2400,
+            "price": 1775,
             "components": [
                 "item_headdress",
                 "item_chainmail"
             ],
-            "recipe": 1475
+            "recipe": 850
         },
         "item_meteor_hammer": {
             "price": 2850,
@@ -2598,21 +2742,29 @@ var TRINITY_SHOP_DATA = {
                 "item_maelstrom",
                 "item_hyperstone"
             ],
-            "recipe": 0
+            "recipe": 550
         },
         "item_monkey_king_bar": {
-            "price": 5500,
+            "price": 5000,
             "components": [
                 "item_demon_edge",
                 "item_blitz_knuckles",
                 "item_javelin"
             ],
-            "recipe": 1400
+            "recipe": 900
         },
         "item_mystic_staff": {
             "price": 2800,
             "components": [],
             "recipe": 0
+        },
+        "item_grove_bow": {
+            "price": 2800,
+            "components": [
+                "item_staff_of_wizardry",
+                "item_blade_of_alacrity"
+            ],
+            "recipe": 800
         },
         "item_null_talisman": {
             "price": 505,
@@ -2680,10 +2832,10 @@ var TRINITY_SHOP_DATA = {
             "recipe": 300
         },
         "item_overwhelming_blink": {
-            "price": 6950,
+            "price": 6800,
             "components": [
                 "item_blink",
-                "item_reaver"
+                "item_havoc_hammer"
             ],
             "recipe": 1750
         },
@@ -2722,13 +2874,13 @@ var TRINITY_SHOP_DATA = {
             "recipe": 200
         },
         "item_pipe": {
-            "price": 3500,
+            "price": 3725,
             "components": [
                 "item_ring_of_tarrasque",
                 "item_cloak",
                 "item_shawl"
             ],
-            "recipe": 450
+            "recipe": 675
         },
         "item_platemail": {
             "price": 1400,
@@ -2757,18 +2909,97 @@ var TRINITY_SHOP_DATA = {
         "item_radiance": {
             "price": 4700,
             "components": [
-                "item_relic",
-                "item_talisman_of_evasion"
+                "item_talisman_of_evasion",
+                "item_cloak_of_flames"
+            ],
+            "recipe": 900
+        },
+        "item_havoc_hammer": {
+            "price": 2800,
+            "components": [
+                "item_ogre_axe",
+                "item_blades_of_attack"
+            ],
+            "recipe": 1350
+        },
+        "item_giants_ring": {
+            "price": 4800,
+            "components": [
+                "item_havoc_hammer",
+                "item_ring_of_tarrasque"
+            ],
+            "recipe": 300
+        },
+        "item_spider_legs": {
+            "price": 1425,
+            "components": [
+                "item_wind_lace",
+                "item_chainmail",
+                "item_blades_of_attack"
+            ],
+            "recipe": 250
+        },
+        "item_minotaur_horn": {
+            "price": 1700,
+            "components": [
+                "item_broadsword",
+                "item_shawl"
+            ],
+            "recipe": 250
+        },
+        "item_iron_talon": {
+            "price": 500,
+            "components": [
+                "item_ring_of_protection"
+            ],
+            "recipe": 325
+        },
+        "item_cloak_of_flames": {
+            "price": 2500,
+            "components": [
+                "item_cloak",
+                "item_mithril_hammer"
+            ],
+            "recipe": 0
+        },
+        "item_desolator_2": {
+            "price": 6000,
+            "components": [
+                "item_desolator",
+                "item_demon_edge"
+            ],
+            "recipe": 300
+        },
+        "item_chipped_vest": {
+            "price": 950,
+            "components": [
+                "item_chainmail",
+                "item_blades_of_attack"
+            ],
+            "recipe": 0
+        },
+        "item_poor_mans_shield": {
+            "price": 700,
+            "components": [
+                "item_ring_of_regen",
+                "item_fluffy_hat"
+            ],
+            "recipe": 275
+        },
+        "item_divine_regalia": {
+            "price": 3800,
+            "components": [
+                "item_demon_edge",
+                "item_mithril_hammer"
             ],
             "recipe": 0
         },
         "item_rapier": {
-            "price": 5600,
+            "price": 6000,
             "components": [
-                "item_relic",
-                "item_demon_edge"
+                "item_divine_regalia"
             ],
-            "recipe": 0
+            "recipe": 2200
         },
         "item_reaver": {
             "price": 2800,
@@ -2834,12 +3065,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_rod_of_atos": {
-            "price": 2400,
+            "price": 2250,
             "components": [
                 "item_staff_of_wizardry",
                 "item_vitality_booster"
             ],
-            "recipe": 400
+            "recipe": 250
         },
         "item_sange": {
             "price": 2100,
@@ -2858,13 +3089,13 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_satanic": {
-            "price": 5500,
+            "price": 5050,
             "components": [
                 "item_reaver",
                 "item_claymore",
                 "item_lifesteal"
             ],
-            "recipe": 450
+            "recipe": 0
         },
         "item_shadow_amulet": {
             "price": 900,
@@ -2877,12 +3108,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_sheepstick": {
-            "price": 5500,
+            "price": 5975,
             "components": [
-                "item_mystic_staff",
-                "item_tiara_of_selemene"
+                "item_orchid",
+                "item_kaya"
             ],
-            "recipe": 1000
+            "recipe": 600
         },
         "item_shivas_guard": {
             "price": 4500,
@@ -2894,7 +3125,7 @@ var TRINITY_SHOP_DATA = {
             "recipe": 1350
         },
         "item_silver_edge": {
-            "price": 5950,
+            "price": 5700,
             "components": [
                 "item_invis_sword",
                 "item_demon_edge"
@@ -2951,12 +3182,12 @@ var TRINITY_SHOP_DATA = {
             "recipe": 550
         },
         "item_sphere": {
-            "price": 4700,
+            "price": 4800,
             "components": [
                 "item_pers",
                 "item_ultimate_orb"
             ],
-            "recipe": 500
+            "recipe": 600
         },
         "item_spirit_vessel": {
             "price": 2725,
@@ -2977,7 +3208,7 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_swift_blink": {
-            "price": 6950,
+            "price": 6800,
             "components": [
                 "item_blink",
                 "item_eagle"
@@ -3058,7 +3289,7 @@ var TRINITY_SHOP_DATA = {
             "price": 1700,
             "components": [
                 "item_vitality_booster",
-                "item_ring_of_health"
+                "item_poor_mans_shield"
             ],
             "recipe": 0
         },
@@ -3102,7 +3333,7 @@ var TRINITY_SHOP_DATA = {
             "recipe": 0
         },
         "item_wind_waker": {
-            "price": 6600,
+            "price": 6800,
             "components": [
                 "item_cyclone",
                 "item_mystic_staff"
@@ -3185,13 +3416,13 @@ var TRINITY_SHOP_DATA = {
         }
     },
     "itemIds": {
+        "item_iron_talon": 239,
         "item_abyssal_blade": 208,
         "item_aeon_disk": 256,
         "item_aether_lens": 232,
         "item_aghanims_shard": 609,
         "item_ancient_janggo": 185,
         "item_angels_demise": 1808,
-        "item_arcane_blink": 604,
         "item_arcane_boots": 180,
         "item_armlet": 151,
         "item_assault": 112,
@@ -3280,6 +3511,7 @@ var TRINITY_SHOP_DATA = {
         "item_mjollnir": 158,
         "item_monkey_king_bar": 135,
         "item_mystic_staff": 58,
+        "item_grove_bow": 288,
         "item_null_talisman": 77,
         "item_nullifier": 225,
         "item_oblivion_staff": 67,

@@ -22,11 +22,12 @@
             "damage"                    "60 120 180 240"
             "stun_duration"             "1.5"
             "length"                    "0"
-            "max_length"                "00"
+            "max_length"                "1200"
             "wave_start_radius"         "300"
+            "wave_width_growth"         "0.25"
             "wave_speed"                "1800"
             "strength_damage_bonus"     "2.5"
-            "strength_length_bonus"     "1.4"
+            "strength_length_bonus"     "1"
         }
     }
 

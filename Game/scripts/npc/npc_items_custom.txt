@@ -57,4 +57,1094 @@
             "duration"                  "120"
         }
     }
+
+    //=================================================================================================================
+    // Grove Bow - компонент Паразмы (в ванилле нейтралка, выведенная из игры).
+    // Рецепт: Staff of Wizardry + Blade of Alacrity + 800 = 2800.
+    // Дальность атаки движок тут не считает (attack_range_bonus = 0), ИНТ и ЛОВ ванильный модификатор лука
+    // не выдаёт: всё это даёт Lua-модификатор из items/item_ranged_attack_range.lua.
+    // Дальность (bonus_attack_range_ranged) - только героям дальнего боя.
+    //=================================================================================================================
+    // Рецепт лука - собственный предмет-рецепт item_recipe_grove_bow (раньше использовался рецепт Iron Talon).
+    "item_recipe_grove_bow"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_grove_bow"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "800"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_grove_bow"
+        "ItemRequirements"
+        {
+            "01"                        "item_staff_of_wizardry;item_blade_of_alacrity"
+        }
+    }
+
+    "item_grove_bow"
+    {
+        "ItemCost"                      "2800"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "rare"
+        "ItemShopTags"                  "attack_speed;hard_to_tag"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_intellect"               "10"
+            "bonus_agility"                 "10"
+            "attack_range_bonus"            "0"
+            "bonus_attack_range_ranged"     "100"
+            "attack_speed_bonus"            "25"
+            "magic_resistance_reduction"    "20"
+            "debuff_duration"               "4"
+        }
+    }
+
+    //=================================================================================================================
+    // Паразма: Witch Blade + Grove Bow + рецепт 400 (вместо Mystic Staff). Итог 5975, как в ванилле.
+    //=================================================================================================================
+    "item_recipe_devastator"
+    {
+        "ItemCost"                      "400"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_devastator"
+        "ItemRequirements"
+        {
+            "01"                        "item_witch_blade;item_grove_bow"
+        }
+    }
+
+    "item_devastator"
+    {
+        "ItemCost"                      "5975"
+
+        // Ванилла: 40 ИНТ / 40 скор. атаки / срез сопротивления магии 20%.
+        // Trinity: часть ИНТ заменена статами лука, срез усилен.
+        // bonus_agility и bonus_attack_range_ranged ванильный модификатор не знает - их выдаёт Lua.
+        "AbilityValues"
+        {
+            "bonus_intellect"           "25"
+            "bonus_agility"             "10"
+            "bonus_attack_speed"        "65"
+            "bonus_armor"               "7"
+            "bonus_mana_regen"          "1.5"
+            "projectile_speed"          "300"
+            "int_damage_multiplier"     "0.75"
+            "slow"                      "25"
+            "slow_duration"             "4"
+            "active_mres_reduction"     "25"
+            "passive_cooldown"          "4"
+            "bonus_attack_range_ranged" "140"
+        }
+    }
+
+    //=================================================================================================================
+    // Ballista - в ванилле нейтралка, выведенная из игры. В Trinity: Dragon Lance + Grove Bow + рецепт 1200 = 6000.
+    // Lua-версия (items/item_ballista_trinity.lua): наследует эффекты компонентов - статы обоих предметов суммой,
+    // скорость атаки и пассив Grove Bow (атаки снижают сопротивление магии). Ванильный отброс и урон Баллисты не используются.
+    // Дальность bonus_attack_range_ranged (250) - только дальникам, выдаёт items/item_ranged_attack_range.lua.
+    // attack_range_bonus - ванильный ключ того же бонуса, нужен только для строки в тултипе (Lua его не читает).
+    //=================================================================================================================
+    "item_recipe_ballista"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_ballista"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "1200"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_ballista"
+        "ItemRequirements"
+        {
+            "01"                        "item_dragon_lance;item_grove_bow"
+        }
+    }
+
+    "item_ballista"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_ballista_trinity"
+        "AbilityTextureName"            "item_ballista"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "ItemCost"                      "5900"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "artifact"
+        "ItemShopTags"                  "damage;attack_speed;agi;str;int"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+        "SuggestLategame"               "1"
+
+        "AbilityValues"
+        {
+            "bonus_strength"                "10"
+            "bonus_agility"                 "25"
+            "bonus_intellect"               "10"
+            "bonus_attack_speed"            "25"
+            "bonus_attack_range_ranged"     "250"
+            "attack_range_bonus"            "250"
+            "magic_resistance_reduction"    "20"
+            "debuff_duration"               "4"
+            "knockback_distance"            "100"
+            "knockback_duration"            "0.2"
+            "bonus_damage"                  "0"
+        }
+    }
+
+    //=================================================================================================================
+    // Cloak of Flames - в ванилле нейтралка, в Trinity покупается: Cloak + Mithril Hammer = 2500 (рецепт бесплатный, собирается сам).
+    // Рецепт - собственный предмет-рецепт (раньше занимал ванильный рецепт Poor Man's Shield, теперь он нужен самому щиту).
+    //=================================================================================================================
+    "item_recipe_cloak_of_flames"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_cloak_of_flames"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_cloak_of_flames"
+        "ItemRequirements"
+        {
+            "01"                        "item_cloak;item_mithril_hammer"
+        }
+    }
+
+    "item_cloak_of_flames"
+    {
+        // Lua-версия (items/item_cloak_of_flames_trinity.lua): горение включается и выключается.
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_cloak_of_flames_trinity"
+        "AbilityTextureName"            "item_cloak_of_flames"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_INVISIBLE | DOTA_ABILITY_BEHAVIOR_DONT_PROC_OTHER_ABILITIES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "AbilityCooldown"               "0"
+        "ItemCost"                      "2500"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;magic_resist"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "armor"                     "0"
+            "magic_resistance"          "18"
+            "bonus_damage"              "24"
+            "damage"                    "40"
+            "radius"
+            {
+                "value"                 "375"
+                "affected_by_aoe_increase"  "1"
+            }
+            "damage_illusions"          "25"
+        }
+    }
+
+    //=================================================================================================================
+    // Radiance: Talisman of Evasion + Cloak of Flames + рецепт 900 (1300 + 2500 + 900 = 4700, как в ванилле).
+    // Lua-версия (items/item_radiance_trinity.lua): включение выпускает огненную волну (урон + ослепление),
+    // выключение отправляет предмет в КД на toggle_off_cooldown секунд.
+    //=================================================================================================================
+    "item_recipe_radiance"
+    {
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "900"
+        "ItemPurchasable"               "1"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_radiance"
+        "ItemRequirements"
+        {
+            "01"                        "item_talisman_of_evasion;item_cloak_of_flames"
+        }
+    }
+
+    "item_radiance"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_radiance_trinity"
+        "AbilityTextureName"            "item_radiance"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_INVISIBLE | DOTA_ABILITY_BEHAVIOR_DONT_PROC_OTHER_ABILITIES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "AbilityCooldown"               "0"
+        "ItemCost"                      "4700"
+        "ItemShopTags"                  "damage;farming;dps"
+        "ItemQuality"                   "epic"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+        "SuggestLategame"               "1"
+        "ItemDisassembleRule"           "DOTA_ITEM_DISASSEMBLE_ALWAYS"
+
+        "AbilityValues"
+        {
+            "bonus_damage"              "55"
+            "evasion"                   "25"
+            "bonus_magic_resistance"    "18"
+            "aura_damage"               "60"
+            "aura_damage_illusions"     "35"
+            "aura_radius"
+            {
+                "value"                 "650"
+                "affected_by_aoe_increase"  "1"
+            }
+            "wave_damage"               "200"
+            "blind_duration"            "1"
+            "blind_miss_pct"            "40"
+            "toggle_off_cooldown"       "3"
+        }
+    }
+
+    //=================================================================================================================
+    // Iron Talon - в ванилле выведен из игры (нейтралка). В Trinity покупается:
+    // Ring of Protection + рецепт 325 = 500. Входит в рецепт Hand of Midas. Деревья не рубит: цель - только вражеские крипы.
+    //=================================================================================================================
+    "item_recipe_iron_talon"
+    {
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "325"
+        "ItemPurchasable"               "1"
+        "IsObsolete"                    "0"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_iron_talon"
+        "ItemRequirements"
+        {
+            "01"                        "item_ring_of_protection"
+        }
+    }
+
+    "item_iron_talon"
+    {
+        // Lua-версия (items/item_iron_talon_trinity.lua): броня + удар по крипу, деревья не рубит.
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_iron_talon_trinity"
+        "AbilityTextureName"            "item_iron_talon"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+        "AbilityCastRange"              "350"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "15"
+        "AbilityManaCost"               "0"
+        "ItemCost"                      "500"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "IsObsolete"                    "0"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;armor;farming"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_armor"               "2"
+            "creep_damage_pct"          "80"
+        }
+    }
+
+    //=================================================================================================================
+    // Hand of Midas: Gloves of Haste + Iron Talon + рецепт 1450 = 2400 (цена из магазина Trinity).
+    //=================================================================================================================
+    "item_recipe_hand_of_midas"
+    {
+        "ItemCost"                      "1450"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_hand_of_midas"
+        "ItemRequirements"
+        {
+            "01"                        "item_gloves;item_iron_talon"
+        }
+    }
+
+    "item_hand_of_midas"
+    {
+        "ItemCost"                      "2400"
+
+        // Ванильные значения + bonus_armor от Iron Talon (его выдаёт Lua items/item_ranged_attack_range.lua)
+        "AbilityValues"
+        {
+            "bonus_attack_speed"        "40"
+            "bonus_gold"                "160"
+            "bonus_armor"               "2"
+        }
+    }
+
+    //=================================================================================================================
+    // Minotaur Horn - в ванилле нейтралка. В Trinity покупается: Broadsword + Shawl + рецепт 250 = 1700.
+    // Lua-версия (items/item_minotaur_horn_trinity.lua): пассив урон + сопр. магии, активка - иммунитет к магии.
+    //=================================================================================================================
+    "item_recipe_minotaur_horn"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_minotaur_horn"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "250"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_minotaur_horn"
+        "ItemRequirements"
+        {
+            "01"                        "item_broadsword;item_shawl"
+        }
+    }
+
+    "item_minotaur_horn"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_minotaur_horn_trinity"
+        "AbilityTextureName"            "item_minotaur_horn"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityCooldown"               "40"
+        "AbilityManaCost"               "0"
+        "ItemCost"                      "1700"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;magic_resist"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_damage"              "15"
+            "bonus_magic_resistance"    "10"
+            "duration"                  "2"
+        }
+    }
+
+    //=================================================================================================================
+    // Black King Bar: Minotaur Horn + Ogre Axe + рецепт 2000 = 4700 (вместо Mithril Hammer).
+    //=================================================================================================================
+    "item_recipe_black_king_bar"
+    {
+        "ItemCost"                      "2000"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_black_king_bar"
+        "ItemRequirements"
+        {
+            "01"                        "item_minotaur_horn;item_ogre_axe"
+        }
+    }
+
+    "item_black_king_bar"
+    {
+        "ItemCost"                      "4700"
+
+        // Ванильные значения + bonus_magic_resistance от Minotaur Horn (его выдаёт Lua items/item_ranged_attack_range.lua)
+        "AbilityValues"
+        {
+            "bonus_strength"            "10"
+            "bonus_damage"              "24"
+            "duration"                  "9 8 7"
+            "max_level"                 "3"
+            "model_scale"               "30"
+            "spell_reduce"              "60"
+            "bonus_magic_resistance"    "10"
+        }
+    }
+
+    //=================================================================================================================
+    // Havoc Hammer - в ванилле нейтралка. В Trinity покупается: Ogre Axe + Blades of Attack + рецепт 1350 = 2800.
+    // Активка ванильная (движок): отбрасывание + урон 175 + 1.5x сила + замедление. Статы - по компонентам.
+    //=================================================================================================================
+    "item_recipe_havoc_hammer"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_havoc_hammer"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "1350"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_havoc_hammer"
+        "ItemRequirements"
+        {
+            "01"                        "item_ogre_axe;item_blades_of_attack"
+        }
+    }
+
+    "item_havoc_hammer"
+    {
+        "ItemCost"                      "2800"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;str"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_damage"              "9"
+            "bonus_strength"            "10"
+        }
+    }
+
+    //=================================================================================================================
+    // Giant's Ring - в ванилле нейтралка. В Trinity - развитие Havoc Hammer: Havoc Hammer + Ring of Tarrasque + рецепт 300 = 4800.
+    // Lua (items/item_giants_ring_trinity.lua): статы Havoc Hammer (10 СИЛ, 9 урона) + 15 СИЛ кольца + реген Ring of Tarrasque,
+    // активка Havoc Hammer (притяжение, урон 175 + 1.5x сила, замедление) и пассив кольца (рост, урон от силы вокруг героя).
+    //=================================================================================================================
+    "item_recipe_giants_ring"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_giants_ring"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "300"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_giants_ring"
+        "ItemRequirements"
+        {
+            "01"                        "item_havoc_hammer;item_ring_of_tarrasque"
+        }
+    }
+
+    "item_giants_ring"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_giants_ring_trinity"
+        "AbilityTextureName"            "item_giants_ring"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityCastRange"              "400"
+        "AbilityCooldown"               "10"
+        "AbilityManaCost"               "0"
+        "ItemCost"                      "4800"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "epic"
+        "ItemShopTags"                  "damage;str;regen_health"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+        "SuggestLategame"               "1"
+        "SpeciallyBannedFromNeutralSlot"    "1"
+
+        "AbilityValues"
+        {
+            "bonus_strength"            "25"
+            "bonus_damage"              "9"
+            "bonus_health_regen"        "12"
+            "model_scale"               "60"
+            "pct_str_damage_per_second" "100"
+            "damage_radius"             "250"
+            "pull_speed"                "200"
+            "pull_min_distance"         "100"
+            "range"                     "400"
+            "slow"                      "50"
+            "slow_duration"             "3"
+            "knockback_duration"        "0.2"
+            "pull_distance"             "100"
+            "nuke_base_dmg"             "175"
+            "nuke_str_dmg"              "1.5"
+        }
+    }
+
+    //=================================================================================================================
+    // Overwhelming Blink: Blink Dagger + Havoc Hammer + рецепт 1750 = 6800 (вместо Reaver).
+    //=================================================================================================================
+    "item_recipe_overwhelming_blink"
+    {
+        "ItemCost"                      "1750"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_overwhelming_blink"
+        "ItemRequirements"
+        {
+            "01"                        "item_blink*;item_havoc_hammer"
+        }
+    }
+
+    //=================================================================================================================
+    // Desolator - Lua-версия (items/item_desolator_trinity.lua): ванильные значения, заряды за убийства и помощь
+    // хранятся в зарядах предмета (1 заряд = +1 урона, максимум max_damage) и переходят в Stygian Desolator.
+    //=================================================================================================================
+    "item_desolator"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_desolator_trinity"
+        "AbilityTextureName"            "item_desolator"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "ItemInitialCharges"            "0"
+        "ItemDisplayCharges"            "1"
+        "ItemRequiresCharges"           "0"
+        "ItemPermanent"                 "1"
+        "ItemStackable"                 "0"
+
+        "AbilityValues"
+        {
+            "bonus_damage"              "55"
+            "corruption_armor"          "-6"
+            "corruption_duration"       "7.0"
+            "bonus_damage_per_kill"     "2"
+            "bonus_damage_per_assist"   "1"
+            "max_damage"                "30"
+        }
+    }
+
+    //=================================================================================================================
+    // Stygian Desolator - в ванилле нейтралка. В Trinity - развитие Desolator: Desolator + Demon Edge + рецепт 300 = 6000.
+    // Забирает заряды Desolator, из которого собран (items/item_desolator_trinity.lua), и продолжает их копить.
+    //=================================================================================================================
+    "item_recipe_desolator_2"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_desolator_2"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "300"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_desolator_2"
+        "ItemRequirements"
+        {
+            "01"                        "item_desolator;item_demon_edge"
+        }
+    }
+
+    "item_desolator_2"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_desolator_trinity"
+        "AbilityTextureName"            "item_desolator_2"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "ItemCost"                      "6000"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "artifact"
+        "ItemShopTags"                  "damage;unique;dps"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+        "SuggestLategame"               "1"
+        "ItemInitialCharges"            "0"
+        "ItemDisplayCharges"            "1"
+        "ItemRequiresCharges"           "0"
+        "ItemPermanent"                 "1"
+        "ItemStackable"                 "0"
+
+        "AbilityValues"
+        {
+            "bonus_damage"              "95"
+            "corruption_armor"
+            {
+                "value"                 "-10"
+            }
+            "corruption_duration"       "7.0"
+            "bonus_damage_per_kill"     "2"
+            "bonus_damage_per_assist"   "1"
+            "max_damage"                "30"
+        }
+    }
+
+    //=================================================================================================================
+    // Chipped Vest - в ванилле нейтралка. В Trinity покупается: Chainmail + Blades of Attack = 950 (рецепт бесплатный).
+    // Lua-версия (items/item_chipped_vest_trinity.lua): броня, урон, возврат урона атакующим. Входит в Blade Mail.
+    //=================================================================================================================
+    "item_recipe_chipped_vest"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_chipped_vest"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_chipped_vest"
+        "ItemRequirements"
+        {
+            "01"                        "item_chainmail;item_blades_of_attack"
+        }
+    }
+
+    "item_chipped_vest"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_chipped_vest_trinity"
+        "AbilityTextureName"            "item_chipped_vest"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "ItemCost"                      "950"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;armor"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_armor"               "4"
+            "bonus_damage"              "9"
+            "hp_regen"                  "0"
+            "damage_return_hero"        "30"
+            "damage_return_creep"       "15"
+        }
+    }
+
+    //=================================================================================================================
+    // Blade Mail: Broadsword + Chipped Vest + рецепт 450 = 2400 (вместо Splintmail).
+    // Урон и пассивный возврат подняты до суммы компонентов (15 + 9 урона; возврат не меньше, чем у жилета).
+    //=================================================================================================================
+    "item_recipe_blade_mail"
+    {
+        "ItemCost"                      "450"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_blade_mail"
+        "ItemRequirements"
+        {
+            "01"                        "item_broadsword;item_chipped_vest"
+        }
+    }
+
+    "item_blade_mail"
+    {
+        "ItemCost"                      "2400"
+
+        "AbilityValues"
+        {
+            "bonus_damage"                  "24"
+            "bonus_armor"                   "7"
+            "bonus_intellect"               "0"
+            "duration"                      "5.5"
+            "passive_reflection_constant"   "30"
+            "passive_reflection_pct"        "15"
+            "active_reflection_pct"         "85"
+        }
+    }
+
+    //=================================================================================================================
+    // Poor Man's Shield - в ванилле нейтралка. В Trinity покупается: Ring of Regen + Fluffy Hat + рецепт 275 = 700.
+    // Lua-версия (items/item_poor_mans_shield_trinity.lua): здоровье, регенерация, блок урона от атак. Входит в Vanguard.
+    // Рецепт - ванильный item_recipe_poor_mans_shield (настоящий ID), раньше занятый Cloak of Flames.
+    //=================================================================================================================
+    "item_recipe_poor_mans_shield"
+    {
+        "AbilityTextureName"            "item_recipe_poor_mans_shield"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "275"
+        "ItemPurchasable"               "1"
+        "IsObsolete"                    "0"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_poor_mans_shield"
+        "ItemRequirements"
+        {
+            "01"                        "item_ring_of_regen;item_fluffy_hat"
+        }
+    }
+
+    "item_poor_mans_shield"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_poor_mans_shield_trinity"
+        "AbilityTextureName"            "item_poor_mans_shield"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "ItemCost"                      "700"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "IsObsolete"                    "0"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "regen_health;block;health_pool"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_agility"             "0"
+            "bonus_health"              "125"
+            "bonus_health_regen"        "1.25"
+            "damage_block_melee"
+            {
+                "value"                 "20"
+            }
+            "damage_block_ranged"
+            {
+                "value"                 "10"
+            }
+            "block_chance"              "60"
+            "block_chance_hero"         "60"
+        }
+    }
+
+    //=================================================================================================================
+    // Vanguard: Vitality Booster + Poor Man's Shield = 1700 (вместо Ring of Health, рецепт бесплатный как в ванилле).
+    // Здоровье поднято до суммы компонентов (250 + 125). Crimson Guard - вслед за Vanguard.
+    //=================================================================================================================
+    "item_recipe_vanguard"
+    {
+        "ItemCost"                      "0"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_vanguard"
+        "ItemRequirements"
+        {
+            "01"                        "item_vitality_booster;item_poor_mans_shield"
+        }
+    }
+
+    "item_vanguard"
+    {
+        "ItemCost"                      "1700"
+
+        "AbilityValues"
+        {
+            "bonus_health"              "375"
+            "bonus_health_regen"        "4.5"
+            "block_damage_melee"        "50"
+            "block_damage_ranged"       "25"
+            "block_chance"              "60"
+        }
+    }
+
+    "item_crimson_guard"
+    {
+        // Ванильные значения, здоровье не меньше, чем у Vanguard.
+        "AbilityValues"
+        {
+            "bonus_health"              "375"
+            "bonus_health_regen"        "12"
+            "bonus_armor"               "6"
+            "block_damage_melee"        "75"
+            "block_damage_ranged"       "50"
+            "block_chance"              "60"
+            "duration"                  "7"
+            "bonus_aoe_radius"
+            {
+                "value"                 "1200"
+                "affected_by_aoe_increase"  "1"
+            }
+            "block_damage_active"       "70"
+            "block_chance_active"       "100"
+            "block_penalty_ranged"      "25"
+            "max_hp_pct"                "2.0"
+        }
+    }
+
+    //=================================================================================================================
+    // Spider Legs - в ванилле нейтралка. В Trinity - развитие Phase Boots. Рецепт пока не задан: в магазине не продаётся.
+    // Lua-версия (items/item_spider_legs_trinity.lua): статы Phase Boots + активка «Паучий бег»
+    // (фаза, беспрепятственное перемещение, рубка деревьев на пути, бонус скорости).
+    //=================================================================================================================
+    "item_recipe_spider_legs"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "250"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_spider_legs"
+        "ItemRequirements"
+        {
+            "01"                        "item_wind_lace;item_chainmail;item_blades_of_attack"
+        }
+    }
+
+    "item_spider_legs"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_spider_legs_trinity"
+        "AbilityTextureName"            "item_spider_legs"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+        "AbilityCooldown"               "12"
+        "AbilityManaCost"               "0"
+        "ItemCost"                      "1425"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;move_speed;armor;mobility"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_SPECTATORS"
+        "SpeciallyBannedFromNeutralSlot"    "1"
+
+        "AbilityValues"
+        {
+            "bonus_movement_speed"                  "50"
+            "bonus_damage_melee"                    "18"
+            "bonus_damage_range"                    "12"
+            "bonus_armor"                           "4"
+            "duration"                              "4"
+            "bonus_movement_speed_active"
+            {
+                "value"                             "25"
+            }
+            "bonus_movement_speed_active_ranged"    "15"
+            "tree_radius"                           "150"
+            "turn_rate"                             "0"
+        }
+    }
+
+    //=================================================================================================================
+    // Orchid Malevolence - Lua-версия (items/item_orchid_trinity.lua): ванильные значения.
+    // Активка «Сожжение души»: безмолвие, по окончании - silence_damage_percent% полученного урона (магический).
+    // Входит в Scythe of Vyse (сборка Orchid + Kaya) и в ванильный Bloodthorn.
+    //=================================================================================================================
+    "item_orchid"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_orchid_trinity"
+        "AbilityTextureName"            "item_orchid"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
+        "AbilityCastRange"              "900"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "18.0"
+        "AbilitySharedCooldown"         "orchid"
+        "AbilityManaCost"               "125"
+        "ItemCost"                      "3275"
+
+        "AbilityValues"
+        {
+            "bonus_intellect"           "12"
+            "bonus_attack_speed"        "35"
+            "bonus_damage"              "20"
+            "bonus_mana_regen"          "2.5"
+            "silence_duration"          "5"
+            "silence_damage_percent"    "30"
+        }
+    }
+
+    //=================================================================================================================
+    // Scythe of Vyse (хекс): Orchid + Kaya + рецепт 600 = 5975 (вместо Mystic Staff + Tiara).
+    // Lua-версия (items/item_orchid_trinity.lua): статы Orchid и Kaya (Сила Магии - mind_power_bonus).
+    // Активка: превращение на sheep_duration сек + усиленное «Сожжение души» на то же время (без своего безмолвия):
+    // когда превращение заканчивается, цель получает silence_damage_percent% урона, полученного за это время.
+    //=================================================================================================================
+    "item_recipe_sheepstick"
+    {
+        "ItemCost"                      "600"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_sheepstick"
+        "ItemRequirements"
+        {
+            "01"                        "item_orchid;item_kaya"
+        }
+    }
+
+    "item_sheepstick"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_orchid_trinity"
+        "AbilityTextureName"            "item_sheepstick"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_YES_STRONG"
+        "AbilityCastRange"              "800"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "20.0"
+        "AbilityManaCost"               "250"
+        "ItemCost"                      "5975"
+        "ItemShopTags"                  "int;attack_speed;damage;regen_mana;hard_to_tag;disable"
+
+        "AbilityValues"
+        {
+            "bonus_intellect"           "30"
+            "bonus_attack_speed"        "35"
+            "bonus_damage"              "20"
+            "bonus_mana_regen"          "2.5"
+            "mana_regen_multiplier"     "40"
+            "mind_power_bonus"          "20"
+            "sheep_duration"            "3"
+            "sheep_movement_speed"      "140"
+            "silence_damage_percent"    "50"
+        }
+    }
+
+    //=================================================================================================================
+    // Fallen Sky - в ванилле нейтралка. В Trinity заменяет Arcane Blink: Blink Dagger + Meteor Hammer + рецепт 900 = 6000.
+    // Активка нативная (C++): герой падает метеором в точку, оглушает и поджигает врагов.
+    // Статы не меньше суммы компонентов (Meteor Hammer): СИЛ/ИНТ и Силу Магии (mind_power_bonus) выдаёт движок / util.lua,
+    // ЛОВ и усиление восстановления маны ванильный модификатор не знает - их выдаёт Lua items/item_ranged_attack_range.lua.
+    //=================================================================================================================
+    "item_recipe_fallen_sky"
+    {
+        "AbilityTextureName"            "item_recipe_fallen_sky"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "900"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "IsObsolete"                    "0"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_fallen_sky"
+        "ItemRequirements"
+        {
+            "01"                        "item_blink;item_meteor_hammer"
+        }
+    }
+
+    "item_fallen_sky"
+    {
+        "ItemCost"                      "6000"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "IsObsolete"                    "0"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "epic"
+        "ItemShopTags"                  "teleport;mobility;magic_dmg;disable;str;agi;int"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+        "SuggestLategame"               "1"
+        "SpeciallyBannedFromNeutralSlot"    "1"
+
+        // Ванильная активка без изменений. Статы - от Meteor Hammer.
+        "AbilityValues"
+        {
+            "bonus_strength"            "6"
+            "bonus_agility"             "6"
+            "bonus_intellect"           "24"
+            "mind_power_bonus"          "20"
+            "mana_regen_multiplier"     "40"
+            "bonus_health_regen"        "0"
+            "bonus_mana_regen"          "0"
+            "burn_dps_buildings"
+            {
+                "value"                 "60"
+                "apply_curio_bonus"     "1"
+            }
+            "burn_dps_units"
+            {
+                "value"                 "60"
+                "apply_curio_bonus"     "1"
+            }
+            "burn_duration"             "6"
+            "stun_duration"             "1.6"
+            "burn_interval"             "1.0"
+            "land_time"                 "1"
+            "impact_radius"
+            {
+                "value"                 "315"
+                "affected_by_aoe_increase"  "1"
+            }
+            "max_duration"              "2.5"
+            "impact_damage_buildings"
+            {
+                "value"                 "110"
+                "apply_curio_bonus"     "1"
+            }
+            "impact_damage_units"
+            {
+                "value"                 "150"
+                "apply_curio_bonus"     "1"
+            }
+            "blink_damage_cooldown"     "3.0"
+        }
+    }
+
+    //=================================================================================================================
+    // Arcane Blink выведен из магазина: его место занял Fallen Sky.
+    //=================================================================================================================
+    "item_recipe_arcane_blink"
+    {
+        "ItemPurchasable"               "0"
+    }
+
+    "item_arcane_blink"
+    {
+        "ItemPurchasable"               "0"
+    }
+
+    //=================================================================================================================
+    // Divine Regalia - в ванилле нейтралка. В Trinity покупается: Demon Edge + Mithril Hammer = 3800 (рецепт бесплатный, собирается сам).
+    // Lua-версия (items/item_divine_regalia_trinity.lua): +100 урона. Входит в Divine Rapier.
+    // Rapier: Divine Regalia + рецепт 2200 = 6000 (вместо Sacred Relic + Demon Edge).
+    //=================================================================================================================
+    "item_recipe_divine_regalia"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe_divine_regalia"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_divine_regalia"
+        "ItemRequirements"
+        {
+            "01"                        "item_demon_edge;item_mithril_hammer"
+        }
+    }
+
+    "item_divine_regalia"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_divine_regalia_trinity"
+        "AbilityTextureName"            "item_divine_regalia"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "ItemCost"                      "3800"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "bonus_damage"              "100"
+        }
+    }
+
+    "item_recipe_rapier"
+    {
+        "ItemCost"                      "2200"
+        "ItemPurchasable"               "1"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_rapier"
+        "ItemRequirements"
+        {
+            "01"                        "item_divine_regalia"
+        }
+    }
+
+    "item_rapier"
+    {
+        "ItemCost"                      "6000"
+    }
+
+    // Mage Slayer: цена = компоненты (Perseverance 1400 + Cloak 900 + Blades of Attack 450 + Orb of Venom 350) + рецепт 0.
+    "item_mage_slayer"
+    {
+        "ItemCost"                      "3100"
+    }
 }

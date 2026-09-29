@@ -348,13 +348,19 @@ end
 
 function modifier_lich_spark_wraith_return_tracker:OnIntervalThink()
 	if not IsServer() then return end
-	
-	-- Проверяем, жив ли Лич
-	if not self.caster:IsAlive() then
+
+	-- Thinker уже снят (достиг Лича, смерть кастера или конец модификатора),
+	-- а отложенный интервал ещё может прийти.
+	if not self.parent or self.parent:IsNull() then
+		return
+	end
+
+	if not self.caster or self.caster:IsNull() or not self.caster:IsAlive() then
+		self:StartIntervalThink(-1)
 		self:Destroy()
 		return
 	end
-	
+
 	-- Получаем текущие позиции
 	local current_pos = self.parent:GetAbsOrigin()
 	local target_pos = self.caster:GetAbsOrigin()
@@ -364,6 +370,7 @@ function modifier_lich_spark_wraith_return_tracker:OnIntervalThink()
 	
 	-- Проверяем, достигли ли Лича
 	if distance_to_lich <= self.finish_distance then
+		self:StartIntervalThink(-1)
 		self:Destroy()
 		return
 	end
@@ -431,7 +438,7 @@ function modifier_lich_spark_wraith_return_tracker:OnDestroy()
 	if not IsServer() then return end
 	
 	-- Если Лич мертв - очищаем данные, так как снаряд не восстановит ману
-	if not self.caster:IsAlive() then
+	if not self.caster or self.caster:IsNull() or not self.caster:IsAlive() then
 		if self.projectile_id and _G.lich_spark_wraith_mana_data[self.projectile_id] then
 			_G.lich_spark_wraith_mana_data[self.projectile_id] = nil
 		end

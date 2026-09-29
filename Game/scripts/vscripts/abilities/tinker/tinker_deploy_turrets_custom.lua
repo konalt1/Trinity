@@ -8,6 +8,11 @@ LinkLuaModifier(
     "abilities/tinker/tinker_deploy_turrets_custom",
     LUA_MODIFIER_MOTION_NONE
 )
+LinkLuaModifier(
+    "modifier_tinker_deploy_turrets_custom_shard_slow",
+    "abilities/tinker/tinker_deploy_turrets_custom",
+    LUA_MODIFIER_MOTION_NONE
+)
 
 tinker_deploy_turrets_custom = class({})
 
@@ -69,6 +74,12 @@ function tinker_deploy_turrets_custom:OnProjectileHit(target)
         damage_type = DAMAGE_TYPE_MAGICAL,
         ability = self,
     })
+
+    if IsValidUnit(caster) and HasShard(caster) and not target:IsMagicImmune() then
+        target:AddNewModifier(caster, self, "modifier_tinker_deploy_turrets_custom_shard_slow", {
+            duration = self:GetSpecialValueFor("shard_missile_slow_duration"),
+        })
+    end
 
     local units = FindUnitsInRadius(
         caster:GetTeamNumber(),
@@ -386,4 +397,41 @@ function modifier_tinker_deploy_turrets_custom_turret:CheckState()
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
         [MODIFIER_STATE_ROOTED] = true,
     }
+end
+
+modifier_tinker_deploy_turrets_custom_shard_slow = class({})
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:IsHidden()
+    return false
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:IsDebuff()
+    return true
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:IsPurgable()
+    return true
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:GetTexture()
+    return "tinker_deploy_turrets"
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:OnCreated()
+    local ability = self:GetAbility()
+    self.slow_pct = ability and not ability:IsNull() and ability:GetSpecialValueFor("shard_missile_slow_pct") or 0
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:OnRefresh()
+    self:OnCreated()
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+end
+
+function modifier_tinker_deploy_turrets_custom_shard_slow:GetModifierMoveSpeedBonus_Percentage()
+    return -self.slow_pct
 end

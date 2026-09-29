@@ -72,6 +72,8 @@
 
     "ember_spirit_sleight_of_fist"
         {
+            "BaseClass"                     "ember_spirit_sleight_of_fist"
+            "ScriptFile"                    "abilities/ember_spirit/ember_spirit_sleight_of_fist"
             "HasShardUpgrade"               "1"
 
             "AbilityValues"

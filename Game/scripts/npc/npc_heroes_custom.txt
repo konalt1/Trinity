@@ -296,6 +296,7 @@
 		"Ability3"                                      "silencer_last_word_custom"
 		"Ability6"                                      "silent_square"
 		"Ability4"                                      "generic_hidden"
+		"Ability5"                                      "silencer_global_silence"   // Aghanim's Scepter
 
 		"Ability10"                                     "special_bonus_unique_custom_silencer_1"
 		"Ability11"                                     "special_bonus_unique_custom_silencer_2"

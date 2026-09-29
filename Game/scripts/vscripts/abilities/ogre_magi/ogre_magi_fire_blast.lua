@@ -3,10 +3,16 @@ LinkLuaModifier("modifier_ogre_fire_blast_stun", "abilities/ogre_magi/ogre_magi_
 local SMASH_PARTICLE = "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
 local MIN_EFFECT_FACTOR = 0.3
 
+-- ОТЛАДКА: показывает реальную зону попадания. Выключить = false.
+local DEBUG_HITBOX = true
+local DEBUG_DURATION = 4
+local DEBUG_RING_PARTICLE = "particles/ui_mouseactions/range_display.vpcf"
+
 ogre_magi_fire_blast = class({})
 
 function ogre_magi_fire_blast:Precache(context)
 	PrecacheResource("particle", SMASH_PARTICLE, context)
+	PrecacheResource("particle", DEBUG_RING_PARTICLE, context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_creeps.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context)
 end
@@ -95,6 +101,9 @@ function ogre_magi_fire_blast:ExecuteSpell()
 	local fx_spacing = math.max(160, start_radius * 0.55)
 
 	self:PlaySmash(origin, start_radius)
+	if DEBUG_HITBOX then
+		self:DebugDrawHitbox(origin, direction, length, start_radius, end_radius)
+	end
 	EmitSoundOnLocationWithCaster(origin, "n_creep_OgreBruiser.Smash.Stun", caster)
 
 	self.wave_serial = (self.wave_serial or 0) + 1
@@ -166,6 +175,48 @@ function ogre_magi_fire_blast:PlaySmash(origin, radius)
 	ParticleManager:ReleaseParticleIndex(fx)
 end
 
+--------------------------------------------------------------------------------
+-- ОТЛАДКА зоны попадания
+--------------------------------------------------------------------------------
+function ogre_magi_fire_blast:DebugRing(pos, radius)
+	local fx = ParticleManager:CreateParticle(DEBUG_RING_PARTICLE, PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(fx, 0, GetGroundPosition(pos, nil))
+	ParticleManager:SetParticleControl(fx, 1, Vector(radius, 0, 0))
+	Timers:CreateTimer(DEBUG_DURATION, function()
+		ParticleManager:DestroyParticle(fx, true)
+		ParticleManager:ReleaseParticleIndex(fx)
+	end)
+end
+
+function ogre_magi_fire_blast:DebugDrawHitbox(origin, direction, length, start_radius, end_radius)
+	local caster = self:GetCaster()
+	local end_pos = origin + direction * length
+	local side = Vector(-direction.y, direction.x, 0)
+
+	-- Кольца: старт, промежуточные позиции снаряда, финиш.
+	-- Реальная зона = огибающая всех этих кругов.
+	local steps = 4
+	for i = 0, steps do
+		local t = i / steps
+		self:DebugRing(origin + direction * (length * t), start_radius + (end_radius - start_radius) * t)
+	end
+
+	-- В Tools дополнительно: границы конуса, линия полёта и крайняя точка.
+	if IsInToolsMode() then
+		local far_pos = origin + direction * (length + end_radius)
+		DebugDrawLine(origin + side * start_radius, end_pos + side * end_radius, 255, 0, 0, true, DEBUG_DURATION)
+		DebugDrawLine(origin - side * start_radius, end_pos - side * end_radius, 255, 0, 0, true, DEBUG_DURATION)
+		DebugDrawLine(origin, far_pos, 255, 255, 0, true, DEBUG_DURATION)
+		DebugDrawCircle(far_pos, Vector(255, 255, 0), 255, 16, true, DEBUG_DURATION)
+		DebugDrawText(far_pos, string.format("reach %.0f", length + end_radius), false, DEBUG_DURATION)
+	end
+
+	print(string.format(
+		"[FireBlast DEBUG] str=%.0f  length=%.0f  start_r=%.0f  end_r=%.0f  reach_forward=%.0f",
+		caster.GetStrength and caster:GetStrength() or 0, length, start_radius, end_radius, length + end_radius
+	))
+end
+
 function ogre_magi_fire_blast:GetWaveState(extra)
 	local wave_id = extra and tonumber(extra.wave_id)
 	if not wave_id then
@@ -207,6 +258,12 @@ function ogre_magi_fire_blast:OnProjectileHit_ExtraData(target, location, extra)
 	local length = state.length
 	local distance_factor = math.max(MIN_EFFECT_FACTOR, 1 - (distance / math.max(1, length)))
 	local has_shard = caster:HasModifier("modifier_item_aghanims_shard")
+
+	if DEBUG_HITBOX then
+		print(string.format("[FireBlast DEBUG] hit %s  dist=%.0f  factor=%.2f",
+			target:GetUnitName(), distance, distance_factor))
+		self:DebugRing(target:GetAbsOrigin(), 40)
+	end
 
 	ApplyDamage({
 		victim = target,

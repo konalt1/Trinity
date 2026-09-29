@@ -657,7 +657,7 @@ function RenderItems(category) {
 		MakeDraggable(card, name);
 		MakeDraggable(text, name);
 		// Правый клик забирают дочерние элементы — вешаем покупку на все части текста.
-		[text, card.FindChildTraverse("ItemName"), card.FindChildTraverse("ItemDesc"), card.FindChildTraverse("ItemPriceLabel")].forEach((panel) => {
+		[card, card.FindChildTraverse("ItemIcon"), text, card.FindChildTraverse("ItemName"), card.FindChildTraverse("ItemDesc"), card.FindChildTraverse("ItemPriceLabel")].forEach((panel) => {
 			if (panel) {
 				panel.hittest = true;
 				panel.SetPanelEvent("oncontextmenu", () => BuyItem(name));
@@ -1125,7 +1125,8 @@ function TreeParts(name) {
 	}
 	const parts = recipe.components.slice();
 	if (recipe.recipe > 0) {
-		parts.push("item_recipe_" + name.replace(/^item_/, ""));
+		// recipeItem — если рецепт предмета лежит под чужим именем (Grove Bow: item_recipe_iron_talon).
+		parts.push(recipe.recipeItem || ("item_recipe_" + name.replace(/^item_/, "")));
 	}
 	return parts;
 }

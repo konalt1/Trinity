@@ -453,29 +453,10 @@
 	text-shadow: 1px 1px 0px 1.0 #000000;
 }
 
-/* Не хватает золота: цена красная, иконка приглушена (как в родном магазине). */
+/* Не хватает золота: только красная цена, карточку и иконку не затемняем. */
 .ItemCard.CantAfford .ItemPriceLabel
 {
 	color: #d2503f;
-}
-
-.ItemCard.CantAfford .ItemIcon
-{
-	saturation: 0.35;
-	brightness: 0.7;
-}
-
-/* Не хватает золота: блеклая вся карточка, а не только иконка. Наведение и выбор возвращают яркость. */
-.ItemCard.CantAfford
-{
-	opacity: 0.5;
-	saturation: 0.4;
-}
-
-.ItemCard.CantAfford:hover,
-.ItemCard.CantAfford.Selected
-{
-	opacity: 0.85;
 }
 
 .GoldIcon

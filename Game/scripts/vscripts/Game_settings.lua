@@ -14,14 +14,15 @@ ALLOW_SAME_HERO_SELECTION = false        -- Should we let people select the same
 ENABLE_ALTERNATE_HERO_GRIDS = false      -- Should players be allowed to use alternate hero grids (Dota+, etc.)
 FREE_COURIER_ENABLED = true
 
-HERO_SELECTION_TIME = 60.0              -- Draft window; unpicked players are randomed at the end
+HERO_SELECTION_TIME = 60.0              -- Draft window; unpicked players are randomed at the end (capped by WARMUP_TIME + WARMUP_POST_PREGAME_TIME)
+WARMUP_TIME = 60.0                      -- Warmup sandbox length from draft start; independent of HERO_SELECTION_TIME
 HERO_STRATEGY_TIME = 0					-- Skip strategy: a picked player goes to the map immediately
 HERO_SHOWCASE_TIME = 0					-- Shocase time on start game
 WARMUP_POST_PREGAME_TIME = 30.0         -- After warmup the clock is -0:30 until creeps at 0:00
 
 GAMESETUP_lOCK = false
 GAMESETUP_TIME = 15
-PRE_GAME_TIME = WARMUP_POST_PREGAME_TIME -- Native pre-game after pick; DraftSpawn keeps -1:30 during draft
+PRE_GAME_TIME = WARMUP_POST_PREGAME_TIME -- Native pre-game after pick; DraftSpawn keeps the clock at -(WARMUP_TIME + WARMUP_POST_PREGAME_TIME) at draft start
 POST_GAME_TIME = 30.0                   -- How long should we let people look at the scoreboard before closing the server automatically?
 TREE_REGROW_TIME = 180.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
 
@@ -37,8 +38,8 @@ MINIMAP_RUNE_ICON_SIZE = 1              -- What icon size should we use for rune
 RUNE_SPAWN_TIME = 999999                -- Disable vanilla rune cycle (custom rune spawner handles runes)
 RUNE_SPAWN_TIME_AFTER_FIRST = 999999    -- Kept large to avoid any engine-side interval switch
 CUSTOM_BUYBACK_COST_ENABLED = false     -- Should we use a custom buyback cost setting?
-CUSTOM_BUYBACK_COOLDOWN_ENABLED = false  -- Should we use a custom buyback time?
-CUSTOM_BUYBACK_COOLDOWN = 900  -- Should we use a custom buyback time?
+CUSTOM_BUYBACK_COOLDOWN_ENABLED = true   -- Should we use a custom buyback time?
+CUSTOM_BUYBACK_COOLDOWN = 60   -- Кулдаун байбека, сек. Его же использует статуя байбека (game_managers/buyback_statues.lua).
 BUYBACK_ENABLED = true                 -- Should we allow people to buyback when they die?
 
 
@@ -314,8 +315,10 @@ end
 	is useful for starting any game logic timers/thinkers, beginning the first round, etc.
 ]]
 function GameSettings:OnGameInProgress()
-	for i=0,4 do
-		PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)
+	for i = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if PlayerResource:IsValidPlayerID(i) then
+			PlayerResource:SetCustomBuybackCooldown(i, CUSTOM_BUYBACK_COOLDOWN)
+		end
 		-- CUSTOM_BUYBACK_COST_ENABLED = false, buyback cost not overridden
 	end
     local allBuildings = Entities:FindAllByClassname('npc_dota_building')

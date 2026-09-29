@@ -140,6 +140,51 @@ function OnRefresh() {
     SendWarmupCommand("trinity_warmup_refresh");
 }
 
+function ParseFinishVotes(voted) {
+    const set = {};
+    if (voted == null || voted === "") {
+        return set;
+    }
+
+    const parts = String(voted).split(",");
+    for (let i = 0; i < parts.length; i++) {
+        if (parts[i] !== "") {
+            set[Number(parts[i])] = true;
+        }
+    }
+    return set;
+}
+
+function UpdateFinishButton() {
+    const button = $("#WarmupFinish");
+    const count = $("#WarmupFinishCount");
+    if (!button) {
+        return;
+    }
+
+    const data = CustomNetTables.GetTableValue("trinity_warmup", "finish_vote") || {};
+    const ready = Number(data.ready) || 0;
+    const total = Number(data.total) || 0;
+    const hasVoted = ParseFinishVotes(data.voted)[Players.GetLocalPlayer()] === true;
+
+    if (count) {
+        count.text = ready + "/" + total;
+    }
+    button.SetHasClass("Voted", hasVoted);
+    button.enabled = IsWarmupActive() && !hasVoted;
+}
+
+function OnFinishWarmup() {
+    const button = $("#WarmupFinish");
+    if (!button || button.BHasClass("Voted") || !button.enabled) {
+        return;
+    }
+
+    button.SetHasClass("Voted", true);
+    button.enabled = false;
+    SendWarmupCommand("trinity_warmup_finish");
+}
+
 function OnOpenStickers() {
     if (typeof config.TrinityOpenStickerEditor === "function") {
         config.TrinityOpenStickerEditor();
@@ -162,6 +207,7 @@ function Tick() {
 
     UpdateVisibility();
     UpdateLevelButtons();
+    UpdateFinishButton();
     UpdateTimer();
     $.Schedule(0.1, Tick);
 }
@@ -170,6 +216,7 @@ function Init() {
     const levelUp = $("#WarmupLevelUp");
     const maxLevel = $("#WarmupMaxLevel");
     const refresh = $("#WarmupRefresh");
+    const finish = $("#WarmupFinish");
     const stickers = $("#WarmupStickers");
     const lootboxes = $("#WarmupLootboxes");
 
@@ -188,6 +235,15 @@ function Init() {
     if (refresh) {
         refresh.SetPanelEvent("onactivate", OnRefresh);
     }
+    if (finish) {
+        finish.SetPanelEvent("onactivate", OnFinishWarmup);
+    }
+
+    CustomNetTables.SubscribeNetTableListener("trinity_warmup", function (_table, key) {
+        if (key === "finish_vote") {
+            UpdateFinishButton();
+        }
+    });
 
     GameEvents.Subscribe("trinity_warmup_started", function (event) {
         const playerID = Players.GetLocalPlayer();
@@ -200,6 +256,7 @@ function Init() {
         }
         UpdateVisibility();
         UpdateLevelButtons();
+        UpdateFinishButton();
         UpdateTimer();
     });
 
@@ -209,6 +266,7 @@ function Init() {
         config.trinityWarmupEndTime = 0;
         UpdateVisibility();
         UpdateLevelButtons();
+        UpdateFinishButton();
         UpdateTimer();
     });
 
@@ -228,6 +286,7 @@ function Init() {
 
     UpdateVisibility();
     UpdateLevelButtons();
+    UpdateFinishButton();
     UpdateTimer();
     Tick();
 }

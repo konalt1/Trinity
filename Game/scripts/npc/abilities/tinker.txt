@@ -76,6 +76,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "MaxLevel"                      "4"
         "AbilityTextureName"            "tinker_deploy_turrets"
+        "HasShardUpgrade"               "1"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
         "AbilityCastRange"              "600"
         "AbilityCastPoint"              "0.1"
@@ -103,6 +104,16 @@
             "splash_pct"                        "50"
             "drop_mind_power_multiplier"        "1.0"
             "missile_mind_power_multiplier"     "0.5"
+            "shard_missile_slow_pct"
+            {
+                "value"                         "80"
+                "RequiresShard"                 "1"
+            }
+            "shard_missile_slow_duration"
+            {
+                "value"                         "0.7"
+                "RequiresShard"                 "1"
+            }
         }
     }
 

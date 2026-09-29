@@ -30,6 +30,10 @@
                     <Button id="WarmupRefresh" class="PopupButton WarmupButton">
                         <Label text="#trinity_warmup_refresh"/>
                     </Button>
+                    <Button id="WarmupFinish" class="PopupButton WarmupButton">
+                        <Label id="WarmupFinishLabel" text="#trinity_warmup_finish"/>
+                        <Label id="WarmupFinishCount" text="0/0"/>
+                    </Button>
                 </Panel>
             </Panel>
         </Panel>

@@ -101,13 +101,13 @@
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_YES"
         "FightRecapLevel"               "2"
+        "HasScepterUpgrade"             "1"
         "MaxLevel"                      "3"
         "RequiredLevel"                 "6"
         "LevelsBetweenUpgrades"         "6"
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
         "AbilityCastRange"              "0"
         "AbilityCastPoint"              "0.2"
-        "AbilityCooldown"               "120 110 100"
         "AbilityManaCost"               "150 200 250"
 
         "AbilityValues"
@@ -131,6 +131,31 @@
             "leap_height"               "325"
             "tracker_speed"             "1500"
             "tracker_vision"            "300"
+            "AbilityCooldown"
+            {
+                "value"                 "120 110 100"
+                "special_bonus_scepter" "-15"
+            }
+            "scepter_bonus_vision"
+            {
+                "value"                 "1000"
+                "RequiresScepter"       "1"
+            }
+            "scepter_vision_growth_rate"
+            {
+                "value"                 "1000"
+                "RequiresScepter"       "1"
+            }
+            "scepter_truesight_radius"
+            {
+                "value"                 "1000"
+                "RequiresScepter"       "1"
+            }
+            "scepter_cooldown_reduction"
+            {
+                "value"                 "15"
+                "RequiresScepter"       "1"
+            }
         }
     }
 

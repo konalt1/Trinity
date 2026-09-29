@@ -1,50 +1,123 @@
 BuybackStatues = BuybackStatues or {}
 
-local STATUE_UNIT = "npc_trinity_buyback_statue"
-local FIGURE_UNIT = "npc_trinity_buyback_statue_figure"
 local MODIFIER_NAME = "modifier_trinity_buyback_statue"
-local FIGURE_MODIFIER = "modifier_trinity_buyback_statue_figure"
 local FROZEN_MODIFIER = "modifier_trinity_buyback_statue_frozen"
+local STONE_MODIFIER = "modifier_trinity_buyback_statue_stone"
+local STONE_EFFECT = "particles/status_fx/status_effect_medusa_stone_gaze.vpcf"
 local REPAIR_PARTICLE = "particles/items5_fx/repair_kit.vpcf"
 local REPAIR_RING_PARTICLE = "particles/generic_gameplay/launchpad_progress_ring.vpcf"
--- Кандидаты каменной текстуры. Выбор в игре: buyback_statue_stone N. На каждую свой модификатор.
-local STONE_STATUS_EFFECTS = {
-	"particles/status_fx/status_effect_medusa_stone_gaze.vpcf",
-	"particles/status_fx/status_effect_earth_spirit_petrify.vpcf",
-	"particles/status_fx/status_effect_effigy_jade_stone.vpcf",
-}
-local DEFAULT_STONE_INDEX = 1
-local STONE_MODIFIER_PREFIX = "modifier_trinity_buyback_statue_stone_"
-local INVISIBLE_MODEL = "models/development/invisiblebox.vmdl"
-local FIGURE_ENABLED = true
--- Через сколько секунд после создания фигура замирает: сразу после спавна модель ещё в bind-позе.
-local FIGURE_POSE_DELAY = 0.4
--- Иллюзия-фигура живёт 10 часов: дольше любого матча.
-local FIGURE_DURATION = 36000
-local FALLBACK_BUYBACK_COOLDOWN = 360
+local LEGACY_BUILDING = "npc_trinity_buyback_statue"
+local STATUE_CODE_VERSION = 3
+local STATUE_HEALTH = 1000
+local STATUE_ARMOR = 5
+-- Фиксированный откат байбека: столько чинится статуя после байбека или уничтожения.
+-- Берётся из Game_settings.lua (CUSTOM_BUYBACK_COOLDOWN), тот же кулдаун ставит движок после байбека.
+local BUYBACK_COOLDOWN = tonumber(CUSTOM_BUYBACK_COOLDOWN) or 60
+-- Сразу после спавна модель ещё в bind-позе.
+local POSE_DELAY = 0.4
+local ILLUSION_DURATION = 36000
 
 LinkLuaModifier(MODIFIER_NAME, "game_managers/buyback_statues", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier(FIGURE_MODIFIER, "game_managers/buyback_statues", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier(FROZEN_MODIFIER, "game_managers/buyback_statues", LUA_MODIFIER_MOTION_NONE)
-for index = 1, #STONE_STATUS_EFFECTS do
-	LinkLuaModifier(STONE_MODIFIER_PREFIX .. index, "game_managers/buyback_statues", LUA_MODIFIER_MOTION_NONE)
-end
+LinkLuaModifier(STONE_MODIFIER, "game_managers/buyback_statues", LUA_MODIFIER_MOTION_NONE)
+
+local KEEP_MODIFIERS = {
+	[MODIFIER_NAME] = true,
+	[FROZEN_MODIFIER] = true,
+	[STONE_MODIFIER] = true,
+}
 
 local function IsAliveEntity(entity)
 	return entity and not entity:IsNull()
 end
 
--- В актуальной Dota метода может не быть. Байбек на разминке всё равно режет FilterBuybackOrder.
-local function SetBuybackBlocked(hero, blocked)
-	if hero.SetBuyBackDisabledByReapersScythe then
-		hero:SetBuyBackDisabledByReapersScythe(blocked)
+-- Движок хранит кулдаун байбека как игровое время его окончания (GameRules:GetGameTime()),
+-- а не как оставшиеся секунды. Снаружи эти функции работают с оставшимися секундами.
+local function SetBuybackCooldown(playerID, hero, remaining)
+	local value = 0
+	if remaining and remaining > 0 then
+		value = GameRules:GetGameTime() + remaining
 	end
+	if IsAliveEntity(hero) and hero.SetBuybackCooldownTime then
+		hero:SetBuybackCooldownTime(value)
+	end
+	if PlayerResource.SetBuybackCooldownTime then
+		PlayerResource:SetBuybackCooldownTime(playerID, value)
+	end
+end
+
+local function GetBuybackCooldownRaw(hero)
+	if not IsAliveEntity(hero) or not hero.GetBuybackCooldownTime then
+		return 0
+	end
+	return hero:GetBuybackCooldownTime() or 0
+end
+
+-- Оставшиеся секунды кулдауна.
+local function GetBuybackCooldown(hero)
+	return math.max(0, GetBuybackCooldownRaw(hero) - GameRules:GetGameTime())
 end
 
 local function RemoveEntity(entity)
 	if IsAliveEntity(entity) then
 		UTIL_Remove(entity)
 	end
+end
+
+local function ApplyStatueHealth(unit, fill)
+	unit:SetBaseMaxHealth(STATUE_HEALTH)
+	unit:SetMaxHealth(STATUE_HEALTH)
+	if fill then
+		unit:SetHealth(STATUE_HEALTH)
+	end
+end
+
+-- Отладка ----------------------------------------------------------------
+-- BuybackStatues.debug.chat    — события статуй дублируются в чат;
+-- BuybackStatues.debug.verbose — подробный лог: каждый удар по статуе, синхронизация кулдауна.
+-- Команды: buyback_statue_help (консоль) или "-bb <команда>" в чате (Tools mode / sv_cheats).
+local DEBUG_CHAT = false
+local DEBUG_VERBOSE = false
+
+BuybackStatues.debug = BuybackStatues.debug or { chat = DEBUG_CHAT, verbose = DEBUG_VERBOSE }
+BuybackStatues.stats = BuybackStatues.stats or {}
+
+local function Chat(text)
+	if GameRules and GameRules.SendCustomMessage then
+		GameRules:SendCustomMessage(text, 0, 0)
+	end
+end
+
+-- События статуй: в консоль всегда, в чат при debug.chat.
+local function Log(fmt, ...)
+	local text = "[BuybackStatues] " .. string.format(fmt, ...)
+	print(text)
+	if BuybackStatues.debug.chat then
+		Chat(text)
+	end
+end
+
+local function Verbose(fmt, ...)
+	if not BuybackStatues.debug.verbose then
+		return
+	end
+	local text = "[BuybackStatues:v] " .. string.format(fmt, ...)
+	print(text)
+	if BuybackStatues.debug.chat then
+		Chat(text)
+	end
+end
+
+local function Stat(name)
+	BuybackStatues.stats[name] = (BuybackStatues.stats[name] or 0) + 1
+end
+
+local function EntLabel(entity)
+	if not IsAliveEntity(entity) then
+		return "nil"
+	end
+	local name = entity.GetUnitName and entity:GetUnitName() or entity:GetClassname()
+	return string.format("%s#%d", tostring(name), entity:entindex())
 end
 
 function BuybackStatues:Init()
@@ -54,36 +127,93 @@ function BuybackStatues:Init()
 	self._initialized = true
 	self.players = self.players or {}
 	self.missingPoints = self.missingPoints or {}
-	self.cooldownLength = self.cooldownLength or FALLBACK_BUYBACK_COOLDOWN
+	self.cooldownLength = BUYBACK_COOLDOWN
 
-	Convars:RegisterCommand("buyback_statue_debug", function()
-		self:DebugPrint()
-	end, "Статуи байбека: модель, шмот и состояние по игрокам", 0)
+	self:RegisterDebugCommands()
 
-	Convars:RegisterCommand("buyback_statue_stone", function(_, index)
-		self:SetStoneIndex(tonumber(index))
-	end, "Статуи байбека: номер каменной текстуры 1.." .. #STONE_STATUS_EFFECTS, 0)
+	ListenToGameEvent("dota_buyback", function(event)
+		self:OnBuybackEvent(event)
+	end, nil)
 
+	-- Timers не перезапускает таймер после ошибки, поэтому Think ловит ошибки сам.
 	Timers:CreateTimer(0.5, function()
-		self:Think()
+		local ok, err = pcall(self.Think, self)
+		if not ok then
+			self:ReportError("Think", err)
+		end
 		return 0.5
 	end)
+end
+
+function BuybackStatues:InstallDamageFilter()
+	local gm = GameRules and GameRules:GetGameModeEntity()
+	if not gm or not gm.SetDamageFilter then
+		return false
+	end
+	-- У движка один DamageFilter. Статуя обрабатывается здесь, остальной урон уходит в Mage Slayer.
+	gm:SetDamageFilter(function(event)
+		local victimIndex = event.entindex_victim_const or event.entindex_victim
+		local victim = victimIndex and EntIndexToHScript(victimIndex) or nil
+		if IsAliveEntity(victim) and victim._buybackPlayerID ~= nil then
+			return self:DamageFilter(event)
+		end
+		if MageSlayer_DamageFilter then
+			return MageSlayer_DamageFilter(event)
+		end
+		return true
+	end, nil)
+	return true
 end
 
 function BuybackStatues:Think()
 	if not PlayerResource then
 		return
 	end
+	if self._statueVersion ~= STATUE_CODE_VERSION then
+		self:DiscardOldStatues()
+		self._statueVersion = STATUE_CODE_VERSION
+	end
 
 	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
 		if self:IsMatchPlayer(playerID) then
 			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
 			if IsAliveEntity(hero) and hero:IsRealHero() and not hero:IsIllusion() then
-				self:EnsureStatue(playerID, hero)
-				self:SyncBuyback(playerID, hero)
+				local ok, err = pcall(self.EnsureStatue, self, playerID, hero)
+				if not ok then
+					self:ReportError("EnsureStatue P" .. playerID, err)
+				end
+				ok, err = pcall(self.SyncBuyback, self, playerID, hero)
+				if not ok then
+					self:ReportError("SyncBuyback P" .. playerID, err)
+				end
 			end
 		end
 	end
+end
+
+function BuybackStatues:DiscardOldStatues()
+	local ent = Entities:First()
+	while ent do
+		local nextEnt = Entities:Next(ent)
+		local legacyBuilding = ent.GetUnitName and ent:GetUnitName() == LEGACY_BUILDING
+		local oldStatue = ent._buybackPlayerID ~= nil or ent._buybackStatue ~= nil or ent._buybackFigure ~= nil
+		if legacyBuilding or oldStatue then
+			UTIL_Remove(ent)
+		end
+		ent = nextEnt
+	end
+	self.players = {}
+end
+
+function BuybackStatues:ReportError(where, err)
+	self.reportedErrors = self.reportedErrors or {}
+	local key = where .. tostring(err)
+	if self.reportedErrors[key] then
+		return
+	end
+	self.reportedErrors[key] = true
+	Stat("errors")
+	Log("Ошибка в %s: %s", where, tostring(err))
 end
 
 function BuybackStatues:IsMatchPlayer(playerID)
@@ -129,12 +259,21 @@ end
 
 function BuybackStatues:EnsureStatue(playerID, hero)
 	local state = self.players[playerID]
-	if state and IsAliveEntity(state.unit) then
+	local heroName = hero:GetUnitName()
+	if state and IsAliveEntity(state.unit) and state.heroName == heroName then
 		local modifier = state.unit:FindModifierByName(MODIFIER_NAME)
 		if modifier then
 			modifier.playerID = playerID
+			modifier.broken = state.broken
 		end
-		self:RefreshFigure(state, hero)
+		return
+	end
+	if not hero:IsAlive() then
+		return
+	end
+
+	local now = GameRules:GetGameTime()
+	if state and state.nextTry and now < state.nextTry then
 		return
 	end
 
@@ -151,213 +290,166 @@ function BuybackStatues:EnsureStatue(playerID, hero)
 		return
 	end
 
-	local statue = CreateUnitByName(
-		STATUE_UNIT,
-		point:GetAbsOrigin(),
-		false,
-		nil,
-		nil,
-		PlayerResource:GetTeam(playerID)
-	)
-	if not statue then
-		print("[BuybackStatues] Не удалось создать статую для игрока " .. tostring(playerID))
-		return
+	local broken = state and state.broken
+	local repairEnd = state and state.repairEnd
+	if state then
+		RemoveEntity(state.unit)
 	end
 
-	statue:SetAbsOrigin(point:GetAbsOrigin())
-	statue:SetForwardVector(point:GetForwardVector())
-	statue:SetIdleAcquire(false)
-	statue:SetOriginalModel(INVISIBLE_MODEL)
-	statue:SetModel(INVISIBLE_MODEL)
-	statue._buybackPlayerID = playerID
-	statue:AddNewModifier(statue, nil, MODIFIER_NAME, { player_id = playerID })
+	local unit = self:CreateStatue(playerID, hero, point)
+	if not unit then
+		self.players[playerID] = {
+			unit = nil,
+			heroName = nil,
+			broken = broken or false,
+			repairEnd = repairEnd,
+			nextTry = now + 3,
+		}
+		return
+	end
 
 	state = {
-		unit = statue,
-		heroName = nil,
-		broken = false,
-		repairEnd = nil,
+		unit = unit,
+		heroName = heroName,
+		broken = broken or false,
+		repairEnd = repairEnd,
 	}
 	self.players[playerID] = state
-	self:RefreshFigure(state, hero)
-end
-
--- Внешний вид статуи --------------------------------------------------------
-
--- Шмот героя существует только на клиенте: сервер его не видит (ни GetChildren, ни dota_item_wearable).
--- Поэтому фигура — иллюзия героя: её косметику копирует сам движок.
-function BuybackStatues:StoneIndex()
-	return self.stoneIndex or DEFAULT_STONE_INDEX
-end
-
-function BuybackStatues:ApplyStone(unit, index)
-	for i = 1, #STONE_STATUS_EFFECTS do
-		unit:RemoveModifierByName(STONE_MODIFIER_PREFIX .. i)
-	end
-	unit:AddNewModifier(unit, nil, STONE_MODIFIER_PREFIX .. index, {})
-end
-
-function BuybackStatues:SetStoneIndex(index)
-	if not index or not STONE_STATUS_EFFECTS[index] then
-		print("[BuybackStatues] Каменные текстуры:")
-		for i, path in ipairs(STONE_STATUS_EFFECTS) do
-			print(string.format("    %d%s %s", i, i == self:StoneIndex() and " *" or "  ", path))
-		end
-		return
-	end
-	self.stoneIndex = index
-	for _, state in pairs(self.players or {}) do
-		if IsAliveEntity(state.unit) then
-			self:ForEachFigurePart(state.unit, function(unit)
-				self:ApplyStone(unit, index)
-			end)
-		end
-	end
-	print("[BuybackStatues] Каменная текстура " .. index .. ": " .. STONE_STATUS_EFFECTS[index])
-end
-
-function BuybackStatues:RefreshFigure(state, hero)
-	if not FIGURE_ENABLED or not IsAliveEntity(state.unit) then
-		self:DestroyFigure(state.unit)
-		return
-	end
-
-	local heroName = hero:GetUnitName()
-	local figureAlive = state.unit._buybackFigure and IsAliveEntity(state.unit._buybackFigure.body)
-	if figureAlive and state.heroName == heroName then
-		return
-	end
-	if not hero:IsAlive() then
-		return
-	end
-	local now = GameRules:GetGameTime()
-	if state.nextFigureTry and now < state.nextFigureTry then
-		return
-	end
-
-	if self:BuildFigure(state.unit, hero) then
-		state.heroName = heroName
-		state.nextFigureTry = nil
-		self:SetFigureVisible(state.unit, not state.broken)
-	else
-		state.nextFigureTry = now + 3
+	Stat("statues_created")
+	Log("P%d: статуя %s создана на %s%s", playerID, EntLabel(unit), pointName, state.broken and " (сломана, чинится)" or "")
+	if state.broken then
+		self:ApplyBrokenLook(state)
 	end
 end
 
-function BuybackStatues:BuildFigure(statue, hero)
-	self:DestroyFigure(statue)
-
-	local origin = statue:GetAbsOrigin()
+-- Шмот героя есть только на клиенте, поэтому статуя — иллюзия: косметику копирует движок.
+function BuybackStatues:CreateStatue(playerID, hero, point)
 	local illusions = CreateIllusions(hero, hero, {
 		outgoing_damage = -100,
 		incoming_damage = 0,
 		bounty_base = 0,
 		bounty_growth = 0,
-		duration = FIGURE_DURATION,
+		duration = ILLUSION_DURATION,
 	}, 1, 0, false, false)
-	local body = illusions and illusions[1]
-	if not IsAliveEntity(body) then
-		print("[BuybackStatues] Не удалось создать фигуру " .. hero:GetUnitName() .. ", повтор через 3 с")
-		return false
+	local unit = illusions and illusions[1]
+	if not IsAliveEntity(unit) then
+		print("[BuybackStatues] Не удалось создать статую " .. hero:GetUnitName() .. ", повтор через 3 с")
+		return nil
 	end
 
 	local kv = GetUnitKeyValuesByName(hero:GetUnitName())
-	body:SetAbsOrigin(origin)
-	body:SetForwardVector(statue:GetForwardVector())
-	body:SetModelScale(tonumber(kv and kv.ModelScale) or 1)
-	body:SetIdleAcquire(false)
-	body:Stop()
-	body:AddNewModifier(body, nil, FIGURE_MODIFIER, {})
-	self:ApplyStone(body, self:StoneIndex())
+	unit:SetAbsOrigin(point:GetAbsOrigin())
+	unit:SetForwardVector(point:GetForwardVector())
+	unit:SetModelScale(tonumber(kv and kv.ModelScale) or 1)
+	unit:SetIdleAcquire(false)
+	if unit.SetAttackCapability then
+		unit:SetAttackCapability(DOTA_UNIT_CAP_NO_ATTACK)
+	end
+	if unit.SetDayTimeVisionRange then
+		unit:SetDayTimeVisionRange(0)
+		unit:SetNightTimeVisionRange(0)
+	end
+	if unit.SetMinimumGoldBounty then
+		unit:SetMinimumGoldBounty(0)
+		unit:SetMaximumGoldBounty(0)
+	end
+	if unit.SetDeathXP then
+		unit:SetDeathXP(0)
+	end
+	unit:Stop()
+	unit._buybackPlayerID = playerID
+	ApplyStatueHealth(unit, true)
+	unit:AddNewModifier(unit, nil, MODIFIER_NAME, {})
+	unit:AddNewModifier(unit, nil, STONE_MODIFIER, {})
+	self:StripIllusion(unit)
 
-	local figure = { body = body, parts = {} }
-	statue._buybackFigure = figure
-
-	Timers:CreateTimer(FIGURE_POSE_DELAY, function()
-		if statue._buybackFigure ~= figure then
+	Timers:CreateTimer(POSE_DELAY, function()
+		if not IsAliveEntity(unit) or unit._buybackPlayerID ~= playerID then
 			return nil
 		end
-		self:ForEachFigurePart(statue, function(unit)
+		self:StripIllusion(unit)
+		if unit:GetMaxHealth() ~= STATUE_HEALTH then
+			local state = self.players[playerID]
+			ApplyStatueHealth(unit, not (state and state.broken))
+		end
+		if not unit:HasModifier(FROZEN_MODIFIER) then
 			unit:AddNewModifier(unit, nil, FROZEN_MODIFIER, {})
-		end)
+		end
 		return nil
 	end)
-	return true
+	return unit
 end
 
-function BuybackStatues:ForEachFigurePart(statue, callback)
-	local figure = statue and statue._buybackFigure
-	if not figure then
-		return
+function BuybackStatues:StripIllusion(unit)
+	if unit.SetControllableByPlayer then
+		unit:SetControllableByPlayer(-1, true)
 	end
-	if IsAliveEntity(figure.body) then
-		callback(figure.body)
-	end
-	for _, part in ipairs(figure.parts) do
-		if IsAliveEntity(part) then
-			callback(part)
+	for _, modifier in ipairs(unit:FindAllModifiers()) do
+		local name = modifier:GetName()
+		if name == "modifier_illusion" then
+			modifier:SetDuration(-1, true)
+		elseif not KEEP_MODIFIERS[name] then
+			modifier:Destroy()
 		end
 	end
 end
 
-function BuybackStatues:SetFigureVisible(statue, visible)
-	self:ForEachFigurePart(statue, function(unit)
-		if visible then
-			unit:RemoveNoDraw()
-		else
-			unit:AddNoDraw()
-		end
-	end)
-end
-
-function BuybackStatues:DestroyFigure(statue)
-	if not statue then
+function BuybackStatues:ApplyBrokenLook(state)
+	local unit = state.unit
+	if not IsAliveEntity(unit) then
 		return
 	end
-	-- Иллюзии из старой версии статуй (живут до script_reload).
-	RemoveEntity(statue._buybackEffigy)
-	statue._buybackEffigy = nil
-
-	local figure = statue._buybackFigure
-	statue._buybackFigure = nil
-	if not figure then
-		return
+	unit:AddNoDraw()
+	local modifier = unit:FindModifierByName(MODIFIER_NAME)
+	if modifier then
+		modifier.broken = true
+		modifier:BeginRepair()
 	end
-	for _, part in ipairs(figure.parts) do
-		RemoveEntity(part)
-	end
-	RemoveEntity(figure.body)
 end
 
-function BuybackStatues:DebugPrint()
+function BuybackStatues:DebugPrint(ctx, onlyPlayerID)
+	self:DebugOut(ctx, "разминка=%s кулдаун_поломки=%.0f с время=%.1f chat=%s verbose=%s",
+		tostring(self:IsWarmup()), self.cooldownLength or 0, GameRules:GetGameTime(),
+		tostring(self.debug.chat), tostring(self.debug.verbose))
+	local shown = 0
 	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
 		local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerID)
-		if self:IsMatchPlayer(playerID) and IsAliveEntity(hero) then
+		if (onlyPlayerID == nil or onlyPlayerID == playerID) and self:IsMatchPlayer(playerID) and IsAliveEntity(hero) then
+			shown = shown + 1
 			local state = self.players[playerID]
-			local figure = state and IsAliveEntity(state.unit) and state.unit._buybackFigure
-			print(string.format(
-				"[BuybackStatues] P%d %s точка=%s сломана=%s частей фигуры=%d",
-				playerID,
-				hero:GetUnitName(),
-				tostring(self:PointName(playerID)),
-				tostring(state and state.broken),
-				figure and (#figure.parts + 1) or 0
-			))
-			print("    модель героя: " .. hero:GetModelName())
-			print("    камень: " .. STONE_STATUS_EFFECTS[self:StoneIndex()])
-			local body = figure and figure.body
-			if IsAliveEntity(body) then
+			local unit = state and state.unit
+			self:DebugOut(ctx, "P%d %s слот=%s точка=%s статуя=%s сломана=%s ждёт_байбек=%s",
+				playerID, hero:GetUnitName(), tostring(self:TeamSlot(playerID)), tostring(self:PointName(playerID)),
+				EntLabel(unit), tostring(state and state.broken), tostring(state and state.pendingBuyback))
+			if state and state.repairEnd then
+				self:DebugOut(ctx, "    до конца починки: %.1f с", state.repairEnd - GameRules:GetGameTime())
+			end
+			if state and state.nextTry then
+				self:DebugOut(ctx, "    повтор создания через: %.1f с", state.nextTry - GameRules:GetGameTime())
+			end
+			local cost = PlayerResource.GetBuybackCost and PlayerResource:GetBuybackCost(playerID) or nil
+			self:DebugOut(ctx, "    герой жив=%s, кулдаун байбека=%.1f с (движок: до %.1f, сейчас %.1f), цена=%s, золото=%d",
+				tostring(hero:IsAlive()), GetBuybackCooldown(hero), GetBuybackCooldownRaw(hero), GameRules:GetGameTime(),
+				tostring(cost), PlayerResource:GetGold(playerID))
+			if IsAliveEntity(unit) then
 				local names = {}
-				for _, modifier in ipairs(body:FindAllModifiers()) do
-					names[#names + 1] = modifier:GetName()
+				for _, modifier in ipairs(unit:FindAllModifiers()) do
+					table.insert(names, modifier:GetName())
 				end
-				print("    модификаторы тела: " .. table.concat(names, ", "))
+				local point = self:PointName(playerID) and Entities:FindByName(nil, self:PointName(playerID))
+				self:DebugOut(ctx, "    здоровье %.0f / %.0f, броня %.1f, pos=(%d, %d)%s, скрыта=%s",
+					unit:GetHealth(), unit:GetMaxHealth(), unit:GetPhysicalArmorValue(false),
+					unit:GetAbsOrigin().x, unit:GetAbsOrigin().y,
+					IsAliveEntity(point) and string.format(" (до точки %.0f)", (unit:GetAbsOrigin() - point:GetAbsOrigin()):Length2D()) or "",
+					tostring(unit.IsNoDraw and unit:IsNoDraw()))
+				self:DebugOut(ctx, "    модификаторы: %s", #names > 0 and table.concat(names, ", ") or "нет")
 			end
 		end
 	end
+	if shown == 0 then
+		self:DebugOut(ctx, "нет подходящих игроков с героем")
+	end
 end
-
--- Урон, байбек, починка -----------------------------------------------------
 
 function BuybackStatues:IsValidAttacker(statue, attacker)
 	if not IsAliveEntity(statue) or not IsAliveEntity(attacker) then
@@ -409,95 +501,130 @@ function BuybackStatues:IsValidAttacker(statue, attacker)
 	return false
 end
 
-function BuybackStatues:PlayerIDForStatue(statue)
-	if not IsAliveEntity(statue) then
-		return nil
+function BuybackStatues:IsAttackDamage(event)
+	if event.damage_category ~= nil then
+		return event.damage_category == DOTA_DAMAGE_CATEGORY_ATTACK
 	end
-	return statue._buybackPlayerID
+	local inflictor = event.entindex_inflictor_const or event.entindex_inflictor
+	return inflictor == nil or inflictor == 0
 end
 
 function BuybackStatues:DamageFilter(event)
 	local victimIndex = event.entindex_victim_const or event.entindex_victim
 	local victim = victimIndex and EntIndexToHScript(victimIndex) or nil
-	if not IsAliveEntity(victim) or victim:GetUnitName() ~= STATUE_UNIT then
+	if not IsAliveEntity(victim) or victim._buybackPlayerID == nil then
 		return true
 	end
 
-	local playerID = self:PlayerIDForStatue(victim)
-	local state = playerID and self.players[playerID] or nil
-	if not state or state.broken or state.unit ~= victim then
-		return false
-	end
-
+	local playerID = victim._buybackPlayerID
+	local state = self.players[playerID]
 	local attackerIndex = event.entindex_attacker_const or event.entindex_attacker
 	local attacker = attackerIndex and EntIndexToHScript(attackerIndex) or nil
-	if not self:IsValidAttacker(victim, attacker) then
-		return false
+	local incoming = event.damage or 0
+
+	if not state or state.unit ~= victim or state.broken then
+		event.damage = 0
+		Verbose("P%d удар %.0f от %s: заблокирован (статуя сломана или устарела)", playerID, incoming, EntLabel(attacker))
+		return true
 	end
 
-	local health = victim:GetHealth()
-	if (event.damage or 0) >= health then
+	if not self:IsAttackDamage(event) then
 		event.damage = 0
-		self:Break(playerID, self.cooldownLength, false)
+		Stat("damage_blocked_not_attack")
+		Verbose("P%d урон %.0f от %s: заблокирован (не атака)", playerID, incoming, EntLabel(attacker))
+		return true
+	end
+	if not self:IsValidAttacker(victim, attacker) then
+		event.damage = 0
+		Stat("damage_blocked_attacker")
+		Verbose("P%d удар %.0f от %s: заблокирован (атакующий не может бить статую)", playerID, incoming, EntLabel(attacker))
+		return true
+	end
+
+	Stat("damage_accepted")
+	if incoming >= victim:GetHealth() then
+		event.damage = 0
+		Verbose("P%d удар %.0f от %s: смертельный, статуя ломается", playerID, incoming, EntLabel(attacker))
+		self:Break(playerID, self.cooldownLength, "уничтожена " .. EntLabel(attacker))
+	else
+		Verbose("P%d удар %.0f от %s: здоровье %.0f -> %.0f", playerID, incoming, EntLabel(attacker),
+			victim:GetHealth(), victim:GetHealth() - incoming)
 	end
 	return true
 end
 
 function BuybackStatues:FilterBuybackOrder(data)
-	local playerID = data.issuer_player_id_const
-	if playerID == nil then
-		return false
-	end
+	local playerID = data and data.issuer_player_id_const
 	if self:IsWarmup() then
+		Stat("buyback_blocked_warmup")
+		Log("P%s: байбек заблокирован (разминка)", tostring(playerID))
 		return false
 	end
-
-	local state = self.players[playerID]
-	if not state or not IsAliveEntity(state.unit) then
-		return true
-	end
-	if state.broken then
+	local state = playerID and self.players[playerID]
+	if state and state.broken then
+		Stat("buyback_blocked_broken")
+		Log("P%s: байбек заблокирован (статуя чинится ещё %.0f с)", tostring(playerID),
+			(state.repairEnd or GameRules:GetGameTime()) - GameRules:GetGameTime())
 		return false
 	end
-
-	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
-	Timers:CreateTimer(0, function()
-		if not IsAliveEntity(hero) then
-			return nil
-		end
-		local cooldown = hero:GetBuybackCooldownTime()
-		if cooldown and cooldown > 0 then
-			self.cooldownLength = cooldown
-			self:Break(playerID, cooldown, true)
-		end
-		return nil
-	end)
+	-- Статуя цела — байбек обязан пройти. Снимаем любой остаточный кулдаун движка до проверки приказа.
+	local hero = playerID ~= nil and PlayerResource:GetSelectedHeroEntity(playerID) or nil
+	local raw = GetBuybackCooldownRaw(hero)
+	if raw ~= 0 then
+		Log("P%s: перед байбеком снят кулдаун движка (raw %.1f, время %.1f)", tostring(playerID), raw, GameRules:GetGameTime())
+		SetBuybackCooldown(playerID, hero, 0)
+	end
+	Verbose("P%s: приказ байбека пропущен (статуя %s)", tostring(playerID), state and "цела" or "отсутствует")
 	return true
 end
 
-function BuybackStatues:Break(playerID, duration, fromBuyback)
+function BuybackStatues:OnBuybackEvent(event)
+	local playerID = event and event.player_id
+	if playerID == nil then
+		return
+	end
+	local state = self.players[playerID]
+	if state then
+		state.pendingBuyback = true
+	end
+	Timers:CreateTimer(0, function()
+		local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+		Stat("buybacks")
+		local engineCooldown = GetBuybackCooldown(hero)
+		Log("P%d: байбек, кулдаун движка %.0f с, статуя %.0f с%s", playerID, engineCooldown, self.cooldownLength,
+			math.abs(engineCooldown - self.cooldownLength) > 2 and " (не совпадают: проверь CUSTOM_BUYBACK_COOLDOWN_ENABLED)" or "")
+		self:Break(playerID, self.cooldownLength, "байбек")
+		return nil
+	end)
+end
+
+function BuybackStatues:Break(playerID, duration, reason)
 	local state = self.players[playerID]
 	if not state or state.broken or not IsAliveEntity(state.unit) then
+		Log("P%s: поломка (%s) пропущена: %s", tostring(playerID), tostring(reason),
+			not state and "нет статуи" or state.broken and "уже сломана" or "юнит статуи недействителен")
+		if state then
+			state.pendingBuyback = nil
+		end
 		return
 	end
 
 	if not duration or duration < 1 then
-		duration = self.cooldownLength or FALLBACK_BUYBACK_COOLDOWN
+		duration = self.cooldownLength or BUYBACK_COOLDOWN
 	end
-	self.cooldownLength = duration
 	state.broken = true
+	state.pendingBuyback = nil
 	state.repairEnd = GameRules:GetGameTime() + duration
 
 	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
-	if IsAliveEntity(hero) and not fromBuyback and not self:IsWarmup() then
-		hero:SetBuybackCooldownTime(duration)
+	if not self:IsWarmup() then
+		-- Кулдаун на герое — то, что игрок видит на кнопке. Без него кнопка выглядит готовой и просто не нажимается.
+		SetBuybackCooldown(playerID, hero, duration)
 	end
-
-	self:SetFigureVisible(state.unit, false)
-	local modifier = state.unit:FindModifierByName(MODIFIER_NAME)
-	if modifier then
-		modifier:BeginRepair()
-	end
+	self:ApplyBrokenLook(state)
+	Stat("breaks")
+	Log("P%d: статуя сломана (%s), починка %.0f с%s", playerID, tostring(reason), duration,
+		self:IsWarmup() and ", разминка: кулдаун на кнопку не ставится" or "")
 end
 
 function BuybackStatues:FinishRepair(playerID)
@@ -508,25 +635,26 @@ function BuybackStatues:FinishRepair(playerID)
 
 	state.broken = false
 	state.repairEnd = nil
+	state.pendingBuyback = nil
+	ApplyStatueHealth(state.unit, true)
+	state.unit:RemoveNoDraw()
+
 	local modifier = state.unit:FindModifierByName(MODIFIER_NAME)
 	if modifier then
 		modifier:EndRepair()
 	end
-	state.unit:SetHealth(state.unit:GetMaxHealth())
-	self:SetFigureVisible(state.unit, true)
 
 	local hero = PlayerResource:GetSelectedHeroEntity(playerID)
-	if IsAliveEntity(hero) and not self:IsWarmup() then
-		hero:SetBuybackCooldownTime(0)
+	if not self:IsWarmup() then
+		SetBuybackCooldown(playerID, hero, 0)
 	end
+	Stat("repairs")
+	Log("P%d: статуя починена, байбек снова доступен", playerID)
 end
 
 function BuybackStatues:SyncBuyback(playerID, hero)
 	local state = self.players[playerID]
-	if not state or not IsAliveEntity(state.unit) then
-		if self:IsWarmup() then
-			SetBuybackBlocked(hero, true)
-		end
+	if not state or not IsAliveEntity(state.unit) or state.pendingBuyback then
 		return
 	end
 
@@ -536,36 +664,263 @@ function BuybackStatues:SyncBuyback(playerID, hero)
 			self:FinishRepair(playerID)
 			return
 		end
-	end
-
-	if self:IsWarmup() then
-		SetBuybackBlocked(hero, true)
-		return
-	end
-
-	SetBuybackBlocked(hero, false)
-
-	if state.broken then
-		local remaining = (state.repairEnd or GameRules:GetGameTime()) - GameRules:GetGameTime()
-		if remaining <= 0 then
-			self:FinishRepair(playerID)
-			return
-		end
-		local current = hero:GetBuybackCooldownTime() or 0
-		if math.abs(current - remaining) > 0.75 then
-			hero:SetBuybackCooldownTime(remaining)
+		if not self:IsWarmup() and math.abs(GetBuybackCooldown(hero) - remaining) > 0.75 then
+			Verbose("P%d: кулдаун на кнопке %.1f -> %.1f (починка)", playerID, GetBuybackCooldown(hero), remaining)
+			SetBuybackCooldown(playerID, hero, remaining)
 		end
 		return
 	end
 
-	local cooldown = hero:GetBuybackCooldownTime() or 0
-	if cooldown > 1 then
-		self.cooldownLength = cooldown
-		self:Break(playerID, cooldown, true)
+	-- Целая статуя: на кнопке нет кулдауна, байбек можно купить.
+	-- Проверяем сырое значение: если движок хранит время в другой шкале, чем GetGameTime,
+	-- вычисленный остаток выходит <= 0, а движок всё равно считает байбек на перезарядке.
+	if not self:IsWarmup() and GetBuybackCooldownRaw(hero) ~= 0 then
+		Verbose("P%d: кулдаун на кнопке (raw %.1f) -> 0 (статуя цела)", playerID, GetBuybackCooldownRaw(hero))
+		SetBuybackCooldown(playerID, hero, 0)
 	end
 end
 
--- Модификатор здания статуи -------------------------------------------------
+-- Отладочные команды ---------------------------------------------------------
+-- Консоль: buyback_statue_<команда> [аргументы]; чат: -bb <команда> [аргументы].
+-- Чат и команды, меняющие состояние, работают только в Tools mode или с sv_cheats.
+--   help                        список команд
+--   debug [0|1]                 события статуй в чат
+--   verbose [0|1]               подробный лог: удары, синхронизация кулдауна, приказы байбека
+--   status [pid]                состояние статуй (старое имя buyback_statue_debug тоже работает)
+--   points                      точки Hammer: найдены ли, координаты, кто на них
+--   stats                       счётчики событий и ошибки
+--   break [pid] [сек]           сломать статую (как после байбека)
+--   repair [pid]                закончить починку сейчас
+--   respawn [pid]               пересоздать фигуру статуи (состояние поломки сохраняется)
+--   hp [pid] [значение]         выставить здоровье статуи
+--   cooldown [сек]              длительность починки по умолчанию
+--   die                         убить своего героя (проверить байбек)
+-- pid по умолчанию — игрок, который ввёл команду.
+
+local function DebugAllowed()
+	if IsInToolsMode and IsInToolsMode() then
+		return true
+	end
+	return GameRules and GameRules.IsCheatMode and GameRules:IsCheatMode() or false
+end
+
+local function ParseToggle(value, current)
+	if value == nil or value == "" then
+		return not current
+	end
+	return value == "1" or value == "on" or value == "true"
+end
+
+function BuybackStatues:DebugOut(ctx, fmt, ...)
+	local text = "[BuybackStatues] " .. string.format(fmt, ...)
+	print(text)
+	if ctx and ctx.chat then
+		Chat(text)
+	end
+end
+
+function BuybackStatues:DebugPlayerID(ctx, arg)
+	local explicit = tonumber(arg)
+	if explicit then
+		return explicit
+	end
+	if ctx and ctx.playerID ~= nil and ctx.playerID >= 0 then
+		return ctx.playerID
+	end
+	local player = Convars and Convars.GetCommandClient and Convars:GetCommandClient() or nil
+	if player and player.GetPlayerID and player:GetPlayerID() >= 0 then
+		return player:GetPlayerID()
+	end
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsMatchPlayer(playerID) and PlayerResource:GetSelectedHeroEntity(playerID) then
+			return playerID
+		end
+	end
+	return nil
+end
+
+BuybackStatues.DebugCommands = {}
+local Commands = BuybackStatues.DebugCommands
+
+Commands.help = function(self, ctx)
+	self:DebugOut(ctx, "команды: debug [0|1], verbose [0|1], status [pid], points, stats, break [pid] [сек], repair [pid], respawn [pid], hp [pid] [hp], cooldown [сек], die")
+	self:DebugOut(ctx, "консоль: buyback_statue_<команда>; чат: -bb <команда>. Золото на байбек: ванильный чит -gold.")
+end
+
+Commands.debug = function(self, ctx, arg)
+	self.debug.chat = ParseToggle(arg, self.debug.chat)
+	self:DebugOut(ctx, "вывод в чат: %s", tostring(self.debug.chat))
+end
+
+Commands.verbose = function(self, ctx, arg)
+	self.debug.verbose = ParseToggle(arg, self.debug.verbose)
+	self:DebugOut(ctx, "подробный лог: %s", tostring(self.debug.verbose))
+end
+
+Commands.status = function(self, ctx, arg)
+	self:DebugPrint(ctx, tonumber(arg))
+end
+
+Commands.points = function(self, ctx)
+	for _, side in ipairs({ "good", "bad" }) do
+		for slot = 1, 3 do
+			local name = string.format("trinity_buyback_statue_%s_%d", side, slot)
+			local point = Entities:FindByName(nil, name)
+			local owner = "-"
+			for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+				if self:IsMatchPlayer(playerID) and self:PointName(playerID) == name then
+					owner = "P" .. playerID
+				end
+			end
+			if IsAliveEntity(point) then
+				local origin = point:GetAbsOrigin()
+				self:DebugOut(ctx, "%s: (%d, %d, %d) игрок=%s", name, origin.x, origin.y, origin.z, owner)
+			else
+				self:DebugOut(ctx, "%s: НЕТ НА КАРТЕ (игрок=%s)", name, owner)
+			end
+		end
+	end
+end
+
+Commands.stats = function(self, ctx)
+	local keys = {}
+	for key in pairs(self.stats) do
+		table.insert(keys, key)
+	end
+	table.sort(keys)
+	local parts = {}
+	for _, key in ipairs(keys) do
+		table.insert(parts, key .. "=" .. tostring(self.stats[key]))
+	end
+	self:DebugOut(ctx, "счётчики: %s", #parts > 0 and table.concat(parts, ", ") or "(пусто)")
+	local errors = 0
+	for key in pairs(self.reportedErrors or {}) do
+		errors = errors + 1
+		self:DebugOut(ctx, "ошибка: %s", key)
+	end
+	if errors == 0 then
+		self:DebugOut(ctx, "ошибок нет")
+	end
+end
+
+Commands["break"] = function(self, ctx, arg1, arg2)
+	local playerID = self:DebugPlayerID(ctx, arg1)
+	self:Break(playerID, tonumber(arg2) or self.cooldownLength, "команда отладки")
+end
+
+Commands.repair = function(self, ctx, arg)
+	local playerID = self:DebugPlayerID(ctx, arg)
+	local state = playerID and self.players[playerID]
+	if not state or not state.broken then
+		self:DebugOut(ctx, "P%s: статуя не сломана", tostring(playerID))
+		return
+	end
+	self:FinishRepair(playerID)
+end
+
+Commands.respawn = function(self, ctx, arg)
+	local playerID = self:DebugPlayerID(ctx, arg)
+	local state = playerID and self.players[playerID]
+	if state then
+		RemoveEntity(state.unit)
+		state.unit = nil
+		state.heroName = nil
+		state.nextTry = nil
+	end
+	local hero = playerID and PlayerResource:GetSelectedHeroEntity(playerID)
+	if IsAliveEntity(hero) then
+		self:EnsureStatue(playerID, hero)
+	end
+	self:DebugOut(ctx, "P%s: статуя пересоздана -> %s", tostring(playerID),
+		EntLabel(self.players[playerID] and self.players[playerID].unit))
+end
+
+Commands.hp = function(self, ctx, arg1, arg2)
+	local playerID, value = arg1, arg2
+	if arg2 == nil or arg2 == "" then
+		playerID, value = nil, arg1
+	end
+	playerID = self:DebugPlayerID(ctx, playerID)
+	local state = playerID and self.players[playerID]
+	value = tonumber(value)
+	if not state or not IsAliveEntity(state.unit) or not value then
+		self:DebugOut(ctx, "использование: hp [pid] <значение>")
+		return
+	end
+	state.unit:SetHealth(math.max(1, math.min(value, state.unit:GetMaxHealth())))
+	self:DebugOut(ctx, "P%d: здоровье статуи %.0f", playerID, state.unit:GetHealth())
+end
+
+Commands.cooldown = function(self, ctx, arg)
+	local value = tonumber(arg)
+	if value and value >= 1 then
+		self.cooldownLength = value
+	end
+	self:DebugOut(ctx, "длительность починки: %.0f с (CUSTOM_BUYBACK_COOLDOWN = %d с, после перезапуска вернётся; кулдаун движка эта команда не меняет)", self.cooldownLength or 0, BUYBACK_COOLDOWN)
+end
+
+Commands.die = function(self, ctx)
+	local playerID = self:DebugPlayerID(ctx)
+	local hero = playerID and PlayerResource:GetSelectedHeroEntity(playerID)
+	if not IsAliveEntity(hero) or not hero:IsAlive() then
+		self:DebugOut(ctx, "нет живого героя")
+		return
+	end
+	hero:Kill(nil, hero)
+	self:DebugOut(ctx, "P%d: герой убит", playerID)
+end
+
+-- Только чтение: работают без читов.
+local READ_ONLY = { help = true, debug = true, verbose = true, status = true, points = true, stats = true }
+
+function BuybackStatues:RunDebugCommand(ctx, name, arg1, arg2)
+	if name == nil or name == "" then
+		name = "help"
+	end
+	local command = self.DebugCommands[name]
+	if not command then
+		self:DebugOut(ctx, "неизвестная команда '%s'", tostring(name))
+		command = self.DebugCommands.help
+	elseif not READ_ONLY[name] and not DebugAllowed() then
+		self:DebugOut(ctx, "'%s' работает только в Tools mode или с sv_cheats", name)
+		return
+	end
+	local ok, err = pcall(command, self, ctx, arg1, arg2)
+	if not ok then
+		self:DebugOut(ctx, "команда '%s' упала: %s", tostring(name), tostring(err))
+	end
+end
+
+function BuybackStatues:RegisterDebugCommands()
+	if self._debugCommandsRegistered then
+		return
+	end
+	self._debugCommandsRegistered = true
+
+	for name in pairs(self.DebugCommands) do
+		Convars:RegisterCommand("buyback_statue_" .. name, function(_, arg1, arg2)
+			BuybackStatues:RunDebugCommand({ chat = false }, name, arg1, arg2)
+		end, "Статуи байбека, отладка: " .. name, 0)
+	end
+	Convars:RegisterCommand("buyback_statue_debug", function(_, arg1)
+		BuybackStatues:RunDebugCommand({ chat = false }, "status", arg1)
+	end, "Статуи байбека: состояние по игрокам", 0)
+
+	ListenToGameEvent("player_chat", function(keys)
+		local text = keys and keys.text
+		if type(text) ~= "string" or not DebugAllowed() then
+			return
+		end
+		local name, arg1, arg2 = string.match(text, "^%-bb%s*(%S*)%s*(%S*)%s*(%S*)")
+		if name == nil then
+			return
+		end
+		BuybackStatues:RunDebugCommand({ chat = true, playerID = keys.playerid }, name,
+			arg1 ~= "" and arg1 or nil, arg2 ~= "" and arg2 or nil)
+	end, nil)
+end
+
+-- Статуя --------------------------------------------------------------------
 
 modifier_trinity_buyback_statue = class({})
 
@@ -581,11 +936,12 @@ function modifier_trinity_buyback_statue:RemoveOnDeath()
 	return false
 end
 
-function modifier_trinity_buyback_statue:OnCreated(kv)
+function modifier_trinity_buyback_statue:OnCreated()
 	if not IsServer() then
 		return
 	end
-	self.playerID = kv and kv.player_id or -1
+	local parent = self:GetParent()
+	self.playerID = parent._buybackPlayerID or -1
 	self.broken = false
 end
 
@@ -593,7 +949,14 @@ function modifier_trinity_buyback_statue:CheckState()
 	local state = {
 		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_DISARMED] = true,
-		[MODIFIER_STATE_NO_UNIT_COLLISION] = false,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
+		[MODIFIER_STATE_UNSELECTABLE] = true,
+		[MODIFIER_STATE_SILENCED] = true,
+		[MODIFIER_STATE_MUTED] = true,
+		[MODIFIER_STATE_PASSIVES_DISABLED] = true,
+		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
 	}
 	if self.broken then
 		state[MODIFIER_STATE_INVULNERABLE] = true
@@ -607,22 +970,22 @@ end
 
 function modifier_trinity_buyback_statue:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_MIN_HEALTH,
 		MODIFIER_PROPERTY_DISABLE_HEALING,
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
 end
 
-function modifier_trinity_buyback_statue:GetModifierIncomingDamage_Percentage(event)
-	if not IsServer() or self.broken or type(event) ~= "table" then
+function modifier_trinity_buyback_statue:GetModifierPhysicalArmorBonus()
+	local parent = self:GetParent()
+	if not parent or parent:IsNull() or self._readingArmor then
 		return 0
 	end
-	local parent = self:GetParent()
-	if not BuybackStatues:IsValidAttacker(parent, event.attacker) then
-		return -100
-	end
-	return 0
+	self._readingArmor = true
+	local current = parent.GetPhysicalArmorValue and parent:GetPhysicalArmorValue(false) or 0
+	self._readingArmor = false
+	return STATUE_ARMOR - current
 end
 
 function modifier_trinity_buyback_statue:GetMinHealth()
@@ -634,21 +997,23 @@ function modifier_trinity_buyback_statue:GetDisableHealing()
 end
 
 function modifier_trinity_buyback_statue:OnTakeDamage(event)
-	if not IsServer() or self.broken then
+	if not IsServer() or self.broken or not event or event.unit ~= self:GetParent() then
+		return
+	end
+	if (event.damage or 0) <= 0 then
 		return
 	end
 	local parent = self:GetParent()
-	if not event or event.unit ~= parent or parent:GetHealth() > 1 then
+	if parent:GetHealth() > 1 then
+		return
+	end
+	if event.damage_category ~= nil and event.damage_category ~= DOTA_DAMAGE_CATEGORY_ATTACK then
 		return
 	end
 	if not BuybackStatues:IsValidAttacker(parent, event.attacker) then
 		return
 	end
-	local damage = event.damage or 0
-	if damage < parent:GetMaxHealth() and damage <= 1 then
-		return
-	end
-	BuybackStatues:Break(self.playerID, BuybackStatues.cooldownLength, false)
+	BuybackStatues:Break(self.playerID, BuybackStatues.cooldownLength, "уничтожена " .. EntLabel(event.attacker) .. " (min health)")
 end
 
 function modifier_trinity_buyback_statue:BeginRepair()
@@ -660,7 +1025,6 @@ function modifier_trinity_buyback_statue:BeginRepair()
 	if not IsAliveEntity(parent) then
 		return
 	end
-
 	local origin = parent:GetAbsOrigin()
 	self:DestroyRepairParticles()
 	self.repairParticle = ParticleManager:CreateParticle(REPAIR_PARTICLE, PATTACH_WORLDORIGIN, nil)
@@ -697,55 +1061,28 @@ function modifier_trinity_buyback_statue:OnDestroy()
 		return
 	end
 	self:DestroyRepairParticles()
-	local parent = self:GetParent()
-	if IsAliveEntity(parent) then
-		BuybackStatues:DestroyFigure(parent)
-	end
 end
 
--- Части каменной фигуры: тело героя и каждая вещь шмота ---------------------
+modifier_trinity_buyback_statue_stone = class({})
 
-modifier_trinity_buyback_statue_figure = class({})
-
-function modifier_trinity_buyback_statue_figure:IsHidden()
+function modifier_trinity_buyback_statue_stone:IsHidden()
 	return true
 end
 
-function modifier_trinity_buyback_statue_figure:IsPurgable()
+function modifier_trinity_buyback_statue_stone:IsPurgable()
 	return false
 end
 
-function modifier_trinity_buyback_statue_figure:RemoveOnDeath()
+function modifier_trinity_buyback_statue_stone:RemoveOnDeath()
 	return false
 end
 
-function modifier_trinity_buyback_statue_figure:CheckState()
-	return {
-		[MODIFIER_STATE_INVULNERABLE] = true,
-		[MODIFIER_STATE_UNTARGETABLE] = true,
-		[MODIFIER_STATE_UNSELECTABLE] = true,
-		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
-		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
-		[MODIFIER_STATE_ROOTED] = true,
-		[MODIFIER_STATE_DISARMED] = true,
-		[MODIFIER_STATE_SILENCED] = true,
-		[MODIFIER_STATE_MUTED] = true,
-		[MODIFIER_STATE_PASSIVES_DISABLED] = true,
-		[MODIFIER_STATE_NO_TEAM_SELECT] = true,
-		[MODIFIER_STATE_NO_TEAM_MOVE_TO] = true,
-		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
-	}
+function modifier_trinity_buyback_statue_stone:GetStatusEffectName()
+	return STONE_EFFECT
 end
 
-for index, path in ipairs(STONE_STATUS_EFFECTS) do
-	local stone = class({})
-	function stone:IsHidden() return true end
-	function stone:IsPurgable() return false end
-	function stone:RemoveOnDeath() return false end
-	function stone:GetStatusEffectName() return path end
-	function stone:StatusEffectPriority() return MODIFIER_PRIORITY_SUPER_ULTRA end
-	_G[STONE_MODIFIER_PREFIX .. index] = stone
+function modifier_trinity_buyback_statue_stone:StatusEffectPriority()
+	return MODIFIER_PRIORITY_SUPER_ULTRA
 end
 
 modifier_trinity_buyback_statue_frozen = class({})
@@ -766,4 +1103,13 @@ function modifier_trinity_buyback_statue_frozen:CheckState()
 	return {
 		[MODIFIER_STATE_FROZEN] = true,
 	}
+end
+
+if Timers then
+	Timers:CreateTimer(0.5, function()
+		if not BuybackStatues:InstallDamageFilter() then
+			return 0.5
+		end
+		return nil
+	end)
 end
