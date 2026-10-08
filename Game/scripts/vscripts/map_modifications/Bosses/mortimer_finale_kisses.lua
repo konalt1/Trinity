@@ -25,6 +25,15 @@ LinkLuaModifier(
     "map_modifications/Bosses/mortimer_finale_kisses",
     LUA_MODIFIER_MOTION_NONE
 )
+LinkLuaModifier(
+    "modifier_mortimer_finale_kisses_casting",
+    "map_modifications/Bosses/mortimer_finale_kisses",
+    LUA_MODIFIER_MOTION_NONE
+)
+
+-- Vanilla Kisses: 8 shots over 5.5 s. At playback rate 1 one spit gesture
+-- fits this interval, so slower volleys stretch the gesture to their interval.
+local VANILLA_SHOT_INTERVAL = 5.5 / 8
 
 mortimer_finale_kisses = class({})
 
@@ -429,7 +438,11 @@ function mortimer_finale_kisses:FireVolley(initialTargetPosition, targetTeam, on
         FormatVector(initialTargetPosition)
     )
 
-    caster:ResetSequence("snapfire_blobs_cast")
+    local gestureRate = interval > 0 and VANILLA_SHOT_INTERVAL / interval or 1
+    gestureRate = math.max(0.5, math.min(2, gestureRate))
+    local castingModifier = caster:AddNewModifier(caster, self, "modifier_mortimer_finale_kisses_casting", {
+        duration = startAnimationDelay + volleyDuration + 0.5,
+    })
 
     for shot = 1, projectileCount do
         local shotNumber = shot
@@ -461,7 +474,9 @@ function mortimer_finale_kisses:FireVolley(initialTargetPosition, targetTeam, on
             end
 
             self:LaunchProjectile(targetPosition)
-            caster:ResetSequence("snapfire_blobs_fast")
+            if castingModifier and not castingModifier:IsNull() then
+                castingModifier:PlayShotGesture(gestureRate)
+            end
             return nil
         end)
     end
@@ -604,6 +619,47 @@ function mortimer_finale_kisses:OnProjectileHit_ExtraData(target, location, extr
     )
 
     return true
+end
+
+
+-- Holds Snapfire's Kisses animation on the finale actor for the whole volley.
+-- The actor is an npc_dota_creature, so ResetSequence is overwritten by its
+-- activity system on the next frame; gestures play on top of idle instead.
+modifier_mortimer_finale_kisses_casting = class({})
+
+function modifier_mortimer_finale_kisses_casting:IsHidden()
+    return true
+end
+
+function modifier_mortimer_finale_kisses_casting:IsPurgable()
+    return false
+end
+
+function modifier_mortimer_finale_kisses_casting:OnCreated()
+    if not IsServer() then
+        return
+    end
+
+    self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_4)
+end
+
+function modifier_mortimer_finale_kisses_casting:PlayShotGesture(rate)
+    local parent = self:GetParent()
+    parent:FadeGesture(ACT_DOTA_CAST_ABILITY_4)
+    parent:FadeGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
+    parent:StartGestureWithPlaybackRate(ACT_DOTA_OVERRIDE_ABILITY_4, rate)
+end
+
+function modifier_mortimer_finale_kisses_casting:OnDestroy()
+    if not IsServer() then
+        return
+    end
+
+    local parent = self:GetParent()
+    if parent and not parent:IsNull() then
+        parent:FadeGesture(ACT_DOTA_CAST_ABILITY_4)
+        parent:FadeGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
+    end
 end
 
 

@@ -122,6 +122,14 @@ function Http.MatchId()
 			id = fromConvar
 		end
 	end
+	if id == "0" or id == "" then
+		-- Локальная катка без реального match id: свой уникальный id, иначе все такие матчи склеятся в "0".
+		local stamp = ""
+		if GetSystemDate and GetSystemTime then
+			stamp = string.gsub(tostring(GetSystemDate()) .. tostring(GetSystemTime()), "%D", "")
+		end
+		id = "L" .. stamp .. RandomInt(100000, 999999)
+	end
 	Http._matchId = id
 	return id
 end

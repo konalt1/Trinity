@@ -26,7 +26,7 @@
             "laser_damage"              "75 150 225 300"
             "miss_rate"                 "100"
             "blind_duration"            "3.0 3.5 4.0 4.5"
-            "mind_power_multiplier"     "1.5"
+            "mind_power_multiplier"     "0.5"
         }
     }
 
@@ -60,7 +60,7 @@
             "speed"                     "400"
             "machines_per_sec"          "24"
             "damage"                    "13 22 31 40"
-            "mind_power_multiplier"     "0.25"
+            "mind_power_multiplier"     "0.15"
         }
     }
 
@@ -103,7 +103,7 @@
             "radius_explosion"                  "200"
             "splash_pct"                        "50"
             "drop_mind_power_multiplier"        "1.0"
-            "missile_mind_power_multiplier"     "0.5"
+            "missile_mind_power_multiplier"     "0.2"
             "shard_missile_slow_pct"
             {
                 "value"                         "80"
@@ -138,7 +138,7 @@
             "duration"                  "15"
             "cooldown"
             {
-                "value"                 "3 2 1"
+                "value"                 "3 2.5 2"
             }
         }
     }

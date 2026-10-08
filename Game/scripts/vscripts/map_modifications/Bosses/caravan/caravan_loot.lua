@@ -8,50 +8,42 @@ CaravanLoot.AEGIS_MIN_STAGE = 2
 CaravanLoot.MAX_STAGE = 5
 CaravanLoot.HITS = { 1, 1, 2, 2, 3 }
 
+-- Буны по стадиям: стат-курьер (boons = true) несёт один случайный бун из четырёх бунов своей стадии.
+-- Выбор делается при спавне и хранится на курьере (courier.caravanLootData), дроп берёт его оттуда.
+-- Караван берёт пул на CARAVAN_TIER_OFFSET выше своей стадии: буны 1-го уровня в караване не выпадают
+-- (стадия 1 → пул 2, стадия 2 → пул 3, дальше пул 4). Лесные крипы (game_managers/neutral_boons.lua)
+-- берут пулы без сдвига.
+CaravanLoot.CARAVAN_TIER_OFFSET = 1
+
+CaravanLoot.BOONS = {
+    { "item_boon_belt_of_strength", "item_boon_boots_of_elves", "item_boon_robe", "item_boon_crown" },
+    { "item_boon_might", "item_boon_bulwark", "item_boon_holy_locket", "item_boon_octarine" },
+    { "item_boon_greaves", "item_boon_lens", "item_boon_vampirism", "item_boon_venomancer" },
+    { "item_boon_twin_charges", "item_boon_kaya", "item_boon_daedalus", "item_boon_aegis" },
+    -- Стадия 5 пока убрана: караван 5-й стадии берёт пул 4-й (GetStageData → последний ряд).
+    -- Прежний пул: { "item_boon_aghanim", "item_boon_titan", "item_boon_resilience", "item_boon_colossus" }
+}
+
 CaravanLoot.COURIERS = {
     str = {
         unit_name = "npc_caravan_redhorn",
         model = "models/courier/ram/ram.vmdl",
-        items = {
-            "item_gauntlets",
-            "item_belt_of_strength",
-            "item_ogre_axe",
-            "item_sange",
-            "item_reaver",
-        },
+        boons = true,
     },
     agi = {
         unit_name = "npc_caravan_taffied",
         model = "models/courier/winter2022/taffy_donkey_courier.vmdl",
-        items = {
-            "item_slippers",
-            "item_boots_of_elves",
-            "item_blade_of_alacrity",
-            "item_yasha",
-            "item_eagle",
-        },
+        boons = true,
     },
     int = {
         unit_name = "npc_caravan_mango",
         model = "models/items/courier/mango_the_courier/mango_the_courier.vmdl",
-        items = {
-            "item_mantle",
-            "item_robe",
-            "item_staff_of_wizardry",
-            "item_kaya",
-            "item_mystic_staff",
-        },
+        boons = true,
     },
     all = {
         unit_name = "npc_caravan_hatchling",
         model = "models/items/courier/blazing_hatchling_the_fortune_bringer_courier/blazing_hatchling_the_fortune_bringer_courier.vmdl",
-        items = {
-            "item_circlet",
-            "item_crown",
-            "item_diadem",
-            "item_ghost",
-            "item_ultimate_orb",
-        },
+        boons = true,
     },
     gold = {
         unit_name = "npc_caravan_flopjaw",
@@ -109,6 +101,11 @@ function CaravanLoot:GetStageData(id, stage)
     stage = self:ClampStage(stage)
     local items = {}
     local entry = def.items and def.items[stage]
+    if def.boons then
+        local tier = math.min(stage + (self.CARAVAN_TIER_OFFSET or 0), #self.BOONS)
+        local pool = self.BOONS[tier] or self.BOONS[#self.BOONS] or {}
+        entry = #pool > 0 and pool[RandomInt(1, #pool)] or nil
+    end
     local function addItem(name)
         if type(name) == "string" and name ~= "" then
             table.insert(items, { name = name, count = 1 })

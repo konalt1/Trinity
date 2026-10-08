@@ -77,6 +77,7 @@ var TRINITY_SHOP_DATA = {
                         "item_satanic",
                         "item_armlet",
                         "item_nullifier",
+                        "item_crippling_crossbow",
                         "item_blade_mail",
                         "item_phase_boots",
                         "item_harpoon",
@@ -92,6 +93,7 @@ var TRINITY_SHOP_DATA = {
                     "color": "#f2c94c",
                     "items": [
                         "item_gloves",
+                        "item_elven_tunic",
                         "item_moon_shard",
                         "item_hand_of_midas",
                         "item_mask_of_madness",
@@ -389,6 +391,7 @@ var TRINITY_SHOP_DATA = {
                         "item_orchid",
                         "item_bloodthorn",
                         "item_nullifier",
+                        "item_crippling_crossbow",
                         "item_diffusal_blade",
                         "item_disperser",
                         "item_heavens_halberd",
@@ -870,6 +873,16 @@ var TRINITY_SHOP_DATA = {
             ],
             "descToken": "#trinity_shop_desc_item_orb_of_corrosion"
         },
+        "item_elven_tunic": {
+            "tier": -1,
+            "price": 2800,
+            "categories": [
+                "damage",
+                "mobility"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_elven_tunic"
+        },
         "item_butterfly": {
             "tier": -1,
             "price": 5450,
@@ -1258,6 +1271,16 @@ var TRINITY_SHOP_DATA = {
                 "int"
             ],
             "descToken": "#trinity_shop_desc_item_orchid"
+        },
+        "item_crippling_crossbow": {
+            "tier": -1,
+            "price": 700,
+            "categories": [
+                "damage",
+                "control"
+            ],
+            "attributes": [],
+            "descToken": "#trinity_shop_desc_item_crippling_crossbow"
         },
         "item_nullifier": {
             "tier": -1,
@@ -2269,11 +2292,19 @@ var TRINITY_SHOP_DATA = {
         "item_butterfly": {
             "price": 5450,
             "components": [
-                "item_eagle",
+                "item_elven_tunic",
                 "item_claymore",
+                "item_blade_of_alacrity"
+            ],
+            "recipe": 300
+        },
+        "item_elven_tunic": {
+            "price": 2800,
+            "components": [
+                "item_blitz_knuckles",
                 "item_talisman_of_evasion"
             ],
-            "recipe": 0
+            "recipe": 500
         },
         "item_chainmail": {
             "price": 500,
@@ -2343,8 +2374,7 @@ var TRINITY_SHOP_DATA = {
             "price": 3000,
             "components": [
                 "item_point_booster",
-                "item_crown",
-                "item_wizard_hat"
+                "item_crippling_crossbow"
             ],
             "recipe": 1100
         },
@@ -2774,13 +2804,18 @@ var TRINITY_SHOP_DATA = {
             ],
             "recipe": 210
         },
+        "item_crippling_crossbow": {
+            "price": 700,
+            "components": [],
+            "recipe": 0
+        },
         "item_nullifier": {
             "price": 4350,
             "components": [
                 "item_relic",
-                "item_splintmail"
+                "item_crippling_crossbow"
             ],
-            "recipe": 0
+            "recipe": 250
         },
         "item_oblivion_staff": {
             "price": 1625,
@@ -3092,10 +3127,9 @@ var TRINITY_SHOP_DATA = {
             "price": 5050,
             "components": [
                 "item_reaver",
-                "item_claymore",
-                "item_lifesteal"
+                "item_mask_of_madness"
             ],
-            "recipe": 0
+            "recipe": 350
         },
         "item_shadow_amulet": {
             "price": 900,

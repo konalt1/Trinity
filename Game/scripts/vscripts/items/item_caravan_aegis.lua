@@ -1,3 +1,5 @@
+require("items/caravan_boons")
+
 item_caravan_aegis = class({})
 
 function item_caravan_aegis:OnSpellStart()
@@ -19,11 +21,7 @@ function item_caravan_aegis:OnSpellStart()
         duration = 120
     end
 
-    caster:RemoveModifierByName("modifier_aegis")
-    local modifier = caster:AddNewModifier(caster, nil, "modifier_aegis", { duration = duration })
-    if modifier and modifier.SetDuration then
-        modifier:SetDuration(duration, true)
-    end
-    EmitSoundOn("Aegis.Activate", caster)
+    -- Общая выдача с бунами: ванильный modifier_aegis, а если движок его не создал — modifier_trinity_aegis.
+    CaravanBoons.GiveAegis(caster, duration)
     caster:RemoveItem(self)
 end

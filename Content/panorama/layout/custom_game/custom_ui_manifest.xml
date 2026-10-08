@@ -14,7 +14,11 @@
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/chat_wheel/chat_wheel.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/trinity_shop/trinity_shop.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/item_upgrade/item_upgrade.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/boon_charges/boon_charges.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/boon_counter/boon_counter.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hud_cleanup.xml"/>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/mind_power_tooltips/mind_power_tooltips.xml"/>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui/game_events/panel.xml"/>
     </Panel>
 </root>

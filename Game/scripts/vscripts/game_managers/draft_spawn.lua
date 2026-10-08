@@ -1,6 +1,8 @@
 ﻿-- Ранний выход на карту после пика: игрок не ждёт чужой выбор.
--- Разминка длится WARMUP_TIME (не зависит от HERO_SELECTION_TIME); часы стартуют с -(WARMUP_TIME + 0:30).
--- В -0:30 — вайп, тик золота/опыта и FB. Пик закрывается по HERO_SELECTION_TIME (не позже 0:00).
+-- Драфт кончается, когда все пикнули или вышло HERO_SELECTION_TIME (непикнувшим — random).
+-- Полные WARMUP_TIME разминки отсчитываются от конца драфта; до этого песочница уже работает.
+-- Часы стартуют с -(HERO_SELECTION_TIME + WARMUP_TIME + 0:30) и сдвигаются, если драфт кончился раньше.
+-- В -0:30 — вайп, тик золота/опыта и FB.
 -- Крипы, день и уязвимость башен — в 0:00.
 
 if DraftSpawn == nil then
@@ -23,13 +25,18 @@ local WARMUP_ZONE_ENTITY = "trinity_warmup_zone"
 local WARMUP_SPAWN_ENTITY = "trinity_warmup_spawn"
 local WARMUP_SPAWN_GOOD_ENTITY = "trinity_warmup_spawn_good"
 local WARMUP_SPAWN_BAD_ENTITY = "trinity_warmup_spawn_bad"
+-- Дополнительные точки: то же имя с суффиксом _1, _2, … (trinity_warmup_spawn_good_1).
+local WARMUP_SPAWN_MAX_SUFFIX = 16
 local WARMUP_DUMMY_SPAWN_ENTITY = "trinity_warmup_dummy"
 local WARMUP_DUMMY_UNIT = "npc_dota_hero_target_dummy"
 local WARMUP_CAMERA_LERP = 1.0
+local WARMUP_REFRESH_COOLDOWN = 10 -- общий для всех игроков кулдаун кнопки сброса
 local WARMUP_SHOP_TYPE = DOTA_SHOP_HOME or 0
 local WARMUP_SHOP_PADDING = 128
 local WARMUP_SHOP_FALLBACK_RADIUS = 1500
 local COURIER_RESPAWN_OFFSET = 150
+-- Если игроков больше, чем точек, лишние встают кольцом вокруг точки на этом расстоянии.
+local SPAWN_SPREAD_RADIUS = 150
 
 local WARMUP_WARD_CLASSNAMES = {
 	"npc_dota_ward_base",
@@ -43,10 +50,13 @@ local WARMUP_WARD_UNITS = {
 	npc_dota_sentry_wards = true,
 }
 
--- ItemStockInitial из npc/Items.txt: observer 2, sentry 3.
+-- ItemStockInitial из npc/Items.txt: observer 2, sentry 3, smoke 2, blood grenade 2.
+-- Смоук и граната тоже: магазин Trinity (trinity_shop.lua) уменьшает их запас и на разминке.
 local WARMUP_WARD_STOCK = {
 	{ item = "item_ward_observer", count = 2 },
 	{ item = "item_ward_sentry", count = 3 },
+	{ item = "item_smoke_of_deceit", count = 2 },
+	{ item = "item_blood_grenade", count = 2 },
 }
 
 function DraftSpawn:Init()
@@ -231,22 +241,94 @@ function DraftSpawn:GetWarmupDuration()
 	return math.max(0, tonumber(WARMUP_TIME) or 60)
 end
 
--- Пик не может пережить 0:00: иначе движок остаётся в HERO_SELECTION при старте крипов.
 function DraftSpawn:GetHeroSelectionDuration()
-	local pick = math.max(0, tonumber(HERO_SELECTION_TIME) or 60)
-	return math.min(pick, self:GetClockDuration())
+	return math.max(0, tonumber(HERO_SELECTION_TIME) or 60)
 end
 
 function DraftSpawn:GetRemainingUntilPickEnd()
+	if self.draftEndTime then
+		return 0
+	end
 	return self:GetHeroSelectionDuration() - self:GetElapsedSinceDraft()
+end
+
+function DraftSpawn:IsDraftEnded()
+	return self.draftEndTime ~= nil
 end
 
 function DraftSpawn:GetPostWarmupPregameDuration()
 	return WARMUP_POST_PREGAME_TIME or 30
 end
 
+-- Полная длина часов, пока драфт ещё идёт: драфт + разминка + 0:30.
 function DraftSpawn:GetClockDuration()
-	return self:GetWarmupDuration() + self:GetPostWarmupPregameDuration()
+	return self:GetHeroSelectionDuration() + self:GetWarmupDuration() + self:GetPostWarmupPregameDuration()
+end
+
+-- Конец драфта: фактический, иначе дедлайн пика.
+function DraftSpawn:GetDraftEndTime()
+	if self.draftEndTime then
+		return self.draftEndTime
+	end
+	if not self.draftStartTime then
+		return nil
+	end
+	return self.draftStartTime + self:GetHeroSelectionDuration()
+end
+
+-- Плановый конец разминки: всегда полные WARMUP_TIME после конца драфта.
+-- Досрочный конец голосованием этот момент не двигает: часы идут дальше как были.
+function DraftSpawn:GetScheduledWarmupEndTime()
+	local draftEnd = self:GetDraftEndTime()
+	if not draftEnd then
+		return nil
+	end
+	return draftEnd + self:GetWarmupDuration()
+end
+
+function DraftSpawn:AllMatchPlayersPicked()
+	local any = false
+	for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if self:IsMatchPlayer(playerID) then
+			any = true
+			if not PlayerResource:HasSelectedHero(playerID) then
+				return false
+			end
+		end
+	end
+	return any
+end
+
+-- Проверка конца драфта: все пикнули, вышло время пика или движок уже ушёл из HERO_SELECTION.
+function DraftSpawn:UpdateDraftEnd(forceEnd)
+	if self.draftEndTime or not self.draftStartTime then
+		return
+	end
+
+	local timeUp = self:GetHeroSelectionDuration() - self:GetElapsedSinceDraft() <= 0
+	if not forceEnd and not timeUp and not self:AllMatchPlayersPicked() then
+		return
+	end
+
+	local now = GameRules:GetGameTime()
+	self.draftEndTime = math.min(now, self.draftStartTime + self:GetHeroSelectionDuration())
+
+	if timeUp or forceEnd then
+		self:RandomUnpickedHeroes()
+	end
+
+	self:SyncPreGameTime()
+	self:BroadcastWarmupTimer()
+end
+
+-- Перезапуск таймера виджета: после конца драфта у разминки снова полные WARMUP_TIME.
+function DraftSpawn:BroadcastWarmupTimer()
+	if self.warmupEnded or self.matchStarted then
+		return
+	end
+	CustomGameEventManager:Send_ServerToAllClients("trinity_warmup_timer", {
+		remaining = math.max(0, self:GetRemainingUntilWarmupEnd()),
+	})
 end
 
 function DraftSpawn:GetElapsedSinceDraft()
@@ -331,17 +413,22 @@ function DraftSpawn:GetRemainingUntilWarmupEnd()
 	if self.warmupEnded or self.matchStarted then
 		return 0
 	end
-	return self:GetWarmupDuration() - self:GetElapsedSinceDraft()
+	local warmupEnd = self:GetScheduledWarmupEndTime()
+	if not warmupEnd then
+		return self:GetHeroSelectionDuration() + self:GetWarmupDuration()
+	end
+	return warmupEnd - GameRules:GetGameTime()
 end
 
 function DraftSpawn:GetRemainingUntilZeroClock()
 	if self.matchStarted then
 		return 0
 	end
-	if not self.draftStartTime then
+	local warmupEnd = self:GetScheduledWarmupEndTime()
+	if not warmupEnd then
 		return self:GetClockDuration()
 	end
-	return self:GetClockDuration() - self:GetElapsedSinceDraft()
+	return warmupEnd + self:GetPostWarmupPregameDuration() - GameRules:GetGameTime()
 end
 
 function DraftSpawn:GetRemainingUntilMatchStart()
@@ -369,8 +456,9 @@ function DraftSpawn:OnGameRulesStateChange()
 	if newState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		self:OnHeroSelectionStarted()
 	elseif newState == DOTA_GAMERULES_STATE_STRATEGY_TIME or newState == DOTA_GAMERULES_STATE_PRE_GAME then
-		self:SyncPreGameTime()
 		self:RandomUnpickedHeroes()
+		self:UpdateDraftEnd(true)
+		self:SyncPreGameTime()
 		self:EnsureWarmupZone()
 		self:LockNightUntilLanePhase()
 		if self:GetRemainingUntilWarmupEnd() <= 0.05 then
@@ -392,6 +480,7 @@ function DraftSpawn:OnHeroSelectionStarted()
 	end
 
 	self.draftStartTime = GameRules:GetGameTime()
+	self.draftEndTime = nil
 	self.sandboxActive = true
 	self.warmupEnded = false
 	self.matchStarted = false
@@ -421,9 +510,11 @@ function DraftSpawn:EnsureSelectionThink()
 			return nil
 		end
 
+		self:UpdateDraftEnd()
 		self:SyncPreGameTime()
 
-		if self:GetRemainingUntilPickEnd() <= 0 then
+		-- Повтор random для тех, у кого в момент конца пика не было хэндла игрока.
+		if self:IsDraftEnded() then
 			self:RandomUnpickedHeroes()
 		end
 
@@ -451,6 +542,7 @@ function DraftSpawn:EnsureMatchStartTimer()
 			return nil
 		end
 
+		self:UpdateDraftEnd()
 		local remainingWarmup = self:GetRemainingUntilWarmupEnd()
 		local remainingZero = self:GetRemainingUntilZeroClock()
 		local state = GameRules:State_Get()
@@ -602,6 +694,31 @@ end
 
 function DraftSpawn:HoldEngineMatchStart()
 	self:FreezeEngineMatchSystems()
+end
+
+-- Точки name, name_1, name_2, … в этом порядке (порядок задаёт, кто на какую точку встаёт).
+-- Пропуск в нумерации не обрывает поиск.
+function DraftSpawn:CollectNumberedEntities(name)
+	local list = {}
+	local seen = {}
+	local function append(found)
+		table.sort(found, function(a, b)
+			return a:entindex() < b:entindex()
+		end)
+		for i = 1, #found do
+			local index = found[i]:entindex()
+			if not seen[index] then
+				seen[index] = true
+				list[#list + 1] = found[i]
+			end
+		end
+	end
+
+	append(self:CollectNamedEntities(name))
+	for suffix = 1, WARMUP_SPAWN_MAX_SUFFIX do
+		append(self:CollectNamedEntities(name .. "_" .. suffix))
+	end
+	return list
 end
 
 function DraftSpawn:CollectNamedEntities(name)
@@ -784,9 +901,9 @@ function DraftSpawn:EnsureWarmupZone()
 
 	self._warmupTriggers = self:CollectNamedEntities(WARMUP_ZONE_ENTITY)
 	self._warmupSpawns = {
-		any = self:CollectNamedEntities(WARMUP_SPAWN_ENTITY),
-		good = self:CollectNamedEntities(WARMUP_SPAWN_GOOD_ENTITY),
-		bad = self:CollectNamedEntities(WARMUP_SPAWN_BAD_ENTITY),
+		any = self:CollectNumberedEntities(WARMUP_SPAWN_ENTITY),
+		good = self:CollectNumberedEntities(WARMUP_SPAWN_GOOD_ENTITY),
+		bad = self:CollectNumberedEntities(WARMUP_SPAWN_BAD_ENTITY),
 	}
 
 	if #self._warmupSpawns.any == 0 and #self._warmupSpawns.good == 0 and #self._warmupSpawns.bad == 0 then
@@ -960,14 +1077,55 @@ function DraftSpawn:GetWarmupSpawnOrigin(hero)
 		return nil
 	end
 
+	-- Номер среди участников (своей команды, если точки командные), а не playerID % #list:
+	-- у ID бывают пропуски, и двое игроков попадали на одну точку.
 	local playerID = hero and hero.GetPlayerOwnerID and hero:GetPlayerOwnerID() or 0
-	local spawn = list[(playerID % #list) + 1]
+	local spawns = self._warmupSpawns or {}
+	local team = hero and hero.GetTeamNumber and hero:GetTeamNumber() or nil
+	-- Нумерация по команде — только если это точки своей команды; общие точки делят все участники.
+	local teamOnly = (team == DOTA_TEAM_GOODGUYS and list == spawns.good) or (team == DOTA_TEAM_BADGUYS and list == spawns.bad)
+	local rank = self:GetPlayerSpawnRank(playerID, teamOnly and team or nil)
+	return self:PickSpawnOrigin(list, rank, hero)
+end
+
+-- Номер игрока среди участников матча (только своей команды, если передан team): 0, 1, 2…
+function DraftSpawn:GetPlayerSpawnRank(playerID, team)
+	local rank = 0
+	for pid = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+		if pid == playerID then
+			return rank
+		end
+		if self:IsMatchPlayer(pid) and (not team or PlayerResource:GetTeam(pid) == team) then
+			rank = rank + 1
+		end
+	end
+	return rank
+end
+
+-- Точка по номеру игрока: сначала каждому своя, потом по кругу со смещением вокруг точки.
+function DraftSpawn:PickSpawnOrigin(list, rank, unit)
+	local count = #list
+	if count == 0 then
+		return nil
+	end
+	local spawn = list[(rank % count) + 1]
 	if not spawn or spawn:IsNull() then
 		return nil
 	end
-
 	local origin = spawn:GetAbsOrigin()
-	return GetGroundPosition(origin, hero)
+	local lap = math.floor(rank / count)
+	if lap > 0 then
+		local angle = math.rad(lap * 72)
+		origin = origin + Vector(math.cos(angle), math.sin(angle), 0) * SPAWN_SPREAD_RADIUS
+	end
+	return GetGroundPosition(origin, unit)
+end
+
+-- Поставить героя в точку и раздвинуть с соседями. Порядок важен: раньше SetAbsOrigin шёл после
+-- FindClearSpaceForUnit и возвращал героя ровно в точку, поверх другого героя.
+function DraftSpawn:MoveHeroToSpawn(hero, origin)
+	hero:SetAbsOrigin(origin)
+	FindClearSpaceForUnit(hero, origin, true)
 end
 
 function DraftSpawn:ShouldReturnHeroFromWarmupTrigger(hero)
@@ -1003,8 +1161,11 @@ function DraftSpawn:PlaceHeroInWarmupZone(hero)
 		return
 	end
 
-	FindClearSpaceForUnit(hero, origin, true)
-	hero:SetAbsOrigin(origin)
+	self:MoveHeroToSpawn(hero, origin)
+	-- Свободное место нашлось за пределами площадки — лучше точно в точку, чем выпасть из разминки.
+	if self:IsWarmupEscapePosition(hero, hero:GetAbsOrigin()) then
+		hero:SetAbsOrigin(origin)
+	end
 	if hero.Stop then
 		hero:Stop()
 	end
@@ -1120,12 +1281,8 @@ function DraftSpawn:GetFountainSpawnOrigin(playerID)
 		return nil
 	end
 
-	local spawn = list[(math.max(playerID, 0) % #list) + 1]
-	if not spawn or spawn:IsNull() then
-		return nil
-	end
-
-	return GetGroundPosition(spawn:GetAbsOrigin(), nil)
+	local team = PlayerResource:IsValidPlayerID(playerID) and PlayerResource:GetTeam(playerID) or nil
+	return self:PickSpawnOrigin(list, self:GetPlayerSpawnRank(math.max(playerID, 0), team), nil)
 end
 
 function DraftSpawn:PlaceHeroAtFountain(hero, snapCamera)
@@ -1140,8 +1297,7 @@ function DraftSpawn:PlaceHeroAtFountain(hero, snapCamera)
 		return
 	end
 
-	FindClearSpaceForUnit(hero, origin, true)
-	hero:SetAbsOrigin(origin)
+	self:MoveHeroToSpawn(hero, origin)
 	if hero.Stop then
 		hero:Stop()
 	end
@@ -1848,7 +2004,8 @@ function DraftSpawn:PrepareNextHudTestCycle()
 	self._selectionThinkArmed = false
 
 	local warmupDuration = self:GetWarmupDuration()
-	self.draftStartTime = GameRules:GetGameTime() - math.max(0, warmupDuration - 5)
+	self.draftEndTime = GameRules:GetGameTime() - math.max(0, warmupDuration - 5)
+	self.draftStartTime = self.draftEndTime - self:GetHeroSelectionDuration()
 
 	self:FreezeEngineMatchSystems()
 	self:EnableSandboxEconomy()
@@ -2453,6 +2610,7 @@ function DraftSpawn:OnPlayerPickHero(keys)
 	end
 
 
+	self:UpdateDraftEnd()
 	self:SyncPreGameTime()
 	self:EnterMapForPlayer(playerID, hero)
 end
@@ -2777,6 +2935,11 @@ function DraftSpawn:TryEndWarmupByVote()
 	if not self:IsSandboxActive() then
 		return
 	end
+	-- Пока идёт драфт, разминку голосованием не закончить.
+	if not self:IsDraftEnded() then
+		self:PublishWarmupFinishVote()
+		return
+	end
 	if self:PublishWarmupFinishVote() then
 		self:EndWarmup()
 	end
@@ -2809,6 +2972,15 @@ function DraftSpawn:OnWarmupRefresh(event)
 	if not hero then
 		return
 	end
+
+	local now = GameRules:GetGameTime()
+	if self._warmupRefreshReadyAt and now < self._warmupRefreshReadyAt then
+		return
+	end
+	self._warmupRefreshReadyAt = now + WARMUP_REFRESH_COOLDOWN
+	CustomGameEventManager:Send_ServerToAllClients("trinity_warmup_refresh_cooldown", {
+		readyAt = self._warmupRefreshReadyAt,
+	})
 
 	hero:SetHealth(hero:GetMaxHealth())
 	if hero.SetMana then

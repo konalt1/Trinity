@@ -1,0 +1,73 @@
+/* Mind Power block inside the native ability tooltip.
+   Colours follow Cykada's spell mastery tooltips (classic Dota palette). */
+
+.MindPowerTooltip
+{
+    flow-children: down;
+    width: 100%;
+    padding-left: 0px;
+}
+
+.MindPowerTooltip Label
+{
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #aabed9;
+    font-size: 16px;
+    text-shadow: 2px 2px 0px 1 #00000090;
+}
+
+.MindPowerTooltip .MPDescription
+{
+    padding-top: 6px;
+    margin-bottom: 10px;
+}
+
+.MindPowerTooltip .MPNote
+{
+    color: #7d8da8;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.MindPowerTooltip .MPAttributes
+{
+    color: #7889af;
+    margin-bottom: 8px;
+}
+
+.MindPowerTooltip .MPHint
+{
+    color: #5d6b85;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.MindPowerTooltip .MPIcon
+{
+    width: 16px;
+    height: 16px;
+}
+
+/* values: other levels / current level */
+.MPVal { color: #617296; }
+.MPValLvl { color: #e3e3e3; }
+.MPValPhy { color: #b00b0b; }
+.MPValPhyLvl { color: #df1a1a; }
+.MPValMag { color: #1a619c; }
+.MPValMagLvl { color: #48acfe; }
+.MPValPure { color: #b87a17; }
+.MPValPureLvl { color: #ffd153; }
+.MPValHeal { color: #1a820a; }
+.MPValHealLvl { color: #46e52e; }
+
+/* flat Mind Power bonus shown while Alt is held */
+.MPBonus { color: #5f7fa8; }
+.MPBonusLvl { color: #a9d6ff; }
+
+/* The icon is only used from JS; referencing it here makes the resource compiler build the .vtex_c. */
+.MPIconPrecache
+{
+    background-image: url("file://{images}/custom_game/icons/mind_power_tooltip.png");
+}

@@ -64,7 +64,7 @@ function juggernaut_omni_slash:OnSpellStart()
 		start_time = GameRules:GetGameTime(),
 	})
 
-	EmitSoundOn("Hero_Juggernaut.OmniSlash", caster)
+	EmitSoundOnUnitForObservers(caster, "Hero_Juggernaut.OmniSlash")
 end
 
 function juggernaut_omni_slash:PerformSlash(caster, target, data)

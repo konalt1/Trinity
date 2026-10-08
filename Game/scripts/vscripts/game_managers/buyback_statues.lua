@@ -7,7 +7,10 @@ local STONE_EFFECT = "particles/status_fx/status_effect_medusa_stone_gaze.vpcf"
 local REPAIR_PARTICLE = "particles/items5_fx/repair_kit.vpcf"
 local REPAIR_RING_PARTICLE = "particles/generic_gameplay/launchpad_progress_ring.vpcf"
 local LEGACY_BUILDING = "npc_trinity_buyback_statue"
-local STATUE_CODE_VERSION = 3
+local STATUE_CODE_VERSION = 4
+-- Приоритет статус-эффекта камня. Энумы MODIFIER_PRIORITY_* (0..4) ниже, чем у ванильных
+-- статус-эффектов (в т.ч. у эффекта иллюзии), поэтому камень перебивался. Берём заведомо больше.
+local STONE_EFFECT_PRIORITY = 1000
 local STATUE_HEALTH = 1000
 local STATUE_ARMOR = 5
 -- Фиксированный откат байбека: столько чинится статуя после байбека или уничтожения.
@@ -257,14 +260,71 @@ function BuybackStatues:PointName(playerID)
 	return string.format("trinity_buyback_statue_%s_%d", side, slot)
 end
 
+-- Точки статуй стороны по слотам 1..3. В Hammer точку легко скопировать без переименования:
+-- тогда FindByName находит одну и ту же точку для всех, и статуя появляется только у первого игрока.
+-- Поэтому каждый слот сначала берёт точку со своим именем, а свободные слоты получают лишние дубликаты.
+function BuybackStatues:SidePoints(side)
+	local assigned, extras = {}, {}
+	for slot = 1, 3 do
+		local name = string.format("trinity_buyback_statue_%s_%d", side, slot)
+		local found = {}
+		for _, ent in ipairs(Entities:FindAllByName(name) or {}) do
+			if IsAliveEntity(ent) then
+				found[#found + 1] = ent
+			end
+		end
+		table.sort(found, function(a, b)
+			return a:entindex() < b:entindex()
+		end)
+		if #found > 1 then
+			self.duplicatePoints = self.duplicatePoints or {}
+			if not self.duplicatePoints[name] then
+				self.duplicatePoints[name] = true
+				print(string.format("[BuybackStatues] На карте %d точки с именем %s — переименуй их в Hammer (_1, _2, _3). Пока раздаю их по свободным слотам.", #found, name))
+			end
+		end
+		for index, ent in ipairs(found) do
+			if index == 1 then
+				assigned[slot] = ent
+			else
+				extras[#extras + 1] = ent
+			end
+		end
+	end
+	for slot = 1, 3 do
+		if not assigned[slot] and #extras > 0 then
+			assigned[slot] = table.remove(extras, 1)
+		end
+	end
+	return assigned
+end
+
+function BuybackStatues:FindPoint(playerID)
+	local slot = self:TeamSlot(playerID)
+	if not slot or slot > 3 then
+		return nil
+	end
+	local side = PlayerResource:GetTeam(playerID) == DOTA_TEAM_GOODGUYS and "good" or "bad"
+	return self:SidePoints(side)[slot]
+end
+
 function BuybackStatues:EnsureStatue(playerID, hero)
 	local state = self.players[playerID]
 	local heroName = hero:GetUnitName()
 	if state and IsAliveEntity(state.unit) and state.heroName == heroName then
 		local modifier = state.unit:FindModifierByName(MODIFIER_NAME)
+		if not modifier then
+			-- Модификатор статуи кто-то снял (очистка, чужой скрипт) — возвращаем, иначе статуя становится обычной иллюзией.
+			modifier = state.unit:AddNewModifier(state.unit, nil, MODIFIER_NAME, {})
+			Log("P%d: модификатор статуи восстановлен", playerID)
+		end
 		if modifier then
 			modifier.playerID = playerID
 			modifier.broken = state.broken
+		end
+		if not state.unit:HasModifier(STONE_MODIFIER) then
+			state.unit:AddNewModifier(state.unit, nil, STONE_MODIFIER, {})
+			Log("P%d: эффект камня восстановлен", playerID)
 		end
 		return
 	end
@@ -281,7 +341,7 @@ function BuybackStatues:EnsureStatue(playerID, hero)
 	if not pointName then
 		return
 	end
-	local point = Entities:FindByName(nil, pointName)
+	local point = self:FindPoint(playerID)
 	if not IsAliveEntity(point) then
 		if not self.missingPoints[pointName] then
 			self.missingPoints[pointName] = true
@@ -436,7 +496,7 @@ function BuybackStatues:DebugPrint(ctx, onlyPlayerID)
 				for _, modifier in ipairs(unit:FindAllModifiers()) do
 					table.insert(names, modifier:GetName())
 				end
-				local point = self:PointName(playerID) and Entities:FindByName(nil, self:PointName(playerID))
+				local point = self:FindPoint(playerID)
 				self:DebugOut(ctx, "    здоровье %.0f / %.0f, броня %.1f, pos=(%d, %d)%s, скрыта=%s",
 					unit:GetHealth(), unit:GetMaxHealth(), unit:GetPhysicalArmorValue(false),
 					unit:GetAbsOrigin().x, unit:GetAbsOrigin().y,
@@ -763,20 +823,24 @@ end
 
 Commands.points = function(self, ctx)
 	for _, side in ipairs({ "good", "bad" }) do
+		local points = self:SidePoints(side)
 		for slot = 1, 3 do
 			local name = string.format("trinity_buyback_statue_%s_%d", side, slot)
-			local point = Entities:FindByName(nil, name)
+			local point = points[slot]
+			local count = #(Entities:FindAllByName(name) or {})
 			local owner = "-"
 			for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
 				if self:IsMatchPlayer(playerID) and self:PointName(playerID) == name then
 					owner = "P" .. playerID
 				end
 			end
+			local dupes = count > 1 and string.format(", точек с этим именем: %d — переименуй в Hammer", count) or ""
 			if IsAliveEntity(point) then
 				local origin = point:GetAbsOrigin()
-				self:DebugOut(ctx, "%s: (%d, %d, %d) игрок=%s", name, origin.x, origin.y, origin.z, owner)
+				local pointLabel = point:GetName() ~= name and (" -> взята точка " .. point:GetName()) or ""
+				self:DebugOut(ctx, "слот %s: (%d, %d, %d) игрок=%s%s%s", name, origin.x, origin.y, origin.z, owner, pointLabel, dupes)
 			else
-				self:DebugOut(ctx, "%s: НЕТ НА КАРТЕ (игрок=%s)", name, owner)
+				self:DebugOut(ctx, "слот %s: НЕТ ТОЧКИ НА КАРТЕ (игрок=%s)", name, owner)
 			end
 		end
 	end
@@ -951,19 +1015,21 @@ function modifier_trinity_buyback_statue:CheckState()
 		[MODIFIER_STATE_DISARMED] = true,
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
-		[MODIFIER_STATE_UNSELECTABLE] = true,
 		[MODIFIER_STATE_SILENCED] = true,
 		[MODIFIER_STATE_MUTED] = true,
 		[MODIFIER_STATE_PASSIVES_DISABLED] = true,
 		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
 		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
+		-- Статуя — не герой: без полоски здоровья, имени и уровня над головой.
+		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
 	}
+	-- UNSELECTABLE делает юнит некликабельным: по целой статуе нельзя отдать приказ атаки.
+	-- Поэтому невыделяемой она становится только сломанной.
 	if self.broken then
+		state[MODIFIER_STATE_UNSELECTABLE] = true
 		state[MODIFIER_STATE_INVULNERABLE] = true
 		state[MODIFIER_STATE_UNTARGETABLE] = true
 		state[MODIFIER_STATE_ATTACK_IMMUNE] = true
-		state[MODIFIER_STATE_MAGIC_IMMUNE] = true
-		state[MODIFIER_STATE_NO_HEALTH_BAR] = true
 	end
 	return state
 end
@@ -1044,13 +1110,14 @@ function modifier_trinity_buyback_statue:EndRepair()
 end
 
 function modifier_trinity_buyback_statue:DestroyRepairParticles()
+	-- Уничтожаем сразу: у кольца прогресса бесконечная жизнь частиц, без immediate оно остаётся на земле.
 	if self.repairParticle then
-		ParticleManager:DestroyParticle(self.repairParticle, false)
+		ParticleManager:DestroyParticle(self.repairParticle, true)
 		ParticleManager:ReleaseParticleIndex(self.repairParticle)
 		self.repairParticle = nil
 	end
 	if self.ringParticle then
-		ParticleManager:DestroyParticle(self.ringParticle, false)
+		ParticleManager:DestroyParticle(self.ringParticle, true)
 		ParticleManager:ReleaseParticleIndex(self.ringParticle)
 		self.ringParticle = nil
 	end
@@ -1082,7 +1149,7 @@ function modifier_trinity_buyback_statue_stone:GetStatusEffectName()
 end
 
 function modifier_trinity_buyback_statue_stone:StatusEffectPriority()
-	return MODIFIER_PRIORITY_SUPER_ULTRA
+	return STONE_EFFECT_PRIORITY
 end
 
 modifier_trinity_buyback_statue_frozen = class({})

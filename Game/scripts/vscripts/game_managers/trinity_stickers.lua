@@ -10,6 +10,21 @@ TrinityStickers.QUALITY_NORMAL = 1
 TrinityStickers.QUALITY_ELITE = 2
 TrinityStickers.PRICE_NORMAL = 5
 TrinityStickers.PRICE_ELITE = 20
+-- false: бэкенд для стикеров выключен. Каждому игроку открыты все стикеры каталога
+-- в элитной версии (со звуком), колесо заполнено первыми 8 стикерами и правится
+-- в редакторе на время матча. Лутбоксы и покупка не работают.
+TrinityStickers.USE_BACKEND = false
+-- Колесо по умолчанию без бэкенда (8 слотов по часовой, с верхнего).
+TrinityStickers.DEFAULT_WHEEL = {
+	"Gura",
+	"NeuroHug",
+	"Watson",
+	"Anime",
+	"Neurodance",
+	"Choso",
+	"NO_GOD",
+	"StickerTwo",
+}
 TrinityStickers.CATALOG = {
 	-- TRINITY_STICKER_CATALOG_BEGIN
 	"Gura",
@@ -73,6 +88,24 @@ local function EmptyState()
 		duplicate = false,
 		converted = false,
 	}
+end
+
+local function BackendEnabled()
+	return TrinityStickers.USE_BACKEND == true and TrinityPlayerData ~= nil and TrinityPlayerData.CanWrite()
+end
+
+local function OfflineState()
+	local state = EmptyState()
+	for _, key in ipairs(TrinityStickers.CATALOG) do
+		state.owned[key] = { quality = TrinityStickers.QUALITY_ELITE, copies = 0 }
+	end
+	for i = 1, TrinityStickers.SLOT_COUNT do
+		local key = TrinityStickers.DEFAULT_WHEEL[i] or TrinityStickers.CATALOG[i]
+		state.slots[i] = KnownKey(key) and key or ""
+	end
+	state.loaded = true
+	state.offline = true
+	return state
 end
 
 local function OwnedInfo(value)
@@ -164,6 +197,32 @@ local function Publish(playerID)
 		payload["slot" .. (i - 1)] = state.slots[i] or ""
 	end
 	CustomNetTables:SetTableValue(TrinityStickers.NET_TABLE, tostring(playerID), payload)
+end
+
+local function EnsureOfflineState(playerID)
+	if TrinityStickers.USE_BACKEND or playerID == nil then
+		return nil
+	end
+	local state = TrinityStickers.state[playerID]
+	if state and state.offline then
+		return state
+	end
+	state = OfflineState()
+	TrinityStickers.state[playerID] = state
+	Publish(playerID)
+	return state
+end
+
+local function PublishOfflineAll()
+	if TrinityStickers.USE_BACKEND or PlayerResource == nil then
+		return
+	end
+	local maxPlayers = DOTA_MAX_TEAM_PLAYERS or 24
+	for playerID = 0, maxPlayers - 1 do
+		if PlayerResource:IsValidPlayerID(playerID) then
+			EnsureOfflineState(playerID)
+		end
+	end
 end
 
 local function NormalizeSlotKey(key)
@@ -287,6 +346,9 @@ local function ApplyPayload(playerID, player, extra)
 end
 
 function TrinityStickers:ApplyPlayerPayload(playerID, player)
+	if not self.USE_BACKEND then
+		return
+	end
 	if playerID == nil or type(player) ~= "table" then
 		return
 	end
@@ -297,6 +359,7 @@ function TrinityStickers:IsOwned(playerID, key)
 	if not KnownKey(key) then
 		return false
 	end
+	EnsureOfflineState(playerID)
 	local state = self.state[playerID]
 	if not state or not state.loaded then
 		return false
@@ -308,6 +371,7 @@ function TrinityStickers:IsElite(playerID, key)
 	if not KnownKey(key) then
 		return false
 	end
+	EnsureOfflineState(playerID)
 	local state = self.state[playerID]
 	if not state or not state.loaded then
 		return false
@@ -320,6 +384,7 @@ function TrinityStickers:IsEquipped(playerID, key)
 	if not KnownKey(key) then
 		return false
 	end
+	EnsureOfflineState(playerID)
 	local state = self.state[playerID]
 	if not state or not state.loaded then
 		return false
@@ -346,7 +411,7 @@ local function RewardFlags(response, extra)
 end
 
 Post = function(path, body, playerID, extra)
-	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
+	if not BackendEnabled() then
 		DebugPrint("skip write", path)
 		return
 	end
@@ -413,7 +478,7 @@ function TrinityStickers:OnOpen(event)
 		return
 	end
 	local steamid = TrinityPlayerData.SteamID(playerID)
-	if steamid == 0 or not TrinityPlayerData.CanWrite() then
+	if steamid == 0 or not BackendEnabled() then
 		NotifyFailed(playerID, "trinity_sticker_opened")
 		return
 	end
@@ -433,7 +498,7 @@ function TrinityStickers:OnBuy(event)
 		return
 	end
 	local steamid = TrinityPlayerData.SteamID(playerID)
-	if steamid == 0 or not TrinityPlayerData.CanWrite() then
+	if steamid == 0 or not BackendEnabled() then
 		NotifyFailed(playerID, "trinity_sticker_bought")
 		return
 	end
@@ -470,6 +535,12 @@ function TrinityStickers:OnSaveWheel(event)
 	local playerID = event and (event.PlayerID or event.pid or event.player_id)
 	playerID = tonumber(playerID)
 	if playerID == nil then
+		return
+	end
+	if not self.USE_BACKEND then
+		EnsureOfflineState(playerID)
+		ApplyWheelSlots(playerID, SlotsFromEvent(event))
+		Publish(playerID)
 		return
 	end
 	local steamid = TrinityPlayerData.SteamID(playerID)
@@ -541,8 +612,9 @@ function TrinityStickers:GrantMany(playerID, keys)
 	if type(keys) ~= "table" or #keys == 0 then
 		return
 	end
+	EnsureOfflineState(playerID)
 
-	if not TrinityPlayerData.CanWrite() then
+	if not BackendEnabled() then
 		local state = self.state[playerID] or EmptyState()
 		for _, key in ipairs(keys) do
 			state.owned[key] = { quality = self.QUALITY_ELITE, copies = 0 }
@@ -615,7 +687,7 @@ function TrinityStickers:GrantLootbox(playerID)
 	if steamid == 0 then
 		return
 	end
-	if TrinityPlayerData.CanWrite() then
+	if BackendEnabled() then
 		Post("/v1/stickers/grant-lootbox", { steamid = steamid }, playerID)
 		return
 	end
@@ -631,7 +703,7 @@ function TrinityStickers:GrantDailyBox(playerID)
 	if self._dailyGranted[playerID] then
 		return
 	end
-	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
+	if not BackendEnabled() then
 		return
 	end
 	local steamid = TrinityPlayerData.SteamID(playerID)
@@ -652,7 +724,7 @@ function TrinityStickers:GrantWinBoxes()
 	if self._winGranted then
 		return
 	end
-	if not TrinityPlayerData or not TrinityPlayerData.CanWrite() then
+	if not BackendEnabled() then
 		DebugPrint("skip win lootboxes")
 		return
 	end
@@ -742,6 +814,14 @@ local function CommandPlayerID()
 	return -1
 end
 
+function TrinityStickers:OnOfflinePlayerEvent()
+	PublishOfflineAll()
+	-- PlayerID может стать валидным чуть позже события подключения.
+	Timers:CreateTimer(1, function()
+		PublishOfflineAll()
+	end)
+end
+
 function TrinityStickers:Init()
 	if self._initialized then
 		return
@@ -818,7 +898,14 @@ function TrinityStickers:Init()
 		end, "Show sticker and lootbox UI after warmup: trinity_sticker_ui <0|1>", FCVAR_CHEAT)
 	end
 
-	DebugPrint("init")
+	if not self.USE_BACKEND then
+		ListenToGameEvent("player_connect_full", Dynamic_Wrap(TrinityStickers, "OnOfflinePlayerEvent"), TrinityStickers)
+		ListenToGameEvent("player_reconnected", Dynamic_Wrap(TrinityStickers, "OnOfflinePlayerEvent"), TrinityStickers)
+		ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(TrinityStickers, "OnOfflinePlayerEvent"), TrinityStickers)
+		PublishOfflineAll()
+	end
+
+	DebugPrint("init", self.USE_BACKEND and "backend" or "offline")
 end
 
 return TrinityStickers

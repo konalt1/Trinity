@@ -1,0 +1,42 @@
+<!--
+  Trinity: улучшение предметов из инвентаря.
+  У лавки над предметом, который во что-то собирается, появляется плюсик. Клик по нему открывает
+  карточки всех предметов, в которые он собирается; клик по карточке — собрать (сервер: trinity_shop_upgrade).
+  Рецепты и цены — из shop_data.js магазина по категориям.
+-->
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/layout/custom_game/item_upgrade/item_upgrade.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/trinity_shop/shop_data.js" />
+		<include src="file://{resources}/layout/custom_game/item_upgrade/item_upgrade.js" />
+	</scripts>
+
+	<snippets>
+		<snippet name="UpgradeCard">
+			<Button class="UpgradeCard">
+				<Label id="UpgradeName" class="UpgradeName" />
+				<Panel id="UpgradeIconFrame" class="UpgradeIconFrame">
+					<DOTAItemImage id="UpgradeIcon" class="UpgradeIcon" hittest="false" />
+				</Panel>
+				<Label id="UpgradeDesc" class="UpgradeDesc" />
+				<Panel class="UpgradePrice" hittest="false">
+					<Label id="UpgradePriceLabel" class="UpgradePriceLabel" hittest="false" />
+					<Panel class="UpgradeGoldIcon" hittest="false" />
+				</Panel>
+			</Button>
+		</snippet>
+	</snippets>
+
+	<Panel class="ItemUpgradeRoot" hittest="false">
+		<Panel id="SlotHighlight" hittest="false" />
+		<Panel id="PlusLayer" hittest="false" />
+		<Panel id="UpgradePopup">
+			<Panel id="UpgradeCards" />
+		</Panel>
+		<!-- Хвостик окна поверх его нижней рамки, остриём к плюсику. -->
+		<Panel id="PopupCaret" hittest="false" />
+	</Panel>
+</root>

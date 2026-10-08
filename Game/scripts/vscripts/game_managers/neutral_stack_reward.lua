@@ -33,8 +33,11 @@ local SWEEP_INTERVAL = 0.5
 -- Отладка (переключается в игре, см. раздел "Отладка" внизу файла):
 --   DEBUG_CHAT    — итог каждого стака дублируется в чат;
 --   DEBUG_VERBOSE — в консоль: каждый перехваченный бафф и каждый агр.
-local DEBUG_CHAT = true
-local DEBUG_VERBOSE = true
+-- По умолчанию только в Workshop Tools: на плейтесте 2026-10-03 игроки видели отладку в чате союзников.
+-- В обычной игре включается командой «-stack debug 1» (нужен sv_cheats).
+local IN_TOOLS = IsInToolsMode ~= nil and IsInToolsMode() or false
+local DEBUG_CHAT = IN_TOOLS
+local DEBUG_VERBOSE = IN_TOOLS
 
 NeutralStackReward.debug = NeutralStackReward.debug or { chat = DEBUG_CHAT, verbose = DEBUG_VERBOSE }
 NeutralStackReward.stats = NeutralStackReward.stats or {}
@@ -391,20 +394,35 @@ end
 --
 -- Каждая застаканная волна запоминается. Волна жива, пока жив хотя бы один её крип
 -- (и он всё ещё нейтрал). Волны с точками появления ближе NOISE_CAMP_RADIUS — один лагерь.
--- Если в лагере NOISE_MIN_STACKS и больше живых волн, лагерь шумит: звук на месте лагеря
--- слышат все игроки, чей герой ближе NOISE_HEAR_RADIUS, в том числе сквозь туман войны.
--- Чем больше стаков, тем чаще и громче звук. Звуки — в soundevents/Trinity_sounds.vsndevts.
+-- Лагерь шумит уже с NOISE_MIN_STACKS (1) стака: толпа гудит тихо, с каждым стаком громче.
+--
+-- Звук трёхмерный и звучит в точке лагеря. Он отправляется каждому игроку
+-- (EmitSoundOnLocationForPlayer), поэтому не зависит от тумана войны и положения героя:
+-- громкость определяет только расстояние от камеры игрока до лагеря.
+--
+-- Клип нарезан на куски по 8 сек с вшитыми затуханиями 2 сек
+-- (content/sounds/stacked_camp/crowd_01..08.mp3). Каждые NOISE_INTERVAL сек
+-- запускается новый случайный кусок, соседние куски плавно перекрываются.
+-- Куски по очереди идут через CrowdN и CrowdN.Alt: новый экземпляр того же события
+-- может оборвать предыдущий, пока тот ещё затухает.
+-- Смена числа стаков вступает в силу со следующего куска, после зачистки лагеря
+-- последний кусок плавно затихает. Громкость ступеней — в
+-- soundevents/Trinity_sounds.vsndevts (Trinity.StackedCamp.CrowdN).
 -- ---------------------------------------------------------------------------
 
-local NOISE_MIN_STACKS = 3
+local NOISE_MIN_STACKS = 1
 local NOISE_CAMP_RADIUS = 600
-local NOISE_HEAR_RADIUS = 2500
-local NOISE_THINK = 0.5
--- Ступени по числу стаков: берётся последняя, у которой stacks <= текущему.
-local NOISE_TIERS = {
-	{ stacks = 3, sound = "Trinity.StackedCamp.Noise1", interval = 8 },
-	{ stacks = 4, sound = "Trinity.StackedCamp.Noise2", interval = 5 },
-	{ stacks = 5, sound = "Trinity.StackedCamp.Noise3", interval = 3 },
+local NOISE_THINK = 0.25
+-- Длина куска 8 сек, затухания по 2 сек: новый кусок через 6 сек.
+local NOISE_INTERVAL = 6
+-- Индекс = число стаков; больше последнего — последняя (самая громкая) ступень.
+local NOISE_LEVELS = {
+	"Trinity.StackedCamp.Crowd1",
+	"Trinity.StackedCamp.Crowd2",
+	"Trinity.StackedCamp.Crowd3",
+	"Trinity.StackedCamp.Crowd4",
+	"Trinity.StackedCamp.Crowd5",
+	"Trinity.StackedCamp.Crowd6",
 }
 
 function NeutralStackReward:RegisterWave(origin, units)
@@ -420,14 +438,11 @@ local function WaveAlive(wave)
 	return false
 end
 
-local function NoiseTier(stacks)
-	local tier = nil
-	for _, candidate in ipairs(NOISE_TIERS) do
-		if stacks >= candidate.stacks then
-			tier = candidate
-		end
+local function NoiseSound(stacks)
+	if stacks < NOISE_MIN_STACKS then
+		return nil
 	end
-	return tier
+	return NOISE_LEVELS[math.min(stacks, #NOISE_LEVELS)]
 end
 
 -- Живые волны, сгруппированные по лагерям.
@@ -458,6 +473,8 @@ function NeutralStackReward:NoisyCamps()
 	return camps
 end
 
+-- Звук в точке для каждого игрока: слышен независимо от тумана и героя,
+-- громкость движок считает от камеры.
 function NeutralStackReward:EmitNoise(origin, sound)
 	if not PlayerResource then
 		return 0
@@ -465,11 +482,8 @@ function NeutralStackReward:EmitNoise(origin, sound)
 	local heard = 0
 	for playerID = 0, 23 do
 		if PlayerResource:IsValidPlayerID(playerID) then
-			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
-			if IsValid(hero) and (hero:GetAbsOrigin() - origin):Length2D() <= NOISE_HEAR_RADIUS then
-				EmitSoundOnLocationForPlayer(sound, origin, playerID)
-				heard = heard + 1
-			end
+			EmitSoundOnLocationForPlayer(sound, origin, playerID)
+			heard = heard + 1
 		end
 	end
 	return heard
@@ -482,21 +496,28 @@ function NeutralStackReward:NoiseThink()
 	for _, camp in ipairs(self:NoisyCamps()) do
 		local key = string.format("%d:%d", Round(camp.origin.x / 100), Round(camp.origin.y / 100))
 		local previous = self._noise[key]
-		local tier = camp.stacks >= NOISE_MIN_STACKS and NoiseTier(camp.stacks) or nil
-		if tier then
+		local sound = NoiseSound(camp.stacks)
+		if sound then
 			local entry = previous or { next = now }
-			if not previous then
-				Log("camp at (%d, %d) is noisy: %d stacks", camp.origin.x, camp.origin.y, camp.stacks)
+			if not previous or previous.stacks ~= camp.stacks then
+				Log("camp at (%d, %d) noise: %d stacks -> %s", camp.origin.x, camp.origin.y, camp.stacks, sound)
 			end
-			if now >= entry.next then
-				local heard = self:EmitNoise(camp.origin, tier.sound)
-				Verbose("noise %s at (%d, %d): %d stacks, heard by %d", tier.sound, camp.origin.x, camp.origin.y, camp.stacks, heard)
-				entry.next = now + tier.interval
+			if now >= (entry.next or now) then
+				entry.alt = not entry.alt
+				if entry.alt then
+					sound = sound .. ".Alt"
+				end
+				local heard = self:EmitNoise(camp.origin, sound)
+				Verbose("noise %s at (%d, %d): %d stacks, players %d", sound, camp.origin.x, camp.origin.y, camp.stacks, heard)
+				entry.next = now + NOISE_INTERVAL
 			end
 			entry.stacks = camp.stacks
 			state[key] = entry
-		elseif previous then
-			Log("camp at (%d, %d) is quiet again: %d stacks", camp.origin.x, camp.origin.y, camp.stacks)
+		end
+	end
+	for key in pairs(self._noise) do
+		if not state[key] then
+			Log("camp %s is quiet again", key)
 		end
 	end
 	self._noise = state
@@ -545,6 +566,8 @@ end
 --   trinity_stack_verbose [0|1]   подробный лог: перехваченные баффы, агры
 --   trinity_stack_status          счётчики и состояние модуля
 --   trinity_stack_creeps [радиус] нейтралы рядом с героем и их баунти
+--   trinity_stack_noise           шумящие лагеря и играющие звуки
+--   trinity_stack_noisetest [N]   кусок шума для N стаков в точке героя (8 сек)
 --   trinity_stack_test [радиус]   выдать своему герою награду как за стак нейтралов рядом
 -- ---------------------------------------------------------------------------
 
@@ -613,7 +636,7 @@ NeutralStackReward.DebugCommands = {}
 local Commands = NeutralStackReward.DebugCommands
 
 Commands.help = function(self, ctx)
-	self:DebugOut(ctx, "commands: debug [0|1], verbose [0|1], status, creeps [radius], noise, test [radius]")
+	self:DebugOut(ctx, "commands: debug [0|1], verbose [0|1], status, creeps [radius], noise, noisetest [stacks], test [radius]")
 	self:DebugOut(ctx, "console: trinity_stack_<command>; chat: -stack <command>. dota_spawn_neutrals spawns camps now (cheats).")
 	self:DebugOut(ctx, "stack = engine's %s on the new wave; reward = %d%% gold / %d%% xp of that wave's bounty",
 		STACK_MODIFIER, Round(STACK_GOLD_SHARE * 100), Round(STACK_XP_SHARE * 100))
@@ -671,11 +694,25 @@ end
 Commands.noise = function(self, ctx)
 	local camps = self:NoisyCamps()
 	for _, camp in ipairs(camps) do
-		local tier = camp.stacks >= NOISE_MIN_STACKS and NoiseTier(camp.stacks) or nil
+		local sound = NoiseSound(camp.stacks)
 		self:DebugOut(ctx, "camp (%d, %d): %d stacks alive, %s", camp.origin.x, camp.origin.y, camp.stacks,
-			tier and string.format("NOISY %s every %ds", tier.sound, tier.interval) or "quiet")
+			sound and ("NOISY " .. sound) or "quiet")
 	end
-	self:DebugOut(ctx, "stacked camps: %d (noise from %d stacks, heard within %d)", #camps, NOISE_MIN_STACKS, NOISE_HEAR_RADIUS)
+	self:DebugOut(ctx, "stacked camps: %d (noise from %d stack, every %ds, volume by camera distance)",
+		#camps, NOISE_MIN_STACKS, NOISE_INTERVAL)
+end
+
+-- Послушать ступень громкости: noisetest <стаки 1..6> — один кусок (8 сек) в точке героя.
+Commands.noisetest = function(self, ctx, arg)
+	local hero = self:DebugHero(ctx)
+	if not hero then
+		self:DebugOut(ctx, "noisetest: no hero")
+		return
+	end
+	local stacks = math.max(1, tonumber(arg) or 1)
+	local sound = NoiseSound(stacks)
+	self:EmitNoise(hero:GetAbsOrigin(), sound)
+	self:DebugOut(ctx, "noisetest: %s (%d stacks) at %s", sound, stacks, hero:GetUnitName())
 end
 
 Commands.test = function(self, ctx, arg)

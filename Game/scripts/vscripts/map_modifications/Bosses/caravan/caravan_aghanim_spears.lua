@@ -194,7 +194,6 @@ function caravan_aghanim_spears:Precache(context)
     local assets = Assets()
     PrecacheResource("model", SPEAR_MODEL, context)
     PrecacheUnitByNameSync(SPEAR_UNIT, context)
-    PrecacheResource("particle", assets.PARTICLE.spear_burst, context)
     PrecacheResource("particle", assets.PARTICLE.spear_ground, context)
     PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_mars.vsndevts", context)
 end
@@ -303,21 +302,6 @@ function caravan_aghanim_spears:DestroyTelegraph(dummy)
     self:DestroyFx(dummy.spearGround, false)
     dummy.spearTelegraph = nil
     dummy.spearGround = nil
-end
-
-function caravan_aghanim_spears:PlayImpact(target)
-    local origin
-    if IsValidUnit(target) then
-        origin = target:GetAbsOrigin()
-    elseif target then
-        origin = target
-    else
-        return
-    end
-
-    local fx = ParticleManager:CreateParticle(Assets().PARTICLE.spear_burst, PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:ReleaseParticleIndex(fx)
 end
 
 function caravan_aghanim_spears:PlaceTelegraph(dummy)
@@ -915,8 +899,6 @@ function modifier_caravan_aghanim_spear_dummy:Impale(hero)
         DebugDrawText(hero:GetAbsOrigin() + Vector(0, 0, 80), "impale #" .. SpearLabel(parent), false, 1.5)
     end
 
-    ability:PlayImpact(hero)
-
     hero:AddNewModifier(caster, ability, "modifier_caravan_aghanim_spear_impale", {
         dummy = parent:entindex(),
         dir_x = self.dir.x,
@@ -972,10 +954,6 @@ function modifier_caravan_aghanim_spear_dummy:Stick(hitObstacle, kind)
         end
         if IsValidUnit(self.victim) then
             self.victim:EmitSound("Hero_Mars.Spear.Root")
-            local ability = self:GetAbility()
-            if ability and ability.PlayImpact then
-                ability:PlayImpact(self.victim)
-            end
         end
         self:ReleaseVictim(true)
         self:SetDuration(self.stun, true)
@@ -1056,10 +1034,36 @@ function modifier_caravan_aghanim_spear_impale:OnDestroy()
     end
 
     local parent = self:GetParent()
-    if IsValidUnit(parent) then
-        parent:RemoveHorizontalMotionController(self)
-        FindClearSpaceForUnit(parent, parent:GetAbsOrigin(), false)
+    if not IsValidUnit(parent) then
+        return
     end
+    -- После прерывания движок уже снял контроллер: повторно не снимаем.
+    if not self.motionLost then
+        parent:RemoveHorizontalMotionController(self)
+    end
+    -- Раздвигание — в следующем кадре, вне колбэков движения движка.
+    Timers:CreateTimer(0, function()
+        if IsValidUnit(parent) and parent:IsAlive() then
+            FindClearSpaceForUnit(parent, parent:GetAbsOrigin(), false)
+        end
+        return nil
+    end)
+end
+
+-- Уничтожение из колбэков движения (UpdateHorizontalMotion, OnHorizontalMotionInterrupted)
+-- откладываем на кадр: снимать контроллер, пока движок по нему проходит, небезопасно.
+-- Подозрение на краш сервера с плейтеста 2026-10-03: копьё + Catchy Lick / блинк по пронзённому герою.
+function modifier_caravan_aghanim_spear_impale:DeferDestroy()
+    if self.destroyQueued then
+        return
+    end
+    self.destroyQueued = true
+    Timers:CreateTimer(0, function()
+        if not self:IsNull() then
+            self:Destroy()
+        end
+        return nil
+    end)
 end
 
 function modifier_caravan_aghanim_spear_impale:CheckState()
@@ -1087,22 +1091,19 @@ function modifier_caravan_aghanim_spear_impale:Pin(duration)
 end
 
 function modifier_caravan_aghanim_spear_impale:FollowDummy()
-    if self.pinned then
+    if self.pinned or self.motionLost or self.destroyQueued then
         return
     end
 
     local parent = self:GetParent()
-    if not IsValidUnit(parent) then
-        self:Destroy()
+    if not IsValidUnit(parent) or not IsValidUnit(self.dummy) then
+        self:DeferDestroy()
         return
     end
 
-    if not IsValidUnit(self.dummy) then
-        self:Destroy()
-        return
-    end
-
-    local pos = self.dummy.flyPos or self.dummy:GetAbsOrigin()
+    -- Копия: flyPos копья не трогаем.
+    local source = self.dummy.flyPos or self.dummy:GetAbsOrigin()
+    local pos = Vector(source.x, source.y, 0)
     pos.z = GetGroundHeight(pos, parent)
     parent:SetAbsOrigin(pos)
 end
@@ -1112,8 +1113,13 @@ function modifier_caravan_aghanim_spear_impale:UpdateHorizontalMotion(me, dt)
 end
 
 function modifier_caravan_aghanim_spear_impale:OnHorizontalMotionInterrupted()
-    if IsServer() and not self.pinned then
-        self:Destroy()
+    if not IsServer() then
+        return
+    end
+    -- Другой эффект перехватил движение (притяжение, толчок, телепорт): больше не двигаем героя.
+    self.motionLost = true
+    if not self.pinned then
+        self:DeferDestroy()
     end
 end
 

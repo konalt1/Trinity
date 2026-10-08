@@ -1,0 +1,251 @@
+/* Trinity: улучшение предметов из инвентаря — плюсик над слотом и окно вариантов (классический стиль Доты). */
+
+.ItemUpgradeRoot
+{
+	width: 100%;
+	height: 100%;
+}
+
+#PlusLayer
+{
+	width: 100%;
+	height: 100%;
+}
+
+/* ---------------------------------------------------------------- плюсик: полоса во всю ширину слота (ширина и позиция — из JS) */
+
+.UpgradePlus
+{
+	horizontal-align: left;
+	vertical-align: top;
+	height: 18px;
+	border: 1px solid #2b1d06;
+	border-radius: 3px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #b9a27a ), to( #5e5140 ) );
+	box-shadow: #000000cc 0px 1px 3px 0px;
+	visibility: collapse;
+	opacity: 0.9;
+	transition-property: brightness, opacity;
+	transition-duration: 0.12s;
+}
+
+.UpgradePlus.Shown
+{
+	visibility: visible;
+}
+
+.UpgradePlus Label
+{
+	horizontal-align: center;
+	vertical-align: center;
+	margin-top: -3px;
+	font-size: 20px;
+	font-weight: black;
+	color: #2a1a02;
+	text-shadow: 0px 1px 0px 1.0 #ffe9a866;
+}
+
+/* Хватает золота хотя бы на один вариант — яркое золото и мягкое свечение. */
+.UpgradePlus.CanAfford
+{
+	opacity: 1;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #f6dc8e ), color-stop( 0.5, #d4a443 ), to( #8d6520 ) );
+	animation-name: UpgradePlusGlow;
+	animation-duration: 1.6s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+
+.UpgradePlus:hover
+{
+	brightness: 1.3;
+}
+
+.UpgradePlus.Open
+{
+	brightness: 1.15;
+	border: 1px solid #e8c56a;
+	animation-name: none;
+	box-shadow: #ffd46acc 0px 0px 6px 1px;
+}
+
+@keyframes 'UpgradePlusGlow'
+{
+	0% { box-shadow: #000000cc 0px 1px 3px 0px; }
+	50% { box-shadow: #ffcf5aaa 0px 0px 8px 1px; }
+	100% { box-shadow: #000000cc 0px 1px 3px 0px; }
+}
+
+/* ---------------------------------------------------------------- окно вариантов */
+
+#UpgradePopup
+{
+	horizontal-align: left;
+	vertical-align: bottom;
+	padding: 6px;
+	flow-children: down;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #1d2125f7 ), to( #0b0d0ff7 ) );
+	border: 2px solid #c9a44a;
+	box-shadow: #000000e6 0px 0px 14px 2px;
+	visibility: collapse;
+}
+
+#UpgradePopup.Visible
+{
+	visibility: visible;
+	animation-name: UpgradePopupIn;
+	animation-duration: 0.12s;
+	animation-timing-function: ease-out;
+}
+
+@keyframes 'UpgradePopupIn'
+{
+	0% { opacity: 0; transform: translateY( 8px ); }
+	100% { opacity: 1; transform: translateY( 0px ); }
+}
+
+#UpgradeCards
+{
+	flow-children: down;
+}
+
+.UpgradeRow
+{
+	horizontal-align: center;
+	flow-children: right;
+}
+
+.UpgradeCard
+{
+	width: 128px;
+	height: 172px;
+	margin: 2px;
+	flow-children: down;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2a2f35 ), to( #15181b ) );
+	border: 1px solid #6b5a2e;
+	transition-property: background-color, border, brightness;
+	transition-duration: 0.1s;
+}
+
+.UpgradeCard:hover
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3a4047 ), to( #1d2126 ) );
+	border: 1px solid #f1d37a;
+}
+
+.UpgradeCard:active
+{
+	brightness: 0.85;
+}
+
+/* Ширина по тексту + horizontal-align: центрирует и длинные имена (text-align у ужатой nowrap-метки не работает). */
+.UpgradeName
+{
+	width: fit-children;
+	max-width: 120px;
+	horizontal-align: center;
+	margin-top: 6px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: semi-bold;
+	color: #e9e3d3;
+	text-overflow: shrink;
+	white-space: nowrap;
+	text-shadow: 1px 1px 0px 1.0 #000000;
+}
+
+.UpgradeIconFrame
+{
+	width: 72px;
+	height: 52px;
+	horizontal-align: center;
+	margin-top: 6px;
+	border: 1px solid #000000;
+	box-shadow: #000000aa 0px 0px 4px 0px;
+}
+
+.UpgradeIcon
+{
+	width: 100%;
+	height: 100%;
+}
+
+.UpgradeDesc
+{
+	width: 118px;
+	height: 42px;
+	horizontal-align: center;
+	margin-top: 6px;
+	text-align: center;
+	font-size: 11px;
+	color: #d9a44e;
+	text-overflow: shrink;
+	text-shadow: 1px 1px 0px 1.0 #000000;
+}
+
+.UpgradePrice
+{
+	horizontal-align: center;
+	margin-top: 5px;
+	padding: 1px 10px 1px 10px;
+	flow-children: right;
+	border: 2px solid #c9a44a;
+	background-color: #00000066;
+}
+
+.UpgradePriceLabel
+{
+	vertical-align: center;
+	font-family: monospaceNumbersFont;
+	font-size: 16px;
+	font-weight: bold;
+	color: #72d66b;
+	text-shadow: 1px 1px 0px 1.0 #000000;
+}
+
+.UpgradeCard.CantAfford .UpgradePriceLabel
+{
+	color: #e0463a;
+}
+
+.UpgradeGoldIcon
+{
+	width: 14px;
+	height: 14px;
+	margin-left: 3px;
+	vertical-align: center;
+	background-image: url( "s2r://panorama/images/hud/icon_gold_psd.vtex" );
+	background-size: 100% 100%;
+}
+
+/* ---------------------------------------------------------------- связь окна с плюсиком */
+
+/* Хвостик: квадрат с золотыми правой и нижней рамками, повёрнут на 45° — остриё вниз, к плюсику.
+   Фон — цвет низа окна, так что хвостик сливается с окном и перекрывает его рамку. */
+#PopupCaret
+{
+	horizontal-align: left;
+	vertical-align: top;
+	width: 12px;
+	height: 12px;
+	background-color: #0b0d0f;
+	border-right: 2px solid #c9a44a;
+	border-bottom: 2px solid #c9a44a;
+	transform: rotateZ( 45deg );
+	visibility: collapse;
+}
+
+/* Слот, чьи улучшения показаны: золотая обводка того же цвета, что и рамка окна. */
+#SlotHighlight
+{
+	horizontal-align: left;
+	vertical-align: top;
+	border: 2px solid #e8c56a;
+	visibility: collapse;
+}
+
+#PopupCaret.Visible,
+#SlotHighlight.Visible
+{
+	visibility: visible;
+}

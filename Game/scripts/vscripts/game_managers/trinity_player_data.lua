@@ -163,7 +163,7 @@ function TrinityPlayerData:SaveMatch()
 
 	local players = {}
 	for playerID, profile in pairs(self.profiles) do
-		if profile.steamid and profile.steamid > 0 then
+		if profile.steamid and profile.steamid > 0 and profile.loaded then
 			players[#players + 1] = {
 				steamid = profile.steamid,
 				games = (tonumber(profile.games) or 0) + 1,

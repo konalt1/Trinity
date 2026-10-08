@@ -656,6 +656,18 @@ function GameMode:ModifierGainedFilter(data)
 			return false
 		end
 	end
+	-- Бун Веномансера (items/caravan_boons.lua): дебаффы выбранной способности длятся дольше.
+	if CaravanBoons and CaravanBoons.ModifierGainedFilter then
+		CaravanBoons.ModifierGainedFilter(data)
+	end
+	return true
+end
+
+-- Лечение: бун Холи локета (items/caravan_boons.lua) усиливает лечение выбранной способности.
+function GameMode:HealingFilter(data)
+	if CaravanBoons and CaravanBoons.HealingFilter then
+		CaravanBoons.HealingFilter(data)
+	end
 	return true
 end
 
@@ -664,6 +676,16 @@ function GameMode:ExecuteOrderFilter(data)
 		local ok, err = pcall(NeutralStackReward.OnOrder, NeutralStackReward, data)
 		if not ok then
 			print("[NeutralStack] order hook error: " .. tostring(err))
+		end
+	end
+
+	-- Буны: подбор только героем в пустой нейтральный слот, выложить/передать нельзя.
+	if NeutralBoons and NeutralBoons.ExecuteOrderFilter then
+		local ok, result = pcall(NeutralBoons.ExecuteOrderFilter, NeutralBoons, data)
+		if not ok then
+			print("[NeutralBoons] order filter error: " .. tostring(result))
+		elseif result == false then
+			return false
 		end
 	end
 
@@ -683,6 +705,10 @@ function GameMode:ExecuteOrderFilter(data)
 
 	if MortimerBoss and MortimerBoss.DebugAttackOrder then
 		MortimerBoss:DebugAttackOrder(data)
+	end
+
+	if PrimalBeastBossHandleOrder and PrimalBeastBossHandleOrder(data) == false then
+		return false
 	end
 
 	if DawnbreakerHandleOrder and DawnbreakerHandleOrder(data) == false then
@@ -730,6 +756,9 @@ function GameMode:OnEntityKilled(keys)
 	local unit_name = unit:GetUnitName()
 	if MortimerBoss and MortimerBoss.OnEntityKilled then
 		MortimerBoss:OnEntityKilled(unit, keys)
+	end
+	if PrimalBeastBoss and PrimalBeastBoss.OnEntityKilled then
+		PrimalBeastBoss:OnEntityKilled(unit, keys)
 	end
 	if CourierCaravan and CourierCaravan.OnEntityKilled then
 		CourierCaravan:OnEntityKilled(unit)

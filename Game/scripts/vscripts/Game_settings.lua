@@ -14,15 +14,15 @@ ALLOW_SAME_HERO_SELECTION = false        -- Should we let people select the same
 ENABLE_ALTERNATE_HERO_GRIDS = false      -- Should players be allowed to use alternate hero grids (Dota+, etc.)
 FREE_COURIER_ENABLED = true
 
-HERO_SELECTION_TIME = 60.0              -- Draft window; unpicked players are randomed at the end (capped by WARMUP_TIME + WARMUP_POST_PREGAME_TIME)
-WARMUP_TIME = 60.0                      -- Warmup sandbox length from draft start; independent of HERO_SELECTION_TIME
+HERO_SELECTION_TIME = 60.0              -- Draft window; ends early when everyone picked, unpicked players are randomed at the end
+WARMUP_TIME = 60.0                      -- Full warmup length counted from the end of the draft (sandbox is already open during the draft)
 HERO_STRATEGY_TIME = 0					-- Skip strategy: a picked player goes to the map immediately
 HERO_SHOWCASE_TIME = 0					-- Shocase time on start game
 WARMUP_POST_PREGAME_TIME = 30.0         -- After warmup the clock is -0:30 until creeps at 0:00
 
 GAMESETUP_lOCK = false
 GAMESETUP_TIME = 15
-PRE_GAME_TIME = WARMUP_POST_PREGAME_TIME -- Native pre-game after pick; DraftSpawn keeps the clock at -(WARMUP_TIME + WARMUP_POST_PREGAME_TIME) at draft start
+PRE_GAME_TIME = WARMUP_POST_PREGAME_TIME -- Native pre-game after pick; DraftSpawn starts the clock at -(HERO_SELECTION_TIME + WARMUP_TIME + WARMUP_POST_PREGAME_TIME)
 POST_GAME_TIME = 30.0                   -- How long should we let people look at the scoreboard before closing the server automatically?
 TREE_REGROW_TIME = 180.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
 
@@ -39,7 +39,7 @@ RUNE_SPAWN_TIME = 999999                -- Disable vanilla rune cycle (custom ru
 RUNE_SPAWN_TIME_AFTER_FIRST = 999999    -- Kept large to avoid any engine-side interval switch
 CUSTOM_BUYBACK_COST_ENABLED = false     -- Should we use a custom buyback cost setting?
 CUSTOM_BUYBACK_COOLDOWN_ENABLED = true   -- Should we use a custom buyback time?
-CUSTOM_BUYBACK_COOLDOWN = 60   -- Кулдаун байбека, сек. Его же использует статуя байбека (game_managers/buyback_statues.lua).
+CUSTOM_BUYBACK_COOLDOWN = 360  -- Кулдаун байбека, сек. Его же использует статуя байбека (game_managers/buyback_statues.lua).
 BUYBACK_ENABLED = true                 -- Should we allow people to buyback when they die?
 
 

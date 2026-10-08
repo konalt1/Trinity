@@ -1,0 +1,46 @@
+<!--
+  Trinity: выбор способности для бунов каравана с выбором (items/caravan_boons.lua, CHOICE):
+  «Два заряда», «Вампиризм», «Ускорение». Имя папки и событий осталось от первого такого буна.
+  Сервер открывает окно событием trinity_boon_charges_open (бун, предмет, цель, подходящие способности),
+  клик по способности — trinity_boon_charges_pick, ответ — trinity_boon_charges_result.
+  Бун тратится при применении; пока способность не выбрана, у героя-цели висит видимый
+  modifier_<бун>_pending, окно получает игрок этого героя. Отмены нет: окно можно только свернуть.
+  Окно стоит над инвентарём справа (правый край = правый край inventory_list) и появляется свёрнутым
+  в плашку; плашка разворачивает окно, кнопка-стрелка в заголовке снова сворачивает.
+-->
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/layout/custom_game/boon_charges/boon_charges.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/layout/custom_game/boon_charges/boon_charges.js" />
+	</scripts>
+
+	<Panel class="BoonChargesLayer" hittest="false">
+		<Panel id="BoonChargesAnchor" hittest="false">
+			<Panel id="BoonChargesRoot">
+				<Panel class="BoonChargesHeader" hittest="false">
+					<DOTAItemImage id="BoonChargesItemIcon" class="BoonChargesItemIcon" itemname="item_boon_twin_charges" hittest="false" />
+					<Label id="BoonChargesTitle" class="BoonChargesTitle" text="" hittest="false" />
+				</Panel>
+				<Button id="BoonChargesCollapse" class="BoonChargesArrowButton">
+					<Panel class="BoonChargesChevron Down" hittest="false" />
+				</Button>
+				<Label id="BoonChargesHint" class="BoonChargesHint" text="" hittest="false" />
+				<Panel id="BoonChargesAbilities" />
+				<Label id="BoonChargesError" text="#trinity_boon_charges_failed" hittest="false" />
+			</Panel>
+			<Button id="BoonChargesTab">
+				<DOTAItemImage id="BoonChargesTabIcon" class="BoonChargesTabIcon" itemname="item_boon_twin_charges" hittest="false" />
+				<Panel class="BoonChargesTabText" hittest="false">
+					<Label id="BoonChargesTabTitle" class="BoonChargesTabTitle" text="" hittest="false" />
+					<Label class="BoonChargesTabHint" text="#trinity_boon_choice_collapsed" hittest="false" />
+				</Panel>
+				<Panel class="BoonChargesArrowButton Static" hittest="false">
+					<Panel class="BoonChargesChevron Up" hittest="false" />
+				</Panel>
+			</Button>
+		</Panel>
+	</Panel>
+</root>

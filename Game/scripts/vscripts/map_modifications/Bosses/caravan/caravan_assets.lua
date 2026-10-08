@@ -15,7 +15,6 @@ CaravanAssets.PARTICLE = {
     spear_ground = "particles/creatures/aghanim/aghanim_beam_channel.vpcf",
     shard_proj = "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf",
     spear = "particles/units/heroes/hero_mars/mars_spear.vpcf",
-    spear_burst = "particles/units/heroes/hero_mars/mars_spear_impact.vpcf",
     spear_spawn = "particles/units/heroes/hero_mars/mars_shield_bash.vpcf",
 }
 
@@ -227,7 +226,21 @@ function CaravanAssets:Precache(context)
                 end
             end
         end
+        -- Буны стадий (стат-курьеры несут случайный бун из CaravanLoot.BOONS).
+        for _, pool in ipairs(CaravanLoot.BOONS or {}) do
+            for _, name in ipairs(pool) do
+                PrecacheLootItem(name)
+            end
+        end
     end
+    -- Частицы бунов: вампиризм и ускорение от выбранной способности (items/caravan_boons.lua).
+    PrecacheResource("particle", "particles/items3_fx/octarine_core_lifesteal.vpcf", context)
+    PrecacheResource("particle", "particles/items2_fx/phase_boots.vpcf", context)
+    PrecacheResource("particle", "particles/generic_gameplay/generic_purge.vpcf", context)
+    -- Синий знак над лесным крипом, который несёт бун (modifiers/modifier_neutral_boon_carrier.lua).
+    PrecacheResource("particle", "particles/neutral_boons/boon_carrier_mark.vpcf", context)
+    -- Метка лесного крипа с буном по умолчанию (вид red, modifier_neutral_boon_carrier_red).
+    PrecacheResource("particle", "particles/map/boons/bounty_hunter_track_shield_mark.vpcf", context)
     PrecacheUnitByNameSync("npc_caravan_aghanim", context)
     PrecacheUnitByNameSync("npc_caravan_spear", context)
     PrecacheUnitByNameSync("npc_caravan_shard", context)

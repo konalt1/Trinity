@@ -79,7 +79,7 @@
 	{
 		type = "dota_src1_3d"
 		vsnd_files = "sounds/wheel/watson.vsnd"
-		volume = 1
+		volume = 3
 	}
 
 	Wheel.Neurodance =
@@ -162,30 +162,90 @@
 		volume_fade_out = 0.3
 	}
 
-	Trinity.StackedCamp.Noise1 =
+	// Stacked camp crowd noise: CrowdN = N stacks (6 = 6+). 3D at the camp: loudness follows the camera, not the hero.
+	// Each file is an 8 s piece with baked 2 s equal-power fades; Lua re-emits every 6 s, alternating CrowdN / CrowdN.Alt
+	// so a new piece never cuts off the previous one of the same event. Keep volumes of a pair equal.
+	Trinity.StackedCamp.Crowd1 =
 	{
 		type = "dota_src1_3d"
-		vsnd_files = "sounds/weapons/creep/roshan/revenge_roar_layer.vsnd"
-		volume = 1.5
-		vsnd_distance_min = 600.0
-		vsnd_distance_max = 2500.0
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 0.8
 	}
 
-	Trinity.StackedCamp.Noise2 =
+	Trinity.StackedCamp.Crowd1.Alt =
 	{
 		type = "dota_src1_3d"
-		vsnd_files = "sounds/weapons/creep/roshan/revenge_roar_layer.vsnd"
-		volume = 2.5
-		vsnd_distance_min = 600.0
-		vsnd_distance_max = 2500.0
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 0.8
 	}
 
-	Trinity.StackedCamp.Noise3 =
+	Trinity.StackedCamp.Crowd2 =
 	{
 		type = "dota_src1_3d"
-		vsnd_files = "sounds/weapons/creep/roshan/revenge_roar_layer.vsnd"
-		volume = 4.0
-		vsnd_distance_min = 600.0
-		vsnd_distance_max = 2500.0
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 1.05
+	}
+
+	Trinity.StackedCamp.Crowd2.Alt =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 1.05
+	}
+
+	Trinity.StackedCamp.Crowd3 =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 1.35
+	}
+
+	Trinity.StackedCamp.Crowd3.Alt =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 1.35
+	}
+
+	Trinity.StackedCamp.Crowd4 =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 1.75
+	}
+
+	Trinity.StackedCamp.Crowd4.Alt =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 1.75
+	}
+
+	Trinity.StackedCamp.Crowd5 =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 2.3
+	}
+
+	Trinity.StackedCamp.Crowd5.Alt =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 2.3
+	}
+
+	Trinity.StackedCamp.Crowd6 =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 3.0
+	}
+
+	Trinity.StackedCamp.Crowd6.Alt =
+	{
+		type = "dota_src1_3d"
+		vsnd_files = [ "sounds/stacked_camp/crowd_01.vsnd", "sounds/stacked_camp/crowd_02.vsnd", "sounds/stacked_camp/crowd_03.vsnd", "sounds/stacked_camp/crowd_04.vsnd", "sounds/stacked_camp/crowd_05.vsnd", "sounds/stacked_camp/crowd_06.vsnd", "sounds/stacked_camp/crowd_07.vsnd", "sounds/stacked_camp/crowd_08.vsnd" ]
+		volume = 3.0
 	}
 }

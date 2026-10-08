@@ -14,6 +14,12 @@ LinkLuaModifier("modifier_caravan_aghanim_shard_slow", "map_modifications/Bosses
 LinkLuaModifier("modifier_primal_beast_boss_mountable_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_primal_beast_boss_rider_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_primal_beast_boss_roll_trinity", "map_modifications/Bosses/primal_beast/primal_beast_boss", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_pathway_debug_speed", "map_modifications/Bosses/modifier_pathway_debug_speed", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_catchy_lick_buff", "abilities/largo/largo_catchy_lick", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_catchy_lick_pull", "abilities/largo/largo_catchy_lick", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_largo_frogstomp_debuff", "abilities/largo/largo_frogstomp", LUA_MODIFIER_MOTION_NONE)
+-- Метка лесного крипа с буном (game_managers/neutral_boons.lua): ссылка нужна и клиенту, иначе он пишет
+-- «Attempted to create unknown modifier type» и эффект метки не рисуется.
+LinkLuaModifier("modifier_neutral_boon_carrier", "modifiers/modifier_neutral_boon_carrier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_neutral_boon_carrier_red", "modifiers/modifier_neutral_boon_carrier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_neutral_boon_carrier_aegis", "modifiers/modifier_neutral_boon_carrier", LUA_MODIFIER_MOTION_NONE)

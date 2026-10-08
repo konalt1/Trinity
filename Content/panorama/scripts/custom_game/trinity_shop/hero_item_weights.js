@@ -10,6 +10,19 @@
 //   item_iron_talon      = max(Quelling Blade × 0.6, Hand of Midas × 0.5)
 //   item_minotaur_horn   = Black King Bar × 0.6
 //   item_fallen_sky      = max(Arcane Blink, Meteor Hammer) — заменил Arcane Blink
+// Кастомные предметы Trinity (2026-10-07; разбор на странице «Веса кастомных предметов»):
+//   item_havoc_hammer       = max(Overwhelming Blink × 0.6, Echo Sabre × 0.4), героям не силы × 0.3
+//   item_giants_ring        = max(Heart × 0.6, Overwhelming Blink × 0.6), героям не силы × 0.3
+//   item_spider_legs        = Phase Boots × 0.3
+//   item_desolator_2        = Desolator × 0.5
+//   item_chipped_vest       = Blade Mail × 0.6
+//   item_poor_mans_shield   = Vanguard × 0.7
+//   item_divine_regalia     = max(Daedalus × 0.5, Divine Rapier × 1.5)
+//   item_ballista           = max(Hurricane Pike, Dragon Lance × 0.5), героям ближнего боя × 0.3
+//   item_elven_tunic        = Butterfly × 0.6
+//   item_crippling_crossbow = max(Nullifier, Dagon) × 0.3
+//   item_ultimate_scepter_2 = Aghanim's Scepter × 0.2 (Aghanim's Blessing)
+//   Атрибут и тип атаки героев — ванильные (Largo: сила, ближний бой — не сверено).
 var TRINITY_HERO_ITEM_WEIGHTS = {
  "npc_dota_hero_chen": {
   "item_aghanims_shard": 0.5431,
@@ -145,7 +158,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_cloak_of_flames": 0.0006,
   "item_disperser": 0.0003,
   "item_abyssal_blade": 0.0002,
-  "item_fallen_sky": 0.0151
+  "item_fallen_sky": 0.0151,
+  "item_havoc_hammer": 0.0003,
+  "item_giants_ring": 0.0003,
+  "item_spider_legs": 0.0034,
+  "item_desolator_2": 0.0108,
+  "item_chipped_vest": 0.004,
+  "item_poor_mans_shield": 0.0058,
+  "item_divine_regalia": 0.0033,
+  "item_ballista": 0.0064,
+  "item_elven_tunic": 0.0009,
+  "item_crippling_crossbow": 0.0007,
+  "item_ultimate_scepter_2": 0.0364
  },
  "npc_dota_hero_dawnbreaker": {
   "item_phase_boots": 0.5234,
@@ -282,7 +306,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_helm_of_the_overlord": 0.0001,
   "item_angels_demise": 0.0001,
   "item_grove_bow": 0.0001,
-  "item_fallen_sky": 0.0022
+  "item_fallen_sky": 0.0022,
+  "item_havoc_hammer": 0.0212,
+  "item_giants_ring": 0.0104,
+  "item_spider_legs": 0.157,
+  "item_desolator_2": 0.1079,
+  "item_chipped_vest": 0.0461,
+  "item_poor_mans_shield": 0.0015,
+  "item_divine_regalia": 0.0147,
+  "item_ballista": 0.0,
+  "item_elven_tunic": 0.0005,
+  "item_crippling_crossbow": 0.0073,
+  "item_ultimate_scepter_2": 0.0253
  },
  "npc_dota_hero_doom_bringer": {
   "item_phase_boots": 0.4706,
@@ -421,7 +456,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_hurricane_pike": 0.0002,
   "item_holy_locket": 0.0001,
   "item_hydras_breath": 0.0001,
-  "item_fallen_sky": 0.0038
+  "item_fallen_sky": 0.0038,
+  "item_havoc_hammer": 0.0443,
+  "item_giants_ring": 0.0443,
+  "item_spider_legs": 0.1412,
+  "item_desolator_2": 0.0008,
+  "item_chipped_vest": 0.0168,
+  "item_poor_mans_shield": 0.0024,
+  "item_divine_regalia": 0.0025,
+  "item_ballista": 0.0001,
+  "item_elven_tunic": 0.0007,
+  "item_crippling_crossbow": 0.0009,
+  "item_ultimate_scepter_2": 0.0526
  },
  "npc_dota_hero_ember_spirit": {
   "item_aghanims_shard": 0.5241,
@@ -560,7 +606,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_ring_of_regen": 0.0001,
   "item_helm_of_the_overlord": 0.0001,
   "item_holy_locket": 0.0001,
-  "item_fallen_sky": 0.0176
+  "item_fallen_sky": 0.0176,
+  "item_havoc_hammer": 0.0001,
+  "item_giants_ring": 0.0001,
+  "item_spider_legs": 0.1492,
+  "item_desolator_2": 0.0111,
+  "item_chipped_vest": 0.0092,
+  "item_poor_mans_shield": 0.0007,
+  "item_divine_regalia": 0.0136,
+  "item_ballista": 0.0001,
+  "item_elven_tunic": 0.0005,
+  "item_crippling_crossbow": 0.0019,
+  "item_ultimate_scepter_2": 0.0952
  },
  "npc_dota_hero_furion": {
   "item_power_treads": 0.4099,
@@ -699,7 +756,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_bfury": 0.0001,
   "item_bloodstone": 0.0001,
   "item_harpoon": 0.0001,
-  "item_fallen_sky": 0.0109
+  "item_fallen_sky": 0.0109,
+  "item_havoc_hammer": 0.0,
+  "item_giants_ring": 0.0002,
+  "item_spider_legs": 0.0016,
+  "item_desolator_2": 0.0403,
+  "item_chipped_vest": 0.0123,
+  "item_poor_mans_shield": 0.0003,
+  "item_divine_regalia": 0.0852,
+  "item_ballista": 0.2011,
+  "item_elven_tunic": 0.0542,
+  "item_crippling_crossbow": 0.0057,
+  "item_ultimate_scepter_2": 0.0269
  },
  "npc_dota_hero_juggernaut": {
   "item_bfury": 0.5356,
@@ -832,7 +900,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_shawl": 0.0001,
   "item_hurricane_pike": 0.0001,
   "item_grove_bow": 0.0001,
-  "item_fallen_sky": 0.0007
+  "item_fallen_sky": 0.0007,
+  "item_havoc_hammer": 0.0001,
+  "item_giants_ring": 0.0001,
+  "item_spider_legs": 0.0402,
+  "item_desolator_2": 0.0027,
+  "item_chipped_vest": 0.0003,
+  "item_poor_mans_shield": 0.0002,
+  "item_divine_regalia": 0.0108,
+  "item_ballista": 0.0,
+  "item_elven_tunic": 0.2668,
+  "item_crippling_crossbow": 0.0153,
+  "item_ultimate_scepter_2": 0.0865
  },
  "npc_dota_hero_largo": {
   "item_aghanims_shard": 0.5717,
@@ -964,7 +1043,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_butterfly": 0.0002,
   "item_moon_shard": 0.0002,
   "item_skadi": 0.0001,
-  "item_fallen_sky": 0.0496
+  "item_fallen_sky": 0.0496,
+  "item_havoc_hammer": 0.0009,
+  "item_giants_ring": 0.0044,
+  "item_spider_legs": 0.076,
+  "item_desolator_2": 0.001,
+  "item_chipped_vest": 0.0087,
+  "item_poor_mans_shield": 0.0045,
+  "item_divine_regalia": 0.0032,
+  "item_ballista": 0.0004,
+  "item_elven_tunic": 0.0001,
+  "item_crippling_crossbow": 0.0004,
+  "item_ultimate_scepter_2": 0.0761
  },
  "npc_dota_hero_lich": {
   "item_aghanims_shard": 0.5527,
@@ -1097,7 +1187,17 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_manta": 0.0001,
   "item_swift_blink": 0.0001,
   "item_cloak_of_flames": 0.0001,
-  "item_fallen_sky": 0.0073
+  "item_fallen_sky": 0.0073,
+  "item_havoc_hammer": 0.0001,
+  "item_giants_ring": 0.0002,
+  "item_spider_legs": 0.0003,
+  "item_desolator_2": 0.0003,
+  "item_chipped_vest": 0.0005,
+  "item_poor_mans_shield": 0.0003,
+  "item_divine_regalia": 0.001,
+  "item_ballista": 0.0018,
+  "item_crippling_crossbow": 0.0001,
+  "item_ultimate_scepter_2": 0.0613
  },
  "npc_dota_hero_lion": {
   "item_blink": 0.5043,
@@ -1233,7 +1333,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_hydras_breath": 0.0001,
   "item_radiance": 0.0001,
   "item_cloak_of_flames": 0.0001,
-  "item_fallen_sky": 0.0041
+  "item_fallen_sky": 0.0041,
+  "item_havoc_hammer": 0.0075,
+  "item_giants_ring": 0.0003,
+  "item_spider_legs": 0.0008,
+  "item_desolator_2": 0.0006,
+  "item_chipped_vest": 0.0002,
+  "item_poor_mans_shield": 0.0001,
+  "item_divine_regalia": 0.0186,
+  "item_ballista": 0.0007,
+  "item_elven_tunic": 0.0004,
+  "item_crippling_crossbow": 0.0005,
+  "item_ultimate_scepter_2": 0.0495
  },
  "npc_dota_hero_lycan": {
   "item_aghanims_shard": 0.5135,
@@ -1367,7 +1478,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_angels_demise": 0.0004,
   "item_wind_waker": 0.0003,
   "item_soul_booster": 0.0001,
-  "item_fallen_sky": 0.0035
+  "item_fallen_sky": 0.0035,
+  "item_havoc_hammer": 0.0035,
+  "item_giants_ring": 0.001,
+  "item_spider_legs": 0.0063,
+  "item_desolator_2": 0.0314,
+  "item_chipped_vest": 0.0052,
+  "item_poor_mans_shield": 0.0046,
+  "item_divine_regalia": 0.004,
+  "item_ballista": 0.0004,
+  "item_elven_tunic": 0.0021,
+  "item_crippling_crossbow": 0.0324,
+  "item_ultimate_scepter_2": 0.019
  },
  "npc_dota_hero_nevermore": {
   "item_power_treads": 0.463,
@@ -1501,7 +1623,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_essence_distiller": 0.0001,
   "item_pavise": 0.0001,
   "item_cloak_of_flames": 0.0001,
-  "item_fallen_sky": 0.0087
+  "item_fallen_sky": 0.0087,
+  "item_havoc_hammer": 0.0013,
+  "item_giants_ring": 0.0013,
+  "item_spider_legs": 0.0004,
+  "item_desolator_2": 0.0142,
+  "item_chipped_vest": 0.0002,
+  "item_poor_mans_shield": 0.0001,
+  "item_divine_regalia": 0.1293,
+  "item_ballista": 0.2975,
+  "item_elven_tunic": 0.0802,
+  "item_crippling_crossbow": 0.0006,
+  "item_ultimate_scepter_2": 0.0357
  },
  "npc_dota_hero_ogre_magi": {
   "item_hand_of_midas": 0.5088,
@@ -1636,7 +1769,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_specialists_array": 0.0001,
   "item_devastator": 0.0001,
   "item_helm_of_the_overlord": 0.0001,
-  "item_fallen_sky": 0.0036
+  "item_fallen_sky": 0.0036,
+  "item_havoc_hammer": 0.02,
+  "item_giants_ring": 0.0904,
+  "item_spider_legs": 0.0069,
+  "item_desolator_2": 0.0004,
+  "item_chipped_vest": 0.0139,
+  "item_poor_mans_shield": 0.0092,
+  "item_divine_regalia": 0.0021,
+  "item_ballista": 0.0001,
+  "item_elven_tunic": 0.001,
+  "item_crippling_crossbow": 0.0007,
+  "item_ultimate_scepter_2": 0.0649
  },
  "npc_dota_hero_omniknight": {
   "item_aghanims_shard": 0.5923,
@@ -1773,7 +1917,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_ethereal_blade": 0.0003,
   "item_bloodstone": 0.0003,
   "item_helm_of_the_overlord": 0.0003,
-  "item_fallen_sky": 0.0062
+  "item_fallen_sky": 0.0062,
+  "item_havoc_hammer": 0.0196,
+  "item_giants_ring": 0.0365,
+  "item_spider_legs": 0.1181,
+  "item_desolator_2": 0.0036,
+  "item_chipped_vest": 0.0267,
+  "item_poor_mans_shield": 0.0067,
+  "item_divine_regalia": 0.004,
+  "item_ballista": 0.0003,
+  "item_elven_tunic": 0.0009,
+  "item_crippling_crossbow": 0.0041,
+  "item_ultimate_scepter_2": 0.0391
  },
  "npc_dota_hero_phantom_assassin": {
   "item_bfury": 0.5205,
@@ -1903,7 +2058,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_devastator": 0.0001,
   "item_pipe": 0.0001,
   "item_shadow_amulet": 0.0001,
-  "item_fallen_sky": 0.0008
+  "item_fallen_sky": 0.0008,
+  "item_havoc_hammer": 0.0001,
+  "item_giants_ring": 0.0002,
+  "item_spider_legs": 0.0094,
+  "item_desolator_2": 0.2492,
+  "item_chipped_vest": 0.0004,
+  "item_poor_mans_shield": 0.0002,
+  "item_divine_regalia": 0.0362,
+  "item_ballista": 0.0,
+  "item_elven_tunic": 0.0071,
+  "item_crippling_crossbow": 0.018,
+  "item_ultimate_scepter_2": 0.0162
  },
  "npc_dota_hero_pudge": {
   "item_blink": 0.5349,
@@ -2037,7 +2203,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_specialists_array": 0.0001,
   "item_javelin": 0.0001,
   "item_grove_bow": 0.0001,
-  "item_fallen_sky": 0.0056
+  "item_fallen_sky": 0.0056,
+  "item_havoc_hammer": 0.0144,
+  "item_giants_ring": 0.0809,
+  "item_spider_legs": 0.0665,
+  "item_desolator_2": 0.0003,
+  "item_chipped_vest": 0.0812,
+  "item_poor_mans_shield": 0.0092,
+  "item_divine_regalia": 0.0024,
+  "item_ballista": 0.0001,
+  "item_elven_tunic": 0.0001,
+  "item_crippling_crossbow": 0.0002,
+  "item_ultimate_scepter_2": 0.065
  },
  "npc_dota_hero_silencer": {
   "item_aghanims_shard": 0.5418,
@@ -2174,7 +2351,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_overwhelming_blink": 0.0001,
   "item_harpoon": 0.0001,
   "item_abyssal_blade": 0.0001,
-  "item_fallen_sky": 0.0078
+  "item_fallen_sky": 0.0078,
+  "item_havoc_hammer": 0.0,
+  "item_giants_ring": 0.0005,
+  "item_spider_legs": 0.0016,
+  "item_desolator_2": 0.0008,
+  "item_chipped_vest": 0.0011,
+  "item_poor_mans_shield": 0.0006,
+  "item_divine_regalia": 0.0037,
+  "item_ballista": 0.402,
+  "item_elven_tunic": 0.0022,
+  "item_crippling_crossbow": 0.0003,
+  "item_ultimate_scepter_2": 0.0792
  },
  "npc_dota_hero_techies": {
   "item_aether_lens": 0.5223,
@@ -2312,7 +2500,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_abyssal_blade": 0.0001,
   "item_disperser": 0.0001,
   "item_harpoon": 0.0001,
-  "item_fallen_sky": 0.044
+  "item_fallen_sky": 0.044,
+  "item_havoc_hammer": 0.0003,
+  "item_giants_ring": 0.0018,
+  "item_spider_legs": 0.0003,
+  "item_desolator_2": 0.001,
+  "item_chipped_vest": 0.0013,
+  "item_poor_mans_shield": 0.0006,
+  "item_divine_regalia": 0.0081,
+  "item_ballista": 0.0082,
+  "item_elven_tunic": 0.0005,
+  "item_crippling_crossbow": 0.0008,
+  "item_ultimate_scepter_2": 0.0616
  },
  "npc_dota_hero_tinker": {
   "item_blink": 0.427,
@@ -2428,7 +2627,17 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_skadi": 0.0001,
   "item_orb_of_frost": 0.0001,
   "item_cloak_of_flames": 0.0001,
-  "item_fallen_sky": 0.0795
+  "item_fallen_sky": 0.0795,
+  "item_havoc_hammer": 0.0034,
+  "item_giants_ring": 0.0034,
+  "item_spider_legs": 0.0004,
+  "item_desolator_2": 0.0016,
+  "item_chipped_vest": 0.0007,
+  "item_poor_mans_shield": 0.0006,
+  "item_divine_regalia": 0.0033,
+  "item_ballista": 0.0007,
+  "item_elven_tunic": 0.0001,
+  "item_crippling_crossbow": 0.0019
  },
  "npc_dota_hero_tusk": {
   "item_blink": 0.5036,
@@ -2551,7 +2760,18 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_grove_bow": 0.0002,
   "item_bloodstone": 0.0001,
   "item_disperser": 0.0001,
-  "item_fallen_sky": 0.0057
+  "item_fallen_sky": 0.0057,
+  "item_havoc_hammer": 0.0046,
+  "item_giants_ring": 0.0042,
+  "item_spider_legs": 0.0428,
+  "item_desolator_2": 0.0517,
+  "item_chipped_vest": 0.0051,
+  "item_poor_mans_shield": 0.001,
+  "item_divine_regalia": 0.0086,
+  "item_ballista": 0.0001,
+  "item_elven_tunic": 0.0003,
+  "item_crippling_crossbow": 0.0012,
+  "item_ultimate_scepter_2": 0.0448
  },
  "npc_dota_hero_weaver": {
   "item_aghanims_shard": 0.5163,
@@ -2688,6 +2908,17 @@ var TRINITY_HERO_ITEM_WEIGHTS = {
   "item_bloodstone": 0.0002,
   "item_helm_of_the_overlord": 0.0001,
   "item_shadow_amulet": 0.0001,
-  "item_fallen_sky": 0.006
+  "item_fallen_sky": 0.006,
+  "item_havoc_hammer": 0.0001,
+  "item_giants_ring": 0.0028,
+  "item_spider_legs": 0.001,
+  "item_desolator_2": 0.2341,
+  "item_chipped_vest": 0.0028,
+  "item_poor_mans_shield": 0.0019,
+  "item_divine_regalia": 0.1796,
+  "item_ballista": 0.0801,
+  "item_elven_tunic": 0.0308,
+  "item_crippling_crossbow": 0.009,
+  "item_ultimate_scepter_2": 0.0121
  }
 };

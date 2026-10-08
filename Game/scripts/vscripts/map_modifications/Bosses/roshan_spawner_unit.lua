@@ -4,10 +4,26 @@ require("map_modifications/Bosses/mortimer_level_scaling")
 require("map_modifications/Bosses/caravan/caravan_event")
 require("map_modifications/Bosses/primal_beast/primal_beast_boss")
 
+-- DEBUG: ивент каждую минуту, боссы ивента в 10 раз быстрее. Перед релизом выставить false.
+local DEBUG_FAST_EVENTS = false
+local DEBUG_SPEED_MODIFIER = "modifier_pathway_debug_speed"
+local DEBUG_SPEED_UNITS = {
+    npc_mortimer_boss = true,
+    npc_mortimer_boss_finale = true,
+    npc_primal_beast_boss = true,
+    npc_caravan_aghanim = true,
+    npc_caravan_redhorn = true,
+    npc_caravan_taffied = true,
+    npc_caravan_mango = true,
+    npc_caravan_hatchling = true,
+    npc_caravan_flopjaw = true,
+    npc_caravan_baby_roshan = true,
+}
+
 -- First event at 7:00 after horn, then every 7 minutes.
 -- Wave comes from the clock, not from how often this boss already spawned.
-local SPAWN_INTERVAL = 420
-local FIRST_SPAWN_TIME = 420
+local SPAWN_INTERVAL = DEBUG_FAST_EVENTS and 60 or 420
+local FIRST_SPAWN_TIME = DEBUG_FAST_EVENTS and 60 or 420
 local MAX_WAVE = 5
 local BOSS_TYPES = {
     "caravan",
@@ -31,7 +47,25 @@ local function PickBossType()
     return BOSS_TYPES[RandomInt(1, #BOSS_TYPES)]
 end
 
+-- Ускоряем всех живых юнитов ивента, включая finale-актёра Мортимера, который
+-- появляется позже. Союзный Primal Beast (после победы) не трогаем.
+local function ApplyDebugSpeed()
+    for _, unit in ipairs(Entities:FindAllByClassname("npc_dota_creature") or {}) do
+        if IsValidEntity(unit)
+            and unit:IsAlive()
+            and DEBUG_SPEED_UNITS[unit:GetUnitName()]
+            and unit:GetTeamNumber() == DOTA_TEAM_NEUTRALS
+            and not unit:HasModifier(DEBUG_SPEED_MODIFIER)
+        then
+            unit:AddNewModifier(unit, nil, DEBUG_SPEED_MODIFIER, {})
+        end
+    end
+end
+
 function Spawn(entityKeyValues)
+    if DEBUG_FAST_EVENTS then
+        print("[PathwaySpawner] DEBUG_FAST_EVENTS: event every 60s, event units x10 speed")
+    end
     thisEntity.nextSpawnTime = FIRST_SPAWN_TIME
     thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
 
@@ -120,13 +154,32 @@ function SpawnBossLoop()
         return 0.5
     end
 
+    if DEBUG_FAST_EVENTS then
+        ApplyDebugSpeed()
+    end
+
     local dotaTime = GameRules:GetDOTATime(false, false)
     local nextSpawn = thisEntity.nextSpawnTime or FIRST_SPAWN_TIME
     if dotaTime < nextSpawn then
         return 0.5
     end
 
-    if CourierCaravan.IsPathwaySlotBusy() then
+    local slotBusy, slotHolder = CourierCaravan.IsPathwaySlotBusy()
+    if slotBusy then
+        -- Ивент не стакается, но держатель слота виден в консоли раз в 30 сек.
+        local now = GameRules:GetGameTime()
+        if now >= (thisEntity.nextSlotBusyLog or 0) then
+            thisEntity.nextSlotBusyLog = now + 30
+            local origin = slotHolder and slotHolder:GetAbsOrigin()
+            print(string.format(
+                "[PathwaySpawner] Event due at %.0f is waiting: slot held by %s at (%.0f %.0f) dota=%.1f",
+                nextSpawn,
+                slotHolder and slotHolder:GetUnitName() or "?",
+                origin and origin.x or 0,
+                origin and origin.y or 0,
+                dotaTime
+            ))
+        end
         return 1.0
     end
 

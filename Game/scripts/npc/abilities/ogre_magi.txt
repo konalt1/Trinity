@@ -125,8 +125,8 @@
         "AbilityValues"
         {
             "base_strength_bonus"       "8 16 24 32"
-            "bonus_damage"              "20 40 60 80"
-            "mind_power_multiplier"     "1.3"
+            "bonus_damage"              "0 0 0 0"
+            "mind_power_multiplier"     "1.2"
             "duration"                  "8"
             "move_speed_slow_pct"       "20"
         }

@@ -14,7 +14,7 @@ function juggernaut_bloodlust:OnSpellStart()
     caster:AddNewModifier(caster, self, "modifier_juggernaut_bloodlust", {duration = duration})
     
     -- Play cast sound
-    EmitSoundOn("Jugger_mom.sound", caster)
+    EmitSoundOnUnitForObservers(caster, "Jugger_mom.sound")
 end
 
 --------------------------------------------------------------------------------

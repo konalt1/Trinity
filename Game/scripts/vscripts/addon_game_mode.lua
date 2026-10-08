@@ -1,10 +1,12 @@
 require ("Timers")
 require ("game_managers/draft_spawn")
-require ("game_settings")
+require ("Game_settings")
 require ("utils/util")
 require ("utils/lua_memory_debug")
 require ("game_managers/creep_bounty_comeback")
 require ("game_managers/neutral_stack_reward")
+require ("game_managers/neutral_leash")
+require ("game_managers/neutral_boons")
 require ("game_managers/killfeed_system")
 require ("gamemode")
 require ("item_drop")
@@ -44,6 +46,7 @@ require ("abilities/dawnbreaker/dawnbreaker_fire_wreath")
 require ("abilities/largo/largo_childhood_memories")
 require ("abilities/largo/largo_catchy_lick")
 require ("abilities/largo/largo_frogstomp")
+require ("items/caravan_boons")
 require ("items/item_kaya_mind_power")
 require ("items/item_yasha_and_kaya")
 require ("items/item_mage_slayer")
@@ -364,6 +367,11 @@ function CAddonTemplateGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetModifyExperienceFilter(Dynamic_Wrap(GameMode, "ModifyExperienceFilter"), GameMode)
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), GameMode)
 	GameRules:GetGameModeEntity():SetModifierGainedFilter(Dynamic_Wrap(GameMode, "ModifierGainedFilter"), GameMode)
+	GameRules:GetGameModeEntity():SetHealingFilter(Dynamic_Wrap(GameMode, "HealingFilter"), GameMode)
+	-- Ванильные нейтральные предметы выключены: вместо них буны с лесных крипов (game_managers/neutral_boons.lua).
+	if GameRules:GetGameModeEntity().SetAllowNeutralItemDrops then
+		GameRules:GetGameModeEntity():SetAllowNeutralItemDrops(false)
+	end
 	
 	GameRules:SetGoldTickTime(1)
 	GameRules:SetGoldPerTick(0)
@@ -374,6 +382,14 @@ function CAddonTemplateGameMode:InitGameMode()
 
 	if NeutralStackReward and NeutralStackReward.Init then
 		NeutralStackReward:Init()
+	end
+
+	if NeutralLeash and NeutralLeash.Init then
+		NeutralLeash:Init()
+	end
+
+	if NeutralBoons and NeutralBoons.Init then
+		NeutralBoons:Init()
 	end
 
 	if DraftSpawn and DraftSpawn.Init then
@@ -396,6 +412,9 @@ function CAddonTemplateGameMode:InitGameMode()
 	end
 	if TrinityShop and TrinityShop.Init then
 		TrinityShop:Init()
+	end
+	if CustomAbilityTooltips and CustomAbilityTooltips.PublishTooltipData then
+		CustomAbilityTooltips:PublishTooltipData()
 	end
 	if TrinityAnalytics and TrinityAnalytics.Init then
 		TrinityAnalytics:Init()

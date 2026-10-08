@@ -10,7 +10,57 @@ const state = {
     ability: null,
     locField: null,
     previewLang: "ru",
+    previewAlt: false,
+    altKeyHeld: false,
+    rows: {},
 };
+
+const ROW_FLAGS = ["shard", "scepter", "alt"];
+
+function rowState(key) {
+    if (!state.rows[key]) {
+        state.rows[key] = { shard: false, scepter: false, alt: false, removed: false, stash: { ru: "", en: "" } };
+    }
+    return state.rows[key];
+}
+
+function rowsFromAbility(ability) {
+    const out = {};
+    const stored = ability.tooltip_rows || {};
+    Object.keys(stored).forEach((key) => {
+        const row = stored[key] || {};
+        out[key] = {
+            shard: !!row.shard,
+            scepter: !!row.scepter,
+            alt: !!row.alt,
+            removed: !!row.removed,
+            stash: {
+                ru: (row.removed && row.removed.ru) || "",
+                en: (row.removed && row.removed.en) || "",
+            },
+        };
+    });
+    return out;
+}
+
+function rowsPayload() {
+    const out = {};
+    Object.keys(state.rows).forEach((key) => {
+        const row = state.rows[key];
+        out[key] = {
+            shard: row.shard,
+            scepter: row.scepter,
+            alt: row.alt,
+            removed: row.removed,
+            stash: row.removed ? row.stash : undefined,
+        };
+    });
+    return out;
+}
+
+function altShown() {
+    return state.previewAlt || state.altKeyHeld;
+}
 
 function $(id) {
     return document.getElementById(id);
@@ -179,10 +229,14 @@ function richText(text, values) {
         tags.push(safe);
         return `\u0000${index}\u0001`;
     });
-    raw = raw.replace(/%%/g, "\u0002");
-    raw = raw.replace(/%([A-Za-z][A-Za-z0-9_]*)%/g, (_, key) => {
+    // Слева направо, как в игре: %ключ% подставляет число, %% даёт знак процента.
+    // Поэтому "%slow_pct%%" = "80%", а не потерянный ключ.
+    raw = raw.replace(/%([A-Za-z][A-Za-z0-9_]*)%|%%/g, (match, key) => {
+        if (!key) {
+            return "\u0002";
+        }
         if (!(key in values) && !(key.toLowerCase() in values)) {
-            return `%${key}%`;
+            return match;
         }
         const value = values[key] !== undefined ? values[key] : values[key.toLowerCase()];
         return `\u0003${formatLevels(value)}\u0004`;
@@ -195,20 +249,45 @@ function richText(text, values) {
     return raw;
 }
 
-function renderTooltip(target, loc, kv, icon, abilityId) {
+function renderTooltip(target, loc, kv, icon, abilityId, lang) {
     const values = valueMap(kv);
     const labels = loc.params || {};
-    const rows = (kv.values || [])
-        .filter((row) => labels[row.key])
-        .map((row) => {
-            return `<div class="dota-tt-row"><span class="dota-tt-label">${escapeHtml(displayLabel(labels[row.key]))}</span><span class="dota-tt-nums">${escapeHtml(formatSpecial(row.value, labels[row.key]))}</span></div>`;
-        })
+    const showAlt = altShown();
+    let hiddenAlt = 0;
+    const visible = (kv.values || []).filter((row) => {
+        const flags = state.rows[row.key];
+        if (!labels[row.key] || (flags && flags.removed)) {
+            return false;
+        }
+        if (flags && flags.alt && !showAlt) {
+            hiddenAlt += 1;
+            return false;
+        }
+        return true;
+    });
+    const rowHtml = (row) => {
+        const flags = state.rows[row.key] || {};
+        const alt = flags.alt ? `<span class="dota-tt-alt-mark" title="Видно только с зажатым Alt">Alt</span>` : "";
+        return `<div class="dota-tt-row${flags.alt ? " is-alt" : ""}"><span class="dota-tt-label">${alt}${escapeHtml(displayLabel(labels[row.key]))}</span><span class="dota-tt-nums">${escapeHtml(formatSpecial(row.value, labels[row.key]))}</span></div>`;
+    };
+    const flagged = (flag) => visible.filter((row) => state.rows[row.key] && state.rows[row.key][flag]);
+    const rows = visible
+        .filter((row) => !(state.rows[row.key] && (state.rows[row.key].shard || state.rows[row.key].scepter)))
+        .map(rowHtml)
         .join("");
-    const shard = loc.shard
-        ? `<div class="dota-tt-extra"><b>Shard:</b> ${richText(loc.shard, values)}</div>`
-        : "";
-    const scepter = loc.scepter
-        ? `<div class="dota-tt-extra"><b>Scepter:</b> ${richText(loc.scepter, values)}</div>`
+    const upgradeBlock = (flag, title, text) => {
+        const list = flagged(flag);
+        if (!text && list.length === 0) {
+            return "";
+        }
+        const body = text ? `<b>${title}:</b> ${richText(text, values)}` : `<b>${title}</b>`;
+        const attrs = list.length ? `<div class="dota-tt-attrs">${list.map(rowHtml).join("")}</div>` : "";
+        return `<div class="dota-tt-extra dota-tt-${flag}"><div>${body}</div>${attrs}</div>`;
+    };
+    const shard = upgradeBlock("shard", "Shard", loc.shard);
+    const scepter = upgradeBlock("scepter", "Scepter", loc.scepter);
+    const altHint = hiddenAlt > 0
+        ? `<div class="dota-tt-althint">${lang === "en" ? "Hold <kbd>Alt</kbd> for more details." : "Зажмите <kbd>Alt</kbd>, чтобы увидеть подробности."}</div>`
         : "";
     const costs = [];
     if (kv.cooldown) {
@@ -228,6 +307,7 @@ function renderTooltip(target, loc, kv, icon, abilityId) {
         <div class="dota-tt-desc">${richText(loc.description, values) || "<span class='card-hint'>Нет описания</span>"}</div>
         ${shard}${scepter}
         ${rows ? `<div class="dota-tt-attrs">${rows}</div>` : ""}
+        ${altHint}
         ${costs.length ? `<div class="dota-tt-costs">${costs.join("")}</div>` : ""}
     `;
 }
@@ -248,8 +328,96 @@ function refreshPreview() {
     }
     const kv = kvFromForm();
     const icon = state.ability.icon;
-    renderTooltip($("tt-ru"), locFromForm("ru"), kv, icon, state.ability.id);
-    renderTooltip($("tt-en"), locFromForm("en"), kv, icon, state.ability.id);
+    renderTooltip($("tt-ru"), locFromForm("ru"), kv, icon, state.ability.id, "ru");
+    renderTooltip($("tt-en"), locFromForm("en"), kv, icon, state.ability.id, "en");
+}
+
+function setPreviewAlt(on) {
+    state.previewAlt = !!on;
+    const chip = $("preview-alt");
+    if (chip) {
+        chip.setAttribute("aria-pressed", state.previewAlt ? "true" : "false");
+    }
+    refreshPreview();
+}
+
+const TRASH_ICON = `<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 2h4l.5 1H13v1.5H3V3h2.5zM4.5 5.5h7l-.6 8a1 1 0 0 1-1 .9H6.1a1 1 0 0 1-1-.9z" fill="currentColor"/></svg>`;
+const RESTORE_ICON = `<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 3v4h4M3.6 6.6A5 5 0 1 1 3 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+const FLAG_TITLES = {
+    shard: "Показывать в блоке Aghanim's Shard (RequiresShard)",
+    scepter: "Показывать в блоке Aghanim's Scepter (RequiresScepter)",
+    alt: "Показывать только при зажатом Alt",
+};
+
+function rowActionsHtml(key) {
+    const k = escapeHtml(key);
+    const flags = ROW_FLAGS.map((flag) => {
+        const label = flag === "alt" ? "Alt" : flag === "shard" ? "Shard" : "Scepter";
+        return `<button type="button" class="row-flag row-flag-${flag}" data-row-flag="${flag}" data-row-key="${k}" aria-pressed="false" title="${FLAG_TITLES[flag]}">${label}</button>`;
+    }).join("");
+    return `<div class="row-actions">${flags}<button type="button" class="row-del" data-row-remove="${k}" title="Убрать строку из тултипа" aria-label="Убрать строку ${k} из тултипа">${TRASH_ICON}</button></div>`;
+}
+
+function syncRowUi(tr) {
+    const key = tr.getAttribute("data-row");
+    const row = rowState(key);
+    tr.classList.toggle("row-removed", row.removed);
+    tr.querySelectorAll("[data-row-flag]").forEach((button) => {
+        const flag = button.getAttribute("data-row-flag");
+        button.setAttribute("aria-pressed", row[flag] ? "true" : "false");
+        button.disabled = row.removed;
+    });
+    tr.querySelectorAll("[data-label-ru], [data-label-en]").forEach((input) => {
+        input.disabled = row.removed;
+    });
+    const del = tr.querySelector("[data-row-remove]");
+    if (del) {
+        del.classList.toggle("is-restore", row.removed);
+        del.title = row.removed ? "Вернуть строку в тултип" : "Убрать строку из тултипа";
+        del.setAttribute("aria-label", (row.removed ? "Вернуть строку " : "Убрать строку ") + key);
+        del.innerHTML = row.removed
+            ? RESTORE_ICON
+            : TRASH_ICON;
+    }
+}
+
+function toggleRowRemoved(key) {
+    const tr = document.querySelector(`#ability-params tr[data-row="${CSS.escape(key)}"]`);
+    if (!tr) {
+        return;
+    }
+    const row = rowState(key);
+    const ru = tr.querySelector("[data-label-ru]");
+    const en = tr.querySelector("[data-label-en]");
+    if (!row.removed) {
+        row.stash = { ru: ru.value, en: en.value };
+        ru.value = "";
+        en.value = "";
+        row.removed = true;
+    } else {
+        ru.value = row.stash.ru || "";
+        en.value = row.stash.en || "";
+        row.removed = false;
+        row.stash = { ru: "", en: "" };
+        if (!ru.value && !en.value) {
+            notify(`У ${key} нет подписи: впиши её, иначе строка не появится`, false);
+        }
+    }
+    syncRowUi(tr);
+    Trinity.setDirty(true);
+    refreshPreview();
+}
+
+function toggleRowFlag(key, flag) {
+    const tr = document.querySelector(`#ability-params tr[data-row="${CSS.escape(key)}"]`);
+    const row = rowState(key);
+    row[flag] = !row[flag];
+    if (tr) {
+        syncRowUi(tr);
+    }
+    Trinity.setDirty(true);
+    refreshPreview();
 }
 
 function locTextFields() {
@@ -313,16 +481,20 @@ function fillLocForm(ability) {
     renderLocKeyChips(ordered);
     const body = $("ability-params");
     body.innerHTML = "";
+    state.rows = rowsFromAbility(ability);
     ordered.forEach((key) => {
         const tr = document.createElement("tr");
+        tr.setAttribute("data-row", key);
         tr.innerHTML = `
             <td><button type="button" class="key-chip" data-insert-key="${escapeHtml(key)}">${escapeHtml(key)}</button></td>
             <td><input data-label-ru data-key="${escapeHtml(key)}" type="text"></td>
             <td><input data-label-en data-key="${escapeHtml(key)}" type="text"></td>
+            <td class="row-actions-cell">${rowActionsHtml(key)}</td>
         `;
         body.appendChild(tr);
         tr.querySelector("[data-label-ru]").value = ruParams[key] || "";
         tr.querySelector("[data-label-en]").value = enParams[key] || "";
+        syncRowUi(tr);
     });
 }
 
@@ -758,6 +930,32 @@ document.querySelectorAll("#preview-langs [data-preview-lang]").forEach((button)
     });
 });
 
+if ($("preview-alt")) {
+    $("preview-alt").addEventListener("click", () => setPreviewAlt(!state.previewAlt));
+}
+
+// Настоящий Alt тоже работает, пока зажат, как в игре.
+function setAltKeyHeld(held) {
+    if (state.altKeyHeld === held) {
+        return;
+    }
+    state.altKeyHeld = held;
+    refreshPreview();
+}
+window.addEventListener("keydown", (event) => {
+    if (event.key === "Alt") {
+        event.preventDefault();
+        setAltKeyHeld(true);
+    }
+});
+window.addEventListener("keyup", (event) => {
+    if (event.key === "Alt") {
+        event.preventDefault();
+        setAltKeyHeld(false);
+    }
+});
+window.addEventListener("blur", () => setAltKeyHeld(false));
+
 document.querySelectorAll("#loc-filters [data-filter]").forEach((button) => {
     button.addEventListener("click", () => {
         state.locFilter = button.getAttribute("data-filter") || "all";
@@ -787,6 +985,18 @@ locForm.addEventListener("focusin", (event) => {
 });
 
 locForm.addEventListener("click", (event) => {
+    const remove = event.target.closest("[data-row-remove]");
+    if (remove) {
+        event.preventDefault();
+        toggleRowRemoved(remove.getAttribute("data-row-remove"));
+        return;
+    }
+    const flag = event.target.closest("[data-row-flag]");
+    if (flag) {
+        event.preventDefault();
+        toggleRowFlag(flag.getAttribute("data-row-key"), flag.getAttribute("data-row-flag"));
+        return;
+    }
     const chip = event.target.closest("[data-insert-key]");
     if (!chip) {
         return;
@@ -811,6 +1021,7 @@ locForm.addEventListener("submit", async (event) => {
             ru: locFromForm("ru"),
             en: locFromForm("en"),
         },
+        rows: rowsPayload(),
     };
     $("ability-save").disabled = true;
     try {
@@ -823,7 +1034,9 @@ locForm.addEventListener("submit", async (event) => {
         if (!response.ok || !body || body.ok !== true) {
             throw new Error((body && body.error) || `HTTP ${response.status}`);
         }
-        notify("Сохранено в addon_russian.txt и addon_english.txt", true);
+        notify(body.kv_flags
+            ? "Сохранено: тексты, флаги Shard/Scepter в KV, Alt и снятые строки"
+            : "Сохранено: тексты, флаги строк в tooltip-rows.json (KV ванильного скилла не трогаем)", true);
         try {
             await loadReport();
         } catch (_error) {

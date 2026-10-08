@@ -147,6 +147,18 @@ if ($path === '/v1/abilities/save' && $method === 'POST') {
     AbilityStudio::save();
 }
 
+if ($path === '/v1/balance/kv') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type');
+    header('Access-Control-Allow-Private-Network: true');
+    if ($method === 'OPTIONS') {
+        http_response_code(204);
+        exit;
+    }
+    AbilityStudio::balanceKv();
+}
+
 if ($path === '/v1/abilities/icon' && $method === 'GET') {
     AbilityStudio::icon();
 }

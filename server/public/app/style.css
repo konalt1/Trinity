@@ -1578,6 +1578,91 @@ html[data-tab="check"] .skillbar { display: none; }
 .dota-tt-mana { color: #6cb4ff; }
 .dota-tt-cd { color: #d8dee8; }
 
+/* ---------- tooltip row actions ---------- */
+
+.row-actions-head { text-align: right; padding-right: 0; }
+.row-actions-cell { padding-right: 0; white-space: nowrap; }
+
+.row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.row-flag,
+.row-del {
+    border: 1px solid var(--line);
+    background: var(--input);
+    color: var(--muted);
+    border-radius: 4px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+}
+
+.row-flag { padding: 0 8px; }
+
+.row-del {
+    width: 28px;
+    display: inline-grid;
+    place-items: center;
+    margin-left: 4px;
+}
+
+.row-flag:hover:not(:disabled),
+.row-del:hover { border-color: #33405a; color: var(--text); }
+.row-del:hover:not(.is-restore) { border-color: var(--danger); color: var(--danger); }
+.row-del.is-restore { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+
+.row-flag:focus-visible,
+.row-del:focus-visible { outline: none; box-shadow: var(--focus); }
+
+.row-flag:disabled { opacity: 0.35; cursor: default; }
+
+.row-flag-shard[aria-pressed="true"] { color: #e8c46c; border-color: #8a7340; background: rgba(212, 177, 95, 0.12); }
+.row-flag-scepter[aria-pressed="true"] { color: #7ec8ff; border-color: #2f6a97; background: rgba(126, 200, 255, 0.10); }
+.row-flag-alt[aria-pressed="true"] { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+
+#ability-params tr.row-removed td:not(.row-actions-cell) { opacity: 0.4; }
+#ability-params tr.row-removed .key-chip { text-decoration: line-through; }
+
+
+/* превью: флаги строк */
+
+.dota-tt-extra .dota-tt-attrs { margin-top: 6px; }
+.dota-tt-scepter { color: #8fc4ee; }
+.dota-tt-scepter .dota-tt-row .dota-tt-label { color: #8fa6bd; }
+
+.dota-tt-row.is-alt .dota-tt-label { color: #a8b3c4; }
+
+.dota-tt-alt-mark {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 0 4px;
+    border: 1px solid #44516a;
+    border-radius: 3px;
+    font-size: 9px;
+    line-height: 14px;
+    color: #9fb0c8;
+    vertical-align: 1px;
+}
+
+.dota-tt-althint {
+    margin-top: 8px;
+    color: #6f7c90;
+    font-size: 12px;
+}
+
+.dota-tt-althint kbd {
+    font: inherit;
+    padding: 0 4px;
+    border: 1px solid #44516a;
+    border-radius: 3px;
+    color: #9fb0c8;
+}
+
 /* ---------- stickers ---------- */
 
 .sticker-layout {

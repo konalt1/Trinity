@@ -669,6 +669,8 @@
 		// Mind Power (Base modifier)
 		"DOTA_Tooltip_modifier_mind_power"										"Сила Магии"
 		"DOTA_Tooltip_modifier_mind_power_Description"							"Характеристики ваших способностей увеличены на показатель вашей Силы Магии "
+		"DOTA_Tooltip_modifier_mind_power_local_buff"							"Сила Душ"
+		"DOTA_Tooltip_modifier_mind_power_local_buff_Description"				"Постоянная Сила Магии за поглощённых крипов и героев. Число на иконке — размер бонуса."
 
 		// =============================================
 		// Item Tooltips — Kaya and Yasha chain
@@ -1218,6 +1220,279 @@
 		Смерть перерождает героя."
 		"DOTA_Tooltip_Ability_item_caravan_aegis_duration"						"ДЛИТЕЛЬНОСТЬ:"
 
+		"dota_hud_error_caravan_boon_hero_only"									"Только на союзного героя"
+		"dota_hud_error_boon_neutral_slot_full"											"Слот нейтрального предмета занят — сначала примените бун"
+		"dota_hud_error_boon_pickup_hero_only"											"Бун может поднять только герой"
+		"dota_hud_error_boon_locked"													"Бун нельзя выложить или передать — только применить"
+		"DOTA_Tooltip_modifier_neutral_boon_carrier"									"Носитель буна"
+		"DOTA_Tooltip_modifier_neutral_boon_carrier_Description"						"После смерти оставит бун."
+
+		"DOTA_Tooltip_Ability_item_boon_gauntlets"								"Бун перчаток"
+		"DOTA_Tooltip_Ability_item_boon_gauntlets_Description"					"Применяется на союзного героя или на себя.
+				Цель получает силу до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_gauntlets_bonus_strength"				"СИЛА:"
+		"DOTA_Tooltip_modifier_item_boon_gauntlets"								"Бун перчаток"
+		"DOTA_Tooltip_modifier_item_boon_gauntlets_Description"					"Сила увеличена на %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_slippers"								"Бун тапочек"
+		"DOTA_Tooltip_Ability_item_boon_slippers_Description"					"Применяется на союзного героя или на себя.
+				Цель получает ловкость до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_slippers_bonus_agility"					"ЛОВКОСТЬ:"
+		"DOTA_Tooltip_modifier_item_boon_slippers"								"Бун тапочек"
+		"DOTA_Tooltip_modifier_item_boon_slippers_Description"					"Ловкость увеличена на %dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_mantle"									"Бун мантии"
+		"DOTA_Tooltip_Ability_item_boon_mantle_Description"						"Применяется на союзного героя или на себя.
+				Цель получает интеллект до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_mantle_bonus_intellect"					"ИНТЕЛЛЕКТ:"
+		"DOTA_Tooltip_modifier_item_boon_mantle"								"Бун мантии"
+		"DOTA_Tooltip_modifier_item_boon_mantle_Description"					"Интеллект увеличен на %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_circlet"								"Бун обруча"
+		"DOTA_Tooltip_Ability_item_boon_circlet_Description"					"Применяется на союзного героя или на себя.
+				Цель получает все атрибуты до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_circlet_bonus_all_stats"				"ВСЕ АТРИБУТЫ:"
+		"DOTA_Tooltip_modifier_item_boon_circlet"								"Бун обруча"
+		"DOTA_Tooltip_modifier_item_boon_circlet_Description"					"Сила, ловкость и интеллект увеличены на %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_belt_of_strength"						"Бун силы"
+		"DOTA_Tooltip_Ability_item_boon_belt_of_strength_Description"			"Применяется на союзного героя или на себя.
+				Цель получает силу до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_belt_of_strength_bonus_strength"		"СИЛА:"
+		"DOTA_Tooltip_modifier_item_boon_belt_of_strength"						"Бун силы"
+		"DOTA_Tooltip_modifier_item_boon_belt_of_strength_Description"			"Сила увеличена на %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_boots_of_elves"							"Бун ловкости"
+		"DOTA_Tooltip_Ability_item_boon_boots_of_elves_Description"				"Применяется на союзного героя или на себя.
+				Цель получает ловкость до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_boots_of_elves_bonus_agility"			"ЛОВКОСТЬ:"
+		"DOTA_Tooltip_modifier_item_boon_boots_of_elves"						"Бун ловкости"
+		"DOTA_Tooltip_modifier_item_boon_boots_of_elves_Description"			"Ловкость увеличена на %dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_robe"									"Бун интеллекта"
+		"DOTA_Tooltip_Ability_item_boon_robe_Description"						"Применяется на союзного героя или на себя.
+				Цель получает интеллект до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_robe_bonus_intellect"					"ИНТЕЛЛЕКТ:"
+		"DOTA_Tooltip_modifier_item_boon_robe"									"Бун интеллекта"
+		"DOTA_Tooltip_modifier_item_boon_robe_Description"						"Интеллект увеличен на %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_crown"									"Бун короны"
+		"DOTA_Tooltip_Ability_item_boon_crown_Description"						"Применяется на союзного героя или на себя.
+				Цель получает все атрибуты до конца матча.
+				Повторное применение увеличивает этот бонус."
+		"DOTA_Tooltip_Ability_item_boon_crown_bonus_all_stats"					"ВСЕ АТРИБУТЫ:"
+		"DOTA_Tooltip_modifier_item_boon_crown"									"Бун короны"
+		"DOTA_Tooltip_modifier_item_boon_crown_Description"						"Сила, ловкость и интеллект увеличены на %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"dota_hud_error_caravan_boon_has_scepter"										"У героя уже есть улучшение Aghanim's Scepter"
+		"dota_hud_error_caravan_boon_no_ability"										"У героя нет подходящей способности"
+
+		"DOTA_Tooltip_Ability_item_boon_vitality"										"Бун живучести"
+		"DOTA_Tooltip_Ability_item_boon_vitality_Description"							"Применяется на союзного героя или на себя. Цель получает дополнительное здоровье до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_vitality_bonus_health"							"ЗДОРОВЬЕ:"
+		"DOTA_Tooltip_modifier_item_boon_vitality"										"Бун живучести"
+		"DOTA_Tooltip_modifier_item_boon_vitality_Description"							"Здоровье увеличено на %dMODIFIER_PROPERTY_HEALTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_clarity"										"Бун ясности"
+		"DOTA_Tooltip_Ability_item_boon_clarity_Description"							"Применяется на союзного героя или на себя. Цель получает восстановление маны до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_clarity_bonus_mana_regen"						"ВОССТАНОВЛЕНИЕ МАНЫ:"
+		"DOTA_Tooltip_modifier_item_boon_clarity"										"Бун ясности"
+		"DOTA_Tooltip_modifier_item_boon_clarity_Description"							"Восстановление маны увеличено на %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_swiftness"										"Бун резвости"
+		"DOTA_Tooltip_Ability_item_boon_swiftness_Description"							"Применяется на союзного героя или на себя. Цель получает скорость передвижения до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_swiftness_bonus_movement_speed"					"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_modifier_item_boon_swiftness"										"Бун резвости"
+		"DOTA_Tooltip_modifier_item_boon_swiftness_Description"							"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_might"											"Бун мощи"
+		"DOTA_Tooltip_Ability_item_boon_might_Description"								"Применяется на союзного героя или на себя. Цель получает урон от атак до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_might_bonus_damage"								"УРОН:"
+		"DOTA_Tooltip_modifier_item_boon_might"											"Бун мощи"
+		"DOTA_Tooltip_modifier_item_boon_might_Description"								"Урон от атак увеличен на %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%."
+
+		"DOTA_Tooltip_Ability_item_boon_bulwark"										"Бун оплота"
+		"DOTA_Tooltip_Ability_item_boon_bulwark_Description"							"Применяется на союзного героя или на себя. Цель получает броню до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_bulwark_bonus_armor"							"БРОНЯ:"
+		"DOTA_Tooltip_modifier_item_boon_bulwark"										"Бун оплота"
+		"DOTA_Tooltip_modifier_item_boon_bulwark_Description"							"Броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_warding"										"Бун оберега"
+		"DOTA_Tooltip_Ability_item_boon_warding_Description"							"Применяется на союзного героя или на себя. Цель получает сопротивление магии до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_warding_bonus_magic_resistance"					"%СОПРОТИВЛЕНИЕ МАГИИ:"
+		"DOTA_Tooltip_modifier_item_boon_warding"										"Бун оберега"
+		"DOTA_Tooltip_modifier_item_boon_warding_Description"							"Сопротивление магии увеличено на %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_fury"											"Бун ярости"
+		"DOTA_Tooltip_Ability_item_boon_fury_Description"								"Применяется на союзного героя или на себя. Цель получает скорость атаки до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_fury_bonus_attack_speed"						"СКОРОСТЬ АТАКИ:"
+		"DOTA_Tooltip_modifier_item_boon_fury"											"Бун ярости"
+		"DOTA_Tooltip_modifier_item_boon_fury_Description"								"Скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_reach"											"Бун дальности"
+		"DOTA_Tooltip_Ability_item_boon_reach_Description"								"Применяется на союзного героя или на себя. Цель получает дальность применения способностей до конца матча. На ультимативные способности и «Дай пять» не действует.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_reach_bonus_cast_range"							"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+		"DOTA_Tooltip_modifier_item_boon_reach"											"Бун дальности"
+		"DOTA_Tooltip_modifier_item_boon_reach_Description"								"Дальность применения способностей увеличена на %dMODIFIER_PROPERTY_CAST_RANGE_BONUS_STACKING%."
+
+		"DOTA_Tooltip_Ability_item_boon_tenacity"										"Бун стойкости"
+		"DOTA_Tooltip_Ability_item_boon_tenacity_Description"							"Применяется на союзного героя или на себя. Цель получает сопротивление эффектам до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_tenacity_bonus_status_resistance"				"%СОПРОТИВЛЕНИЕ ЭФФЕКТАМ:"
+		"DOTA_Tooltip_modifier_item_boon_tenacity"										"Бун стойкости"
+		"DOTA_Tooltip_modifier_item_boon_tenacity_Description"							"Сопротивление эффектам увеличено на %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_haste"											"Бун спешки"
+		"DOTA_Tooltip_Ability_item_boon_haste_Description"								"Применяется на союзного героя или на себя. Цель получает снижение перезарядки способностей и предметов до конца матча. На ультимативные способности и «Дай пять» не действует.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_haste_cooldown_reduction"						"%СНИЖЕНИЕ ПЕРЕЗАРЯДКИ:"
+		"DOTA_Tooltip_modifier_item_boon_haste"											"Бун спешки"
+		"DOTA_Tooltip_modifier_item_boon_haste_Description"								"Перезарядка способностей и предметов снижена на %dMODIFIER_PROPERTY_COOLDOWN_PERCENTAGE%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_renewal"										"Бун обновления"
+		"DOTA_Tooltip_Ability_item_boon_renewal_Description"							"Применяется на союзного героя или на себя. Цель получает восстановление здоровья и маны до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_renewal_bonus_health_regen"						"ВОССТАНОВЛЕНИЕ ЗДОРОВЬЯ:"
+		"DOTA_Tooltip_Ability_item_boon_renewal_bonus_mana_regen"						"ВОССТАНОВЛЕНИЕ МАНЫ:"
+		"DOTA_Tooltip_modifier_item_boon_renewal"										"Бун обновления"
+		"DOTA_Tooltip_modifier_item_boon_renewal_Description"							"Восстановление здоровья увеличено на %fMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%, восстановление маны — на %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_titan"											"Бун титана"
+		"DOTA_Tooltip_Ability_item_boon_titan_Description"								"Применяется на союзного героя или на себя. Цель получает силу, ловкость и интеллект до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_titan_bonus_all_stats"							"ВСЕ АТРИБУТЫ:"
+		"DOTA_Tooltip_modifier_item_boon_titan"											"Бун титана"
+		"DOTA_Tooltip_modifier_item_boon_titan_Description"								"Сила, ловкость и интеллект увеличены на %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_resilience"										"Бун несокрушимости"
+		"DOTA_Tooltip_Ability_item_boon_resilience_Description"							"Применяется на союзного героя или на себя. Цель получает снижение получаемого урона до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_resilience_damage_reduction"					"%СНИЖЕНИЕ УРОНА:"
+		"DOTA_Tooltip_modifier_item_boon_resilience"									"Бун несокрушимости"
+		"DOTA_Tooltip_modifier_item_boon_resilience_Description"						"Получаемый урон: %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_twin_charges"									"Бун двух зарядов"
+		"DOTA_Tooltip_Ability_item_boon_twin_charges_Description"						"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча она копит до %max_charges% зарядов.\n\nЗаряд восстанавливается за время перезарядки способности, увеличенное на %cooldown_increase_pct%%%.\n\nПодходят способности с перезарядкой и без своих зарядов. Ультимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_twin_charges_max_charges"						"ЗАРЯДЫ:"
+		"DOTA_Tooltip_Ability_item_boon_twin_charges_cooldown_increase_pct"				"%УВЕЛИЧЕНИЕ ПЕРЕЗАРЯДКИ:"
+		"DOTA_Tooltip_modifier_item_boon_twin_charges"									"Два заряда"
+		"DOTA_Tooltip_modifier_item_boon_twin_charges_Description"						"Способность на иконке копит до 2 зарядов. Заряд восстанавливается за время её перезарядки, увеличенное на %dMODIFIER_PROPERTY_TOOLTIP%%%. Число на иконке — текущие заряды."
+
+		"DOTA_Tooltip_Ability_item_boon_aghanim"										"Бун Аганима"
+		"DOTA_Tooltip_Ability_item_boon_aghanim_Description"							"Применяется на союзного героя или на себя. Цель получает улучшение Aghanim's Scepter до конца матча.\n\nНельзя применить на героя, у которого уже есть поглощённый Aghanim's Scepter."
+
+		"dota_hud_error_caravan_boon_has_aegis"											"У героя уже есть Аегис"
+
+		"DOTA_Tooltip_Ability_item_boon_vampirism"										"Бун вампиризма"
+		"DOTA_Tooltip_Ability_item_boon_vampirism_Description"							"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча её урон лечит героя.\n\nУрон по героям возвращается здоровьем на %lifesteal_hero_pct%%%, по остальным юнитам — на %lifesteal_creep_pct%%%.\n\nУльтимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_vampirism_lifesteal_hero_pct"					"%ВАМПИРИЗМ ПО ГЕРОЯМ:"
+		"DOTA_Tooltip_Ability_item_boon_vampirism_lifesteal_creep_pct"					"%ВАМПИРИЗМ ПО КРИПАМ:"
+		"DOTA_Tooltip_modifier_item_boon_vampirism"										"Вампиризм способности"
+		"DOTA_Tooltip_modifier_item_boon_vampirism_Description"							"Урон способности на иконке лечит героя: %dMODIFIER_PROPERTY_TOOLTIP%%% от урона по героям, %dMODIFIER_PROPERTY_TOOLTIP2%%% — по остальным юнитам."
+
+		"DOTA_Tooltip_Ability_item_boon_quickening"										"Бун ускорения"
+		"DOTA_Tooltip_Ability_item_boon_quickening_Description"							"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча каждое её применение ускоряет героя.\n\nПодходят способности с перезарядкой. Ультимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_quickening_move_speed_pct"						"%СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+		"DOTA_Tooltip_Ability_item_boon_quickening_duration"							"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_modifier_item_boon_quickening"									"Ускорение от способности"
+		"DOTA_Tooltip_modifier_item_boon_quickening_Description"						"Применение способности на иконке увеличивает скорость передвижения на %dMODIFIER_PROPERTY_TOOLTIP%%% на %dMODIFIER_PROPERTY_TOOLTIP2% сек."
+		"DOTA_Tooltip_modifier_item_boon_quickening_haste"								"Ускорение"
+		"DOTA_Tooltip_modifier_item_boon_quickening_haste_Description"					"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_aegis"											"Бун Аегиса"
+		"DOTA_Tooltip_Ability_item_boon_aegis_Description"								"Применяется на союзного героя или на себя. Цель получает Аегис на %duration% сек.: если за это время она умрёт, то возродится на месте.\n\nНельзя применить на героя, у которого уже есть Аегис."
+		"DOTA_Tooltip_Ability_item_boon_aegis_duration"									"ДЛИТЕЛЬНОСТЬ:"
+		"DOTA_Tooltip_modifier_trinity_aegis"											"Аегис Бессмертного"
+		"DOTA_Tooltip_modifier_trinity_aegis_Description"								"Если герой умрёт, через 5 сек. он возродится на месте."
+
+		"DOTA_Tooltip_Ability_item_boon_colossus"										"Бун колосса"
+		"DOTA_Tooltip_Ability_item_boon_colossus_Description"							"Применяется на союзного героя или на себя. Цель получает дополнительные здоровье и ману до конца матча.\n\nТакой же бун увеличивает бонус."
+		"DOTA_Tooltip_Ability_item_boon_colossus_bonus_health"							"ЗДОРОВЬЕ:"
+		"DOTA_Tooltip_Ability_item_boon_colossus_bonus_mana"							"МАНА:"
+		"DOTA_Tooltip_modifier_item_boon_colossus"										"Бун колосса"
+		"DOTA_Tooltip_modifier_item_boon_colossus_Description"							"Здоровье увеличено на %dMODIFIER_PROPERTY_HEALTH_BONUS%, мана — на %dMODIFIER_PROPERTY_MANA_BONUS%."
+
+		"DOTA_Tooltip_modifier_item_boon_twin_charges_pending"							"Два заряда: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_twin_charges_pending_Description"				"Бун получен. Выберите способность в окне над инвентарём."
+		"DOTA_Tooltip_modifier_item_boon_vampirism_pending"								"Вампиризм: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_vampirism_pending_Description"					"Бун получен. Выберите способность в окне над инвентарём."
+		"DOTA_Tooltip_modifier_item_boon_quickening_pending"							"Ускорение: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_quickening_pending_Description"				"Бун получен. Выберите способность в окне над инвентарём."
+
+		"DOTA_Tooltip_Ability_item_boon_lens"											"Бун линзы"
+		"DOTA_Tooltip_Ability_item_boon_lens_Description"								"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча её дальность применения увеличена.\n\nПодходят способности с целью или точкой и дальностью применения. Ультимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_lens_cast_range"								"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+		"DOTA_Tooltip_modifier_item_boon_lens"											"Линза способности"
+		"DOTA_Tooltip_modifier_item_boon_lens_Description"								"Дальность применения способности на иконке увеличена на %dMODIFIER_PROPERTY_TOOLTIP%."
+
+		"DOTA_Tooltip_Ability_item_boon_daedalus"										"Бун Дедалуса"
+		"DOTA_Tooltip_Ability_item_boon_daedalus_Description"							"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча её урон может быть критическим.\n\nКаждый удар способности с шансом %crit_chance%%% наносит на %crit_bonus_pct%%% больше урона.\n\nУльтимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_daedalus_crit_chance"							"%ШАНС КРИТА:"
+		"DOTA_Tooltip_Ability_item_boon_daedalus_crit_bonus_pct"						"%БОНУС УРОНА:"
+		"DOTA_Tooltip_modifier_item_boon_daedalus"										"Дедалус способности"
+		"DOTA_Tooltip_modifier_item_boon_daedalus_Description"							"Урон способности на иконке с шансом %dMODIFIER_PROPERTY_TOOLTIP%%% увеличен на %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+
+		"DOTA_Tooltip_modifier_item_boon_lens_pending"									"Линза: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_lens_pending_Description"						"Бун получен. Выберите способность в окне над инвентарём."
+		"DOTA_Tooltip_modifier_item_boon_daedalus_pending"								"Дедалус: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_daedalus_pending_Description"					"Бун получен. Выберите способность в окне над инвентарём."
+		"trinity_boon_choice_hint_item_boon_lens"										"Выберите способность: её дальность применения увеличится на 250."
+		"trinity_boon_choice_hint_item_boon_daedalus"									"Выберите способность: её урон с шансом 30% будет больше на 150%."
+
+		"DOTA_Tooltip_Ability_item_boon_greaves"										"Бун гривсов"
+		"DOTA_Tooltip_Ability_item_boon_greaves_Description"							"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча каждое её применение снимает с героя дебаффы обычным развеиванием.\n\nПодходят способности с перезарядкой. Ультимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_modifier_item_boon_greaves"										"Гривсы способности"
+		"DOTA_Tooltip_modifier_item_boon_greaves_Description"							"Применение способности на иконке снимает с героя дебаффы обычным развеиванием."
+
+		"DOTA_Tooltip_Ability_item_boon_octarine"										"Бун октарина"
+		"DOTA_Tooltip_Ability_item_boon_octarine_Description"							"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча её перезарядка короче.\n\nПодходят способности с перезарядкой. Ультимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_octarine_cooldown_reduction_pct"				"%СНИЖЕНИЕ ПЕРЕЗАРЯДКИ:"
+		"DOTA_Tooltip_modifier_item_boon_octarine"										"Октарин способности"
+		"DOTA_Tooltip_modifier_item_boon_octarine_Description"							"Перезарядка способности на иконке короче на %dMODIFIER_PROPERTY_TOOLTIP%%%."
+
+		"DOTA_Tooltip_modifier_item_boon_greaves_pending"								"Гривсы: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_greaves_pending_Description"					"Бун получен. Выберите способность в окне над инвентарём."
+		"DOTA_Tooltip_modifier_item_boon_octarine_pending"								"Октарин: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_octarine_pending_Description"					"Бун получен. Выберите способность в окне над инвентарём."
+		"trinity_boon_choice_hint_item_boon_greaves"									"Выберите способность: каждое её применение развеет дебаффы с героя."
+		"trinity_boon_choice_hint_item_boon_octarine"									"Выберите способность: её перезарядка станет короче на 15%."
+
+		"DOTA_Tooltip_Ability_item_boon_venomancer"										"Бун Веномансера"
+		"DOTA_Tooltip_Ability_item_boon_venomancer_Description"							"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча её эффекты на врагах длятся дольше.\n\nДлительность оглушений, замедлений и других эффектов способности на врагах увеличена на %debuff_duration_pct%%%.\n\nУльтимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_venomancer_debuff_duration_pct"					"%ДЛИТЕЛЬНОСТЬ ЭФФЕКТОВ:"
+		"DOTA_Tooltip_modifier_item_boon_venomancer"									"Веномансер способности"
+		"DOTA_Tooltip_modifier_item_boon_venomancer_Description"						"Эффекты способности на иконке длятся на врагах на %dMODIFIER_PROPERTY_TOOLTIP%%% дольше."
+		"DOTA_Tooltip_modifier_item_boon_venomancer_pending"							"Веномансер: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_venomancer_pending_Description"				"Бун получен. Выберите способность в окне над инвентарём."
+		"trinity_boon_choice_hint_item_boon_venomancer"									"Выберите способность: её эффекты на врагах будут длиться в 2 раза дольше."
+
+		"DOTA_Tooltip_Ability_item_boon_holy_locket"									"Бун Холи локета"
+		"DOTA_Tooltip_Ability_item_boon_holy_locket_Description"						"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча её лечение сильнее.\n\nЛечение способности на себя и союзников увеличено на %heal_amp_pct%%%.\n\nУльтимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_holy_locket_heal_amp_pct"						"%УСИЛЕНИЕ ЛЕЧЕНИЯ:"
+		"DOTA_Tooltip_modifier_item_boon_holy_locket"									"Холи локет способности"
+		"DOTA_Tooltip_modifier_item_boon_holy_locket_Description"						"Лечение способности на иконке на себя и союзников сильнее на %dMODIFIER_PROPERTY_TOOLTIP%%%."
+		"DOTA_Tooltip_modifier_item_boon_holy_locket_pending"							"Холи локет: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_holy_locket_pending_Description"				"Бун получен. Выберите способность в окне над инвентарём."
+		"trinity_boon_choice_hint_item_boon_holy_locket"								"Выберите способность: её лечение на себя и союзников станет сильнее на 15%."
+
+		"DOTA_Tooltip_Ability_item_boon_kaya"											"Бун Кайи"
+		"DOTA_Tooltip_Ability_item_boon_kaya_Description"								"Применяется на союзного героя или на себя. Цель сразу получает бун и выбирает одну из своих способностей в окне над инвентарём: до конца матча она сильнее растёт от Силы магии.\n\nВсе коэффициенты Силы магии способности увеличены на %mind_power_coefficient_pct%%%.\n\nПодходят способности с коэффициентом Силы магии. Ультимативные способности и «Дай пять» не подходят. Такой же бун можно применить на другую способность."
+		"DOTA_Tooltip_Ability_item_boon_kaya_mind_power_coefficient_pct"				"%КОЭФФИЦИЕНТЫ СИЛЫ МАГИИ:"
+		"DOTA_Tooltip_modifier_item_boon_kaya"											"Кайя способности"
+		"DOTA_Tooltip_modifier_item_boon_kaya_Description"								"Коэффициенты Силы магии способности на иконке больше на %dMODIFIER_PROPERTY_TOOLTIP%%%."
+		"DOTA_Tooltip_modifier_item_boon_kaya_pending"									"Кайя: выбор способности"
+		"DOTA_Tooltip_modifier_item_boon_kaya_pending_Description"						"Бун получен. Выберите способность в окне над инвентарём."
+		"trinity_boon_choice_hint_item_boon_kaya"										"Выберите способность: её коэффициенты Силы магии вырастут на 50%."
+
+		"trinity_boon_choice_hint_item_boon_twin_charges"								"Выберите способность: она получит 2 заряда, заряд восстанавливается за перезарядку +50%."
+		"trinity_boon_choice_hint_item_boon_vampirism"									"Выберите способность: её урон будет лечить героя."
+		"trinity_boon_choice_hint_item_boon_quickening"									"Выберите способность: каждое её применение ускорит героя."
+
+		"trinity_boon_choice_collapsed"													"Выбрать способность"
+		"trinity_boon_charges_failed"													"Не удалось применить бун"
+
 		"DOTA_Tooltip_ability_caravan_aghanim_laser"							"Аганимный лазер"
 		"DOTA_Tooltip_ability_caravan_aghanim_laser_Description"					"Аганим направляет лазеры на каждого вражеского героя рядом. Лучи медленно следуют за целями.\n\nГерой под лучом замедляется и слепнет. Чем дольше он остаётся в луче, тем больше урона получает."
 		"DOTA_Tooltip_ability_caravan_aghanim_laser_channel_time"				"ДЛИТЕЛЬНОСТЬ:"
@@ -1623,7 +1898,8 @@
 		"trinity_shop_desc_item_monkey_king_bar"		"Атаки не промахиваются и иногда оглушают."
 		"trinity_shop_desc_item_bfury"		"Атаки задевают врагов рядом с целью."
 		"trinity_shop_desc_item_butterfly"		"Уклонение от атак и скорость атаки."
-		"trinity_shop_desc_item_satanic"		"Активация: мощный вампиризм на несколько секунд."
+		"trinity_shop_desc_item_satanic"		"Активация: мощный вампиризм и скорость атаки на несколько секунд."
+		"trinity_shop_desc_item_elven_tunic"		"Скорость атаки, уклонение и скорость передвижения."
 		"trinity_shop_desc_item_maelstrom"		"Атаки иногда бьют цепной молнией."
 		"trinity_shop_desc_item_mjollnir"		"Активация: щит, который бьёт молниями."
 		"trinity_shop_desc_item_basher"		"Атаки иногда оглушают цель."
@@ -1698,6 +1974,7 @@
 		"trinity_shop_desc_item_gungir"		"Активация: цепная молния обездвиживает врагов в области."
 		"trinity_shop_desc_item_orchid"		"Активация: безмолвие и дополнительный урон. Входит в Scythe of Vyse."
 		"trinity_shop_desc_item_nullifier"		"Активация: развеивает и не даёт эффектам держаться на враге."
+		"trinity_shop_desc_item_crippling_crossbow"		"Активация: замедляет врага, снижает его лечение и наносит магический урон."
 		"trinity_shop_desc_item_wind_waker"		"Активация: смерч, в котором можно двигаться."
 		"trinity_shop_desc_item_ethereal_blade"		"Активация: эфирная форма и магический урон."
 		"trinity_shop_desc_item_meteor_hammer"		"Активация: метеор оглушает и жжёт врагов."
@@ -1805,5 +2082,8 @@
 		"trinity_shop_desc_item_moon_shard"		"Большая прибавка к скорости атаки."
 		"trinity_shop_desc_item_gem"		"Показывает невидимых врагов вокруг."
 
+		// Mind Power tooltip (layout/custom_game/mind_power_tooltips)
+		"trinity_mind_power_tooltip_alt_hint"		"Alt — показать прибавку от Силы магии"
+		"trinity_mind_power_tooltip_alt_active"		"Без Силы магии; в скобках — её прибавка"
 	}
 }

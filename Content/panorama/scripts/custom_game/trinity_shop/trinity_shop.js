@@ -231,28 +231,73 @@ function WatchNativeSearch() {
 // ---------------------------------------------------------------- открытие магазина: всегда с плашек категорий
 // Родной HUD вешает класс ShopOpen на корень HUD (и/или на сам магазин), пока магазин открыт.
 // Запасной признак — магазин виден и стоит в пределах экрана (закрытый уезжает за правый край).
-function IsShopOpen() {
+// Признаков несколько, ни один не сверен в игре, поэтому:
+//  1) родные события открытия/закрытия магазина (если движок их шлёт — им верим в первую очередь);
+//  2) классы открытого магазина на HUD / магазине / Main — верим, только если хоть раз видели такой класс;
+//  3) геометрия: магазин скрыт, нулевой ширины, прозрачен или за краем экрана.
+// Каждая смена состояния пишется в консоль со всеми признаками ([TrinityShop] shop open/closed).
+const SHOP_OPEN_CLASSES = ["ShopOpen", "ShopOpened", "ShopActive", "ShopVisible"];
+
+function HasOpenClass(panel) {
+	return IsAlive(panel) && SHOP_OPEN_CLASSES.some((name) => panel.BHasClass(name));
+}
+
+function ShopSignals() {
 	const shop = GetNativeShop();
-	if (!IsAlive(shop)) return false;
+	if (!IsAlive(shop)) return null;
 	const hud = CONTEXT.FindAncestor ? CONTEXT.FindAncestor("DotaHud") : null;
-	if ((hud && hud.BHasClass("ShopOpen")) || shop.BHasClass("ShopOpen")) return true;
-	if (!shop.visible || shop.actuallayoutwidth < 10) return false;
+	const main = shop.FindChildTraverse("Main");
 	const pos = shop.GetPositionWithinWindow();
-	return pos.x < Game.GetScreenWidth() - 20;
+	const transparent = shop.BIsTransparent ? !!shop.BIsTransparent() : false;
+	return {
+		event: STATE.shopEventOpen,
+		cls: HasOpenClass(hud) || HasOpenClass(shop) || HasOpenClass(main),
+		visible: !!shop.visible && shop.actuallayoutwidth >= 10 && !transparent,
+		onScreen: pos.x < Game.GetScreenWidth() - 20 && pos.x + shop.actuallayoutwidth > 20,
+	};
+}
+
+function IsShopOpen(s) {
+	if (!s) return false;
+	if (STATE.shopEvents && STATE.shopEvents.open && STATE.shopEvents.closed) return !!s.event;
+	if (s.cls) STATE.shopClassSeen = true;
+	if (STATE.shopClassSeen) return s.cls;
+	return s.visible && s.onScreen;
+}
+
+function ResetShopView() {
+	// Подсветка наведения могла остаться, если магазин закрыли с курсором на плашке.
+	DATA.categories.forEach((category) => {
+		const tile = $("#Category_" + category.id);
+		if (tile) tile.RemoveClass("Hover");
+	});
+	STATE.category = null;
+	STATE.sub = null;
+	STATE.selected = null;
+	RenderCategory();
+	RenderBuildTree();
 }
 
 function WatchShopOpen() {
-	const open = IsShopOpen();
-	if (open && STATE.shopOpen === false) {
-		// Магазин только что открыли: вернуться на главную панель, выбор предмета сбросить.
-		STATE.category = null;
-		STATE.sub = null;
-		STATE.selected = null;
-		RenderCategory();
-		RenderBuildTree();
+	const signals = ShopSignals();
+	const open = IsShopOpen(signals);
+	if (STATE.shopOpen !== undefined && open !== STATE.shopOpen) {
+		$.Msg("[TrinityShop] shop " + (open ? "open" : "closed") + " " + JSON.stringify(signals));
+		// Сброс и при закрытии, и при открытии: какой бы признак ни сработал, магазин откроется без выбранной категории.
+		if (STATE.mode === "new") ResetShopView();
 	}
 	STATE.shopOpen = open;
 }
+
+// Родные события магазина. Неизвестное имя просто не сработает.
+// Признаку из событий верим, только когда пришли оба события — открытия и закрытия.
+function OnShopEvent(open) {
+	STATE.shopEvents = STATE.shopEvents || {};
+	STATE.shopEvents[open ? "open" : "closed"] = true;
+	STATE.shopEventOpen = open;
+}
+$.RegisterForUnhandledEvent("DOTAHUDShopOpened", () => OnShopEvent(true));
+$.RegisterForUnhandledEvent("DOTAHUDShopClosed", () => OnShopEvent(false));
 
 // ---------------------------------------------------------------- режимы
 
@@ -268,9 +313,8 @@ function ApplyMode() {
 	if (showNative) {
 		// Классический вид и поиск показывают родную сетку — иконки должны быть на своих местах.
 		ReturnBorrowed();
-	} else if (STATE.category && BorrowRegistry().length === 0) {
-		const category = FindCategory(STATE.category);
-		if (category) RenderItems(category);
+	} else if (BorrowRegistry().length === 0) {
+		RenderItems(FindCategory(STATE.category));
 	}
 
 	const newButton = $("#ViewNewButton");
@@ -292,80 +336,37 @@ function ApplyMode() {
 	UpdateHeight();
 }
 
-// Родная сетка видна: классический вид, поиск или разовый замер высоты классического магазина.
+// Родная сетка видна: классический вид или поиск.
 function ShowNative() {
-	return STATE.mode === "old" || CONTEXT.BHasClass("SearchActive") || !!STATE.measuring;
+	return STATE.mode === "old" || CONTEXT.BHasClass("SearchActive");
 }
 
 // ---------------------------------------------------------------- высота как у классического магазина
 // Новый вид стоит на месте родных вкладок и сетки (GridHeaderAndMainContent), а окно сборки — на месте родного
-// дерева (ItemCombines). Поэтому в классическом виде запоминаем высоту этих двух панелей и в новом виде задаём
-// ровно такие же: магазин целиком получается того же размера, без подгонки по кадрам.
-// Если классический вид ещё не открывали — один раз на кадр показываем родную сетку и меряем.
-
-function PanelHeight(panel) {
-	return panel.actuallayoutheight / (panel.actualuiscale_y || 1);
-}
+// дерева (ItemCombines). Высоты этих панелей в классическом виде постоянные, в условных пикселях Panorama
+// (экран высотой 1080, от разрешения не зависят). Сняты в игре 2026-10-04 на 2560x1440 (масштаб 1.333):
+// GridHeaderAndMainContent 808px → 606, ItemCombines 131px → 98.
+// Если Valve поменяет родной магазин — переснять эти два числа в отладчике Panorama.
+const CLASSIC_CONTENT_HEIGHT = 606;
+const CLASSIC_COMBINES_HEIGHT = 98;
 
 function ClassicHeights() {
-	// Смена разрешения — старые замеры не годятся. Ключ classicSize: у прежнего формата (Main/HeightLimiter) другие поля.
-	const screen = Game.GetScreenHeight();
-	if (!STATE.classicSize || STATE.classicSize.screen !== screen) {
-		STATE.classicSize = { screen: screen, heights: {} };
-	}
-	return STATE.classicSize.heights;
-}
-
-// В классическом виде запоминаем максимум (вкладки родной сетки бывают разной высоты).
-function RememberClassicHeight() {
-	const heights = ClassicHeights();
-	const content = GetNativeContent();
-	if (IsAlive(content)) {
-		const h = PanelHeight(content);
-		if (h > 100 && h > (heights.content || 0)) heights.content = h;
-	}
-	const combines = GetNativeCombines();
-	if (IsAlive(combines) && combines.visible) {
-		const h = PanelHeight(combines);
-		if (h > 20 && h > (heights.combines || 0)) heights.combines = h;
-	}
-}
-
-function MeasureClassicHeight() {
-	if (STATE.measuring || STATE.mode !== "new") return;
-	const shop = GetNativeShop();
-	if (!IsAlive(shop) || PanelHeight(shop) < 50) return; // магазин ещё не разложен
-	STATE.measuring = true;
-	ApplyMode();
-	$.Schedule(0.1, () => {
-		if (STATE.generation !== GENERATION) return;
-		RememberClassicHeight();
-		STATE.measuring = false;
-		STATE.measured = !!ClassicHeights().content;
-		ApplyMode();
-	});
+	return { content: CLASSIC_CONTENT_HEIGHT, combines: CLASSIC_COMBINES_HEIGHT };
 }
 
 function UpdateHeight() {
-	if (ShowNative()) {
-		if (STATE.mode === "old" && !CONTEXT.BHasClass("SearchActive")) RememberClassicHeight();
-		return;
-	}
-
-	const heights = ClassicHeights();
-	if (!heights.content) {
-		if (!STATE.measured) MeasureClassicHeight();
-		// Пока замера нет — всё место под шапкой в HeightLimiter.
-		const shop = GetNativeShop();
-		const limiter = shop ? shop.FindChildTraverse("HeightLimiter") : null;
-		const header = GetNativeHeader();
-		const start = limiter && header ? Math.floor(PanelHeight(limiter) - PanelHeight(header)) : 0;
-		CONTEXT.style.height = (start > 50 ? start : 600) + "px";
-		return;
-	}
-	const height = Math.round(heights.content) + "px";
+	if (ShowNative()) return;
+	const height = CLASSIC_CONTENT_HEIGHT + "px";
 	if (CONTEXT.style.height !== height) CONTEXT.style.height = height;
-	if (!STATE.selected) SetTreeHeight(0);
+	if (!STATE.selected) {
+		SetTreeHeight(0);
+		// Ряд расходников центрируется по высоте окна сборки: перерисовать, если она поменялась.
+		const reserve = TreeReserveHeight();
+		if (STATE.consumablesReserve !== reserve) {
+			STATE.consumablesReserve = reserve;
+			RenderBuildTree();
+		}
+	}
 }
 
 // ---------------------------------------------------------------- плашки категорий
@@ -374,42 +375,68 @@ function FindCategory(id) {
 	return DATA.categories.find((c) => c.id === id) || null;
 }
 
-function BuildCategoryGrid() {
-	const grid = $("#CategoryGrid");
-	grid.RemoveAndDeleteChildren();
+function BuildCategoryRow() {
+	const row = $("#CategoryRow");
+	row.RemoveAndDeleteChildren();
 
-	// 3 ряда по 2 плашки: ряды делят высоту поровну, плашки — ширину ряда (проценты в Panorama не учитывают отступы).
-	let row = null;
+	// 6 плашек в одну строку, только арт; название — во всплывающей подсказке.
 	DATA.categories.forEach((category, index) => {
-		if (index % 2 === 0) {
-			row = $.CreatePanel("Panel", grid, "");
-			row.AddClass("CategoryRow");
-		}
 		const tile = $.CreatePanel("Button", row, "Category_" + category.id);
 		tile.BLoadLayoutSnippet("CategoryTile");
+		tile.SetHasClass("First", index === 0);
 		tile.FindChildTraverse("CategoryArt").SetImage(category.art);
-		tile.FindChildTraverse("CategoryName").text = $.Localize(category.token);
-		tile.style.backgroundColor = TileGradient(category.accent);
-		tile.SetPanelEvent("onactivate", () => OpenCategory(category.id));
+		tile.FindChildTraverse("CategoryBar").style.backgroundColor = category.accent;
+		tile.SetPanelEvent("onactivate", () => ToggleCategory(category.id));
+		tile.SetPanelEvent("onmouseover", () => {
+			tile.AddClass("Hover");
+			PaintCategoryTile(tile, category);
+			$.DispatchEvent("DOTAShowTextTooltip", tile, $.Localize(category.token));
+		});
+		tile.SetPanelEvent("onmouseout", () => {
+			tile.RemoveClass("Hover");
+			PaintCategoryTile(tile, category);
+			$.DispatchEvent("DOTAHideTextTooltip");
+		});
 	});
+	PaintCategoryTiles();
 }
 
-// Тёмный градиент в тоне категории (в макете: top ≈ accent на 30 %, bottom почти чёрный).
-function TileGradient(accent) {
-	return "gradient( linear, 0% 0%, 0% 100%, from( " + accent + "40 ), to( #0d0f12 ) )";
+// Цвета плашки — как у подкатегорий: выбрана — 77→2a % и рамка 2px, наведение — 38→10 % и рамка 1px,
+// иначе серая (как полоса атрибутов). Наведение красим из JS: в CSS цвет категории не передать.
+function PaintCategoryTile(tile, category) {
+	const active = STATE.category === category.id;
+	const hover = tile.BHasClass("Hover");
+	tile.SetHasClass("Active", active);
+	if (active || hover) {
+		tile.style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( " + category.accent + (active ? "77" : "38") + " ), to( " + category.accent + (active ? "2a" : "10") + " ) )";
+		tile.style.border = active ? "2px solid " + category.accent : "1px solid " + category.accent + "80";
+	} else {
+		tile.style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #2a2f35 ), to( #1a1d21 ) )";
+		tile.style.border = "1px solid #000000";
+	}
+}
+
+function PaintCategoryTiles() {
+	DATA.categories.forEach((category) => {
+		const tile = $("#Category_" + category.id);
+		if (tile) PaintCategoryTile(tile, category);
+	});
 }
 
 // ---------------------------------------------------------------- экран категории
 
-function OpenCategory(id) {
-	STATE.category = id;
-	STATE.sub = null;
-	// Порядок по умолчанию задаёт вес предмета для героя (hero_item_weights.js), поэтому атрибут героя
-	// сам не включается: иначе предметы со статом встали бы выше самых востребованных. Статы всё равно запрашиваем.
-	HeroAttribute();
-	STATE.attr = null;
-	STATE.attrTouched = true;
+// Снять выбор предмета и очистить окно сборки (иначе внизу остаётся рецепт прошлого предмета).
+function ClearSelection() {
 	STATE.selected = null;
+	RenderBuildTree();
+}
+
+// Клик по категории выбирает её, повторный — снимает выбор (тогда в списке все предметы).
+// Подкатегория сбрасывается, сортировка по атрибуту сохраняется.
+function ToggleCategory(id) {
+	STATE.category = STATE.category === id ? null : id;
+	STATE.sub = null;
+	ClearSelection();
 	RenderCategory();
 }
 
@@ -455,12 +482,12 @@ function OnHeroAttribute(event) {
 		const changed = !STATE.heroAttr || STATE.heroAttr.hero !== hero || STATE.heroAttr.attr !== event.attr;
 		STATE.heroAttr = { hero: hero, attr: event.attr };
 		// Игрок сам не трогал сортировку — применить атрибут героя к открытой категории.
-		if (changed && STATE.category && !STATE.attrTouched && STATE.attr !== event.attr) {
+		if (changed && !STATE.attrTouched && STATE.attr !== event.attr) {
 			STATE.attr = event.attr;
 			resort = true;
 		}
 	}
-	if (resort && STATE.category) RenderCategory();
+	if (resort) RenderCategory();
 }
 
 // ---------------------------------------------------------------- золото: доступные предметы сверху
@@ -469,38 +496,30 @@ function LocalGold() {
 	return Players.GetGold(Players.GetLocalPlayer());
 }
 
-// Какие из видимых предметов сейчас по карману. Меняется — список пересобирается (доступные уходят наверх).
-function AffordKey(names, gold) {
-	return names.filter((name) => DATA.items[name].price <= gold).join(",");
+// Снимок списка: состав, порядок и что по карману. Меняется — список пересобирается
+// (купленный предмет пропадает, раз в минуту меняется вес от времени матча, карточка блекнет без золота).
+function ListKey(names, gold) {
+	return names.map((name) => name + (DATA.items[name].price <= gold ? "+" : "-")).join(",");
 }
 
 function WatchGold() {
 	const category = FindCategory(STATE.category);
 	const showNative = ShowNative();
 	// Во время перетаскивания карточку не пересоздаём — иначе бросок потеряется.
-	if (!category || showNative || STATE.dragging || STATE.measuring) return;
-	if (AffordKey(GetVisibleItems(category), LocalGold()) !== STATE.affordKey) {
+	if (showNative || STATE.dragging) return;
+	if (ListKey(GetVisibleItems(category), LocalGold()) !== STATE.listKey) {
 		RenderItems(category);
 	}
-}
-
-function CloseCategory() {
-	STATE.category = null;
-	STATE.selected = null;
-	RenderCategory();
 }
 
 function RenderCategory() {
 	const category = FindCategory(STATE.category);
 	CONTEXT.SetHasClass("CategoryOpen", !!category);
-	if (!category) {
-		ReturnBorrowed();
-		return;
-	}
+	// Порядок по умолчанию задаёт вес предмета для героя, атрибут сам не включается.
+	// Запрос нужен ради статов предметов из KV (сортировка по атрибуту); повторяется не чаще раза в 2 с.
+	HeroAttribute();
 
-	$("#CategoryHeaderArt").SetImage(category.art);
-	$("#CategoryHeaderName").text = $.Localize(category.token);
-
+	PaintCategoryTiles();
 	RenderSubcategories(category);
 	RenderAttributes();
 	RenderItems(category);
@@ -509,6 +528,7 @@ function RenderCategory() {
 function RenderSubcategories(category) {
 	const row = $("#SubcategoryRow");
 	row.RemoveAndDeleteChildren();
+	if (!category) return;
 	// 3 подкатегории — три узкие кнопки в ряд (CSS .ThreeSubs), 2 — как раньше, по половине.
 	row.SetHasClass("ThreeSubs", category.subcategories.length === 3);
 
@@ -525,7 +545,7 @@ function RenderSubcategories(category) {
 
 		button.SetPanelEvent("onactivate", () => {
 			STATE.sub = active ? null : sub.id;
-			STATE.selected = null;
+			ClearSelection();
 			RenderCategory();
 		});
 	});
@@ -549,7 +569,7 @@ function RenderAttributes() {
 		segment.SetPanelEvent("onactivate", () => {
 			STATE.attr = active ? null : attr.id;
 			STATE.attrTouched = true;
-			STATE.selected = null;
+			ClearSelection();
 			RenderCategory();
 		});
 	});
@@ -585,20 +605,173 @@ function HeroWeights() {
 	return table[heroName] || null;
 }
 
+// ---------------------------------------------------------------- купленные предметы скрыты
+// Последний слот героя: 0–5 инвентарь, 6–8 рюкзак, 9–14 тайник, 15 ТП, 16 нейтральный.
+const HERO_LAST_SLOT = 16;
+const COURIER_LAST_SLOT = 8;
+
+// Предметы, которые у героя уже есть: инвентарь, рюкзак, тайник и курьер (только купленные этим героем —
+// пока курьер несёт покупку, она не должна возвращаться в список). Продал или собрал в другой предмет — снова в списке.
+// Значение — сколько штук (нужно для доли собранного предмета, ItemAssemblyShare).
+function OwnedItemNames() {
+	const owned = {};
+	const hero = LocalHero();
+	if (hero === -1) return owned;
+	const collect = (unit, lastSlot, onlyMine) => {
+		for (let slot = 0; slot <= lastSlot; slot++) {
+			const item = Entities.GetItemInSlot(unit, slot);
+			if (item === -1 || item === undefined) continue;
+			if (onlyMine && Items.GetPurchaser && Items.GetPurchaser(item) !== hero) continue;
+			const name = Abilities.GetAbilityName(item);
+			owned[name] = (owned[name] || 0) + 1;
+		}
+	};
+	collect(hero, HERO_LAST_SLOT, false);
+	// VERIFY: Entities.GetAllEntitiesByClassname для курьеров в Panorama. Нет API — курьер просто не учитывается.
+	try {
+		const team = Entities.GetTeamNumber(hero);
+		(Entities.GetAllEntitiesByClassname("npc_dota_courier") || []).forEach((courier) => {
+			if (Entities.GetTeamNumber(courier) === team) collect(courier, COURIER_LAST_SLOT, true);
+		});
+	} catch (e) {
+		STATE.lastError = "courier: " + e;
+	}
+	return owned;
+}
+
+// ---------------------------------------------------------------- вес предмета от минуты матча
+// Каждый предмет выходит на максимум веса к своей минуте (пик), которая зависит от цены:
+//   дешевле CHEAP_PRICE — максимум сразу с горна и до 3-й минуты;
+//   500 → 3 мин, 1000 → 7 мин (между ними — линейно), дальше +5 минут за каждую 1000 (2000 → 12, 3000 → 17, 5000 → 27).
+// До пика множитель растёт от ×1/MAX_MULT (на 0:00) до ×MAX_MULT, после пика падает обратно в FALL_SLOWDOWN раз медленнее.
+// Множитель применяется к сжатому весу (вес^WEIGHT_POWER): у Dotabuff первый предмет героя весит в 3–8 раз больше
+// десятого, и без сжатия время не может поднять ранние предметы над дорогими.
+// Минуты считаются целыми от горна (до горна — 0), поэтому порядок меняется раз в минуту, а не на глазах.
+// Quelling Blade отдельной логики не имеет — обычный дешёвый предмет.
+const TIME_WEIGHT = {
+	WEIGHT_POWER: 0.5,
+	MAX_MULT: 3,
+	CHEAP_PRICE: 500,
+	CHEAP_PEAK: 3,
+	MID_PRICE: 1000,
+	MID_PEAK: 7,
+	MINUTES_PER_1000: 5,
+	FALL_SLOWDOWN: 2,
+};
+
+function MatchMinute() {
+	return Math.floor(Math.max(0, Game.GetDOTATime(false, false)) / 60);
+}
+
+function ItemCost(name) {
+	const item = DATA.items[name];
+	if (item && item.price > 0) return item.price;
+	const recipe = DATA.recipes[name];
+	return recipe && recipe.price > 0 ? recipe.price : 0;
+}
+
+// Минута, к которой предмет выходит на максимальный вес.
+function ItemPeakMinute(price) {
+	const t = TIME_WEIGHT;
+	if (price <= t.CHEAP_PRICE) return t.CHEAP_PEAK;
+	if (price <= t.MID_PRICE) {
+		return t.CHEAP_PEAK + ((price - t.CHEAP_PRICE) / (t.MID_PRICE - t.CHEAP_PRICE)) * (t.MID_PEAK - t.CHEAP_PEAK);
+	}
+	return t.MID_PEAK + ((price - t.MID_PRICE) / 1000) * t.MINUTES_PER_1000;
+}
+
+// Множитель веса от времени: от ×1/MAX_MULT до ×MAX_MULT. Цены нет — ×1.
+function ItemTimeMultiplier(name, minute) {
+	const t = TIME_WEIGHT;
+	const price = ItemCost(name);
+	if (price <= 0) return 1;
+	const peak = ItemPeakMinute(price);
+	let shape; // -1 … 1
+	if (minute <= peak) {
+		shape = price <= t.CHEAP_PRICE ? 1 : 1 - (2 * (peak - minute)) / peak;
+	} else {
+		shape = Math.max(-1, 1 - (2 * (minute - peak)) / (peak * t.FALL_SLOWDOWN));
+	}
+	return Math.pow(t.MAX_MULT, shape);
+}
+
+// ---------------------------------------------------------------- бонус за собранные части
+// Доля собранного предмета: цена частей, которые уже есть у героя (OwnedItemNames), / полная цена предмета.
+// Части внутри частей тоже считаются (Belt of Strength идёт в Abyssal Blade через Sange), свиток рецепта — тоже.
+// Каждый экземпляр части засчитывается в предмет один раз; в разные предметы — независимо.
+function OwnedPartsValue(name, pool) {
+	const recipe = DATA.recipes[name];
+	if (!recipe) return 0;
+	let value = 0;
+	recipe.components.forEach((part) => {
+		if (pool[part] > 0) {
+			pool[part]--;
+			value += ItemCost(part);
+		} else {
+			value += OwnedPartsValue(part, pool);
+		}
+	});
+	if (recipe.recipe > 0) {
+		const scroll = recipe.recipeItem || "item_recipe_" + name.replace(/^item_/, "");
+		if (pool[scroll] > 0) {
+			pool[scroll]--;
+			value += recipe.recipe;
+		}
+	}
+	return value;
+}
+
+function ItemAssemblyShare(name, owned) {
+	const total = ItemCost(name);
+	if (total <= 0 || !DATA.recipes[name]) return 0;
+	const pool = {};
+	Object.keys(owned).forEach((key) => (pool[key] = owned[key]));
+	return Math.min(1, OwnedPartsValue(name, pool) / total);
+}
+
+// Итоговый вес предметов для сортировки: (вес Dotabuff)^WEIGHT_POWER × множитель минуты,
+// затем подтягивание к самому тяжёлому предмету на долю собранного: 50% собрано — половина пути наверх,
+// почти собранный предмет — выше всех (ASSEMBLY_TOP_BONUS). Предметы без веса тоже поднимаются за собранные части.
+const ASSEMBLY_TOP_BONUS = 1.05;
+
+function ItemSortWeights(owned) {
+	const weights = HeroWeights() || {};
+	const minute = MatchMinute();
+	const result = {};
+	let top = 0;
+	Object.keys(DATA.items).forEach((name) => {
+		const base = weights[name] || 0;
+		const value = base > 0 ? Math.pow(base, TIME_WEIGHT.WEIGHT_POWER) * ItemTimeMultiplier(name, minute) : 0;
+		result[name] = value;
+		if (DATA.items[name].categories.length > 0 && value > top) top = value;
+	});
+	const target = top * ASSEMBLY_TOP_BONUS;
+	Object.keys(result).forEach((name) => {
+		const share = ItemAssemblyShare(name, owned);
+		if (share > 0 && target > result[name]) result[name] += (target - result[name]) * share;
+	});
+	return result;
+}
+
 // Порядок в категории (золото на порядок не влияет — только блеклость карточки):
 //  1) если выбран атрибут — сначала предметы с этим статом;
-//  2) по весу предмета для героя, от самых востребованных;
+//  2) по итоговому весу (ItemSortWeights: вес героя × минута матча + собранные части), от больших;
 //  3) без веса (или у героя нет таблицы) — по цене от дешёвых, при равной цене больше выбранного стата выше; затем по имени.
+// category = null — все предметы нового вида (у кого есть хоть одна категория).
+// Предметы, которые у героя уже есть (OwnedItemNames), в список не попадают.
 function GetVisibleItems(category) {
-	const sub = category.subcategories.find((s) => s.id === STATE.sub) || null;
+	const sub = category ? category.subcategories.find((s) => s.id === STATE.sub) || null : null;
 	const attr = STATE.attr;
 	const amount = (name) => (attr ? ItemStatAmount(name, attr) : 0);
-	const weights = HeroWeights() || {};
+	const owned = OwnedItemNames();
+	const weights = ItemSortWeights(owned);
 	const weight = (name) => weights[name] || 0;
 
 	return Object.keys(DATA.items)
 		.filter((name) => {
-			if (DATA.items[name].categories.indexOf(category.id) === -1) return false;
+			if (owned[name]) return false;
+			const categories = DATA.items[name].categories;
+			if (category ? categories.indexOf(category.id) === -1 : categories.length === 0) return false;
 			if (sub && sub.items.indexOf(name) === -1) return false;
 			return true;
 		})
@@ -632,7 +805,7 @@ function RenderItems(category) {
 
 	const names = GetVisibleItems(category);
 	const gold = LocalGold();
-	STATE.affordKey = AffordKey(names, gold);
+	STATE.listKey = ListKey(names, gold);
 	CONTEXT.SetHasClass("NoItems", names.length === 0);
 
 	names.forEach((name) => {
@@ -1085,9 +1258,19 @@ function SelectItem(name) {
 		return;
 	}
 	const shop = GetNativeShop();
-	const nativeItem = shop ? FindPanelByItemName(shop, name, CONTEXT) : null;
-	if (nativeItem) {
-		$.DispatchEvent("Activated", nativeItem);
+	// Сначала настоящая карточка родного магазина (DOTAShopItem); иначе любая панель с этим предметом.
+	// У предметов, которых нет в родной сетке (бывшие нейтралки: Elven Tunic), панели может не быть или она
+	// не принимает Activated — тогда не падаем, окно сборки уже показано выше.
+	let nativeItem = shop ? FindNativeShopItem(shop, name) : null;
+	if (!nativeItem && shop) {
+		nativeItem = FindPanelByItemName(shop, name, CONTEXT);
+	}
+	if (nativeItem && IsAlive(nativeItem)) {
+		try {
+			$.DispatchEvent("Activated", nativeItem);
+		} catch (e) {
+			$.Msg("[TrinityShop] native Activated skipped for " + name + ": " + e);
+		}
 	}
 }
 
@@ -1132,10 +1315,10 @@ function TreeParts(name) {
 }
 
 // Узел в точке (x, y) — центр иконки, в координатах холста. Слои TreeUpRow/TreeItemRow/TreeCompRow — на весь холст без потока.
-function AddTreeNode(layer, x, y, itemName, small, clickable, buyable) {
+function AddTreeNode(layer, x, y, itemName, small, clickable, buyable, size) {
 	// Панели создаются вне нашего layout (окно перенесено в нативный магазин), CSS-классы на них не действуют — стили inline.
-	const width = small ? TREE.nodeW : TREE.itemW;
-	const height = small ? TREE.nodeH : TREE.itemH;
+	const width = size ? size.w : small ? TREE.nodeW : TREE.itemW;
+	const height = size ? size.h : small ? TREE.nodeH : TREE.itemH;
 
 	const node = $.CreatePanel("Button", layer, "");
 	node.style.width = width + "px";
@@ -1163,6 +1346,7 @@ function AddTreeNode(layer, x, y, itemName, small, clickable, buyable) {
 	if (buyable) {
 		node.SetPanelEvent("oncontextmenu", () => BuyItem(itemName));
 	}
+	return node;
 }
 
 // Раскладка группы сбоку от центра: side = -1 слева, +1 справа. Колонка 0 — ближняя к центру.
@@ -1233,6 +1417,7 @@ function RenderBuildTree(retry) {
 	});
 	if (!name) {
 		SetTreeHeight(0);
+		RenderConsumables(compRow, retry);
 		return;
 	}
 
@@ -1275,6 +1460,86 @@ function RenderBuildTree(retry) {
 	}
 }
 
+// ---------------------------------------------------------------- расходники в пустом окне сборки
+// Пока предмет не выбран, на месте дерева сборки — ряд расходников. ПКМ — купить, Shift+ЛКМ — в быструю покупку,
+// перетаскивание — как у карточек, наведение — родной тултип (там цена).
+// У предметов с запасом (варды, смоук, граната) в углу иконки — сколько их осталось в магазине команды.
+const CONSUMABLES = [
+	"item_tpscroll",
+	"item_ward_observer",
+	"item_ward_sentry",
+	"item_tango",
+	"item_flask",
+	"item_clarity",
+	"item_enchanted_mango",
+	"item_faerie_fire",
+	"item_smoke_of_deceit",
+	"item_dust",
+	"item_blood_grenade",
+];
+
+function RenderConsumables(layer, retry) {
+	const canvas = TreePart("BuildTreeCanvas");
+	const width = TreeWidth();
+	const count = CONSUMABLES.length;
+	const step = 6;
+	// Иконки в одну линию на всю ширину, но не крупнее узлов дерева; пропорции родной иконки (≈ 88×64).
+	const w = Math.min(TREE.nodeW, Math.floor((width - (count - 1) * step) / count));
+	const h = Math.round(w * 0.73);
+	const reserve = TreeReserveHeight();
+	const height = Math.max(h, reserve > TREE.padding ? reserve - TREE.padding : h);
+	canvas.style.height = height + "px";
+	const rowW = count * w + (count - 1) * step;
+	const left = (width - rowW) / 2;
+	STOCK_NODES = {};
+	CONSUMABLES.forEach((itemName, i) => {
+		const node = AddTreeNode(layer, left + i * (w + step) + w / 2, height / 2, itemName, true, false, true, { w: w, h: h });
+		// Счётчик запаса в правом нижнем углу, как в родном магазине. Стили inline (панели вне нашего layout).
+		const label = $.CreatePanel("Label", node, "");
+		label.hittest = false;
+		label.style.horizontalAlign = "right";
+		label.style.verticalAlign = "bottom";
+		label.style.marginRight = "2px";
+		label.style.fontFamily = "monospaceNumbersFont";
+		label.style.fontSize = "13px";
+		label.style.fontWeight = "bold";
+		label.style.color = "#ffffff";
+		label.style.textShadow = "1px 1px 1px 3.0 #000000";
+		label.visible = false;
+		STOCK_NODES[itemName] = { node: node, label: label };
+	});
+	UpdateStockBadges();
+
+	// Первая отрисовка до раскладки: перерисовать, когда станет известна ширина.
+	const attempt = retry || 0;
+	if (!((canvas.actuallayoutwidth || 0) > 50) && attempt < 10) {
+		$.Schedule(0.05, () => {
+			if (STATE.generation === GENERATION && !STATE.selected) RenderBuildTree(attempt + 1);
+		});
+	}
+}
+
+// Запас магазина пишет сервер (trinity_shop.lua, UpdateStockTable): nettable trinity_shop, ключ stock_<команда>.
+// Нет предмета в таблице — запаса у него нет, счётчик скрыт. Запас 0 — иконка тусклая, как в родном магазине.
+var STOCK_NODES = {};
+
+function UpdateStockBadges() {
+	const team = Players.GetTeam(Players.GetLocalPlayer());
+	const stock = CustomNetTables.GetTableValue("trinity_shop", "stock_" + team) || {};
+	Object.keys(STOCK_NODES).forEach((itemName) => {
+		const entry = STOCK_NODES[itemName];
+		if (!IsAlive(entry.label)) return;
+		const count = stock[itemName];
+		const known = count !== undefined && count !== null;
+		entry.label.visible = known;
+		if (known) entry.label.text = String(count);
+		const empty = known && Number(count) <= 0;
+		entry.node.style.opacity = empty ? "0.45" : "1.0";
+		entry.node.style.saturation = empty ? "0.0" : "1.0";
+		entry.label.style.color = empty ? "#d2503f" : "#ffffff";
+	});
+}
+
 // VERIFY: формат приказа покупки в Panorama (поле с именем предмета) — сверить в Context7.
 function BuyItem(name) {
 	// Приказ покупки: предмет задаётся числовым ID в AbilityIndex (поля с именем предмета у приказа нет).
@@ -1297,16 +1562,31 @@ GameEvents.Subscribe("trinity_shop_result", (event) => {
 		Game.EmitSound("General.Buy");
 		return;
 	}
-	const message = event.reason === "gold" ? "Недостаточно золота" : "Нет места в инвентаре и тайнике";
+	const MESSAGES = {
+		gold: "Недостаточно золота",
+		full: "Нет места в инвентаре и тайнике",
+		shop: "Улучшать предметы можно только у лавки",
+		recipe: "Этот предмет так не улучшить",
+		stock: "Нет в наличии",
+	};
+	const message = MESSAGES[event.reason] || MESSAGES.full;
 	GameEvents.SendEventClientSide("dota_hud_error_message", { splitscreenplayer: 0, reason: 80, message: message });
 });
 
 GameEvents.Subscribe("trinity_shop_hero_attr", OnHeroAttribute);
 
+// Запас магазина: подписка одна на все перезагрузки скрипта.
+if (STATE.stockListener !== undefined) CustomNetTables.UnsubscribeNetTableListener(STATE.stockListener);
+STATE.stockListener = CustomNetTables.SubscribeNetTableListener("trinity_shop", () => {
+	if (STATE.generation === GENERATION) UpdateStockBadges();
+});
+
 try {
 	STATE.dragging = false;
 	ReturnBorrowed();
-	BuildCategoryGrid();
+	// Атрибут героя сам не включается: порядок по умолчанию — вес предмета для героя.
+	STATE.attrTouched = true;
+	BuildCategoryRow();
 	RenderCategory();
 	RenderBuildTree();
 	AttachToNativeShop();

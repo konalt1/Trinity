@@ -190,6 +190,9 @@ function modifier_juggernaut_blade_fury_lua:OnIntervalThink()
 		self:PlayEffects2( enemy )
 	end
 
+	-- Enemies who started seeing Juggernaut mid-spin hear the spin from now on.
+	EmitSoundOnUnitForObservers(caster, "Hero_Juggernaut.BladeFuryStart", self.soundHeard)
+
 	-- counter
 	self.count = self.count+1
 	
@@ -219,8 +222,12 @@ function modifier_juggernaut_blade_fury_lua:PlayEffects()
 		false
 	)
 
-	-- Emit sound
-	EmitSoundOn( sound_cast, self:GetParent() )
+	-- Emit sound (server only): heard by allies, enemies only if they see Juggernaut.
+	-- EmitSoundOn was heard through fog of war (playtest 2026-10-03).
+	if IsServer() then
+		self.soundHeard = {}
+		EmitSoundOnUnitForObservers(self:GetParent(), sound_cast, self.soundHeard)
+	end
 end
 
 function modifier_juggernaut_blade_fury_lua:PlayEffects2( target )

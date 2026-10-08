@@ -70,8 +70,8 @@
 
 		"AbilityValues"
 		{
-            "max_stacks"			"10"
-            "attack_damage"			"7 12 17 22"
+            "max_stacks"			"15"
+            "attack_damage"			"3 6 9 12"
             "stack_per_slow"
             {
                 "value"                     "0"

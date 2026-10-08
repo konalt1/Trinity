@@ -316,6 +316,18 @@
     });
   });
 
+  GameEvents.Subscribe("trinity_warmup_timer", function (event) {
+    if (!config.trinityWarmupActive) {
+      return;
+    }
+    const remaining = Number(event && event.remaining);
+    if (isNaN(remaining)) {
+      return;
+    }
+    config.trinityWarmupRemaining = Math.max(0, remaining);
+    config.trinityWarmupEndTime = Game.Time() + config.trinityWarmupRemaining;
+  });
+
   GameEvents.Subscribe("trinity_warmup_ended", function () {
     config.trinityWarmupActive = false;
     config.trinityWarmupGold = 0;

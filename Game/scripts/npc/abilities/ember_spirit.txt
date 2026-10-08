@@ -75,19 +75,20 @@
             "BaseClass"                     "ember_spirit_sleight_of_fist"
             "ScriptFile"                    "abilities/ember_spirit/ember_spirit_sleight_of_fist"
             "HasShardUpgrade"               "1"
+            // Способность всегда на зарядах: 1 заряд = обычный КД. Шард поднимает максимум до 2.
+            // Переход 0 -> 2 заряда движок не подхватывал: КД становился 0, зарядов не было, W не кастовалась.
+            "AbilityCooldown"               "0"
+            "AbilityCharges"                "1"
+            "AbilityChargeRestoreTime"      "13 11 9 7"
 
             "AbilityValues"
             {
                 "AbilityCharges"
                 {
-                    "value"                 "0"
+                    "value"                 "1"
                     "special_bonus_shard"   "=2"
                 }
-                "AbilityCooldown"
-                {
-                    "value"                 "13 11 9 7"
-                    "special_bonus_shard"   "=0"
-                }
+                "AbilityCooldown"           "0"
                 "AbilityChargeRestoreTime"  "13 11 9 7"
             }
         }

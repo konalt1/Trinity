@@ -58,6 +58,984 @@
         }
     }
 
+    // Буны каравана и лесных крипов (game_managers/neutral_boons.lua). Ванильные предметы не меняются.
+    // Все буны — в слоте нейтрального предмета (ItemIsNeutralDrop), выложить/передать нельзя (ItemDroppable 0 + фильтр приказов).
+    // Одно применение на союзного героя или себя: постоянный модификатор, предмет исчезает.
+    // Одинаковые буны складываются. Числа должны совпадать с items/caravan_boons.lua.
+    // Стат-буны ниже: стадия 1 лута — пояс (сила +6), ботинки эльфов (ловкость +6), роба (интеллект +6), корона (+4 ко всем).
+    // Перчатки, тапочки, мантия и обруч в лут не входят.
+    "item_boon_gauntlets"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_gauntlets"
+        "AbilityTextureName"            "item_boon_gauntlets"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_strength"            "3"
+        }
+    }
+
+    "item_boon_slippers"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_slippers"
+        "AbilityTextureName"            "item_boon_slippers"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_agility"             "3"
+        }
+    }
+
+    "item_boon_mantle"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_mantle"
+        "AbilityTextureName"            "item_boon_mantle"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_intellect"           "3"
+        }
+    }
+
+    "item_boon_circlet"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_circlet"
+        "AbilityTextureName"            "item_boon_circlet"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_all_stats"           "2"
+        }
+    }
+
+    "item_boon_belt_of_strength"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_belt_of_strength"
+        "AbilityTextureName"            "item_boon_belt_of_strength"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_strength"            "6"
+        }
+    }
+
+    "item_boon_boots_of_elves"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_boots_of_elves"
+        "AbilityTextureName"            "item_boon_boots_of_elves"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_agility"             "6"
+        }
+    }
+
+    "item_boon_robe"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_robe"
+        "AbilityTextureName"            "item_boon_robe"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_intellect"           "6"
+        }
+    }
+
+    "item_boon_crown"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_crown"
+        "AbilityTextureName"            "item_boon_crown"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_all_stats"           "4"
+        }
+    }
+
+    // Буны каравана по стадиям (CaravanLoot.BOONS): стат-курьер несёт один случайный бун из четырёх.
+    // Стадия 1 также включает item_boon_circlet, стадия 2 — item_boon_tenacity (блок ниже под «Стадия 3»).
+    // Числа должны совпадать с items/caravan_boons.lua.
+    // Буны с выбором способности (twin_charges / vampirism / quickening / lens / daedalus / greaves / octarine / venomancer / holy_locket / kaya):
+    // бун тратится сразу, способность выбирает игрок цели; ультимативные способности не подходят.
+    // item_boon_aghanim: эффект Aghanim's Scepter (нельзя применить, если он уже поглощён).
+    // --- Бывшая стадия 1 (в лут не входят)
+    "item_boon_vitality"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_vitality"
+        "AbilityTextureName"            "item_boon_vitality"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_health"              "80"
+        }
+    }
+
+    "item_boon_clarity"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_clarity"
+        "AbilityTextureName"            "item_boon_clarity"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_mana_regen"          "1"
+        }
+    }
+
+    "item_boon_swiftness"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_swiftness"
+        "AbilityTextureName"            "item_boon_swiftness"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_movement_speed"      "12"
+        }
+    }
+
+    // --- Стадия 2 (14:00)
+    "item_boon_might"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_might"
+        "AbilityTextureName"            "item_boon_might"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_damage"              "10"
+        }
+    }
+
+    "item_boon_bulwark"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_bulwark"
+        "AbilityTextureName"            "item_boon_bulwark"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_armor"               "3"
+        }
+    }
+
+    "item_boon_warding"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_warding"
+        "AbilityTextureName"            "item_boon_warding"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_magic_resistance"    "8"
+        }
+    }
+
+    // --- Стадия 3 (21:00)
+    "item_boon_fury"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_fury"
+        "AbilityTextureName"            "item_boon_fury"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_attack_speed"        "30"
+        }
+    }
+
+    "item_boon_reach"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_reach"
+        "AbilityTextureName"            "item_boon_reach"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_cast_range"          "125"
+        }
+    }
+
+    "item_boon_tenacity"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_tenacity"
+        "AbilityTextureName"            "item_boon_tenacity"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_status_resistance"   "8"
+        }
+    }
+
+    // --- Стадия 4 (28:00)
+    "item_boon_twin_charges"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_twin_charges"
+        "AbilityTextureName"            "item_boon_twin_charges"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "max_charges"               "2"
+            "cooldown_increase_pct"     "50"
+        }
+    }
+
+    "item_boon_haste"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_haste"
+        "AbilityTextureName"            "item_boon_haste"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "cooldown_reduction"        "10"
+        }
+    }
+
+    "item_boon_renewal"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_renewal"
+        "AbilityTextureName"            "item_boon_renewal"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_health_regen"        "7"
+            "bonus_mana_regen"          "2.5"
+        }
+    }
+
+    // --- Стадия 5 (35:00+)
+    "item_boon_aghanim"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_aghanim"
+        "AbilityTextureName"            "item_boon_aghanim"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+    }
+
+    "item_boon_titan"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_titan"
+        "AbilityTextureName"            "item_boon_titan"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_all_stats"           "10"
+        }
+    }
+
+    "item_boon_resilience"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_resilience"
+        "AbilityTextureName"            "item_boon_resilience"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "damage_reduction"          "8"
+        }
+    }
+
+    // --- Стадия 3: вампиризм выбранной способности (выбор способности)
+    "item_boon_vampirism"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_vampirism"
+        "AbilityTextureName"            "item_boon_vampirism"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "lifesteal_hero_pct"        "25"
+            "lifesteal_creep_pct"       "5"
+        }
+    }
+
+    // --- Стадия 3: ускорение от выбранной способности (выбор способности)
+    "item_boon_quickening"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_quickening"
+        "AbilityTextureName"            "item_boon_quickening"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "move_speed_pct"            "30"
+            "duration"                  "3"
+        }
+    }
+
+    // --- Стадия 4: Аегис на 60 сек.
+    "item_boon_aegis"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_aegis"
+        "AbilityTextureName"            "item_boon_aegis"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "duration"                  "60"
+        }
+    }
+
+    // --- Стадия 5
+    "item_boon_colossus"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_colossus"
+        "AbilityTextureName"            "item_boon_colossus"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "bonus_health"              "350"
+            "bonus_mana"                "350"
+        }
+    }
+
+    // --- Стадия 3: линза выбранной способности (выбор способности)
+    "item_boon_lens"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_lens"
+        "AbilityTextureName"            "item_boon_lens"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "cast_range"                "250"
+        }
+    }
+
+    // --- Стадия 4: Дедалус выбранной способности (выбор способности)
+    "item_boon_daedalus"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_daedalus"
+        "AbilityTextureName"            "item_boon_daedalus"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "crit_chance"               "30"
+            "crit_bonus_pct"            "150"
+        }
+    }
+
+    // --- Стадия 3: гривсы выбранной способности (выбор способности)
+    "item_boon_greaves"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_greaves"
+        "AbilityTextureName"            "item_boon_greaves"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+    }
+
+    // --- Стадия 2: октарин выбранной способности (выбор способности)
+    "item_boon_octarine"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_octarine"
+        "AbilityTextureName"            "item_boon_octarine"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "cooldown_reduction_pct"    "15"
+        }
+    }
+
+    // --- Стадия 3: Веномансер выбранной способности (выбор способности)
+    "item_boon_venomancer"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_venomancer"
+        "AbilityTextureName"            "item_boon_venomancer"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "debuff_duration_pct"       "100"
+        }
+    }
+
+    // --- Стадия 2: Холи локет выбранной способности (выбор способности)
+    "item_boon_holy_locket"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_holy_locket"
+        "AbilityTextureName"            "item_boon_holy_locket"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "heal_amp_pct"              "15"
+        }
+    }
+
+    // --- Пул 4: Кайя выбранной способности (выбор способности)
+    "item_boon_kaya"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_boon_kaya"
+        "AbilityTextureName"            "item_boon_kaya"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+        "AbilityCastRange"              "250"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "ItemCost"                      "0"
+        "ItemPurchasable"               "0"
+        "ItemSellable"                  "0"
+        "ItemDroppable"                 "0"
+        "ItemShareability"              "ITEM_FULLY_SHAREABLE"
+        "ItemPermanent"                 "0"
+        "ItemKillable"                  "0"
+        "SpeciallyBannedFromNeutralSlot" "0"
+        "ShowGiveIndicatorOnTargetCast" "1"
+        "ItemIsNeutralDrop"             "1"
+        "AbilityValues"
+        {
+            "mind_power_coefficient_pct""50"
+        }
+    }
+
     //=================================================================================================================
     // Grove Bow - компонент Паразмы (в ванилле нейтралка, выведенная из игры).
     // Рецепт: Staff of Wizardry + Blade of Alacrity + 800 = 2800.
@@ -200,7 +1178,7 @@
     }
 
     //=================================================================================================================
-    // Cloak of Flames - в ванилле нейтралка, в Trinity покупается: Cloak + Mithril Hammer = 2500 (рецепт бесплатный, собирается сам).
+    // Cloak of Flames - в ванилле нейтралка, в Trinity покупается: Cloak + Mithril Hammer + рецепт 200 = 2700.
     // Рецепт - собственный предмет-рецепт (раньше занимал ванильный рецепт Poor Man's Shield, теперь он нужен самому щиту).
     //=================================================================================================================
     "item_recipe_cloak_of_flames"
@@ -208,7 +1186,7 @@
         "BaseClass"                     "item_datadriven"
         "AbilityTextureName"            "item_recipe_cloak_of_flames"
         "Model"                         "models/props_gameplay/recipe.vmdl"
-        "ItemCost"                      "0"
+        "ItemCost"                      "200"
         "ItemPurchasable"               "0"
         "ItemShopTags"                  ""
         "ItemRecipe"                    "1"
@@ -228,7 +1206,7 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_INVISIBLE | DOTA_ABILITY_BEHAVIOR_DONT_PROC_OTHER_ABILITIES"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "AbilityCooldown"               "0"
-        "ItemCost"                      "2500"
+        "ItemCost"                      "2700"
         "ItemPurchasable"               "1"
         "ItemSellable"                  "1"
         "ItemIsNeutralActiveDrop"       "0"
@@ -254,14 +1232,14 @@
     }
 
     //=================================================================================================================
-    // Radiance: Talisman of Evasion + Cloak of Flames + рецепт 900 (1300 + 2500 + 900 = 4700, как в ванилле).
+    // Radiance: Talisman of Evasion + Cloak of Flames + рецепт 1200 (1300 + 2700 + 1200 = 5200).
     // Lua-версия (items/item_radiance_trinity.lua): включение выпускает огненную волну (урон + ослепление),
     // выключение отправляет предмет в КД на toggle_off_cooldown секунд.
     //=================================================================================================================
     "item_recipe_radiance"
     {
         "Model"                         "models/props_gameplay/recipe.vmdl"
-        "ItemCost"                      "900"
+        "ItemCost"                      "1200"
         "ItemPurchasable"               "1"
         "ItemRecipe"                    "1"
         "ItemResult"                    "item_radiance"
@@ -280,7 +1258,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "AbilityCooldown"               "0"
-        "ItemCost"                      "4700"
+        "ItemCost"                      "5200"
         "ItemShopTags"                  "damage;farming;dps"
         "ItemQuality"                   "epic"
         "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
@@ -424,7 +1402,7 @@
 
         "AbilityValues"
         {
-            "bonus_damage"              "15"
+            "bonus_damage"              "25"
             "bonus_magic_resistance"    "10"
             "duration"                  "2"
         }
@@ -495,14 +1473,14 @@
 
         "AbilityValues"
         {
-            "bonus_damage"              "9"
-            "bonus_strength"            "10"
+            "bonus_damage"              "16"
+            "bonus_strength"            "14"
         }
     }
 
     //=================================================================================================================
-    // Giant's Ring - в ванилле нейтралка. В Trinity - развитие Havoc Hammer: Havoc Hammer + Ring of Tarrasque + рецепт 300 = 4800.
-    // Lua (items/item_giants_ring_trinity.lua): статы Havoc Hammer (10 СИЛ, 9 урона) + 15 СИЛ кольца + реген Ring of Tarrasque,
+    // Giant's Ring - в ванилле нейтралка. В Trinity - развитие Havoc Hammer: Havoc Hammer + Ring of Tarrasque + рецепт 1000 = 5500.
+    // Lua (items/item_giants_ring_trinity.lua): статы Havoc Hammer (14 СИЛ, 16 урона) + 15 СИЛ кольца + реген Ring of Tarrasque,
     // активка Havoc Hammer (притяжение, урон 175 + 1.5x сила, замедление) и пассив кольца (рост, урон от силы вокруг героя).
     //=================================================================================================================
     "item_recipe_giants_ring"
@@ -510,7 +1488,7 @@
         "BaseClass"                     "item_datadriven"
         "AbilityTextureName"            "item_recipe_giants_ring"
         "Model"                         "models/props_gameplay/recipe.vmdl"
-        "ItemCost"                      "300"
+        "ItemCost"                      "1000"
         "ItemPurchasable"               "1"
         "ItemShopTags"                  ""
         "ItemRecipe"                    "1"
@@ -530,7 +1508,7 @@
         "AbilityCastRange"              "400"
         "AbilityCooldown"               "10"
         "AbilityManaCost"               "0"
-        "ItemCost"                      "4800"
+        "ItemCost"                      "5500"
         "ItemPurchasable"               "1"
         "ItemSellable"                  "1"
         "ItemIsNeutralActiveDrop"       "0"
@@ -544,8 +1522,8 @@
 
         "AbilityValues"
         {
-            "bonus_strength"            "25"
-            "bonus_damage"              "9"
+            "bonus_strength"            "29"
+            "bonus_damage"              "16"
             "bonus_health_regen"        "12"
             "model_scale"               "60"
             "pct_str_damage_per_second" "100"
@@ -794,12 +1772,12 @@
     }
 
     //=================================================================================================================
-    // Vanguard: Vitality Booster + Poor Man's Shield = 1700 (вместо Ring of Health, рецепт бесплатный как в ванилле).
-    // Здоровье поднято до суммы компонентов (250 + 125). Crimson Guard - вслед за Vanguard.
+    // Vanguard: Vitality Booster + Poor Man's Shield + рецепт 300 = 2000 (вместо Ring of Health).
+    // Здоровье поднято до суммы компонентов (250 + 125). Crimson Guard остаётся 3725: его рецепт снижен 1050 -> 750.
     //=================================================================================================================
     "item_recipe_vanguard"
     {
-        "ItemCost"                      "0"
+        "ItemCost"                      "300"
         "ItemRecipe"                    "1"
         "ItemResult"                    "item_vanguard"
         "ItemRequirements"
@@ -810,7 +1788,7 @@
 
     "item_vanguard"
     {
-        "ItemCost"                      "1700"
+        "ItemCost"                      "2000"
 
         "AbilityValues"
         {
@@ -822,8 +1800,20 @@
         }
     }
 
+    "item_recipe_crimson_guard"
+    {
+        "ItemCost"                      "750"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_crimson_guard"
+        "ItemRequirements"
+        {
+            "01"                        "item_vanguard;item_helm_of_iron_will"
+        }
+    }
+
     "item_crimson_guard"
     {
+        "ItemCost"                      "3725"
         // Ванильные значения, здоровье не меньше, чем у Vanguard.
         "AbilityValues"
         {
@@ -939,7 +1929,7 @@
 
     //=================================================================================================================
     // Scythe of Vyse (хекс): Orchid + Kaya + рецепт 600 = 5975 (вместо Mystic Staff + Tiara).
-    // Lua-версия (items/item_orchid_trinity.lua): статы Orchid и Kaya (Сила Магии - mind_power_bonus).
+    // Lua-версия (items/item_orchid_trinity.lua): статы Orchid и Kaya (Сила Магии - mind_power_bonus), реген маны 8.5 (как у ванильного Scythe) для баланса цены.
     // Активка: превращение на sheep_duration сек + усиленное «Сожжение души» на то же время (без своего безмолвия):
     // когда превращение заканчивается, цель получает silence_damage_percent% урона, полученного за это время.
     //=================================================================================================================
@@ -977,7 +1967,7 @@
             "bonus_intellect"           "30"
             "bonus_attack_speed"        "35"
             "bonus_damage"              "20"
-            "bonus_mana_regen"          "2.5"
+            "bonus_mana_regen"          "8.5"
             "mana_regen_multiplier"     "40"
             "mind_power_bonus"          "20"
             "sheep_duration"            "3"
@@ -1146,5 +2136,130 @@
     "item_mage_slayer"
     {
         "ItemCost"                      "3100"
+    }
+
+    //=================================================================================================================
+    // Elven Tunic - компонент Бабочки (в ванилле нейтралка). Рецепт: Blitz Knuckles + Talisman of Evasion + 500 = 2800
+    // (цена Eaglesong). Статы выдаёт ванильный модификатор; значения подняты не ниже компонентов: 40 скор. атаки (Blitz 35),
+    // 20% уклонения (Talisman 15), 7% скорости бега.
+    // Бабочка: Elven Tunic + Claymore + Blade of Alacrity + рецепт 300 = 5450 (раньше Eaglesong + Claymore + Talisman).
+    //=================================================================================================================
+    "item_recipe_elven_tunic"
+    {
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "500"
+        "ItemPurchasable"               "1"
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_elven_tunic"
+        "ItemRequirements"
+        {
+            "01"                        "item_blitz_knuckles;item_talisman_of_evasion"
+        }
+    }
+
+    "item_elven_tunic"
+    {
+        "ItemCost"                      "2800"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "evasion;attack_speed;move_speed"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+
+        "AbilityValues"
+        {
+            "attack_speed"              "40"
+            "evasion"                   "20"
+            "movment"                   "7"
+        }
+    }
+
+    "item_recipe_butterfly"
+    {
+        "ItemCost"                      "300"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_butterfly"
+        "ItemRequirements"
+        {
+            "01"                        "item_elven_tunic;item_claymore;item_blade_of_alacrity"
+        }
+    }
+
+    // Butterfly включает статы Elven Tunic: +40 скорости атаки и +7% скорости бега (их выдаёт Lua items/item_ranged_attack_range.lua,
+    // ванильный модификатор Бабочки этих ключей не знает). Ловкость снижена 35 -> 30, чтобы цена 5450 осталась в балансе.
+    "item_butterfly"
+    {
+        "AbilityValues"
+        {
+            "bonus_agility"             "30"
+            "trinity_attack_speed"      "40"
+            "trinity_move_speed_pct"    "7"
+        }
+    }
+
+    //=================================================================================================================
+    // Satanic: Reaver + Mask of Madness + рецепт 350 = 5050 (раньше Reaver + Claymore + Morbid Mask, рецепт 0).
+    // Mask of Madness уже включает Morbid Mask и Broadsword (урон вместо Claymore).
+    // Доп. эффект Trinity: пока активен Unholy Rage, +unholy_bonus_attack_speed скорости атаки.
+    // Ванильный модификатор этого ключа не знает: бонус выдаёт Lua (items/item_ranged_attack_range.lua).
+    //=================================================================================================================
+    "item_recipe_satanic"
+    {
+        "ItemCost"                      "350"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_satanic"
+        "ItemRequirements"
+        {
+            "01"                        "item_reaver;item_mask_of_madness"
+        }
+    }
+
+    "item_satanic"
+    {
+        "AbilityValues"
+        {
+            "unholy_bonus_attack_speed" "70"
+        }
+    }
+
+    //=================================================================================================================
+    // Crippling Crossbow - компонент Nullifier и Dagon (в ванилле нейтралка). Покупается целиком за 700.
+    // Активка и значения ванильные (из Items.txt); в собранные предметы эффекты не переходят.
+    // Nullifier: Sacred Relic + Crippling Crossbow + рецепт 250 = 4350 (раньше Relic + Splintmail, рецепт 0).
+    // Dagon: Point Booster + Crippling Crossbow + рецепт 1100 = 3000 (раньше Point Booster + Crown + Wizard Hat).
+    // Рецепт Dagon общий для улучшений до Dagon 5: цена рецепта 1100 не меняется.
+    //=================================================================================================================
+    "item_crippling_crossbow"
+    {
+        "ItemCost"                      "700"
+        "ItemPurchasable"               "1"
+        "ItemSellable"                  "1"
+        "ItemIsNeutralActiveDrop"       "0"
+        "ItemIsNeutralPassiveDrop"      "0"
+        "ItemQuality"                   "component"
+        "ItemShopTags"                  "damage;magic_dmg;disable"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+    }
+
+    "item_recipe_nullifier"
+    {
+        "ItemCost"                      "250"
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_nullifier"
+        "ItemRequirements"
+        {
+            "01"                        "item_relic;item_crippling_crossbow"
+        }
+    }
+
+    "item_recipe_dagon"
+    {
+        "ItemRequirements"
+        {
+            "01"                        "item_point_booster;item_crippling_crossbow"
+        }
     }
 }

@@ -1,0 +1,6 @@
+<root>
+    <scripts>
+        <include src="file://{resources}/layout/custom_game/mind_power_tooltips/mind_power_tooltips.js" />
+    </scripts>
+    <Panel hittest="false" />
+</root>

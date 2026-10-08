@@ -174,7 +174,12 @@ function CustomAbilityTooltips:GetMindPowerMultiplierAmount(ability, special_val
         level = math.max(0, ability:GetLevel() - 1)
     end
 
-    return ability:GetLevelSpecialValueNoOverride(multiplier_key, level)
+    local amount = ability:GetLevelSpecialValueNoOverride(multiplier_key, level)
+    -- Бун Кайи (items/caravan_boons.lua) усиливает коэффициенты Силы магии выбранной способности.
+    if CaravanBoons and CaravanBoons.MindPowerCoefficientFactor then
+        amount = amount * CaravanBoons.MindPowerCoefficientFactor(ability)
+    end
+    return amount
 end
 
 function CustomAbilityTooltips:GetMindPowerSpecialValue(ability, special_value_name, special_level, mind_power)
@@ -190,4 +195,70 @@ function CustomAbilityTooltips:GetMindPowerSpecialValue(ability, special_value_n
 
     local base_value = ability:GetLevelSpecialValueNoOverride(special_value_name, level)
     return math.max(0, base_value + (tonumber(mind_power) or 0) * multiplier)
+end
+
+-- Data for the Panorama Mind Power tooltip (layout/custom_game/mind_power_tooltips).
+-- The client needs the rules and the raw AbilityValues of every scaled ability to
+-- show "(+100% Mind Power)" next to a value and the base/bonus split on Alt.
+local TOOLTIP_NET_TABLE = "mind_power_tooltips"
+
+local function CopyForNetTable(value, depth)
+    depth = depth or 0
+    local value_type = type(value)
+    if value_type == "number" or value_type == "string" or value_type == "boolean" then
+        return value
+    end
+    if value_type ~= "table" or depth > 4 then
+        return nil
+    end
+
+    local result = {}
+    for key, child in pairs(value) do
+        local copied = CopyForNetTable(child, depth + 1)
+        if copied ~= nil then
+            result[tostring(key)] = copied
+        end
+    end
+    return result
+end
+
+function CustomAbilityTooltips:GetTooltipAbilityKeyValues(ability_name)
+    if type(GetAbilityKeyValuesByName) ~= "function" then
+        return nil
+    end
+
+    local ok, kv = pcall(GetAbilityKeyValuesByName, ability_name)
+    if ok and type(kv) == "table" then
+        return kv
+    end
+    return nil
+end
+
+function CustomAbilityTooltips:PublishTooltipData()
+    if not IsServer() then return end
+    self.tooltip_data_published = true
+
+    local missing = {}
+    for ability_name, rules in pairs(MIND_POWER_RULES) do
+        local kv = self:GetTooltipAbilityKeyValues(ability_name)
+        if kv and type(kv.AbilityValues) == "table" then
+            CustomNetTables:SetTableValue(TOOLTIP_NET_TABLE, ability_name, {
+                rules = CopyForNetTable(rules),
+                values = CopyForNetTable(kv.AbilityValues),
+                damage_type = tostring(kv.AbilityUnitDamageType or ""),
+            })
+        else
+            table.insert(missing, ability_name)
+        end
+    end
+
+    if #missing > 0 then
+        table.sort(missing)
+        print("[CustomAbilityTooltips] No AbilityValues for Mind Power tooltip: " .. table.concat(missing, ", "))
+    end
+end
+
+-- script_reload: republish so edited rules reach the client without a restart.
+if IsServer() and CustomAbilityTooltips.tooltip_data_published then
+    CustomAbilityTooltips:PublishTooltipData()
 end

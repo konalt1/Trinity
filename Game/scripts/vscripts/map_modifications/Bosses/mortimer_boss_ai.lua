@@ -1,17 +1,11 @@
 require("map_modifications/Bosses/mortimer_level_scaling")
+require("map_modifications/Bosses/boss_pathway")
 
 local AGGRO_RADIUS = 1200
 local ATTACK_ENGAGE_RADIUS = 600
 local COMBAT_TIMEOUT = 15
 local GOBBLE_RADIUS = 300
 local GOBBLE_OFFSET = 300
-local WAYPOINT_REACH_DISTANCE = 100
-
-local PATHWAY_POINTS = {
-    "Roshan_pathway",
-    "Roshan_pathway_2",
-    "Roshan_pathway_final",
-}
 
 local GOBBLE_IGNORED_UNITS = {
     ["npc_guardian_good"] = true,
@@ -81,29 +75,18 @@ local function FacePosition(position)
     end
 end
 
-local function GetCurrentWaypointPosition()
-    local waypointName = PATHWAY_POINTS[thisEntity.currentWaypointIndex or 1]
-    local waypoint = waypointName and Entities:FindByName(nil, waypointName) or nil
-    return waypoint and waypoint:GetAbsOrigin() or nil
-end
-
 local function MoveAlongPathway()
-    local waypointPosition = GetCurrentWaypointPosition()
-    if not waypointPosition then
-        print("[MortimerBoss] Pathway waypoint is missing; stopping pathway movement.")
+    if not BossPathway:HasPath(thisEntity) then
+        print("[MortimerBoss] No on-map pathway waypoints; stopping pathway movement.")
         thisEntity.pathwayEnabled = false
         return 0.5
     end
 
-    if (thisEntity:GetAbsOrigin() - waypointPosition):Length2D() < WAYPOINT_REACH_DISTANCE then
-        thisEntity.currentWaypointIndex = thisEntity.currentWaypointIndex + 1
-        waypointPosition = GetCurrentWaypointPosition()
-
-        if not waypointPosition then
-            thisEntity.reachedFinalPoint = true
-            UTIL_Remove(thisEntity)
-            return nil
-        end
+    local waypointPosition = BossPathway:GetTarget(thisEntity)
+    if not waypointPosition then
+        thisEntity.reachedFinalPoint = true
+        UTIL_Remove(thisEntity)
+        return nil
     end
 
     thisEntity:MoveToPosition(waypointPosition)
@@ -131,7 +114,7 @@ function Spawn(entityKeyValues)
     thisEntity:AddActivityModifier("walk")
     thisEntity.gobble = thisEntity:FindAbilityByName("mortimer_gobble_up")
     thisEntity.cookie = thisEntity:FindAbilityByName("snapfire_firesnap_cookie")
-    thisEntity.currentWaypointIndex = 1
+    BossPathway:Init(thisEntity)
     thisEntity.lastHealth = thisEntity:GetHealth()
     thisEntity.lastCombatTime = 0
     thisEntity.isInCombat = false

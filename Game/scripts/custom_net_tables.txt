@@ -4,11 +4,14 @@
     [
         "cooldown_info",
         "mind_power",
+        "mind_power_tooltips",
         "trinity_player_data",
         "trinity_match",
         "trinity_stickers",
         "chen_barrack",
         "trinity_hud_test",
-        "trinity_warmup"
+        "trinity_warmup",
+        "trinity_shop",
+        "trinity_neutral_boons"
     ]
 }

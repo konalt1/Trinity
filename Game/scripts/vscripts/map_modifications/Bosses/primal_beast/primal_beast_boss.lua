@@ -419,33 +419,51 @@ function PrimalBeastBoss:Mount(hero, beast)
 	return true
 end
 
+local function PBLog(message)
+	print("[PrimalBeastBoss] " .. message)
+end
+
+-- Запоминаем данные убитого босса и создаём союзника с задержкой, уже ВНЕ обработчика entity_killed:
+-- создание/удаление юнитов прямо внутри события смерти может крашить движок без Lua-ошибки.
 function PrimalBeastBoss:ConvertToAlly(killedBoss, team)
 	if not killedBoss or (killedBoss.IsNull and killedBoss:IsNull()) then
 		return
 	end
 	if not GetPlayerTeam(team) then
+		PBLog("killer team is not a player team, no allied mount")
 		return
 	end
 
 	local position = killedBoss:GetAbsOrigin()
 	local forward = killedBoss:GetForwardVector()
 	local level = killedBoss.primalBeastLevel or killedBoss.spawnNumber or 1
-	killedBoss:AddNoDraw()
+	PBLog("death captured, scheduling allied mount, level " .. tostring(level) .. ", team " .. tostring(team))
 
-	local ally = CreateUnitByName(BOSS_NAME, position, true, nil, nil, team)
-	if not ally then
-		print("[PrimalBeastBoss] Failed to create allied mount")
-		return
-	end
-
-	ally:SetForwardVector(forward)
-	self:PrepareAllied(ally, level)
-	ally:AddNewModifier(ally, nil, MOUNTABLE_MODIFIER, {})
-
-	Timers:CreateTimer(0.05, function()
-		if killedBoss and not killedBoss:IsNull() then
-			UTIL_Remove(killedBoss)
+	Timers:CreateTimer(0.2, function()
+		PBLog("step 1: creating allied unit")
+		local ally = CreateUnitByName(BOSS_NAME, position, true, nil, nil, team)
+		if not ally then
+			PBLog("Failed to create allied mount")
+			return nil
 		end
+
+		PBLog("step 2: preparing allied unit")
+		ally:SetForwardVector(forward)
+		self:PrepareAllied(ally, level)
+		PBLog("step 3: adding mountable modifier")
+		ally:AddNewModifier(ally, nil, MOUNTABLE_MODIFIER, {})
+		PBLog("step 4: allied mount ready")
+
+		if killedBoss and not killedBoss:IsNull() then
+			killedBoss:AddNoDraw()
+		end
+
+		Timers:CreateTimer(3.0, function()
+			if killedBoss and not killedBoss:IsNull() and not killedBoss:IsAlive() then
+				UTIL_Remove(killedBoss)
+			end
+			return nil
+		end)
 		return nil
 	end)
 end
@@ -461,6 +479,7 @@ function PrimalBeastBoss:OnEntityKilled(unit, event)
 		return
 	end
 
+	PBLog("boss killed, allied=" .. tostring(unit.primalBeastAllied))
 	if unit.primalBeastAllied then
 		self:Dismount(unit)
 		return
@@ -472,11 +491,27 @@ function PrimalBeastBoss:OnEntityKilled(unit, event)
 	self:ConvertToAlly(unit, team)
 end
 
-local STEER_AND_BLOCK_ORDERS = {
-	[DOTA_UNIT_ORDER_MOVE_TO_POSITION] = true,
-	[DOTA_UNIT_ORDER_MOVE_TO_TARGET] = true,
-	[DOTA_UNIT_ORDER_ATTACK_MOVE] = true,
-}
+-- Таблица строится лениво: order-константы могут быть nil на момент require() файла.
+local STEER_AND_BLOCK_ORDERS = nil
+
+local function GetSteerAndBlockOrders()
+	if STEER_AND_BLOCK_ORDERS then
+		return STEER_AND_BLOCK_ORDERS
+	end
+
+	local orders = {}
+	for _, order in ipairs({
+		DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+		DOTA_UNIT_ORDER_MOVE_TO_TARGET,
+		DOTA_UNIT_ORDER_ATTACK_MOVE,
+	}) do
+		if order ~= nil then
+			orders[order] = true
+		end
+	end
+	STEER_AND_BLOCK_ORDERS = orders
+	return orders
+end
 
 local function OrderPosition(data)
 	if data.position_x ~= nil then
@@ -490,6 +525,7 @@ function PrimalBeastBossHandleOrder(data)
 		return true
 	end
 
+	local steerOrders = GetSteerAndBlockOrders()
 	local order = data.order_type
 	local targetIndex = tonumber(data.entindex_target)
 	local target = targetIndex and EntIndexToHScript(targetIndex) or nil
@@ -523,7 +559,7 @@ function PrimalBeastBossHandleOrder(data)
 		local unit = EntIndexToHScript(tonumber(unitIndex))
 		if IsAlive(unit) then
 			if unit:GetUnitName() == BOSS_NAME and unit.primalBeastAllied then
-				if IsAlive(unit.primalBeastRider) and (STEER_AND_BLOCK_ORDERS[order] or order == DOTA_UNIT_ORDER_ATTACK_TARGET) then
+				if IsAlive(unit.primalBeastRider) and (steerOrders[order] or order == DOTA_UNIT_ORDER_ATTACK_TARGET) then
 					SteerFromOrder(unit)
 				end
 				return false
@@ -531,7 +567,7 @@ function PrimalBeastBossHandleOrder(data)
 
 			local beast = unit.primalBeastMount
 			if unit:HasModifier(RIDER_MODIFIER) and IsAlive(beast) then
-				if STEER_AND_BLOCK_ORDERS[order] then
+				if steerOrders[order] then
 					SteerFromOrder(beast)
 					return false
 				end
@@ -551,7 +587,7 @@ function PrimalBeastBossHandleOrder(data)
 		local hero = PlayerResource:GetSelectedHeroEntity(playerID)
 		local beast = hero and hero.primalBeastMount
 		if IsAlive(hero) and hero:HasModifier(RIDER_MODIFIER) and IsAlive(beast) then
-			if STEER_AND_BLOCK_ORDERS[order] then
+			if steerOrders[order] then
 				SteerFromOrder(beast)
 				return false
 			end

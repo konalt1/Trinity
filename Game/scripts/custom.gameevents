@@ -56,6 +56,11 @@
         "lerp"          "float"
     }
 
+    "trinity_warmup_timer"
+    {
+        "remaining"     "float"
+    }
+
     "trinity_warmup_ended"
     {
         "ended"         "bool"

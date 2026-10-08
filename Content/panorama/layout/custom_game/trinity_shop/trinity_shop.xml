@@ -18,8 +18,8 @@
 	<snippets>
 		<snippet name="CategoryTile">
 			<Button class="CategoryTile">
-				<Image id="CategoryArt" class="CategoryArt" scaling="stretch-to-fit-preserve-aspect" />
-				<Label id="CategoryName" class="CategoryName" />
+				<Image id="CategoryArt" class="CategoryArt" scaling="stretch-to-fit-preserve-aspect" hittest="false" />
+				<Panel id="CategoryBar" class="CategoryBar" hittest="false" />
 			</Button>
 		</snippet>
 
@@ -74,17 +74,10 @@
 
 		<!-- Новый магазин. Занимает место нативной сетки предметов (GridMainShop). -->
 		<Panel id="NewShop">
-			<Panel id="CategoryGrid" />
-
 			<Panel id="CategoryView">
-				<Panel class="CategoryHeader">
-					<Button id="BackButton" class="BackButton" onactivate="CloseCategory()"
-						onmouseover="UIShowTextTooltip(#trinity_shop_back)" onmouseout="UIHideTextTooltip()">
-						<Panel class="BackArrow" />
-					</Button>
-					<Image id="CategoryHeaderArt" scaling="stretch-to-fit-preserve-aspect" />
-					<Label id="CategoryHeaderName" />
-				</Panel>
+				<!-- Ряд из 6 категорий. Ни одна не выбрана — в списке все предметы нового вида. -->
+				<Panel id="CategoryRow" />
+				<!-- Подкатегории видны только у выбранной категории. -->
 				<Panel id="SubcategoryRow" />
 				<Panel id="AttributeStrip" />
 				<Panel id="ItemList" />

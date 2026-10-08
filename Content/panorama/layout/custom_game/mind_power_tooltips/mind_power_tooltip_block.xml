@@ -1,0 +1,6 @@
+<root>
+    <styles>
+        <include src="file://{resources}/layout/custom_game/mind_power_tooltips/mind_power_tooltips.css" />
+    </styles>
+    <Panel class="MindPowerTooltip" hittest="false" />
+</root>

@@ -30,6 +30,9 @@ function IsWarmupActive() {
     return config.trinityWarmupActive === true;
 }
 
+// Лутбоксы работают только через бэкенд; пока он выключен (TrinityStickers.USE_BACKEND = false), кнопку не показываем.
+const LOOTBOXES_ENABLED = false;
+
 function IsStickerUiAvailable() {
     return IsWarmupActive() || config.trinityStickerUiOverride === true;
 }
@@ -90,7 +93,7 @@ function UpdateVisibility() {
         stickers.SetHasClass("Hidden", !stickerUiVisible);
     }
     if (lootboxes) {
-        lootboxes.SetHasClass("Hidden", !stickerUiVisible);
+        lootboxes.SetHasClass("Hidden", !stickerUiVisible || !LOOTBOXES_ENABLED);
     }
     if (warmup) {
         warmup.SetHasClass("Hidden", !warmupVisible);
@@ -257,6 +260,15 @@ function Init() {
         UpdateVisibility();
         UpdateLevelButtons();
         UpdateFinishButton();
+        UpdateTimer();
+    });
+
+    // Draft ended: warmup gets its full time again.
+    GameEvents.Subscribe("trinity_warmup_timer", function (event) {
+        if (!IsWarmupActive() || !event) {
+            return;
+        }
+        RememberWarmupEndTime(event.remaining);
         UpdateTimer();
     });
 

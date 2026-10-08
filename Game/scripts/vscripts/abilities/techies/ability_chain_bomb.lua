@@ -262,6 +262,7 @@ function modifier_ability_chain_bomb_mine:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_DEATH,
@@ -328,6 +329,24 @@ function modifier_ability_chain_bomb_mine:GetDamageEventTarget(params)
     return params.target or params.unit
 end
 
+-- Ember Spirit during Sleight of Fist: the native ability puts modifiers named
+-- modifier_ember_spirit_sleight_of_fist_caster* on Ember while he is jumping between targets.
+-- The Trinity intrinsic modifier_ember_spirit_sleight_of_fist_shard_refresh does not match.
+local SLEIGHT_OF_FIST_CASTER_PREFIX = "modifier_ember_spirit_sleight_of_fist_caster"
+
+local function IsSleightOfFistAttacker(attacker)
+    if not attacker or attacker:IsNull() or not attacker.FindAllModifiers then
+        return false
+    end
+    for _, modifier in pairs(attacker:FindAllModifiers()) do
+        local name = modifier and not modifier:IsNull() and modifier:GetName() or ""
+        if string.sub(name, 1, #SLEIGHT_OF_FIST_CASTER_PREFIX) == SLEIGHT_OF_FIST_CASTER_PREFIX then
+            return true
+        end
+    end
+    return false
+end
+
 function modifier_ability_chain_bomb_mine:ShouldBlockIncomingDamage(params)
     if not IsServer() then
         return false
@@ -341,6 +360,11 @@ function modifier_ability_chain_bomb_mine:ShouldBlockIncomingDamage(params)
     end
 
     local attacker = params and params.attacker
+
+    -- Sleight of Fist never damages mines, whoever the Ember is.
+    if IsSleightOfFistAttacker(attacker) then
+        return true
+    end
 
     if self:IsFriendlyTrigger(attacker) then
         return false
@@ -360,6 +384,15 @@ end
 function modifier_ability_chain_bomb_mine:GetModifierIncomingDamage_Percentage(params)
     if self:ShouldBlockIncomingDamage(params) then
         return -100
+    end
+
+    return 0
+end
+
+function modifier_ability_chain_bomb_mine:GetAbsoluteNoDamagePhysical(params)
+    -- Only Sleight of Fist: other enemy attacks must still be able to destroy mines.
+    if IsServer() and params and IsSleightOfFistAttacker(params.attacker) then
+        return 1
     end
 
     return 0
@@ -427,6 +460,10 @@ end
 
 function modifier_ability_chain_bomb_mine:CheckState()
     return {
+        -- Mines are on the neutral team, so everyone's AoE spells and items (Meteor Hammer stun/burn)
+        -- used to hit them (playtest 2026-10-03). Damage rules are unchanged: the owner's damage
+        -- detonates, enemy attacks destroy, other magic/pure damage is blocked.
+        [MODIFIER_STATE_DEBUFF_IMMUNE] = true,
         [MODIFIER_STATE_INVISIBLE] = self:GetStackCount() == 1,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_NOT_ON_MINIMAP_FOR_ENEMIES] = true,

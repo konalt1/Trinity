@@ -655,6 +655,8 @@
 		// Spell Power (Base modifier)
 		"DOTA_Tooltip_modifier_mind_power"										"Spell Power"
 		"DOTA_Tooltip_modifier_mind_power_Description"							"Your abilities are improved based on your Spell Power."
+		"DOTA_Tooltip_modifier_mind_power_local_buff"							"Soul Power"
+		"DOTA_Tooltip_modifier_mind_power_local_buff_Description"				"Permanent Spell Power from devoured creeps and heroes. The number on the icon is the bonus."
 
 		// =============================================
 		// Item Tooltips — Kaya and Yasha chain
@@ -1211,6 +1213,279 @@
 		Death reincarnates the hero."
 		"DOTA_Tooltip_Ability_item_caravan_aegis_duration"						"DURATION:"
 
+		"dota_hud_error_caravan_boon_hero_only"									"Allied heroes only"
+		"dota_hud_error_boon_neutral_slot_full"											"Neutral item slot is full — use your boon first"
+		"dota_hud_error_boon_pickup_hero_only"											"Only heroes can pick up boons"
+		"dota_hud_error_boon_locked"													"Boons cannot be dropped or given — only used"
+		"DOTA_Tooltip_modifier_neutral_boon_carrier"									"Boon Carrier"
+		"DOTA_Tooltip_modifier_neutral_boon_carrier_Description"						"Drops a boon on death."
+
+		"DOTA_Tooltip_Ability_item_boon_gauntlets"								"Boon of Gauntlets"
+		"DOTA_Tooltip_Ability_item_boon_gauntlets_Description"					"Cast on an allied hero or yourself.
+				The target gains Strength for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_gauntlets_bonus_strength"				"STRENGTH:"
+		"DOTA_Tooltip_modifier_item_boon_gauntlets"								"Boon of Gauntlets"
+		"DOTA_Tooltip_modifier_item_boon_gauntlets_Description"					"Strength increased by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_slippers"								"Boon of Slippers"
+		"DOTA_Tooltip_Ability_item_boon_slippers_Description"					"Cast on an allied hero or yourself.
+				The target gains Agility for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_slippers_bonus_agility"					"AGILITY:"
+		"DOTA_Tooltip_modifier_item_boon_slippers"								"Boon of Slippers"
+		"DOTA_Tooltip_modifier_item_boon_slippers_Description"					"Agility increased by %dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_mantle"									"Boon of the Mantle"
+		"DOTA_Tooltip_Ability_item_boon_mantle_Description"						"Cast on an allied hero or yourself.
+				The target gains Intelligence for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_mantle_bonus_intellect"					"INTELLIGENCE:"
+		"DOTA_Tooltip_modifier_item_boon_mantle"								"Boon of the Mantle"
+		"DOTA_Tooltip_modifier_item_boon_mantle_Description"					"Intelligence increased by %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_circlet"								"Boon of the Circlet"
+		"DOTA_Tooltip_Ability_item_boon_circlet_Description"					"Cast on an allied hero or yourself.
+				The target gains all attributes for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_circlet_bonus_all_stats"				"ALL ATTRIBUTES:"
+		"DOTA_Tooltip_modifier_item_boon_circlet"								"Boon of the Circlet"
+		"DOTA_Tooltip_modifier_item_boon_circlet_Description"					"Strength, Agility and Intelligence increased by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_belt_of_strength"						"Boon of Strength"
+		"DOTA_Tooltip_Ability_item_boon_belt_of_strength_Description"			"Cast on an allied hero or yourself.
+				The target gains Strength for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_belt_of_strength_bonus_strength"		"STRENGTH:"
+		"DOTA_Tooltip_modifier_item_boon_belt_of_strength"						"Boon of Strength"
+		"DOTA_Tooltip_modifier_item_boon_belt_of_strength_Description"			"Strength increased by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_boots_of_elves"							"Boon of Agility"
+		"DOTA_Tooltip_Ability_item_boon_boots_of_elves_Description"				"Cast on an allied hero or yourself.
+				The target gains Agility for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_boots_of_elves_bonus_agility"			"AGILITY:"
+		"DOTA_Tooltip_modifier_item_boon_boots_of_elves"						"Boon of Agility"
+		"DOTA_Tooltip_modifier_item_boon_boots_of_elves_Description"			"Agility increased by %dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_robe"									"Boon of Intelligence"
+		"DOTA_Tooltip_Ability_item_boon_robe_Description"						"Cast on an allied hero or yourself.
+				The target gains Intelligence for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_robe_bonus_intellect"					"INTELLIGENCE:"
+		"DOTA_Tooltip_modifier_item_boon_robe"									"Boon of Intelligence"
+		"DOTA_Tooltip_modifier_item_boon_robe_Description"						"Intelligence increased by %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_crown"									"Boon of the Crown"
+		"DOTA_Tooltip_Ability_item_boon_crown_Description"						"Cast on an allied hero or yourself.
+				The target gains all attributes for the rest of the match.
+				Another of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_crown_bonus_all_stats"					"ALL ATTRIBUTES:"
+		"DOTA_Tooltip_modifier_item_boon_crown"									"Boon of the Crown"
+		"DOTA_Tooltip_modifier_item_boon_crown_Description"						"Strength, Agility and Intelligence increased by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"dota_hud_error_caravan_boon_has_scepter"										"This hero already has the Aghanim's Scepter upgrade"
+		"dota_hud_error_caravan_boon_no_ability"										"This hero has no suitable ability"
+
+		"DOTA_Tooltip_Ability_item_boon_vitality"										"Boon of Vitality"
+		"DOTA_Tooltip_Ability_item_boon_vitality_Description"							"Cast on an allied hero or yourself. The target gains bonus health until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_vitality_bonus_health"							"HEALTH:"
+		"DOTA_Tooltip_modifier_item_boon_vitality"										"Boon of Vitality"
+		"DOTA_Tooltip_modifier_item_boon_vitality_Description"							"Health increased by %dMODIFIER_PROPERTY_HEALTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_clarity"										"Boon of Clarity"
+		"DOTA_Tooltip_Ability_item_boon_clarity_Description"							"Cast on an allied hero or yourself. The target gains bonus mana regeneration until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_clarity_bonus_mana_regen"						"MANA REGENERATION:"
+		"DOTA_Tooltip_modifier_item_boon_clarity"										"Boon of Clarity"
+		"DOTA_Tooltip_modifier_item_boon_clarity_Description"							"Mana regeneration increased by %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_swiftness"										"Boon of Swiftness"
+		"DOTA_Tooltip_Ability_item_boon_swiftness_Description"							"Cast on an allied hero or yourself. The target gains bonus movement speed until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_swiftness_bonus_movement_speed"					"MOVEMENT SPEED:"
+		"DOTA_Tooltip_modifier_item_boon_swiftness"										"Boon of Swiftness"
+		"DOTA_Tooltip_modifier_item_boon_swiftness_Description"							"Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_might"											"Boon of Might"
+		"DOTA_Tooltip_Ability_item_boon_might_Description"								"Cast on an allied hero or yourself. The target gains bonus attack damage until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_might_bonus_damage"								"DAMAGE:"
+		"DOTA_Tooltip_modifier_item_boon_might"											"Boon of Might"
+		"DOTA_Tooltip_modifier_item_boon_might_Description"								"Attack damage increased by %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%."
+
+		"DOTA_Tooltip_Ability_item_boon_bulwark"										"Boon of the Bulwark"
+		"DOTA_Tooltip_Ability_item_boon_bulwark_Description"							"Cast on an allied hero or yourself. The target gains bonus armor until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_bulwark_bonus_armor"							"ARMOR:"
+		"DOTA_Tooltip_modifier_item_boon_bulwark"										"Boon of the Bulwark"
+		"DOTA_Tooltip_modifier_item_boon_bulwark_Description"							"Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_warding"										"Boon of Warding"
+		"DOTA_Tooltip_Ability_item_boon_warding_Description"							"Cast on an allied hero or yourself. The target gains bonus magic resistance until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_warding_bonus_magic_resistance"					"%MAGIC RESISTANCE:"
+		"DOTA_Tooltip_modifier_item_boon_warding"										"Boon of Warding"
+		"DOTA_Tooltip_modifier_item_boon_warding_Description"							"Magic resistance increased by %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_fury"											"Boon of Fury"
+		"DOTA_Tooltip_Ability_item_boon_fury_Description"								"Cast on an allied hero or yourself. The target gains bonus attack speed until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_fury_bonus_attack_speed"						"ATTACK SPEED:"
+		"DOTA_Tooltip_modifier_item_boon_fury"											"Boon of Fury"
+		"DOTA_Tooltip_modifier_item_boon_fury_Description"								"Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_reach"											"Boon of Reach"
+		"DOTA_Tooltip_Ability_item_boon_reach_Description"								"Cast on an allied hero or yourself. The target gains bonus cast range until the end of the match. Does not affect ultimate abilities or High Five.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_reach_bonus_cast_range"							"CAST RANGE:"
+		"DOTA_Tooltip_modifier_item_boon_reach"											"Boon of Reach"
+		"DOTA_Tooltip_modifier_item_boon_reach_Description"								"Cast range increased by %dMODIFIER_PROPERTY_CAST_RANGE_BONUS_STACKING%."
+
+		"DOTA_Tooltip_Ability_item_boon_tenacity"										"Boon of Tenacity"
+		"DOTA_Tooltip_Ability_item_boon_tenacity_Description"							"Cast on an allied hero or yourself. The target gains bonus status resistance until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_tenacity_bonus_status_resistance"				"%STATUS RESISTANCE:"
+		"DOTA_Tooltip_modifier_item_boon_tenacity"										"Boon of Tenacity"
+		"DOTA_Tooltip_modifier_item_boon_tenacity_Description"							"Status resistance increased by %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_haste"											"Boon of Haste"
+		"DOTA_Tooltip_Ability_item_boon_haste_Description"								"Cast on an allied hero or yourself. The target gains cooldown reduction for abilities and items until the end of the match. Does not affect ultimate abilities or High Five.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_haste_cooldown_reduction"						"%COOLDOWN REDUCTION:"
+		"DOTA_Tooltip_modifier_item_boon_haste"											"Boon of Haste"
+		"DOTA_Tooltip_modifier_item_boon_haste_Description"								"Ability and item cooldowns reduced by %dMODIFIER_PROPERTY_COOLDOWN_PERCENTAGE%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_renewal"										"Boon of Renewal"
+		"DOTA_Tooltip_Ability_item_boon_renewal_Description"							"Cast on an allied hero or yourself. The target gains bonus health and mana regeneration until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_renewal_bonus_health_regen"						"HEALTH REGENERATION:"
+		"DOTA_Tooltip_Ability_item_boon_renewal_bonus_mana_regen"						"MANA REGENERATION:"
+		"DOTA_Tooltip_modifier_item_boon_renewal"										"Boon of Renewal"
+		"DOTA_Tooltip_modifier_item_boon_renewal_Description"							"Health regeneration increased by %fMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%, mana regeneration by %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
+
+		"DOTA_Tooltip_Ability_item_boon_titan"											"Boon of the Titan"
+		"DOTA_Tooltip_Ability_item_boon_titan_Description"								"Cast on an allied hero or yourself. The target gains bonus Strength, Agility and Intelligence until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_titan_bonus_all_stats"							"ALL ATTRIBUTES:"
+		"DOTA_Tooltip_modifier_item_boon_titan"											"Boon of the Titan"
+		"DOTA_Tooltip_modifier_item_boon_titan_Description"								"Strength, Agility and Intelligence increased by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%."
+
+		"DOTA_Tooltip_Ability_item_boon_resilience"										"Boon of Resilience"
+		"DOTA_Tooltip_Ability_item_boon_resilience_Description"							"Cast on an allied hero or yourself. The target gains reduced incoming damage until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_resilience_damage_reduction"					"%DAMAGE REDUCTION:"
+		"DOTA_Tooltip_modifier_item_boon_resilience"									"Boon of Resilience"
+		"DOTA_Tooltip_modifier_item_boon_resilience_Description"						"Incoming damage: %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_twin_charges"									"Boon of Twin Charges"
+		"DOTA_Tooltip_Ability_item_boon_twin_charges_Description"						"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match it stores up to %max_charges% charges.\n\nA charge restores over the ability's cooldown increased by %cooldown_increase_pct%%%.\n\nAbilities with a cooldown and without their own charges qualify. Ultimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_twin_charges_max_charges"						"CHARGES:"
+		"DOTA_Tooltip_Ability_item_boon_twin_charges_cooldown_increase_pct"				"%COOLDOWN INCREASE:"
+		"DOTA_Tooltip_modifier_item_boon_twin_charges"									"Twin Charges"
+		"DOTA_Tooltip_modifier_item_boon_twin_charges_Description"						"The ability on this icon stores up to 2 charges. A charge restores over its cooldown increased by %dMODIFIER_PROPERTY_TOOLTIP%%%. The number on the icon shows current charges."
+
+		"DOTA_Tooltip_Ability_item_boon_aghanim"										"Boon of Aghanim"
+		"DOTA_Tooltip_Ability_item_boon_aghanim_Description"							"Cast on an allied hero or yourself. The target gains the Aghanim's Scepter upgrade until the end of the match.\n\nCannot be used on a hero who has already consumed an Aghanim's Scepter."
+
+		"dota_hud_error_caravan_boon_has_aegis"											"This hero already has the Aegis"
+
+		"DOTA_Tooltip_Ability_item_boon_vampirism"										"Boon of Vampirism"
+		"DOTA_Tooltip_Ability_item_boon_vampirism_Description"							"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match its damage heals the hero.\n\nDamage to heroes heals for %lifesteal_hero_pct%%%, damage to other units for %lifesteal_creep_pct%%%.\n\nUltimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_vampirism_lifesteal_hero_pct"					"%LIFESTEAL VS HEROES:"
+		"DOTA_Tooltip_Ability_item_boon_vampirism_lifesteal_creep_pct"					"%LIFESTEAL VS CREEPS:"
+		"DOTA_Tooltip_modifier_item_boon_vampirism"										"Ability Vampirism"
+		"DOTA_Tooltip_modifier_item_boon_vampirism_Description"							"Damage from the ability on this icon heals the hero: %dMODIFIER_PROPERTY_TOOLTIP%%% of damage to heroes, %dMODIFIER_PROPERTY_TOOLTIP2%%% to other units."
+
+		"DOTA_Tooltip_Ability_item_boon_quickening"										"Boon of Quickening"
+		"DOTA_Tooltip_Ability_item_boon_quickening_Description"							"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match each cast of it speeds the hero up.\n\nAbilities with a cooldown qualify. Ultimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_quickening_move_speed_pct"						"%MOVEMENT SPEED:"
+		"DOTA_Tooltip_Ability_item_boon_quickening_duration"							"DURATION:"
+		"DOTA_Tooltip_modifier_item_boon_quickening"									"Ability Quickening"
+		"DOTA_Tooltip_modifier_item_boon_quickening_Description"						"Casting the ability on this icon increases movement speed by %dMODIFIER_PROPERTY_TOOLTIP%%% for %dMODIFIER_PROPERTY_TOOLTIP2% seconds."
+		"DOTA_Tooltip_modifier_item_boon_quickening_haste"								"Quickening"
+		"DOTA_Tooltip_modifier_item_boon_quickening_haste_Description"					"Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+
+		"DOTA_Tooltip_Ability_item_boon_aegis"											"Boon of the Aegis"
+		"DOTA_Tooltip_Ability_item_boon_aegis_Description"								"Cast on an allied hero or yourself. The target gains the Aegis for %duration% seconds: if they die during that time, they respawn on the spot.\n\nCannot be used on a hero who already has the Aegis."
+		"DOTA_Tooltip_Ability_item_boon_aegis_duration"									"DURATION:"
+		"DOTA_Tooltip_modifier_trinity_aegis"											"Aegis of the Immortal"
+		"DOTA_Tooltip_modifier_trinity_aegis_Description"								"If the hero dies, they respawn on the spot after 5 seconds."
+
+		"DOTA_Tooltip_Ability_item_boon_colossus"										"Boon of the Colossus"
+		"DOTA_Tooltip_Ability_item_boon_colossus_Description"							"Cast on an allied hero or yourself. The target gains bonus health and mana until the end of the match.\n\nAnother of the same boon increases this bonus."
+		"DOTA_Tooltip_Ability_item_boon_colossus_bonus_health"							"HEALTH:"
+		"DOTA_Tooltip_Ability_item_boon_colossus_bonus_mana"							"MANA:"
+		"DOTA_Tooltip_modifier_item_boon_colossus"										"Boon of the Colossus"
+		"DOTA_Tooltip_modifier_item_boon_colossus_Description"							"Health increased by %dMODIFIER_PROPERTY_HEALTH_BONUS%, mana by %dMODIFIER_PROPERTY_MANA_BONUS%."
+
+		"DOTA_Tooltip_modifier_item_boon_twin_charges_pending"							"Twin Charges: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_twin_charges_pending_Description"				"Boon received. Choose an ability in the window above the inventory."
+		"DOTA_Tooltip_modifier_item_boon_vampirism_pending"								"Vampirism: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_vampirism_pending_Description"					"Boon received. Choose an ability in the window above the inventory."
+		"DOTA_Tooltip_modifier_item_boon_quickening_pending"							"Quickening: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_quickening_pending_Description"				"Boon received. Choose an ability in the window above the inventory."
+
+		"DOTA_Tooltip_Ability_item_boon_lens"											"Boon of the Lens"
+		"DOTA_Tooltip_Ability_item_boon_lens_Description"								"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match its cast range is increased.\n\nAbilities with a unit or point target and a cast range qualify. Ultimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_lens_cast_range"								"CAST RANGE:"
+		"DOTA_Tooltip_modifier_item_boon_lens"											"Ability Lens"
+		"DOTA_Tooltip_modifier_item_boon_lens_Description"								"Cast range of the ability on this icon increased by %dMODIFIER_PROPERTY_TOOLTIP%."
+
+		"DOTA_Tooltip_Ability_item_boon_daedalus"										"Boon of Daedalus"
+		"DOTA_Tooltip_Ability_item_boon_daedalus_Description"							"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match its damage can critically strike.\n\nEach damage instance of the ability has a %crit_chance%%% chance to deal %crit_bonus_pct%%% more damage.\n\nUltimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_daedalus_crit_chance"							"%CRIT CHANCE:"
+		"DOTA_Tooltip_Ability_item_boon_daedalus_crit_bonus_pct"						"%BONUS DAMAGE:"
+		"DOTA_Tooltip_modifier_item_boon_daedalus"										"Ability Daedalus"
+		"DOTA_Tooltip_modifier_item_boon_daedalus_Description"							"Damage of the ability on this icon has a %dMODIFIER_PROPERTY_TOOLTIP%%% chance to be increased by %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+
+		"DOTA_Tooltip_modifier_item_boon_lens_pending"									"Lens: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_lens_pending_Description"						"Boon received. Choose an ability in the window above the inventory."
+		"DOTA_Tooltip_modifier_item_boon_daedalus_pending"								"Daedalus: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_daedalus_pending_Description"					"Boon received. Choose an ability in the window above the inventory."
+		"trinity_boon_choice_hint_item_boon_lens"										"Choose an ability: its cast range will increase by 250."
+		"trinity_boon_choice_hint_item_boon_daedalus"									"Choose an ability: its damage will have a 30% chance to be 150% higher."
+
+		"DOTA_Tooltip_Ability_item_boon_greaves"										"Boon of the Greaves"
+		"DOTA_Tooltip_Ability_item_boon_greaves_Description"							"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match each cast of it applies a basic dispel to the hero.\n\nAbilities with a cooldown qualify. Ultimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_modifier_item_boon_greaves"										"Ability Greaves"
+		"DOTA_Tooltip_modifier_item_boon_greaves_Description"							"Casting the ability on this icon applies a basic dispel to the hero."
+
+		"DOTA_Tooltip_Ability_item_boon_octarine"										"Boon of Octarine"
+		"DOTA_Tooltip_Ability_item_boon_octarine_Description"							"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match its cooldown is shorter.\n\nAbilities with a cooldown qualify. Ultimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_octarine_cooldown_reduction_pct"				"%COOLDOWN REDUCTION:"
+		"DOTA_Tooltip_modifier_item_boon_octarine"										"Ability Octarine"
+		"DOTA_Tooltip_modifier_item_boon_octarine_Description"							"Cooldown of the ability on this icon reduced by %dMODIFIER_PROPERTY_TOOLTIP%%%."
+
+		"DOTA_Tooltip_modifier_item_boon_greaves_pending"								"Greaves: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_greaves_pending_Description"					"Boon received. Choose an ability in the window above the inventory."
+		"DOTA_Tooltip_modifier_item_boon_octarine_pending"								"Octarine: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_octarine_pending_Description"					"Boon received. Choose an ability in the window above the inventory."
+		"trinity_boon_choice_hint_item_boon_greaves"									"Choose an ability: each cast of it will dispel debuffs from the hero."
+		"trinity_boon_choice_hint_item_boon_octarine"									"Choose an ability: its cooldown will be 15% shorter."
+
+		"DOTA_Tooltip_Ability_item_boon_venomancer"										"Boon of the Venomancer"
+		"DOTA_Tooltip_Ability_item_boon_venomancer_Description"							"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match its effects on enemies last longer.\n\nStuns, slows and other effects of the ability on enemies last %debuff_duration_pct%%% longer.\n\nUltimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_venomancer_debuff_duration_pct"					"%EFFECT DURATION:"
+		"DOTA_Tooltip_modifier_item_boon_venomancer"									"Ability Venomancer"
+		"DOTA_Tooltip_modifier_item_boon_venomancer_Description"						"Effects of the ability on this icon last %dMODIFIER_PROPERTY_TOOLTIP%%% longer on enemies."
+		"DOTA_Tooltip_modifier_item_boon_venomancer_pending"							"Venomancer: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_venomancer_pending_Description"				"Boon received. Choose an ability in the window above the inventory."
+		"trinity_boon_choice_hint_item_boon_venomancer"									"Choose an ability: its effects on enemies will last twice as long."
+
+		"DOTA_Tooltip_Ability_item_boon_holy_locket"									"Boon of the Holy Locket"
+		"DOTA_Tooltip_Ability_item_boon_holy_locket_Description"						"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match its healing is stronger.\n\nHealing from the ability on yourself and allies is increased by %heal_amp_pct%%%.\n\nUltimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_holy_locket_heal_amp_pct"						"%HEAL AMPLIFICATION:"
+		"DOTA_Tooltip_modifier_item_boon_holy_locket"									"Ability Holy Locket"
+		"DOTA_Tooltip_modifier_item_boon_holy_locket_Description"						"Healing from the ability on this icon on yourself and allies is %dMODIFIER_PROPERTY_TOOLTIP%%% stronger."
+		"DOTA_Tooltip_modifier_item_boon_holy_locket_pending"							"Holy Locket: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_holy_locket_pending_Description"				"Boon received. Choose an ability in the window above the inventory."
+		"trinity_boon_choice_hint_item_boon_holy_locket"								"Choose an ability: its healing on you and allies will be 15% stronger."
+
+		"DOTA_Tooltip_Ability_item_boon_kaya"											"Boon of Kaya"
+		"DOTA_Tooltip_Ability_item_boon_kaya_Description"								"Cast on an allied hero or yourself. The target receives the boon right away and chooses one of their abilities in the window above the inventory: until the end of the match it scales better with Mind Power.\n\nAll Mind Power coefficients of the ability are increased by %mind_power_coefficient_pct%%%.\n\nAbilities with a Mind Power coefficient qualify. Ultimate abilities and High Five do not qualify. Another of the same boon can be applied to a different ability."
+		"DOTA_Tooltip_Ability_item_boon_kaya_mind_power_coefficient_pct"				"%MIND POWER COEFFICIENTS:"
+		"DOTA_Tooltip_modifier_item_boon_kaya"											"Ability Kaya"
+		"DOTA_Tooltip_modifier_item_boon_kaya_Description"								"Mind Power coefficients of the ability on this icon are %dMODIFIER_PROPERTY_TOOLTIP%%% higher."
+		"DOTA_Tooltip_modifier_item_boon_kaya_pending"									"Kaya: choose an ability"
+		"DOTA_Tooltip_modifier_item_boon_kaya_pending_Description"						"Boon received. Choose an ability in the window above the inventory."
+		"trinity_boon_choice_hint_item_boon_kaya"										"Choose an ability: its Mind Power coefficients will grow by 50%."
+
+		"trinity_boon_choice_hint_item_boon_twin_charges"								"Choose an ability: it gets 2 charges, each restoring over its cooldown +50%."
+		"trinity_boon_choice_hint_item_boon_vampirism"									"Choose an ability: its damage will heal the hero."
+		"trinity_boon_choice_hint_item_boon_quickening"									"Choose an ability: each cast of it will speed the hero up."
+
+		"trinity_boon_choice_collapsed"													"Choose an ability"
+		"trinity_boon_charges_failed"													"Could not apply the boon"
+
 		"DOTA_Tooltip_ability_caravan_aghanim_laser"							"Aghanim's Laser"
 		"DOTA_Tooltip_ability_caravan_aghanim_laser_Description"					"Aghanim fires a laser at every nearby enemy hero. The beams slowly follow their targets.\n\nA hero caught in a beam is slowed and blinded. The longer they stay in the beam, the more damage they take."
 		"DOTA_Tooltip_ability_caravan_aghanim_laser_channel_time"				"DURATION:"
@@ -1572,7 +1847,8 @@
 		"trinity_shop_desc_item_monkey_king_bar"		"Attacks cannot miss and sometimes stun."
 		"trinity_shop_desc_item_bfury"		"Attacks splash enemies near the target."
 		"trinity_shop_desc_item_butterfly"		"Evasion and attack speed."
-		"trinity_shop_desc_item_satanic"		"Active: strong lifesteal for a few seconds."
+		"trinity_shop_desc_item_satanic"		"Active: strong lifesteal and attack speed for a few seconds."
+		"trinity_shop_desc_item_elven_tunic"		"Attack speed, evasion and movement speed."
 		"trinity_shop_desc_item_maelstrom"		"Attacks sometimes chain lightning."
 		"trinity_shop_desc_item_mjollnir"		"Active: a shield that strikes with lightning."
 		"trinity_shop_desc_item_basher"		"Attacks sometimes stun the target."
@@ -1647,6 +1923,7 @@
 		"trinity_shop_desc_item_gungir"		"Active: chain lightning roots enemies in an area."
 		"trinity_shop_desc_item_orchid"		"Active: silence and bonus damage. Builds into Scythe of Vyse."
 		"trinity_shop_desc_item_nullifier"		"Active: dispels and keeps buffs off the enemy."
+		"trinity_shop_desc_item_crippling_crossbow"		"Active: slows an enemy, reduces its healing and deals magic damage."
 		"trinity_shop_desc_item_wind_waker"		"Active: a cyclone you can move."
 		"trinity_shop_desc_item_ethereal_blade"		"Active: ethereal form and magic damage."
 		"trinity_shop_desc_item_meteor_hammer"		"Active: a meteor stuns and burns enemies."
@@ -1754,5 +2031,8 @@
 		"trinity_shop_desc_item_moon_shard"		"A big attack speed boost."
 		"trinity_shop_desc_item_gem"		"Reveals invisible enemies nearby."
 
+		// Mind Power tooltip (layout/custom_game/mind_power_tooltips)
+		"trinity_mind_power_tooltip_alt_hint"		"Hold Alt to see the Mind Power bonus"
+		"trinity_mind_power_tooltip_alt_active"		"Without Mind Power; its bonus is in brackets"
 	}
 }

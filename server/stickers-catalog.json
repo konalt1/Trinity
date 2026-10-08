@@ -30,7 +30,8 @@
             "weight_normal": 100,
             "weight_elite": 10,
             "sound": "Wheel.Watson",
-            "sound_file": "watson.mp3"
+            "sound_file": "watson.mp3",
+            "sound_volume": 3
         },
         {
             "key": "Anime",

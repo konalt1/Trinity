@@ -316,6 +316,17 @@ local function LaunchWorldItem(itemName, origin, autoUse)
     end
 
     item:SetPurchaseTime(0)
+    -- У лута нет покупателя, а такой предмет движок не даёт продать (плейтест 2026-10-03).
+    -- Покупателем становится тот, кто подобрал (CourierCaravan:OnItemPickedUp).
+    -- Эгида и буны не продаются: подбор не должен включать продажу.
+    -- Буны тоже получают покупателя (предмет без владельца движок может не дать применить), но остаются непродаваемыми.
+    local isBoon = type(itemName) == "string" and string.sub(itemName, 1, 10) == "item_boon_"
+    local unsellable = itemName == "item_caravan_aegis" or isBoon
+    item.trinityClaimOnPickup = itemName ~= "item_caravan_aegis"
+    item.trinityKeepUnsellable = isBoon
+    if unsellable and item.SetSellable then
+        item:SetSellable(false)
+    end
     local drop = CreateItemOnPositionForLaunch(origin, item)
     local dest = origin + RandomVector(RandomFloat(60, 120))
     item:LaunchLootInitialHeight(autoUse == true, 0, 150, 0.5, dest)
@@ -330,13 +341,13 @@ function CourierCaravan.IsPathwaySlotBusy()
         if IsAlive(unit) then
             local name = unit:GetUnitName()
             if SLOT_BUSY_NAMES[name] then
-                return true
+                return true, unit
             end
             if name == PRIMAL_BEAST_NAME
                 and unit:GetTeamNumber() == DOTA_TEAM_NEUTRALS
                 and not unit.primalBeastAllied
             then
-                return true
+                return true, unit
             end
         end
     end
@@ -566,7 +577,7 @@ function CourierCaravan:DropCourierLoot(courier)
 
     local id = courier.caravanId
     local stage = courier.caravanStage or 1
-    local data = CaravanLoot:GetStageData(id, stage)
+    local data = courier.caravanLootData or CaravanLoot:GetStageData(id, stage)
     if not data then
         return
     end
@@ -852,6 +863,8 @@ function CourierCaravan:SpawnAt(position, stage, pathwayEnabled)
                 courier.caravanPack = pack
                 courier.caravanAghanim = aghanim
                 courier.caravanSlotIndex = slot
+                -- Бун стат-курьера выбран случайно: дроп берёт тот же набор, что показан в инвентаре.
+                courier.caravanLootData = data
                 courier.pathwayEnabled = pack.pathwayEnabled
                 ApplyHits(courier, data.hits)
                 courier:AddNewModifier(courier, nil, "modifier_phased", {})
@@ -924,8 +937,38 @@ if IsServer() and not _G.CARAVAN_RETREAT_DEBUG_COMMAND_REGISTERED then
     _G.CARAVAN_RETREAT_DEBUG_COMMAND_REGISTERED = true
 end
 
+function CourierCaravan:OnItemPickedUp(keys)
+    local item = keys and keys.ItemEntityIndex and EntIndexToHScript(keys.ItemEntityIndex) or nil
+    if not item or item:IsNull() or not item.trinityClaimOnPickup then
+        return
+    end
+
+    -- Подобрал курьер или другой юнит игрока — покупатель всё равно его герой.
+    local hero = nil
+    local unitIndex = keys.HeroEntityIndex or keys.UnitEntityIndex
+    local unit = unitIndex and EntIndexToHScript(unitIndex) or nil
+    if unit and not unit:IsNull() and unit.IsRealHero and unit:IsRealHero() then
+        hero = unit
+    elseif keys.PlayerID ~= nil and PlayerResource:IsValidPlayerID(keys.PlayerID) then
+        hero = PlayerResource:GetSelectedHeroEntity(keys.PlayerID)
+    end
+    if not hero or hero:IsNull() then
+        return
+    end
+
+    item.trinityClaimOnPickup = nil
+    item:SetPurchaser(hero)
+    item:SetSellable(not item.trinityKeepUnsellable)
+end
+
 function CourierCaravan:Init()
     RegisterDebugCommands()
+    if not self._pickupListener then
+        self._pickupListener = true
+        ListenToGameEvent("dota_item_picked_up", function(keys)
+            CourierCaravan:OnItemPickedUp(keys)
+        end, nil)
+    end
 end
 
 RegisterDebugCommands()

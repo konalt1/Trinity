@@ -72,7 +72,7 @@ function juggernaut_swift_slash_lua:OnSpellStart()
 	})
 
 	-- play sound
-	EmitSoundOn("Hero_Juggernaut.OmniSlash", caster)
+	EmitSoundOnUnitForObservers(caster, "Hero_Juggernaut.OmniSlash")
 end
 
 function juggernaut_swift_slash_lua:PerformSlash(caster, target, data)

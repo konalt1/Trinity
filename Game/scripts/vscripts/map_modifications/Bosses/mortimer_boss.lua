@@ -1,19 +1,13 @@
 MortimerBoss = MortimerBoss or {}
 
 require("map_modifications/Bosses/mortimer_level_scaling")
+require("map_modifications/Bosses/boss_pathway")
 
 local BOSS_NAME = "npc_mortimer_boss"
 local FINALE_NAME = "npc_mortimer_boss_finale"
 local CELEBRATION_DURATION = 2.5
-local WAYPOINT_REACH_DISTANCE = 100
 local DEBUG_VISION_RADIUS = 800
 local DEBUG_VISION_DURATION = 5
-
-local PATHWAY_POINTS = {
-    "Roshan_pathway",
-    "Roshan_pathway_2",
-    "Roshan_pathway_final",
-}
 
 local function IsAlive(unit)
     return unit and IsValidEntity(unit) and unit:IsAlive()
@@ -76,9 +70,9 @@ local function GetOpposingPlayerTeam(team)
     return nil
 end
 
-local function StartFinaleRetreat(finale, waypointIndex)
+local function StartFinaleRetreat(finale, path, waypointIndex)
     finale:AddActivityModifier("walk")
-    finale.currentWaypointIndex = waypointIndex or 1
+    BossPathway:Init(finale, path, waypointIndex)
 
     finale:SetContextThink("MortimerFinaleRetreat", function()
         if not IsAlive(finale) then
@@ -89,28 +83,10 @@ local function StartFinaleRetreat(finale, waypointIndex)
             return 0.25
         end
 
-        local waypointName = PATHWAY_POINTS[finale.currentWaypointIndex]
-        local waypoint = waypointName and Entities:FindByName(nil, waypointName) or nil
-        if not waypoint then
-            if waypointName then
-                print("[MortimerBoss] Finale pathway waypoint is missing: " .. waypointName)
-            end
+        local waypointPosition = BossPathway:GetTarget(finale)
+        if not waypointPosition then
             UTIL_Remove(finale)
             return nil
-        end
-
-        local waypointPosition = waypoint:GetAbsOrigin()
-        if (finale:GetAbsOrigin() - waypointPosition):Length2D() < WAYPOINT_REACH_DISTANCE then
-            finale.currentWaypointIndex = finale.currentWaypointIndex + 1
-            waypointName = PATHWAY_POINTS[finale.currentWaypointIndex]
-            waypoint = waypointName and Entities:FindByName(nil, waypointName) or nil
-
-            if not waypoint then
-                UTIL_Remove(finale)
-                return nil
-            end
-
-            waypointPosition = waypoint:GetAbsOrigin()
         end
 
         local position = finale:GetAbsOrigin()
@@ -124,6 +100,7 @@ end
 function MortimerBoss:StartFinale(killedBoss, targetTeam)
     local position = killedBoss:GetAbsOrigin()
     local waypointIndex = killedBoss.currentWaypointIndex or 1
+    local path = killedBoss.pathwayPoints
     -- Replace the corpse with the animated finale actor so two Mortimers do not
     -- overlap while the normal death animation is still visible.
     killedBoss:AddNoDraw()
@@ -166,7 +143,7 @@ function MortimerBoss:StartFinale(killedBoss, targetTeam)
             if decision.position then
                 finale:SetForwardVector((decision.position - finale:GetAbsOrigin()):Normalized())
                 kisses:FireVolley(decision.position, targetTeam, function()
-                    StartFinaleRetreat(finale, waypointIndex)
+                    StartFinaleRetreat(finale, path, waypointIndex)
                 end)
                 return nil
             end
@@ -174,7 +151,7 @@ function MortimerBoss:StartFinale(killedBoss, targetTeam)
             kisses:LogDecision("refuse", decision)
         end
 
-        StartFinaleRetreat(finale, waypointIndex)
+        StartFinaleRetreat(finale, path, waypointIndex)
         return nil
     end)
 end

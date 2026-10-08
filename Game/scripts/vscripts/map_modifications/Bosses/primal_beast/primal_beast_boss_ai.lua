@@ -1,15 +1,10 @@
+require("map_modifications/Bosses/boss_pathway")
+
 local AGGRO_RADIUS = 1200
 local COMBAT_TIMEOUT = 15
 local PULVERIZE_RANGE = 200
 local ROCK_THROW_MIN_RANGE = 550
 local ROCK_THROW_MAX_RANGE = 1800
-local WAYPOINT_REACH_DISTANCE = 100
-
-local PATHWAY_POINTS = {
-	"Roshan_pathway",
-	"Roshan_pathway_2",
-	"Roshan_pathway_final",
-}
 
 local function IsUsable(ability)
 	return ability and ability:GetLevel() > 0 and ability:IsFullyCastable()
@@ -45,29 +40,18 @@ local function FacePosition(position)
 	end
 end
 
-local function GetCurrentWaypointPosition()
-	local waypointName = PATHWAY_POINTS[thisEntity.currentWaypointIndex or 1]
-	local waypoint = waypointName and Entities:FindByName(nil, waypointName) or nil
-	return waypoint and waypoint:GetAbsOrigin() or nil
-end
-
 local function MoveAlongPathway()
-	local waypointPosition = GetCurrentWaypointPosition()
-	if not waypointPosition then
-		print("[PrimalBeastBoss] Pathway waypoint is missing; stopping pathway movement.")
+	if not BossPathway:HasPath(thisEntity) then
+		print("[PrimalBeastBoss] No on-map pathway waypoints; stopping pathway movement.")
 		thisEntity.pathwayEnabled = false
 		return 0.5
 	end
 
-	if (thisEntity:GetAbsOrigin() - waypointPosition):Length2D() < WAYPOINT_REACH_DISTANCE then
-		thisEntity.currentWaypointIndex = thisEntity.currentWaypointIndex + 1
-		waypointPosition = GetCurrentWaypointPosition()
-
-		if not waypointPosition then
-			thisEntity.reachedFinalPoint = true
-			UTIL_Remove(thisEntity)
-			return nil
-		end
+	local waypointPosition = BossPathway:GetTarget(thisEntity)
+	if not waypointPosition then
+		thisEntity.reachedFinalPoint = true
+		UTIL_Remove(thisEntity)
+		return nil
 	end
 
 	thisEntity:MoveToPosition(waypointPosition)
@@ -115,7 +99,7 @@ function Spawn(entityKeyValues)
 		thisEntity.uproar = thisEntity:FindAbilityByName("primal_beast_uproar")
 		thisEntity.pulverize = thisEntity:FindAbilityByName("primal_beast_pulverize")
 		thisEntity.rockThrow = thisEntity:FindAbilityByName("primal_beast_rock_throw")
-		thisEntity.currentWaypointIndex = 1
+		BossPathway:Init(thisEntity)
 		thisEntity.lastHealth = thisEntity:GetHealth()
 		thisEntity.lastCombatTime = 0
 		thisEntity.isInCombat = false

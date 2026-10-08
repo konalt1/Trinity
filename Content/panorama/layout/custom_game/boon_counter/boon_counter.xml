@@ -1,0 +1,12 @@
+<!--
+  Trinity: счётчик бунов лесных крипов в ванильном кружке над тайником (бывший счётчик нейтральных предметов).
+  «поднято героями / (выпало + живые метки)», общий для всех игроков.
+  Данные — нет-таблица trinity_neutral_boons, ключ counter (game_managers/neutral_boons.lua, PublishCounter).
+  Свою разметку не рисуем: скрипт находит ванильные подписи по тексту «/N» и меняет только числа.
+-->
+<root>
+	<scripts>
+		<include src="file://{resources}/layout/custom_game/boon_counter/boon_counter.js" />
+	</scripts>
+	<Panel hittest="false" />
+</root>

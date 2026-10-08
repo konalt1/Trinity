@@ -191,6 +191,14 @@ function modifier_caravan_courier:OnAttacked(params)
         return
     end
 
+    -- Sleight of Fist attacks every unit in its radius at once: ignore them so
+    -- Ember cannot strip the whole caravan with a single cast.
+    if attacker:HasModifier("modifier_ember_spirit_sleight_of_fist_caster")
+        or attacker:HasModifier("modifier_ember_spirit_sleight_of_fist_caster_invulnerability")
+    then
+        return
+    end
+
     if CourierCaravan and CourierCaravan.OnCourierDamaged then
         CourierCaravan:OnCourierDamaged(parent, attacker)
     end

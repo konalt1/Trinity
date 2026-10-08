@@ -225,6 +225,8 @@ final class AbilityStudio
         $kv = is_array($entry['kv'] ?? null) ? $entry['kv'] : [];
         $custom = $entry !== null;
 
+        $publicKv = self::publicKv($kv, $custom);
+
         Http::json(200, [
             'ok' => true,
             'ability' => [
@@ -235,7 +237,8 @@ final class AbilityStudio
                 'icon' => self::iconUrl(self::textureName($kv, $id), $id),
                 'shard' => self::truthy($kv['IsGrantedByShard'] ?? null),
                 'scepter' => self::truthy($kv['IsGrantedByScepter'] ?? null),
-                'kv' => self::publicKv($kv, $custom),
+                'kv' => $publicKv,
+                'tooltip_rows' => self::tooltipRowsFor($id, $publicKv, $custom),
                 'loc' => [
                     'ru' => self::locFields($id, self::locMap('ru')),
                     'en' => self::locFields($id, self::locMap('en')),
@@ -253,8 +256,20 @@ final class AbilityStudio
 
         $hasLoc = array_key_exists('loc', $body) && is_array($body['loc']);
         $hasKv = array_key_exists('kv', $body) && is_array($body['kv']);
-        if (!$hasLoc && !$hasKv) {
+        $hasRows = array_key_exists('rows', $body) && is_array($body['rows']);
+        if (!$hasLoc && !$hasKv && !$hasRows) {
             Http::json(400, ['ok' => false, 'error' => 'empty_save']);
+        }
+
+        $flagsWritten = false;
+        if ($hasRows) {
+            $rows = self::cleanTooltipRows($body['rows']);
+            self::writeTooltipSidecar($id, $rows);
+            if ($entry !== null) {
+                self::writeKvFlags($id, (string) $entry['file'], $rows);
+                self::$abilityIndex = null;
+                $flagsWritten = true;
+            }
         }
 
         if ($hasLoc) {
@@ -290,7 +305,287 @@ final class AbilityStudio
             }
         }
 
-        Http::json(200, ['ok' => true, 'id' => $id, 'custom' => $entry !== null]);
+        Http::json(200, ['ok' => true, 'id' => $id, 'custom' => $entry !== null, 'kv_flags' => $flagsWritten]);
+    }
+
+    /**
+     * Флаги строк тултипа. Shard и Scepter для способностей из KV Trinity читаются из KV
+     * (RequiresShard / RequiresScepter внутри значения), для ванильных из tooltip-rows.json.
+     * Alt и снятые подписи живут только в tooltip-rows.json.
+     *
+     * @param array<string, mixed> $publicKv
+     * @return array<string, array<string, mixed>>
+     */
+    private static function tooltipRowsFor(string $id, array $publicKv, bool $custom): array
+    {
+        $sidecar = self::readTooltipSidecar();
+        $stored = is_array($sidecar[$id] ?? null) ? $sidecar[$id] : [];
+        $out = [];
+        foreach ($stored as $key => $row) {
+            if (!is_string($key) || !is_array($row)) {
+                continue;
+            }
+            $out[$key] = $row;
+            if ($custom) {
+                unset($out[$key]['shard'], $out[$key]['scepter']);
+            }
+        }
+        if ($custom) {
+            foreach ($publicKv['values'] ?? [] as $value) {
+                $key = (string) ($value['key'] ?? '');
+                if ($key === '') {
+                    continue;
+                }
+                if (!empty($value['shard'])) {
+                    $out[$key]['shard'] = true;
+                }
+                if (!empty($value['scepter'])) {
+                    $out[$key]['scepter'] = true;
+                }
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * @param array<mixed> $rows
+     * @return array<string, array<string, mixed>>
+     */
+    private static function cleanTooltipRows(array $rows): array
+    {
+        $out = [];
+        foreach ($rows as $key => $row) {
+            if (!is_string($key) || preg_match(self::ABILITY_PATTERN, $key) !== 1 || !is_array($row)) {
+                continue;
+            }
+            $clean = [];
+            foreach (['alt', 'shard', 'scepter'] as $flag) {
+                if (!empty($row[$flag])) {
+                    $clean[$flag] = true;
+                }
+            }
+            if (!empty($row['removed'])) {
+                $stash = is_array($row['stash'] ?? null) ? $row['stash'] : [];
+                $clean['removed'] = [
+                    'ru' => mb_substr((string) ($stash['ru'] ?? ''), 0, 500),
+                    'en' => mb_substr((string) ($stash['en'] ?? ''), 0, 500),
+                ];
+            }
+            $out[$key] = $clean;
+        }
+
+        return $out;
+    }
+
+    private static function tooltipSidecarPath(): string
+    {
+        return dirname(__DIR__) . '/tooltip-rows.json';
+    }
+
+    /** @return array<string, mixed> */
+    private static function readTooltipSidecar(): array
+    {
+        $path = self::tooltipSidecarPath();
+        if (!is_file($path)) {
+            return [];
+        }
+        $decoded = json_decode((string) @file_get_contents($path), true);
+
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /** @param array<string, array<string, mixed>> $rows */
+    private static function writeTooltipSidecar(string $id, array $rows): void
+    {
+        $sidecar = self::readTooltipSidecar();
+        $rows = array_filter($rows, static fn (array $row): bool => $row !== []);
+        if ($rows === []) {
+            unset($sidecar[$id]);
+        } else {
+            ksort($rows);
+            $sidecar[$id] = $rows;
+        }
+        ksort($sidecar);
+        $json = json_encode($sidecar, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        self::write(self::tooltipSidecarPath(), ($json === false ? '{}' : $json) . "\n");
+    }
+
+    /** @param array<string, array<string, mixed>> $rows */
+    private static function writeKvFlags(string $id, string $file, array $rows): void
+    {
+        $path = self::repoRoot() . '/Game/scripts/npc/abilities/' . $file;
+        $raw = self::read($path);
+        $span = self::abilitySpan($raw, $id);
+        if ($span === null) {
+            Http::json(500, ['ok' => false, 'error' => 'ability_block_missing', 'id' => $id]);
+        }
+        [$start, $end] = $span;
+        $block = substr($raw, $start, $end - $start + 1);
+
+        $valuesPos = self::directChildPos($block, 'AbilityValues');
+        if ($valuesPos === null) {
+            return;
+        }
+        foreach (self::directChildren($block, $valuesPos['open'], $valuesPos['close']) as $key => $_child) {
+            $row = $rows[$key] ?? [];
+            foreach (['RequiresShard' => 'shard', 'RequiresScepter' => 'scepter'] as $kvFlag => $rowFlag) {
+                $block = self::setValueFlag($block, $key, $kvFlag, !empty($row[$rowFlag]));
+            }
+        }
+
+        $updated = substr($raw, 0, $start) . $block . substr($raw, $end + 1);
+        if ($updated !== $raw) {
+            self::write($path, $updated);
+        }
+    }
+
+    /**
+     * Ставит или снимает "RequiresShard"/"RequiresScepter" "1" у одного значения AbilityValues.
+     * Строковое значение при установке флага разворачивается в блок с "value".
+     */
+    private static function setValueFlag(string $block, string $key, string $flag, bool $on): string
+    {
+        $values = self::directChildPos($block, 'AbilityValues');
+        if ($values === null) {
+            return $block;
+        }
+        $children = self::directChildren($block, $values['open'], $values['close']);
+        $child = $children[$key] ?? null;
+        if ($child === null) {
+            return $block;
+        }
+
+        $lineStart = strrpos(substr($block, 0, $child['key_start']), "\n");
+        $lineStart = $lineStart === false ? 0 : $lineStart + 1;
+        $indent = '';
+        if (preg_match('/^[ \t]*/', substr($block, $lineStart), $m) === 1) {
+            $indent = $m[0];
+        }
+        $step = str_contains($indent, "\t") ? "\t" : '    ';
+
+        if ($child['open'] === null) {
+            if (!$on) {
+                return $block;
+            }
+            $value = substr($block, $child['value_start'], $child['value_end'] - $child['value_start'] + 1);
+            $node = "\n" . $indent . "{\n"
+                . $indent . $step . '"value"' . "\t\t" . $value . "\n"
+                . $indent . $step . '"' . $flag . '"' . "\t" . '"1"' . "\n"
+                . $indent . '}';
+            $keyEnd = $child['key_end'] + 1;
+
+            return substr($block, 0, $keyEnd) . $node . substr($block, $child['value_end'] + 1);
+        }
+
+        $inner = self::directChildren($block, $child['open'], $child['close']);
+        $existing = $inner[$flag] ?? null;
+        if ($on) {
+            if ($existing !== null) {
+                if ($existing['open'] === null) {
+                    return substr($block, 0, $existing['value_start']) . '"1"' . substr($block, $existing['value_end'] + 1);
+                }
+                return $block;
+            }
+            $closeLineStart = strrpos(substr($block, 0, $child['close']), "\n");
+            $closeLineStart = $closeLineStart === false ? $child['close'] : $closeLineStart;
+            $line = "\n" . $indent . $step . '"' . $flag . '"' . "\t" . '"1"';
+
+            return substr($block, 0, $closeLineStart) . $line . substr($block, $closeLineStart);
+        }
+
+        if ($existing === null || $existing['open'] !== null) {
+            return $block;
+        }
+        $from = strrpos(substr($block, 0, $existing['key_start']), "\n");
+        $from = $from === false ? $existing['key_start'] : $from;
+
+        return substr($block, 0, $from) . substr($block, $existing['value_end'] + 1);
+    }
+
+    /** @return array{open: int, close: int}|null */
+    private static function directChildPos(string $block, string $key): ?array
+    {
+        $open = strpos($block, '{');
+        if ($open === false) {
+            return null;
+        }
+        $close = KeyValues::matchingBrace($block, $open);
+        if ($close < 0) {
+            return null;
+        }
+        $child = self::directChildren($block, $open, $close)[$key] ?? null;
+        if ($child === null || $child['open'] === null) {
+            return null;
+        }
+
+        return ['open' => $child['open'], 'close' => $child['close']];
+    }
+
+    /**
+     * Прямые дочерние пары блока между фигурными скобками $open и $close.
+     *
+     * @return array<string, array{key_start: int, key_end: int, value_start: int|null, value_end: int|null, open: int|null, close: int|null}>
+     */
+    private static function directChildren(string $raw, int $open, int $close): array
+    {
+        $out = [];
+        $i = $open + 1;
+        $pendingKey = null;
+        while ($i < $close) {
+            $ch = $raw[$i];
+            if ($ch === '/' && ($raw[$i + 1] ?? '') === '/') {
+                $nl = strpos($raw, "\n", $i);
+                $i = $nl === false ? $close : $nl + 1;
+                continue;
+            }
+            if ($ch === '"') {
+                $start = $i;
+                $i++;
+                while ($i < $close && $raw[$i] !== '"') {
+                    $i += $raw[$i] === '\\' ? 2 : 1;
+                }
+                $end = $i;
+                $i++;
+                $text = stripcslashes(substr($raw, $start + 1, $end - $start - 1));
+                if ($pendingKey === null) {
+                    $pendingKey = ['text' => $text, 'start' => $start, 'end' => $end];
+                } else {
+                    $out[$pendingKey['text']] ??= [
+                        'key_start' => $pendingKey['start'],
+                        'key_end' => $pendingKey['end'],
+                        'value_start' => $start,
+                        'value_end' => $end,
+                        'open' => null,
+                        'close' => null,
+                    ];
+                    $pendingKey = null;
+                }
+                continue;
+            }
+            if ($ch === '{') {
+                $inner = KeyValues::matchingBrace($raw, $i);
+                if ($inner < 0) {
+                    break;
+                }
+                if ($pendingKey !== null) {
+                    $out[$pendingKey['text']] ??= [
+                        'key_start' => $pendingKey['start'],
+                        'key_end' => $pendingKey['end'],
+                        'value_start' => null,
+                        'value_end' => null,
+                        'open' => $i,
+                        'close' => $inner,
+                    ];
+                    $pendingKey = null;
+                }
+                $i = $inner + 1;
+                continue;
+            }
+            $i++;
+        }
+
+        return $out;
     }
 
     public static function locReport(): void
@@ -639,6 +934,8 @@ final class AbilityStudio
             $values[] = [
                 'key' => $key,
                 'value' => self::abilityValueString($node),
+                'shard' => is_array($node) && self::truthy($node['RequiresShard'] ?? null),
+                'scepter' => is_array($node) && self::truthy($node['RequiresScepter'] ?? null),
             ];
         }
 
@@ -763,8 +1060,21 @@ final class AbilityStudio
             $updates['_' . $key] = (string) $value;
         }
 
+        $paramSuffixes = [];
+        foreach (array_keys($params) as $key) {
+            if (is_string($key)) {
+                $paramSuffixes['_' . $key] = true;
+            }
+        }
+
         foreach ($updates as $suffix => $value) {
             $lookup = $suffix === '' ? '' : ltrim($suffix, '_');
+            if (isset($paramSuffixes[$suffix]) && trim($value) === '') {
+                // Пустая подпись = строки нет в тултипе: убираем ключ из файла, а не пишем "".
+                $raw = self::removeLocKey($raw, 'DOTA_Tooltip_ability_' . $id . $suffix);
+                $raw = self::removeLocKey($raw, 'DOTA_Tooltip_Ability_' . $id . $suffix);
+                continue;
+            }
             if (self::cleanLocValue(self::locLookup($id, $lookup, $map)) === self::cleanLocValue($value)) {
                 continue;
             }
@@ -831,6 +1141,14 @@ final class AbilityStudio
         return $updated;
     }
 
+    private static function removeLocKey(string $raw, string $key): string
+    {
+        $pattern = '/\r?\n[ \t]*"' . preg_quote($key, '/') . '"[ \t]+"(?:\\\\.|[^"\\\\])*"[^\S\r\n]*/';
+        $updated = preg_replace($pattern, '', $raw, 1);
+
+        return is_string($updated) ? $updated : $raw;
+    }
+
     private static function lastAbilityLocOffset(string $raw, string $id): ?int
     {
         $pattern = '/^[ \t]*"DOTA_Tooltip_[Aa]bility_' . preg_quote($id, '/') . '[^"]*"[ \t]+"(?:\\\\.|[^"\\\\])*"/m';
@@ -840,6 +1158,55 @@ final class AbilityStudio
         $last = $matches[0][count($matches[0]) - 1];
 
         return (int) $last[1] + strlen($last[0]);
+    }
+
+    public static function balanceKv(): void
+    {
+        $method = Http::method();
+        if ($method === 'GET') {
+            $hero = self::balanceHeroId($_GET['hero'] ?? null);
+            $path = self::balanceKvPath($hero);
+            Http::json(200, [
+                'ok' => true,
+                'hero' => $hero,
+                'file' => $hero . '.txt',
+                'text' => self::read($path),
+            ]);
+        }
+        if ($method === 'POST') {
+            $body = Http::body();
+            $hero = self::balanceHeroId($body['hero'] ?? null);
+            $text = $body['text'] ?? null;
+            if (!is_string($text) || strlen($text) < 20 || strlen($text) > 2000000) {
+                Http::json(400, ['ok' => false, 'error' => 'bad_text']);
+            }
+            if (!str_contains($text, '"AbilityValues"') && !str_contains($text, 'DOTAAbilities')) {
+                Http::json(400, ['ok' => false, 'error' => 'not_kv']);
+            }
+            self::write(self::balanceKvPath($hero), $text);
+            Http::json(200, ['ok' => true, 'hero' => $hero, 'file' => $hero . '.txt']);
+        }
+        Http::json(405, ['ok' => false, 'error' => 'method']);
+    }
+
+    private static function balanceHeroId(mixed $hero): string
+    {
+        $hero = is_string($hero) ? $hero : '';
+        if (preg_match('/^[a-z0-9_]+$/', $hero) !== 1 || in_array($hero, ['_index', 'shared', 'units'], true)) {
+            Http::json(400, ['ok' => false, 'error' => 'bad_hero']);
+        }
+
+        return $hero;
+    }
+
+    private static function balanceKvPath(string $hero): string
+    {
+        $path = self::repoRoot() . '/Game/scripts/npc/abilities/' . $hero . '.txt';
+        if (!is_file($path)) {
+            Http::json(404, ['ok' => false, 'error' => 'no_file', 'file' => $hero . '.txt']);
+        }
+
+        return $path;
     }
 
     /** @param array<string, mixed> $kvBody */
